@@ -1,5 +1,7 @@
 <template>
-    <div class="index"></div>
+    <div class="index">
+      控制台
+    </div>
 </template>
 <script>
 export default {

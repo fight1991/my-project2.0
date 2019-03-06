@@ -16,8 +16,8 @@
 <script>
 export default {
   components: {
-    top: resolve => require(['./common/header.vue'], resolve),
-    sidebar: resolve => require(['./common/sidebar.vue'], resolve)
+    top: resolve => require(['../common/header.vue'], resolve),
+    sidebar: resolve => require(['../common/sidebar.vue'], resolve)
   },
   data () {
     return {}

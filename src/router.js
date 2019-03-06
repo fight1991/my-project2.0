@@ -14,20 +14,28 @@ const routes = [
   }, {
     path: '/main',
     name: '位置',
-    component: resolve => require(['./view/main.vue'], resolve),
-    children: [
-      {
-        path: '/index',
-        name: '工作台',
-        hidden: true,
-        icon: 'el-icon-menu',
-        permissions: 'WF000000',
-        component: resolve => require(['./view/index.vue'], resolve),
-        meta: {
-          title: '工作台'
-        }
-      }
-    ]
+    component: resolve => require(['./view/pages/main.vue'], resolve),
+    children: []
+  }, {
+    path: '/index',
+    name: 'www',
+    hidden: true,
+    icon: 'el-icon-menu',
+    permissions: 'WF000000',
+    component: resolve => require(['./view/www/index.vue'], resolve),
+    meta: {
+      title: 'CCBA官网'
+    }
+  }, {
+    path: '/control',
+    name: '工作台',
+    hidden: true,
+    icon: 'el-icon-menu',
+    permissions: 'WF000000',
+    component: resolve => require(['./view/control/index.vue'], resolve),
+    meta: {
+      title: '工作台'
+    }
   }
 ]
 
