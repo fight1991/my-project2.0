@@ -1,0 +1,58 @@
+<template>
+  <div class="content-box">
+    <div ref="echart" :style="{'width':width,'height':height}"></div>
+  </div>
+</template>
+<script>
+import echarts from 'echarts'
+import 'echarts/map/js/china.js'
+export default {
+  name: 'e-chart',
+  props: {
+    width: {
+      type: String,
+      default: '100%'
+    },
+    height: {
+      type: String,
+      default: '300px'
+    },
+    datas: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    },
+    reset: ''
+  },
+  watch: {
+    'datas': function () {
+      this.$nextTick(() => {
+        this.initEchart()
+      })
+    },
+    'reset': function () {
+      this.$nextTick(() => {
+        this.initEchart()
+      })
+    }
+  },
+  data () {
+    return {}
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.initEchart()
+    })
+  },
+  methods: {
+    initEchart () {
+      // 获取DOM节点并初始化
+      let chart = echarts.init(this.$refs.echart)
+      // 设置图表的参数
+      chart.setOption(this.datas)
+      chart.resize()
+    }
+  }
+}
+</script>
