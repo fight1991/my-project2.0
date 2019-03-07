@@ -6,7 +6,7 @@
       <el-dropdown @command='userInfoLi'>
         <span class="el-dropdown-link">
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="">
+          <img v-else class='user-img' src="../../assets/img/icon/top_head.png">
           <span class='hidden-xs-only hidden-xs-only'>{{$store.state.userLoginInfo.userName}}</span>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -80,7 +80,8 @@ export default {
   background-color: #fff;
 }
 .top-header{
-    color: #fff;
+  position: relative;
+  height: 64px;
     img{
         position: relative;
         display: inline-block;
@@ -89,14 +90,15 @@ export default {
     }
     .user-info{
         position: absolute;
-        top:0;
+        top:50%;
+        transform: translateY(-50%);
         right: 15px;
         z-index: 3001;
     }
     .user-img{
       margin-right: 3px;
       width: 36px;
-      height: 36px;
+      height:36px;
       -moz-border-radius:50%;
       -webkit-border-radius:50%;
       border-radius:50%;
@@ -106,9 +108,10 @@ export default {
 }
 .logo{
     display: inline-block;
-    width: 330px;
-    height: 52px;
-    background: url('') no-repeat 0 0;
+    width: 150px;
+    height: 64px;
+    background: url('../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
+    background-size: 150px 64px;
     background-size: cover;
     vertical-align: middle;
 }
