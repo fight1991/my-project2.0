@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class='collapse-btn hidden-xs-only' @click='collapseClick()'><i class="icons-menu-move"><img src="../../assets/img/icon/left_22x22.png" alt=""></i></div>
+    <div class='collapse-btn hidden-xs-only' @click='collapseClick()'><i class="icons-menu-move"><img src="../../../assets/img/icon/left_22x22.png" alt=""></i></div>
     <el-menu :collapse='$store.state.collapse' @select="currentSelect">
       <template v-for="(item,index) in menus">
         <el-menu-item :index="item.path" :key="index">
@@ -26,57 +26,57 @@ export default {
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#1',
-          icon: require('../../assets/img/icon/left_im&ex.png'),
-          iconActive: require('../../assets/img/icon/left_im&ex_1.png'),
+          icon: require('../../../assets/img/icon/left_im&ex.png'),
+          iconActive: require('../../../assets/img/icon/left_im&ex_1.png'),
           name: '进出口管理'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#2',
-          icon: require('../../assets/img/icon/left_finance.png'),
-          iconActive: require('../../assets/img/icon/left_finance_1.png'),
+          icon: require('../../../assets/img/icon/left_finance.png'),
+          iconActive: require('../../../assets/img/icon/left_finance_1.png'),
           name: '财务费用'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#3',
-          icon: require('../../assets/img/icon/left_data.png'),
-          iconActive: require('../../assets/img/icon/left_data_1.png'),
+          icon: require('../../../assets/img/icon/left_data.png'),
+          iconActive: require('../../../assets/img/icon/left_data_1.png'),
           name: '资料中心'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#4',
-          icon: require('../../assets/img/icon/left_air.png'),
-          iconActive: require('../../assets/img/icon/left_air_1.png'),
+          icon: require('../../../assets/img/icon/left_air.png'),
+          iconActive: require('../../../assets/img/icon/left_air_1.png'),
           name: '航空器'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#5',
-          icon: require('../../assets/img/icon/left_log.png'),
-          iconActive: require('../../assets/img/icon/left_log_1.png'),
+          icon: require('../../../assets/img/icon/left_log.png'),
+          iconActive: require('../../../assets/img/icon/left_log_1.png'),
           name: '物流跟踪'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#6',
-          icon: require('../../assets/img/icon/left_rpt ctr.png'),
-          iconActive: require('../../assets/img/icon/left_rpt ctr_1.png'),
+          icon: require('../../../assets/img/icon/left_rpt ctr.png'),
+          iconActive: require('../../../assets/img/icon/left_rpt ctr_1.png'),
           name: '报表中心'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#7',
-          icon: require('../../assets/img/icon/left_Jin Er.png'),
-          iconActive: require('../../assets/img/icon/left_Jin Er_1.png'),
+          icon: require('../../../assets/img/icon/left_Jin Er.png'),
+          iconActive: require('../../../assets/img/icon/left_Jin Er_1.png'),
           name: '加工贸易(金二)'
         },
         {
           isClick: false,
           path: 'http://127.0.0.1:9003/main#8',
-          icon: require('../../assets/img/icon/left_admin.png'),
-          iconActive: require('../../assets/img/icon/left_admin_1.png'),
+          icon: require('../../../assets/img/icon/left_admin.png'),
+          iconActive: require('../../../assets/img/icon/left_admin_1.png'),
           name: '管理员中心'
         }
       ], // 菜单数据

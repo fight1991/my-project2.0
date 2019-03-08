@@ -19,15 +19,15 @@
             <img :src="arrowSrc.arrowUp" alt="" v-if="!bigIsShow">
             <img :src="arrowSrc.arrowDown" alt="" v-if="bigIsShow">
           </div>
-          <div class="manage"><img src="../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div>
+          <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div>
         </div>
         <div class="erweima-little" v-if="!bigIsShow">
-          <div class="little-ewm"><img src="../../assets/img/icon/btm_QR.png" alt=""></div>
+          <div class="little-ewm"><img src="../../../assets/img/icon/btm_QR.png" alt=""></div>
           <div class="zhihui">智慧通关</div>
         </div>
         <div class="erweima-big" v-if="bigIsShow">
           <div class="big-text">智慧通关小程序实时通关查询</div>
-          <div class="big-ewm"><img src="../../assets/img/icon/btm_QRcode.png" alt=""></div>
+          <div class="big-ewm"><img src="../../../assets/img/icon/btm_QRcode.png" alt=""></div>
         </div>
       </div>
     </div>
@@ -40,43 +40,43 @@ export default {
     return {
       bigIsShow: false,
       arrowSrc: {
-        arrowUp: require('../../assets/img/icon/btm_fold_1.png'),
-        arrowDown: require('../../assets/img/icon/btm_fold_2.png')
+        arrowUp: require('../../../assets/img/icon/btm_fold_1.png'),
+        arrowDown: require('../../../assets/img/icon/btm_fold_2.png')
       },
       quickItems: [
         {
           id: 0,
-          icon: require('../../assets/img/icon/btm_im_rpt.png'),
+          icon: require('../../../assets/img/icon/btm_im_rpt.png'),
           text: '进口综合报表'
         },
         {
           id: 1,
-          icon: require('../../assets/img/icon/btm_im_declar.png'),
+          icon: require('../../../assets/img/icon/btm_im_declar.png'),
           text: '进口报关单'
         },
         {
           id: 2,
-          icon: require('../../assets/img/icon/btm_ex_declar.png'),
+          icon: require('../../../assets/img/icon/btm_ex_declar.png'),
           text: '出口报关单'
         },
         {
           id: 3,
-          icon: require('../../assets/img/icon/btm_log.png'),
+          icon: require('../../../assets/img/icon/btm_log.png'),
           text: '物流跟踪'
         },
         {
           id: 4,
-          icon: require('../../assets/img/icon/btm_declar.png'),
+          icon: require('../../../assets/img/icon/btm_declar.png'),
           text: '报关单管理'
         },
         {
           id: 5,
-          icon: require('../../assets/img/icon/btm_air.png'),
+          icon: require('../../../assets/img/icon/btm_air.png'),
           text: '航空器'
         },
         {
           id: 6,
-          icon: require('../../assets/img/icon/btm_product.png'),
+          icon: require('../../../assets/img/icon/btm_product.png'),
           text: '商品资料库'
         }
       ]

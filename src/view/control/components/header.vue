@@ -8,7 +8,7 @@
           <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
           <span class='hidden-xs-only'>{{$store.state.userLoginInfo.companyCode}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="../../assets/img/icon/top_head.png">
+          <img v-else class='user-img' src="../../../assets/img/icon/top_head.png">
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="userInfo"  class='hidden-xs-only'>
@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import config from '../../config/config'
+import config from '../../../config/config'
 export default {
   data () {
     return {}
@@ -121,7 +121,7 @@ export default {
     display: inline-block;
     width: 150px;
     height: 64px;
-    background: url('../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
+    background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
     background-size: 150px 64px;
     background-size: cover;
     vertical-align: middle;
@@ -144,27 +144,27 @@ export default {
   top: 0;
   right: 400px;
   .search {
-    background: url("../../assets/img/icon/top_search.png") no-repeat;
+    background: url("../../../assets/img/icon/top_search.png") no-repeat;
     background-clip: content-box;
     background-origin: content-box;
   }
   .message {
-    background: url("../../assets/img/icon/top_notice.png") no-repeat;
+    background: url("../../../assets/img/icon/top_notice.png") no-repeat;
     background-clip: content-box;
     background-origin: content-box;
   }
   .add {
-    background: url("../../assets/img/icon/top_add.png") no-repeat;
+    background: url("../../../assets/img/icon/top_add.png") no-repeat;
     background-clip: content-box;
     background-origin: content-box;
   }
   .date {
-    background: url("../../assets/img/icon/top_date.png") no-repeat;
+    background: url("../../../assets/img/icon/top_date.png") no-repeat;
     background-clip: content-box;
     background-origin: content-box;
   }
   .setting {
-    background: url("../../assets/img/icon/top_set.png") no-repeat;
+    background: url("../../../assets/img/icon/top_set.png") no-repeat;
     background-clip: content-box;
     background-origin: content-box;
   }
