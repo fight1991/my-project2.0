@@ -29,3 +29,35 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     color: inherit;
   }
 }
+.el-tabs__nav {
+  float: right;
+}
+.el-tabs__nav-wrap::after {
+  background-color: transparent;
+}
+.el-tabs__item {
+  // float: right;
+  color: @font-color-title;
+  &:hover {
+    color: @font-color-main;
+  }
+}
+.el-tabs__item.is-active {
+  color: @font-color-main;
+}
+.el-tabs--bottom .el-tabs__item.is-bottom:last-child, 
+.el-tabs--bottom .el-tabs__item.is-top:last-child, 
+.el-tabs--top .el-tabs__item.is-bottom:last-child, 
+.el-tabs--top .el-tabs__item.is-top:last-child {
+  margin-right: 20px;
+}
+.el-date-editor--daterange.el-input, 
+.el-date-editor--daterange.el-input__inner, 
+.el-date-editor--timerange.el-input, 
+.el-date-editor--timerange.el-input__inner {
+  width: 230px;
+  border-radius: 20px;
+}
+// .el-range-input {
+//   width: 80px!important;
+// }
