@@ -4,15 +4,15 @@
         <top></top>
       </el-header>
       <el-container class="middle">
-        <el-aside :class="['sidebar',{'hidden-xs-only sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '60px' : '170px'">
+        <el-aside :class="['sidebar',{'hidden-xs-only sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '56px' : '200px'">
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
           <router-view></router-view>
         </el-main>
       </el-container>
-      <el-footer class="footer" height="100px">
-        <foot></foot>
+      <el-footer class="footer-bottom" :height="footHeight+'px'">
+        <foot @pullHeight="pullHeight"></foot>
       </el-footer>
     </el-container>
 </template>
@@ -24,7 +24,14 @@ export default {
     foot: resolve => require(['../common/footer.vue'], resolve)
   },
   data () {
-    return {}
+    return {
+      footHeight: '50'
+    }
+  },
+  methods: {
+    pullHeight (value) {
+      this.footHeight = value
+    }
   }
 }
 </script>
@@ -35,21 +42,22 @@ export default {
   background-color: @sys-color-gray;
 }
 .middle {
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 .header{
     padding: 0;
     background-color:@sys-color-main;
-    box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
+    box-shadow: 0 2px 3px rgba(17,17,17,0.1), 0 0 0 1px rgba(17,17,17,0.1);
     z-index: 9000;
 }
-.footer {
+.footer-bottom {
   width: 100%;
   padding: 0;
   position:fixed;
   bottom: 0;
   left: 0;
-  background-color: @aid-color-dark;
+  z-index: 11;
+  background-color: @aid-color-main;
 }
 .middle-right {
   border: 1px solid red;

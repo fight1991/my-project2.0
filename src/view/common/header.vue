@@ -5,9 +5,10 @@
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi'>
         <span class="el-dropdown-link">
+          <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
+          <span class='hidden-xs-only'>{{$store.state.userLoginInfo.companyCode}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../assets/img/icon/top_head.png">
-          <span class='hidden-xs-only hidden-xs-only'>{{$store.state.userLoginInfo.userName}}</span>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="userInfo"  class='hidden-xs-only'>
@@ -18,6 +19,16 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+    </div>
+    <div class="little-icon hidden-xs-only">
+      <span class="search"></span>
+      <span class="message"></span>
+      <span class="add"></span>
+      <span class="date"></span>
+      <span class="setting"></span>
+    </div>
+    <div class="welcome hidden-xs-only">
+      欢迎回来!
     </div>
   </div>
 </template>
@@ -96,7 +107,7 @@ export default {
         z-index: 3001;
     }
     .user-img{
-      margin-right: 3px;
+      margin-right: 20px;
       width: 36px;
       height:36px;
       -moz-border-radius:50%;
@@ -114,5 +125,55 @@ export default {
     background-size: 150px 64px;
     background-size: cover;
     vertical-align: middle;
+}
+.welcome {
+  position:absolute;
+  left:200px;
+  top: 0;
+  line-height: 64px;
+  color: #fff;
+  // font-size: 16px;
+  letter-spacing: 2px;
+}
+.little-icon {
+  box-sizing:border-box;
+  height: 64px;
+  padding: 22px;
+  position: absolute;
+  // background-color: green;
+  top: 0;
+  right: 400px;
+  .search {
+    background: url("../../assets/img/icon/top_search.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .message {
+    background: url("../../assets/img/icon/top_notice.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .add {
+    background: url("../../assets/img/icon/top_add.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .date {
+    background: url("../../assets/img/icon/top_date.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .setting {
+    background: url("../../assets/img/icon/top_set.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  span {
+    float: left;
+    width: 20px;
+    height: 20px;
+    padding: 0 12px;
+    cursor: pointer;
+  }
 }
 </style>
