@@ -3,7 +3,7 @@
     <div class="logo"></div>
     <div class="user-info">
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
-      <el-dropdown @command='userInfoLi'>
+      <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
           <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
           <span class='hidden-xs-only'>{{$store.state.userLoginInfo.companyCode}}</span>
@@ -11,11 +11,29 @@
           <img v-else class='user-img' src="../../../assets/img/icon/top_head.png">
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="userInfo"  class='hidden-xs-only'>
-            <span>个人中心</span>
+          <el-dropdown-item  class='hidden-xs-only dropDown-top'>
+            <div class="userInfo">
+              <div class="headImg"></div>
+              <div class="introduce">
+                <p class="name">{{$store.state.userLoginInfo.userName}}</p>
+                <p class="corpName">朗新金关信息科技有限公司</p>
+                <div class="switchCorp">切换公司</div>
+                <div class="glory">
+                  <div class="glory-items">
+                    <img src="" alt="">
+                    <p>天津报关协会会员</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </el-dropdown-item>
-          <el-dropdown-item command="loginOut">
-            <span>退出</span>
+          <el-dropdown-item  class="myCenter">
+            <span class="line">个人中心</span>
+            <span class="line">我的关注</span>
+            <span>管理设置</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="loginOut" class="dropDown-bottom">
+            <div class="loginOut"><span>退出登录</span></div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -83,12 +101,108 @@ export default {
 }
 .el-dropdown-menu {
   background-color: #fff;
+  border: none;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
+  text-align: center;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+.myCenter {
+  padding: 25px 0;
+  span {
+    padding: 0 25px;
+    position: relative;
+    cursor: pointer;
+    &:hover {
+      color: @sys-color-main;
+    }
+  }
+}
+.line::after {
+  content:'';
+  height:20px;
+  border-right: 1px solid #999;
+  position:absolute;
+  right: -2px;
+  top: 0;
+}
+.dropDown-top {
+  width: 400px;
+  box-sizing: border-box;
+  padding: 90px 30px 20px 30px;
+  .userInfo {
+    width: 340px;
+    // height: 400px;
+    position: relative;
+    background-color:#f4f8fc;
+    padding-top: 70px;
+    box-sizing: border-box;
+    .glory-items {
+      display: flex;
+      justify-content: center;
+    }
+    .headImg {
+      height: 100px;
+      width: 100px;
+      position:absolute;
+      left: 50%;
+      top: -50px;
+      transform: translateX(-50%);
+      background-color: green;
+    }
+    .introduce {
+      color: #4c4c4c;
+      padding-bottom: 20px;
+      .name {
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .switchCorp {
+        cursor: pointer;
+        width: 50px;
+        margin: 0 auto;
+        padding-left: 20px;
+        background:url("../../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
+        color: #287fca;
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+.dropDown-bottom {
+  padding: 0;
 }
 .el-dropdown-menu__item{
-  height: 36px;
+  // height: 36px;
+  cursor:auto;
   background-color: #fff;
+  &:hover {
+    background-color:transparent;
+  }
+}
+.loginOut {
+  width: 100%;
+  height: 50px;
+  color: #fff;
+  background-color: @sys-color-red;
+  &:hover {
+    background-color: @sys-color-red;
+  }
+  span {
+    cursor: pointer;
+    height: 50px;
+    display: block;
+    width: 80px;
+    padding-left: 15px;
+    margin:0 auto;
+    font-size: 14px;
+    line-height: 50px;
+    background:url("../../../assets/img/icon/admin_quit.png") no-repeat 0 17px;
+  }
 }
 .top-header{
   position: relative;

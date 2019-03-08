@@ -22,4 +22,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 ::-moz-placeholder { color: @font-color-placeholder; opacity: 1; }
 :-moz-placeholder { color: @font-color-placeholder;  opacity: 1; }
 /**************************reset elementui Style***********************/
-
+.el-dropdown-menu {
+  padding: 0;
+  .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: transparent;
+    color: inherit;
+  }
+}
