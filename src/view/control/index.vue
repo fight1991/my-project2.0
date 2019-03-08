@@ -8,7 +8,7 @@
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
-          <router-view></router-view>
+          <middle></middle>
         </el-main>
       </el-container>
       <el-footer class="footer-bottom" :height="footHeight+'px'">
@@ -21,7 +21,8 @@ export default {
   components: {
     top: resolve => require(['./components/header.vue'], resolve),
     sidebar: resolve => require(['./components/sidebar.vue'], resolve),
-    foot: resolve => require(['./components/footer.vue'], resolve)
+    foot: resolve => require(['./components/footer.vue'], resolve),
+    middle: resolve => require(['./middle.vue'], resolve)
   },
   data () {
     return {
