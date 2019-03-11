@@ -29,6 +29,8 @@ export default {
       footHeight: '50'
     }
   },
+  mounted () {
+  },
   methods: {
     pullHeight (value) {
       this.footHeight = value

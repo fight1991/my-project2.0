@@ -22,7 +22,6 @@
         <div class="ccba-table">
           <el-table
             :data="tableData"
-            stripe
             style="width: 100%">
             <el-table-column
               prop="seqNo"
@@ -92,7 +91,11 @@ export default {
       },
       tableData: [
         {seqNo: 1, content: '已接单,待提交', import: 22, export: 4},
-        {seqNo: 2, content: '已接单,待提交', import: 0, export: 3}
+        {seqNo: 2, content: '已接单,待提交', import: 0, export: 3},
+        {seqNo: 3, content: '已接单,待提交', import: 5, export: 6}
+        // {seqNo: 4, content: '已接单,待提交', import: 22, export: 4},
+        // {seqNo: 5, content: '已接单,待提交', import: 0, export: 3},
+        // {seqNo: 6, content: '已接单,待提交', import: 5, export: 6}
       ]
     }
   }

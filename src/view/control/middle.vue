@@ -1,6 +1,6 @@
 <template>
   <div id="list">
-    <div id='div1' class='divItems'>
+    <div id='div1' class='divItems' ref="div1">
       <board></board>
     </div>
     <div id='div2' class='divItems'>
@@ -27,6 +27,12 @@ export default {
     return {
 
     }
+  },
+  mounted () {
+    // let h = this.$refs['middle-right'].height
+    // console.log(this.$refs['div1'])
+    // let h = this.$refs['div1'].$el.offsetHeight
+    // console.log(h)
   },
   methods: {
   }

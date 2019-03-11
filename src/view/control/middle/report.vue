@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import util from '@/common/util'
 export default {
   components: {
     'e-chart': resolve => require(['../eChart/chart.vue'], resolve)
@@ -30,7 +31,8 @@ export default {
         legend: {
           orient: 'vertical',
           x: 'right',
-          y: 'center',
+          y: '35%',
+          align: 'left', // 调整文字和样式的位置
           data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
         },
         toolbox: {
@@ -60,7 +62,7 @@ export default {
             name: '访问来源',
             type: 'pie',
             radius: '55%',
-            center: ['40%', '60%'],
+            center: ['35%', '55%'],
             data: [
               {value: 335, name: '直接访问'},
               {value: 310, name: '邮件营销'},
@@ -70,7 +72,38 @@ export default {
             ]
           }
         ]
+      },
+      dates: {
+        startDate: '',
+        endDate: ''
       }
+    }
+  },
+  created () {
+    this.computeWeek()
+    this.getEchart()
+  },
+  methods: {
+    getEchart () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/decCount',
+        data: {
+          iEFlag: 'ALL',
+          startDate: this.dates.startDate,
+          endDate: this.dates.endDate
+        },
+        router: this.$router,
+        success: (res) => {
+          console.log(res)
+        }
+      })
+    },
+    computeWeek () { // 计算最近一周
+      let end = new Date()
+      let start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      this.dates.startDate = util.dateFormat(start, 'yyyy-MM-dd')
+      this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
     }
   }
 }

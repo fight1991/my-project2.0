@@ -96,6 +96,16 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   font-size: 12px;
 }
 .ccba-table {
+  .el-table td, 
+  .el-table th.is-leaf {
+    border-bottom: none;
+  }
+  .el-table tr:nth-child(2n+1) {
+    background-color: #f5f5f5;
+  }
+  .el-table--striped .el-table__body tr.el-table__row--striped td {
+    background-color: #fff;
+  }
   .el-table th>.cell,
   .el-table tr .cell {
     font-weight: normal;
