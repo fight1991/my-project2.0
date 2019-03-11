@@ -4,7 +4,7 @@
       <board></board>
     </div>
     <div id='div2' class='divItems'>
-      <chart></chart>
+      <report></report>
     </div>
     <div id='div4' class='divItems'>
       <news></news>
@@ -19,7 +19,7 @@
 export default {
   components: {
     board: resolve => require(['./middle/board.vue'], resolve),
-    chart: resolve => require(['./middle/chart.vue'], resolve),
+    report: resolve => require(['./middle/report.vue'], resolve),
     corpDisplay: resolve => require(['./middle/corpDisplay.vue'], resolve),
     news: resolve => require(['./middle/news.vue'], resolve)
   },
