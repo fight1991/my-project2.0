@@ -22,6 +22,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 ::-moz-placeholder { color: @font-color-placeholder; opacity: 1; }
 :-moz-placeholder { color: @font-color-placeholder;  opacity: 1; }
 /**************************reset elementui Style***********************/
+.text-cut { // 单行溢出省略号
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
 .el-dropdown-menu {
   padding: 0;
   .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
@@ -35,8 +40,14 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .el-tabs__nav-wrap::after {
   background-color: transparent;
 }
+.el-tabs__active-bar {
+  padding: 0 6px;
+  left: -6px;
+}
 .el-tabs__item {
   // float: right;
+  height: 30px;
+  line-height: 30px;
   color: @font-color-title;
   &:hover {
     color: @font-color-main;
@@ -61,3 +72,26 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 // .el-range-input {
 //   width: 80px!important;
 // }
+.el-form-item {
+  margin-bottom: 0px;
+}
+.el-form-item__label {
+  font-size: 12px;
+}
+.ccba-table {
+  .el-table th>.cell,
+  .el-table tr .cell {
+    font-weight: normal;
+    color: @font-color-main;
+    font-size: 12px;
+  }
+  .el-table th:nth-child(1) .cell{
+    display: none;
+  }
+  .el-table th:nth-child(2) .cell{
+    display: none;
+  }
+  .el-table td, .el-table th {
+    padding: 3px 0;
+  }
+}

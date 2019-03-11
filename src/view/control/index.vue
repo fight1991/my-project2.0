@@ -62,11 +62,12 @@ export default {
 }
 .middle-right {
   border: 1px solid red;
-  margin: 15px 20px 15px 0;
+  margin: 20px 20px 20px 0;
+  padding: 0;
 }
 .sidebar {
   background-color: @aid-color-white;
-  margin: 15px 20px;
+  margin: 20px 30px 20px 20px;;
   overflow-x: hidden;
   z-index: 10;
   border: 1px solid red;

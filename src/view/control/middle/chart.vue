@@ -1,6 +1,11 @@
 <template>
   <div class="chart">
-    报表
+    <div class="title">报表统计</div>
+    <div class="compute-content">
+      <h3>单量统计</h3>
+      <div class="time">统计时间:2019.03.04</div>
+    </div>
+    <div class="detail"></div>
   </div>
 </template>
 
@@ -10,6 +15,26 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.chart {
+  padding: 10px 20px
+}
+.title {
+  line-height: 30px;
+  color: @font-color-main;
+  font-weight: bold;
+}
+.compute-content {
+  color: @font-color-main;
+  text-align: center;
+  h3 {
+    margin-bottom: 12px;
+  }
+  .time {
+    font-size: 12px;
+    color: @font-color-title;
+  }
+
+}
 
 </style>
