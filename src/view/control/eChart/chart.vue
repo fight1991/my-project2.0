@@ -56,3 +56,9 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+  .content-box {
+    // background-color: pink;
+    height: 100%;
+  }
+</style>

@@ -61,7 +61,7 @@ export default {
   background-color: @aid-color-main;
 }
 .middle-right {
-  border: 1px solid red;
+  // border: 1px solid red;
   margin: 20px 20px 20px 0;
   padding: 0;
 }
@@ -70,7 +70,7 @@ export default {
   margin: 20px 30px 20px 20px;;
   overflow-x: hidden;
   z-index: 10;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 .sidebar::-webkit-scrollbar {
   display: none;

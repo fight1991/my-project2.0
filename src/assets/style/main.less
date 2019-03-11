@@ -22,6 +22,8 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 ::-moz-placeholder { color: @font-color-placeholder; opacity: 1; }
 :-moz-placeholder { color: @font-color-placeholder;  opacity: 1; }
 /**************************reset elementui Style***********************/
+
+// 公共样式开始
 .text-cut { // 单行溢出省略号
   overflow:hidden;
   text-overflow:ellipsis;
@@ -33,6 +35,15 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .fr {
   float: right;
 }
+.clearfix::after { // 清除浮动
+  content: "";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  font-size: 0;
+  height: 0;
+}
+// 公共样式结束
 .el-dropdown-menu {
   padding: 0;
   .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
