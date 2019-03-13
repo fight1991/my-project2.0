@@ -9,6 +9,7 @@
             v-model="dates"
             size="mini"
             type="daterange"
+            @change="getDecList"
             align="right"
             unlink-panels
             range-separator="至"
@@ -30,18 +31,18 @@
               >
             </el-table-column>
             <el-table-column
-              prop="content"
+              prop="status"
               label="内容"
               >
             </el-table-column>
             <el-table-column
-              prop="import"
+              prop="iCount"
               label="进口报关单"
               width="110"
               align="right">
             </el-table-column>
             <el-table-column
-              prop="export"
+              prop="eCount"
               width="110"
               label="出口报关单"
               align="right">
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+import util from '../../../common/util'
 export default {
   data () {
     return {
@@ -90,13 +92,39 @@ export default {
         }]
       },
       tableData: [
-        {seqNo: 1, content: '已接单,待提交', import: 22, export: 4},
-        {seqNo: 2, content: '已接单,待提交', import: 0, export: 3},
-        {seqNo: 3, content: '已接单,待提交', import: 5, export: 6}
-        // {seqNo: 4, content: '已接单,待提交', import: 22, export: 4},
-        // {seqNo: 5, content: '已接单,待提交', import: 0, export: 3},
-        // {seqNo: 6, content: '已接单,待提交', import: 5, export: 6}
+        {seqNo: 1, status: '已接单,待提交', iCount: 22, eCount: 4},
+        {seqNo: 2, status: '已接单,待提交', iCount: 0, eCount: 3},
+        {seqNo: 3, status: '已接单,待提交', iCount: 5, eCount: 6}
       ]
+    }
+  },
+  created () {
+    this.getWeek()
+    this.getDecList()
+  },
+  methods: {
+    getDecList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/decListHomePage',
+        data: {
+          'iEFlag': 'All',
+          'endDate': this.dates[1],
+          'startDate': this.dates[0]
+        },
+        router: this.$router,
+        success: (res) => {
+          res.result.decListHomePageVOs.forEach((v, i) => {
+            v.seqNo = i + 1
+          })
+          // this.tableData = res.result.decListHomePageVOs
+        }
+      })
+    },
+    getWeek () { // 获取当前一周
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     }
   }
 }

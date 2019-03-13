@@ -46,14 +46,24 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  padding: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  // display: grid;
+  // grid-template-columns: 50% 50% ;
+  // grid-template-rows: auto auto ;
+  //    //padding 有个20的宽度
+  // // background-color: #000;
+  // grid-gap: 10px;
 }
 .divItems {
   width: 49.5%;
-  height: 49.3%;
+  height: 350px;
+  margin-bottom: 15px;
   background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
-  overflow: auto;
+  // overflow: auto;
 }
 .divItems:nth-child(1) {
   align-self: flex-start;

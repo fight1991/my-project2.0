@@ -1,14 +1,15 @@
 <template>
-  <div>
-    <div class='collapse-btn hidden-xs-only' @click='collapseClick()'><i class="icons-menu-move"><img src="../../../assets/img/icon/left_22x22.png" alt=""></i></div>
+  <div class="leftSolider">
+    <div :class="{'collapse-btn':true,'hidden-xs-only':true}" @click='collapseClick()' v-if="!isRotate"></div>
+    <div :class="{'collapse-btn':true,'hidden-xs-only':true,'btn-rotate':isRotate}" @click='collapseClick()' v-if="isRotate"></div>
     <el-menu :collapse='$store.state.collapse' @select="currentSelect">
-      <template v-for="(item,index) in menus">
-        <el-menu-item :index="item.path" :key="index">
+      <template v-for="item in menus">
+        <el-menu-item :index="item.link" :key="item.pid">
             <i :class=" 'custom-icons-menu '">
-              <img :src="item.icon" alt="" v-if="!item.isClick">
-              <img :src="item.iconActive" alt="" v-if="item.isClick">
+              <img :src="item.pic" alt="" v-if="!item.isClick">
+              <img :src="item.picFocus" alt="" v-if="item.isClick">
             </i>
-            <span slot="title">{{item.name}}</span>
+            <span slot="title">{{item.title}}</span>
         </el-menu-item>
         <!-- <el-menu-item  v-if="!item.children && !item.hidden" :index="item.path" :key="'child'+item.path" v-permissions="item.permissions">
           <i :class=" 'custom-icons-menu '+item.icon"></i>
@@ -22,63 +23,15 @@
 export default {
   data () {
     return {
+      isRotate: false,
       menus: [
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#1',
-          icon: require('../../../assets/img/icon/left_im&ex.png'),
-          iconActive: require('../../../assets/img/icon/left_im&ex_1.png'),
-          name: '进出口管理'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#2',
-          icon: require('../../../assets/img/icon/left_finance.png'),
-          iconActive: require('../../../assets/img/icon/left_finance_1.png'),
-          name: '财务费用'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#3',
-          icon: require('../../../assets/img/icon/left_data.png'),
-          iconActive: require('../../../assets/img/icon/left_data_1.png'),
-          name: '资料中心'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#4',
-          icon: require('../../../assets/img/icon/left_air.png'),
-          iconActive: require('../../../assets/img/icon/left_air_1.png'),
-          name: '航空器'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#5',
-          icon: require('../../../assets/img/icon/left_log.png'),
-          iconActive: require('../../../assets/img/icon/left_log_1.png'),
-          name: '物流跟踪'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#6',
-          icon: require('../../../assets/img/icon/left_rpt ctr.png'),
-          iconActive: require('../../../assets/img/icon/left_rpt ctr_1.png'),
-          name: '报表中心'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#7',
-          icon: require('../../../assets/img/icon/left_Jin Er.png'),
-          iconActive: require('../../../assets/img/icon/left_Jin Er_1.png'),
-          name: '加工贸易(金二)'
-        },
-        {
-          isClick: false,
-          path: 'http://127.0.0.1:9003/main#8',
-          icon: require('../../../assets/img/icon/left_admin.png'),
-          iconActive: require('../../../assets/img/icon/left_admin_1.png'),
-          name: '管理员中心'
-        }
+        // {
+        //   isClick: false,
+        //   path: 'http://127.0.0.1:9003/main#1',
+        //   icon: require('../../../assets/img/icon/left_im&ex.png'),
+        //   iconActive: require('../../../assets/img/icon/left_im&ex_1.png'),
+        //   name: '进出口管理'
+        // }
       ], // 菜单数据
       active: '', // 活动菜单
       appCount: 0 // 待处理数
@@ -90,28 +43,37 @@ export default {
       this.$store.commit('menuShow', true)
     }
   },
+  created () {
+    this.getAllApp()
+  },
   mounted () {
-    // this.initLeftMenu()
   },
   methods: {
-    // 初始化菜单
-    // initLeftMenu () {
-    //   this.$router.options.routes[1].children.forEach((menu) => {
-    //     if (!menu.hidden) {
-    //       this.menus.push(menu)
-    //     }
-    //   })
-    // },
     // 折叠按钮事件
     collapseClick () {
       this.$store.commit('collapse', !this.$store.state.collapse)
+      this.isRotate = !this.isRotate
     },
     currentSelect (index) {
       this.menus.forEach(v => { // 找到数组中当前点击的项
-        if (v.path === index) {
+        if (v.link === index) {
           v.isClick = true
         } else {
           v.isClick = false
+        }
+      })
+    },
+    getAllApp () { // 左侧应用列表
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/getAllApp',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          res.result.forEach(v => {
+            v.isClick = false
+          })
+          this.menus = res.result
+          console.log(this.menus)
         }
       })
     }
@@ -119,18 +81,38 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.leftSolider {
+  position: relative;
+  padding-top: 40px;
+}
 .collapse-btn{
-  padding: 0 15px;
-  height: 56px;
-  line-height: 56px;
-  color: #fff;
+  position: absolute;
+  left: 15px;
+  top:0;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
   cursor: pointer;
+  background:url("../../../assets/img/icon/btn-left.png") no-repeat;
+  z-index: 22;
+  background-origin:content-box;
+  background-color: #fff;
+}
+.btn-rotate {
+  background:url("../../../assets/img/icon/btn-right.png") no-repeat;
+  background-origin:content-box;
+  background-color: #fff;
 }
 .custom-icons-menu{
   // display: inline-block;
-  margin-right: 12px;
+  margin-right: 16px;
   width: 30px;
   height: 30px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
 }
 .el-menu-item {
   border-left: 3px solid transparent;

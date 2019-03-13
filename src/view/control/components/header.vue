@@ -233,16 +233,16 @@ export default {
 }
 .logo{
     display: inline-block;
-    width: 150px;
+    width: 280px;
     height: 64px;
     background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
-    background-size: 150px 64px;
+    background-size: 280px 64px;
     background-size: cover;
     vertical-align: middle;
 }
 .welcome {
   position:absolute;
-  left:200px;
+  left:300px;
   top: 0;
   line-height: 64px;
   color: #fff;

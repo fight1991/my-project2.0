@@ -4,10 +4,11 @@
         <top></top>
       </el-header>
       <el-container class="middle">
-        <el-aside :class="['sidebar',{'hidden-xs-only sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '56px' : '200px'">
+        <el-aside :class="['sidebar',{'hidden-xs-only sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '180px'">
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
+          <div class="scroll-hidden"></div>
           <middle></middle>
         </el-main>
       </el-container>
@@ -64,14 +65,24 @@ export default {
 }
 .middle-right {
   // border: 1px solid red;
-  margin: 20px 20px 20px 0;
+  margin: 20px 3px 20px 0;
   padding: 0;
+  overflow: hidden;
+  position: relative;
+  .scroll-hidden {
+    height: 100%;
+    width: 17px;
+    background-color: @sys-color-gray;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 .sidebar {
   background-color: @aid-color-white;
-  margin: 20px 30px 20px 20px;;
-  overflow-x: hidden;
+  margin: 20px 20px 20px 20px;
   z-index: 10;
+  overflow:visible;
   // border: 1px solid red;
 }
 .sidebar::-webkit-scrollbar {
