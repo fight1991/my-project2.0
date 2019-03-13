@@ -28,13 +28,22 @@ const routes = [
     }
   }, {
     path: '/control',
-    name: '工作台',
+    name: 'control',
     hidden: true,
     icon: 'el-icon-menu',
     permissions: 'WF000000',
     component: resolve => require(['./view/control/index.vue'], resolve),
     meta: {
       title: '工作台'
+    }
+  }, {
+    path: '/detail',
+    name: '详情',
+    hidden: true,
+    permissions: 'WF000000',
+    component: resolve => require(['./view/control/components/detail.vue'], resolve),
+    meta: {
+      title: '详情'
     }
   }
 ]

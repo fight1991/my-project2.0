@@ -111,6 +111,7 @@ export default {
           'endDate': this.dates[1],
           'startDate': this.dates[0]
         },
+        isPageList: true,
         router: this.$router,
         success: (res) => {
           res.result.decListHomePageVOs.forEach((v, i) => {
