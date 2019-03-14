@@ -3,7 +3,7 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner fl">
-        <el-carousel height="200px" @change="getContent" :autoplay="false">
+        <el-carousel height="300px" @change="getContent" :autoplay="false">
           <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
             <a :href="item.link" target="_blank">
@@ -77,7 +77,7 @@ export default {
   display: flex;
 }
 .banner {
-  width: 300px;
+  width: 70%;
   margin-top: 15px;
   border-radius: 3px;
   .intro {
@@ -93,8 +93,8 @@ export default {
   }
 }
 .link-icon {
-  flex: 1;
-  height: 250px;
+  width: 40%;
+  height: 300px;
   padding-left: 22px;
   margin-top: 15px;
   .items {
