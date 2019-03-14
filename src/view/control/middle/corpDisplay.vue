@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import eventBus from './eventBus.js'
 export default {
   data () {
     return {
@@ -36,6 +37,7 @@ export default {
   },
   created () {
     this.getAllCorpDIY()
+    eventBus.$on('getAllCorpDIY', this.getAllCorpDIY)
   },
   methods: {
     getContent (index) {
@@ -43,7 +45,7 @@ export default {
         this.intro = this.bannerList[index]['title']
       }
     },
-    getAllCorpDIY () {
+    getAllCorpDIY () { // 企业风采
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/getAllCorpDIY',
         data: {},
@@ -98,7 +100,7 @@ export default {
   .items {
     text-align: center;
     margin-bottom:20px;
-    width: 33.3%;
+    width: 48%;
     float: right;
     min-width: 45px;
     img {

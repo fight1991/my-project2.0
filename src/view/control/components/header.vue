@@ -66,6 +66,7 @@
 </template>
 <script>
 import config from '../../../config/config'
+import eventBus from '../middle/eventBus.js'
 export default {
   data () {
     return {
@@ -132,13 +133,14 @@ export default {
         }
       })
     },
-    setUserDefaultCorp (corpId) {
+    selectUserCorp (corpId) {
       this.$store.dispatch('ajax', {
-        url: 'API@/login/user/setUserDefaultCorp',
+        url: 'API@/login/login/selectUserCorp',
         data: {corpId: corpId},
         router: this.$router,
         success: (res) => {
-          this.corpList = res.result
+          // 重新请求企业风采
+          eventBus.$emit('getAllCorpDIY')
         }
       })
     },
@@ -147,13 +149,29 @@ export default {
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
       })
-      // setUserDefaultCorp(temp.corpId)
+      this.selectUserCorp(temp.corpId)
       this.$store.commit('userCompanyInfo', {
         companyType: temp.corpType, // 公司类型
         companyCode: temp.corpId, // 公司id
         companyName: temp.corpName
       })
       this.corpDialogVisible = false
+    },
+    getAllCorpDIY () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/getAllCorpDIY',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          console.log(res)
+          if (res.result.activities) {
+            this.bannerList = res.result.activities
+          }
+          if (res.result.links) {
+            this.iconList = res.result.links
+          }
+        }
+      })
     }
   }
 }
