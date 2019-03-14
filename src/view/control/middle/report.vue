@@ -1,10 +1,10 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <!-- <div class="compute-content">
+    <div class="compute-content">
       <h3>单量统计</h3>
       <div class="time">统计时间:2019.03.04</div>
-    </div> -->
+    </div>
     <div class="detail" ref="chartBox" id="chartBox">
       <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>
@@ -20,42 +20,21 @@ export default {
     return {
       width: '',
       echartData: {
-        title: {
-          text: '单量统计',
-          subtext: '统计时间:2019.03.04',
-          x: 'center'
-        },
+        // title: {
+        //   text: '单量统计',
+        //   subtext: '统计时间:2019.03.04',
+        //   x: 'center'
+        // },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
           orient: 'vertical',
-          x: '70%',
+          x: '75%',
           y: '35%',
           align: 'left', // 调整文字和样式的位置
           data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            mark: {show: true},
-            dataView: {show: true, readOnly: false},
-            magicType: {
-              show: true,
-              type: ['pie', 'funnel'],
-              option: {
-                funnel: {
-                  x: '25%',
-                  width: '50%',
-                  funnelAlign: 'left',
-                  max: 1548
-                }
-              }
-            },
-            restore: {show: true},
-            saveAsImage: {show: true}
-          }
         },
         calculable: true,
         series: [

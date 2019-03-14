@@ -53,8 +53,9 @@ export default {
 .divItems {
   float: left;
   width: 49%;
-  height: 48%;
-  min-height: 350px;
+  // height: 48%;
+  min-width: 400px;
+  height: 400px;
   background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
@@ -70,7 +71,9 @@ export default {
 // .divItems:nth-child(4) {
 //   align-self: flex-end;
 // }
-// @media screen and (min-width:992px) {
-//  width:
-// }
+@media screen and (max-width:1060px) {
+ .divItems {
+   width: 100%;
+ }
+}
 </style>

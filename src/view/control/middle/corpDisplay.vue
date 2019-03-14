@@ -3,17 +3,22 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner fl">
-        <el-carousel height="180px" @change="getContent">
-          <el-carousel-item  v-for="item in 4" :key="item">
+        <el-carousel height="200px" @change="getContent" :autoplay="false">
+          <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
+            <a :href="item.link" target="_blank">
+              <img :src="item.pic" alt="">
+            </a>
           </el-carousel-item>
         </el-carousel>
         <div class="intro">{{intro}}</div>
       </div>
       <div class="link-icon fr">
-        <div class="items" v-for="(item,index) in imgs" :key="index">
-          <img :src="item.src" alt="">
-          <p>{{item.name}}</p>
+        <div class="items" v-for="item in iconList" :key="item.pid">
+          <a :href="item.link" target="_blank">
+            <img :src="item.pic" alt="">
+            <p>{{item.title}}</p>
+          </a>
         </div>
       </div>
     </div>
@@ -25,32 +30,8 @@ export default {
   data () {
     return {
       intro: '',
-      imgs: [
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        },
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        },
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        },
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        },
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        },
-        {
-          src: require('../../../assets/img/icon/com_web.png'),
-          name: '首页'
-        }
-      ]
+      bannerList: [],
+      iconList: []
     }
   },
   created () {
@@ -58,7 +39,9 @@ export default {
   },
   methods: {
     getContent (index) {
-      this.intro = '哈哈哈哈哈' + index
+      if (this.bannerList[index]) {
+        this.intro = this.bannerList[index]['title']
+      }
     },
     getAllCorpDIY () {
       this.$store.dispatch('ajax', {
@@ -67,6 +50,12 @@ export default {
         router: this.$router,
         success: (res) => {
           console.log(res)
+          if (res.result.activities) {
+            this.bannerList = res.result.activities
+          }
+          if (res.result.links) {
+            this.iconList = res.result.links
+          }
         }
       })
     }
@@ -88,11 +77,17 @@ export default {
 .banner {
   width: 300px;
   margin-top: 15px;
+  border-radius: 3px;
   .intro {
     font-size: 16px;
     text-align: center;
     padding: 5px;
     color: #4c4c4c;
+    margin-top: 5px;
+  }
+  a {
+    display: inline-block;
+    height: 100%;
   }
 }
 .link-icon {
@@ -105,6 +100,11 @@ export default {
     margin-bottom:20px;
     width: 33.3%;
     float: right;
+    min-width: 45px;
+    img {
+      width: 24px;
+      height: 24px;
+    }
   }
   p {
       margin:5px 0;
@@ -112,17 +112,12 @@ export default {
       color: @font-color-title;
   }
 }
-.el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
+.el-carousel__item {
+  overflow: visible;
+  img {
+    height: 100%;
+    width: 100%;
+  }
 }
 
-.el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-}
-.el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    margin: 0;
-  }
 </style>

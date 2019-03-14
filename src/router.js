@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: '/',
-    redirect: '/index'
+    redirect: '/control'
   }, {
     path: '/main',
     name: '位置',

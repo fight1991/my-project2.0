@@ -9,7 +9,8 @@
       </el-row>
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">政策法规</el-tab-pane>
-      <el-tab-pane label="行业资讯" name="Information">行业资讯</el-tab-pane>
+      <el-tab-pane label="行业资讯" name="IndustryNews">行业资讯</el-tab-pane>
+      <el-tab-pane label="通知公告" name="Information">通知公告</el-tab-pane>
     </el-tabs>
   </div>
 </template>
