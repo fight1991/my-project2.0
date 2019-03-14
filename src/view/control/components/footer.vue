@@ -19,7 +19,7 @@
             <img :src="arrowSrc.arrowUp" alt="" v-if="!bigIsShow">
             <img :src="arrowSrc.arrowDown" alt="" v-if="bigIsShow">
           </div>
-          <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div>
+          <!-- <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div> -->
         </div>
         <div class="erweima-little" v-if="!bigIsShow">
           <div class="little-ewm"><img src="../../../assets/img/icon/btm_QR.png" alt=""></div>

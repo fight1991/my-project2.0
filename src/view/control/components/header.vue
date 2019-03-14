@@ -41,11 +41,13 @@
       </el-dropdown>
     </div>
     <div class="little-icon hidden-xs-only">
-      <span class="search"></span>
-      <span class="message"></span>
-      <span class="add"></span>
-      <span class="date"></span>
-      <span class="setting"></span>
+      <!-- <span class="search"></span> -->
+      <el-badge :value="77" :max="99" class="item">
+        <span class="message" @click="goToMessage"></span>
+      </el-badge>
+      <span class="add" @click="getInfo('add')"></span>
+      <!-- <span class="date"></span> -->
+      <!-- <span class="setting"></span> -->
     </div>
     <div class="welcome hidden-xs-only">
       欢迎回来!
@@ -76,10 +78,12 @@ export default {
       corpDialogVisible: false,
       corpName: '',
       corpList: [],
-      userTitleList: [] // 个人荣誉
+      userTitleList: [], // 个人荣誉
+      totalNum: 0
     }
   },
   created () {
+    this.queryNumber()
     this.getUserCorps()
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
@@ -120,8 +124,12 @@ export default {
     menuShowClick: function () {
       this.$store.commit('menuShow', !this.$store.state.menuShow)
     },
-    getInfo () {
-      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    getInfo (flag) {
+      if (flag === 'add') {
+        window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?tabs=alllinkman&token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+      } else {
+        window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+      }
     },
     switchCorp () {
       this.corpDialogVisible = true
@@ -175,11 +183,51 @@ export default {
           }
         }
       })
+    },
+    goToMessage () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/newsCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&type=notify' + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_self')
+    },
+    // 获取消息条数
+    queryNumber () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-message/message/getUnreadMessageCount',
+        data: {},
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          this.totalNum = res.result[0].unreadCount + res.result[1].unreadCount
+          clearInterval(this.timeOut)
+          this.timeOut = setInterval(() => {
+            this.queryNumber()
+          }, 300000)
+        },
+        other: (res) => {
+          clearInterval(this.timeOut)
+        }
+      })
     }
   }
 }
 </script>
 <style lang="less">
+
+.el-badge__content.is-fixed{
+  right: 20px;
+}
+.el-badge__content {
+    background-color: #f56c6c;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    line-height: 18px;
+    padding: 0;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+}
 .el-dropdown{
   color: #fff;
   cursor: pointer;
@@ -411,5 +459,13 @@ export default {
 .el-dialog__footer {
   display: flex;
   justify-content: center;
+}
+@media screen and (max-width:900px) {
+ .logo {
+   width: 130px;
+ }
+ .welcome {
+   display: none;
+ }
 }
 </style>

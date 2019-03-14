@@ -1,7 +1,7 @@
 <template>
   <div class="leftSolider">
-    <div :class="{'collapse-btn':true,'hidden-xs-only':true}" @click='collapseClick()' v-if="!isRotate"></div>
-    <div :class="{'collapse-btn':true,'hidden-xs-only':true,'btn-rotate':isRotate}" @click='collapseClick()' v-if="isRotate"></div>
+    <div :class="{'collapse-btn':true}" @click='collapseClick()' v-if="!isRotate"></div>
+    <div :class="{'collapse-btn':true,'btn-rotate':isRotate}" @click='collapseClick()' v-if="isRotate"></div>
     <el-menu :collapse='$store.state.collapse' @select="currentSelect">
       <template v-for="item in menus">
         <el-menu-item :index="item.link" :key="item.pid">

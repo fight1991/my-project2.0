@@ -1,13 +1,14 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <div class="compute-content">
+    <div class="compute-content" v-if="!echartData.series[0].data.length===0">
       <h3>单量统计</h3>
       <div class="time">统计时间:2019.03.04</div>
     </div>
-    <div class="detail" ref="chartBox" id="chartBox">
+    <div class="detail" ref="chartBox" v-if="!echartData.series[0].data.length===0">
       <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>
+    <div class="default" v-if="echartData.series[0].data.length===0"><img src="../../../assets/img/icon/list.png" alt=""></div>
   </div>
 </template>
 <script>
@@ -95,6 +96,12 @@ export default {
   color: @font-color-main;
   font-weight: bold;
 }
+.default {
+    img {
+      display: block;
+      margin: 35px auto 0 auto
+    }
+  }
 .compute-content {
   color: @font-color-main;
   text-align: center;

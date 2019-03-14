@@ -2,7 +2,11 @@
   <div class="corpDisplay">
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
-      <div class="banner fl">
+      <div class="banner-default fl default" v-if="bannerList.length===0">
+        <img src="../../../assets/img/icon/noPhoto.jpg" alt="">
+        <p>暂无描述</p>
+      </div>
+      <div class="banner fl" v-else>
         <el-carousel height="300px" @change="getContent" :autoplay="false">
           <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
@@ -14,7 +18,11 @@
         <div class="intro">{{intro}}</div>
       </div>
       <div class="link-icon fr">
-        <div class="items" v-for="item in iconList" :key="item.pid">
+        <div class="default" v-if="iconList.length===0">
+          <img src="../../../assets/img/icon/com_default.png" alt="">
+          <p>自定义</p>
+        </div>
+        <div class="items" v-for="item in iconList" :key="item.pid" v-else>
           <a :href="item.link" target="_blank">
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
@@ -54,9 +62,13 @@ export default {
           console.log(res)
           if (res.result.activities) {
             this.bannerList = res.result.activities
+          } else {
+            this.bannerList = []
           }
           if (res.result.links) {
             this.iconList = res.result.links
+          } else {
+            this.iconList = []
           }
         }
       })
@@ -76,7 +88,17 @@ export default {
 .content-area {
   display: flex;
 }
-.banner {
+.default {
+    img {
+      display: block;
+      margin: 35px auto 0 auto
+    }
+    p {
+      text-align: center;
+      color: @font-color-title;
+    }
+  }
+.banner,.banner-default {
   width: 70%;
   margin-top: 15px;
   border-radius: 3px;

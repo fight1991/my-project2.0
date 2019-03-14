@@ -20,18 +20,12 @@
         </el-form-item>
       </el-form>
       <el-row>
-        <div class="ccba-table">
+        <div class="ccba-table" v-if="!tableData.length === 0">
           <el-table
             :data="tableData"
-            style="width: 100%">
+            style="width:100%">
             <el-table-column
-              prop="seqNo"
-              label="序号"
-              width="30"
-              >
-            </el-table-column>
-            <el-table-column
-              prop="status"
+              prop="statusVal"
               label="内容"
               >
             </el-table-column>
@@ -49,6 +43,7 @@
             </el-table-column>
           </el-table>
         </div>
+        <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
       </el-row>
       </el-tab-pane>
       <!-- <el-tab-pane label="物流跟踪" name="second">配置管理</el-tab-pane>
@@ -110,10 +105,7 @@ export default {
         isPageList: true,
         router: this.$router,
         success: (res) => {
-          res.result.decListHomePageVOs.forEach((v, i) => {
-            v.seqNo = i + 1
-          })
-          // this.tableData = res.result.decListHomePageVOs
+          this.tableData = res.result.decListHomePageVOs
         }
       })
     },
@@ -142,6 +134,12 @@ export default {
 
     .el-form-item__label {
       font-size: 12px;
+  }
+  .default {
+    img {
+      display: block;
+      margin: 35px auto 0 auto
+    }
   }
 }
 </style>

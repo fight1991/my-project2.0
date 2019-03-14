@@ -4,7 +4,7 @@
         <top></top>
       </el-header>
       <el-container class="middle">
-        <el-aside :class="['sidebar',{'hidden-xs-only sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '180px'">
+        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '180px'">
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
