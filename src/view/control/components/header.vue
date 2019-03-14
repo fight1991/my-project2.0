@@ -6,18 +6,20 @@
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
           <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
-          <span class='hidden-xs-only'>{{$store.state.userLoginInfo.companyCode}}</span>
+          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="../../../assets/img/icon/top_head.png">
+          <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
         </span>
         <el-dropdown-menu slot="dropdown">
+          <div class="personBgc"></div>
           <el-dropdown-item  class='hidden-xs-only dropDown-top'>
             <div class="userInfo">
-              <div class="headImg"></div>
+              <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
+              <div class="headImg" v-else><img src="../../../assets/img/icon/admin.png" alt=""></div>
               <div class="introduce">
                 <p class="name">{{$store.state.userLoginInfo.userName}}</p>
-                <p class="corpName">朗新金关信息科技有限公司</p>
-                <div class="switchCorp">切换公司</div>
+                <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
+                <div class="switchCorp" @click="switchCorp">切换公司</div>
                 <div class="glory">
                   <div class="glory-items">
                     <img src="" alt="">
@@ -28,7 +30,7 @@
             </div>
           </el-dropdown-item>
           <el-dropdown-item  class="myCenter">
-            <span class="line">个人中心</span>
+            <span class="line" @click="getInfo">个人中心</span>
             <span class="line">我的关注</span>
             <span>管理设置</span>
           </el-dropdown-item>
@@ -48,13 +50,32 @@
     <div class="welcome hidden-xs-only">
       欢迎回来!
     </div>
+    <!-- 切换公司对话框 -->
+    <el-dialog
+      title="请选择公司"
+      :visible.sync="corpDialogVisible"
+      width="20%"
+      center>
+      <el-radio-group v-model="corpName" @change="changeCorpName">
+        <div class="radioSelect" v-for="item in corpList" :key="item.corpId">
+         <el-radio-button :label="item.corpName"></el-radio-button>
+        </div>
+      </el-radio-group>
+    </el-dialog>
   </div>
 </template>
 <script>
 import config from '../../../config/config'
 export default {
   data () {
-    return {}
+    return {
+      corpDialogVisible: false,
+      corpName: '',
+      corpList: []
+    }
+  },
+  created () {
+    this.getUserCorps()
   },
   mounted () {},
   methods: {
@@ -90,6 +111,45 @@ export default {
     // 菜单显示事件事件
     menuShowClick: function () {
       this.$store.commit('menuShow', !this.$store.state.menuShow)
+    },
+    getInfo () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    },
+    switchCorp () {
+      this.corpDialogVisible = true
+    },
+    getUserCorps () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/queryUserCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          this.corpList = res.result
+        }
+      })
+    },
+    setUserDefaultCorp (corpId) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/setUserDefaultCorp',
+        data: {corpId: corpId},
+        router: this.$router,
+        success: (res) => {
+          this.corpList = res.result
+        }
+      })
+    },
+    changeCorpName () {
+      // 找到对应企业的信息
+      let temp = this.corpList.find(v => {
+        return v.corpName === this.corpName
+      })
+      // setUserDefaultCorp(temp.corpId)
+      this.$store.commit('userCompanyInfo', {
+        companyType: temp.corpType, // 公司类型
+        companyCode: temp.corpId, // 公司id
+        companyName: temp.corpName
+      })
+      this.corpDialogVisible = false
     }
   }
 }
@@ -109,6 +169,26 @@ export default {
     margin: 0;
     padding: 0;
   }
+  .personBgc {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 50%;
+    background:url("../../../assets/img/icon/personBGC.png") no-repeat center top;
+  }
+}
+.el-radio-group {
+  width: 100%;
+}
+.radioSelect {
+  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.companyName {
+  padding-right: 20px;
 }
 .myCenter {
   padding: 25px 0;
@@ -151,7 +231,12 @@ export default {
       left: 50%;
       top: -50px;
       transform: translateX(-50%);
-      background-color: green;
+      // background-color: green;
+      border-radius: 50%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .introduce {
       color: #4c4c4c;

@@ -17,7 +17,8 @@ export default new Vuex.Store({
       companyType: '', // 公司类型
       isAdmin: '',
       companyCode: '', // 公司id
-      userPhoto: '' // 用户头像
+      userPhoto: '', // 用户头像
+      companyName: ''
     },
     isFirst: true, // 是否初次进入系统
     // 分页的数据
@@ -229,12 +230,14 @@ export default new Vuex.Store({
       state.userLoginInfo.companyCode = data.companyCode
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.userPhoto = data.userPhoto
+      state.userLoginInfo.companyName = data.companyName
     },
     // 用户切换公司信息变更
     userCompanyInfo: function (state, data) {
       state.userLoginInfo.companyType = data.companyType
       state.userLoginInfo.companyCode = data.companyCode
       state.userLoginInfo.isAdmin = data.isAdmin
+      state.userLoginInfo.companyName = data.companyName
     },
     // 初次进入系统后 变更状态
     isFirstChange: function (state, value) {

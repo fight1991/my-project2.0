@@ -5,8 +5,8 @@
       <h3>单量统计</h3>
       <div class="time">统计时间:2019.03.04</div>
     </div> -->
-    <div class="detail">
-      <e-chart :datas="echartData"></e-chart>
+    <div class="detail" ref="chartBox" id="chartBox">
+      <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
   },
   data () {
     return {
+      width: '',
       echartData: {
         title: {
           text: '单量统计',
@@ -30,7 +31,7 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          x: 'right',
+          x: '70%',
           y: '35%',
           align: 'left', // 调整文字和样式的位置
           data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
@@ -83,6 +84,10 @@ export default {
     this.computeWeek()
     this.getEchart()
   },
+  mounted () {
+    this.getBoxWidth()
+    window.addEventListener('resize', this.getBoxWidth)
+  },
   methods: {
     getEchart () {
       this.$store.dispatch('ajax', {
@@ -104,6 +109,14 @@ export default {
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.dates.startDate = util.dateFormat(start, 'yyyy-MM-dd')
       this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
+    },
+    getBoxWidth () {
+      let that = this
+      this.$nextTick(() => {
+        console.dir(that.$refs.chartBox)
+        let wid = that.$refs.chartBox.$el.clientWidth
+        console.log(wid)
+      })
     }
   }
 }
@@ -128,10 +141,5 @@ export default {
     font-size: 12px;
     color: @font-color-title;
   }
-
 }
-.detail {
-  // overflow: auto;
-}
-
 </style>

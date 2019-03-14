@@ -97,7 +97,8 @@ router.beforeEach((to, from, next) => {
             token: window.localStorage.getItem('token'), // token数据
             userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
             mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
-            userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto
+            userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
+            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName
           }
           router.app.$options.store.commit('userLoginInfo', datas)
           router.app.$options.store.commit('isFirstChange')

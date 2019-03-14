@@ -1,5 +1,5 @@
 <template>
-  <div class="content-box">
+  <div class="content-box" ref="chartBox">
     <div ref="echart" :style="{'width':width,'height':height}"></div>
   </div>
 </template>
@@ -60,5 +60,6 @@ export default {
   .content-box {
     // background-color: pink;
     height: 100%;
+    width: 100%;
   }
 </style>

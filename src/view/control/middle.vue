@@ -1,5 +1,5 @@
 <template>
-  <div id="list">
+  <div id="list" class="clearfix">
     <div id='div1' class='divItems' ref="div1">
       <board></board>
     </div>
@@ -42,39 +42,35 @@ export default {
 <style lang="less" scoped>
 #list {
   height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: space-between;
+  // align-items: flex-start;
   padding: 10;
   overflow-y: auto;
   overflow-x: hidden;
-  // display: grid;
-  // grid-template-columns: 50% 50% ;
-  // grid-template-rows: auto auto ;
-  //    //padding 有个20的宽度
-  // // background-color: #000;
-  // grid-gap: 10px;
 }
 .divItems {
-  width: 49.5%;
-  height: 350px;
-  margin-bottom: 15px;
+  float: left;
+  width: 49%;
+  height: 48%;
+  min-height: 350px;
   background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
   // overflow: auto;
+  margin-bottom: 15px;
 }
-.divItems:nth-child(1) {
-  align-self: flex-start;
+.divItems:nth-child(2n+1) {
+  margin-right: 15px;
 }
-.divItems:nth-child(2) {
-  align-self: flex-start;
-}
-.divItems:nth-child(3) {
-  align-self: flex-end;
-}
-.divItems:nth-child(4) {
-  align-self: flex-end;
-}
+// .divItems:nth-child(3) {
+//   align-self: flex-end;
+// }
+// .divItems:nth-child(4) {
+//   align-self: flex-end;
+// }
+// @media screen and (min-width:992px) {
+//  width:
+// }
 </style>

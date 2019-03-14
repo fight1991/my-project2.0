@@ -1,5 +1,8 @@
 <template>
  <div class="detail">
+   <div class="top-header">
+     <div class="logo"></div>
+   </div>
    <div class="container">
      <h2>{{detail.title}}</h2>
      <div class="time">{{detail.createTime}}</div>
@@ -44,10 +47,14 @@ export default {
 .detail {
   height: 100%;
   overflow:auto;
+  background-color: @sys-color-gray;
 }
   .container {
-    width: 1000px;
-    margin: 0 auto;
+    width: 800px;
+    margin: 84px auto;
+    padding: 30px 20px 0 20px;
+    background-color: #fff;
+    border-radius: 10px;
     // background-color: pink;
     .text {
       // text-indent: 2em;
@@ -60,8 +67,26 @@ export default {
       text-align: center;
     }
     .time {
-      text-align: right;
-      padding-right: 20px;
+      padding: 10px 0;
+      text-align: center;
     }
   }
+
+.top-header{
+  background-color:@sys-color-main;
+  position: fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 64px;
+}
+.logo{
+    display: inline-block;
+    width: 280px;
+    height: 64px;
+    background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
+    background-size: 280px 64px;
+    background-size: cover;
+    vertical-align: middle;
+}
 </style>
