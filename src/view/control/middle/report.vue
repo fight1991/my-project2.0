@@ -51,7 +51,7 @@ export default {
   },
   mounted () {
     this.getBoxWidth()
-    window.addEventListener('resize', this.getBoxWidth)
+    // window.addEventListener('resize', this.getBoxWidth)
   },
   methods: {
     getEchart () {
