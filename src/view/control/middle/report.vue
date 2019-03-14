@@ -13,18 +13,10 @@
 <script>
 import util from '@/common/util'
 export default {
-  components: {
-    'e-chart': resolve => require(['../eChart/chart.vue'], resolve)
-  },
   data () {
     return {
       width: '',
       echartData: {
-        // title: {
-        //   text: '单量统计',
-        //   subtext: '统计时间:2019.03.04',
-        //   x: 'center'
-        // },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -34,22 +26,16 @@ export default {
           x: '75%',
           y: '35%',
           align: 'left', // 调整文字和样式的位置
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+          data: []
         },
         calculable: true,
         series: [
           {
-            name: '访问来源',
+            name: '',
             type: 'pie',
             radius: '55%',
             center: ['35%', '55%'],
-            data: [
-              {value: 335, name: '直接访问'},
-              {value: 310, name: '邮件营销'},
-              {value: 234, name: '联盟广告'},
-              {value: 135, name: '视频广告'},
-              {value: 1548, name: '搜索引擎'}
-            ]
+            data: []
           }
         ]
       },

@@ -51,8 +51,8 @@
         </div>
       </el-row>
       </el-tab-pane>
-      <el-tab-pane label="物流跟踪" name="second">配置管理</el-tab-pane>
-      <el-tab-pane label="费用跟踪" name="third">角色管理</el-tab-pane>
+      <!-- <el-tab-pane label="物流跟踪" name="second">配置管理</el-tab-pane>
+      <el-tab-pane label="费用跟踪" name="third">角色管理</el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
@@ -91,11 +91,7 @@ export default {
           }
         }]
       },
-      tableData: [
-        {seqNo: 1, status: '已接单,待提交', iCount: 22, eCount: 4},
-        {seqNo: 2, status: '已接单,待提交', iCount: 0, eCount: 3},
-        {seqNo: 3, status: '已接单,待提交', iCount: 5, eCount: 6}
-      ]
+      tableData: []
     }
   },
   created () {
