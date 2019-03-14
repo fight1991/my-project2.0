@@ -52,15 +52,18 @@
     </div>
     <!-- 切换公司对话框 -->
     <el-dialog
-      title="请选择公司"
+      title="切换公司"
       :visible.sync="corpDialogVisible"
-      width="20%"
+      width="25%"
       center>
-      <el-radio-group v-model="corpName" @change="changeCorpName">
+      <el-radio-group v-model="corpName">
         <div class="radioSelect" v-for="item in corpList" :key="item.corpId">
-         <el-radio-button :label="item.corpName"></el-radio-button>
+         <el-radio :label="item.corpName"></el-radio>
         </div>
       </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="changeCorpName">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -206,8 +209,9 @@ export default {
 .radioSelect {
   margin-bottom: 10px;
   width: 100%;
-  display: flex;
-  justify-content: center;
+}
+.el-dialog--center {
+  text-align: left;
 }
 .companyName {
   padding-right: 20px;
@@ -403,5 +407,9 @@ export default {
     padding: 0 12px;
     cursor: pointer;
   }
+}
+.el-dialog__footer {
+  display: flex;
+  justify-content: center;
 }
 </style>
