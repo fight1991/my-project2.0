@@ -21,9 +21,9 @@
                 <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
                 <div class="switchCorp" @click="switchCorp">切换公司</div>
                 <div class="glory">
-                  <div class="glory-items">
-                    <img src="" alt="">
-                    <p>天津报关协会会员</p>
+                  <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
+                    <img src="../../../assets/img/icon/admin_vip.png" alt="">
+                    <p>{{item.titleName}}</p>
                   </div>
                 </div>
               </div>
@@ -71,11 +71,15 @@ export default {
     return {
       corpDialogVisible: false,
       corpName: '',
-      corpList: []
+      corpList: [],
+      userTitleList: [] // 个人荣誉
     }
   },
   created () {
     this.getUserCorps()
+    if (sessionStorage.getItem('userTitleList')) {
+      this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
+    }
   },
   mounted () {},
   methods: {
@@ -223,6 +227,13 @@ export default {
     .glory-items {
       display: flex;
       justify-content: center;
+      line-height: 24px;
+      img {
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        margin-right: 6px;
+      }
     }
     .headImg {
       height: 100px;
@@ -253,7 +264,7 @@ export default {
         background:url("../../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
         color: #287fca;
         font-size: 12px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
       }
     }
   }

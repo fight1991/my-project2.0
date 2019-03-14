@@ -111,11 +111,10 @@ export default {
       this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
     },
     getBoxWidth () {
-      let that = this
       this.$nextTick(() => {
-        console.dir(that.$refs.chartBox)
-        let wid = that.$refs.chartBox.$el.clientWidth
-        console.log(wid)
+        // console.dir(that.$refs.chartBox)
+        // let wid = that.$refs.chartBox.$el.clientWidth
+        // console.log(wid)
       })
     }
   }

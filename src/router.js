@@ -100,6 +100,9 @@ router.beforeEach((to, from, next) => {
             userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
             companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName
           }
+          if (!util.isEmpty(res.result.userTitleList)) {
+            sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
+          }
           router.app.$options.store.commit('userLoginInfo', datas)
           router.app.$options.store.commit('isFirstChange')
           router.app.$options.store.dispatch('ajax', {

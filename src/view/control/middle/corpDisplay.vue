@@ -53,9 +53,22 @@ export default {
       ]
     }
   },
+  created () {
+    this.getAllCorpDIY()
+  },
   methods: {
     getContent (index) {
       this.intro = '哈哈哈哈哈' + index
+    },
+    getAllCorpDIY () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/getAllCorpDIY',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          console.log(res)
+        }
+      })
     }
   }
 }
