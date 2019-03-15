@@ -7,17 +7,17 @@
           <p>快捷功能</p>
         </div>
       </div>
-      <div class="quikItems hidden-xs-only">
-        <div class="item-detail" v-for="item in quickItems" :key="item.id">
+      <div class="quikItems">
+        <div class="item-detail" v-for="item in quickItems" :key="item.id" @click="routerTo(item.path)">
           <i class="item-icon"><img :src="item.icon" alt=""></i>
           <span>{{item.text}}</span>
         </div>
       </div>
       <div class="btn-control">
         <div class="left">
-          <div class="arrow" @click="sendHeight">
-            <img :src="arrowSrc.arrowUp" alt="" v-if="!bigIsShow">
+          <div class="arrow" @click.prevent="sendHeight">
             <img :src="arrowSrc.arrowDown" alt="" v-if="bigIsShow">
+            <img :src="arrowSrc.arrowUp" alt="" v-else>
           </div>
           <!-- <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div> -->
         </div>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+// import config from '../../../config/config'
+import pathList from '../../../config/keyboard'
 export default {
   data () {
     return {
@@ -43,44 +45,10 @@ export default {
         arrowUp: require('../../../assets/img/icon/btm_fold_1.png'),
         arrowDown: require('../../../assets/img/icon/btm_fold_2.png')
       },
-      quickItems: [
-        {
-          id: 0,
-          icon: require('../../../assets/img/icon/btm_im_rpt.png'),
-          text: '进口综合报表'
-        },
-        {
-          id: 1,
-          icon: require('../../../assets/img/icon/btm_im_declar.png'),
-          text: '进口报关单'
-        },
-        {
-          id: 2,
-          icon: require('../../../assets/img/icon/btm_ex_declar.png'),
-          text: '出口报关单'
-        },
-        {
-          id: 3,
-          icon: require('../../../assets/img/icon/btm_log.png'),
-          text: '物流跟踪'
-        },
-        {
-          id: 4,
-          icon: require('../../../assets/img/icon/btm_declar.png'),
-          text: '报关单管理'
-        },
-        {
-          id: 5,
-          icon: require('../../../assets/img/icon/btm_air.png'),
-          text: '航空器'
-        },
-        {
-          id: 6,
-          icon: require('../../../assets/img/icon/btm_product.png'),
-          text: '商品资料库'
-        }
-      ]
+      quickItems: pathList.list
     }
+  },
+  created () {
   },
   methods: {
     sendHeight () { // 底部展开与关闭
@@ -92,7 +60,22 @@ export default {
         height = 50
       }
       this.$emit('pullHeight', height)
+    },
+    routerTo (path) {
+      if (location.pathname === '') {
+        this.$message({
+          type: 'warning',
+          message: '页面开发中....'
+        })
+        return
+      }
+      if (path.indexOf('?') > -1) {
+        window.open(path + '&token=' + encodeURIComponent(window.localStorage.getItem('token')), '_self')
+      } else {
+        window.open(path + '?token=' + encodeURIComponent(window.localStorage.getItem('token')), '_self')
+      }
     }
+
   }
 }
 </script>
@@ -111,19 +94,23 @@ export default {
    box-sizing:border-box;
    padding-left: 94px;
    padding-right: 190px;
-   width: 50%;
+   width: 985px;
    height: 100%;
   //  background-color: red;
    margin: 0 auto;
    position: relative;
    .quikItems {
+     width: 720px;
      overflow: hidden;
      display: flex;
      flex-wrap: wrap;
      align-items: center;
      color: #fff;
      .item-detail {
+       box-sizing: border-box;
+       width: 140px;
        padding: 13px;
+       cursor: pointer;
        span {
          margin-left: 5px;
        }
@@ -221,4 +208,12 @@ export default {
      }
    }
  }
+ @media screen and (max-width:1060px) {
+ .container .quikItems {
+   width: 580px;
+ }
+ .container {
+   width: 845px;
+ }
+}
 </style>

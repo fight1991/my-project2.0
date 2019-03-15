@@ -141,3 +141,104 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .el-carousel__indicator.is-active button {
   background-color: @aid-color-main;
 }
+
+  .el-badge__content.is-fixed{
+    right: 20px;
+  }
+  .el-badge__content {
+      background-color: #f56c6c;
+      border-radius: 50%;
+      color: #fff;
+      display: inline-block;
+      font-size: 12px;
+      height: 20px;
+      width: 20px;
+      line-height: 18px;
+      padding: 0;
+      text-align: center;
+      white-space: nowrap;
+      border: none;
+  }
+  .el-popper .popper__arrow, .el-popper .popper__arrow::after {
+    display: none!important;
+    border: none;
+  }
+  .el-dropdown{
+    color: #fff;
+    cursor: pointer;
+  }
+  .el-dropdown-menu {
+    background-color: #fff;
+    border: none;
+    -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
+    text-align: center;
+    
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .el-radio-group {
+    width: 100%;
+  }
+  .radioSelect {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .el-dialog--center {
+    text-align: left;
+  }
+  .companyName {
+    padding-right: 20px;
+  }
+  .myCenter {
+    padding: 25px 0;
+    span {
+      padding: 0 25px;
+      position: relative;
+      cursor: pointer;
+      &:hover {
+        color: @sys-color-main;
+      }
+    }
+  }
+  .line::after {
+    content:'';
+    height:20px;
+    border-right: 1px solid #999;
+    position:absolute;
+    right: -2px;
+    top: 0;
+  }
+  .dropDown-top {
+    width: 400px;
+    box-sizing: border-box;
+    padding: 90px 30px 20px 30px;
+  }
+  .dropDown-bottom {
+    padding: 0;
+  }
+  .el-dropdown-menu__item{
+    // height: 36px;
+    cursor:auto;
+    background-color: #fff;
+    &:hover {
+      background-color:transparent;
+    }
+  }
+  .loginOut {
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    background-color: @sys-color-red;
+    &:hover {
+      background-color: @sys-color-red;
+    }
+
+  }
+  
+  .el-dialog__footer {
+    display: flex;
+    justify-content: center;
+  }

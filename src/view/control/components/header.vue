@@ -199,155 +199,63 @@ export default {
   }
 }
 </script>
-<style lang="less">
-
-.el-badge__content.is-fixed{
-  right: 20px;
-}
-.el-badge__content {
-    background-color: #f56c6c;
-    border-radius: 50%;
-    color: #fff;
-    display: inline-block;
-    font-size: 12px;
-    height: 20px;
-    width: 20px;
-    line-height: 18px;
-    padding: 0;
-    text-align: center;
-    white-space: nowrap;
-    border: none;
-}
-.el-dropdown{
-  color: #fff;
-  cursor: pointer;
-}
-.el-dropdown-menu {
-  background-color: #fff;
-  border: none;
-  -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
-  text-align: center;
-  p {
-    margin: 0;
-    padding: 0;
-  }
-  .personBgc {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 50%;
-    background:url("../../../assets/img/icon/personBGC.png") no-repeat center top;
-  }
-}
-.el-radio-group {
-  width: 100%;
-}
-.radioSelect {
-  margin-bottom: 10px;
-  width: 100%;
-}
-.el-dialog--center {
-  text-align: left;
-}
-.companyName {
-  padding-right: 20px;
-}
-.myCenter {
-  padding: 25px 0;
-  span {
-    padding: 0 25px;
+<style lang="less" scoped>
+.top-header{
     position: relative;
-    cursor: pointer;
-    &:hover {
-      color: @sys-color-main;
-    }
-  }
-}
-.line::after {
-  content:'';
-  height:20px;
-  border-right: 1px solid #999;
-  position:absolute;
-  right: -2px;
-  top: 0;
-}
-.dropDown-top {
-  width: 400px;
-  box-sizing: border-box;
-  padding: 90px 30px 20px 30px;
-  .userInfo {
-    width: 340px;
-    // height: 400px;
-    position: relative;
-    background-color:#f4f8fc;
-    padding-top: 70px;
-    box-sizing: border-box;
-    .glory-items {
-      display: flex;
-      justify-content: center;
-      line-height: 24px;
-      img {
-        width: 20px;
-        height: 20px;
-        margin-top: 2px;
-        margin-right: 6px;
+    height: 62px;
+      img{
+          position: relative;
+          display: inline-block;
+          height:100%;
+          vertical-align: top;
       }
-    }
-    .headImg {
-      height: 100px;
-      width: 100px;
-      position:absolute;
-      left: 50%;
-      top: -50px;
-      transform: translateX(-50%);
-      // background-color: green;
-      border-radius: 50%;
-      img {
-        width: 100%;
-        height: 100%;
+      .user-info{
+          position: absolute;
+          top:50%;
+          transform: translateY(-50%);
+          right: 15px;
+          z-index: 3001;
       }
-    }
-    .introduce {
-      color: #4c4c4c;
-      padding-bottom: 20px;
-      .name {
-        font-weight: bold;
-        font-size: 18px;
-      }
-      .switchCorp {
+      .user-img{
+        margin-right: 20px;
+        width: 36px;
+        height:36px;
+        -moz-border-radius:50%;
+        -webkit-border-radius:50%;
+        border-radius:50%;
+        vertical-align: middle;
         cursor: pointer;
-        width: 50px;
-        margin: 0 auto;
-        padding-left: 20px;
-        background:url("../../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
-        color: #287fca;
-        font-size: 12px;
-        margin-bottom: 5px;
       }
-    }
   }
-}
-.dropDown-bottom {
-  padding: 0;
-}
-.el-dropdown-menu__item{
-  // height: 36px;
-  cursor:auto;
-  background-color: #fff;
-  &:hover {
-    background-color:transparent;
+
+  .welcome {
+    position:absolute;
+    left:300px;
+    top: 0;
+    line-height: 62px;
+    color: #fff;
+    // font-size: 16px;
+    letter-spacing: 2px;
   }
+.personBgc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background:url("../../../assets/img/icon/personBGC.png") no-repeat center top;
+}
+.switchCorp {
+  cursor: pointer;
+  width: 50px;
+  margin: 0 auto;
+  padding-left: 20px;
+  background:url("../../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
+  color: #287fca;
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 .loginOut {
-  width: 100%;
-  height: 50px;
-  color: #fff;
-  background-color: @sys-color-red;
-  &:hover {
-    background-color: @sys-color-red;
-  }
   span {
     cursor: pointer;
     height: 50px;
@@ -360,96 +268,103 @@ export default {
     background:url("../../../assets/img/icon/admin_quit.png") no-repeat 0 17px;
   }
 }
-.top-header{
-  position: relative;
+
+.logo {
+  display: inline-block;
+  width: 280px;
   height: 64px;
-    img{
-        position: relative;
-        display: inline-block;
-        height:100%;
-        vertical-align: top;
+  background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
+  background-size: 280px 64px;
+  background-size: cover;
+  vertical-align: middle;
+}
+.dropDown-top {
+  .userInfo {
+      width: 340px;
+      // height: 400px;
+      position: relative;
+      background-color:#f4f8fc;
+      padding-top: 70px;
+      box-sizing: border-box;
+      .glory-items {
+        display: flex;
+        justify-content: center;
+        line-height: 24px;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-top: 2px;
+          margin-right: 6px;
+        }
+      }
+      .headImg {
+        height: 100px;
+        width: 100px;
+        position:absolute;
+        left: 50%;
+        top: -50px;
+        transform: translateX(-50%);
+        // background-color: green;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .introduce {
+        color: #4c4c4c;
+        padding-bottom: 20px;
+        .name {
+          font-weight: bold;
+          font-size: 18px;
+        }
+      }
     }
-    .user-info{
-        position: absolute;
-        top:50%;
-        transform: translateY(-50%);
-        right: 15px;
-        z-index: 3001;
+}
+
+.little-icon {
+    box-sizing:border-box;
+    height: 64px;
+    padding: 22px;
+    position: absolute;
+    // background-color: green;
+    top: 0;
+    right: 400px;
+    .search {
+      background: url("../../../assets/img/icon/top_search.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
     }
-    .user-img{
-      margin-right: 20px;
-      width: 36px;
-      height:36px;
-      -moz-border-radius:50%;
-      -webkit-border-radius:50%;
-      border-radius:50%;
-      vertical-align: middle;
+    .message {
+      background: url("../../../assets/img/icon/top_notice.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .add {
+      background: url("../../../assets/img/icon/top_add.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .date {
+      background: url("../../../assets/img/icon/top_date.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .setting {
+      background: url("../../../assets/img/icon/top_set.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    span {
+      float: left;
+      width: 20px;
+      height: 20px;
+      padding: 0 12px;
       cursor: pointer;
     }
-}
-.logo{
-    display: inline-block;
-    width: 280px;
-    height: 64px;
-    background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
-    background-size: 280px 64px;
-    background-size: cover;
-    vertical-align: middle;
-}
-.welcome {
-  position:absolute;
-  left:300px;
-  top: 0;
-  line-height: 64px;
-  color: #fff;
-  // font-size: 16px;
-  letter-spacing: 2px;
-}
-.little-icon {
-  box-sizing:border-box;
-  height: 64px;
-  padding: 22px;
-  position: absolute;
-  // background-color: green;
-  top: 0;
-  right: 400px;
-  .search {
-    background: url("../../../assets/img/icon/top_search.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
   }
-  .message {
-    background: url("../../../assets/img/icon/top_notice.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .add {
-    background: url("../../../assets/img/icon/top_add.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .date {
-    background: url("../../../assets/img/icon/top_date.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .setting {
-    background: url("../../../assets/img/icon/top_set.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  span {
-    float: left;
-    width: 20px;
-    height: 20px;
-    padding: 0 12px;
-    cursor: pointer;
-  }
-}
-.el-dialog__footer {
-  display: flex;
-  justify-content: center;
-}
+
 @media screen and (max-width:900px) {
  .logo {
    width: 130px;

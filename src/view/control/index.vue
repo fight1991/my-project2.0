@@ -1,6 +1,6 @@
 <template>
     <el-container class="main" v-loading="$store.state.loading">
-      <el-header class="header" height="64px">
+      <el-header class="header" height="62px">
         <top></top>
       </el-header>
       <el-container class="middle">
@@ -52,7 +52,7 @@ export default {
     padding: 0;
     background-color:@sys-color-main;
     box-shadow: 0 2px 3px rgba(17,17,17,0.1), 0 0 0 1px rgba(17,17,17,0.1);
-    z-index: 9000;
+    // z-index: 2000;
 }
 .footer-bottom {
   width: 100%;

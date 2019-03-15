@@ -73,7 +73,6 @@ export default {
             v.isClick = false
           })
           this.menus = res.result
-          console.log(this.menus)
         }
       })
     }

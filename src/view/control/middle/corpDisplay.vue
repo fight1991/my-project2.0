@@ -59,7 +59,6 @@ export default {
         data: {},
         router: this.$router,
         success: (res) => {
-          console.log(res)
           if (res.result.activities) {
             this.bannerList = res.result.activities
           } else {
