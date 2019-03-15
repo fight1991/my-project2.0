@@ -42,7 +42,7 @@
     </div>
     <div class="little-icon hidden-xs-only">
       <!-- <span class="search"></span> -->
-      <el-badge :value="77" :max="99" class="item">
+      <el-badge :value="totalNum" :max="99" class="item">
         <span class="message" @click="goToMessage"></span>
       </el-badge>
       <span class="add" @click="getInfo('add')"></span>
@@ -152,6 +152,12 @@ export default {
         success: (res) => {
           // 重新请求企业风采
           eventBus.$emit('getAllCorpDIY')
+          // 重新请求图表数据
+          eventBus.$emit('getEchart')
+          // 重新请求咨询数据
+          eventBus.$emit('getNews')
+          // 重新请求报关单数据
+          eventBus.$emit('getDecList')
         }
       })
     },
@@ -167,22 +173,6 @@ export default {
         companyName: temp.corpName
       })
       this.corpDialogVisible = false
-    },
-    getAllCorpDIY () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/workspace/getAllCorpDIY',
-        data: {},
-        router: this.$router,
-        success: (res) => {
-          console.log(res)
-          if (res.result.activities) {
-            this.bannerList = res.result.activities
-          }
-          if (res.result.links) {
-            this.iconList = res.result.links
-          }
-        }
-      })
     },
     goToMessage () {
       window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/newsCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&type=notify' + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_self')

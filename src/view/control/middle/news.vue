@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import eventBus from './eventBus'
 export default {
   data () {
     return {
@@ -48,6 +49,7 @@ export default {
   },
   created () {
     this.getNews()
+    eventBus.$on('getNews', this.getNews)
   },
   methods: {
     getNews () {

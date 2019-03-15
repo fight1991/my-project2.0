@@ -20,7 +20,8 @@
         </el-form-item>
       </el-form>
       <el-row>
-        <div class="ccba-table" v-if="!tableData.length === 0">
+        <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
+        <div class="ccba-table" v-else>
           <el-table
             :data="tableData"
             style="width:100%">
@@ -43,7 +44,6 @@
             </el-table-column>
           </el-table>
         </div>
-        <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
       </el-row>
       </el-tab-pane>
       <!-- <el-tab-pane label="物流跟踪" name="second">配置管理</el-tab-pane>
@@ -54,6 +54,7 @@
 
 <script>
 import util from '../../../common/util'
+import eventBus from './eventBus'
 export default {
   data () {
     return {
@@ -92,6 +93,7 @@ export default {
   created () {
     this.getWeek()
     this.getDecList()
+    eventBus.$on('getDecList', this.getDecList)
   },
   methods: {
     getDecList () {
@@ -102,7 +104,6 @@ export default {
           'endDate': this.dates[1],
           'startDate': this.dates[0]
         },
-        isPageList: true,
         router: this.$router,
         success: (res) => {
           this.tableData = res.result.decListHomePageVOs
