@@ -80,7 +80,6 @@ export default {
       })
     },
     getDetail (pid) {
-      console.log(pid)
       const {href} = this.$router.resolve({
         path: '/detail',
         query: {

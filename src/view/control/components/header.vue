@@ -10,7 +10,7 @@
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
         </span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" class="ccba-control">
           <div class="personBgc"></div>
           <el-dropdown-item  class='hidden-xs-only dropDown-top'>
             <div class="userInfo">
@@ -278,47 +278,45 @@ export default {
   background-size: cover;
   vertical-align: middle;
 }
-.dropDown-top {
-  .userInfo {
-      width: 340px;
-      // height: 400px;
-      position: relative;
-      background-color:#f4f8fc;
-      padding-top: 70px;
-      box-sizing: border-box;
-      .glory-items {
-        display: flex;
-        justify-content: center;
-        line-height: 24px;
-        img {
-          width: 20px;
-          height: 20px;
-          margin-top: 2px;
-          margin-right: 6px;
-        }
+.userInfo {
+    width: 340px;
+    // height: 400px;
+    position: relative;
+    background-color:#f4f8fc;
+    padding-top: 70px;
+    box-sizing: border-box;
+    .glory-items {
+      display: flex;
+      justify-content: center;
+      line-height: 24px;
+      img {
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        margin-right: 6px;
       }
-      .headImg {
-        height: 100px;
-        width: 100px;
-        position:absolute;
-        left: 50%;
-        top: -50px;
-        transform: translateX(-50%);
-        // background-color: green;
-        border-radius: 50%;
-        overflow: hidden;
-        img {
-          width: 100%;
-          height: 100%;
-        }
+    }
+    .headImg {
+      height: 100px;
+      width: 100px;
+      position:absolute;
+      left: 50%;
+      top: -50px;
+      transform: translateX(-50%);
+      // background-color: green;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
       }
-      .introduce {
-        color: #4c4c4c;
-        padding-bottom: 20px;
-        .name {
-          font-weight: bold;
-          font-size: 18px;
-        }
+    }
+    .introduce {
+      color: #4c4c4c;
+      padding-bottom: 20px;
+      .name {
+        font-weight: bold;
+        font-size: 18px;
       }
     }
 }

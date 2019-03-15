@@ -5,11 +5,11 @@
     <el-menu :collapse='$store.state.collapse' @select="currentSelect">
       <template v-for="item in menus">
         <el-menu-item :index="item.link" :key="item.pid">
-            <i :class=" 'custom-icons-menu '">
-              <img :src="item.pic" alt="" v-if="!item.isClick">
-              <img :src="item.picFocus" alt="" v-if="item.isClick">
-            </i>
-            <span slot="title">{{item.title}}</span>
+          <i :class=" 'custom-icons-menu '">
+            <img :src="item.picFocus" alt="" v-if="item.isClick">
+            <img :src="item.pic" alt="" v-else>
+          </i>
+          <span slot="title">{{item.title}}</span>
         </el-menu-item>
         <!-- <el-menu-item  v-if="!item.children && !item.hidden" :index="item.path" :key="'child'+item.path" v-permissions="item.permissions">
           <i :class=" 'custom-icons-menu '+item.icon"></i>
@@ -24,15 +24,7 @@ export default {
   data () {
     return {
       isRotate: false,
-      menus: [
-        // {
-        //   isClick: false,
-        //   path: 'http://127.0.0.1:9003/main#1',
-        //   icon: require('../../../assets/img/icon/left_im&ex.png'),
-        //   iconActive: require('../../../assets/img/icon/left_im&ex_1.png'),
-        //   name: '进出口管理'
-        // }
-      ], // 菜单数据
+      menus: [], // 菜单数据
       active: '', // 活动菜单
       appCount: 0 // 待处理数
     }
@@ -44,7 +36,7 @@ export default {
     }
   },
   created () {
-    this.getAllApp()
+    // this.getAllApp()
   },
   mounted () {
   },
@@ -62,6 +54,8 @@ export default {
           v.isClick = false
         }
       })
+      // 拿到当前的连接地址 拼上token
+      window.open(`${index}?token=${encodeURIComponent(localStorage.getItem('token'))}`)
     },
     getAllApp () { // 左侧应用列表
       this.$store.dispatch('ajax', {

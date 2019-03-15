@@ -44,201 +44,202 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   height: 0;
 }
 // 公共样式结束
-.el-dropdown-menu {
-  padding: 0;
-  .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
-    background-color: transparent;
-    color: inherit;
-  }
+// ccba工作台样式开始
+.el-popper .popper__arrow, .el-popper .popper__arrow::after {
+  display: none!important;
+  border: none;
 }
-.el-tabs__nav {
-  float: right;
-}
-.el-tabs__nav-wrap::after {
-  background-color: transparent;
-}
-.el-tabs__active-bar {
-  padding: 0 6px;
-  left: -6px;
-}
-.news {
-  .el-tabs__active-bar {
-    padding: 0 6px;
-    left: -3px;
-  }
-  .el-tabs__active-bar .is-top {
-    width: 46px!important;
-  }
-}
-.el-tabs__item {
-  // float: right;
-  height: 30px;
-  line-height: 30px;
-  color: @font-color-title;
-  padding: 0 10px;
-  &:hover {
-    color: @font-color-main;
-  }
-}
-.el-tabs__item.is-active {
-  color: @font-color-main;
-}
-.el-tabs--bottom .el-tabs__item.is-bottom:last-child, 
-.el-tabs--bottom .el-tabs__item.is-top:last-child, 
-.el-tabs--top .el-tabs__item.is-bottom:last-child, 
-.el-tabs--top .el-tabs__item.is-top:last-child {
-  margin-right: 20px;
-}
-.el-date-editor--daterange.el-input, 
-.el-date-editor--daterange.el-input__inner, 
-.el-date-editor--timerange.el-input, 
-.el-date-editor--timerange.el-input__inner {
-  width: 230px;
-  border-radius: 20px;
-}
-// .el-range-input {
-//   width: 80px!important;
-// }
-.el-form-item {
-  margin-bottom: 0px;
-}
-.el-form-item__label {
-  font-size: 12px;
-}
-.ccba-table {
-  .el-table td, 
-  .el-table th.is-leaf {
-    border-bottom: none;
-  }
-  .el-table tr:nth-child(2n+1) {
-    background-color: #f5f5f5;
-  }
-  .el-table--striped .el-table__body tr.el-table__row--striped td {
-    background-color: #fff;
-  }
-  .el-table th>.cell,
-  .el-table tr .cell {
-    font-weight: normal;
-    color: @font-color-main;
-    font-size: 12px;
-  }
-  .el-table th:nth-child(1) .cell{
-    display: none;
-  }
-  .el-table th:nth-child(2) .cell{
-    display: none;
-  }
-  .el-table td, .el-table th {
-    padding: 3px 0;
-  }
-}
-.banner .el-carousel__button {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: @font-color-placeholder;
-}
-.el-carousel__indicator.is-active button {
-  background-color: @aid-color-main;
-}
-
-  .el-badge__content.is-fixed{
-    right: 20px;
-  }
-  .el-badge__content {
-      background-color: #f56c6c;
-      border-radius: 50%;
-      color: #fff;
-      display: inline-block;
-      font-size: 12px;
-      height: 20px;
-      width: 20px;
-      line-height: 18px;
-      padding: 0;
-      text-align: center;
-      white-space: nowrap;
-      border: none;
-  }
-  .el-popper .popper__arrow, .el-popper .popper__arrow::after {
-    display: none!important;
-    border: none;
-  }
-  .el-dropdown{
-    color: #fff;
-    cursor: pointer;
-  }
-  .el-dropdown-menu {
+.ccba-control.el-dropdown-menu {
+    padding: 0;
     background-color: #fff;
     border: none;
     -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.12);
     text-align: center;
+    .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+      background-color: transparent;
+      color: inherit;
+    }
+    .el-dropdown-menu__item{
+      // height: 36px;
+      cursor:auto;
+      background-color: #fff;
+      &:hover {
+        background-color:transparent;
+      }
+    }
+    .line::after {
+      content:'';
+      height:20px;
+      border-right: 1px solid #999;
+      position:absolute;
+      right: -2px;
+      top: 0;
+    }
+    .dropDown-top {
+      width: 400px;
+      box-sizing: border-box;
+      padding: 90px 30px 20px 30px;
+    }
+    .dropDown-bottom {
+      padding: 0;
+    }
+  }
+.ccba-control {
+  .el-dropdown{
+    color: #fff;
+    cursor: pointer;
+  }
+  .el-tabs__nav {
+    float: right;
+  }
+  .el-tabs__nav-wrap::after {
+    background-color: transparent;
+  }
+  .el-tabs__active-bar {
+    padding: 0 6px;
+    left: -6px;
+  }
+  .news {
+    .el-tabs__active-bar {
+      padding: 0 6px;
+      left: -3px;
+    }
+    .el-tabs__active-bar .is-top {
+      width: 46px!important;
+    }
+  }
+  .el-tabs__item {
+    // float: right;
+    height: 30px;
+    line-height: 30px;
+    color: @font-color-title;
+    padding: 0 10px;
+    &:hover {
+      color: @font-color-main;
+    }
+  }
+  .el-tabs__item.is-active {
+    color: @font-color-main;
+  }
+  .el-tabs--bottom .el-tabs__item.is-bottom:last-child, 
+  .el-tabs--bottom .el-tabs__item.is-top:last-child, 
+  .el-tabs--top .el-tabs__item.is-bottom:last-child, 
+  .el-tabs--top .el-tabs__item.is-top:last-child {
+    margin-right: 20px;
+  }
+  .el-date-editor--daterange.el-input, 
+  .el-date-editor--daterange.el-input__inner, 
+  .el-date-editor--timerange.el-input, 
+  .el-date-editor--timerange.el-input__inner {
+    width: 230px;
+    border-radius: 20px;
+  }
+  // .el-range-input {
+  //   width: 80px!important;
+  // }
+  .el-form-item {
+    margin-bottom: 0px;
+  }
+  .el-form-item__label {
+    font-size: 12px;
+  }
+  .ccba-table {
+    .el-table td, 
+    .el-table th.is-leaf {
+      border-bottom: none;
+    }
+    .el-table tr:nth-child(2n+1) {
+      background-color: #f5f5f5;
+    }
+    .el-table--striped .el-table__body tr.el-table__row--striped td {
+      background-color: #fff;
+    }
+    .el-table th>.cell,
+    .el-table tr .cell {
+      font-weight: normal;
+      color: @font-color-main;
+      font-size: 12px;
+    }
+    .el-table th:nth-child(1) .cell{
+      display: none;
+    }
+    .el-table th:nth-child(2) .cell{
+      display: none;
+    }
+    .el-table td, .el-table th {
+      padding: 3px 0;
+    }
+  }
+  .banner .el-carousel__button {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: @font-color-placeholder;
+  }
+  .el-carousel__indicator.is-active button {
+    background-color: @aid-color-main;
+  }
+  
+    .el-badge__content.is-fixed{
+      right: 20px;
+    }
+    .el-badge__content {
+        background-color: #f56c6c;
+        border-radius: 50%;
+        color: #fff;
+        display: inline-block;
+        font-size: 12px;
+        height: 20px;
+        width: 20px;
+        line-height: 18px;
+        padding: 0;
+        text-align: center;
+        white-space: nowrap;
+        border: none;
+    }
     
     p {
       margin: 0;
       padding: 0;
     }
-  }
-  .el-radio-group {
-    width: 100%;
-  }
-  .radioSelect {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  .el-dialog--center {
-    text-align: left;
-  }
-  .companyName {
-    padding-right: 20px;
-  }
-  .myCenter {
-    padding: 25px 0;
-    span {
-      padding: 0 25px;
-      position: relative;
-      cursor: pointer;
-      &:hover {
-        color: @sys-color-main;
+    .el-radio-group {
+      width: 100%;
+    }
+    .radioSelect {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .el-dialog--center {
+      text-align: left;
+    }
+    .companyName {
+      padding-right: 20px;
+    }
+    .myCenter {
+      padding: 25px 0;
+      span {
+        padding: 0 25px;
+        position: relative;
+        cursor: pointer;
+        &:hover {
+          color: @sys-color-main;
+        }
       }
     }
-  }
-  .line::after {
-    content:'';
-    height:20px;
-    border-right: 1px solid #999;
-    position:absolute;
-    right: -2px;
-    top: 0;
-  }
-  .dropDown-top {
-    width: 400px;
-    box-sizing: border-box;
-    padding: 90px 30px 20px 30px;
-  }
-  .dropDown-bottom {
-    padding: 0;
-  }
-  .el-dropdown-menu__item{
-    // height: 36px;
-    cursor:auto;
-    background-color: #fff;
-    &:hover {
-      background-color:transparent;
-    }
-  }
-  .loginOut {
-    width: 100%;
-    height: 50px;
-    color: #fff;
-    background-color: @sys-color-red;
-    &:hover {
+    .loginOut {
+      width: 100%;
+      height: 50px;
+      color: #fff;
       background-color: @sys-color-red;
-    }
-
-  }
+      &:hover {
+        background-color: @sys-color-red;
+      }
   
-  .el-dialog__footer {
-    display: flex;
-    justify-content: center;
+    }
+    
+    .el-dialog__footer {
+      display: flex;
+      justify-content: center;
+    }
   }

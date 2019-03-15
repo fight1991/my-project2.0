@@ -1,20 +1,23 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <div class="compute-content" v-if="!echartData.series[0].data.length===0">
+    <div class="compute-content" v-if="!(echartData.series[0].data.length===0)">
       <h3>单量统计</h3>
       <div class="time">统计时间:2019.03.04</div>
     </div>
-    <div class="detail" ref="chartBox" v-if="!echartData.series[0].data.length===0">
+    <div class="default" v-if="echartData.series[0].data.length===0"><img src="../../../assets/img/icon/list.png" alt=""></div>
+    <div class="detail" ref="chartBox" v-else>
       <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>
-    <div class="default" v-if="echartData.series[0].data.length===0"><img src="../../../assets/img/icon/list.png" alt=""></div>
   </div>
 </template>
 <script>
 import util from '@/common/util'
 import eventBus from './eventBus'
 export default {
+  components: {
+    'e-chart': resolve => require(['../../../components/eChart/chart.vue'], resolve)
+  },
   data () {
     return {
       width: '',
@@ -25,8 +28,8 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          x: '75%',
-          y: '35%',
+          x: '70%',
+          y: 'center',
           align: 'left', // 调整文字和样式的位置
           data: []
         },
@@ -37,6 +40,15 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['35%', '55%'],
+            label: {
+              normal: {
+                formatter: '{d}%',
+                textStyle: {
+                  fontWeight: 'normal',
+                  fontSize: 12
+                }
+              }
+            },
             data: []
           }
         ]
@@ -65,6 +77,7 @@ export default {
           startDate: this.dates.startDate,
           endDate: this.dates.endDate
         },
+        isPageList: true,
         router: this.$router,
         success: (res) => {
           console.log(res)
@@ -78,7 +91,7 @@ export default {
                 value: res.result.decCountPieVO[item].count})
               legendData.push(res.result.decCountPieVO[item].tradeCoName)
             }
-            if (res.result.decCountPieVO.length >= 6) {
+            if (res.result.decCountPieVO.length > 9) {
               pieList.push({name: '其他企业',
                 value: leftcount})
               legendData.push('其他企业')
@@ -89,39 +102,13 @@ export default {
             this.echartData.series[0].data = []
             this.echartData.legend.data = []
           }
-          // this.resultChartData = {
-          //   tooltip: {
-          //     trigger: 'item',
-          //     formatter: '{a} <br/>{b} : {c}({d})%'
-          //   },
-          //   legend: {
-          //     type: 'scroll',
-          //     orient: 'vertical',
-          //     right: 300,
-          //     top: 10,
-          //     bottom: 20,
-          //     data: legendData
-          //   },
-          //   series: [
-          //     {
-          //       name: '单量统计',
-          //       type: 'pie',
-          //       radius: '90%',
-          //       label: {
-          //         show: false
-          //       },
-          //       center: ['50%', '50%'],
-          //       data: pieList
-          //     }
-          //   ]
-          // }
         }
       })
     },
     computeWeek () { // 计算最近一周
       let end = new Date()
       let start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
       this.dates.startDate = util.dateFormat(start, 'yyyy-MM-dd')
       this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
     },

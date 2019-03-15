@@ -1,5 +1,5 @@
 <template>
-    <el-container class="main" v-loading="$store.state.loading">
+    <el-container class="ccba-control main" v-loading="$store.state.loading">
       <el-header class="header" height="62px">
         <top></top>
       </el-header>
