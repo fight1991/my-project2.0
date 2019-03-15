@@ -49,6 +49,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   display: none!important;
   border: none;
 }
+// 控制台样式
 .ccba-control.el-dropdown-menu {
     padding: 0;
     background-color: #fff;
@@ -242,7 +243,16 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       display: flex;
       justify-content: center;
     }
+}
+.sys-class {
+  .el-header {
+    padding: 0;
+    background-color:@sys-color-main;
   }
-  .sys-class {
-    
+  .el-main{
+    padding: 0;
+    background-color: @sys-color-gray;
+    height: 100%;
+    overflow: auto;
   }
+}
