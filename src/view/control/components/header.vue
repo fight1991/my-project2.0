@@ -175,7 +175,7 @@ export default {
       this.corpDialogVisible = false
     },
     goToMessage () {
-      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/newsCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&type=notify' + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_self')
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/newsCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&type=notify' + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     },
     // 获取消息条数
     queryNumber () {

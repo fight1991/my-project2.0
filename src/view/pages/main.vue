@@ -5,10 +5,12 @@
         <head-top></head-top>
       </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '180px'">
+          <sidebar></sidebar>
+        </el-aside>
         <el-main>
           <div class="tabs-top"></div>
-          <router-view></router-view>
+          <!-- <router-view></router-view> -->
         </el-main>
       </el-container>
     </el-container>
@@ -18,7 +20,9 @@
 <script>
 export default {
   components: {
-    'head-top': resolve => require(['../common/header.vue'], resolve)
+    'head-top': resolve => require(['../common/header.vue'], resolve),
+    sidebar: resolve => require(['../common/slider.vue'], resolve)
+
   },
   data () {
     return {
@@ -42,7 +46,23 @@ export default {
     left:0;
     width: 100%;
     background-color: #fff;
-    margin-left: 41px;
+    margin-left: 42px;
   }
 }
+.sidebar {
+  background-color: #fff;
+  overflow:visible;
+  z-index: 10;
+  box-shadow:1px 0px 5px rgba( 0, 0, 0, .1);
+}
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+@media only screen and (max-device-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+  .sidebar {
+    position: absolute;
+    height: 100%;
+  }
+}
+
 </style>

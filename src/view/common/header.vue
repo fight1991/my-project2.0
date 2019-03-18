@@ -48,9 +48,18 @@ import config from '../../config/config'
 export default {
   data () {
     return {
+      corpDialogVisible: false,
+      corpName: '',
+      corpList: [],
+      userTitleList: [], // 个人荣誉
+      totalNum: 0
     }
   },
   created () {
+    this.getUserCorps()
+    if (sessionStorage.getItem('userTitleList')) {
+      this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
+    }
   },
   mounted () {},
   methods: {
@@ -84,8 +93,28 @@ export default {
       }).catch(() => {})
     },
     // 菜单显示事件事件
-    menuShowClick: function () {
+    menuShowClick () {
       this.$store.commit('menuShow', !this.$store.state.menuShow)
+    },
+    getInfo (flag) {
+      if (flag === 'add') {
+        window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?tabs=alllinkman&token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+      } else {
+        window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+      }
+    },
+    switchCorp () {
+      this.corpDialogVisible = true
+    },
+    getUserCorps () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/queryUserCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          this.corpList = res.result
+        }
+      })
     }
   }
 }

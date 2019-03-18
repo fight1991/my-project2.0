@@ -81,7 +81,7 @@ export default {
     },
     getDetail (pid) {
       const {href} = this.$router.resolve({
-        path: '/detail',
+        path: 'news/detail',
         query: {
           pid: pid
         }

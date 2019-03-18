@@ -255,4 +255,64 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     height: 100%;
     overflow: auto;
   }
+  // .el-menu>.is-opened>
+  .el-menu {
+    border-right: none;
+  }
+  .el-menu>.el-menu-item {
+    border-left: 3px solid transparent;
+  }
+  .el-menu>.is-active{
+    border-left: 3px solid @sys-color-main;
+  }
+  .el-menu-item:focus, 
+  .el-menu-item:hover {
+    background-color: transparent;
+  }
+  .el-submenu__title:hover {
+    background-color: transparent;
+  }
+  .is-opened>.el-menu {
+    background-color: @sys-color-gray;
+  }
+  .is-active.is-opened {
+    border-left: none;
+  }
+  .el-submenu.is-active {
+    border-left: none;
+  }
+  .el-menu-item {
+    padding-right: 0;
+    margin-right: 20px;
+  }
+  // .text-hidden {
+  //   .el-menu-item {
+  //   overflow: hidden;
+  // }
+  // .el-menu {
+  //   overflow: hidden;
+  // }
+  // }
+  // .arrow-hidden {
+  //   .el-submenu__icon-arrow{
+  //     display: none;
+  //   }
+  // }
+  .el-submenu>.el-menu>.el-menu-item {
+    box-sizing: border-box;
+    padding-left: 50px!important;
+    width: 100%;
+    margin-right: 0px;
+    min-width:100%;
+  }
+  .el-submenu__title{
+    border-left: 3px solid transparent;
+  }
+  .el-submenu>.el-menu>.el-submenu>.el-submenu__title{
+    padding-left: 50px!important;
+    border-left: 3px solid transparent;
+  }
+  .el-submenu>.el-menu>.el-submenu>.el-menu>.el-menu-item{
+    padding-left: 60px!important;
+  }
 }
