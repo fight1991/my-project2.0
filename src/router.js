@@ -37,7 +37,7 @@ const routes = [
       title: '工作台'
     }
   }, {
-    path: 'news/detail',
+    path: '/news/detail',
     name: '详情',
     hidden: true,
     permissions: 'WF000000',

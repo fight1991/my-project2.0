@@ -85,6 +85,7 @@ export default {
   created () {
     this.queryNumber()
     this.getUserCorps()
+    // 获取个人荣誉列表
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
     }
@@ -131,9 +132,11 @@ export default {
         window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
       }
     },
+    // 切换公司选择弹框显示
     switchCorp () {
       this.corpDialogVisible = true
     },
+    // 获取当前用户所属的公司列表
     getUserCorps () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/queryUserCorps',
@@ -144,6 +147,7 @@ export default {
         }
       })
     },
+    // 选择公司后重新请求数据
     selectUserCorp (corpId) {
       this.$store.dispatch('ajax', {
         url: 'API@/login/login/selectUserCorp',
@@ -176,6 +180,7 @@ export default {
       })
       this.corpDialogVisible = false
     },
+    // 跳转消息中心
     goToMessage () {
       window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/newsCenter?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&type=notify' + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     },
@@ -203,31 +208,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .top-header{
-    position: relative;
-    height: 62px;
-      img{
-          position: relative;
-          display: inline-block;
-          height:100%;
-          vertical-align: top;
-      }
-      .user-info{
-          position: absolute;
-          top:50%;
-          transform: translateY(-50%);
-          right: 15px;
-          z-index: 3001;
-      }
-      .user-img{
-        margin-right: 20px;
-        width: 36px;
-        height:36px;
-        -moz-border-radius:50%;
-        -webkit-border-radius:50%;
-        border-radius:50%;
-        vertical-align: middle;
-        cursor: pointer;
-      }
+  position: relative;
+  height: 62px;
+    img{
+        position: relative;
+        display: inline-block;
+        height:100%;
+        vertical-align: top;
+    }
+    .user-info{
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        right: 15px;
+        z-index: 3001;
+    }
+    .user-img{
+      margin-right: 20px;
+      width: 36px;
+      height:36px;
+      -moz-border-radius:50%;
+      -webkit-border-radius:50%;
+      border-radius:50%;
+      vertical-align: middle;
+      cursor: pointer;
+    }
   }
 
   .welcome {
@@ -281,89 +286,89 @@ export default {
   vertical-align: middle;
 }
 .userInfo {
-    width: 340px;
-    // height: 400px;
-    position: relative;
-    background-color:#f4f8fc;
-    padding-top: 70px;
-    box-sizing: border-box;
-    .glory-items {
-      display: flex;
-      justify-content: center;
-      line-height: 24px;
-      img {
-        width: 20px;
-        height: 20px;
-        margin-top: 2px;
-        margin-right: 6px;
-      }
+  width: 340px;
+  // height: 400px;
+  position: relative;
+  background-color:#f4f8fc;
+  padding-top: 70px;
+  box-sizing: border-box;
+  .glory-items {
+    display: flex;
+    justify-content: center;
+    line-height: 24px;
+    img {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      margin-right: 6px;
     }
-    .headImg {
-      height: 100px;
-      width: 100px;
-      position:absolute;
-      left: 50%;
-      top: -50px;
-      transform: translateX(-50%);
-      // background-color: green;
-      border-radius: 50%;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-      }
+  }
+  .headImg {
+    height: 100px;
+    width: 100px;
+    position:absolute;
+    left: 50%;
+    top: -50px;
+    transform: translateX(-50%);
+    // background-color: green;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
     }
-    .introduce {
-      color: #4c4c4c;
-      padding-bottom: 20px;
-      .name {
-        font-weight: bold;
-        font-size: 18px;
-      }
+  }
+  .introduce {
+    color: #4c4c4c;
+    padding-bottom: 20px;
+    .name {
+      font-weight: bold;
+      font-size: 18px;
     }
+  }
 }
 
 .little-icon {
-    box-sizing:border-box;
-    height: 64px;
-    padding: 22px;
-    position: absolute;
-    // background-color: green;
-    top: 0;
-    right: 400px;
-    .search {
-      background: url("../../../assets/img/icon/top_search.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .message {
-      background: url("../../../assets/img/icon/top_notice.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .add {
-      background: url("../../../assets/img/icon/top_add.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .date {
-      background: url("../../../assets/img/icon/top_date.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .setting {
-      background: url("../../../assets/img/icon/top_set.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    span {
-      float: left;
-      width: 20px;
-      height: 20px;
-      padding: 0 12px;
-      cursor: pointer;
-    }
+  box-sizing:border-box;
+  height: 64px;
+  padding: 22px;
+  position: absolute;
+  // background-color: green;
+  top: 0;
+  right: 400px;
+  .search {
+    background: url("../../../assets/img/icon/top_search.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
   }
+  .message {
+    background: url("../../../assets/img/icon/top_notice.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .add {
+    background: url("../../../assets/img/icon/top_add.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .date {
+    background: url("../../../assets/img/icon/top_date.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .setting {
+    background: url("../../../assets/img/icon/top_set.png") no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  span {
+    float: left;
+    width: 20px;
+    height: 20px;
+    padding: 0 12px;
+    cursor: pointer;
+  }
+}
 
 @media screen and (max-width:900px) {
  .logo {
