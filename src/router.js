@@ -4,6 +4,8 @@ import Errors from './view/error'
 import config from './config/config'
 import util from './common/util'
 
+import EImport from './view/pages/eImport/router'
+
 Vue.use(Router)
 
 const routes = [
@@ -13,8 +15,11 @@ const routes = [
     redirect: '/control'
   }, {
     path: '/main',
-    name: '位置',
+    name: 'main',
     component: resolve => require(['./view/pages/main.vue'], resolve),
+    meta: {
+      title: '主页'
+    },
     children: []
   }, {
     path: '/index',
@@ -49,6 +54,7 @@ const routes = [
 ]
 
 routes[1].children.push(Errors.MENU)
+routes[1].children.push(...EImport.MENU)
 
 const router = new Router({
   mode: 'history',
@@ -60,7 +66,6 @@ router.beforeEach((to, from, next) => {
   /* 登录校验：
      1、登录页面直接放行
   */
-
   if (to.path === '/login') {
     window.localStorage.clear()
     window.sessionStorage.clear()
@@ -129,5 +134,33 @@ router.beforeEach((to, from, next) => {
 router.afterEach(route => {
   // 路径跳转后替换页面title
   document.title = 'CCBA-' + route.meta.title || 'CCBA • 智慧通关平台'
+  let path = route.fullPath
+  // 判断路由是否携带了系统参数 token
+  if (path.indexOf('token=') !== -1) {
+    let pathAtt = path.split('?')
+    let paramsObj = {}
+    let paramsAtt = pathAtt[1].split('&')
+    path = pathAtt[0]
+    for (let i in paramsAtt) {
+      paramsObj[paramsAtt[i].split('=')[0]] = unescape(paramsAtt[i].split('=')[1])
+    }
+    let x = 1
+    for (let item in paramsObj) {
+      if (item !== 'token') {
+        if (x === 1) {
+          path += '?' + item + '=' + paramsObj[item]
+        } else {
+          path += '&' + item + '=' + paramsObj[item]
+        }
+        x++
+      }
+    }
+  }
+  router.app.$options.store.commit('SetTabData', {
+    title: route.meta.title,
+    component: route.meta.component,
+    path: path,
+    route: route
+  })
 })
 export default router

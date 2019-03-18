@@ -1,7 +1,5 @@
 <template>
   <div class="leftSolider">
-    <div :class="{'collapse-btn':true,'btn-rotate':true}" @click='collapseClick()' v-if="isRotate"></div>
-    <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
     <el-menu
       :default-active="$route.path" router
       :collapse='$store.state.collapse'>
@@ -10,24 +8,24 @@
         <el-submenu :index="item.path" :key="item.path" v-if="item.children && !item.hidden" v-permissions="item.permissions">
           <template slot="title">
             <i :class=" 'custom-icons-menu '+item.icon"></i>
-            <span slot="title">{{item.name}}</span>
+            <span slot="title">{{item.meta.title}}</span>
           </template>
           <!-- 二级菜单 -->
           <template v-for="child in item.children">
             <el-submenu :index="child.path" :key="child.path" v-if="child.children&& !child.hidden" v-permissions="child.permissions">
-              <template slot="title"><i :class="child.icon"></i>{{child.name}}</template>
+              <template slot="title"><i :class="child.icon"></i>{{child.meta.title}}</template>
               <el-menu-item v-for="child2 in child.children" :index="child2.path" :key="child2.path" v-if="!child2.hidden" v-permissions="child2.permissions">
-                <span slot="title">{{child2.name}}</span>
+                <span slot="title">{{child2.meta.title}}</span>
               </el-menu-item>
             </el-submenu>
             <el-menu-item v-if="!child.children && !child.hidden" :index="child.path" :key="child.path"  v-permissions="child.permissions">
-              <span slot="title">{{child.name}}</span>
+              <span slot="title">{{child.meta.title}}</span>
             </el-menu-item>
           </template>
         </el-submenu>
         <el-menu-item  v-if="!item.children && !item.hidden" :index="item.path" :key="'child'+item.path" v-permissions="item.permissions">
           <i :class=" 'custom-icons-menu '+item.icon"></i>
-          <span slot="title">{{item.name}}</span>
+          <span slot="title">{{item.meta.title}}</span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -78,7 +76,6 @@ export default {
         //   children: []
         // }
       ], // 菜单数据
-      isRotate: true,
       active: '', // 活动菜单
       appCount: 0 // 待处理数
     }
@@ -90,51 +87,25 @@ export default {
     }
   },
   mounted () {
+    this.initLeftMenu()
   },
   methods: {
     // 初始化菜单
-    // initLeftMenu: function () {
-    //   this.$router.options.routes[1].children.forEach((menu) => {
-    //     if (!menu.hidden) {
-    //       this.menus.push(menu)
-    //     }
-    //   })
-    // },
-    // 折叠按钮事件
-    collapseClick: function () {
-      this.$store.commit('collapse', !this.$store.state.collapse)
-      this.isRotate = !this.isRotate
+    initLeftMenu: function () {
+      this.$router.options.routes[1].children.forEach((menu) => {
+        if (!menu.hidden) {
+          this.menus.push(menu)
+        }
+      })
     }
   }
 }
 </script>
 <style scoped lang="less">
-
 .leftSolider {
   position: relative;
 }
-.collapse-btn{
-  position: absolute;
-  right:-1px;
-  top:0;
-  transform: translateX(100%);
-  width: 40px;
-  height: 40px;
-  padding: 10px;
-  box-sizing: border-box;
-  cursor: pointer;
-  background:url("../../assets/img/icon/btn-left.png") no-repeat;
-  z-index: 22;
-  background-origin:content-box;
-  background-color: #fff;
-}
-.btn-rotate {
-  background:url("../../assets/img/icon/btn-right.png") no-repeat;
-  background-origin:content-box;
-  background-color: #fff;
-}
 .custom-icons-menu{
-  // display: inline-block;
   margin-right: 16px;
   width: 30px;
   height: 30px;
@@ -143,5 +114,4 @@ export default {
     height: 20px;
   }
 }
-
 </style>

@@ -9,8 +9,7 @@
           <sidebar></sidebar>
         </el-aside>
         <el-main>
-          <div class="tabs-top"></div>
-          <!-- <router-view></router-view> -->
+          <tabs></tabs>
         </el-main>
       </el-container>
     </el-container>
@@ -21,8 +20,7 @@
 export default {
   components: {
     'head-top': resolve => require(['../common/header.vue'], resolve),
-    sidebar: resolve => require(['../common/slider.vue'], resolve)
-
+    'sidebar': resolve => require(['../common/slider.vue'], resolve)
   },
   data () {
     return {
@@ -37,7 +35,6 @@ export default {
   height: 100%;
 }
 .el-main {
-  padding-top: 40px;
   position: relative;
   .tabs-top {
     position: absolute;

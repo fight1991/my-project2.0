@@ -4,11 +4,15 @@ import axios from 'axios'
 import util from '../common/util'
 import config from '../config/config'
 import {Message} from 'element-ui'
+import TabsStore from '../components/tabs/store'
 
 Vue.use(Vuex)
 axios.defaults.timeout = 60000 // 请求的超时时间
 axios.defaults.withCredentials = true // 允许携带cookie
 export default new Vuex.Store({
+  modules: {
+    TabsStore
+  },
   state: {
     // 登陆后的用户数据信息
     userLoginInfo: {
@@ -20,6 +24,7 @@ export default new Vuex.Store({
       userPhoto: '', // 用户头像
       companyName: ''
     },
+    childSys: 'eImport', // 子级系统
     isFirst: true, // 是否初次进入系统
     // 分页的数据
     pagination: {
