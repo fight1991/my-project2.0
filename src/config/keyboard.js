@@ -2,7 +2,7 @@ const url = {
   COMMON: 'https://test.5itrade.cn', // 公共服务
   FINANCE: 'https://test.5itrade.cn:8093', // 物流费用
   CCBA: 'https://51baoguan.cn:8091', // CCBA 1.0
-  JINER: 'https://test.5itrade.cn:8093' // 金二
+  JINER: 'https://test.5itrade.cn:8077' // 金二
 }
 
 export default {
@@ -29,13 +29,13 @@ export default {
       id: 4,
       icon: require('../assets/img/icon-bottom/btm_im_cdf.png'),
       text: '进口报关单',
-      path: url.COMMON + '/Dec/DecEntry/DecIIndex'
+      path: url.COMMON + '/declaration/declaration/import/add/new'
     },
     {
       id: 5,
       icon: require('../assets/img/icon-bottom/btm_ex_cdf.png'),
       text: '出口报关单',
-      path: url.COMMON + '/Dec/DecEntry/DecEIndex'
+      path: url.COMMON + '/declaration/declaration/export/add/new'
     },
     {
       id: 6,
@@ -53,7 +53,7 @@ export default {
       id: 8,
       icon: require('../assets/img/icon-bottom/btm_cddi.png'),
       text: '报关数据查询',
-      path: url.COMMON + ''
+      path: url.COMMON + '/declaration/list'
     },
     {
       id: 9,
