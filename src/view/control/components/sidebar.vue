@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import eventBus from '../middle/eventBus'
 export default {
   data () {
     return {
@@ -36,7 +37,8 @@ export default {
     }
   },
   created () {
-    // this.getAllApp()
+    this.getAllApp()
+    eventBus.$on('getAllApp', this.getAllApp)
   },
   mounted () {
   },

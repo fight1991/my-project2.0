@@ -80,7 +80,6 @@ export default {
         isPageList: true,
         router: this.$router,
         success: (res) => {
-          console.log(res)
           let pieList = []
           let legendData = []
           if (!util.isEmpty(res.result.decCountPieVO) && res.result.decCountPieVO.length > 0) {

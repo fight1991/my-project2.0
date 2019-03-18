@@ -150,6 +150,8 @@ export default {
         data: {corpId: corpId},
         router: this.$router,
         success: (res) => {
+          // 重新请求左侧菜单列表
+          eventBus.$emit('getAllApp')
           // 重新请求企业风采
           eventBus.$emit('getAllCorpDIY')
           // 重新请求图表数据
