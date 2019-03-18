@@ -25,5 +25,4 @@ const MENU = [
   Reviewed.MENU,
   DataQuery.MENU
 ]
-console.log(MENU)
 export default {MENU}
