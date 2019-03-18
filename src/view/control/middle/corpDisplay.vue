@@ -122,7 +122,7 @@ export default {
     text-align: center;
     margin-bottom:20px;
     width: 48%;
-    float: right;
+    float: left;
     min-width: 45px;
     img {
       width: 24px;
