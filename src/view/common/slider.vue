@@ -70,19 +70,22 @@ export default {
   position: relative;
   height: 100%;
   overflow:auto;
-  width: 200px;
+  width: 217px;
 }
-.leftSolider::-webkit-scrollbar {/*滚动条整体样式*/
+.leftSolider::-webkit-scrollbar,
+.leftSolider::-moz-scrollbar,{/*滚动条整体样式*/
     width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
   }
-.leftSolider::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+.leftSolider::-webkit-scrollbar-thumb,
+.leftSolider::-moz-scrollbar-thumb, {/*滚动条里面小方块*/
     border-radius: 8px;
     // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
     background: #ccc;
 
   }
-.leftSolider::-webkit-scrollbar-track {/*滚动条里面轨道*/
+.leftSolider::-webkit-scrollbar-track,
+.leftSolider::-moz-scrollbar-track, {/*滚动条里面轨道*/
     // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
     border-radius: 8px;
     background: #EDEDED;
