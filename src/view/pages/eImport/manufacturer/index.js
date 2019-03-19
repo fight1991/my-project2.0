@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/manufacturer',
   name: 'manufacturer',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-admin',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

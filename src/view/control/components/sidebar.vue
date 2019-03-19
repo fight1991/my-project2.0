@@ -99,16 +99,6 @@ export default {
   background-origin:content-box;
   background-color: #fff;
 }
-.custom-icons-menu{
-  // display: inline-block;
-  margin-right: 16px;
-  width: 30px;
-  height: 30px;
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}
 .el-menu-item {
   border-left: 3px solid transparent;
 }
