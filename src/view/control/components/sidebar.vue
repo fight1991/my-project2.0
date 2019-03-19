@@ -11,10 +11,6 @@
           </i>
           <span slot="title">{{item.title}}</span>
         </el-menu-item>
-        <!-- <el-menu-item  v-if="!item.children && !item.hidden" :index="item.path" :key="'child'+item.path" v-permissions="item.permissions">
-          <i :class=" 'custom-icons-menu '+item.icon"></i>
-          <span slot="title">{{item.name}}</span>
-        </el-menu-item> -->
       </template>
     </el-menu>
   </div>
@@ -48,6 +44,7 @@ export default {
       this.$store.commit('collapse', !this.$store.state.collapse)
       this.isRotate = !this.isRotate
     },
+    // 当前点击的菜单项
     currentSelect (index) {
       this.menus.forEach(v => { // 找到数组中当前点击的项
         if (v.link === index) {
@@ -59,7 +56,8 @@ export default {
       // 拿到当前的连接地址 拼上token
       window.open(`${index}?token=${encodeURIComponent(localStorage.getItem('token'))}`)
     },
-    getAllApp () { // 左侧应用列表
+    // 获取左侧应用列表
+    getAllApp () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/getAllApp',
         data: {},

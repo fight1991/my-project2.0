@@ -48,12 +48,14 @@ export default {
     eventBus.$on('getAllCorpDIY', this.getAllCorpDIY)
   },
   methods: {
+    // 获取轮播图片title
     getContent (index) {
       if (this.bannerList[index]) {
         this.intro = this.bannerList[index]['title']
       }
     },
-    getAllCorpDIY () { // 企业风采
+    // 企业风采图片列表
+    getAllCorpDIY () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/getAllCorpDIY',
         data: {},

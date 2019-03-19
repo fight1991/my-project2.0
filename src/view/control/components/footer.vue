@@ -51,7 +51,8 @@ export default {
   created () {
   },
   methods: {
-    sendHeight () { // 底部展开与关闭
+    // 底部展开与关闭
+    sendHeight () {
       this.bigIsShow = !this.bigIsShow
       let height = ''
       if (this.bigIsShow) {
@@ -61,6 +62,7 @@ export default {
       }
       this.$emit('pullHeight', height)
     },
+    // 路由跳转
     routerTo (path) {
       if (location.pathname === '') {
         this.$message({

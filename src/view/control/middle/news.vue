@@ -52,6 +52,7 @@ export default {
     eventBus.$on('getNews', this.getNews)
   },
   methods: {
+    // 获取咨询列表
     getNews () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/getNewsList',
@@ -79,6 +80,7 @@ export default {
         }
       })
     },
+    // 跳转到咨询详情页
     getDetail (pid) {
       const {href} = this.$router.resolve({
         path: 'news/detail',

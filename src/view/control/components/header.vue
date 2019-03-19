@@ -125,6 +125,7 @@ export default {
     menuShowClick: function () {
       this.$store.commit('menuShow', !this.$store.state.menuShow)
     },
+    // 信息详情
     getInfo (flag) {
       if (flag === 'add') {
         window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/userCenter?tabs=alllinkman&token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
@@ -167,6 +168,7 @@ export default {
         }
       })
     },
+    // 企业切换时
     changeCorpName () {
       // 找到对应企业的信息
       let temp = this.corpList.find(v => {

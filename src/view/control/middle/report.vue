@@ -69,6 +69,7 @@ export default {
     // window.addEventListener('resize', this.getBoxWidth)
   },
   methods: {
+    // 获取图表数据
     getEchart () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decCount',
@@ -104,7 +105,8 @@ export default {
         }
       })
     },
-    computeWeek () { // 计算最近一周
+    // 计算最近一周
+    computeWeek () {
       let end = new Date()
       let start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
@@ -118,6 +120,7 @@ export default {
         // console.log(wid)
       })
     },
+    // 设置默认时间范围
     getChartData () {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''

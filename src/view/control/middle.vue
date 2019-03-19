@@ -29,10 +29,6 @@ export default {
     }
   },
   mounted () {
-    // let h = this.$refs['middle-right'].height
-    // console.log(this.$refs['div1'])
-    // let h = this.$refs['div1'].$el.offsetHeight
-    // console.log(h)
   },
   methods: {
   }

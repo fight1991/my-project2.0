@@ -20,13 +20,13 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      console.log(to)
     }
   },
   created () {
     this.getNewsById()
   },
   methods: {
+    // 获取新闻详情
     getNewsById () {
       let id = this.$route.query.pid
       this.$store.dispatch('ajax', {
@@ -35,7 +35,6 @@ export default {
         router: this.$router,
         success: (res) => {
           this.detail = res.result
-          console.log(res)
         }
       })
     }

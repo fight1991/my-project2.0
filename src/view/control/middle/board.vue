@@ -96,6 +96,7 @@ export default {
     eventBus.$on('getDecList', this.getDecList)
   },
   methods: {
+    // 获取报关单统计详情
     getDecList () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decListHomePage',
@@ -110,7 +111,8 @@ export default {
         }
       })
     },
-    getWeek () { // 获取当前一周
+    // 获取当前一周
+    getWeek () {
       const end = new Date()
       const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
