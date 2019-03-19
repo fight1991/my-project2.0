@@ -24,7 +24,10 @@ export default new Vuex.Store({
       userPhoto: '', // 用户头像
       companyName: ''
     },
-    childSys: 'eImport', // 子级系统
+    childSys: {
+      type: '',
+      title: ''
+    }, // 子级系统
     isFirst: true, // 是否初次进入系统
     loading: false, // loading
     collapse: false, // 菜单折叠
@@ -206,6 +209,11 @@ export default new Vuex.Store({
           }
         }
       })
+    },
+    // 设置子系统
+    setChildSys: function (state, data) {
+      state.childSys = data
+      TabsStore.mutations.SetChildSysData(TabsStore.state, data.type)
     },
     // 设置token
     setToken: function (state, token) {

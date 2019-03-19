@@ -1,6 +1,6 @@
 <template>
   <div class="top-header">
-    <div class="logo"></div>
+    <div class="logo"></div>{{$store.state.childSys.title}}
     <div class="user-info">
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">

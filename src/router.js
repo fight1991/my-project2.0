@@ -5,6 +5,7 @@ import config from './config/config'
 import util from './common/util'
 
 import EImport from './view/pages/eImport/router'
+import DataCenter from './view/pages/dataCenter/router'
 
 Vue.use(Router)
 
@@ -55,6 +56,7 @@ const routes = [
 
 routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
+routes[1].children.push(...DataCenter.MENU)
 
 const router = new Router({
   mode: 'history',
@@ -63,6 +65,28 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  let childSys = to.path.split('/')
+  if (childSys.length >= 2) {
+    let json = {
+      type: '',
+      title: ''
+    }
+    switch (childSys[1]) {
+      case 'eImport':
+        json = {
+          type: 'eImport',
+          title: '进出口管理'
+        }
+        break
+      case 'dataCenter':
+        json = {
+          type: 'dataCenter',
+          title: '资料中心'
+        }
+        break
+    }
+    router.app.$options.store.commit('setChildSys', json)
+  }
   /* 登录校验：
      1、登录页面直接放行
   */

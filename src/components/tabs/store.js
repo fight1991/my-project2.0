@@ -1,12 +1,13 @@
 import store from '@/store/store'
 import router from '@/router'
+
 export default {
   state: {
     // 主页
     homeTab: {
       title: '首页',
       component: resolve => require(['@/view/pages/index.vue'], resolve),
-      path: '/eImport/index',
+      path: '/index',
       route: {
         path: '/eImport/index',
         name: 'index',
@@ -92,6 +93,30 @@ export default {
     // 设置当前活动tab
     SetCurrentTab (state, data) {
       state.currentTab = data
+    },
+    SetChildSysData (state, data) {
+      state.homeTab = {
+        title: '首页',
+        component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
+        path: `/${data}/index`,
+        route: {
+          path: `/${data}/index`,
+          name: 'index',
+          query: {},
+          params: {}
+        }
+      }
+      state.tabsList[0] = {
+        title: '首页',
+        component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
+        path: `/${data}/index`,
+        route: {
+          path: `/${data}/index`,
+          name: 'index',
+          query: {},
+          params: {}
+        }
+      }
     }
   },
   actions: {}

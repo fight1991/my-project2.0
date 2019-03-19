@@ -53,7 +53,8 @@ export default {
     // 初始化菜单
     initLeftMenu: function () {
       this.$router.options.routes[1].children.forEach((menu) => {
-        if (!menu.hidden) {
+        let childSys = menu.path.split('/')
+        if (!menu.hidden && (this.$store.state.childSys.type === childSys[1] || childSys[1] === 'error')) {
           this.menus.push(menu)
         }
       })
