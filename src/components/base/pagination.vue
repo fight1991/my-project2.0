@@ -1,26 +1,26 @@
 <template>
   <el-col :span="24">
     <el-pagination
-      v-if='type && $store.state.pagination.total != 0'
+      v-if='type && pagination.total != 0'
       background
       :pager-count= "5"
       @current-change="currentChange"
       @size-change="sizeChange"
-      :current-page="$store.state.pagination.currentPage"
-      :page-sizes="$store.state.pagination.pageSizes"
-      :page-size="$store.state.pagination.pageSize"
-      :total="$store.state.pagination.total"
+      :current-page="pagination.currentPage"
+      :page-sizes="[10, 20, 50, 100, 200]"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-pagination
-      v-if='!type && $store.state.pagination.total != 0'
+      v-if='!type && pagination.total != 0'
       class='sys-small-page'
       :pager-count= "5"
       @current-change="currentChange"
       @size-change="sizeChange"
-      :current-page="$store.state.pagination.currentPage"
-      :page-size="$store.state.pagination.pageSize"
-      :total="$store.state.pagination.total"
+      :current-page="pagination.currentPage"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
       layout="prev, pager, next">
     </el-pagination>
   </el-col>
@@ -29,12 +29,22 @@
 <script>
 export default {
   name: 'pagination',
-  // props: {
-  //   type: {
-  //     type: Boolean,
-  //     default: true // true:全样式；false:简易
-  //   }
-  // },
+  props: {
+    pagination: {
+      type: Object,
+      default: function () {
+        return {
+          pageIndex: 1, // 当前页
+          pageSize: 10, // 每页数据条数
+          total: 0 // 总条数
+        }
+      }
+    }
+    // type: {
+    //   type: Boolean,
+    //   default: true // true:全样式；false:简易
+    // }
+  },
   data () {
     return {
       type: true
@@ -50,13 +60,13 @@ export default {
   },
   methods: {
     currentChange (page) {
-      this.$store.commit('pageChange', page)
-      this.$emit('change')
+      this.pagination.pageIndex = page
+      this.$emit('change', this.pagination)
     },
     sizeChange (size) {
-      this.$store.commit('pageSizeChange', size)
-      this.$store.commit('pageChange', 1)
-      this.$emit('change')
+      this.pagination.pageSize = size
+      this.pagination.pageIndex = 1
+      this.$emit('change', this.pagination)
     },
     windowsWidth () {
       if (document.documentElement.clientWidth < 768) {
@@ -66,10 +76,6 @@ export default {
       }
     }
   },
-  beforeDestroy () {
-    if (!this.$route.meta.keepAlive) {
-      this.$store.commit('pageInit')
-    }
-  }
+  beforeDestroy () {}
 }
 </script>

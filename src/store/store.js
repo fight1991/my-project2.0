@@ -26,13 +26,6 @@ export default new Vuex.Store({
     },
     childSys: 'eImport', // 子级系统
     isFirst: true, // 是否初次进入系统
-    // 分页的数据
-    pagination: {
-      currentPage: 1, // 当前页
-      pageSize: 10, // 每页数据条数
-      total: 0, // 总条数
-      pageSizes: [10, 20, 50, 100, 200]
-    },
     loading: false, // loading
     collapse: false, // 菜单折叠
     menuShow: true, // 移动式菜单
@@ -94,13 +87,6 @@ export default new Vuex.Store({
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
         'reqData': data
       }
-      if (isPageList) {
-        // 分页时增加分页数据
-        params.reqData.page = {
-          pageSize: state.pagination.pageSize,
-          pageIndex: state.pagination.currentPage
-        }
-      }
       if (isLoad) {
         state.loading = true
       }
@@ -112,9 +98,6 @@ export default new Vuex.Store({
         }
         let _result = result.data
         if (_result.code === '0000') {
-          if (isPageList) {
-            state.pagination.total = _result.page.total
-          }
           success(_result)
         } else {
           if (other) {
@@ -247,25 +230,6 @@ export default new Vuex.Store({
     // 初次进入系统后 变更状态
     isFirstChange: function (state, value) {
       state.isFirst = false
-    },
-    // 分页:当前页变化
-    pageChange: function (state, value) {
-      state.pagination.currentPage = value
-    },
-    // 分页:每页显示的数据条数变化
-    pageSizeChange: function (state, value) {
-      state.pagination.pageSize = value
-    },
-    // 分页:初始化
-    pageInit: function (state) {
-      state.pagination.total = 0
-      state.pagination.currentPage = 1
-    },
-    // 分页缓存初始化
-    pageCacheInit: function (state, value) {
-      state.pagination.total = value.total
-      state.pagination.currentPage = value.currentPage
-      state.pagination.pageSize = value.pageSize
     },
     // 折叠操作
     collapse: function (state, value) {
