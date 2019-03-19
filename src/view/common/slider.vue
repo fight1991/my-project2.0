@@ -1,5 +1,6 @@
 <template>
   <div class="leftSolider">
+    <div class="scroll-hidden"></div>
     <el-menu
       :default-active="$route.path" router
       :collapse='$store.state.collapse'>
@@ -64,8 +65,8 @@ export default {
 <style scoped lang="less">
 .leftSolider {
   position: relative;
-  overflow:auto;
   height: 100%;
+  overflow:auto;
 }
 .leftSolider::-webkit-scrollbar {/*滚动条整体样式*/
     width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
