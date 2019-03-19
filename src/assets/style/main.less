@@ -275,7 +275,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .is-opened>.el-menu {
     background-color: @sys-color-gray;
     width: 200px;
-    z-index: 20;
+  }
+  .el-submenu.is-opened {
+    background-color: @sys-color-gray;
   }
   .is-active.is-opened {
     border-left: none;
@@ -296,6 +298,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .el-menu>.el-menu-item {
     padding-left: 17px!important;
+    margin: 4px 0;
+    height: 40px;
+    line-height: 40px;
     >.el-tooltip {
       padding-left: 17px!important;
     }
