@@ -128,13 +128,13 @@ export default {
     top:0;
     width: 40px;
     height: 40px;
-    background:url("../../assets/img/icon/btn-left.png")  no-repeat center center;
+    background:url("../../assets/img/icon/btn-right.png")  no-repeat center center;
     border-bottom: 1px solid #e4e7ed;
     cursor: pointer;
     z-index: 22;
   }
   .btn-rotate {
-    background:url("../../assets/img/icon/btn-right.png") no-repeat center center;
+    background:url("../../assets/img/icon/btn-left.png") no-repeat center center;
   }
   .el-tabs--card>.el-tabs__header .el-tabs__nav{
     border-radius:0;

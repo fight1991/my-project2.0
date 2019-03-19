@@ -310,10 +310,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     padding-left: 17px!important;
     // padding-right: 17px!important;
     // width: 200px;
-
+    height: 50px;
+    line-height: 50px;
   }
   .el-submenu>.el-menu>.el-submenu>.el-submenu__title{
-    padding-left: 50px!important;
+    padding-left: 60px!important;
     border-left: 3px solid transparent;
   }
   .el-submenu>.el-menu>.el-submenu>.el-menu>.el-menu-item{
@@ -322,6 +323,14 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .el-submenu__icon-arrow {
     right: auto;
     margin-top: -5px;
-    left: 165px;
+    left: 170px;
+    font-size: 14px;
+    color: @font-color-main;
+    -webkit-transform: rotateZ(270deg);
+    transform: rotateZ(270deg);
+  }
+  .el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow {
+    -webkit-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
   }
 }
