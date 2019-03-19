@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/prosecution',
   name: 'prosecution',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-setting',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/declare',
   name: 'declare',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-declare',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

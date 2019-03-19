@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/receipt',
   name: 'receipt',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-receipt',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

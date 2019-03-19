@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/reviewed',
   name: 'reviewed',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-decCheck',
   permissions: 'SAASOM0900000000',
   meta: {
     component: resolve => require(['./demo.vue'], resolve),

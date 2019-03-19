@@ -2,7 +2,7 @@
 const MENU = {
   path: '/eImport/dataQuery',
   name: 'dataQuery',
-  icon: 'icons-menu-system',
+  icon: 'icons-menu-dataQuery',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

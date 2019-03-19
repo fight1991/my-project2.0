@@ -105,4 +105,13 @@ export default {
 .is-active {
   border-left: 3px solid @sys-color-main;
 }
+.custom-icons-menu {
+  margin-right: 16px;
+  width: 30px;
+  height: 30px;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
 </style>

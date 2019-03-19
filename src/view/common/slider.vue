@@ -1,6 +1,7 @@
 <template>
+<div class="scroll">
+  <div class="scroll-hidden"></div>
   <div class="leftSolider">
-    <div class="scroll-hidden"></div>
     <el-menu
       :default-active="$route.path" router
       :collapse='$store.state.collapse'>
@@ -30,6 +31,7 @@
         </el-menu-item>
       </template>
     </el-menu>
+  </div>
   </div>
 </template>
 <script>
@@ -63,10 +65,24 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.scroll {
+  height: 100%;
+  position: relative;
+  .scroll-hidden {
+    width: 8px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+  }
+}
 .leftSolider {
   position: relative;
   height: 100%;
   overflow:auto;
+  width: 200px;
 }
 .leftSolider::-webkit-scrollbar {/*滚动条整体样式*/
     width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -83,13 +99,4 @@ export default {
     border-radius: 8px;
     background: #EDEDED;
   }
-.custom-icons-menu{
-  margin-right: 16px;
-  width: 30px;
-  height: 30px;
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}
 </style>
