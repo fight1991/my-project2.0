@@ -1,6 +1,4 @@
 <template>
-<div class="scroll">
-  <div class="scroll-hidden"></div>
   <div class="leftSolider">
     <el-menu
       :default-active="$route.path" router
@@ -31,7 +29,6 @@
         </el-menu-item>
       </template>
     </el-menu>
-  </div>
   </div>
 </template>
 <script>
@@ -68,15 +65,6 @@ export default {
 .scroll {
   height: 100%;
   position: relative;
-  .scroll-hidden {
-    width: 8px;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: #fff;
-    z-index: 10;
-  }
 }
 .leftSolider {
   position: relative;

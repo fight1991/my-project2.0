@@ -5,7 +5,7 @@
         <head-top></head-top>
       </el-header>
       <el-container>
-        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '200px'">
+        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '192px'">
           <sidebar></sidebar>
         </el-aside>
         <el-main>
@@ -48,7 +48,7 @@ export default {
 }
 .sidebar {
   background-color: #fff;
-  overflow:visible;
+  overflow-x:hidden;
   z-index: 10;
   box-shadow:1px 0px 5px rgba( 0, 0, 0, .1);
 }
