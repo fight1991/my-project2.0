@@ -1,6 +1,7 @@
 <template>
   <div class="top-header">
-    <div class="logo"></div>{{$store.state.childSys.title}}
+    <div class="logo fl"></div>
+    <div class="title fl">{{$store.state.childSys.title}}</div>
     <div class="user-info">
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
@@ -168,13 +169,19 @@ export default {
   }
 }
 .logo {
-  display: inline-block;
   width: 280px;
   height: 62px;
   background: url('../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
   background-size: 280px 64px;
   background-size: cover;
   vertical-align: middle;
+}
+.title {
+  height: 62px;
+  line-height: 62px;
+  font-size: 20px;
+  color: #fff;
+  padding-left: 20px;
 }
 .userInfo {
     width: 340px;
