@@ -16,7 +16,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./demo.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '进口模板'
       }
     }, {
@@ -26,7 +26,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./demo.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '出口模板'
       }
     }

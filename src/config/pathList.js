@@ -6,7 +6,8 @@ const url = {
 }
 
 export default {
-  list: [
+  // 快捷菜单
+  keyBoardPath: [
     {
       id: 1,
       icon: require('../assets/img/icon-bottom/btm_cust.png'),
@@ -67,5 +68,33 @@ export default {
       text: '出口核注清单',
       path: url.JINER + ''
     }
-  ]
+  ],
+  eImport: {
+    // 进口模板
+    decImTemplate: url.COMMON + '/declaration/decTemplate/import/add/new',
+    // 出口模板
+    decExTemplate: url.COMMON + '/declaration/decTemplate/export/add/new',
+    // 进口接单
+    decImReceipt: url.COMMON + '/declaration/receiveOrders/import',
+    // 出口接单
+    decExReceipt: url.COMMON + '/declaration/receiveOrders/export',
+    // 进口报关单（新增）
+    decImport: url.COMMON + '/declaration/declaration/import/add/new',
+    // 出口报关单（新增）
+    decExport: url.COMMON + '/declaration/declaration/export/add/new',
+    // 进境备案清单（新增）
+    recordImport: url.COMMON + '/declaration/recordList/import/add/new',
+    // 出境备案清单（新增）
+    recordExport: url.COMMON + '/declaration/recordList/export/add/new',
+    // 进口核注清单
+    importTaxList: url.JINER + '/account/datainput/I/taxList?iEFlag=I&funFlag=nems',
+    // 出口核注清单
+    exportTaxList: url.JINER + '/account/datainput/E/taxList?iEFlag=E&funFlag=nems',
+    // 报关单审核
+    decReviewed: url.COMMON + '/declaration/decCheck/list',
+    // 报关数据查询
+    decInfo: url.COMMON + '/declaration/list',
+    // 核注清单查询
+    taxInfo: url.JINER + '/account/dataQuery/taxListQuery?funFlag=nems'
+  }
 }

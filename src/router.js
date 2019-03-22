@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Errors from './view/error'
 import config from './config/config'
 import util from './common/util'
-
+import base64 from '@/common/base64'
 import EImport from './view/pages/eImport/router'
 import DataCenter from './view/pages/dataCenter/router'
 
@@ -51,10 +51,11 @@ const routes = [
     meta: {
       title: '详情'
     }
-  }
+  },
+  Errors.MENU
 ]
 
-routes[1].children.push(Errors.MENU)
+// routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
 
@@ -180,8 +181,12 @@ router.afterEach(route => {
       }
     }
   }
+  let title = route.meta.title
+  if (!util.isEmpty(route.params.sysData)) {
+    title = base64.decode(route.params.sysData).split('::')[1]
+  }
   router.app.$options.store.commit('SetTabData', {
-    title: route.meta.title,
+    title: title,
     component: route.meta.component,
     path: path,
     route: route

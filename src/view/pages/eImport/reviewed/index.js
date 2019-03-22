@@ -5,7 +5,7 @@ const MENU = {
   icon: 'icons-menu-decCheck',
   permissions: 'SAASOM0900000000',
   meta: {
-    component: resolve => require(['./demo.vue'], resolve),
+    component: resolve => require(['./index.vue'], resolve),
     title: '报关单审核'
   }
 }

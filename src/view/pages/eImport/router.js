@@ -1,5 +1,5 @@
-import Manufacturer from './manufacturer/index' // 厂商管理
-import Prosecution from './prosecution/index' // 逻辑检控设置
+// import Manufacturer from './manufacturer/index' // 厂商管理
+// import Prosecution from './prosecution/index' // 逻辑检控设置
 import EiTemplate from './eiTemplate/index' // 进出口模板
 import Receipt from './receipt/index' // 接单
 import Declare from './declare/index' // 关检整合申报
@@ -17,8 +17,8 @@ const MENU = [
       title: '首页'
     }
   },
-  Manufacturer.MENU,
-  Prosecution.MENU,
+  // Manufacturer.MENU,
+  // Prosecution.MENU,
   EiTemplate.MENU,
   Receipt.MENU,
   Declare.MENU,

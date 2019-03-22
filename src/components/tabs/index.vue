@@ -1,35 +1,39 @@
 <template>
-  <div>
-    <div class='page-tabs'>
-      <div :class="{'collapse-btn':true,'btn-rotate':true}" @click='collapseClick()' v-if="isRotate"></div>
-      <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
-      <el-tabs class='tabs-items' :value='getCurrentTab.path' type="card"  @tab-remove="delTab" @tab-click="setCurrentTab">
-        <el-tab-pane
-          :key="item.path"
-          :closable = 'index!==0'
-          v-for="(item, index) in openedTabs"
-          :label="item.title"
-          :name="item.path">
-        </el-tab-pane>
-      </el-tabs>
-      <div class='tabs-close-all'>
-        <el-dropdown @command="closeTabs">
-          <span class="el-dropdown-link">
-            关闭操作<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="all">关闭全部选项卡</el-dropdown-item>
-            <el-dropdown-item command="other">关闭其他选项卡</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+  <el-container>
+    <el-header style='background-color: rgba(0,0,0,0) !important;'>
+      <div class='page-tabs'>
+        <div :class="{'collapse-btn':true,'btn-rotate':true}" @click='collapseClick()' v-if="isRotate"></div>
+        <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
+        <el-tabs class='tabs-items' :value='getCurrentTab.path' type="card"  @tab-remove="delTab" @tab-click="setCurrentTab">
+          <el-tab-pane
+            :key="item.path"
+            :closable = 'index!==0'
+            v-for="(item, index) in openedTabs"
+            :label="item.title"
+            :name="item.path">
+          </el-tab-pane>
+        </el-tabs>
+        <div class='tabs-close-all'>
+          <el-dropdown @command="closeTabs">
+            <span class="el-dropdown-link">
+              关闭操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="all">关闭全部选项卡</el-dropdown-item>
+              <el-dropdown-item command="other">关闭其他选项卡</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
-    </div>
-    <div class='page-tab-content'>
-      <div v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path">
-        <component :is="item.component"></component>
+    </el-header>
+    <el-main>
+      <div class='page-tab-content'>
+        <div style='height:100%' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path">
+          <component :is="item.component"></component>
+        </div>
       </div>
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 <script>
 export default {
@@ -79,6 +83,7 @@ export default {
 <style lang="less">
 .page-tabs {
   position: relative;
+  height: 41px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -141,6 +146,6 @@ export default {
   }
 }
 .page-tab-content{
-  margin: 20px;
+  height: 100%;
 }
 </style>

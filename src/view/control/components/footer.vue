@@ -36,7 +36,7 @@
 
 <script>
 // import config from '../../../config/config'
-import pathList from '../../../config/keyboard'
+import pathList from '../../../config/pathList'
 export default {
   data () {
     return {
@@ -45,7 +45,7 @@ export default {
         arrowUp: require('../../../assets/img/icon/btm_fold_1.png'),
         arrowDown: require('../../../assets/img/icon/btm_fold_2.png')
       },
-      quickItems: pathList.list
+      quickItems: pathList.keyBoardPath
     }
   },
   created () {

@@ -1,42 +1,53 @@
 <template>
-<div>
-  <iframe id="show-iframe" sandbox="allow-scripts" width='100%' frameborder=0 name="showHere" scrolling=auto :src="url"></iframe>
+<div  v-loading="loading" style='height:100%;overflow:hidden'>
+  <iframe @load='stateLoad()' :id='id' width='100%' :src="url" height="100%"  sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" frameborder=0 scrolling=auto></iframe>
 </div>
 </template>
 
 <script>
-
+import base64 from '@/common/base64'
+import routers from '@/router'
 export default {
   name: 'iframe-view',
-  props: {
-    url: {
-      type: String,
-      default: 'https://www.baidu.com'
-    }
-  },
+  props: ['url'],
   data () {
     return {
+      loading: true,
+      id: new Date().getTime()
     }
   },
   mounted () {
-    /**
-      * iframe-宽高自适应显示
-      */
-    function changeMobsfIframe () {
-      const mobsf = document.getElementById('show-iframe')
-      const deviceHeight = document.body.clientHeight
-      mobsf.style.height = (Number(deviceHeight) - 80) + 'px' // 数字是页面布局高度差
-    }
-    changeMobsfIframe()
-    window.onresize = function () {
-      changeMobsfIframe()
-    }
+    this.loading = true
+    window.addEventListener('message', function (event) {
+      if (event.data.type === 'login') {
+        // alert('login')
+      } else if (event.data.type === 'declaration' || event.data.type === 'recordList') { // 报关单/备案清单
+        let data = event.data.data.operationType
+        if (data === 'edit' || data === 'look') {
+          routers.push({
+            name: 'decInfo-editCheck',
+            params: {
+              sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}`)
+            }
+          })
+        }
+      }
+    }, 1000)
   },
-  methods: {}
+  methods: {
+    stateLoad () {
+      this.loading = false
+    }
+  }
 
 }
 </script>
 
 <style scoped>
-
+.autoH{
+  height: auto;
+}
+.defultH{
+  height: 200px;
+}
 </style>
