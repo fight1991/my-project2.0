@@ -6,7 +6,7 @@ import util from './common/util'
 import base64 from '@/common/base64'
 import EImport from './view/pages/eImport/router'
 import DataCenter from './view/pages/dataCenter/router'
-import WWW from './view/www/index'
+// import WWW from './view/www/index'
 Vue.use(Router)
 
 const routes = [
