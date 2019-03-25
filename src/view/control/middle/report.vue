@@ -28,7 +28,7 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          x: '70%',
+          x: '64%',
           y: 'center',
           align: 'left', // 调整文字和样式的位置
           data: []
@@ -163,4 +163,5 @@ export default {
     color: @font-color-title;
   }
 }
+
 </style>

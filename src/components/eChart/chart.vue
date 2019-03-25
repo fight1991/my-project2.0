@@ -1,6 +1,6 @@
 <template>
   <div class="content-box">
-    <div ref="echart" :style="{'width':width,'height':height}"></div>
+    <div class="echart" ref="echart" :style="{'width':width,'height':height}"></div>
   </div>
 </template>
 <script>
@@ -56,3 +56,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.echart {
+  overflow: hidden!important;
+}
+</style>
