@@ -60,9 +60,12 @@ export default {
           conditions: '',
           endTime: '',
           startTime: '',
-          type: this.activeName
+          type: this.activeName,
+          page: {
+            pageSize: 10,
+            pageIndex: 1
+          }
         },
-        isPageList: true,
         router: this.$router,
         success: (res) => {
           if (this.activeName === 'Announcement') {

@@ -97,7 +97,7 @@ export default {
     }
     p {
       text-align: center;
-      margin: 30px 0;
+      margin: 10px 0;
       color: @font-color-title;
     }
     .default-right {

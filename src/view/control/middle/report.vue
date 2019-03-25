@@ -76,9 +76,12 @@ export default {
         data: {
           iEFlag: 'ALL',
           startDate: this.dates.startDate,
-          endDate: this.dates.endDate
+          endDate: this.dates.endDate,
+          page: {
+            pageSize: 10,
+            pageIndex: 1
+          }
         },
-        isPageList: true,
         router: this.$router,
         success: (res) => {
           let pieList = []
