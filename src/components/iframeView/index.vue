@@ -20,7 +20,7 @@ export default {
     this.loading = true
     window.addEventListener('message', function (event) {
       if (event.data.type === 'login') {
-        // alert('login')
+        routers.push('/login')
       } else if (event.data.type === 'declaration' || event.data.type === 'recordList') { // 报关单/备案清单
         let data = event.data.data.operationType
         if (data === 'edit' || data === 'look') {
