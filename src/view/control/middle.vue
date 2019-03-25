@@ -70,6 +70,7 @@ export default {
 @media screen and (max-width:1060px) {
  .divItems {
    width: 100%;
+   margin-right: 0px!important;
  }
 }
 </style>
