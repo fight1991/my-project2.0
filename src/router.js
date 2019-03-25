@@ -184,7 +184,7 @@ router.afterEach(route => {
   }
   let title = route.meta.title
   if (!util.isEmpty(route.params.sysData)) {
-    title = base64.decode(route.params.sysData).split('::')[1]
+    title = base64.decode(route.params.sysData).split('::')[1] + '-' + base64.decode(route.params.sysData).split('::')[0]
   }
   router.app.$options.store.commit('SetTabData', {
     title: title,
