@@ -6,7 +6,7 @@ import util from './common/util'
 import base64 from '@/common/base64'
 import EImport from './view/pages/eImport/router'
 import DataCenter from './view/pages/dataCenter/router'
-
+import WWW from './view/www/index'
 Vue.use(Router)
 
 const routes = [
@@ -31,7 +31,8 @@ const routes = [
     component: resolve => require(['./view/www/index.vue'], resolve),
     meta: {
       title: 'CCBA官网'
-    }
+    },
+    children: []
   }, {
     path: '/control',
     name: 'control',
@@ -58,7 +59,7 @@ const routes = [
 // routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
-
+routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
   base: '',

@@ -63,10 +63,12 @@ export default {
         data: {},
         router: this.$router,
         success: (res) => {
-          res.result.forEach(v => {
-            v.isClick = false
-          })
-          this.menus = res.result
+          if (res.result) {
+            res.result.forEach(v => {
+              v.isClick = false
+            })
+            this.menus = res.result
+          }
         }
       })
     }

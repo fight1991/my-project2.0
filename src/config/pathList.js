@@ -96,5 +96,6 @@ export default {
       text: '出口核注清单',
       path: url.CCBA + '/eImport/declare/exportTaxList'
     }
-  ]
+  ],
+  WWWLOGINBACK: url.COMMON + '/login?sysId=002&callback=' + url.CCBA + '/control'
 }
