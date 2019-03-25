@@ -9,7 +9,7 @@
       </div>
       <div class="quikItems">
         <div class="item-detail" v-for="item in quickItems" :key="item.id" @click="routerTo(item.path)">
-          <i class="item-icon"><img :src="item.icon" alt=""></i>
+          <img :src="item.icon" alt="">
           <span>{{item.text}}</span>
         </div>
       </div>
@@ -115,6 +115,10 @@ export default {
        cursor: pointer;
        span {
          margin-left: 5px;
+       }
+       img {
+         width: 24px;
+         height: 24px;
        }
      }
    }

@@ -15,9 +15,6 @@
 import Header from './components/common/header.vue'
 import Footer from './components/common/footer.vue'
 import Fixed from './components/common/fixed.vue'
-import '@/assets/www-style/lib/bootstrap/css/bootstrap.min.css'
-import '@/assets/www-style/css/base.css'
-import '@/assets/www-style/font/iconfont.css'
 export default {
   components: {
     Header,
@@ -38,6 +35,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/www-style/lib/bootstrap/css/bootstrap.min.css';
+@import '../../assets/www-style/css/base.css';
+@import '../../assets/www-style/font/iconfont.css';
   .out-container {
     min-width: 1000px;
     height: 100%;
