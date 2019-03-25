@@ -59,7 +59,7 @@ const routes = [
 // routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
-routes[2].children.push(...WWW.MENU)
+// routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
   base: '',
