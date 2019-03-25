@@ -1,34 +1,34 @@
 <template>
   <div class="news">
     <div class="title">实时资讯</div>
-    <el-tabs v-model="activeName" tab-click="getNews">
+    <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane label="平台公告" name="Announcement">
-        <el-row v-for="item in AnnounceList" :key="item.pid">
+        <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <el-row v-for="item in AnnounceList" :key="item.pid" v-else>
           <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
           <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
         </el-row>
-        <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">
-        <el-row v-for="item in lawList" :key="item.pid">
+        <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <el-row v-for="item in lawList" :key="item.pid" v-else>
           <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
           <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
         </el-row>
-        <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="IndustryNews">
-        <el-row v-for="item in newsList" :key="item.pid">
+        <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <el-row v-for="item in newsList" :key="item.pid" v-else>
           <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
           <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
         </el-row>
-        <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
       </el-tab-pane>
       <el-tab-pane label="通知公告" name="Information">
-        <el-row v-for="item in InformateList" :key="item.pid">
+        <div class="default" v-if="InformateList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <el-row v-for="item in InformateList" :key="item.pid" v-else>
           <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
           <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
         </el-row>
-        <div class="default" v-if="InformateList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
       </el-tab-pane>
     </el-tabs>
   </div>

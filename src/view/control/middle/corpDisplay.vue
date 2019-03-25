@@ -3,11 +3,11 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner-default fl default" v-if="bannerList.length===0">
-        <img src="../../../assets/img/icon/noPhoto.jpg" alt="">
+        <img class="default-left" src="../../../assets/img/icon/noPhoto.jpg" alt="">
         <p>暂无描述</p>
       </div>
       <div class="banner fl" v-else>
-        <el-carousel height="300px" @change="getContent" :autoplay="false">
+        <el-carousel height="300px" @change="getContent" :autoplay="true">
           <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
             <a :href="item.link" target="_blank">
@@ -19,7 +19,7 @@
       </div>
       <div class="link-icon fr">
         <div class="default" v-if="iconList.length===0">
-          <img src="../../../assets/img/icon/com_default.png" alt="">
+          <img class="default-right" src="../../../assets/img/icon/com_default.png" alt="">
           <p>自定义</p>
         </div>
         <div class="items" v-for="item in iconList" :key="item.pid" v-else>
@@ -92,11 +92,17 @@ export default {
 .default {
     img {
       display: block;
-      margin: 35px auto 0 auto
+      margin: 35px auto 0 auto;
+      width: 100%;
     }
     p {
       text-align: center;
+      margin: 30px 0;
       color: @font-color-title;
+    }
+    .default-right {
+      width: 24px;
+      height: 24px;
     }
   }
 .banner,.banner-default {
