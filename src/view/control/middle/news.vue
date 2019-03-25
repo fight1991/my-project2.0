@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <div class="title">实时资讯</div>
-    <el-tabs v-model="activeName" tab-click="getNews">
+    <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane label="平台公告" name="Announcement">
         <el-row v-for="item in AnnounceList" :key="item.pid">
           <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
