@@ -24,6 +24,7 @@
         <div class="ccba-table" v-else>
           <el-table
             :data="tableData"
+            @row-click="goToDecInfo"
             style="width:100%">
             <el-table-column
               prop="statusVal"
@@ -54,6 +55,8 @@
 
 <script>
 import util from '../../../common/util'
+import pathList from '../../../config/pathList'
+import config from '../../../config/config'
 import eventBus from './eventBus'
 export default {
   data () {
@@ -117,6 +120,10 @@ export default {
       const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
+    },
+    goToDecInfo () {
+      let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
+      window.open(pathList.eImport.decInfo + '?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + sysId, '_blank')
     }
   }
 }
