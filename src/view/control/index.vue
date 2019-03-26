@@ -47,6 +47,8 @@ export default {
 }
 .middle {
   padding-bottom: 50px;
+  height: 100%;
+  box-sizing: border-box;
 }
 .header{
     padding: 0;
@@ -65,10 +67,14 @@ export default {
 }
 .middle-right {
   // border: 1px solid red;
-  margin: 20px 3px 20px 0;
   padding: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  // height: 100%;
+  // height: calc(~"(100% - 75px)");
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
   .scroll-hidden {
     height: 100%;
     width: 17px;

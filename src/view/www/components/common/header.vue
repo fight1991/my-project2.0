@@ -141,7 +141,7 @@ export default {
       .logo {
         margin-top: 12px;
         height: 37px;
-        width: 360px;
+        width: 380px;
         .telPhone {
           font-weight: bold;
           font-size: 28px;

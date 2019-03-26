@@ -56,7 +56,7 @@
           <div class="line"><span>温馨提示：请您填写真实的姓名和联系方式，我们会有专员与您联系。</span></div>
         </div>
         <div class="btn-now">
-          <button class="btn btn-warning" @click="orderNow">立即预约</button>
+          <button class="btn-order" @click="orderNow">立即预约</button>
         </div>
       </div>
     </div>
@@ -213,9 +213,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../assets/www-style/lib/bootstrap/css/bootstrap.min.css';
-@import '../../../assets/www-style/css/base.css';
-@import '../../../assets/www-style/font/iconfont.css';
+// @import '../../../assets/www-style/lib/bootstrap/css/bootstrap.min.css';
+// @import '../../../assets/www-style/css/base.css';
+// @import '../../../assets/www-style/font/iconfont.css';
+.mainer {
+  width: 1000px;
+  margin: 0 auto;
+}
 .big {
     font-size: 22px;
     color: #2E2E2E;
@@ -273,9 +277,14 @@ export default {
       text-align: center;
       button {
         background-color: #FF7200;
-        width: 200px;
+        width: 180px;
         font-size: 18px;
         font-weight: bold;
+        color: #fff;
+        border: none;
+        padding: 8px 0;
+        border-radius: 5px;
+        cursor: pointer;
       }
     }
     .sendCode {

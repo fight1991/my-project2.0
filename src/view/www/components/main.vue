@@ -95,7 +95,7 @@
 
 <script>
 import eventBus from '../common/eventBus'
-import config from '@/config/config'
+import pathList from '@/config/pathList'
 export default {
   data () {
     return {
@@ -175,7 +175,7 @@ export default {
       }
     },
     register () {
-      let registerUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['LOGIN']
+      let registerUrl = pathList.WWWLOGINBACK
       window.open(registerUrl, '_self')
     },
     setSize () {
