@@ -6,7 +6,7 @@ import util from './common/util'
 import base64 from '@/common/base64'
 import EImport from './view/pages/eImport/router'
 import DataCenter from './view/pages/dataCenter/router'
-// import WWW from './view/www/index'
+import WWW from './view/www/index'
 Vue.use(Router)
 
 const routes = [
@@ -59,7 +59,7 @@ const routes = [
 // routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
-// routes[2].children.push(...WWW.MENU)
+routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
   base: '',
@@ -92,7 +92,9 @@ router.beforeEach((to, from, next) => {
   /* 登录校验：
      1、登录页面直接放行
   */
-  if (to.path === '/login') {
+  if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder') {
+    next()
+  } else if (to.path === '/login') {
     window.localStorage.clear()
     window.sessionStorage.clear()
     let callbackUrl = util.delTokenUrl()

@@ -180,7 +180,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@import '../../../assets/www-style/lib/bootstrap/css/bootstrap.min.css';
+@import '../../../assets/www-style/css/base.css';
+@import '../../../assets/www-style/font/iconfont.css';
 // 公司简介区域
 .companyIntro {
   margin: 60px 0;
