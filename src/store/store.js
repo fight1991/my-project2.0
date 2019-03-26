@@ -22,7 +22,8 @@ export default new Vuex.Store({
       isAdmin: '',
       companyCode: '', // 公司id
       userPhoto: '', // 用户头像
-      companyName: ''
+      companyName: '',
+      adminFlag: ''
     },
     childSys: {
       type: '',
@@ -227,6 +228,7 @@ export default new Vuex.Store({
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.userPhoto = data.userPhoto
       state.userLoginInfo.companyName = data.companyName
+      state.userLoginInfo.adminFlag = data.adminFlag
     },
     // 用户切换公司信息变更
     userCompanyInfo: function (state, data) {
@@ -234,6 +236,7 @@ export default new Vuex.Store({
       state.userLoginInfo.companyCode = data.companyCode
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.companyName = data.companyName
+      state.userLoginInfo.adminFlag = data.adminFlag
     },
     // 初次进入系统后 变更状态
     isFirstChange: function (state, value) {

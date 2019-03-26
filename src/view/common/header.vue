@@ -6,8 +6,8 @@
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
-          <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
-          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}</span>
+          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;-&nbsp;</span>
+          <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../assets/img/icon/admin.png">
         </span>
@@ -31,9 +31,9 @@
             </div>
           </el-dropdown-item>
           <el-dropdown-item  class="myCenter">
-            <span class="line" @click="getInfo">个人中心</span>
-            <span class="line">我的关注</span>
-            <span>管理设置</span>
+            <span :class="{'line':$store.state.userLoginInfo.adminFlag === 'true'}" @click="getInfo">个人中心</span>
+            <span class="line" @click="serviceCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">服务订购</span>
+            <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
           </el-dropdown-item>
           <el-dropdown-item command="loginOut" class="dropDown-bottom">
             <div class="loginOut"><span>退出登录</span></div>
@@ -41,6 +41,21 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!-- 切换公司对话框 -->
+    <el-dialog
+      title="切换公司"
+      :visible.sync="corpDialogVisible"
+      width="25%"
+      center>
+      <el-radio-group v-model="corpName">
+        <div class="radioSelect" v-for="item in corpList" :key="item.corpId">
+         <el-radio :label="item.corpName"></el-radio>
+        </div>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="changeCorpName">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -116,6 +131,38 @@ export default {
           this.corpList = res.result
         }
       })
+    },
+    // 企业切换时
+    changeCorpName () {
+      // 找到对应企业的信息
+      let temp = this.corpList.find(v => {
+        return v.corpName === this.corpName
+      })
+      this.selectUserCorp(temp.corpId)
+      this.$store.commit('userCompanyInfo', {
+        companyType: temp.corpType, // 公司类型
+        companyCode: temp.corpId, // 公司id
+        companyName: temp.corpName
+      })
+      this.corpDialogVisible = false
+    },
+    // 选择公司后重新请求数据
+    selectUserCorp (corpId) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/login/selectUserCorp',
+        data: {corpId: corpId},
+        router: this.$router,
+        success: (res) => {
+        }
+      })
+    },
+    // 服务中心
+    serviceCenter () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/serviceCenter/account?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    },
+    // 管理员中心
+    adminCenter () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/companyAdmin/index?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&corpId=' + this.$store.state.userLoginInfo.companyCode + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     }
   }
 }
@@ -136,6 +183,9 @@ export default {
       transform: translateY(-50%);
       right: 15px;
       z-index: 3001;
+      .userName {
+          margin-right: 15px;
+      }
   }
   .user-img{
     margin-right: 20px;
@@ -147,6 +197,24 @@ export default {
     vertical-align: middle;
     cursor: pointer;
   }
+}
+.personBgc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background:url("../../assets/img/icon/personBGC.png") no-repeat center top;
+}
+.switchCorp {
+  cursor: pointer;
+  width: 50px;
+  margin: 0 auto;
+  padding-left: 20px;
+  background:url("../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
+  color: #287fca;
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .loginOut {
@@ -164,12 +232,12 @@ export default {
 }
 .el-dropdown-link {
   color: #fff;
-  .companyName {
+  .userName {
     margin-right: 15px;
   }
 }
 .logo {
-  width: 280px;
+  width: 380px;
   height: 62px;
   background: url('../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
   background-size: 280px 64px;

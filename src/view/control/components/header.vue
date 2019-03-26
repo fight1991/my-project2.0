@@ -5,8 +5,8 @@
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
-          <span class='hidden-xs-only'>{{$store.state.userLoginInfo.userName}}&nbsp;,</span>
-          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}</span>
+          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;-&nbsp;</span>
+          <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
         </span>
@@ -30,9 +30,9 @@
             </div>
           </el-dropdown-item>
           <el-dropdown-item  class="myCenter">
-            <span class="line" @click="getInfo">个人中心</span>
-            <span class="line">我的关注</span>
-            <span>管理设置</span>
+            <span :class="{'line':$store.state.userLoginInfo.adminFlag === 'true'}" @click="getInfo">个人中心</span>
+            <span class="line" @click="serviceCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">服务订购</span>
+            <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
           </el-dropdown-item>
           <el-dropdown-item command="loginOut" class="dropDown-bottom">
             <div class="loginOut"><span>退出登录</span></div>
@@ -50,7 +50,7 @@
       <!-- <span class="setting"></span> -->
     </div>
     <div class="welcome hidden-xs-only">
-      欢迎回来!
+      朗新金关信息科技有限公司
     </div>
     <!-- 切换公司对话框 -->
     <el-dialog
@@ -204,6 +204,14 @@ export default {
           clearInterval(this.timeOut)
         }
       })
+    },
+    // 服务中心
+    serviceCenter () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/serviceCenter/account?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    },
+    // 管理员中心
+    adminCenter () {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/companyAdmin/index?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&corpId=' + this.$store.state.userLoginInfo.companyCode + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     }
   }
 }
@@ -224,6 +232,9 @@ export default {
         transform: translateY(-50%);
         right: 15px;
         z-index: 3001;
+        .userName {
+          margin-right: 15px;
+        }
     }
     .user-img{
       margin-right: 20px;
@@ -239,12 +250,11 @@ export default {
 
   .welcome {
     position:absolute;
-    left:300px;
+    left:400px;
     top: 0;
     line-height: 62px;
     color: #fff;
-    // font-size: 16px;
-    letter-spacing: 2px;
+    font-size: 18px;
   }
 .personBgc {
   position: absolute;
@@ -280,8 +290,8 @@ export default {
 
 .logo {
   display: inline-block;
-  width: 280px;
-  height: 64px;
+  width: 380px;
+  height: 62px;
   background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
   background-size: 280px 64px;
   background-size: cover;
@@ -374,8 +384,11 @@ export default {
 
 @media screen and (max-width:900px) {
  .logo {
-   width: 130px;
+   width: 120px;
  }
+}
+@media screen and (max-width:1125px) {
+
  .welcome {
    display: none;
  }

@@ -139,7 +139,8 @@ router.beforeEach((to, from, next) => {
             userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
             mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
             userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
-            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName
+            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
+            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag
           }
           if (!util.isEmpty(res.result.userTitleList)) {
             sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
@@ -169,7 +170,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(route => {
   // 路径跳转后替换页面title
-  document.title = 'CCBA-' + route.meta.title || 'CCBA • 智慧通关平台'
+  document.title = '智慧通关-' + route.meta.title || 'CCBA • 智慧通关服务平台'
   let path = route.fullPath
   // 判断路由是否携带了系统参数 token
   if (path.indexOf('token=') !== -1) {

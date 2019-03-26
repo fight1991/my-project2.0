@@ -3,7 +3,7 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner-default fl default" v-if="bannerList.length===0">
-        <img class="default-left" src="../../../assets/img/icon/noPhoto.jpg" alt="">
+        <img class="default-left" src="../../../assets/img/icon/noPhoto.png" alt="">
         <p>暂无描述</p>
       </div>
       <div class="banner fl" v-else>
