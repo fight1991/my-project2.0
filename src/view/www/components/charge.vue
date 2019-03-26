@@ -1,5 +1,5 @@
 <template>
-  <div class="mainer">
+  <div class="mainer charge">
     <div class="left">
       <ul ref="uls">
         <li v-for="(item,index) in parter " :key="item.src" @click.prevent="showContent(index)">
@@ -232,13 +232,7 @@ export default {
       ul {
         background-color: #fff;
         transition: 1s all;
-        // animation: scroll 3s linear infinite normal;
-        // li:nth-child(1) {
-        //   margin-top: 0;
-        // }
-        // li:last-child {
-        //   margin-bottom: 0;
-        // }
+        padding: 0;
       }
       .arrow-all {
         height: 20px;

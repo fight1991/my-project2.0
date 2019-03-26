@@ -96,6 +96,7 @@
 <script>
 import eventBus from '../common/eventBus'
 import pathList from '@/config/pathList'
+import '@/assets/www-style/font/iconfont.css'
 export default {
   data () {
     return {
