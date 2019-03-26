@@ -1,4 +1,5 @@
-import License from './license/index' // 许可证件
+// import License from './license/index' // 许可证件
+import Goods from './goods/index' // 商品资料库
 const MENU = [
   {
     path: '/dataCenter/index',
@@ -11,6 +12,7 @@ const MENU = [
       title: '首页'
     }
   },
-  License.MENU
+  // License.MENU,
+  Goods.MENU
 ]
 export default {MENU}

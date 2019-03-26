@@ -34,6 +34,13 @@ export default {
     // 核注清单查询
     taxInfo: url.JINER + '/account/dataQuery/taxListQuery?funFlag=nems'
   },
+  // 资料中心
+  dataCenter: {
+    // 非保税商品库
+    noBonded: url.COMMON + '/declaration/goodsModel/list',
+    // 保税商品库
+    bonded: url.COMMON + '/declaration/commodity'
+  },
   // 快捷菜单
   keyBoardPath: [
     // {
