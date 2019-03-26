@@ -89,6 +89,7 @@ export default {
   margin: 20px 20px 20px 20px;
   z-index: 10;
   overflow:visible;
+  border-radius: 5px;
   // border: 1px solid red;
 }
 .sidebar::-webkit-scrollbar {

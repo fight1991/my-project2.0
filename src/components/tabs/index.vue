@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header style='background-color: rgba(0,0,0,0) !important;'>
+    <el-header height="45px" style='background-color: rgba(0,0,0,0) !important;'>
       <div class='page-tabs'>
         <div :class="{'collapse-btn':true,'btn-rotate':true}" @click='collapseClick()' v-if="isRotate"></div>
         <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
@@ -147,6 +147,6 @@ export default {
 }
 .page-tab-content{
   height: 100%;
-  padding: 0 20px;
+  padding: 0 5px;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="top-header">
     <div class="logo fl"></div>
+    <div :class="{'split-line':$store.state.childSys.title!== '', 'fl':true}"></div>
     <div class="title fl">{{$store.state.childSys.title}}</div>
     <div class="user-info">
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
@@ -171,6 +172,12 @@ export default {
 .top-header{
   position: relative;
   height: 62px;
+  .split-line {
+    width: 3px;
+    background-color: #fff;
+    height: calc(~"(100% - 34px)");
+    margin-top: 17px;
+  }
   img{
       position: relative;
       display: inline-block;
@@ -247,7 +254,7 @@ export default {
 .title {
   height: 62px;
   line-height: 62px;
-  font-size: 20px;
+  font-size: 24px;
   color: #fff;
   padding-left: 20px;
 }
