@@ -1,9 +1,8 @@
-// import License from './license/index' // 许可证件
-import Goods from './goods/index' // 商品资料库
+import Business from './business/index' // 业务报表
 const MENU = [
   {
-    path: '/dataCenter/index',
-    name: 'dataCenter-index',
+    path: '/reportCenter/index',
+    name: 'reportCenter-index',
     hidden: true,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
@@ -12,7 +11,6 @@ const MENU = [
       title: '首页'
     }
   },
-  // License.MENU,
-  Goods.MENU
+  Business.MENU
 ]
 export default {MENU}
