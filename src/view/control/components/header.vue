@@ -42,10 +42,14 @@
     </div>
     <div class="little-icon hidden-xs-only">
       <!-- <span class="search"></span> -->
-      <el-badge :value="totalNum" :max="99" class="item">
-        <span class="message" @click="goToMessage"></span>
-      </el-badge>
-      <span class="add" @click="getInfo('add')"></span>
+      <el-tooltip content="消息中心" placement="top">
+        <el-badge :value="totalNum" :max="99" class="item">
+          <span class="message" @click="goToMessage"></span>
+        </el-badge>
+      </el-tooltip>
+      <el-tooltip content="添加联系人" placement="top">
+        <span class="add" @click="getInfo('add')"></span>
+      </el-tooltip>
       <!-- <span class="date"></span> -->
       <!-- <span class="setting"></span> -->
     </div>
