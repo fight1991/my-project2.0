@@ -41,6 +41,19 @@ export default {
     // 保税商品库
     bonded: url.COMMON + '/declaration/commodity'
   },
+  // 报表中心
+  reportCenter: {
+    // 金额统计
+    amountSt: url.COMMON + '/reportForms/amountSt',
+    // 单量统计
+    certSt: url.COMMON + '/reportForms/certSt',
+    // 趋势统计
+    trendSt: url.COMMON + '/reportForms/trendSt',
+    // 进口报表
+    importSt: url.COMMON + '/reportForms/importSt',
+    // 出口报表
+    exportSt: url.COMMON + '/reportForms/exportSt'
+  },
   // 快捷菜单
   keyBoardPath: [
     // {

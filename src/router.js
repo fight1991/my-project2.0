@@ -6,6 +6,7 @@ import util from './common/util'
 import base64 from '@/common/base64'
 import EImport from './view/pages/eImport/router'
 import DataCenter from './view/pages/dataCenter/router'
+import ReportCenter from './view/pages/reportCenter/router'
 import WWW from './view/www/index'
 Vue.use(Router)
 
@@ -59,6 +60,7 @@ const routes = [
 // routes[1].children.push(Errors.MENU)
 routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
+routes[1].children.push(...ReportCenter.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -84,6 +86,12 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'dataCenter',
           title: '资料中心'
+        }
+        break
+      case 'reportCenter':
+        json = {
+          type: 'reportCenter',
+          title: '报表中心'
         }
         break
     }

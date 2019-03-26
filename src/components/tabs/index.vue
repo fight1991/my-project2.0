@@ -147,5 +147,6 @@ export default {
 }
 .page-tab-content{
   height: 100%;
+  padding: 0 20px;
 }
 </style>
