@@ -2,7 +2,7 @@
 const MENU = {
   path: '/reportCenter/business',
   name: 'business',
-  icon: 'icons-menu-productInfo',
+  icon: 'icons-menu-jobsList',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
