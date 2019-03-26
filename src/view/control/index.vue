@@ -42,13 +42,14 @@ export default {
 <style scoped lang="less">
 .main{
   width: 100%;
-  height: 100%;
+  // height: 100%;
   background-color: @sys-color-gray;
+  // padding-bottom: 50px;
+  height:calc(~"(100% - 65px)")
 }
 .middle {
-  padding-bottom: 50px;
-  height: 100%;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 .header{
     padding: 0;
@@ -99,5 +100,8 @@ export default {
     position: absolute;
     height: 100%;
   }
+}
+@-moz-document {
+
 }
 </style>

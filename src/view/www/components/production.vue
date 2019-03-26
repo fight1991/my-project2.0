@@ -138,9 +138,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../assets/www-style/lib/bootstrap/css/bootstrap.min.css';
-@import '../../../assets/www-style/css/base.css';
-@import '../../../assets/www-style/font/iconfont.css';
 .big {
     font-size: 22px;
     color: #2E2E2E;

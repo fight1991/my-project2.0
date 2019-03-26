@@ -61,12 +61,6 @@ export default {
 .divItems:nth-child(2n+1) {
   margin-right: 15px;
 }
-// .divItems:nth-child(3) {
-//   align-self: flex-end;
-// }
-// .divItems:nth-child(4) {
-//   align-self: flex-end;
-// }
 @media screen and (max-width:1060px) {
  .divItems {
    width: 100%;
