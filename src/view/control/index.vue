@@ -42,14 +42,13 @@ export default {
 <style scoped lang="less">
 .main{
   width: 100%;
-  // height: 100%;
   background-color: @sys-color-gray;
-  // padding-bottom: 50px;
-  height:calc(~"(100% - 65px)")
+  height:calc(~"(100% - 55px)")
 }
 .middle {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+  height:calc(~"(100% - 55px)")
 }
 .header{
     padding: 0;

@@ -256,7 +256,6 @@ export default {
 }
 // 智能区域
 .intel {
-  height: 600px;
   background-color: #F4F4F4;
   padding: 40px 0 70px 0;
   .detail {
@@ -305,14 +304,15 @@ export default {
     height: 74px;
   }
   .media {
+    display: flex;
     width: 50%;
     height: 105px;
     margin-top: 30px;
     &:nth-child(2n+1) {
-      padding-right: 40px;
+      padding-right: 30px;
     }
     &:nth-child(2n) {
-      padding-left: 40px;
+      padding-left: 30px;
     }
   }
   .media-body {
@@ -336,9 +336,23 @@ export default {
   padding-top: 50px;
   background: url('../../../assets/www-img/images/contact.png') no-repeat center;
   background-size: cover;
+  box-sizing: border-box;
   .button {
     width: 450px;
     margin: 0 auto;
+    cursor: pointer;
+    .btn-default {
+      background-color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-warning {
+      background-color: #FE7200;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
     button {
       width: 200px;
       height: 60px;

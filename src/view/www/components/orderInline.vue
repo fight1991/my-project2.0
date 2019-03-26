@@ -213,10 +213,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.mainer {
-  width: 1000px;
-  margin: 0 auto;
-}
 .big {
     font-size: 22px;
     color: #2E2E2E;

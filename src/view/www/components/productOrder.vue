@@ -171,6 +171,9 @@ export default {
     border: 1px solid #b2b2b2;
     margin-bottom: 10px;
     border-radius: 5px;
+    button {
+      cursor: pointer;
+    }
     &:hover {
       border: 1px solid #ff7125;
       button:nth-child(1) {
