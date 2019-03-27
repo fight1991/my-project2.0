@@ -140,7 +140,8 @@ router.beforeEach((to, from, next) => {
             mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
             userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
             companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
-            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag
+            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
+            companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
           }
           if (!util.isEmpty(res.result.userTitleList)) {
             sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
