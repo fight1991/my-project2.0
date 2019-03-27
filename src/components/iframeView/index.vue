@@ -50,7 +50,6 @@ export default {
   overflow: hidden;
   iframe{
     position: relative;
-    padding-bottom: 100px;
     box-sizing: border-box;
   }
 }
