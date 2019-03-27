@@ -55,7 +55,7 @@
 
 <script>
 import util from '../../../common/util'
-import pathList from '../../../config/pathList'
+// import pathList from '../../../config/pathList'
 import config from '../../../config/config'
 import eventBus from './eventBus'
 export default {
@@ -123,7 +123,7 @@ export default {
     },
     goToDecInfo () {
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
-      window.open(pathList.eImport.decInfo + '?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + sysId, '_blank')
+      window.open(location.origin + '/eImport/dataQuery/decInfo' + '?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + sysId, '_blank')
     }
   }
 }
