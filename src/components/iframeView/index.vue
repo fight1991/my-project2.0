@@ -1,5 +1,5 @@
 <template>
-<div  v-loading="loading" style='height:100%;overflow:hidden'>
+<div class='iframe-view'  v-loading="loading">
   <iframe @load='stateLoad()' :id='id' width='100%' :src="url" height="100%"  sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" frameborder=0 scrolling=auto></iframe>
 </div>
 </template>
@@ -43,7 +43,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.iframe-view{
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  iframe{
+    position: relative;
+    padding-bottom: 100px;
+    box-sizing: border-box;
+  }
+}
 .autoH{
   height: auto;
 }

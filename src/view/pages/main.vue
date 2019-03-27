@@ -32,7 +32,9 @@ export default {
 
 <style lang="less" scoped>
 .main,.el-container {
+  position: relative;
   height: 100%;
+  overflow: hidden;
 }
 .el-main {
   position: relative;

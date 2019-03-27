@@ -28,7 +28,7 @@
     </el-header>
     <el-main>
       <div class='page-tab-content'>
-        <div style='height:100%' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path">
+        <div style='height:100%;box-sizing: border-box' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path">
           <component :is="item.component"></component>
         </div>
       </div>
@@ -146,7 +146,10 @@ export default {
   }
 }
 .page-tab-content{
+  position: relative;
   height: 100%;
   padding: 0 5px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 </style>
