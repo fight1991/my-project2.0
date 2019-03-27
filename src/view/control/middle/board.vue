@@ -25,6 +25,7 @@
           <el-table
             :data="tableData"
             @row-click="goToDecInfo"
+            :row-class-name = 'cursor'
             style="width:100%">
             <el-table-column
               prop="statusVal"
@@ -124,6 +125,10 @@ export default {
     goToDecInfo () {
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
       window.open(location.origin + '/eImport/dataQuery/decInfo' + '?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + sysId, '_blank')
+    },
+    // 行点击样式
+    cursor () {
+      return 'cursor'
     }
   }
 }
