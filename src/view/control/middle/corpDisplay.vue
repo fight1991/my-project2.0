@@ -10,7 +10,7 @@
         <el-carousel height="300px" @change="getContent" :autoplay="true">
           <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
-            <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " target="_blank">
+            <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
               <img :src="item.pic" alt="">
             </a>
           </el-carousel-item>
@@ -23,7 +23,7 @@
           <p>自定义</p>
         </div>
         <div class="items" v-for="item in iconList" :key="item.pid" v-else>
-          <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " target="_blank">
+          <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
           </a>
@@ -107,6 +107,8 @@ export default {
   }
 .banner,.banner-default {
   width: 70%;
+  padding-left: 20px;
+  box-sizing: border-box;
   margin-top: 15px;
   border-radius: 3px;
   .intro {
@@ -125,11 +127,15 @@ export default {
   width: 40%;
   height: 300px;
   padding-left: 22px;
+  padding-right: 20px;
+  box-sizing: border-box;
   margin-top: 15px;
   .items {
     text-align: center;
     margin-bottom:20px;
     width: 48%;
+    padding: 0 10px;
+    box-sizing: border-box;
     float: left;
     min-width: 45px;
     img {
