@@ -87,7 +87,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$store.state.userLoginInfo)
     this.corpName = this.$store.state.userLoginInfo.companyName
     this.queryNumber()
     this.getUserCorps()
@@ -176,7 +175,6 @@ export default {
     },
     // 企业切换时
     changeCorpName () {
-      console.log(this.$store.state.userLoginInfo)
       // 找到对应企业的信息
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
