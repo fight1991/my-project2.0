@@ -87,6 +87,8 @@ export default {
     }
   },
   created () {
+    console.log(this.$store.state.userLoginInfo)
+    this.corpName = this.$store.state.userLoginInfo.companyName
     this.queryNumber()
     this.getUserCorps()
     // 获取个人荣誉列表
@@ -174,6 +176,7 @@ export default {
     },
     // 企业切换时
     changeCorpName () {
+      console.log(this.$store.state.userLoginInfo)
       // 找到对应企业的信息
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
@@ -182,7 +185,8 @@ export default {
       this.$store.commit('userCompanyInfo', {
         companyType: temp.corpType, // 公司类型
         companyCode: temp.corpId, // 公司id
-        companyName: temp.corpName
+        companyName: temp.corpName,
+        adminFlag: temp.adminFlag
       })
       this.corpDialogVisible = false
     },

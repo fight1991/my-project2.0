@@ -10,7 +10,7 @@
         <el-carousel height="300px" @change="getContent" :autoplay="true">
           <el-carousel-item  v-for="item in bannerList" :key="item.pid">
             <!-- <h3>{{ item }}</h3> -->
-            <a :href="item.link" target="_blank">
+            <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " target="_blank">
               <img :src="item.pic" alt="">
             </a>
           </el-carousel-item>
@@ -23,7 +23,7 @@
           <p>自定义</p>
         </div>
         <div class="items" v-for="item in iconList" :key="item.pid" v-else>
-          <a :href="item.link" target="_blank">
+          <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " target="_blank">
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
           </a>

@@ -4,14 +4,16 @@
     <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane label="平台公告" name="Announcement">
         <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="popTips" v-for="item in AnnounceList" :key="item.pid" v-else>
-          <el-popover width="200" placement="top-start" trigger="hover" :content="item.title">
-          <el-row >
-            <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
+          <el-row  v-for="item in AnnounceList" :key="item.pid" v-else>
+             <el-popover
+              placement="top-start"
+              width="200"
+              trigger="hover"
+              :content="item.title">
+            <el-col :span="12" slot="reference"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
+            </el-popover>
             <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
           </el-row>
-          </el-popover>
-        </div>
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">
         <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
