@@ -1,11 +1,11 @@
 <template>
-<div class="out-container www">
-  <div class="container">
+<div class="out-container www" ref="www">
+  <div class="container" ref="container">
     <Header></Header>
     <div class="main">
       <router-view></router-view>
     </div>
-    <Fixed class="staPositon"></Fixed>
+    <Fixed class="staPositon" @backTop ="backTop"></Fixed>
     <Footer></Footer>
   </div>
 </div>
@@ -27,9 +27,11 @@ export default {
     }
   },
   mounted () {
-
   },
   methods: {
+    backTop () {
+      this.$refs['www'].scrollTop = 0
+    }
   }
 }
 </script>

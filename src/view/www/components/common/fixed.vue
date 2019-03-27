@@ -26,8 +26,7 @@ export default {
       window.open(LoginUrl, '_self')
     },
     backTop () {
-      document.body.scrollTop = 0
-      document.documentElement.scrollTop = 0
+      this.$emit('backTop')
     }
   }
 }
