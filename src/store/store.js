@@ -236,7 +236,6 @@ export default new Vuex.Store({
       state.userLoginInfo.companyCode = data.companyCode
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.companyName = data.companyName
-      state.userLoginInfo.adminFlag = data.adminFlag
     },
     // 初次进入系统后 变更状态
     isFirstChange: function (state, value) {

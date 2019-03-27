@@ -256,7 +256,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 // 控制台样式
 .ccba-control.el-dropdown-menu {
-    max-height: auto;
+    max-height: auto!important;
     padding: 0;
     background-color: #fff;
     border: none;
@@ -444,13 +444,50 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       }
   
     }
-    
+    .el-radio__input.is-checked+.el-radio__label {
+      color: @sys-color-main;
+    }
+    .el-radio__input.is-checked .el-radio__inner {
+      border-color: @sys-color-main;
+      background: @sys-color-main;
+    }
     .el-dialog__footer {
       display: flex;
       justify-content: center;
+      padding-top: 0;
+      button {
+        background-color: @sys-color-main;
+        border-color:@sys-color-main
+      }
     }
 }
 .sys-class {
+  .el-radio__input.is-checked+.el-radio__label {
+    color: @sys-color-main;
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+    border-color: @sys-color-main;
+    background: @sys-color-main;
+  }
+  .el-dialog__footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 0;
+    button {
+      background-color: @sys-color-main;
+      border-color:@sys-color-main
+    }
+  }
+  .el-radio-group {
+    width: 100%;
+  }
+  .radioSelect {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .el-dialog--center {
+    text-align: left;
+  }
   .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
     border-bottom-color:#e4e7ed;
     background-color: #E5F2FF;

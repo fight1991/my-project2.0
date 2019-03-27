@@ -5,14 +5,14 @@
       <el-tab-pane label="平台公告" name="Announcement">
         <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
           <el-row  v-for="item in AnnounceList" :key="item.pid" v-else>
-             <el-popover
+             <!-- <el-popover
               placement="top-start"
-              width="200"
+              width="400"
               trigger="hover"
-              :content="item.title">
-            <el-col :span="12" slot="reference"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
-            </el-popover>
-            <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
+              :content="item.title"> -->
+            <el-col :span="14"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
+            <!-- </el-popover> -->
+            <el-col :span="6" :offset="4"><div class="date">{{item.createTime}}</div></el-col>
           </el-row>
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">

@@ -73,6 +73,7 @@ export default {
     }
   },
   created () {
+    this.corpName = this.$store.state.userLoginInfo.companyName
     this.getUserCorps()
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
