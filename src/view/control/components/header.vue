@@ -48,7 +48,9 @@
         </el-badge>
       </el-tooltip>
       <el-tooltip content="添加联系人" placement="top">
-        <span class="add" @click="getInfo('add')"></span>
+        <el-badge :value="newPersonNum" :max="99" class="item">
+          <span class="add" @click="getInfo('add')"></span>
+        </el-badge>
       </el-tooltip>
       <!-- <span class="date"></span> -->
       <!-- <span class="setting"></span> -->
@@ -83,12 +85,14 @@ export default {
       corpName: '',
       corpList: [],
       userTitleList: [], // 个人荣誉
-      totalNum: 0
+      totalNum: 0,
+      newPersonNum: 0
     }
   },
   created () {
     this.corpName = this.$store.state.userLoginInfo.companyName
     this.queryNumber()
+    this.queryPersonNum()
     this.getUserCorps()
     // 获取个人荣誉列表
     if (sessionStorage.getItem('userTitleList')) {
@@ -204,6 +208,32 @@ export default {
           clearInterval(this.timeOut)
           this.timeOut = setInterval(() => {
             this.queryNumber()
+          }, 300000)
+        },
+        other: (res) => {
+          clearInterval(this.timeOut)
+        }
+      })
+    },
+    // 获取新增联系人条数
+    queryPersonNum () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/getNewContactsPage',
+        data: {
+          page: {
+            pageSize: 10,
+            pageIndex: 1
+          }
+        },
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          if (res.result) {
+            this.newPersonNum = res.page.total
+          }
+          clearInterval(this.timeOut)
+          this.timeOut = setInterval(() => {
+            this.queryPersonNum()
           }, 300000)
         },
         other: (res) => {
