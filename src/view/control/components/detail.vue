@@ -51,7 +51,7 @@ export default {
   .container {
     width: 800px;
     margin: 84px auto;
-    padding: 30px 20px 0 20px;
+    padding: 30px 20px;
     background-color: #fff;
     border-radius: 10px;
     // background-color: pink;
@@ -81,7 +81,7 @@ export default {
 }
 .logo{
     display: inline-block;
-    width: 280px;
+    width: 380px;
     height: 64px;
     background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
     background-size: 280px 64px;

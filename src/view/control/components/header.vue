@@ -183,7 +183,8 @@ export default {
       this.$store.commit('userCompanyInfo', {
         companyType: temp.corpType, // 公司类型
         companyCode: temp.corpId, // 公司id
-        companyName: temp.corpName
+        companyName: temp.corpName,
+        adminFlag: temp.adminFlag
       })
       this.corpDialogVisible = false
     },
