@@ -62,7 +62,7 @@
     <el-dialog
       title="切换公司"
       :visible.sync="corpDialogVisible"
-      width="25%"
+      width="400px"
       center>
       <el-radio-group v-model="corpName">
         <div class="radioSelect" v-for="item in corpList" :key="item.corpId">
