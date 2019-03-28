@@ -228,8 +228,11 @@ export default {
         router: this.$router,
         isLoad: false,
         success: (res) => {
-          if (res.result) {
-            this.newPersonNum = res.page.total
+          if (res.result && Array.isArray(res.result)) {
+            let arr = res.result.filter(v => {
+              return v.status === 'todo'
+            })
+            this.newPersonNum = arr.length
           }
           clearInterval(this.timeOut)
           this.timeOut = setInterval(() => {
