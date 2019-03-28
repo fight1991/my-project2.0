@@ -7,6 +7,7 @@
     <div class="mainer">
       <!-- 在线预约区域 -->
       <div class="orderInline">
+        <span id="anchor"></span>
         <div class="title">
           <p class="big">在线预约</p>
           <p class="light">ONLINE BOOKING</p>
@@ -52,7 +53,6 @@
           </el-row>
         </el-form>
         <div class="remind">
-          <span id="anchor"></span>
           <div class="line"><span>温馨提示：请您填写真实的姓名和联系方式，我们会有专员与您联系。</span></div>
         </div>
         <div class="btn-now">

@@ -102,6 +102,10 @@ export default {
   methods: {
     // 获取报关单统计详情
     getDecList () {
+      if (!this.dates) {
+        this.tableData = []
+        return
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decListHomePage',
         data: {

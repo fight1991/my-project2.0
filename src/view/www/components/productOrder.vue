@@ -18,7 +18,7 @@
             </el-tooltip>
             <!-- <div class="tips">{{item.describe}}</div> -->
           </div>
-          <div class="btn-order"><button v-for="(item2,index) in item.status" :key="index" @click="goToPurchase">{{item2}}</button></div>
+          <div class="btn-order"><button v-for="(item2,index) in item.status" :key="index" @click.prevent="goToPurchase">{{item2}}</button></div>
         </div>
       </div>
     </div>
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import config from '@/config/config'
+// import config from '@/config/config'
+import pathList from '@/config/pathList'
 export default {
   data () {
     return {
@@ -100,8 +101,9 @@ export default {
   },
   methods: {
     goToPurchase (e) {
+      console.log('改好')
       if (e.target.innerHTML === '订购') {
-        let LoginUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['LOGIN']
+        let LoginUrl = pathList.WWWLOGINBACK
         window.open(LoginUrl, '_self')
       }
     }
