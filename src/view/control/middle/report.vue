@@ -1,7 +1,7 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <div class="compute-content" v-if="!(echartData.series[0].data.length===0)">
+    <div class="compute-content">
       <h3>单量统计</h3>
       <div class="time">统计时间 :&nbsp;{{dates.startDate+' ~ '+dates.endDate}}</div>
     </div>
@@ -112,7 +112,7 @@ export default {
     computeWeek () {
       let end = new Date()
       let start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.dates.startDate = util.dateFormat(start, 'yyyy-MM-dd')
       this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
     },

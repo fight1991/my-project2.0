@@ -7,7 +7,7 @@
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
-          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;-&nbsp;</span>
+          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;{{$store.state.userLoginInfo.companyName? '-':''}}&nbsp;</span>
           <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../assets/img/icon/admin.png">
