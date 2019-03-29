@@ -161,8 +161,8 @@ export default {
   margin-top: 15px;
   display: flex;
   justify-content: space-around;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: flex-start;
   .items {
     text-align: center;
     margin-bottom:20px;
@@ -170,13 +170,6 @@ export default {
     padding: 0 10px;
     box-sizing: border-box;
     min-width: 45px;
-    &:nth-last-child(-n + 2) {
-      align-self: flex-end;
-      margin-bottom: 0;
-    }
-    &:nth-child(-n + 2) {
-      align-self: flex-start;
-    }
     img {
       width: 24px;
       height: 24px;
