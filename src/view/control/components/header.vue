@@ -47,7 +47,7 @@
           <span class="message" @click="goToMessage"></span>
         </el-badge>
       </el-tooltip>
-      <el-tooltip content="添加联系人" placement="top">
+      <el-tooltip content="我的联系人" placement="top">
         <el-badge :value="newPersonNum" :max="99" class="item">
           <span class="add" @click="getInfo('add')"></span>
         </el-badge>
