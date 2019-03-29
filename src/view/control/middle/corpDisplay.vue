@@ -18,9 +18,11 @@
         <div class="intro">{{intro}}</div>
       </div>
       <div class="link-icon fr">
-        <div class="default" v-if="iconList.length===0">
+        <div class="default" v-if="iconList.length===0 && $store.state.userLoginInfo.adminFlag === 'true'">
+          <a :href="getURL()" target="_blank">
           <img class="default-right" src="../../../assets/img/icon/com_default.png" alt="">
           <p>自定义</p>
+          </a>
         </div>
         <div class="items" v-for="item in iconList" :key="item.pid" v-else>
           <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
@@ -35,6 +37,7 @@
 
 <script>
 import eventBus from './eventBus.js'
+import config from '@/config/config'
 export default {
   data () {
     return {
@@ -73,6 +76,10 @@ export default {
           }
         }
       })
+    },
+    getURL () {
+      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/companyAdmin/index?corpDisplay=true&token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&corpId=' + this.$store.state.userLoginInfo.companyCode + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
+      return url
     }
   }
 }
