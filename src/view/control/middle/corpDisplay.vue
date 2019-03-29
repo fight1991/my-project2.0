@@ -29,7 +29,7 @@
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
           </a>
-          <a v-else :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
+          <a v-if="item.link != 'other'" :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
           </a>
