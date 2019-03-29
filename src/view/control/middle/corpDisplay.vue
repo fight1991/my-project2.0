@@ -159,17 +159,19 @@ export default {
   padding-right: 20px;
   box-sizing: border-box;
   margin-top: 15px;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  // display: flex;
+  // justify-content: flex-start;
+  // flex-wrap: wrap;
+  // align-items: flex-start;
   .items {
+    float: left;
     text-align: center;
-    margin-bottom:20px;
+    margin-bottom:50px;
     width: 48%;
     padding: 0 10px;
     box-sizing: border-box;
     min-width: 45px;
+    // align-self: flex-start;
     img {
       width: 24px;
       height: 24px;
