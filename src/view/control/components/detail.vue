@@ -1,5 +1,5 @@
 <template>
- <div class="detail">
+ <div class="detail ccba-control-detail">
    <div class="top-header">
      <div class="logo"></div>
    </div>
@@ -58,6 +58,9 @@ export default {
     .text {
       // text-indent: 2em;
       color: @font-color-main;
+      img {
+        width: 100%;
+      }
     }
     p {
       padding: 5px 20px;

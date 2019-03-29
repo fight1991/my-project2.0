@@ -18,14 +18,18 @@
         <div class="intro">{{intro}}</div>
       </div>
       <div class="link-icon fr">
-        <div class="default" v-if="iconList.length===0 && $store.state.userLoginInfo.adminFlag === 'true'">
+        <!-- <div class="default" v-if="iconList.length===0 && $store.state.userLoginInfo.adminFlag === 'true'">
           <a :href="getURL()" target="_blank">
           <img class="default-right" src="../../../assets/img/icon/com_default.png" alt="">
           <p>自定义</p>
           </a>
-        </div>
-        <div class="items" v-for="item in iconList" :key="item.pid" v-else>
-          <a :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
+        </div> -->
+        <div class="items" v-for="item in iconList" :key="item.pid">
+          <a :href="getURL()" target="_blank" v-if="item.link === 'other' && $store.state.userLoginInfo.adminFlag === 'true'">
+            <img :src="item.pic" alt="">
+            <p>{{item.title}}</p>
+          </a>
+          <a v-else :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
             <img :src="item.pic" alt="">
             <p>{{item.title}}</p>
           </a>
@@ -43,7 +47,14 @@ export default {
     return {
       intro: '',
       bannerList: [],
-      iconList: []
+      iconList: [
+        {
+          pid: 'unique',
+          pic: require('../../../assets/img/icon/com_default.png'),
+          link: 'other',
+          title: '自定义'
+        }
+      ]
     }
   },
   created () {
@@ -70,9 +81,20 @@ export default {
             this.bannerList = []
           }
           if (res.result.links) {
-            this.iconList = res.result.links
+            if (res.result.links.length <= 5) {
+              this.iconList = [...res.result.links, ...this.iconList]
+            } else {
+              this.iconList = res.result.links
+            }
           } else {
-            this.iconList = []
+            this.iconList = [
+              {
+                pid: 'unique',
+                pic: require('../../../assets/img/icon/com_default.png'),
+                link: 'other',
+                title: '自定义'
+              }
+            ]
           }
         }
       })
@@ -137,14 +159,24 @@ export default {
   padding-right: 20px;
   box-sizing: border-box;
   margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
   .items {
     text-align: center;
     margin-bottom:20px;
     width: 48%;
     padding: 0 10px;
     box-sizing: border-box;
-    float: left;
     min-width: 45px;
+    &:nth-last-child(-n + 2) {
+      align-self: flex-end;
+      margin-bottom: 0;
+    }
+    &:nth-child(-n + 2) {
+      align-self: flex-start;
+    }
     img {
       width: 24px;
       height: 24px;

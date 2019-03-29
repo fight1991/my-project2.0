@@ -85,8 +85,8 @@ export default {
       corpName: '',
       corpList: [],
       userTitleList: [], // 个人荣誉
-      totalNum: 0,
-      newPersonNum: 0
+      totalNum: '',
+      newPersonNum: ''
     }
   },
   created () {
@@ -204,7 +204,8 @@ export default {
         router: this.$router,
         isLoad: false,
         success: (res) => {
-          this.totalNum = res.result[0].unreadCount + res.result[1].unreadCount
+          let tepNum = res.result[0].unreadCount + res.result[1].unreadCount
+          this.totalNum = tepNum === 0 ? '' : tepNum
           clearInterval(this.timeOut)
           this.timeOut = setInterval(() => {
             this.queryNumber()
@@ -232,7 +233,7 @@ export default {
             let arr = res.result.filter(v => {
               return v.status === 'todo'
             })
-            this.newPersonNum = arr.length
+            this.newPersonNum = arr.length === 0 ? '' : arr.length
           }
           clearInterval(this.timeOut)
           this.timeOut = setInterval(() => {
