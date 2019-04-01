@@ -94,6 +94,12 @@ router.beforeEach((to, from, next) => {
           title: '报表中心'
         }
         break
+      case 'aircraft':
+        json = {
+          type: 'aircraft',
+          title: '航空器申报'
+        }
+        break
     }
     router.app.$options.store.commit('setChildSys', json)
   }
