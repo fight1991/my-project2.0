@@ -17,10 +17,10 @@ export default {
     recordImport: url.COMMON + '/declaration/recordList/import/add/new',
     // 出境备案清单（新增）
     recordExport: url.COMMON + '/declaration/recordList/export/add/new',
-    // 进口核注清单
-    importTaxList: url.JINER + '/account/datainput/I/taxList',
-    // 出口核注清单
-    exportTaxList: url.JINER + '/account/datainput/E/taxList',
+    // 进口核注清单（新增）
+    importTaxList: url.JINER + '/dec/datainput/I/taxList',
+    // 出口核注清单（新增）
+    exportTaxList: url.JINER + '/dec/datainput/E/taxList',
     // 报关单审核
     decReviewed: url.COMMON + '/declaration/decCheck/list',
     // 报关数据查询
