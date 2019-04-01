@@ -32,7 +32,9 @@ export default {
     // 报关数据查询
     decInfo: url.COMMON + '/declaration/list',
     // 核注清单查询
-    taxInfo: url.JINER + '/eImport/dataQuery/taxInfo'
+    taxInfo: url.JINER + '/eImport/dataQuery/taxInfo',
+    // 业务跟踪台账
+    tLedger: url.COMMON + '/declaration/businessTrack'
   },
   // 资料中心
   dataCenter: {
@@ -56,8 +58,20 @@ export default {
   },
   // 航空器申报
   aircraft: {
-    // 备案管理
-    record: url.COMMON + '/airVehicle/airPlan/list'
+    // 备案管理-当日飞行计划
+    airplan: url.COMMON + '/airVehicle/airPlan/list',
+    // 进境/港申报-进境/港动态申报
+    importDyn: url.COMMON + '/airVehicle/importDynamic/list',
+    // 进境/港申报-进境/港单证申报
+    importDoc: url.COMMON + '/airVehicle/importDocument/list',
+    // 在港申报-海关在港申报
+    customPort: url.COMMON + '/airVehicle/customPort/list',
+    // 在港申报-进境/港单证申报
+    materials: url.COMMON + '/airVehicle/materials/list',
+    // 出境/港申报-出境/港动态申报
+    exportDyn: url.COMMON + '/airVehicle/exportDynamic/list',
+    // 出境/港申报-出境/港单证申报
+    exportDoc: url.COMMON + '/airVehicle/exportDocument/list'
   },
   // 快捷菜单
   keyBoardPath: [
@@ -97,12 +111,12 @@ export default {
       text: '报关单审核',
       path: url.CCBA + '/eImport/reviewed'
     },
-    // {
-    //   id: 7,
-    //   icon: require('../assets/img/icon-bottom/btm_bta.png'),
-    //   text: '业务跟踪台账',
-    //   path: url.CCBA + '/Dec/Other/Index?url=%2fdeclaration%2fdecCheck%2flist'
-    // },
+    {
+      id: 7,
+      icon: require('../assets/img/icon-bottom/btm_bta.png'),
+      text: '业务跟踪台账',
+      path: url.CCBA + '/eImport/dataQuery/tLedger'
+    },
     {
       id: 8,
       icon: require('../assets/img/icon-bottom/btm_cddi.png'),

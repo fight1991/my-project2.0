@@ -35,21 +35,21 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxInfo.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '核注清单查询'
       }
+    },
+    {
+      path: '/eImport/dataQuery/tLedger',
+      name: 'tLedger',
+      icon: 'icons-menu-price',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '业务跟踪台帐'
+      }
     }
-    //  {
-    //   path: '/eImport/dataQuery/tLedger',
-    //   name: 'tLedger',
-    //   icon: 'icons-menu-price',
-    //   permissions: 'SAASOM0504000000',
-    //   hidden: false,
-    //   meta: {
-    //     component: resolve => require(['./demo.vue'], resolve),
-    //     title: '业务跟踪台帐'
-    //   }
-    // }
   ]
 }
 export default {MENU}
