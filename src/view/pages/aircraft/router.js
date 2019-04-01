@@ -1,18 +1,15 @@
-// import License from './license/index' // 许可证件
-import Goods from './goods/index' // 商品资料库
+import Record from './record/index' // 商品资料库
 const MENU = [
   {
-    path: '/dataCenter/index',
-    name: 'dataCenter-index',
+    path: '/aircraft/index',
+    name: 'aircraft-index',
     hidden: true,
-    icon: 'el-icon-menu1',
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {
       title: '首页'
     }
   },
-  // License.MENU,
-  Goods.MENU
+  Record.MENU
 ]
 export default {MENU}

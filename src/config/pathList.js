@@ -24,15 +24,15 @@ export default {
     // 出境备案清单（新增）
     recordExport: url.COMMON + '/declaration/recordList/export/add/new',
     // 进口核注清单
-    importTaxList: url.JINER + '/account/datainput/I/taxList?iEFlag=I&funFlag=nems',
+    importTaxList: url.JINER + '/account/datainput/I/taxList',
     // 出口核注清单
-    exportTaxList: url.JINER + '/account/datainput/E/taxList?iEFlag=E&funFlag=nems',
+    exportTaxList: url.JINER + '/account/datainput/E/taxList',
     // 报关单审核
     decReviewed: url.COMMON + '/declaration/decCheck/list',
     // 报关数据查询
     decInfo: url.COMMON + '/declaration/list',
     // 核注清单查询
-    taxInfo: url.JINER + '/account/dataQuery/taxListQuery?funFlag=nems'
+    taxInfo: url.JINER + '/eImport/dataQuery/taxInfo'
   },
   // 资料中心
   dataCenter: {
@@ -53,6 +53,11 @@ export default {
     importSt: url.COMMON + '/reportForms/importSt',
     // 出口报表
     exportSt: url.COMMON + '/reportForms/exportSt'
+  },
+  // 航空器申报
+  aircraft: {
+    // 备案管理
+    record: url.COMMON + '/airVehicle/airPlan/list'
   },
   // 快捷菜单
   keyBoardPath: [

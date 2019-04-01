@@ -20,9 +20,9 @@ export default {
     } else if (this.$route.name === 'exportRecord') {
       this.url = pathList.eImport['recordExport'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'importTaxList') {
-      this.url = pathList.eImport['importTaxList'] + '&sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['importTaxList'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'exportTaxList') {
-      this.url = pathList.eImport['exportTaxList'] + '&sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['exportTaxList'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }
