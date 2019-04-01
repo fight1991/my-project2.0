@@ -5,7 +5,6 @@
       <i class="sys-menu-move"  @click='menuShowClick()'></i>
       <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
         <span class="el-dropdown-link">
-          <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;{{$store.state.userLoginInfo.companyName? '-':''}}&nbsp;</span>
           <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
           <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
@@ -56,7 +55,7 @@
       <!-- <span class="setting"></span> -->
     </div>
     <div class="welcome hidden-xs-only">
-      朗新金关信息科技有限公司
+      {{$store.state.userLoginInfo.companyName}}
     </div>
     <!-- 切换公司对话框 -->
     <el-dialog
@@ -274,6 +273,8 @@ export default {
         z-index: 3001;
         .userName {
           margin-right: 15px;
+          font-size: 16px;
+          vertical-align: middle;
         }
     }
     .user-img{
@@ -289,6 +290,8 @@ export default {
   }
 
   .welcome {
+    padding-left: 30px;
+    background:url("../../../assets/img/icon/top_com.png") no-repeat 0 22px;
     position:absolute;
     left:400px;
     top: 0;
@@ -382,12 +385,13 @@ export default {
 
 .little-icon {
   box-sizing:border-box;
-  height: 64px;
-  padding: 22px;
+  height: 62px;
+  padding: 21px;
   position: absolute;
+  padding-right: 10px;
   // background-color: green;
   top: 0;
-  right: 400px;
+  right: 150px;
   .search {
     background: url("../../../assets/img/icon/top_search.png") no-repeat;
     background-clip: content-box;
