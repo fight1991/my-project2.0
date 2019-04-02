@@ -54,18 +54,18 @@ export default {
   aircraft: {
     // 备案管理-当日飞行计划
     airplan: url.COMMON + '/airVehicle/airPlan/list',
-    // 进境/港申报-进境/港动态申报
+    // 进/出境/港申报-进境/港动态申报
     importDyn: url.COMMON + '/airVehicle/importDynamic/list',
-    // 进境/港申报-进境/港单证申报
+    // 进/出境/港申报-进境/港单证申报
     importDoc: url.COMMON + '/airVehicle/importDocument/list',
+    // 进/出境/港申报-出境/港动态申报
+    exportDyn: url.COMMON + '/airVehicle/exportDynamic/list',
+    // 进/出境/港申报-出境/港单证申报
+    exportDoc: url.COMMON + '/airVehicle/exportDocument/list',
     // 在港申报-海关在港申报
     customPort: url.COMMON + '/airVehicle/customPort/list',
     // 在港申报-进境/港单证申报
-    materials: url.COMMON + '/airVehicle/materials/list',
-    // 出境/港申报-出境/港动态申报
-    exportDyn: url.COMMON + '/airVehicle/exportDynamic/list',
-    // 出境/港申报-出境/港单证申报
-    exportDoc: url.COMMON + '/airVehicle/exportDocument/list'
+    materials: url.COMMON + '/airVehicle/materials/list'
   },
   // 快捷菜单
   keyBoardPath: [

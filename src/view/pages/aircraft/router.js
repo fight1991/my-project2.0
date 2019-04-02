@@ -1,7 +1,6 @@
 import Record from './record/index' // 备案管理
-import Import from './import/index' // 进境/港申报
+import IEport from './iEport/index' // 进/出境/港申报
 import InLare from './inLare/index' // 在港申报
-import Export from './export/index' // 出境/港申报
 const MENU = [
   {
     path: '/aircraft/index',
@@ -14,8 +13,7 @@ const MENU = [
     }
   },
   Record.MENU,
-  Import.MENU,
-  InLare.MENU,
-  Export.MENU
+  IEport.MENU,
+  InLare.MENU
 ]
 export default {MENU}
