@@ -11,24 +11,24 @@
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">
         <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <el-row v-for="item in lawList" :key="item.pid" v-else>
-          <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
-          <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
-        </el-row>
+        <div class="per-row" v-for="item in lawList" :key="item.pid" v-else>
+          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
+          <div class="date">{{item.createTime}}</div>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="行业资讯" name="IndustryNews">
         <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <el-row v-for="item in newsList" :key="item.pid" v-else>
-          <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
-          <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
-        </el-row>
+        <div class="per-row" v-for="item in newsList" :key="item.pid" v-else>
+          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
+          <div class="date">{{item.createTime}}</div>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="通知公告" name="Information">
         <div class="default" v-if="InformateList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <el-row v-for="item in InformateList" :key="item.pid" v-else>
-          <el-col :span="12"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
-          <el-col :span="6" :offset="6"><div class="date">{{item.createTime}}</div></el-col>
-        </el-row>
+        <div class="per-row" v-for="item in InformateList" :key="item.pid" v-else>
+          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
+          <div class="date">{{item.createTime}}</div>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
