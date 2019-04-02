@@ -4,16 +4,10 @@
     <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane label="平台公告" name="Announcement">
         <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-          <el-row  v-for="item in AnnounceList" :key="item.pid" v-else>
-             <!-- <el-popover
-              placement="top-start"
-              width="400"
-              trigger="hover"
-              :content="item.title"> -->
-            <el-col :span="14"><div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div></el-col>
-            <!-- </el-popover> -->
-            <el-col :span="6" :offset="4"><div class="date">{{item.createTime}}</div></el-col>
-          </el-row>
+          <div class="per-row"  v-for="item in AnnounceList" :key="item.pid" v-else>
+            <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
+            <div class="date">{{item.createTime}}</div>
+          </div>
       </el-tab-pane>
       <el-tab-pane label="政策法规" name="PolicyLaw">
         <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
@@ -125,17 +119,20 @@ export default {
     font-size: 12px;
     color: @font-color-main;
     cursor: pointer;
+    flex: 1
   }
   .date {
     text-align: right;
     color: @font-color-title;
     font-size: 12px;
+    width: 200px;
   }
   .el-form-item__label {
     font-size: 12px;
   }
-  .el-row {
+  .per-row {
     padding: 10px 0;
+    display: flex;
   }
 }
 </style>
