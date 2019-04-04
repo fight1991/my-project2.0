@@ -67,6 +67,18 @@ export default {
     // 在港申报-进境/港单证申报
     materials: url.COMMON + '/airVehicle/materials/list'
   },
+  // 金二
+  jinerInfo: {
+    // 加工贸易账册录入
+    accountAdd: url.JINER + '/account/datainput/list',
+    // 加工贸易账册查询
+    accountQuery: url.JINER + '/account/dataQuery/list',
+    // 加工贸易手册录入
+    handAdd: url.JINER + '/handBook/datainput/list',
+    // 加工贸易手册查询
+    handQuery: url.JINER + '/handBook/dataQuery/list'
+  },
+  // 加工贸易手册
   // 快捷菜单
   keyBoardPath: [
     // {

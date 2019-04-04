@@ -9,6 +9,8 @@ import DataCenter from './view/pages/dataCenter/router'
 import ReportCenter from './view/pages/reportCenter/router'
 import Aircraft from './view/pages/aircraft/router'
 import WWW from './view/www/index'
+import Account from './view/pages/accountBook/router'
+import Hand from './view/pages/handBook/router'
 Vue.use(Router)
 
 const routes = [
@@ -63,6 +65,8 @@ routes[1].children.push(...EImport.MENU)
 routes[1].children.push(...DataCenter.MENU)
 routes[1].children.push(...ReportCenter.MENU)
 routes[1].children.push(...Aircraft.MENU)
+routes[1].children.push(...Account.MENU)
+routes[1].children.push(...Hand.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
