@@ -1,7 +1,7 @@
 // 账册
 const MENU = {
-  path: '/acountBook/dataQuery',
-  name: 'acountBook-dataInfo',
+  path: '/accountBook/dataQuery',
+  name: 'accountBook-dataInfo',
   icon: 'icons-menu-dataInfo',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '账册数据查询'
+        title: '加工贸易账册查询'
       }
     }
   ]

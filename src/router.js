@@ -106,6 +106,18 @@ router.beforeEach((to, from, next) => {
           title: '航空器申报'
         }
         break
+      case 'accountBook':
+        json = {
+          type: 'accountBook',
+          title: '加工贸易账册'
+        }
+        break
+      case 'handBook':
+        json = {
+          type: 'handBook',
+          title: '加工贸易手册'
+        }
+        break
     }
     router.app.$options.store.commit('setChildSys', json)
   }

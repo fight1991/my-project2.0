@@ -2,7 +2,7 @@ import dataInput from './dataInput/index' // 数据录入
 import dataQuery from './dataQuery/index' // 数据查询
 const MENU = [
   {
-    path: '/account/index',
+    path: '/accountBook/index',
     name: 'account-index',
     hidden: true,
     permissions: 'WF000000',

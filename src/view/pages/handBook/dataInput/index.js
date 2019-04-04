@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '手册录入详情'
+    title: '数据录入'
   },
   children: [
     {
@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '手册数据录入'
+        title: '加工贸易手册'
       }
     }
   ]

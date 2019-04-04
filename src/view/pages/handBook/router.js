@@ -2,9 +2,9 @@ import dataInput from './dataInput/index' // 数据录入
 import dataQuery from './dataQuery/index' // 数据查询
 const MENU = [
   {
-    path: '/hand/index',
+    path: '/handBook/index',
     name: 'hand-index',
-    hidden: false,
+    hidden: true,
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {
