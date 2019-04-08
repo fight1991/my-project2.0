@@ -106,9 +106,9 @@ router.beforeEach((to, from, next) => {
           title: '航空器申报'
         }
         break
-      case 'accountBook':
+      case 'account':
         json = {
-          type: 'accountBook',
+          type: 'account',
           title: '加工贸易账册'
         }
         break

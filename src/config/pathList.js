@@ -70,13 +70,13 @@ export default {
   // 金二
   jinerInfo: {
     // 加工贸易账册录入
-    accountAdd: url.JINER + '/account/datainput/list',
+    accountAdd: url.JINER + '/account/datainput/accountBook',
     // 加工贸易账册查询
-    accountQuery: url.JINER + '/account/dataQuery/list',
+    accountQuery: url.JINER + '/account/dataQuery/accountBookQuery',
     // 加工贸易手册录入
-    handAdd: url.JINER + '/handBook/datainput/list',
+    handAdd: url.JINER + '/handBook/datainput/handBook',
     // 加工贸易手册查询
-    handQuery: url.JINER + '/handBook/dataQuery/list'
+    handQuery: url.JINER + '/handBook/dataQuery/handBookQuery'
   },
   // 加工贸易手册
   // 快捷菜单

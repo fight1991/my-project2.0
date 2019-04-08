@@ -1,7 +1,7 @@
 // 账册
 const MENU = {
-  path: '/accountBook/dataInfo',
-  name: 'accountBook-dataInfo',
+  path: '/account/dataInfo',
+  name: 'account-dataInfo',
   icon: 'icons-menu-dataInfo',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),

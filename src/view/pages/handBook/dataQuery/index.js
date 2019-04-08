@@ -10,7 +10,7 @@ const MENU = {
   },
   children: [
     {
-      path: '/handBook/datainput/list',
+      path: '/handBook/dataQuery/list',
       name: 'handBookQuery',
       permissions: 'SAASOM0504000000',
       hidden: false,
