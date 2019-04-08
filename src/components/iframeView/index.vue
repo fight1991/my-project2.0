@@ -1,6 +1,6 @@
 <template>
 <div class='iframe-view'  v-loading="loading">
-  <iframe @load='stateLoad()' :id='id' width='100%' :src="url" height="100%"  sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" frameborder=0 scrolling=auto></iframe>
+  <iframe @load='stateLoad()' :id='id' width='100%' :src="url" height="100%"  sandbox="allow-forms allow-popups allow-scripts allow-same-origin allow-top-navigation" frameborder=0 scrolling=auto></iframe>
 </div>
 </template>
 

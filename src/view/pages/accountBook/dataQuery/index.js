@@ -2,7 +2,7 @@
 const MENU = {
   path: '/accountBook/dataQuery',
   name: 'accountBook-dataInfo',
-  icon: 'icons-menu-dataInfo',
+  icon: 'icons-menu-dataQuery',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
