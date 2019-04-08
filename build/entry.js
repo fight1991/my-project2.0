@@ -12,7 +12,10 @@ module.exports = {
     aircraft: './src/view/pages/aircraft/router.js',
     dataCenter: './src/view/pages/dataCenter/router.js',
     eImport: './src/view/pages/eImport/router.js',
-    reportCenter: './src/view/pages/reportCenter/router.js'
+    reportCenter: './src/view/pages/reportCenter/router.js',
+    circulation: './src/view/pages/circulation/router.js',
+    graininess: './src/view/pages/graininess/router.js',
+    sea:'./src/view/pages/sea/router.js'
   },
   build: {
     vendor1: ['vue'],
@@ -27,6 +30,9 @@ module.exports = {
     aircraft: ['babel-polyfill', './src/view/pages/aircraft/router.js'],
     dataCenter: ['babel-polyfill', './src/view/pages/dataCenter/router.js'],
     eImport: ['babel-polyfill', './src/view/pages/eImport/router.js'],
-    reportCenter: ['babel-polyfill', './src/view/pages/reportCenter/router.js']
+    reportCenter: ['babel-polyfill', './src/view/pages/reportCenter/router.js'],
+    circulation: ['babel-polyfill','./src/view/pages/circulation/router.js'],
+    graininess: ['babel-polyfill','./src/view/pages/graininess/router.js'],
+    sea: ['babel-polyfill','./src/view/pages/sea/router.js']
   }
 }
