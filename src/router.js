@@ -11,6 +11,7 @@ import Aircraft from './view/pages/aircraft/router'
 import WWW from './view/www/index'
 import Account from './view/pages/account/router'
 import Hand from './view/pages/handBook/router'
+import Circulation from './view/pages/circulation/router'
 Vue.use(Router)
 
 const routes = [
@@ -67,6 +68,7 @@ routes[1].children.push(...ReportCenter.MENU)
 routes[1].children.push(...Aircraft.MENU)
 routes[1].children.push(...Account.MENU)
 routes[1].children.push(...Hand.MENU)
+routes[1].children.push(...Circulation.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -116,6 +118,24 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'handBook',
           title: '加工贸易手册'
+        }
+        break
+      case 'circulation':
+        json = {
+          type: 'circulation',
+          title: '保税货物流转'
+        }
+        break
+      case 'graininess':
+        json = {
+          type: 'graininess',
+          title: '保税物流管理'
+        }
+        break
+      case 'sea':
+        json = {
+          type: 'sea',
+          title: '海关特殊监管区域'
         }
         break
     }

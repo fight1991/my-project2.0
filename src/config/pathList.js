@@ -76,7 +76,118 @@ export default {
     // 加工贸易手册录入
     handAdd: url.JINER + '/handBook/datainput/handBook',
     // 加工贸易手册查询
-    handQuery: url.JINER + '/handBook/dataQuery/handBookQuery'
+    handQuery: url.JINER + '/handBook/dataQuery/handBookQuery',
+
+    // 保税货物流转 - 申报表
+    // 转出申报
+    outedcform: url.JINER + '/circulation/decForm/E/outedcform',
+    // 转入申报
+    incform: url.JINER + '/circulation/decForm/I/outedcform',
+    // 申报表查询
+    decFormQuery: url.JINER + '/circulation/decForm/decFormQuery',
+
+    // 保税货物流转 - 收发货单
+    // 发货登记
+    deliver: url.JINER + '/circulation/goodsBill/deliver',
+    // 收货登记
+    take: url.JINER + '/circulation/goodsBill/take',
+    // 收发货单查询
+    query: url.JINER + '/circulation/goodsBill/query',
+
+    // 保税货物流转 - 综合查询
+    // 综合查询
+    multipleQuery: url.JINER + '/circulation/multipleQuery',
+
+    // 税货物流转 - 同步申报表
+    // 同步申报表
+    synDecForm: url.JINER + '/circulation/synDecForm',
+
+    // 保税物流管理 - 数据录入
+    // 物流账册
+    bwl: url.JINER + '/graininess/datainput/bwl',
+    // 保税核注清单(进口)
+    taxList_I: url.JINER + '/graininess/datainput/I/taxList',
+    // 保税核注清单(出口)
+    taxList_E: url.JINER + '/graininess/datainput/E/taxList',
+    // 业务申报表
+    apply: url.JINER + '/circulation/synDecForm',
+    // 出入库单
+    stock: url.JINER + '/graininess/datainput/stock',
+    // 核放单
+    auditRelese: url.JINER + '/graininess/datainput/auditRelese',
+    // 集中报关
+    centDeclare: url.JINER + '/graininess/datainput/centDeclare',
+    // 车辆信息
+    carInfo: url.JINER + '/graininess/datainput/carInfo',
+
+    // 保税物流管理 - 数据查询
+    // 物流账册数据查询
+    bwlQuery: url.JINER + '/graininess/dataQuery/bwlQuery',
+    // 保税核注清单查询
+    taxListQuery: url.JINER + '/graininess/dataQuery/taxListQuery',
+    // 业务申报表数据查询
+    applyQuery: url.JINER + '/graininess/dataQuery/applyQuery',
+    // 申报表货物进出情况数据查询
+    applyIxEQuery: url.JINER + '/graininess/dataQuery/applyIxEQuery',
+    // 出入库单数据查询
+    stockQuery: url.JINER + '/graininess/dataQuery/stockQuery',
+    // 核放单数据查询
+    releseQuery: url.JINER + '/graininess/dataQuery/releseQuery',
+    // 出入库单生成核放单数据查询
+    stockReleseQuery: url.JINER + '/graininess/dataQuery/stockReleseQuery',
+    // 核注清单生成核放单数据查询
+    taxReleseQuery: url.JINER + '/graininess/dataQuery/taxReleseQuery',
+    // 车辆信息数据查询
+    carInfoQuery: url.JINER + '/graininess/dataQuery/carInfoQuery',
+
+    // 海关特殊监管区域 - 数据录入
+    // 加工贸易账册
+    accountBook_S: url.JINER + '/sea/datainput/accountBook',
+    // 物流账册
+    bwl_S: url.JINER + '/sea/datainput/bwl',
+    // 加工贸易耗料单
+    cmb: url.JINER + '/sea/datainput/cmb',
+    // 加工贸易账册报核
+    accountBookVer: url.JINER + '/sea/datainput/accountBookVer',
+    // 保税核注清单(进口)
+    taxList_sea_I: url.JINER + '/sea/datainput/I/taxList',
+    // 保税核注清单(出口)
+    taxList_sea_E: url.JINER + '/sea/datainput/E/taxList',
+    // 业务申报表
+    apply_sea: url.JINER + '/sea/datainput/apply',
+    // 出入库单
+    stock_sea: url.JINER + '/sea/datainput/stock',
+    // 核放单
+    auditRelese_sea: url.JINER + '/sea/datainput/auditRelese',
+    // 集中报关
+    centDeclare_sea: url.JINER + '/sea/datainput/centDeclare',
+    // 车辆信息
+    carInfo_sea: url.JINER + '/sea/datainput/carInfo',
+    // 清单结关
+    clearance: url.JINER + '/sea/datainput/clearance',
+
+    // 海关特殊监管区域 - 数据查询
+    // 加工贸易账册数据查询
+    accountBookQuery: url.JINER + '/sea/dataQuery/accountBookQuery',
+    // 物流账册数据查询
+    bwlQuery_sea: url.JINER + '/sea/dataQuery/bwlQuery',
+    // 业务申报表数据查询
+    applyQuery_sea: url.JINER + '/sea/dataQuery/applyQuery',
+    // 申报表货物进出情况数据查询
+    applyIxEQuery_sea: url.JINER + '/sea/dataQuery/applyIxEQuery',
+    // 出入库单数据查询
+    stockQuery_sea: url.JINER + '/sea/dataQuery/stockQuery',
+    // 核放单数据查询
+    releseQuery_sea: url.JINER + '/sea/dataQuery/releseQuery',
+    // 出入库单生成核放单数据查询
+    stockReleseQuery_sea: url.JINER + '/sea/dataQuery/stockReleseQuery',
+    // 核注清单生成核放单数据查询
+    taxReleseQuery_sea: url.JINER + '/sea/dataQuery/taxReleseQuery',
+    // 车辆信息数据查询
+    carInfoQuery_sea: url.JINER + '/sea/dataQuery/carInfoQuery',
+    // 清单结关查询
+    clearanceQuery: url.JINER + '/sea/dataQuery/clearanceQuery'
+
   },
   // 加工贸易手册
   // 快捷菜单
