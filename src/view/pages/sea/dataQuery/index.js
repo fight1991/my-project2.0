@@ -1,7 +1,6 @@
-
 const MENU = {
-  path: '/graininess/dataQuery',
-  name: 'graininess-dataQuery',
+  path: '/sea/dataQuery',
+  name: 'sea-dataQuery',
   icon: 'icons-menu-dataQuery',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
@@ -10,8 +9,18 @@ const MENU = {
   },
   children: [
     {
-      path: '/graininess/bwlQuery/list',
-      name: 'bwlQuery',
+      path: '/sea/accountBookQuery/list',
+      name: 'accountBookQuery-sea',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./accountBookQuery.vue'], resolve),
+        title: '加工贸易账册查询'
+      }
+    },
+    {
+      path: '/sea/bwlQuery/list',
+      name: 'bwlQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -20,18 +29,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/taxListQuery/list',
-      name: 'taxListQuery',
-      permissions: 'SAASOM0504000000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./taxListQuery.vue'], resolve),
-        title: '保税核注清单查询'
-      }
-    },
-    {
-      path: '/graininess/applyQuery/list',
-      name: 'applyQuery',
+      path: '/sea/applyQuery/list',
+      name: 'applyQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -40,8 +39,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/applyIxEQuery/list',
-      name: 'applyIxEQuery',
+      path: '/sea/applyIxEQuery/list',
+      name: 'applyIxEQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -50,8 +49,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/stockQuery/list',
-      name: 'stockQuery',
+      path: '/sea/stockQuery/list',
+      name: 'stockQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -60,8 +59,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/releseQuery/list',
-      name: 'releseQuery',
+      path: '/sea/releseQuery/list',
+      name: 'releseQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -70,8 +69,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/stockReleseQuery/list',
-      name: 'stockReleseQuery',
+      path: '/sea/stockReleseQuery/list',
+      name: 'stockReleseQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -80,8 +79,8 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/taxReleseQuery/list',
-      name: 'taxReleseQuery',
+      path: '/sea/taxReleseQuery/list',
+      name: 'taxReleseQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
@@ -90,12 +89,22 @@ const MENU = {
       }
     },
     {
-      path: '/graininess/carInfoQuery/list',
-      name: 'carInfoQuery',
+      path: '/sea/carInfoQuery/list',
+      name: 'carInfoQuery-sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./carInfoQuery.vue'], resolve),
+        title: '车辆信息数据查询'
+      }
+    },
+    {
+      path: '/sea/clearanceQuery/list',
+      name: 'clearanceQuery-sea',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./clearanceQuery.vue'], resolve),
         title: '车辆信息数据查询'
       }
     }

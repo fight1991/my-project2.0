@@ -142,17 +142,17 @@ export default {
 
     // 海关特殊监管区域 - 数据录入
     // 加工贸易账册
-    accountBook_S: url.JINER + '/sea/datainput/accountBook',
+    accountBook_sea: url.JINER + '/sea/datainput/accountBook',
     // 物流账册
-    bwl_S: url.JINER + '/sea/datainput/bwl',
+    bwl_sea: url.JINER + '/sea/datainput/bwl',
     // 加工贸易耗料单
     cmb: url.JINER + '/sea/datainput/cmb',
     // 加工贸易账册报核
     accountBookVer: url.JINER + '/sea/datainput/accountBookVer',
     // 保税核注清单(进口)
-    taxList_sea_I: url.JINER + '/sea/datainput/I/taxList',
+    taxList_I_sea: url.JINER + '/sea/datainput/I/taxList',
     // 保税核注清单(出口)
-    taxList_sea_E: url.JINER + '/sea/datainput/E/taxList',
+    taxList_E_sea: url.JINER + '/sea/datainput/E/taxList',
     // 业务申报表
     apply_sea: url.JINER + '/sea/datainput/apply',
     // 出入库单

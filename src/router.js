@@ -13,6 +13,7 @@ import Account from './view/pages/account/router'
 import Hand from './view/pages/handBook/router'
 import Circulation from './view/pages/circulation/router'
 import Graininess from './view/pages/graininess/router'
+import Sea from './view/pages/sea/router'
 Vue.use(Router)
 
 const routes = [
@@ -71,6 +72,7 @@ routes[1].children.push(...Account.MENU)
 routes[1].children.push(...Hand.MENU)
 routes[1].children.push(...Circulation.MENU)
 routes[1].children.push(...Graininess.MENU)
+routes[1].children.push(...Sea.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
