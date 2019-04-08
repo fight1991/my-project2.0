@@ -9,7 +9,7 @@ import DataCenter from './view/pages/dataCenter/router'
 import ReportCenter from './view/pages/reportCenter/router'
 import Aircraft from './view/pages/aircraft/router'
 import WWW from './view/www/index'
-import Account from './view/pages/accountBook/router'
+import Account from './view/pages/account/router'
 import Hand from './view/pages/handBook/router'
 Vue.use(Router)
 

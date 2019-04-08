@@ -11,7 +11,7 @@ const MENU = {
   children: [
     {
       path: '/handBook/datainput/list',
-      name: 'accountBookAdd',
+      name: 'handBookAdd',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {

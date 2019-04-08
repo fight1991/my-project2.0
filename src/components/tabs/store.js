@@ -49,7 +49,6 @@ export default {
       })
       // 判断是否是当前打开的页签
       if (state.currentTab.path === data.path) {
-        console.log(state)
         let index = state.tabsList.length > 1 ? 1 : 0
         store.commit('SetCurrentTab', state.tabsList[index])
         if (JSON.stringify(state.tabsList[index].route.params) === '{}') {
