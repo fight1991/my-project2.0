@@ -15,7 +15,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./bwlQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '物流账册数据查询'
       }
     },
@@ -25,7 +25,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxListQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '保税核注清单查询'
       }
     },
@@ -35,7 +35,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./applyQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '业务申报表数据查询'
       }
     },
@@ -45,7 +45,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./applyIxEQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '申报表货物进出查询'
       }
     },
@@ -55,7 +55,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./stockQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '出入库单数据查询'
       }
     },
@@ -65,7 +65,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./releseQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '核放单数据查询'
       }
     },
@@ -75,7 +75,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./stockReleseQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '出入库单生成核放单'
       }
     },
@@ -85,7 +85,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxReleseQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '核注清单生成核放单'
       }
     },
@@ -95,7 +95,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./carInfoQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '车辆信息数据查询'
       }
     }

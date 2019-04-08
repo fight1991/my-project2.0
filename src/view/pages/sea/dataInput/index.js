@@ -11,121 +11,121 @@ const MENU = {
   children: [
     {
       path: '/sea/bwl/list',
-      name: 'sea-bwl',
+      name: 'bwl_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./bwl_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '物流账册'
       }
     },
     {
       path: '/sea/cmb/list',
-      name: 'sea-cmb',
+      name: 'cmb',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./cmb.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单'
       }
     },
     {
       path: '/sea/accountBookVer/list',
-      name: 'sea-accountBookVer',
+      name: 'accountBookVer',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./accountBookVer.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易账册报核'
       }
     },
     {
       path: '/sea/accountBook/list',
-      name: 'sea-accountBook',
+      name: 'accountBook_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./accountBook_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易账册'
       }
     },
     {
       path: '/sea/datainput/I/list',
-      name: 'sea-taxList_I',
+      name: 'taxList_I_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxList_I_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '保税核注清单(进口)'
       }
     },
     {
       path: '/sea/datainput/E/list',
-      name: 'sea-taxList_E',
+      name: 'taxList_E_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxList_E_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '保税核注清单(出口)'
       }
     },
     {
       path: '/sea/apply/list',
-      name: 'sea-apply',
+      name: 'apply_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./apply_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '业务申报表'
       }
     },
     {
       path: '/sea/stock/list',
-      name: 'sea-stock',
+      name: 'stockList_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./stockList_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '出入库单'
       }
     },
     {
       path: '/sea/auditRelese/list',
-      name: 'sea-auditRelese',
+      name: 'auditRelese_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./auditRelese_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '核放单'
       }
     },
     {
       path: '/sea/centDeclare/list',
-      name: 'sea-centDeclare',
+      name: 'centDeclare_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./centDeclare_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '集中报关'
       }
     },
     {
       path: '/sea/carInfo/list',
-      name: 'sea-carInfo',
+      name: 'carInfo_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./carInfo_sea.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '车辆信息'
       }
     },
     {
       path: '/sea/clearance/list',
-      name: 'sea-clearance',
+      name: 'clearance',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./clearance.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '清单结关'
       }
     }

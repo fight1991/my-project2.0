@@ -11,21 +11,21 @@ const MENU = {
   children: [
     {
       path: '/circulation/decForm/I/list',
-      name: 'decForm-I',
+      name: 'outedcform',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./outedcform.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '转出申报'
       }
     },
     {
       path: '/circulation/decForm/E/list',
-      name: 'decForm-E',
+      name: 'incform',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./incform.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '转入申报'
       }
     },
@@ -35,7 +35,7 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./decFormQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '申报表查询'
       }
     }

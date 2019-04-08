@@ -11,31 +11,31 @@ const MENU = {
   children: [
     {
       path: '/circulation/goodsBill/deliver/list',
-      name: 'billDeliver',
+      name: 'deliver',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./billDeliver.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '发货登记'
       }
     },
     {
       path: '/circulation/goodsBill/take/list',
-      name: 'billTake',
+      name: 'take',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./billTake.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '收货登记'
       }
     },
     {
       path: '/circulation/goodsBill/query/list',
-      name: 'billQuery',
+      name: 'query',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./billQuery.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '收发货单查询'
       }
     }
