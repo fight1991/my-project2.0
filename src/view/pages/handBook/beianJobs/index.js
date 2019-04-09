@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '加工贸易手册'
+        title: '加工贸易手册录入'
       }
     },
     {
@@ -33,20 +33,20 @@ const MENU = {
       path: '/handBook/exaluate/list',
       name: 'exaluate',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '不作价设备使用情况'
+        title: '不作价设备使用'
       }
     },
     {
       path: '/handBook/evaluateQuery/list',
       name: 'evaluateQuery',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '不作价设备使用情况查询'
+        title: '不作价设备使用查询'
       }
     }
   ]

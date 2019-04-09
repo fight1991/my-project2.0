@@ -13,7 +13,7 @@ const MENU = {
       path: '/account/apl/list',
       name: 'apl',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '企业资质申请'
@@ -23,7 +23,7 @@ const MENU = {
       path: '/account/aplQuery/list',
       name: 'aplQuery',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '企业资质申请查询'
@@ -36,7 +36,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '加工贸易账册'
+        title: '加工贸易账册录入'
       }
     },
     {
