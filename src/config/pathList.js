@@ -48,7 +48,13 @@ export default {
     // 进口报表
     importSt: url.COMMON + '/reportForms/importSt',
     // 出口报表
-    exportSt: url.COMMON + '/reportForms/exportSt'
+    exportSt: url.COMMON + '/reportForms/exportSt',
+    // 删改单报表
+    delDecSt: url.COMMON + '',
+    // 工作量统计
+    workComputer: url.COMMON + '',
+    // 报关作业时效
+    decJobTime: url.COMMON + ''
   },
   // 航空器申报
   aircraft: {
