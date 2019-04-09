@@ -75,11 +75,6 @@ export default {
   },
   // 金二
   jinerInfo: {
-    // 加工贸易账册录入
-    accountAdd: url.JINER + '/account/datainput/accountBook',
-    // 加工贸易账册查询
-    accountQuery: url.JINER + '/account/dataQuery/accountBookQuery',
-
     // 手册-备案业务
     // 加工贸易手册录入
     handAdd: url.JINER + '/handBook/datainput/handBook',
@@ -117,6 +112,44 @@ export default {
     recipient: '/handBook/datainput/recipient',
     // 外发加工收货单查询
     recipientQuery: '/handBook/datainput/recipientQuery',
+
+    // 账册-备案业务
+    // 企业资质申请
+    apl: url.JINER + '/account/datainput/apl',
+    // 企业资质申请查询
+    aplQuery: url.JINER + '/account/dataQuery/aplQuery',
+    // 加工贸易账册录入
+    accountAdd: url.JINER + '/account/datainput/accountBook',
+    // 加工贸易账册查询
+    accountQuery: url.JINER + '/account/dataQuery/accountBookQuery',
+
+    // 账册-申报业务
+    // 保税核注清单(进口)
+    taxList_I_acc: url.JINER + '/account/datainput/I/taxList',
+    // 保税核注清单(出口)
+    taxList_E_acc: url.JINER + '/account/datainput/E/taxList',
+    // 保税核注清单查询
+    taxListQuery_acc: url.JINER + '/account/dataQuery/taxListQuery',
+
+    // 账册-报核业务
+    // 加工贸易账册报核
+    accountBookVerAcc: url.JINER + '/account/datainput/accountBookVer',
+    // 加工贸易账册报核查询
+    accountBookVerAccQuery: url.JINER + '/account/dataQuery/accountBookVerQuery',
+
+    // 账册-场站业务
+    // 外发加工申报表
+    declareFormAcc: '/account/datainput/declareFormAcc',
+    // 外发加工申报表查询
+    declareFormAccQuery: '/account/dataQuery/declareFormAccQuery',
+    // 外发加工发货单
+    deliveryAcc: '/account/datainput/deliveryAcc',
+    // 外发加工发货单查询
+    deliveryAccQuery: '/account/datainput/deliveryAccQuery',
+    // 外发加工收货单
+    recipientAcc: '/account/datainput/recipientAcc',
+    // 外发加工收货单查询
+    recipientAccQuery: '/account/datainput/recipientAccQuery',
 
     // 保税货物流转 - 申报表
     // 转出申报

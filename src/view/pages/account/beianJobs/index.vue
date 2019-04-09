@@ -5,7 +5,6 @@
 <script>
 import pathList from '@/config/pathList'
 export default {
-  name: 'index',
   data () {
     return {
       url: ''

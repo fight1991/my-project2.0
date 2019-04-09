@@ -1,5 +1,7 @@
-import dataInput from './dataInput/index' // 数据录入
-import dataQuery from './dataQuery/index' // 数据查询
+import baoheJobs from './baoheJobs/index' // 报核业务
+import beianJobs from './beianJobs/index' // 备案业务
+import czhanJobs from './czhanJobs/index' // 场站业务
+import lareJobs from './lareJobs/index' // 申报业务
 const MENU = [
   {
     path: '/account/index',
@@ -11,7 +13,9 @@ const MENU = [
       title: '首页'
     }
   },
-  dataInput.MENU,
-  dataQuery.MENU
+  beianJobs.MENU,
+  lareJobs.MENU,
+  baoheJobs.MENU,
+  czhanJobs.MENU
 ]
 export default {MENU}
