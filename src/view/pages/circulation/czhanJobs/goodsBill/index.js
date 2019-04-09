@@ -4,7 +4,7 @@ const MENU = {
   name: 'circulation-goodsBill',
   icon: 'icons-menu-goodsBill',
   permissions: 'SAASOM0900000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: resolve => require(['../../../../common/abstract.vue'], resolve),
   meta: {
     title: '收发货单'
   },

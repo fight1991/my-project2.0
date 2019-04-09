@@ -1,112 +1,92 @@
-// 海关特殊监管区域-数据查询
+// 海关监管-场站业务
 const MENU = {
-  path: '/sea/dataQuery',
-  name: 'sea-dataQuery',
-  icon: 'icons-menu-dataQuery',
+  path: '/sea/czhanJobs',
+  name: 'sea-czhanJobs',
+  icon: 'icons-menu-czhanJobs',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '数据查询'
+    title: '场站业务'
   },
   children: [
     {
-      path: '/sea/accountBookQuery/list',
-      name: 'accountBookQuery',
+      path: '/sea/apply_sea/list',
+      name: 'apply_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '加工贸易账册查询'
+        title: '业务申报表'
       }
     },
     {
-      path: '/sea/bwlQuery/list',
-      name: 'bwlQuery_sea',
-      permissions: 'SAASOM0504000000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '物流账册数据查询'
-      }
-    },
-    {
-      path: '/sea/applyQuery/list',
+      path: '/sea/applyQuery_sea/list',
       name: 'applyQuery_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '业务申报表数据查询'
+        title: '业务申报表查询'
       }
     },
     {
-      path: '/sea/applyIxEQuery/list',
-      name: 'applyIxEQuery_sea',
+      path: '/sea/stock_sea/list',
+      name: 'stock_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '申报表货物进出查询'
+        title: '出入库单'
       }
     },
     {
-      path: '/sea/stockQuery/list',
+      path: '/sea/stockQuery_sea/list',
       name: 'stockQuery_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出入库单数据查询'
+        title: '出入库单查询'
       }
     },
     {
-      path: '/sea/releseQuery/list',
+      path: '/sea/auditRelese_sea/list',
+      name: 'auditRelese_sea',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '核放单'
+      }
+    },
+    {
+      path: '/sea/releseQuery_sea/list',
       name: 'releseQuery_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核放单数据查询'
+        title: '核放单查询'
       }
     },
     {
-      path: '/sea/stockReleseQuery/list',
-      name: 'stockReleseQuery_sea',
+      path: '/sea/carInfo_sea/list',
+      name: 'carInfo_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出入库单生成核放单'
+        title: '车辆信息'
       }
     },
     {
-      path: '/sea/taxReleseQuery/list',
-      name: 'taxReleseQuery_sea',
-      permissions: 'SAASOM0504000000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单生成核放单'
-      }
-    },
-    {
-      path: '/sea/carInfoQuery/list',
+      path: '/sea/carInfoQuery_sea/list',
       name: 'carInfoQuery_sea',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '车辆信息数据查询'
-      }
-    },
-    {
-      path: '/sea/clearanceQuery/list',
-      name: 'clearanceQuery',
-      permissions: 'SAASOM0504000000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '车辆信息数据查询'
+        title: '车辆信息查询'
       }
     }
   ]

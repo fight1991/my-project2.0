@@ -4,7 +4,7 @@ const MENU = {
   name: 'circulation-queryList',
   icon: 'icons-menu-queryList',
   permissions: 'SAASOM0900000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: resolve => require(['../../../../common/abstract.vue'], resolve),
   meta: {
     title: '综合查询'
   },

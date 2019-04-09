@@ -4,7 +4,7 @@ const MENU = {
   name: 'circulation-decForm',
   icon: 'icons-menu-decForm',
   permissions: 'SAASOM0900000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: resolve => require(['../../../../common/abstract.vue'], resolve),
   meta: {
     title: '申报表'
   },
@@ -40,5 +40,7 @@ const MENU = {
       }
     }
   ]
+
 }
+
 export default {MENU}

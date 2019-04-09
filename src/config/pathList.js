@@ -101,17 +101,17 @@ export default {
 
     // 手册-场站业务
     // 外发加工申报表
-    declareForm: '/handBook/datainput/declareForm',
+    declareForm: url.JINER + '/handBook/datainput/declareForm',
     // 外发加工申报表查询
-    declareFormQuery: '/handBook/dataQuery/declareFormQuery',
+    declareFormQuery: url.JINER + '/handBook/dataQuery/declareFormQuery',
     // 外发加工发货单
-    delivery: '/handBook/datainput/delivery',
+    delivery: url.JINER + '/handBook/datainput/delivery',
     // 外发加工发货单查询
-    deliveryQuery: '/handBook/datainput/deliveryQuery',
+    deliveryQuery: url.JINER + '/handBook/dataQuery/deliveryQuery',
     // 外发加工收货单
-    recipient: '/handBook/datainput/recipient',
+    recipient: url.JINER + '/handBook/datainput/recipient',
     // 外发加工收货单查询
-    recipientQuery: '/handBook/datainput/recipientQuery',
+    recipientQuery: url.JINER + '/handBook/dataQuery/recipientQuery',
 
     // 账册-备案业务
     // 企业资质申请
@@ -139,25 +139,77 @@ export default {
 
     // 账册-场站业务
     // 外发加工申报表
-    declareFormAcc: '/account/datainput/declareFormAcc',
+    declareFormAcc: url.JINER + '/account/datainput/declareFormAcc',
     // 外发加工申报表查询
-    declareFormAccQuery: '/account/dataQuery/declareFormAccQuery',
+    declareFormAccQuery: url.JINER + '/account/dataQuery/declareFormAccQuery',
     // 外发加工发货单
-    deliveryAcc: '/account/datainput/deliveryAcc',
+    deliveryAcc: url.JINER + '/account/datainput/deliveryAcc',
     // 外发加工发货单查询
-    deliveryAccQuery: '/account/datainput/deliveryAccQuery',
+    deliveryAccQuery: url.JINER + '/account/dataQuery/deliveryAccQuery',
     // 外发加工收货单
-    recipientAcc: '/account/datainput/recipientAcc',
+    recipientAcc: url.JINER + '/account/datainput/recipientAcc',
     // 外发加工收货单查询
-    recipientAccQuery: '/account/datainput/recipientAccQuery',
+    recipientAccQuery: url.JINER + '/account/dataQuery/recipientAccQuery',
 
-    // 保税货物流转 - 申报表
+    // 海关特殊监管区域 - 备案业务
+    // 加工贸易账册
+    accountBook_sea: url.JINER + '/sea/datainput/accountBook',
+    // 加工贸易账册数据查询
+    accountBookQuery_sea: url.JINER + '/sea/dataQuery/accountBookQuery',
+    // 物流账册
+    bwl_sea: url.JINER + '/sea/datainput/bwl',
+    // 物流账册数据查询
+    bwlQuery_sea: url.JINER + '/sea/dataQuery/bwlQuery',
+
+    // 海关特殊监管区域 - 申报业务
+    // 保税核注清单（进口）
+    taxList_I_sea: '/sea/datainput/I/taxList',
+    // 保税核注清单（出口）
+    taxList_E_sea: '/sea/datainput/E/taxList',
+    // 保税核注清单查询
+    taxListQuery_sea: url.JINER + '/sea/dataQuery/taxListQuery',
+    // 集中报关
+    centDeclare_sea: url.JINER + '/sea/datainput/centDeclare',
+    // 清单结关
+    clearance_sea: url.JINER + '/sea/datainput/clearance',
+    // 清单结关查询
+    clearanceQuery_sea: url.JINER + '/sea/dataQuery/clearanceQuery',
+
+    // 海关特殊监管区域 - 报核业务
+    // 加工贸易账册报核
+    accountBookVer_sea: url.JINER + '/sea/datainput/accountBookVer',
+    // 加工贸易账册报核查询
+    accountBookVerQuery_sea: url.JINER + '/sea/dataQuery/accountBookQuery',
+
+    // 海关特殊监管区域 - 场站业务
+    // 业务申报表
+    apply_sea: url.JINER + '/sea/datainput/apply',
+    // 业务申报表查询
+    applyQuery_sea: url.JINER + '/sea/dataQuery/applyQuery',
+    // 出入库单
+    stock_sea: url.JINER + '/sea/datainput/stock',
+    // 出入库单查询
+    stockQuery_sea: url.JINER + '/sea/dataQuery/stockQuery',
+    // 核放单
+    auditRelese_sea: url.JINER + '/sea/datainput/auditRelese',
+    // 核放单查询
+    releseQuery_sea: url.JINER + '/sea/dataQuery/releseQuery',
+    // 车辆信息
+    carInfo_sea: url.JINER + '/sea/datainput/carInfo',
+    // 车辆信息查询
+    carInfoQuery_sea: url.JINER + '/sea/dataQuery/carInfoQuery',
+
+    // 保税货物流转 - 场站业务
     // 转出申报
     outedcform: url.JINER + '/circulation/decForm/E/outedcform',
     // 转入申报
     incform: url.JINER + '/circulation/decForm/I/outedcform',
     // 申报表查询
     decFormQuery: url.JINER + '/circulation/decForm/decFormQuery',
+    // 收货登记
+    takeIn: url.JINER + '/circulation/goodsBill/take',
+    // 发货登记
+    deliverOut: url.JINER + '/circulation/goodsBill/deliver',
 
     // 保税货物流转 - 收发货单
     // 发货登记
@@ -211,55 +263,7 @@ export default {
     // 核注清单生成核放单数据查询
     taxReleseQuery: url.JINER + '/graininess/dataQuery/taxReleseQuery',
     // 车辆信息数据查询
-    carInfoQuery: url.JINER + '/graininess/dataQuery/carInfoQuery',
-
-    // 海关特殊监管区域 - 数据录入
-    // 加工贸易账册
-    accountBook_sea: url.JINER + '/sea/datainput/accountBook',
-    // 物流账册
-    bwl_sea: url.JINER + '/sea/datainput/bwl',
-    // 加工贸易耗料单
-    cmb: url.JINER + '/sea/datainput/cmb',
-    // 加工贸易账册报核
-    accountBookVer: url.JINER + '/sea/datainput/accountBookVer',
-    // 保税核注清单(进口)
-    taxList_I_sea: url.JINER + '/sea/datainput/I/taxList',
-    // 保税核注清单(出口)
-    taxList_E_sea: url.JINER + '/sea/datainput/E/taxList',
-    // 业务申报表
-    apply_sea: url.JINER + '/sea/datainput/apply',
-    // 出入库单
-    stock_sea: url.JINER + '/sea/datainput/stock',
-    // 核放单
-    auditRelese_sea: url.JINER + '/sea/datainput/auditRelese',
-    // 集中报关
-    centDeclare_sea: url.JINER + '/sea/datainput/centDeclare',
-    // 车辆信息
-    carInfo_sea: url.JINER + '/sea/datainput/carInfo',
-    // 清单结关
-    clearance: url.JINER + '/sea/datainput/clearance',
-
-    // 海关特殊监管区域 - 数据查询
-    // 加工贸易账册数据查询
-    accountBookQuery: url.JINER + '/sea/dataQuery/accountBookQuery',
-    // 物流账册数据查询
-    bwlQuery_sea: url.JINER + '/sea/dataQuery/bwlQuery',
-    // 业务申报表数据查询
-    applyQuery_sea: url.JINER + '/sea/dataQuery/applyQuery',
-    // 申报表货物进出情况数据查询
-    applyIxEQuery_sea: url.JINER + '/sea/dataQuery/applyIxEQuery',
-    // 出入库单数据查询
-    stockQuery_sea: url.JINER + '/sea/dataQuery/stockQuery',
-    // 核放单数据查询
-    releseQuery_sea: url.JINER + '/sea/dataQuery/releseQuery',
-    // 出入库单生成核放单数据查询
-    stockReleseQuery_sea: url.JINER + '/sea/dataQuery/stockReleseQuery',
-    // 核注清单生成核放单数据查询
-    taxReleseQuery_sea: url.JINER + '/sea/dataQuery/taxReleseQuery',
-    // 车辆信息数据查询
-    carInfoQuery_sea: url.JINER + '/sea/dataQuery/carInfoQuery',
-    // 清单结关查询
-    clearanceQuery: url.JINER + '/sea/dataQuery/clearanceQuery'
+    carInfoQuery: url.JINER + '/graininess/dataQuery/carInfoQuery'
 
   },
   // 通关参数

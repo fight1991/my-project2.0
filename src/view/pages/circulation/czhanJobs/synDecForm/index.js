@@ -4,7 +4,7 @@ const MENU = {
   name: 'circulation-synDecForm',
   icon: 'icons-menu-synDecForm',
   permissions: 'SAASOM0900000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: resolve => require(['../../../../common/abstract.vue'], resolve),
   meta: {
     title: '同步申报表'
   },
