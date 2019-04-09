@@ -10,6 +10,66 @@ const MENU = {
   },
   children: [
     {
+      path: '/passParams/customs/list',
+      name: 'customs',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '关区'
+      }
+    },
+    {
+      path: '/passParams/country/list',
+      name: 'country',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '国别（地区）'
+      }
+    },
+    {
+      path: '/passParams/money/list',
+      name: 'money',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '币制'
+      }
+    },
+    {
+      path: '/passParams/unit/list',
+      name: 'unit',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '计量单位'
+      }
+    },
+    {
+      path: '/passParams/controlMode/list',
+      name: 'controlMode',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '监管方式'
+      }
+    },
+    {
+      path: '/passParams/transport/list',
+      name: 'transport',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '运输方式'
+      }
+    },
+    {
       path: '/passParams/redemp/list',
       name: 'redemp',
       permissions: 'SAASOM0504000000',

@@ -1,5 +1,6 @@
-import PassParams from './passParams/index' // 通关参数
-import PassStatus from './passStatus/index' // 通关状态
+import CarlareParams from './carlareParams/index' // 汽车申报参数
+import PassCode from './passCode/index' // 通关代码
+import DeclareParams from './declareParams/index' // 商品申报参数
 const MENU = [
   {
     path: '/passParams/index',
@@ -11,7 +12,8 @@ const MENU = [
       title: '首页'
     }
   },
-  PassParams.MENU,
-  PassStatus.MENU
+  CarlareParams.MENU,
+  PassCode.MENU,
+  DeclareParams.MENU
 ]
 export default {MENU}

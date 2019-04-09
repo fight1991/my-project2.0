@@ -213,6 +213,18 @@ export default {
     treeCate: url.COMMON + '',
     // CIQ编码
     CIQCode: url.COMMON + '',
+    // 关区
+    customs: url.COMMON + '',
+    // 国别(地区)
+    country: url.COMMON + '',
+    // 币制
+    money: url.COMMON + '',
+    // 计量单位
+    unit: url.COMMON + '',
+    // 监管方式
+    controlMode: url.COMMON + '',
+    // 运输方式
+    transport: url.COMMON + '',
     // 征免性质
     redemp: url.COMMON + '',
     // 港口

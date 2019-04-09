@@ -14,6 +14,8 @@ import Hand from './view/pages/handBook/router'
 import Circulation from './view/pages/circulation/router'
 import Graininess from './view/pages/graininess/router'
 import Sea from './view/pages/sea/router'
+import PassParams from './view/pages/passParams/router'
+import PassStatus from './view/pages/passStatus/router'
 Vue.use(Router)
 
 const routes = [
@@ -73,6 +75,8 @@ routes[1].children.push(...Hand.MENU)
 routes[1].children.push(...Circulation.MENU)
 routes[1].children.push(...Graininess.MENU)
 routes[1].children.push(...Sea.MENU)
+routes[1].children.push(...PassParams.MENU)
+routes[1].children.push(...PassStatus.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -140,6 +144,18 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'sea',
           title: '海关特殊监管区域'
+        }
+        break
+      case 'passParams':
+        json = {
+          type: 'passParams',
+          title: '通关参数'
+        }
+        break
+      case 'passStatus':
+        json = {
+          type: 'passStatus',
+          title: '通关状态'
         }
         break
     }
