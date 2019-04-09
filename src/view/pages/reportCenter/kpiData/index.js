@@ -2,7 +2,7 @@
 const MENU = {
   path: '/reportCenter/kpiData',
   name: 'kpiData',
-  icon: 'icons-menu-kpiData',
+  icon: 'icons-menu-kpiList',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
