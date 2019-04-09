@@ -1,102 +1,92 @@
-// 保税物流管理-数据查询
+// 海关监管-场站业务
 const MENU = {
-  path: '/graininess/dataQuery',
-  name: 'graininess-dataQuery',
-  icon: 'icons-menu-dataQuery',
+  path: '/graininess/czhanJobs',
+  name: 'graininess-czhanJobs',
+  icon: 'icons-menu-czhanJobs',
   permissions: 'SAASOM0900000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '数据查询'
+    title: '场站业务'
   },
   children: [
     {
-      path: '/graininess/bwlQuery/list',
-      name: 'bwlQuery',
+      path: '/graininess/apply_gra/list',
+      name: 'apply_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '物流账册数据查询'
+        title: '业务申报表'
       }
     },
     {
-      path: '/graininess/taxListQuery/list',
-      name: 'taxListQuery',
+      path: '/graininess/applyQuery_gra/list',
+      name: 'applyQuery_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '保税核注清单查询'
+        title: '业务申报表查询'
       }
     },
     {
-      path: '/graininess/applyQuery/list',
-      name: 'applyQuery',
+      path: '/graininess/stock_gra/list',
+      name: 'stock_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '业务申报表数据查询'
+        title: '出入库单'
       }
     },
     {
-      path: '/graininess/applyIxEQuery/list',
-      name: 'applyIxEQuery',
+      path: '/graininess/stockQuery_gra/list',
+      name: 'stockQuery_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '申报表货物进出查询'
+        title: '出入库单查询'
       }
     },
     {
-      path: '/graininess/stockQuery/list',
-      name: 'stockQuery',
+      path: '/graininess/auditRelese_gra/list',
+      name: 'auditRelese_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出入库单数据查询'
+        title: '核放单'
       }
     },
     {
-      path: '/graininess/releseQuery/list',
-      name: 'releseQuery',
+      path: '/graininess/releseQuery_gra/list',
+      name: 'releseQuery_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核放单数据查询'
+        title: '核放单查询'
       }
     },
     {
-      path: '/graininess/stockReleseQuery/list',
-      name: 'stockReleseQuery',
+      path: '/sea/carInfo_gra/list',
+      name: 'carInfo_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出入库单生成核放单'
+        title: '车辆信息'
       }
     },
     {
-      path: '/graininess/taxReleseQuery/list',
-      name: 'taxReleseQuery',
+      path: '/sea/carInfoQuery_gra/list',
+      name: 'carInfoQuery_gra',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单生成核放单'
-      }
-    },
-    {
-      path: '/graininess/carInfoQuery/list',
-      name: 'carInfoQuery',
-      permissions: 'SAASOM0504000000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '车辆信息数据查询'
+        title: '车辆信息查询'
       }
     }
   ]

@@ -1,14 +1,13 @@
 <template>
-    <iframe-view :url='url'></iframe-view>
+  <iframe-view :url='url'></iframe-view>
 </template>
+
 <script>
 import pathList from '@/config/pathList'
 export default {
-  name: 'index',
   data () {
     return {
       url: ''
-
     }
   },
   mounted () {
@@ -16,5 +15,7 @@ export default {
   }
 }
 </script>
-<style scoped lang="less">
+
+<style lang="less" scoped>
+
 </style>

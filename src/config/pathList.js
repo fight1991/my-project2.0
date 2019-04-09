@@ -210,61 +210,44 @@ export default {
     takeIn: url.JINER + '/circulation/goodsBill/take',
     // 发货登记
     deliverOut: url.JINER + '/circulation/goodsBill/deliver',
-
-    // 保税货物流转 - 收发货单
-    // 发货登记
-    deliver: url.JINER + '/circulation/goodsBill/deliver',
-    // 收货登记
-    take: url.JINER + '/circulation/goodsBill/take',
-    // 收发货单查询
-    query: url.JINER + '/circulation/goodsBill/query',
-
-    // 保税货物流转 - 综合查询
     // 综合查询
     multipleQuery: url.JINER + '/circulation/multipleQuery',
-
-    // 税货物流转 - 同步申报表
     // 同步申报表
     synDecForm: url.JINER + '/circulation/synDecForm',
 
-    // 保税物流管理 - 数据录入
+    // 保税物流管理 - 备案业务
     // 物流账册
-    bwl: url.JINER + '/graininess/datainput/bwl',
-    // 保税核注清单(进口)
-    taxList_I: url.JINER + '/graininess/datainput/I/taxList',
-    // 保税核注清单(出口)
-    taxList_E: url.JINER + '/graininess/datainput/E/taxList',
-    // 业务申报表
-    apply: url.JINER + '/circulation/synDecForm',
-    // 出入库单
-    stock: url.JINER + '/graininess/datainput/stock',
-    // 核放单
-    auditRelese: url.JINER + '/graininess/datainput/auditRelese',
-    // 集中报关
-    centDeclare: url.JINER + '/graininess/datainput/centDeclare',
-    // 车辆信息
-    carInfo: url.JINER + '/graininess/datainput/carInfo',
+    bwl_gra: url.JINER + '/graininess/datainput/bwl',
+    // 物流账册查询
+    bwlQuery_gra: url.JINER + '/graininess/dataQuery/bwlQuery',
 
-    // 保税物流管理 - 数据查询
-    // 物流账册数据查询
-    bwlQuery: url.JINER + '/graininess/dataQuery/bwlQuery',
+    // 保税物流管理 - 申报业务
+    // 保税核注清单（进口）
+    taxList_I_gra: url.JINER + '/graininess/datainput/I/taxList',
+    // 保税核注清单（出口）
+    taxList_E_gra: url.JINER + '/graininess/datainput/E/taxList',
     // 保税核注清单查询
-    taxListQuery: url.JINER + '/graininess/dataQuery/taxListQuery',
-    // 业务申报表数据查询
-    applyQuery: url.JINER + '/graininess/dataQuery/applyQuery',
-    // 申报表货物进出情况数据查询
-    applyIxEQuery: url.JINER + '/graininess/dataQuery/applyIxEQuery',
-    // 出入库单数据查询
-    stockQuery: url.JINER + '/graininess/dataQuery/stockQuery',
-    // 核放单数据查询
-    releseQuery: url.JINER + '/graininess/dataQuery/releseQuery',
-    // 出入库单生成核放单数据查询
-    stockReleseQuery: url.JINER + '/graininess/dataQuery/stockReleseQuery',
-    // 核注清单生成核放单数据查询
-    taxReleseQuery: url.JINER + '/graininess/dataQuery/taxReleseQuery',
-    // 车辆信息数据查询
-    carInfoQuery: url.JINER + '/graininess/dataQuery/carInfoQuery'
+    taxListQuery_gra: url.JINER + '/graininess/dataQuery/taxListQuery',
+    // 集中报关
+    centDeclare_gra: url.JINER + '/graininess/datainput/centDeclare',
 
+    // 保税物流管理 - 场站业务
+    // 业务申报表
+    apply_gra: url.JINER + '/graininess/datainput/apply',
+    // 业务申报表查询
+    applyQuery_gra: url.JINER + '/graininess/dataQuery/applyQuery',
+    // 出入库单
+    stock_gra: url.JINER + '/graininess/datainput/stock',
+    // 出入库单查询
+    stockQuery_gra: url.JINER + '/graininess/dataQuery/stockQuery',
+    // 核放单
+    auditRelese_gra: url.JINER + '/graininess/datainput/auditRelese',
+    // 核放单查询
+    releseQuery_gra: url.JINER + '/graininess/dataQuery/releseQuery',
+    // 车辆信息
+    carInfo_gra: url.JINER + '/graininess/datainput/carInfo',
+    // 车辆信息查询
+    carInfoQuery_gra: url.JINER + '/graininess/dataQuery/carInfoQuery'
   },
   // 通关参数
   passParams: {
