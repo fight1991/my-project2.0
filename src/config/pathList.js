@@ -195,8 +195,52 @@ export default {
     clearanceQuery: url.JINER + '/sea/dataQuery/clearanceQuery'
 
   },
-  // 加工贸易手册
-  // 快捷菜单
+  // 通关参数
+  passParams: {
+    // 中英文对照
+    ceCompare: url.COMMON + '',
+    // 汽车零部件清单
+    carParter: url.COMMON + '',
+    // 税则
+    taxRule: url.COMMON + '',
+    // 统计商品目录
+    productCate: url.COMMON + '',
+    // 规范申报要素
+    declareEle: url.COMMON + '',
+    // 法检目录
+    checkCate: url.COMMON + '',
+    // 3C目录
+    treeCate: url.COMMON + '',
+    // CIQ编码
+    CIQCode: url.COMMON + '',
+    // 征免性质
+    redemp: url.COMMON + '',
+    // 港口
+    port: url.COMMON + '',
+    // 包装种类
+    pakageKinds: url.COMMON + '',
+    // 成交方式
+    bargain: url.COMMON + '',
+    // 监管证件
+    regulate: url.COMMON + '',
+    // 随附单据
+    license: url.COMMON + '',
+    // 优惠贸易协定
+    tradePro: url.COMMON + '',
+    // 国内地区
+    inLandArea: url.COMMON + '',
+    // 征减免税方式
+    taxFree: url.COMMON + '',
+    // 国内口岸
+    inLandPort: url.COMMON + ''
+
+  },
+  // 通关状态
+  passStatus: {
+
+  },
+
+  // 加工贸易手册--工作台底部快捷菜单
   keyBoardPath: [
     // {
     //   id: 1,
