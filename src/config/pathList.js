@@ -79,10 +79,44 @@ export default {
     accountAdd: url.JINER + '/account/datainput/accountBook',
     // 加工贸易账册查询
     accountQuery: url.JINER + '/account/dataQuery/accountBookQuery',
+
+    // 手册-备案业务
     // 加工贸易手册录入
     handAdd: url.JINER + '/handBook/datainput/handBook',
     // 加工贸易手册查询
     handQuery: url.JINER + '/handBook/dataQuery/handBookQuery',
+    // 不作价设备使用情况
+    exaluate: url.JINER + '/handBook/datainput/exaluate',
+    // 不作价设备使用情况查询
+    evaluateQuery: url.JINER + '/handBook/dataQuery/evaluateQuery',
+
+    // 手册-申报业务
+    // 保税核注清单(进口)
+    taxList_I_hand: url.JINER + '/handBook/datainput/I/taxList',
+    // 保税核注清单(出口)
+    taxList_E_hand: url.JINER + '/handBook/datainput/E/taxList',
+    // 保税核注清单查询
+    taxListQuery_hand: url.JINER + '/handBook/dataQuery/taxListQuery',
+
+    // 手册-报核业务
+    // 加工贸易手册报核
+    handBookVer: url.JINER + '/handBook/datainput/handBookVer',
+    // 加工贸易手册报核查询
+    handBookVerQuery: url.JINER + '/handBook/dataQuery/handBookVerQuery',
+
+    // 手册-场站业务
+    // 外发加工申报表
+    declareForm: '/handBook/datainput/declareForm',
+    // 外发加工申报表查询
+    declareFormQuery: '/handBook/dataQuery/declareFormQuery',
+    // 外发加工发货单
+    delivery: '/handBook/datainput/delivery',
+    // 外发加工发货单查询
+    deliveryQuery: '/handBook/datainput/deliveryQuery',
+    // 外发加工收货单
+    recipient: '/handBook/datainput/recipient',
+    // 外发加工收货单查询
+    recipientQuery: '/handBook/datainput/recipientQuery',
 
     // 保税货物流转 - 申报表
     // 转出申报

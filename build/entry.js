@@ -15,7 +15,10 @@ module.exports = {
     reportCenter: './src/view/pages/reportCenter/router.js',
     circulation: './src/view/pages/circulation/router.js',
     graininess: './src/view/pages/graininess/router.js',
-    sea:'./src/view/pages/sea/router.js'
+    sea:'./src/view/pages/sea/router.js',
+    handBook:'./src/view/pages/handBook/router.js',
+    account:'./src/view/pages/account/router.js'
+
   },
   build: {
     vendor1: ['vue'],
@@ -33,6 +36,8 @@ module.exports = {
     reportCenter: ['babel-polyfill', './src/view/pages/reportCenter/router.js'],
     circulation: ['babel-polyfill','./src/view/pages/circulation/router.js'],
     graininess: ['babel-polyfill','./src/view/pages/graininess/router.js'],
-    sea: ['babel-polyfill','./src/view/pages/sea/router.js']
+    sea: ['babel-polyfill','./src/view/pages/sea/router.js'],
+    handBook: ['babel-polyfill','./src/view/pages/handBook/router.js'],
+    account: ['babel-polyfill','./src/view/pages/account/router.js']
   }
 }

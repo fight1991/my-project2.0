@@ -95,6 +95,7 @@ export default {
       state.currentTab = data
     },
     SetChildSysData (state, data) {
+      console.log(data)
       state.homeTab = {
         title: '首页',
         component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
