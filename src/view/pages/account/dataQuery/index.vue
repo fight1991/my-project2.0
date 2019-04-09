@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.jinerInfo['accountQuery'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.jinerInfo[this.$route.name] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
   }
 }
 </script>

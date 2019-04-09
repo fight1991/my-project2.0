@@ -11,7 +11,7 @@ const MENU = {
   children: [
     {
       path: '/account/datainput/list',
-      name: 'accountBookAdd',
+      name: 'accountAdd',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {

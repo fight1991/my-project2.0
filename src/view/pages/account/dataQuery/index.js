@@ -11,7 +11,7 @@ const MENU = {
   children: [
     {
       path: '/account/dataQuery/list',
-      name: 'accountBookQuery',
+      name: 'accountQuery',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {

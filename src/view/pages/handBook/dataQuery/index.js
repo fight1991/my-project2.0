@@ -11,7 +11,7 @@ const MENU = {
   children: [
     {
       path: '/handBook/dataQuery/list',
-      name: 'handBookQuery',
+      name: 'handQuery',
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
