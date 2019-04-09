@@ -237,7 +237,18 @@ export default {
   },
   // 通关状态
   passStatus: {
-
+    // 海运舱单
+    seaBill: url.COMMON + '',
+    // 空运舱单
+    airBill: url.COMMON + '',
+    // 公路舱单
+    loadBill: url.COMMON + '',
+    // 公路舱单确报
+    loadBillCom: url.COMMON + '',
+    // 回执查询
+    receiptQuery: url.COMMON + '',
+    // 通关状态查询
+    passStatusQuery: url.COMMON + ''
   },
 
   // 加工贸易手册--工作台底部快捷菜单

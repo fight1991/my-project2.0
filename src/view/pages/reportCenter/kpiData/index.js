@@ -1,4 +1,4 @@
-// KPI报表
+// 数据中心-KPI报表
 const MENU = {
   path: '/reportCenter/kpiData',
   name: 'kpiData',

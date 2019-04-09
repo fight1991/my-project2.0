@@ -1,5 +1,5 @@
-import dataInput from './dataInput/index' // 数据录入
-import dataQuery from './dataQuery/index' // 数据查询
+import AirQuery from './airQuery/index' // 数据录入
+import DecQuery from './decQuery/index' // 数据查询
 const MENU = [
   {
     path: '/passStatus/index',
@@ -11,7 +11,7 @@ const MENU = [
       title: '首页'
     }
   },
-  dataInput.MENU,
-  dataQuery.MENU
+  AirQuery.MENU,
+  DecQuery.MENU
 ]
 export default {MENU}

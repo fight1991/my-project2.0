@@ -1,4 +1,4 @@
-// 账册
+// 加工贸易账册-数据查询
 const MENU = {
   path: '/account/dataQuery',
   name: 'account-dataQuery',

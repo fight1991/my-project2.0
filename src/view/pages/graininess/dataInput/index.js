@@ -1,4 +1,4 @@
-// 账册
+// 保税物流管理-数据录入
 const MENU = {
   path: '/graininess/dataInfo',
   name: 'graininess-dataInfo',

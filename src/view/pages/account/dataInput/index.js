@@ -1,4 +1,4 @@
-// 账册
+// 加工贸易账册-数据录入
 const MENU = {
   path: '/account/dataInfo',
   name: 'account-dataInfo',

@@ -1,3 +1,4 @@
+// 保税获取流转-综合查询
 const MENU = {
   path: '/circulation/queryList',
   name: 'circulation-queryList',

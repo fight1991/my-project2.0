@@ -1,5 +1,5 @@
-import dataInput from './dataInput/index' // 数据录入
-import dataQuery from './dataQuery/index' // 数据查询
+import PassParams from './passParams/index' // 通关参数
+import PassStatus from './passStatus/index' // 通关状态
 const MENU = [
   {
     path: '/passParams/index',
@@ -11,7 +11,7 @@ const MENU = [
       title: '首页'
     }
   },
-  dataInput.MENU,
-  dataQuery.MENU
+  PassParams.MENU,
+  PassStatus.MENU
 ]
 export default {MENU}

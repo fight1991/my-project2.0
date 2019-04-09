@@ -1,4 +1,4 @@
-// 收发货单
+// 保税获取流转-收发货单
 const MENU = {
   path: '/circulation/goodsBill',
   name: 'circulation-goodsBill',

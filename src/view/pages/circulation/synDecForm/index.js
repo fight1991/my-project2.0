@@ -1,3 +1,4 @@
+// 保税货物流转-同步申报表
 const MENU = {
   path: '/circulation/synDecForm',
   name: 'circulation-synDecForm',

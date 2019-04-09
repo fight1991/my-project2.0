@@ -1,4 +1,4 @@
-// 手册
+// 加工贸易手册-数据录入
 const MENU = {
   path: '/handBook/dataInfo',
   name: 'handBook-dataInfo',

@@ -1,4 +1,4 @@
-// 申报表
+// 保税获取流转-申报表
 const MENU = {
   path: '/circulation/decForm',
   name: 'circulation-decForm',
