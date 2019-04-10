@@ -6,6 +6,7 @@
 <script>
 import echarts from 'echarts'
 import 'echarts/map/js/china.js'
+import 'echarts/extension/bmap/bmap.js'
 export default {
   name: 'e-chart',
   props: {

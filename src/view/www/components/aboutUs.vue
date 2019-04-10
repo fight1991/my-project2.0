@@ -32,17 +32,16 @@
         <p class="light">CONTACT US</p>
       </div> -->
       <div class="nameCard mainer">
-        <img src="@/assets/www-img/images/map.png" alt="">
+        <!-- <img src="@/assets/www-img/images/map.png" alt=""> -->
+        <e-chart :datas='mapChartData' :reset='resetChartData' height="1000px"></e-chart>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import BMap from 'BaiduMap'
 import eventBus from '../common/eventBus'
 export default {
-// 百度地图api ak=NyTAf7KeueRYw66iDfFh20pDmxlGFrfO
   data () {
     return {
       bannerList: ['@/assets/www-img/images/banner01.png', '@/assets/www-img/images/banner02.png', '@/assets/www-img/images/banner03.png'],
@@ -77,23 +76,213 @@ export default {
         email: [
           {pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/, message: '请输入正确的邮箱', trigger: 'blur'}
         ]
-      }
+      },
+      resetChartData: '',
+      mapChartData: {} // 地图
     }
   },
   mounted () {
-    // let map = new BMap.Map(this.$refs.map)
-    // let point = new BMap.Point(120.3793852119, 31.496710920389) // 创建中心点坐标
-    // let marker = new BMap.Marker(point) // 创建标注
-    // map.centerAndZoom(point, 15) // 初始化地图，设置中心点坐标和地图级别
-    // map.addOverlay(marker) // 将标注添加到地图
-    // map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
-    // let local = new BMap.LocalSearch(map, { renderOptions: {map: map, autoViewport: true} })
-    // local.search('朗新金关')
+    this.doInitMap()
+    window.onresize = () => {
+      return (() => {
+        this.resetChartData = Math.random()
+      })()
+    }
     if (this.$route.hash) { // 说明是点击预约按钮跳转过来的,则定位到锚点
       eventBus.$emit('custormAnchor', 'anchor')
     }
   },
   methods: {
+    // 初始化地图信息
+    doInitMap () {
+      this.mapChartData = {
+        title: {
+          text: ''
+        },
+        // backgroundColor: '#FFFFFF',
+        tooltip: {
+          trigger: 'item',
+          formatter: function (param) {
+            return param.name
+          }
+        },
+        bmap: {
+          center: [104.114129, 37.550339],
+          zoom: 5,
+          roam: true,
+          mapStyle: {
+            styleJson: [{
+              // feature是特征，element是元素
+              'featureType': 'water', // 水
+              'elementType': 'all',
+              'stylers': {
+                'color': '#9DDDFB'
+              }
+            }, {
+              'featureType': 'land', // 陆地
+              'elementType': 'all',
+              'stylers': {
+                'color': '#f3f3f3'
+              }
+            }, {
+              'featureType': 'boundary', // 边界
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#064f85'
+              }
+            }, {
+              'featureType': 'railway', // 铁路
+              'elementType': 'all',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'highway', // 高速及国道
+              'elementType': 'all',
+              'stylers': {
+                'color': '#fdfdfd'
+              }
+            }, {
+              'featureType': 'highway',
+              'elementType': 'labels',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'arterial', // 城市主路
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#fefefe'
+              }
+            }, {
+              'featureType': 'arterial',
+              'elementType': 'geometry.fill',
+              'stylers': {
+                'color': '#fefefe'
+              }
+            }, {
+              'featureType': 'poi', // 定位
+              'elementType': 'all',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'green',
+              'elementType': 'all',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'subway',
+              'elementType': 'all',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'manmade',
+              'elementType': 'all',
+              'stylers': {
+                'color': '#d1d1d1'
+              }
+            }, {
+              'featureType': 'local',
+              'elementType': 'all',
+              'stylers': {
+                'color': '#d1d1d1'
+              }
+            }, {
+              'featureType': 'arterial',
+              'elementType': 'labels',
+              'stylers': {
+                'visibility': 'off'
+              }
+            }, {
+              'featureType': 'boundary',
+              'elementType': 'all',
+              'stylers': {
+                'color': '#fefefe'
+              }
+            }, {
+              'featureType': 'building', // 建筑物
+              'elementType': 'all',
+              'stylers': {
+                'color': '#d1d1d1'
+              }
+            }, {
+              'featureType': 'label',
+              'elementType': 'labels.text.fill',
+              'stylers': {
+                'color': '#999999'
+              }
+            }]
+          }
+        },
+        series: [
+          {
+            name: '集团驻地',
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: [{'name': '朗新科技股份有限公司-上海分公司', 'value': ['121.48789948569473', '31.24916171001514']}],
+            symbolSize: function (val) {
+              return 8
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: '',
+                position: 'right',
+                show: false
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: 'purple',
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            }
+          },
+          {
+            name: '报关协会',
+            type: 'scatter',
+            coordinateSystem: 'bmap',
+            data: [{'name': '深圳报关协会', 'value': ['114.0259736573215', '22.546053546205247']}],
+            symbolSize: function (val) {
+              return 8
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: '',
+                position: 'right',
+                show: false
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#0A3DFB',
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            }
+          }
+        ]
+      }
+    },
     orderNow () { // 立即预约请求
       this.$refs['Form'].validate(async valid => {
         if (valid) {
