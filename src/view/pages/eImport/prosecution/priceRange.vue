@@ -1,13 +1,9 @@
 <template>
-    <section class='sys-main sys-main-table'>
+    <section class='sys-main'>
       <!-- 头部 -->
-      <el-row class='sys-header'>
+      <el-row class='query-header'>
       <!-- 查询条件 -->
         <el-form label-width="100px" label="right" :model="queryform"  ref="queryform">
-          <el-row class='mg-b-15'>
-            <el-button size="mini" type="primary" @click="add">新增</el-button>
-            <el-button size="mini" type="primary" @click="del">删除</el-button>
-          </el-row>
           <el-row class='mg-b-15' :gutter="10">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识">
@@ -45,21 +41,29 @@
       </el-row>
       <!-- 头部 end-->
       <!-- 主显示框 -->
-      <div class='content'>
+      <div class='content query-body'>
+        <!-- 按钮 -->
+        <el-row class="op-btn">
+          <el-button size="mini" icon="fa fa-plus" class="secondButton">&nbsp;新增</el-button>
+          <el-button size="mini" icon="fa fa-trash-o" class="secondButton">&nbsp;删除</el-button>
+        </el-row>
         <!-- 列表 list -->
-        <el-table class='sys-table-table' border highlight-current-row  :data="formateresult" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table class='sys-table-table'
+          height="400" border highlight-current-row size="mini"
+          :data="formateresult"
+          ref="multipleTable" @selection-change="handleSelectionChange">
           <el-table-column
               type="selection"
               width="35">
           </el-table-column>
-          <el-table-column label="操作" min-width="100" prop="" >
+          <el-table-column label="操作" min-width="60" prop="" >
           </el-table-column>
-          <el-table-column label="进出口标识" min-width="80" prop="status">
+          <el-table-column label="进出口标识" min-width="100" prop="status">
             <template slot-scope="scope">
               {{scope.row.status=="I"?"进口":(scope.row.status=="E"?'出口':'')}}
             </template>
           </el-table-column>
-          <el-table-column label="境内收发货人" min-width="150" prop="">
+          <el-table-column label="境内收发货人" min-width="120" prop="">
           </el-table-column>
           <el-table-column label="商品编码" min-width="100" prop="">
           </el-table-column>
@@ -71,7 +75,7 @@
           </el-table-column>
           <el-table-column label="币制" min-width="50" prop="">
           </el-table-column>
-          <el-table-column label="单价浮动区间" min-width="100" prop="">
+          <el-table-column label="单价浮动区间" min-width="120" prop="">
           </el-table-column>
           <el-table-column label="原产国" min-width="80" prop="">
           </el-table-column>
@@ -137,5 +141,8 @@ export default {
 .ccba-btn {
   margin-bottom: 22px;
   text-align: center
+}
+.op-btn {
+  margin-bottom: 14px;
 }
 </style>
