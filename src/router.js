@@ -265,9 +265,6 @@ router.afterEach(route => {
     }
   }
   let title = route.meta.title
-  console.log(title)
-  console.log(route)
-  console.log(router.app.$options.store.state.childSys.title)
   if (!util.isEmpty(route.params.sysData)) {
     title = base64.decode(route.params.sysData).split('::')[1] + '-' + base64.decode(route.params.sysData).split('::')[0]
   }

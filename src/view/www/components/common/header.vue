@@ -24,8 +24,19 @@
             :key="item.id"
             @click="changeStyle(index)"
             :class="{'bottomColor':tabList[index]['status'],'angle':tabList[index]['status']}">
-              <router-link :to="item.path">{{item.name}}</router-link>
+              <div class="routeA" @click.prevent="routeTo(item.path)">{{item.name}}</div>
             </li>
+            <el-dropdown @command="getGrop">
+              <li
+                :class="{'bottomColor':aboutUs['status'],'angle':aboutUs['status']}">
+                <div class="routeA">关于我们</div>
+              </li>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="/aboutUs">关于我们</el-dropdown-item>
+                <el-dropdown-item command="/contactUs">在线预约</el-dropdown-item>
+                <el-dropdown-item command="/talent">人才招聘</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
          </ul>
        </div>
      </div>
@@ -45,39 +56,37 @@ export default {
           id: 1,
           status: true,
           path: '/index',
-          name: '首页'
+          name: '首页',
+          isLink: true
         },
         {
           id: 2,
           status: false,
           path: '/production',
-          name: '产品介绍'
-        },
-        {
-          id: 3,
-          status: false,
-          path: '/productOrder',
-          name: '产品订购'
+          name: '产品介绍',
+          isLink: true
         },
         {
           id: 4,
           status: false,
           path: '/charge',
-          name: '典型案例'
-        },
-        {
-          id: 5,
-          status: false,
-          path: '/aboutUs',
-          name: '关于我们'
+          name: '典型案例',
+          isLink: true
         }
-      ]
+      ],
+      aboutUs: {
+        status: false
+      }
     }
   },
   created () {
     let tabs = sessionStorage.getItem('tabs')
+    let aboutUs = sessionStorage.getItem('aboutUs')
     if (tabs) {
       this.tabList = JSON.parse(tabs)
+    }
+    if (aboutUs) {
+      this.aboutUs = JSON.parse(aboutUs)
     }
   },
   mounted () {
@@ -85,7 +94,32 @@ export default {
     eventBus.$on('custormAnchor', this.custormAnchor)
   },
   methods: {
+    // 下拉框路由跳转
+    getGrop (path) {
+      // 其余tabs的边框重置
+      this.changeStyle()
+      // 更改下边框颜色
+      this.aboutUs = {
+        status: true
+      }
+      // 存储本地
+      sessionStorage.setItem('aboutUs', JSON.stringify(this.aboutUs))
+      this.$router.push(path)
+    },
+    // 路由跳转
+    routeTo (path) {
+      this.$router.push(path)
+    },
+    // 改变底部边框颜色
     changeStyle (num) {
+      // 如果num存在 说明不是getGrop调用的
+      if (num) {
+        // 重置关于我们的下边框
+        this.aboutUs = {
+          status: false
+        }
+        sessionStorage.setItem('aboutUs', JSON.stringify(this.aboutUs))
+      }
       let arr = JSON.parse(JSON.stringify(this.tabList))
       arr.forEach((item, index) => {
         if (index === num) {
@@ -169,17 +203,18 @@ export default {
         // &:hover {
         //  border-bottom: 2px solid #0A5CA0;
         // }
-        a {
-          display: block;
+        .routeA {
           text-align: center;
           padding: 0 20px;
           width: 100%;
+          box-sizing: border-box;
+          cursor: pointer;
         }
       }
       .bottomColor {
         border-bottom: 3px solid #0A5CA0;
         color: #0A5CA0;
-        a {
+        .routeA {
           color: #0A5CA0;
         }
     }

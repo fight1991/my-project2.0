@@ -40,12 +40,20 @@ const MENU = [
     component: resolve => require(['../www/components/orderInline.vue'], resolve)
   },
   {
-    path: '/productOrder',
-    name: 'productOrder',
+    path: '/talent',
+    name: 'talent',
     meta: {
-      title: '产品订购'
+      title: '人才招聘'
     },
-    component: resolve => require(['../www/components/productOrder.vue'], resolve)
+    component: resolve => require(['../www/components/talent.vue'], resolve)
   }
+  // {
+  //   path: '/productOrder',
+  //   name: 'productOrder',
+  //   meta: {
+  //     title: '产品订购'
+  //   },
+  //   component: resolve => require(['../www/components/productOrder.vue'], resolve)
+  // }
 ]
 export default { MENU }
