@@ -236,7 +236,12 @@ router.beforeEach((to, from, next) => {
 router.afterEach(route => {
   // 路径跳转后替换页面title
   let sysTitle = router.app.$options.store.state.childSys.title
-  document.title = '智慧通关-' + sysTitle || 'CCBA • 智慧通关服务平台'
+  if (sysTitle) {
+    document.title = '智慧通关-' + sysTitle || 'CCBA • 智慧通关服务平台'
+  } else {
+    document.title = '智慧通关-' + route.meta.title || 'CCBA • 智慧通关服务平台'
+  }
+
   let path = route.fullPath
   // 判断路由是否携带了系统参数 token
   if (path.indexOf('token=') !== -1) {
