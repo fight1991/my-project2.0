@@ -12,8 +12,8 @@ const MENU = [
       title: '首页'
     }
   },
-  CarlareParams.MENU,
   PassCode.MENU,
-  DeclareParams.MENU
+  DeclareParams.MENU,
+  CarlareParams.MENU
 ]
 export default {MENU}
