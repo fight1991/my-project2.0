@@ -6,7 +6,7 @@
         <el-form label-width="100px" label="right" :model="queryform"  ref="queryform">
           <el-row class='mg-b-15'>
             <el-button size="mini" type="primary" @click="add">新增</el-button>
-            <el-button size="mini" type="primary" @click="delete()">删除</el-button>
+            <el-button size="mini" type="primary" @click="del">删除</el-button>
           </el-row>
           <el-row class='mg-b-15' :gutter="10">
           <el-col :span="6" :xs="12">
@@ -120,7 +120,7 @@ export default {
 
     },
     // 删除
-    delete () {
+    del () {
 
     },
     // 选择框
