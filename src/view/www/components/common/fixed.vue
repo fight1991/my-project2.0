@@ -5,8 +5,7 @@
         <a href="javascript:void(0);"></a>
         <div class="detail angle-right">51baoguan@chinacba.org</div>
       </div>
-      <div class="login small"><a href="javascript:void(0);" @click="logIn"></a></div>
-      <div class="register small"><a href="javascript:void(0);" @click="logIn"></a></div>
+      <div class="switchOld small"><a href="javascript:void(0);" @click="switchOld"></a></div>
       <div class="backTop small"><a href="javascript:void(0);" @click="backTop"></a></div>
     </div>
   </div>
@@ -24,6 +23,10 @@ export default {
     logIn () {
       let LoginUrl = pathList.WWWLOGINBACK
       window.open(LoginUrl, '_self')
+    },
+    switchOld () {
+      let old = pathList.WWWOLDLOCATION
+      window.open(old, '_self')
     },
     backTop () {
       this.$emit('backTop')
@@ -49,9 +52,6 @@ export default {
         background:url("../../../../assets/www-img/images/Login.png") no-repeat 100% center;
       }
       &:nth-child(3) a {
-        background:url("../../../../assets/www-img/images/register.png") no-repeat 100% center;
-      }
-      &:nth-child(4) a {
         background:url("../../../../assets/www-img/images/back-to-top.png") no-repeat 100% center;
       }
     }
@@ -63,9 +63,6 @@ export default {
       background:url("../../../../assets/www-img/images/Login-xz.png") no-repeat 100% center;
     }
     .small:nth-child(3):hover a {
-      background:url("../../../../assets/www-img/images/register-xz.png") no-repeat 100% center;
-    }
-    .small:nth-child(4):hover a {
       background:url("../../../../assets/www-img/images/back-to-top-xz.png") no-repeat 100% center;
     }
     a {

@@ -10,13 +10,22 @@
           <div class="login fr"><a href="javascript:void(0);" @click="logIn">登录 / 注册</a></div>
         </div> -->
      <!-- </div> -->
-     <div class="header-bottom mainer">
-       <div class="logo">
-         <div class="image fl"><img src="@/assets/www-img/images/logo1.png" alt=""></div>
-         <div class="telPhone fl">
-           <span class="iconfont icon-dianhua tel-icon"></span>
-            <span class="em">010-65211168</span>
-         </div>
+     <div class="header-bottom">
+       <div class="header-right" v-if="isLogin">
+          <div class="login" @click="logIn"><span>登录</span></div>
+          <div class="register" @click="logIn"><span>注册</span></div>
+        </div>
+        <div class="header-right" v-else>
+          <div class="hello"><span>{{$store.state.userLoginInfo.userName}}&nbsp;,你好!</span></div>
+          <div class="loginOut" @click="logOut"><span>注销</span></div>
+          <div class="goToControl" @click="goToControl"><span>前往工作台</span></div>
+        </div>
+        <div class="logo">
+          <div class="image fl"><img src="@/assets/www-img/images/logo1.png" alt=""></div>
+          <div class="telPhone fl">
+            <span class="iconfont icon-dianhua tel-icon"></span>
+              <span class="em">010-65211168</span>
+          </div>
          </div>
        <div class="tabs">
          <ul>
@@ -46,7 +55,8 @@
 
 <script>
 import eventBus from '../../common/eventBus'
-import config from '@/config/config'
+import pathList from '@/config/pathList'
+import util from '@/common/util'
 export default {
   data () {
     return {
@@ -76,7 +86,8 @@ export default {
       ],
       aboutUs: {
         status: false
-      }
+      },
+      isLogin: false
     }
   },
   created () {
@@ -113,7 +124,7 @@ export default {
     // 改变底部边框颜色
     changeStyle (num) {
       // 如果num存在 说明不是getGrop调用的
-      if (num) {
+      if (num || num === 0) {
         // 重置关于我们的下边框
         this.aboutUs = {
           status: false
@@ -138,9 +149,59 @@ export default {
         anchorElement.scrollIntoView()
       }
     },
+    goToControl () {
+      let url = pathList.WWWCCBA + '?token=' + encodeURIComponent(localStorage.getItem('token'))
+      window.open(url, '_blank')
+    },
     logIn () {
-      let LoginUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['LOGIN']
+      let LoginUrl = pathList.WWWLOGINBACK
       window.open(LoginUrl, '_self')
+    },
+    logOut () {
+      this.$confirm('您确定退出吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        closeOnClickModal: false,
+        type: 'warning'
+      }).then(() => {
+        window.localStorage.clear()
+        this.$store.commit('userLoginInfo', {
+          token: '', // token数据
+          userName: '', // 用户姓名
+          companyType: '', // 公司类型
+          companyCode: '' // 公司id
+        })
+        this.isLogin = false
+      }).catch(() => {})
+    },
+    // 检查登录状态
+    checkLogin () {
+      let token = localStorage.getItem('token')
+      if (token) { // 如果token存在说明登录过了
+        this.isLogin = true
+        this.getUserInfo()
+      }
+    },
+    getUserInfo () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/login/getLoginUserInfo',
+        data: {
+          ssoToken: window.localStorage.getItem('token')
+        },
+        router: this.$router,
+        success: (res) => {
+          let datas = {
+            token: window.localStorage.getItem('token'), // token数据
+            userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
+            mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
+            userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
+            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
+            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
+            companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
+          }
+          this.$store.commit('userLoginInfo', datas)
+        }
+      })
     }
   }
 }
@@ -152,23 +213,47 @@ export default {
 }
   .header {
     border-bottom: 1px solid #ccc;
-    .line-through {
-      height: 41px;
-      width: 100%;
-      background-color: #0A5CA0;
-      display: none;
-    }
-    .header-top {
-      line-height: 40px;
-      color: #fff;
-      .em {
-        font-style: italic;
+    min-width: 1000px;
+    .header-right {
+      position: absolute;
+      display: flex;
+      right: 80px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 60px;
+      line-height: 58px;
+      .login span,.register span {
+        padding: 3px 20px;
+        border: 1px solid transparent;
+        border-radius: 15px;
       }
+      .login {
+        cursor: pointer;
+        &:hover span{
+          border-color: #0A5CA0;
+          color: #0A5CA0;
+        }
+      }
+      .register {
+        cursor: pointer;
+        &:hover span{
+          border-color: #0A5CA0;
+          color: #0A5CA0;
+        }
+      }
+
     }
     .header-bottom {
+      padding: 0 80px;
+      position: relative;
       height: 61px;
       display: flex;
-      justify-content: space-between;
+      .tabs {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+      }
       .logo {
         margin-top: 12px;
         height: 37px;
@@ -192,7 +277,7 @@ export default {
       }
       ul li {
         position: relative;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         box-sizing: border-box;
         line-height: 58px;
@@ -230,6 +315,12 @@ export default {
       left: 50%;
       bottom: 0;
       transform: translateX(-50%)
+    }
+  }
+  @media screen and(max-width: 1300px) {
+    .logo {
+      width: 110px!important;
+      overflow: hidden;
     }
   }
 </style>
