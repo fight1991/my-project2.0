@@ -7,7 +7,7 @@ export default {
   name: 'index',
   data () {
     return {
-      url: pathList.aircraft['airplan'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      url: pathList.aircraft['airplan'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   },
   mounted () {
