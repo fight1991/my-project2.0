@@ -10,9 +10,9 @@
           <p class="big">公司简介</p>
           <p class="light">COMPANY PROFILE</p>
       </div>
-      <div class="detail mainer clearfix">
-        <div class="text fl">
-          <div><img src="@/assets/www-img/images/logo1.png" alt=""></div>
+      <div class="detail mainer">
+        <div class="text">
+          <div><img src="@/assets/www-img/images/logo2.png" alt=""></div>
           <h3>中国报关协会</h3>
           <p>中国报关协会（China Customs Brokers Association ，简称CCBA），于2002年12月11日成立，是经中华人民共和国民政部注册，由在海关注册的报关单位、依法成立的其他相关企事业单位、科研院所、社会团体等及有关人士自愿结成的全国性、行业性社会团体，是非营利性社会组织。</p>
           <p>中国报关协会是中国唯一的全国性报关行业组织，协会成员包括报关企业、进出口货物收发货人及其报关员。中国报关协会是民政部授予的5A级全国行业协会（2015-2020）和2015年度全国先进社会组织。</p>
@@ -25,9 +25,6 @@
           <h3 style="margin-top:20px">朗新金关信息科技有限公司</h3>
           <p>朗新金关科技有限公司成立于2006年，公司从事海关管辖的加工贸易企业电子联网、关务管理、核查核销等关务专业软件开发及海关内部管理系统的软件开发；公司取得中国电子口岸认证的《电子联网资格认定证书》根据海关总署数据中心颁发的2007年115号文件，朗新金关成为全国13家具有合格资质的联网软件软件供应商。</p>
           <p>朗新金关不仅作为国家“单一窗口”标准版建设的主要力量，另外依托开发优势为各地方智慧口岸建设提供方案设计、系统设计、运维服务等方面的能力输出。并且将以移动、智能、协同为创新应用亮点，从报关行、货代、货主、供应商、监管机构等多位视角，打造形成围绕通过物流生态圈的线上关务服务平台。</p>
-        </div>
-        <div class="photo fr">
-          <img src="@/assets/www-img/images/gongsijianjiepeitu.png" alt="">
         </div>
       </div>
     </div>
@@ -330,20 +327,8 @@ export default {
 <style lang="less" scoped>
 // 公司简介区域
 .companyIntro {
-  margin: 60px 0;
+  margin: 40px 0;
 }
-.big {
-    font-size: 22px;
-    color: #2E2E2E;
-    font-weight: bold;
-    text-align: center;
-  }
-.light {
-    color: #999;
-    font-size: 16px;
-    text-align: center;
-    margin: 5px 0 20px 0;
-  }
   .detail {
     h3 {
       color: black;
@@ -352,15 +337,13 @@ export default {
       margin: 10px 0;
     }
     p {
-      text-indent: 1em;
+      text-indent: 2em;
       line-height: 26px;
     }
     .text {
-      width: 70%;
-      padding-right: 30px;
       img {
         width: 110px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
       }
       .shine {
         margin-top: 30px;

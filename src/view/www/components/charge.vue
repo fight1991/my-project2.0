@@ -199,17 +199,6 @@ export default {
 
 }
 
-.big {
-    font-size: 26px;
-    color: #2E2E2E;
-    font-weight: bold;
-    text-align: center;
-  }
-.light {
-    color: #999;
-    font-size: 18px;
-    margin: 5px 0 20px 0;
-  }
   .image {
     padding: 15px 0;
     img {

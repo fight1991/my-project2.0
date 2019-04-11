@@ -41,7 +41,7 @@ export default {
 
 <style lang="less" scoped>
  .talent {
-   padding: 50px 0;
+   padding: 40px 0;
    color: #333;
  }
  .job-title {
