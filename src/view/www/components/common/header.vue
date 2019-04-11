@@ -11,13 +11,13 @@
         </div> -->
      <!-- </div> -->
      <div class="header-bottom">
-       <div class="header-right" v-if="isLogin">
+       <div class="header-right" v-if="!isLogin">
           <div class="login" @click="logIn"><span>登录</span></div>
           <div class="register" @click="logIn"><span>注册</span></div>
         </div>
         <div class="header-right" v-else>
-          <div class="hello"><span>{{$store.state.userLoginInfo.userName}}&nbsp;,你好!</span></div>
-          <div class="loginOut" @click="logOut"><span>注销</span></div>
+          <div class="hello"><span>{{$store.state.userLoginInfo.userName}}&nbsp;, 您好 !</span></div>
+          <div class="logOut" @click="logOut"><span class="shuxian">注销</span></div>
           <div class="goToControl" @click="goToControl"><span>前往工作台</span></div>
         </div>
         <div class="logo">
@@ -91,6 +91,7 @@ export default {
     }
   },
   created () {
+    this.checkLogin()
     let tabs = sessionStorage.getItem('tabs')
     let aboutUs = sessionStorage.getItem('aboutUs')
     if (tabs) {
@@ -158,12 +159,18 @@ export default {
       window.open(LoginUrl, '_self')
     },
     logOut () {
-      this.$confirm('您确定退出吗?', '提示', {
+      this.$confirm('您确定注销吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: 'API@/login/login/logout',
+          data: {},
+          router: this.$router,
+          success: (res) => {}
+        })
         window.localStorage.clear()
         this.$store.commit('userLoginInfo', {
           token: '', // token数据
@@ -222,26 +229,37 @@ export default {
       transform: translateY(-50%);
       height: 60px;
       line-height: 58px;
-      .login span,.register span {
+      .login span,
+      .register span {
+        cursor: pointer;
         padding: 3px 20px;
         border: 1px solid transparent;
         border-radius: 15px;
       }
-      .login {
-        cursor: pointer;
+      .login,.register {
         &:hover span{
           border-color: #0A5CA0;
           color: #0A5CA0;
         }
       }
-      .register {
+      .logOut span,
+      .goToControl span {
+        position: relative;
         cursor: pointer;
-        &:hover span{
-          border-color: #0A5CA0;
+        padding: 0px 6px;
+        &:hover {
           color: #0A5CA0;
         }
       }
-
+    }
+    .shuxian::after {
+      content:'';
+      position: absolute;
+      right: 0;
+      top: 3px;
+      height: 12px;
+      width: 1px;
+      background-color: black;
     }
     .header-bottom {
       padding: 0 80px;
@@ -315,6 +333,9 @@ export default {
       left: 50%;
       bottom: 0;
       transform: translateX(-50%)
+    }
+    .hello {
+      margin-right: 40px;
     }
   }
   @media screen and(max-width: 1300px) {
