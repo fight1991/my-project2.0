@@ -12,9 +12,9 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'iTemplate') {
-      this.url = pathList.eImport['decImTemplate'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImTemplate'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else {
-      this.url = pathList.eImport['decExTemplate'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }

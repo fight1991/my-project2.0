@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.passParams[this.$route.name] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.passParams[this.$route.name] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
   }
 }
 </script>

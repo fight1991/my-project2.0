@@ -12,9 +12,9 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'iReceipt') {
-      this.url = pathList.eImport['decImReceipt'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else {
-      this.url = pathList.eImport['decExReceipt'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExReceipt'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }

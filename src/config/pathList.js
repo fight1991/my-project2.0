@@ -380,7 +380,7 @@ export default {
       path: url.CCBA + '/eImport/declare/exportTaxList'
     }
   ],
-  WWWLOGINBACK: url.COMMON + '/login?sysId=002&callback=' + url.CCBA + '/control',
+  WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/control',
   WWWOLDLOCATION: 'https://www.51baoguan.cn:8091',
   WWWCCBA: url.CCBA + '/control'
 }

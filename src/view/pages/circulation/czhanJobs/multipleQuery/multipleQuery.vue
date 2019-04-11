@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.jinerInfo['multipleQuery'] + '?sysId=002&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.jinerInfo['multipleQuery'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
   }
 }
 </script>
