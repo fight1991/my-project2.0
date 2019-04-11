@@ -26,10 +26,11 @@ export default {
       } else if (event.data.type === 'declaration' || event.data.type === 'recordList') { // 报关单/备案清单
         let data = event.data.data.operationType
         if (data === 'edit' || data === 'look' || data === 'copy') {
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA`)
           routers.push({
             name: 'decInfo-editCheck',
             params: {
-              sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}`)
+              sysData: sysData
             }
           })
         }

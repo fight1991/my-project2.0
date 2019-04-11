@@ -269,7 +269,7 @@ router.afterEach(route => {
   if (!util.isEmpty(route.params.sysData)) {
     let tabTitle = base64.decode(route.params.sysData).split('::')[1]
     let tabId = base64.decode(route.params.sysData).split('::')[0]
-    if (tabTitle.split('-')[0] !== 'none') {
+    if (tabId.split('-')[0] !== 'none') {
       title = tabTitle + '-' + tabId
     } else {
       title = tabTitle
