@@ -164,7 +164,7 @@ router.beforeEach((to, from, next) => {
   /* 登录校验：
      1、登录页面直接放行
   */
-  if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder') {
+  if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder' || to.path === '/talent') {
     next()
   } else if (to.path === '/login') {
     window.localStorage.clear()
@@ -265,8 +265,15 @@ router.afterEach(route => {
     }
   }
   let title = route.meta.title
+  // sysData 为报关单/备案清单交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData)) {
-    title = base64.decode(route.params.sysData).split('::')[1] + '-' + base64.decode(route.params.sysData).split('::')[0]
+    let tabTitle = base64.decode(route.params.sysData).split('::')[1]
+    let tabId = base64.decode(route.params.sysData).split('::')[0]
+    if (tabTitle.split('-')[0] !== 'none') {
+      title = tabTitle + '-' + tabId
+    } else {
+      title = tabTitle
+    }
   }
   router.app.$options.store.commit('SetTabData', {
     title: title,
