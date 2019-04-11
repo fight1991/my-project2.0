@@ -138,20 +138,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.big {
-    font-size: 22px;
-    color: #2E2E2E;
-    font-weight: bold;
-    text-align: center;
-  }
-.light {
-    color: #999;
-    font-size: 16px;
-    text-align: center;
-    margin: 5px 0 20px 0;
-}
+
 .introItems {
-  padding: 60px 0;
+  padding: 40px 0;
   .text {
     text-indent: 2em;
     line-height: 30px;

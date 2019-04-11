@@ -33,7 +33,7 @@ const MENU = {
       path: '/handBook/exaluate/list',
       name: 'exaluate',
       permissions: 'SAASOM0504000000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '不作价设备使用'
@@ -43,7 +43,7 @@ const MENU = {
       path: '/handBook/evaluateQuery/list',
       name: 'evaluateQuery',
       permissions: 'SAASOM0504000000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '不作价设备使用查询'

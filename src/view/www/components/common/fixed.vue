@@ -5,7 +5,7 @@
         <a href="javascript:void(0);"></a>
         <div class="detail angle-right">51baoguan@chinacba.org</div>
       </div>
-      <div class="switchOld small"><a href="javascript:void(0);" @click="switchOld"></a></div>
+      <div class="switchOld small"><a href="javascript:void(0);" @click.prevent="switchOld"></a></div>
       <div class="backTop small"><a href="javascript:void(0);" @click="backTop"></a></div>
     </div>
   </div>

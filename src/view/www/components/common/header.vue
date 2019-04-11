@@ -1,15 +1,6 @@
 <template>
 <div class="container">
    <div class="header">
-     <!-- <div class="line-through"> -->
-       <!-- <div class="header-top mainer clearfix">
-          <div class="tel fl">
-            <span class="iconfont icon-weibiaoti1"></span>
-            <em class="em">在线咨询热线: 010-65211168</em>
-          </div>
-          <div class="login fr"><a href="javascript:void(0);" @click="logIn">登录 / 注册</a></div>
-        </div> -->
-     <!-- </div> -->
      <div class="header-bottom">
        <div class="header-right" v-if="!isLogin">
           <div class="login" @click="logIn"><span>登录</span></div>

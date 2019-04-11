@@ -195,16 +195,16 @@ export default {
     countDown () { // 倒计时功能
     // 如果发现有定时器运行 return
       if (this.timerId) return
-      this.content = this.totalTime + 's后重新发送'
+      this.content = this.totalTime + '秒'
       this.timerId = setInterval(() => {
         this.totalTime--
-        this.content = this.totalTime + 's后重新发送'
+        this.content = this.totalTime + '秒'
         if (this.totalTime < 0) {
           // 清除定时器
           clearInterval(this.timerId)
           this.timerId = 0
           this.totalTime = 60
-          this.content = '点击重新发送'
+          this.content = '重新发送'
         }
       }, 1000)
     }
@@ -213,18 +213,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.big {
-    font-size: 22px;
-    color: #2E2E2E;
-    font-weight: bold;
-    text-align: center;
-  }
-.light {
-    color: #999;
-    font-size: 16px;
-    text-align: center;
-    margin: 5px 0 20px 0;
-  }
   .detail {
     h3 {
       color: black;
@@ -248,7 +236,7 @@ export default {
 
   // 在线预约区域
   .orderInline {
-    padding-top: 60px;
+    padding-top: 40px;
     padding-bottom: 40px;
     .line {
       height: 0;
@@ -289,6 +277,7 @@ export default {
       border-radius: 0;
       box-sizing: border-box;
       padding: 5px 5px 5px 10px;
+      width:90px;
     }
   }
   .el-row {

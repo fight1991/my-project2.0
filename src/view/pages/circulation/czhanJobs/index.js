@@ -13,10 +13,10 @@ const MENU = {
     title: '场站业务'
   },
   children: [
-    DecForm.MENU,
-    GoodsBill.MENU,
-    MultipleQuery.MENU,
-    SynDecForm.MENU
+    ...DecForm.MENU,
+    ...GoodsBill.MENU,
+    ...MultipleQuery.MENU,
+    ...SynDecForm.MENU
   ]
 }
 export default {MENU}

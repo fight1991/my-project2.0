@@ -4,7 +4,7 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="申报跟踪" name="first">
       <el-form class="dateSearch">
-        <el-form-item label="按单日期查询">
+        <el-form-item label="操作日期查询">
           <el-date-picker
             v-model="dates"
             size="mini"

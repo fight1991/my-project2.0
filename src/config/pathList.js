@@ -381,6 +381,6 @@ export default {
     }
   ],
   WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/control',
-  WWWOLDLOCATION: 'https://www.51baoguan.cn:8091',
+  WWWOLDLOCATION: 'https://www.51baoguan.cn:8091/login/index?flag=1',
   WWWCCBA: url.CCBA + '/control'
 }
