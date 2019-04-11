@@ -25,7 +25,7 @@ export default {
         }, 2000)
       } else if (event.data.type === 'declaration' || event.data.type === 'recordList') { // 报关单/备案清单
         let data = event.data.data.operationType
-        if (data === 'edit' || data === 'look') {
+        if (data === 'edit' || data === 'look' || data === 'copy') {
           routers.push({
             name: 'decInfo-editCheck',
             params: {
