@@ -16,19 +16,11 @@ const MENU = {
       permissions: 'SAASOM0504000000',
       hidden: false,
       meta: {
-        component: resolve => require(['./decInfo/decInfo.vue'], resolve),
+        component: resolve => require(['./index.vue'], resolve),
         title: '报关数据查询'
       }
-    }, {
-      path: '/eImport/dataQuery/decInfo/editCheck/:sysData',
-      name: 'decInfo-editCheck',
-      permissions: 'SAASOM0504000000',
-      hidden: true,
-      meta: {
-        component: resolve => require(['./decInfo/decEditCheck.vue'], resolve),
-        title: '报关单详情'
-      }
-    }, {
+    },
+    {
       path: '/eImport/dataQuery/taxInfo',
       name: 'taxInfo',
       icon: 'icons-menu-price',
