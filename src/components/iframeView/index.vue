@@ -23,12 +23,12 @@ export default {
         setTimeout(() => {
           routers.push('/login')
         }, 2000)
-      } else if (event.data.type === 'declaration' || event.data.type === 'recordList') { // 报关单/备案清单
+      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'taxInfo') { // 报关单/备案清单/核注清单
         let data = event.data.data.operationType
-        if (data === 'edit' || data === 'look' || data === 'copy') {
+        if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
           let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA`)
           routers.push({
-            name: 'decInfo-editCheck',
+            name: 'eImport-editCheck',
             params: {
               sysData: sysData
             }

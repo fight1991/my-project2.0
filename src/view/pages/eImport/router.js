@@ -17,6 +17,16 @@ const MENU = [
       title: '首页'
     }
   },
+  {
+    path: '/eImport/new/editCheck/:sysData',
+    name: 'eImport-editCheck',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/editCheck.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   // Manufacturer.MENU,
   // Prosecution.MENU,
   EiTemplate.MENU,
