@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '账册录入'
+        title: '加工贸易账册'
       }
     },
     {
@@ -26,14 +26,14 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '账册数据查询'
+        title: '加工贸易账册查询'
       }
     },
     {
       path: '/sea/bwl_sea/list',
       name: 'bwl_sea',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '物流账册'
@@ -43,7 +43,7 @@ const MENU = {
       path: '/sea/bwlQuery_sea/list',
       name: 'bwlQuery_sea',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '物流账册数据查询'
