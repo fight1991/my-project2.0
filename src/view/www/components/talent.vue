@@ -15,7 +15,7 @@
         <div class="company"><span class="text-light">公司:</span><span class="pad-l">{{item.company}}</span></div>
         <div class="duty" v-for="item1 in item.detail" :key="item1.id">
           <div class="duty-title">{{item1.title}}</div>
-          <p v-for="(item2,index) in item1.info" :key="index">{{item2}}</p>
+          <p v-for="(item2,index) in item1.info" :key="index" v-html="item2"></p>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import jobs from '@/config/www-jobs'
+import {jobs} from '@/config/www'
 export default {
   data () {
     return {

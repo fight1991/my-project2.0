@@ -41,6 +41,7 @@
 
 <script>
 import eventBus from '../common/eventBus'
+import {companys} from '@/config/www'
 export default {
   data () {
     return {
@@ -222,9 +223,9 @@ export default {
             name: '集团驻地',
             type: 'effectScatter',
             coordinateSystem: 'bmap',
-            data: [{'name': '朗新科技股份有限公司-上海分公司', 'value': ['121.48789948569473', '31.24916171001514']}],
+            data: companys.HQ,
             symbolSize: function (val) {
-              return 8
+              return 10
             },
             showEffectOn: 'render',
             rippleEffect: {
@@ -243,17 +244,17 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: 'purple',
+                color: '#ff0000',
                 shadowBlur: 10,
-                shadowColor: '#333'
+                shadowColor: '#ff0000'
               }
             }
           },
           {
-            name: '报关协会',
+            name: '集团分公司',
             type: 'scatter',
             coordinateSystem: 'bmap',
-            data: [{'name': '深圳报关协会', 'value': ['114.0259736573215', '22.546053546205247']}],
+            data: companys.part,
             symbolSize: function (val) {
               return 8
             },
@@ -274,9 +275,71 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: '#0A3DFB',
+                color: '#ff7800',
                 shadowBlur: 10,
-                shadowColor: '#333'
+                shadowColor: '#ff7800'
+              }
+            }
+          },
+          {
+            name: '中国报关协会',
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: companys.cnbx,
+            symbolSize: function (val) {
+              return 9
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: '',
+                position: 'right',
+                show: false
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#14b33a',
+                shadowBlur: 10,
+                shadowColor: '#14b33a'
+              }
+            }
+          },
+          {
+            name: '地方报关协会',
+            type: 'scatter',
+            coordinateSystem: 'bmap',
+            data: companys.dfbx,
+            symbolSize: function (val) {
+              return 8
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: '',
+                position: 'right',
+                show: false
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#14b33a',
+                shadowBlur: 10,
+                shadowColor: '#14b33a'
               }
             }
           }
