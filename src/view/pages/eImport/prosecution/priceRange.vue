@@ -3,11 +3,11 @@
       <!-- 头部 -->
       <el-row class = "query-condition">
       <!-- 查询条件 -->
-        <el-form label-width="100px" label-position="right" :model="queryform" ref="queryform">
+        <el-form label-width="100px" label-position="right" :model="queryForm" ref="queryForm">
           <el-row :gutter="10">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识">
-              <el-select size="mini" clearable default-first-option v-model="queryform.type">
+              <el-select size="mini" clearable default-first-option v-model="queryForm.type">
                 <el-option label="进口" value="I"></el-option>
                 <el-option label="出口" value="E"></el-option>
               </el-select>
@@ -15,24 +15,24 @@
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="境内收发货人">
-              <el-input size="mini" clearable v-model="queryform.tradeName"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.tradeName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品名称">
-              <el-input size="mini" clearable v-model="queryform.gName"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.gName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品编码">
-              <el-input size="mini" clearable v-model="queryform.codeTs"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.codeTs"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50" class="ccba-btn">
+        <el-row :gutter="50" class="query-btn">
           <el-col :span="24">
-            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="search">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="reset">重置</el-button>
+            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="searchQueryForm">查询</el-button>
+            <el-button size="mini" style="padding: 8px 20px;" @click="resetQueryForm">重置</el-button>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
@@ -43,7 +43,7 @@
       <div class='query-table'>
         <!-- 按钮 -->
         <el-row class="op-btn">
-          <el-button size="mini" @click="goDetail('add','add')" icon="fa fa-plus fa-lg">&nbsp;新增</el-button>
+          <el-button size="mini" @click="openAddPage" icon="fa fa-plus fa-lg">&nbsp;新增</el-button>
           <el-button size="mini" @click="deleteFun" icon="fa fa-trash-o fa-lg">&nbsp;删除</el-button>
           <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
@@ -65,8 +65,8 @@
           <el-table-column type="selection" width="35"></el-table-column>
           <el-table-column label="操作" width="80">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="goDetail('edit', scope.row)"></el-button>
-            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="goDetail('view', scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="openEditPage(scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="openDetailPage(scope.row)"></el-button>
           </template>
           </el-table-column>
           <el-table-column label="进出口标识" min-width="80" prop="type" v-if="thList[0].value">
@@ -101,12 +101,12 @@
             </el-col>
         </el-row>
       </div>
-      <!-- <el-dialog title="价格提示" :visible.sync="addDialogVisible" width="950px" class="order-dialog" :close-on-click-modal="false">
-        <el-form label-width="80px" :model="priceForm" size="mini" label-position="right" class="order-label">
+      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" width="950px" :before-close='beforeClose'>
+        <el-form label-width="150px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="进出口标识">
-                <el-select size="mini" filterable v-model="priceForm.type"  class="select-Color" :disabled="carFlag">
+              <el-form-item label="进出口标识" prop='type'>
+                <el-select size="mini" filterable v-model="priceDialogForm.type"  class="select-Color" :disabled="isDetail">
                   <el-option label="进口" value="I"></el-option>
                   <el-option label="出口" value="E"></el-option>
                 </el-select>
@@ -114,63 +114,44 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="境内收发货人" prop='tradeName'>
-                <el-input v-model="priceForm.tradeName"
-                ref="tradeName" dataRef ='tradeName'></el-input>
+                <el-input v-model="priceDialogForm.tradeName" :readonly="isDetail"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" v-if="originCountryShow">
-              <el-form-item label="原产国(地区)" prop='originCountry'>
-                <el-select placeholder="" v-model="priceForm.originCountry"
-                  filterable clearable remote default-first-option
-                  ref="originCountry" dataRef ='originCountry'
-                  enter = 'no' @keyup.enter.native="savePriceTips"
-                  @focus="tipsFillMessage('countryParams','SAAS_COUNTRY')"
-                  :remote-method="checkParamsList"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in countryParams"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="8">
               <el-form-item label="商品名称" prop='gName'>
-                <el-input v-model="priceForm.gName" ref="gName" dataRef ='gName'></el-input>
+                <el-input v-model="priceDialogForm.gName" :readonly="isDetail"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="商品编码">
-                <el-input v-model="priceForm.codeTs" ref="codeTs" dataRef ='codeTs' autofocus="true" @keyup.enter.native="queryHistoryGoods"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="规格型号" prop="gModel">
-                  <el-input v-model="priceForm.gModel"
-                    ref="gModel" dataRef ='gModel'></el-input>
-                </el-form-item>
-              </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="单价" prop='declPrice'>
-                <el-input v-model="priceForm.declPrice" ref="declPrice" dataRef ='declPrice'></el-input>
+              <el-form-item label="商品编码">
+                <el-input v-model="priceDialogForm.codeTs" autofocus="true" :readonly="isDetail" @keyup.enter.native="queryHistoryGoods"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
+              <el-form-item label="规格型号" prop="gModel">
+                <el-input v-model="priceDialogForm.gModel" :readonly="isDetail"
+                  ref="gModel" dataRef ='gModel'></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+            <el-form-item label="单价" prop='declPrice'>
+              <el-input v-model="priceDialogForm.declPrice" :readonly="isDetail"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
               <el-form-item label="币制" prop='tradeCurr'>
-                <el-select placeholder="" v-model="priceForm.tradeCurr"
+                <el-select placeholder="" v-model="priceDialogForm.tradeCurr"
                   filterable clearable remote default-first-option
-                  ref="tradeCurr" dataRef ='tradeCurr'
-                  @focus="tipsFillMessage('curryParams','SAAS_CURR')"
+                  :disabled="isDetail"
+                  @focus="tipsFillMessage('SAAS_CURR')"
                   :remote-method="checkParamsList"
                   style="width:100%">
                   <el-option
-                    v-for="item in curryParams"
+                    v-for="item in paramsOptions['SAAS_CURR']"
                     :key="item.codeField"
                     :label="item.codeField + '-' + item.nameField"
                     :value="item.codeField">
@@ -180,38 +161,97 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="价格浮动区间(%)" prop ='bandArea' required>
-                <el-input  v-model="priceForm.bandArea"
-                ref="bandArea" dataRef ='bandArea'
+                <el-input  v-model="priceDialogForm.bandArea" :readonly="isDetail"
                 placeholder="填写1~99"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="originCountryShow">
+              <el-form-item label="原产国(地区)" prop='originCountry'>
+                <el-select placeholder="" v-model="priceDialogForm.originCountry"
+                  filterable clearable remote default-first-option
+                  :disabled="isDetail"
+                  enter = 'no'
+                  @focus="tipsFillMessage('SAAS_COUNTRY')"
+                  :remote-method="checkParamsList"
+                  style="width:100%">
+                  <el-option
+                    v-for="item in paramsOptions['SAAS_COUNTRY']"
+                    :key="item.codeField"
+                    :label="item.codeField + '-' + item.nameField"
+                    :value="item.codeField">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button class="layer-btn-primary" @click="savePrice" >确定</el-button>
-          <el-button class="layer-btn" @click="canclePrice" >取消</el-button>
+          <el-button class="layer-btn-primary" @click="saveDialogForm" :readonly="isDetail">确定</el-button>
+          <el-button class="layer-btn" @click="cancleDialogForm" :readonly="isDetail">取消</el-button>
         </span>
-      </el-dialog> -->
+      </el-dialog>
     </section>
 </template>
 <script>
+import util from '../../../../common/util'
+import commonParam from '../../../../common/commonParam'
 export default {
   name: 'priceRange',
   data () {
     return {
       priceList: [], // 表格数据
-      addDialogVisible: false, // 新增组件控制
-      typeValue: '',
-      id: '',
+      priceDialogVisible: false, // 新增组件控制
       checkedNum: 0, // 被选中的数量
-      queryform: {// 列表查询条件
+      queryForm: {// 列表查询条件
         type: '',
         tradeName: '',
         gName: '',
         codeTs: ''
       },
-      formateresult: [],
+      priceDialogForm: {
+        pid: '', // 主键
+        type: '',
+        tradeName: '',
+        originCountry: '',
+        gName: '',
+        codeTs: '',
+        gModel: '',
+        declPrice: '',
+        tradeCurr: '',
+        bandArea: ''
+      },
+      isDetail: false, // 查看详情置灰
+      originCountryShow: true,
       pages: {},
+      rules: {
+        type: [
+          { required: true, message: '请选择业务类型', trigger: 'blur' }
+        ],
+        codeTs: [
+          { required: true, message: '请输入10位商品编号', trigger: 'blur' }
+        ],
+        tradeName: [
+          { required: true, message: '请输入境内收发货人', trigger: 'blur' }
+        ],
+        gName: [
+          { required: true, message: '请输入商品名称', trigger: 'blur' }
+        ],
+        gModel: [
+          { required: true, message: '请输入规格型号', trigger: 'blur' }
+        ],
+        tradeCurr: [
+          { required: true, message: '请选择币制', trigger: 'change' }
+        ],
+        declPrice: [
+          { required: true, message: '请输入单价', trigger: 'blur' }
+        ],
+        bandArea: [
+          { required: true, message: '', validator: this.checkValid, trigger: 'blur' }
+        ],
+        originCountry: [
+          { required: true, message: '请选择原产国', trigger: 'change' }
+        ]
+      },
       thList: [{
         value: true,
         text: '进出口标识'
@@ -239,8 +279,17 @@ export default {
       }, {
         value: true,
         text: '原产国'
-      }] // 表头
+      }]
     }
+  },
+  paramsOptions: {
+    SAAS_CURR: [], // 币制
+    SAAS_COUNTRY: [] // 原产国
+  },
+  selectKey: '',
+  priceSelectDown: {
+    tradeCurr: {initSlected: '', params: 'SAAS_CURR'},
+    originCountry: {initSlected: '', params: 'SAAS_COUNTRY'}
   },
   props: {
     corpId: {
@@ -253,36 +302,171 @@ export default {
 
   },
   methods: {
+    // 加载缓存数据
+    loadData () {
+      this.$store.commit('pageCacheInit', this.pagination)
+      this.queryList()
+    },
+    // 缓存数据
+    cacheData () {
+      this.pagination = {
+        currentPage: this.$store.state.pagination.currentPage, // 当前页
+        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
+        total: this.$store.state.pagination.total // 总条数
+      }
+    },
     // 查询
-    search () {},
+    searchQueryForm () {
+      this.$store.commit('pageInit')
+      this.queryList()
+    },
     // 重置
-    reset () {},
+    resetQueryForm () {
+      this.queryForm = {// 列表查询条件
+        type: '',
+        tradeName: '',
+        gName: '',
+        codeTs: ''
+      }
+    },
     // 列表
-    queryList () {},
+    queryList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/decParam/common/getPriceList',
+        data: this.queryForm,
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.priceList = res.result
+          this.total = res.page.total
+        }
+      })
+    },
+    // 打开新增页面
+    openAddPage () {
+      this.priceDialogVisible = true
+      this.initSelected(this.priceSelectDown, this.priceDialogForm)
+      this.getCommonParams()
+    },
     // 删除
     deleteFun () {
 
     },
-    // 新增/详情
-    goDetail (type, row) {
-      if (type !== 'add') {
-        this.id = row.innerNo
-        this.status = row.status
-      } else {
-        this.id = 'add'
-        this.status = 'add'
-      }
-      this.detailVisible = true
-      this.typeValue = type
-    },
+
+    // 保存
+    saveDialogForm () {},
+    // 取消
+    cancleDialogForm () {},
     // 多选框
     selectVal (val) {
       this.selectData = val
     },
-    // 商品信息弹窗关闭
-    cancleElement () {
-      this.detailVisible = false
-      this.queryList()
+    // 关闭弹出框
+    beforeClose () {
+      this.resetDialogForm()
+      this.$refs['priceDialogForm'].resetFields()
+      this.priceDialogVisible = false
+    },
+    resetDialogForm () {
+      this.priceDialogForm = {
+        pid: '', // 主键
+        type: '',
+        tradeName: '',
+        originCountry: '',
+        gName: '',
+        codeTs: '',
+        gModel: '',
+        declPrice: '',
+        tradeCurr: '',
+        bandArea: ''
+      }
+    },
+    // 判断缓存中是否有数据
+    getCommonParam () {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
+        this.getCommonParams(map)
+      }
+    },
+    // 获取公共字典list
+    getCommonParams (datas) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/dictionary/getParam',
+        data: datas,
+        router: this.$router,
+        success: (res) => {
+          commonParam.saveParams(res.result)
+        }
+      })
+    },
+    // 提示需要填写的内容
+    tipsFillMessage (value) {
+      this.selectKey = value
+    },
+    // 下拉框默认初始化
+    initSelected (selectData, list) {
+      Object.keys(list).forEach(v => {
+        if (selectData[v]) { // 存在下拉选项
+          this.selectKey = selectData[v]['params']
+          this.checkParamsList(list[v])
+        }
+      })
+    },
+    checkParamsList (query) {
+      if (!query) return
+      let keyValue = query.toString().trim()
+      let list = []
+      if (!localStorage.getItem(this.selectKey)) {
+        list = this.paramsOptions[this.selectKey]
+      } else {
+        list = JSON.parse(localStorage.getItem(this.selectKey))
+      }
+      let filterList = []
+      if (util.isEmpty(keyValue)) {
+        this.paramsOptions[this.selectKey] = list.slice(0, 10)
+      } else {
+        filterList = list.filter(item => {
+          let str = item.codeField + '-' + item.nameField
+          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+        })
+        this.paramsOptions[this.selectKey] = filterList.slice(0, 10)
+      }
+      this.$forceUpdate()
+    },
+    // 重复次数校验
+    checkValid (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['priceDialogForm'].clearValidate([name])
+        callback(new Error('请输浮动区间'))
+      } else if (this.submitData.repeatCount !== '0') {
+        const pattern = /^[1-9][0-9]?$/
+        if (!pattern.test(value)) {
+          this.$refs['priceDialogForm'].clearValidate([name])
+          callback(new Error('99的数字'))
+        } else {
+          callback()
+        }
+      } else {
+        callback()
+      }
+    },
+    switchFoucsByEnter (e) {
+      // 给input的父元素form表单绑定keyup时间 由input触发(事件冒泡)
+      // 找到所有input,并转化成数组
+      let inputBox = Array.from(e.target.form.querySelectorAll('input'))
+      // 过滤掉属性为readonly 或placeholder为空值input
+      let newInputBox = inputBox.filter(v => {
+        return (!v.readOnly || v.placeholder) && !v.disabled
+      })
+      // 找到目标元素在newInputBox中的位置
+      let index = newInputBox.findIndex(v => {
+        return e.target === v
+      })
+      // 下一个元素获取焦点
+      if (index < newInputBox.length - 1) {
+        newInputBox[index + 1].focus()
+      }
     }
   }
 }

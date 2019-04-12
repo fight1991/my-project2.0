@@ -69,7 +69,6 @@
        <el-row class="op-btn">
         <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
         <el-button @click="openAddPage" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
-        <!-- <el-button @click="openEditPage" icon="fa fa-pencil fa-lg" size="mini">&nbsp;编辑</el-button> -->
         <el-button @click="deleteInfo" icon="fa fa-trash-o fa-lg" size="mini">&nbsp;删除</el-button>
       </el-row>
       <!-- 列表 list -->
@@ -245,65 +244,64 @@ export default {
       this.trafModeTipsVisible = false
     },
     // 打开编辑页面
-    goDetail () {},
-    // openEditPage () {
-    //   if (this.checkedData.length !== 1) {
-    //     this.$message({
-    //       message: '选择一条数据,且只能选择一条数据',
-    //       type: 'error'
-    //     })
-    //     return false
-    //   }
-    //   this.shipDialogForm = util.simpleClone(this.checkedData[0])
-    //   this.selectObj = {
-    //     obj: 'saasCustomsRel2',
-    //     params: 'SAAS_CUSTOMS_REL'
-    //   }
-    //   this.checkParamsList(this.shipDialogForm.iEPort)
-    //   this.selectObj = {
-    //     obj: 'saasInlandPort2',
-    //     params: 'SAAS_INLAND_PORT'
-    //   }
-    //   this.checkParamsList(this.shipDialogForm.entyPortCode)
-    //   this.selectObj = {
-    //     obj: 'saasTransportType2',
-    //     params: 'SAAS_TRANSPORT_TYPE'
-    //   }
-    //   this.checkParamsList(this.shipDialogForm.trafMode)
-    //   this.trafModeTipsVisible = true
-    // },
+    openEditPage () {
+      if (this.checkedData.length !== 1) {
+        this.$message({
+          message: '选择一条数据,且只能选择一条数据',
+          type: 'error'
+        })
+        return false
+      }
+      this.shipDialogForm = util.simpleClone(this.checkedData[0])
+      this.selectObj = {
+        obj: 'saasCustomsRel2',
+        params: 'SAAS_CUSTOMS_REL'
+      }
+      this.checkParamsList(this.shipDialogForm.iEPort)
+      this.selectObj = {
+        obj: 'saasInlandPort2',
+        params: 'SAAS_INLAND_PORT'
+      }
+      this.checkParamsList(this.shipDialogForm.entyPortCode)
+      this.selectObj = {
+        obj: 'saasTransportType2',
+        params: 'SAAS_TRANSPORT_TYPE'
+      }
+      this.checkParamsList(this.shipDialogForm.trafMode)
+      this.trafModeTipsVisible = true
+    },
     // 删除 操作
-    // deleteInfo () {
-    //   if (this.checkedData.length === 0) {
-    //     this.$message({
-    //       message: '选择一条数据',
-    //       type: 'error'
-    //     })
-    //     return false
-    //   }
-    //   let pidList = []
-    //   for (let i in this.checkedData) {
-    //     pidList.push(this.checkedData[i].pid)
-    //   }
-    //   this.$store.dispatch('ajax', {
-    //     url: 'API@/dec-common/decParam/common/delDecTrafRel',
-    //     data: {
-    //       'list': pidList
-    //     },
-    //     router: this.$router,
-    //     success: (res) => {
-    //       if (res.code === '0000') {
-    //         this.$message(res.message)
-    //         this.pageList()
-    //       } else {
-    //         this.$message({
-    //           message: res.message,
-    //           type: 'error'
-    //         })
-    //       }
-    //     }
-    //   })
-    // },
+    deleteInfo () {
+      if (this.checkedData.length === 0) {
+        this.$message({
+          message: '选择一条数据',
+          type: 'error'
+        })
+        return false
+      }
+      let pidList = []
+      for (let i in this.checkedData) {
+        pidList.push(this.checkedData[i].pid)
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/decParam/common/delDecTrafRel',
+        data: {
+          'list': pidList
+        },
+        router: this.$router,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message(res.message)
+            this.pageList()
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        }
+      })
+    },
     shipListChange (value) {
       this.checkedData = value
     },
