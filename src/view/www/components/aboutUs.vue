@@ -7,8 +7,8 @@
     <!-- 公司简介 -->
     <div class="companyIntro">
       <div class="title">
-          <p class="big">公司简介</p>
-          <p class="light">COMPANY PROFILE</p>
+          <p class="big">关于我们</p>
+          <p class="light">ABOUT US</p>
       </div>
       <div class="detail mainer">
         <div class="text">
