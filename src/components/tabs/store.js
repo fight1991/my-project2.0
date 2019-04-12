@@ -5,6 +5,7 @@ export default {
   state: {
     // 主页
     homeTab: {
+      tabId: 'index',
       title: '首页',
       component: resolve => require(['@/view/pages/index.vue'], resolve),
       path: '/index',
@@ -19,6 +20,7 @@ export default {
     currentTab: {},
     // 所有打开的页签数据
     tabsList: [{
+      tabId: 'index',
       title: '首页',
       component: resolve => require(['@/view/pages/index.vue'], resolve),
       path: '/eImport/index',
@@ -90,12 +92,22 @@ export default {
       }
       state.currentTab = data
     },
+    // 指定位置新增页签数据
+    SetTabDataIndex (state, data) {
+      // 判断 tab 项是否已存在
+      let tabExsit = state.tabsList.find(i => i.path === data.path)
+      if (!tabExsit) {
+        state.tabsList.splice(data.other, 1, data)
+      }
+      state.currentTab = data
+    },
     // 设置当前活动tab
     SetCurrentTab (state, data) {
       state.currentTab = data
     },
     SetChildSysData (state, data) {
       state.homeTab = {
+        tabId: 'index',
         title: '首页',
         component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
         path: `/${data}/index`,
@@ -107,6 +119,7 @@ export default {
         }
       }
       state.tabsList[0] = {
+        tabId: 'index',
         title: '首页',
         component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
         path: `/${data}/index`,

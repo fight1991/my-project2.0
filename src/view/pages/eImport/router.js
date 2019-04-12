@@ -18,12 +18,12 @@ const MENU = [
     }
   },
   {
-    path: '/eImport/new/editCheck/:sysData',
-    name: 'eImport-editCheck',
+    path: '/eImport/new/:sysData',
+    name: 'eImport-new',
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/editCheck.vue'], resolve),
+      component: resolve => require(['../component/newTab.vue'], resolve),
       title: '编辑详情'
     }
   },

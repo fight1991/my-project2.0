@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import base64 from '@/common/base64'
-import routers from '@/router'
 export default {
   name: 'iframe-view',
   props: ['url'],
@@ -18,31 +16,14 @@ export default {
   },
   mounted () {
     this.loading = true
-    window.addEventListener('message', function (event) {
-      if (event.data.type === 'login') {
-        setTimeout(() => {
-          routers.push('/login')
-        }, 2000)
-      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'taxInfo') { // 报关单/备案清单/核注清单
-        let data = event.data.data.operationType
-        if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA`)
-          routers.push({
-            name: 'eImport-editCheck',
-            params: {
-              sysData: sysData
-            }
-          })
-        }
-      }
-    }, 1000)
   },
   methods: {
+    // 遮罩处理
     stateLoad () {
       this.loading = false
     }
-  }
-
+  },
+  beforeDestroy () {}
 }
 </script>
 

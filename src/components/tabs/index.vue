@@ -36,6 +36,9 @@
   </el-container>
 </template>
 <script>
+import base64 from '@/common/base64'
+import router from '@/router'
+import store from '@/store/store'
 export default {
   data () {
     return {
@@ -53,7 +56,55 @@ export default {
     }
   },
   watch: {},
-  mounted () {},
+  mounted () {
+    window.addEventListener('message', function (event) {
+      if (event.data.type === 'close') {
+        // 关闭指定的tab
+        let data = store.getters.GetOpenedTabs.filter(item => {
+          return item.tabId === event.data.data.tabId
+        })
+        if (data.length !== 0) {
+          store.commit('RemoveTab', data[0])
+        }
+      } else if (event.data.type === 'refresh') {
+        let index = 0
+        // 原tab标识改变了： 打开最新tab的url
+        let data = store.getters.GetOpenedTabs.filter((item, x) => {
+          let tag = false
+          if (item.tabId === event.data.data.tabId) {
+            tag = true
+            index = x
+          }
+          return tag
+        })
+        if (data.length !== 0) {
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${event.data.data.tabId}::${event.data.data.tabId}::${index}`)
+          router.push({
+            name: `${store.state.childSys.type}-new`,
+            params: {
+              sysData: sysData
+            }
+          })
+        }
+      } else if (event.data.type === 'login') {
+        setTimeout(() => {
+          router.push('/login')
+        }, 2000)
+      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'taxInfo') { // 报关单/备案清单/核注清单
+        let data = event.data.data.operationType
+        if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
+          let tabId = new Date().getTime()
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${tabId}::${tabId}`)
+          router.push({
+            name: 'eImport-new',
+            params: {
+              sysData: sysData
+            }
+          })
+        }
+      }
+    }, 1000)
+  },
   methods: {
     // 修改当前活动tab
     setCurrentTab (tab, event) {
