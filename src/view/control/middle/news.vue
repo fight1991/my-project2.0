@@ -5,7 +5,9 @@
       <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
         <div class="default" v-if="item.newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
         <div class="per-row"  v-for="item1 in item.newsList" :key="item1.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item1.pid)">{{item1.title}}</div>
+          <div class="content" @click="getDetail(item1.pid)">
+            <span :class="{'new-title':true, 'text-cut':true, flag:item1.isNew}">{{item1.title}}</span>
+          </div>
           <div class="date">{{item1.createTime}}</div>
         </div>
       </el-tab-pane>
@@ -67,11 +69,26 @@ export default {
         success: (res) => {
           this.newsInfo.forEach(v => {
             if (v.name === this.activeName) {
-              v.newsList = res.result
+              v.newsList = this.addFlag(res.result, 3)
             }
           })
+          console.log(this.newsInfo)
         }
       })
+    },
+    // 处理新闻列表时间,如果是3天之内的添加标识符,day为天数
+    addFlag (arr, day) {
+      arr.forEach(v => {
+        let tempTime = new Date(v.createTime).getTime()
+        let currentTime = new Date().getTime()
+        let time = (currentTime - tempTime) / 1000 / 60 / 60 / 24
+        if (time - day <= 0) {
+          v.isNew = true
+        } else {
+          v.isnew = false
+        }
+      })
+      return arr
     },
     // 跳转到咨询详情页
     getDetail (pid) {
@@ -109,7 +126,22 @@ export default {
     font-size: 12px;
     color: @font-color-main;
     cursor: pointer;
-    flex: 1
+    flex: 1;
+    position: relative;
+    .new-title {
+      padding-right: 35px;
+      position: absolute;
+      max-width: 100%;
+    }
+  }
+  .flag::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 14px;
+    right: 0;
+    top: 1px;
+    background: url("../../../assets/img/icon/new.png") no-repeat
   }
   .date {
     text-align: right;
