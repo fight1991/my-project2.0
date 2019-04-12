@@ -33,9 +33,9 @@ export default {
   // 资料中心
   dataCenter: {
     // 非保税商品库
-    noBonded: url.COMMON + '/declaration/goodsModel/list',
+    noBonded: url.COMMON + '/declaration/commodity',
     // 保税商品库
-    bonded: url.COMMON + '/declaration/commodity'
+    bonded: url.COMMON + '/declaration/goodsModel/list'
   },
   // 报表中心
   reportCenter: {

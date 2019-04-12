@@ -2,32 +2,13 @@
   <div class="news">
     <div class="title">实时资讯</div>
     <el-tabs v-model="activeName" @tab-click="getNews">
-      <el-tab-pane label="平台公告" name="Announcement">
-        <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-          <div class="per-row"  v-for="item in AnnounceList" :key="item.pid" v-else>
-            <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-            <div class="date">{{item.createTime}}</div>
+      <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
+        <div class="default" v-if="item.newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <div class="per-row"  v-for="item1 in item.newsList" :key="item1.pid" v-else>
+          <div class="content" @click="getDetail(item1.pid)">
+            <span :class="{'new-title':true, 'text-cut':true, flag:item1.isNew}">{{item1.title}}</span>
           </div>
-      </el-tab-pane>
-      <el-tab-pane label="政策法规" name="PolicyLaw">
-        <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in lawList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="行业资讯" name="IndustryNews">
-        <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in newsList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="通知公告" name="Information">
-        <div class="default" v-if="InformateList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in InformateList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
+          <div class="date">{{item1.createTime}}</div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -41,10 +22,28 @@ export default {
     return {
       dates: '',
       activeName: 'Announcement',
-      AnnounceList: [],
-      lawList: [],
-      newsList: [],
-      InformateList: []
+      newsInfo: [
+        {
+          label: '平台公告',
+          name: 'Announcement',
+          newsList: []
+        },
+        {
+          label: '政策法规',
+          name: 'PolicyLaw',
+          newsList: []
+        },
+        {
+          label: '行业资讯',
+          name: 'IndustryNews',
+          newsList: []
+        },
+        {
+          label: '通知公告',
+          name: 'Information',
+          newsList: []
+        }
+      ]
     }
   },
   created () {
@@ -68,20 +67,27 @@ export default {
         },
         router: this.$router,
         success: (res) => {
-          if (this.activeName === 'Announcement') {
-            this.AnnounceList = res.result
-          }
-          if (this.activeName === 'PolicyLaw') {
-            this.lawList = res.result
-          }
-          if (this.activeName === 'IndustryNews') {
-            this.newsList = res.result
-          }
-          if (this.activeName === 'Information') {
-            this.InformateList = res.result
-          }
+          this.newsInfo.forEach(v => {
+            if (v.name === this.activeName) {
+              v.newsList = this.addFlag(res.result, 3)
+            }
+          })
         }
       })
+    },
+    // 处理新闻列表时间,如果是3天之内的添加标识符,day为天数
+    addFlag (arr, day) {
+      arr.forEach(v => {
+        let tempTime = new Date(v.createTime).getTime()
+        let currentTime = new Date().getTime()
+        let time = (currentTime - tempTime) / 1000 / 60 / 60 / 24
+        if (time - day <= 0) {
+          v.isNew = true
+        } else {
+          v.isnew = false
+        }
+      })
+      return arr
     },
     // 跳转到咨询详情页
     getDetail (pid) {
@@ -119,7 +125,22 @@ export default {
     font-size: 12px;
     color: @font-color-main;
     cursor: pointer;
-    flex: 1
+    flex: 1;
+    position: relative;
+    .new-title {
+      padding-right: 35px;
+      position: absolute;
+      max-width: 100%;
+    }
+  }
+  .flag::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 14px;
+    right: 0;
+    top: 1px;
+    background: url("../../../assets/img/icon/new.png") no-repeat
   }
   .date {
     text-align: right;

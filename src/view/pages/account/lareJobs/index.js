@@ -10,7 +10,7 @@ const MENU = {
   },
   children: [
     {
-      path: '/handBook/taxList_I_acc/list',
+      path: '/account/taxList_I_acc/list',
       name: 'taxList_I_acc',
       permissions: 'SAASOM0504000000',
       hidden: false,
@@ -20,7 +20,7 @@ const MENU = {
       }
     },
     {
-      path: '/handBook/taxList_E_acc/list',
+      path: '/account/taxList_E_acc/list',
       name: 'taxList_E_acc',
       permissions: 'SAASOM0504000000',
       hidden: false,
@@ -30,7 +30,7 @@ const MENU = {
       }
     },
     {
-      path: '/handBook/taxListQuery_acc/list',
+      path: '/account/taxListQuery_acc/list',
       name: 'taxListQuery_acc',
       permissions: 'SAASOM0504000000',
       hidden: false,

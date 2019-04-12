@@ -1,5 +1,5 @@
-import beianJobs from './beianJobs/index' // 备案业务
-import czhanJobs from './czhanJobs/index' // 场站业务
+// import beianJobs from './beianJobs/index' // 备案业务
+// import czhanJobs from './czhanJobs/index' // 场站业务
 import lareJobs from './lareJobs/index' // 申报业务
 const MENU = [
   {
@@ -12,8 +12,8 @@ const MENU = [
       title: '首页'
     }
   },
-  beianJobs.MENU,
-  lareJobs.MENU,
-  czhanJobs.MENU
+  // beianJobs.MENU,
+  lareJobs.MENU
+  // czhanJobs.MENU
 ]
 export default {MENU}

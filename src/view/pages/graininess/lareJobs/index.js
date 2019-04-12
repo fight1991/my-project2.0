@@ -43,7 +43,7 @@ const MENU = {
       path: '/graininess/centDeclare_gra/list',
       name: 'centDeclare_gra',
       permissions: 'SAASOM0504000000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '集中报关'
