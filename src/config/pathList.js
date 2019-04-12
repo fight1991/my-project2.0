@@ -68,6 +68,8 @@ export default {
     exportDyn: url.COMMON + '/airVehicle/exportDynamic/list',
     // 进/出境/港申报-出境/港单证申报
     exportDoc: url.COMMON + '/airVehicle/exportDocument/list',
+    // 进/出境/港申报-航班取消申报
+    airCancel: url.COMMON + '/airVehicle/airCancel/list',
     // 在港申报-海关在港申报
     customPort: url.COMMON + '/airVehicle/customPort/list',
     // 在港申报-进境/港单证申报

@@ -48,6 +48,16 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '出境/港单证申报'
       }
+    },
+    {
+      path: '/aircraft/iEport/airCancel',
+      name: 'airCancel',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '航班取消申报'
+      }
     }
   ]
 }
