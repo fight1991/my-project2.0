@@ -25,7 +25,7 @@ export default {
       window.open(LoginUrl, '_self')
     },
     switchOld () {
-      let old = pathList.WWWOLDLOCATION
+      let old = pathList.WWWOLDLOCATION[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']
       window.open(old, '_self')
     },
     backTop () {
