@@ -72,7 +72,6 @@ export default {
               v.newsList = this.addFlag(res.result, 3)
             }
           })
-          console.log(this.newsInfo)
         }
       })
     },
