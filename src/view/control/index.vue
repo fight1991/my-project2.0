@@ -88,8 +88,7 @@ export default {
   background-color: @aid-color-white;
   margin: 20px 20px 20px 20px;
   z-index: 10;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   border-radius: 5px;
   // border: 1px solid red;
 }
