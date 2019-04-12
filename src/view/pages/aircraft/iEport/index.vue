@@ -19,6 +19,8 @@ export default {
       this.url = pathList.aircraft['importDyn'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'importDocument') {
       this.url = pathList.aircraft['importDoc'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'airCancel') {
+      this.url = pathList.aircraft['airCancel'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }

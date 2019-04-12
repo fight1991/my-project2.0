@@ -7,26 +7,25 @@
           <el-row class='mg-b-15' :gutter="10">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识">
-              <el-select size="mini" clearable  placeholder="角色" default-first-option v-model="queryform.Id">
-                <el-option label="全部" value="0"></el-option>
-                <el-option label="进口" value="1"></el-option>
-                <el-option label="出口" value="2"></el-option>
+              <el-select size="mini" clearable default-first-option v-model="queryform.type">
+                <el-option label="进口" value="I"></el-option>
+                <el-option label="出口" value="E"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="境内收发货人">
-              <el-input size="mini" clearable v-model="queryform.Id"></el-input>
+              <el-input size="mini" clearable v-model="queryform.tradeName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品名称">
-              <el-input size="mini" clearable v-model="queryform.Id"></el-input>
+              <el-input size="mini" clearable v-model="queryform.gName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品编码">
-              <el-input size="mini" clearable v-model="queryform.Id"></el-input>
+              <el-input size="mini" clearable v-model="queryform.codeTs"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -44,40 +43,55 @@
       <div class='content query-body'>
         <!-- 按钮 -->
         <el-row class="op-btn">
-          <el-button size="mini" icon="fa fa-plus" class="secondButton">&nbsp;新增</el-button>
-          <el-button size="mini" icon="fa fa-trash-o" class="secondButton">&nbsp;删除</el-button>
+          <el-button size="mini" icon="fa fa-plus" class="secondButton" @click="goDetail('add','add')">&nbsp;新增</el-button>
+          <el-button size="mini" icon="fa fa-trash-o" class="secondButton" @click="deleteFun">&nbsp;删除</el-button>
+          <div class="airvehicle-list-drop">
+          <el-popover popper-class="airvehicle-table-popper">
+            <ul>
+              <li v-for="(item,index) in thList" :key="index">
+                <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
+              </li>
+            </ul>
+            <el-button size="mini" icon="fa fa-list" class="secondButton" slot="reference"></el-button>
+          </el-popover>
+        </div>
+          <span class="span-right">已选择{{checkedNum}}项</span>
         </el-row>
         <!-- 列表 list -->
         <el-table class='sys-table-table'
           height="400" border highlight-current-row size="mini"
-          :data="formateresult"
-          ref="multipleTable" @selection-change="handleSelectionChange">
+          :data="resultList"
+          ref="multipleTable"  @selection-change="selectVal">
           <el-table-column
               type="selection"
               width="35">
           </el-table-column>
-          <el-table-column label="操作" min-width="60" prop="" >
+          <el-table-column label="操作" min-width="100">
+             <template slot-scope="scope">
+            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="goDetail('edit', scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="goDetail('view', scope.row)"></el-button>
+          </template>
           </el-table-column>
-          <el-table-column label="进出口标识" min-width="100" prop="status">
+          <el-table-column label="进出口标识" min-width="100" prop="type" v-if="thList[0].value">
             <template slot-scope="scope">
-              {{scope.row.status=="I"?"进口":(scope.row.status=="E"?'出口':'')}}
+              {{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}
             </template>
           </el-table-column>
-          <el-table-column label="境内收发货人" min-width="120" prop="">
+          <el-table-column label="境内收发货人" min-width="120" prop="tradeName" v-if="thList[0].value">
           </el-table-column>
-          <el-table-column label="商品编码" min-width="100" prop="">
+          <el-table-column label="商品编码" min-width="100" prop="codeTs" v-if="thList[1].value">
           </el-table-column>
-          <el-table-column label="商品名称" min-width="120" prop="">
+          <el-table-column label="商品名称" min-width="120" prop="gName" v-if="thList[2].value">
           </el-table-column>
-          <el-table-column label="规格型号" min-width="100" prop="">
+          <el-table-column label="规格型号" min-width="100" prop="gModel" v-if="thList[3].value">
           </el-table-column>
-          <el-table-column label="单价" min-width="80" prop="">
+          <el-table-column label="单价" min-width="80" prop="declPrice" v-if="thList[4].value">
           </el-table-column>
-          <el-table-column label="币制" min-width="50" prop="">
+          <el-table-column label="币制" min-width="50" prop="tradeCurrValue" v-if="thList[5].value">
           </el-table-column>
-          <el-table-column label="单价浮动区间" min-width="120" prop="">
+          <el-table-column label="单价浮动区间" min-width="120" prop="bandArea" v-if="thList[6].value">
           </el-table-column>
-          <el-table-column label="原产国" min-width="80" prop="">
+          <el-table-column label="原产国" min-width="80" prop="originCountry" v-if="thList[7].value">
           </el-table-column>
         </el-table>
         <!--分页-->
@@ -87,19 +101,77 @@
             </el-col>
         </el-row>
       </div>
+      <el-dialog :visible.sync="addDialogVisible" width="950px" class="order-dialog" :close-on-click-modal="false">
+        <div class="sys-main">
+          <div class='dec-div'>
+            <el-form label-width="80px" :model="priceForm" size="mini" label-position="right" class="order-label">
+              <el-row>
+                <el-col :span="8">
+                  <el-form-item label="进出口标识" >
+                    <el-select size="mini" filterable v-model="priceForm.type"  class="select-Color" :disabled="carFlag">
+                      <el-option label="进口" value="I"></el-option>
+                      <el-option label="出口" value="E"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+              <el-form-item label="境内收发货人" >
+                <el-input v-model="priceForm.tradeName" maxlength="18" :readOnly="carFlag"></el-input>
+              </el-form-item>
+            </el-col>
+              </el-row>
+            </el-form>
+          </div>
+        </div>
+      </el-dialog>
     </section>
-
 </template>
 <script>
 export default {
   name: 'priceRange',
   data () {
     return {
+      resultList: [], // 表格数据
+      addDialogVisible: false, // 新增组件控制
+      typeValue: '',
+      id: '',
+      checkedNum: 0, // 被选中的数量
       queryform: {// 列表查询条件
-        Id: '' // 角色
+        type: '',
+        tradeName: '',
+        gName: '',
+        codeTs: ''
       },
       formateresult: [],
-      pages: {}
+      pages: {},
+      thList: [{
+        value: true,
+        text: '进出口标识'
+      }, {
+        value: true,
+        text: '境内收发货人'
+      }, {
+        value: true,
+        text: '商品编码'
+      }, {
+        value: true,
+        text: '商品名称'
+      }, {
+        value: true,
+        text: '规格型号'
+      }, {
+        value: true,
+        text: '单价'
+      }, {
+        value: true,
+        text: '币制'
+      }, {
+        value: true,
+        text: '单价浮动区间'
+      }, {
+        value: true,
+        text: '原产国'
+      }] // 表头
     }
   },
   props: {
@@ -119,16 +191,31 @@ export default {
     reset () {},
     // 列表
     queryList () {},
-    // 新增
-    add () {
-
-    },
     // 删除
-    del () {
+    deleteFun () {
 
     },
-    // 选择框
-    handleSelectionChange () {}
+    // 新增/详情
+    goDetail (type, row) {
+      if (type !== 'add') {
+        this.id = row.innerNo
+        this.status = row.status
+      } else {
+        this.id = 'add'
+        this.status = 'add'
+      }
+      this.detailVisible = true
+      this.typeValue = type
+    },
+    // 多选框
+    selectVal (val) {
+      this.selectData = val
+    },
+    // 商品信息弹窗关闭
+    cancleElement () {
+      this.detailVisible = false
+      this.queryList()
+    }
   }
 }
 </script>
@@ -145,4 +232,32 @@ export default {
 .op-btn {
   margin-bottom: 14px;
 }
+.span-right{
+    float: right;
+    margin-right: 5%;
+    color: #0b93f3;
+    margin-top: 6px;
+  }
+.airvehicle-list-drop{
+  float: right;
+  .airvehicle-table-popper{
+    min-width: auto;
+    ul{
+        li{
+            line-height: 20px;
+            .el-checkbox__label{
+                font-size: 12px;
+            }
+        }
+    }
+  }
+}
+  .secondButton {
+    line-height: 20px
+  }
+  .order-dialog {
+    .el-dialog__header {
+        padding: 5px 0px 0px 10px;
+    }
+  }
 </style>
