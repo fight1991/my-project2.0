@@ -2,32 +2,11 @@
   <div class="news">
     <div class="title">实时资讯</div>
     <el-tabs v-model="activeName" @tab-click="getNews">
-      <el-tab-pane label="平台公告" name="Announcement">
-        <div class="default" v-if="AnnounceList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-          <div class="per-row"  v-for="item in AnnounceList" :key="item.pid" v-else>
-            <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-            <div class="date">{{item.createTime}}</div>
-          </div>
-      </el-tab-pane>
-      <el-tab-pane label="政策法规" name="PolicyLaw">
-        <div class="default" v-if="lawList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in lawList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="行业资讯" name="IndustryNews">
-        <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in newsList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="通知公告" name="Information">
-        <div class="default" v-if="InformateList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
-        <div class="per-row" v-for="item in InformateList" :key="item.pid" v-else>
-          <div class="content text-cut" @click="getDetail(item.pid)">{{item.title}}</div>
-          <div class="date">{{item.createTime}}</div>
+      <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
+        <div class="default" v-if="item.newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <div class="per-row"  v-for="item1 in item.newsList" :key="item1.pid" v-else>
+          <div class="content text-cut" @click="getDetail(item1.pid)">{{item1.title}}</div>
+          <div class="date">{{item1.createTime}}</div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -41,10 +20,28 @@ export default {
     return {
       dates: '',
       activeName: 'Announcement',
-      AnnounceList: [],
-      lawList: [],
-      newsList: [],
-      InformateList: []
+      newsInfo: [
+        {
+          label: '平台公告',
+          name: 'Announcement',
+          newsList: []
+        },
+        {
+          label: '政策法规',
+          name: 'PolicyLaw',
+          newsList: []
+        },
+        {
+          label: '行业资讯',
+          name: 'IndustryNews',
+          newsList: []
+        },
+        {
+          label: '通知公告',
+          name: 'Information',
+          newsList: []
+        }
+      ]
     }
   },
   created () {
@@ -68,18 +65,11 @@ export default {
         },
         router: this.$router,
         success: (res) => {
-          if (this.activeName === 'Announcement') {
-            this.AnnounceList = res.result
-          }
-          if (this.activeName === 'PolicyLaw') {
-            this.lawList = res.result
-          }
-          if (this.activeName === 'IndustryNews') {
-            this.newsList = res.result
-          }
-          if (this.activeName === 'Information') {
-            this.InformateList = res.result
-          }
+          this.newsInfo.forEach(v => {
+            if (v.name === this.activeName) {
+              v.newsList = res.result
+            }
+          })
         }
       })
     },
