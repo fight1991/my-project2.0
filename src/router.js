@@ -264,22 +264,38 @@ router.afterEach(route => {
       }
     }
   }
+  let fun = 'SetTabData'
+  let tabData
   let title = route.meta.title
-  // sysData 为报关单/备案清单交互特有字段 不等于空  则使用自定义的title
+  let tabId = new Date().getTime()
+  // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData)) {
-    let tabTitle = base64.decode(route.params.sysData).split('::')[1]
-    let tabId = base64.decode(route.params.sysData).split('::')[0]
-    if (tabId.split('-')[0] !== 'none') {
-      title = tabTitle + '-' + tabId
+    let datas = base64.decode(route.params.sysData).split('::')
+    let otherTabId = datas[3]
+    let businessTitle = datas[1]
+    let businessId = datas[0]
+    if (businessId.split('-')[0] !== 'none') {
+      title = businessTitle + '-' + businessId
     } else {
-      title = tabTitle
+      title = businessTitle
+    }
+    if (!util.isEmpty(otherTabId)) {
+      tabId = otherTabId
+    }
+    if (datas.length > 3) {
+      if (!util.isEmpty(datas[4])) {
+        fun = 'SetTabDataIndex'
+        tabData = datas[4]
+      }
     }
   }
-  router.app.$options.store.commit('SetTabData', {
+  router.app.$options.store.commit(fun, {
+    tabId: tabId,
     title: title,
     component: route.meta.component,
     path: path,
-    route: route
+    route: route,
+    other: tabData
   })
 })
 export default router
