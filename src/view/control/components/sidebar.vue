@@ -79,6 +79,8 @@ export default {
 .leftSolider {
   position: relative;
   padding-top: 40px;
+  overflow:auto;
+  width: 217px;
 }
 .collapse-btn{
   position: absolute;

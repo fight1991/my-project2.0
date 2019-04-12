@@ -4,7 +4,7 @@
         <top></top>
       </el-header>
       <el-container class="middle">
-        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '180px'">
+        <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '200px'">
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
@@ -88,7 +88,8 @@ export default {
   background-color: @aid-color-white;
   margin: 20px 20px 20px 20px;
   z-index: 10;
-  overflow:visible;
+  overflow-y: scroll;
+  overflow-x: hidden;
   border-radius: 5px;
   // border: 1px solid red;
 }
