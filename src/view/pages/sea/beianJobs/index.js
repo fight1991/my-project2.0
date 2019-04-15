@@ -33,7 +33,7 @@ const MENU = {
       path: '/sea/bwl_sea/list',
       name: 'bwl_sea',
       permissions: 'SAASOM0504000000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '物流账册'
@@ -43,10 +43,10 @@ const MENU = {
       path: '/sea/bwlQuery_sea/list',
       name: 'bwlQuery_sea',
       permissions: 'SAASOM0504000000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '物流账册数据查询'
+        title: '物流账册查询'
       }
     }
   ]
