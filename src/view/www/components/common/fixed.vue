@@ -13,6 +13,7 @@
 
 <script>
 import pathList from '@/config/pathList'
+import config from '@/config/config'
 export default {
   data () {
     return {
@@ -25,7 +26,7 @@ export default {
       window.open(LoginUrl, '_self')
     },
     switchOld () {
-      let old = pathList.WWWOLDLOCATION[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']
+      let old = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['WWW']
       window.open(old, '_self')
     },
     backTop () {
