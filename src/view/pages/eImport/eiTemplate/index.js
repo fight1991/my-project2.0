@@ -10,6 +10,17 @@ const MENU = {
   },
   children: [
     {
+      path: '/eImport/eiTemplate/list',
+      name: 'templateList',
+      icon: 'icons-menu-price',
+      permissions: 'SAASOM0504000000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '模板列表'
+      }
+    },
+    {
       path: '/eImport/eiTemplate/import',
       name: 'iTemplate',
       icon: 'icons-menu-price',

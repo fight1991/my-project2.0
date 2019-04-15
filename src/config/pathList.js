@@ -1,6 +1,8 @@
 import url from './commonPath'
 export default {
   eImport: {
+    // 模板列表
+    decTemplateList: url.COMMON + '/decTemplate/list',
     // 进口模板
     decImTemplate: url.COMMON + '/declaration/decTemplate/import/add/new',
     // 出口模板
