@@ -129,5 +129,6 @@ export default {
     line-height: 30px;
     background-color: #EBEBEB;
     padding: 5px 0;
+    box-sizing: border-box;
   }
 </style>
