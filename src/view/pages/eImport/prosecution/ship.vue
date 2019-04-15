@@ -210,19 +210,6 @@ export default {
   mounted () {
   },
   methods: {
-    // 加载缓存数据
-    loadData () {
-      this.$store.commit('pageCacheInit', this.pagination)
-      this.pageList()
-    },
-    // 缓存数据
-    cacheData () {
-      this.pagination = {
-        currentPage: this.$store.state.pagination.currentPage, // 当前页
-        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
-        total: this.$store.state.pagination.total // 总条数
-      }
-    },
     // 重置
     resetShipForm  () {
       this.shipForm = {
