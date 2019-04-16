@@ -90,7 +90,7 @@ export default {
         setTimeout(() => {
           router.push('/login')
         }, 2000)
-      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'taxInfo') { // 报关单/备案清单/核注清单
+      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'EMS') { // 报关单/备案清单/金二菜单
         let data = event.data.data.operationType
         if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
           let tabId = new Date().getTime()
