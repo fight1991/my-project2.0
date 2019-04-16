@@ -180,55 +180,55 @@ router.beforeEach((to, from, next) => {
         next()
       }
     } else {
-      // if (to.path === '/error/404' || to.path === '/error/500' || to.path === '/error/wait') {
-      //   next()
-      // } else {
-      if (!util.isEmpty(to.query.token)) {
-        router.app.$options.store.commit('setToken', to.query.token)
-        window.localStorage.setItem('token', to.query.token)
-      } else if (!util.isEmpty(window.localStorage.getItem('token'))) {
-        router.app.$options.store.commit('setToken', window.localStorage.getItem('token'))
+      if (to.path === '/error/404' || to.path === '/error/500' || to.path === '/error/wait') {
+        next()
       } else {
-        next('/login')
-      }
-      router.app.$options.store.dispatch('ajax', {
-        url: 'API@/login/login/getLoginUserInfo',
-        data: {
-          ssoToken: window.localStorage.getItem('token')
-        },
-        router: router,
-        success: (res) => {
-          let datas = {
-            token: window.localStorage.getItem('token'), // token数据
-            userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
-            mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
-            userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
-            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
-            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
-            companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
-          }
-          if (!util.isEmpty(res.result.userTitleList)) {
-            sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
-          }
-          router.app.$options.store.commit('userLoginInfo', datas)
-          router.app.$options.store.commit('isFirstChange')
-          router.app.$options.store.dispatch('ajax', {
-            url: 'API@/login/userPrivilege/getUserPrivileges',
-            data: {},
-            router: router,
-            success: (res) => {
-              let json = {}
-              let datas = res.result
-              for (let x = 0, len = datas.length; x < len; x++) {
-                json[datas[x].objectId] = datas[x].auth
-              }
-              window.localStorage.setItem('menuCodes', JSON.stringify(json))
-              next()
-            }
-          })
+        if (!util.isEmpty(to.query.token)) {
+          router.app.$options.store.commit('setToken', to.query.token)
+          window.localStorage.setItem('token', to.query.token)
+        } else if (!util.isEmpty(window.localStorage.getItem('token'))) {
+          router.app.$options.store.commit('setToken', window.localStorage.getItem('token'))
+        } else {
+          next('/login')
         }
-      })
-      // }
+        router.app.$options.store.dispatch('ajax', {
+          url: 'API@/login/login/getLoginUserInfo',
+          data: {
+            ssoToken: window.localStorage.getItem('token')
+          },
+          router: router,
+          success: (res) => {
+            let datas = {
+              token: window.localStorage.getItem('token'), // token数据
+              userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
+              mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
+              userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
+              companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
+              adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
+              companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
+            }
+            if (!util.isEmpty(res.result.userTitleList)) {
+              sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
+            }
+            router.app.$options.store.commit('userLoginInfo', datas)
+            router.app.$options.store.commit('isFirstChange')
+            router.app.$options.store.dispatch('ajax', {
+              url: 'API@/login/userPrivilege/getUserPrivileges',
+              data: {},
+              router: router,
+              success: (res) => {
+                let json = {}
+                let datas = res.result
+                for (let x = 0, len = datas.length; x < len; x++) {
+                  json[datas[x].objectId] = datas[x].auth
+                }
+                window.localStorage.setItem('menuCodes', JSON.stringify(json))
+                next()
+              }
+            })
+          }
+        })
+      }
     }
   }
 })
