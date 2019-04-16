@@ -33,11 +33,7 @@ export default {
     pagination: {
       type: Object,
       default: function () {
-        return {
-          pageIndex: 1, // 当前页
-          pageSize: 10, // 每页数据条数
-          total: 0 // 总条数
-        }
+        return this.$store.state.pagination
       }
     }
     // type: {

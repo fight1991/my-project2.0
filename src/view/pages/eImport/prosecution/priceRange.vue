@@ -64,7 +64,7 @@
         </el-row>
         <!-- 列表 list -->
         <el-table class='sys-table-table'
-          height="400" border highlight-current-row size="mini"
+          border highlight-current-row size="mini"
           :data="priceList"
           @selection-change="selectVal">
           <el-table-column type="selection" width="35"></el-table-column>
@@ -102,7 +102,7 @@
         <!--分页-->
         <el-row class='sys-page-list'>
             <el-col :span="24" align="right">
-                <page-box @change="queryList()"></page-box>
+                <page-box :pagination='paginationInit' @change="queryList"></page-box>
             </el-col>
         </el-row>
       </div>
@@ -328,24 +328,24 @@ export default {
       }, {
         value: true,
         text: '原产国'
-      }]
+      }],
+      countryParams: [], // 国家参数
+      curryParams: [], // 币制参数
+      selectObj: {
+        obj: '',
+        params: ''
+      }
     }
-  },
-  countryParams: [], // 国家参数
-  curryParams: [], // 币制参数
-  selectObj: {
-    obj: '',
-    params: ''
   },
   watch: {},
   created () {
+    this.paginationInit = this.$store.state.pagination
     this.getCommonParams()
   },
   methods: {
     // 查询
     searchQueryForm () {
-      this.$store.commit('pageInit')
-      this.queryList()
+      this.queryList(this.$store.state.pagination)
     },
     // 重置
     resetQueryForm () {
@@ -355,17 +355,23 @@ export default {
         gName: '',
         codeTs: ''
       }
+      this.searchQueryForm()
     },
     // 列表
-    queryList () {
+    queryList (pagination) {
+      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/decParam/common/getPriceList',
-        data: this.queryForm,
+        data: {
+          ...this.queryForm,
+          page: pagination
+        },
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.priceList = res.result.list
-          this.total = res.page.total
+          this.paginationInit = res.page
+          // this.total = res.page.total
         }
       })
     },
@@ -405,7 +411,7 @@ export default {
         success: (res) => {
           if (res.code === '0000') {
             this.$message(res.message)
-            this.queryList()
+            this.queryList(this.$store.state.pagination)
           } else {
             this.$message({
               message: res.message,
@@ -429,7 +435,7 @@ export default {
                 this.resetDialogForm()
                 this.$refs['priceDialogForm'].resetFields()
                 this.priceDialogVisible = false
-                this.queryList()
+                this.queryList(this.$store.state.pagination)
               } else {
                 this.$message({
                   message: res.message,
@@ -493,7 +499,7 @@ export default {
       this.priceDialogForm.gName = decList.gName
       this.priceDialogForm.gModel = decList.gModel
       this.priceDialogForm.tradeCurr = decList.tradeCurr
-      this.priceDialogForm.declPrice = this.removeZero(decList.declPrice)
+      this.priceDialogForm.declPrice = decList.declPrice
       this.priceDialogForm.originCountry = decList.originCountry
       this.selectObj = {
         obj: 'curryParams',
