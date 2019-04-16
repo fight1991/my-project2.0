@@ -7,7 +7,7 @@ const MENU = {
   path: '/circulation/czhanJobs',
   name: 'circulation-czhanJobs',
   icon: 'icons-menu-czhanJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA21101000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '场站业务'

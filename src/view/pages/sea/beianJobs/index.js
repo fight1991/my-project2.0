@@ -3,7 +3,7 @@ const MENU = {
   path: '/sea/beianJobs',
   name: 'sea-beianJobs',
   icon: 'icons-menu-beianJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20901000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '备案业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/sea/accountBook_sea/list',
       name: 'accountBook_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20901010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/sea/accountBookQuery_sea/list',
       name: 'accountBookQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20901020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/sea/bwl_sea/list',
       name: 'bwl_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20901030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/sea/bwlQuery_sea/list',
       name: 'bwlQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20901040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

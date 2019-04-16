@@ -3,7 +3,7 @@ const MENU = {
   path: '/account/lareJobs',
   name: 'account-lareJobs',
   icon: 'icons-menu-lareJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20802000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '申报业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/account/taxList_I_acc/list',
       name: 'taxList_I_acc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20802010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/account/taxList_E_acc/list',
       name: 'taxList_E_acc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20802020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/account/taxListQuery_acc/list',
       name: 'taxListQuery_acc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20802030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

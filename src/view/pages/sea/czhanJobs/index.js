@@ -3,7 +3,7 @@ const MENU = {
   path: '/sea/czhanJobs',
   name: 'sea-czhanJobs',
   icon: 'icons-menu-czhanJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20904000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '场站业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/sea/apply_sea/list',
       name: 'apply_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/sea/applyQuery_sea/list',
       name: 'applyQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/sea/stock_sea/list',
       name: 'stock_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/sea/stockQuery_sea/list',
       name: 'stockQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/sea/auditRelese_sea/list',
       name: 'auditRelese_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/sea/releseQuery_sea/list',
       name: 'releseQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904070000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -72,7 +72,7 @@ const MENU = {
     {
       path: '/sea/carInfo_sea/list',
       name: 'carInfo_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904100000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -82,7 +82,7 @@ const MENU = {
     {
       path: '/sea/carInfoQuery_sea/list',
       name: 'carInfoQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20904110000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

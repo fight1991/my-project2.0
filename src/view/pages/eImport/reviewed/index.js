@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/reviewed',
   name: 'reviewed',
   icon: 'icons-menu-decCheck',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20204000000',
   meta: {
     component: resolve => require(['./index.vue'], resolve),
     title: '报关单审核'

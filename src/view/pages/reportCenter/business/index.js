@@ -3,7 +3,7 @@ const MENU = {
   path: '/reportCenter/business',
   name: 'business',
   icon: 'icons-menu-jobsList',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20601000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '业务报表'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/reportCenter/business/amountSt',
       name: 'amountSt',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20601010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -21,7 +21,7 @@ const MENU = {
     }, {
       path: '/reportCenter/business/certSt',
       name: 'certSt',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20601020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -30,7 +30,7 @@ const MENU = {
     }, {
       path: '/reportCenter/business/trendSt',
       name: 'trendSt',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20601030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -39,7 +39,7 @@ const MENU = {
     }, {
       path: '/reportCenter/business/importSt',
       name: 'importSt',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20601040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -48,7 +48,7 @@ const MENU = {
     }, {
       path: '/reportCenter/business/exportSt',
       name: 'exportSt',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20601050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

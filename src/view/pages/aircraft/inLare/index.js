@@ -3,7 +3,7 @@ const MENU = {
   path: '/aircraft/inLare',
   name: 'aircraft-inLare',
   icon: 'icons-menu-inLare',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20403000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '在港申报'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/aircraft/inLare/customPort',
       name: 'customPort',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20403010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/aircraft/inLare/materials',
       name: 'materials',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20403020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
