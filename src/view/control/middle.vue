@@ -1,6 +1,6 @@
 <template>
-  <div id="list" class="clearfix">
-    <div id='div1' class='divItems' ref="div1" v-permissions="'CCBA20101000000'">
+  <div id="list">
+    <div id='div1' class='divItems' v-permissions="'CCBA20101000000'">
       <board></board>
     </div>
     <div id='div2' class='divItems' v-permissions="'CCBA20102000000'">
@@ -38,18 +38,22 @@ export default {
 <style lang="less" scoped>
 #list {
   height: 100%;
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: space-between;
+  width: calc(~"(100% + 17px)");
+  display: flex;
+  flex-wrap: wrap;
   // align-items: flex-start;
-  padding: 10;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
+// .divItems:nth-child(2n) {
+//   align-self: flex-end;
+// }
 .divItems {
-  float: left;
-  width: 49%;
+  // float: left;
+  width: calc(~"(50% - 15px)");
+  // width: 49%;
   // height: 48%;
+  margin-right: 15px;
   min-width: 400px;
   height: 440px;
   background-color: #fff;
@@ -58,13 +62,10 @@ export default {
   // overflow: auto;
   margin-bottom: 15px;
 }
-.divItems:nth-child(2n+1) {
-  margin-right: 15px;
-}
-@media screen and (max-width:1060px) {
+@media screen and (max-width:1090px) {
  .divItems {
    width: 100%;
-   margin-right: 0px!important;
+   margin-left: 0px!important;
  }
 }
 </style>

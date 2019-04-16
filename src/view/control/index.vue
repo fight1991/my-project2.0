@@ -8,7 +8,7 @@
           <sidebar></sidebar>
         </el-aside>
         <el-main class="middle-right">
-          <div class="scroll-hidden"></div>
+          <!-- <div class="scroll-hidden"></div> -->
           <middle></middle>
         </el-main>
       </el-container>
