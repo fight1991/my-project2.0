@@ -55,7 +55,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination='paginationInit' @change="pageList"></page-box>
         </el-col>
       </el-row>
     <div slot="footer"  class="sys-dialog-footer" style="text-align:center;">
@@ -98,10 +98,11 @@ export default {
     }
   },
   mounted () {
+    this.paginationInit = this.$store.state.pagination
     this.QueryHistoryForm.iEFlag = this.initParams.iEFlag
     if (!util.isEmpty(this.initParams.codeTs)) {
       this.QueryHistoryForm.codeTs = this.initParams.codeTs
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     }
   },
   methods: {
@@ -119,7 +120,7 @@ export default {
       this.$emit('cancLeData')
     },
     queryHistoryGoodsList () {
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     changeFun (val) {
       this.selectedData = val
@@ -133,17 +134,22 @@ export default {
         originCountry: '' // 原产国(地区)
       }
       this.saasCountry = []
+      this.queryHistoryGoodsList()
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
+      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/common/getHistoryGoods ',
-        data: this.QueryHistoryForm,
+        data: {
+          ...this.QueryHistoryForm,
+          page: pagination
+        },
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.historyGoodsList = res.result
-          this.total = res.page.total
+          this.paginationInit = res.page
         }
       })
     },

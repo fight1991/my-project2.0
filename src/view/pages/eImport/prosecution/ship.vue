@@ -81,7 +81,7 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="shipList"
          @selection-change="shipListChange"
-         border highlight-current-row size="mini"  height="400">
+         border highlight-current-row size="mini">
         <el-table-column type="selection" width="35"></el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
@@ -96,7 +96,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination='paginationInit' @change="pageList"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -113,7 +113,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.iEPort"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasCustomsRel2','SAAS_CUSTOMS_REL')"
-                  :remote-method="checkParamsList"  :readonly="isDetail"
+                  :remote-method="checkParamsList"  :disabled="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasCustomsRel2"
@@ -131,7 +131,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.entyPortCode"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasInlandPort2','SAAS_INLAND_PORT')"
-                  :remote-method="checkParamsList"  :readonly="isDetail"
+                  :remote-method="checkParamsList"  :disabled="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasInlandPort2"
@@ -149,7 +149,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.trafMode"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasTransportType2','SAAS_TRANSPORT_TYPE')"
-                  :remote-method="checkParamsList"  :readonly="isDetail"
+                  :remote-method="checkParamsList"  :disabled="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasTransportType2"
@@ -162,7 +162,7 @@
             </el-col>
           </el-row>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer" v-if="!isDetail">
         <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
         <el-button class="layer-btn" @click="cancleDialogForm" >取消</el-button>
       </span>
@@ -214,7 +214,9 @@ export default {
     }
   },
   created () {
+    this.paginationInit = this.$store.state.pagination
     this.getCommonParams()
+    this.searchShipForm()
   },
   mounted () {
   },
@@ -229,6 +231,7 @@ export default {
       this.saasCustomsRel1 = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL')).slice(0, 10)
       this.saasInlandPort1 = JSON.parse(window.localStorage.getItem('SAAS_INLAND_PORT')).slice(0, 10)
       this.saasTransportType1 = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')).slice(0, 10)
+      this.searchShipForm()
     },
     beforeClose () {
       this.resetDialogForm()
@@ -271,7 +274,7 @@ export default {
         success: (res) => {
           if (res.code === '0000') {
             this.$message(res.message)
-            this.pageList()
+            this.pageList(this.$store.state.pagination)
           } else {
             this.$message({
               message: res.message,
@@ -287,19 +290,22 @@ export default {
     },
     // 查询
     searchShipForm () {
-      this.$store.commit('pageInit')
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
+      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/decParam/common/getDecTrafList',
-        data: this.shipForm,
+        data: {
+          ...this.shipForm,
+          page: pagination
+        },
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.shipList = res.result
-          this.total = res.page.total
+          this.paginationInit = res.page
         }
       })
     },
@@ -347,7 +353,7 @@ export default {
         type: '01'
       }
       this.$store.dispatch('ajax', {
-        url: 'API@/decParam/common/importDecTrafRelExcel',
+        url: 'API@/dec-common/decParam/common/importDecTrafRelExcel',
         data: data,
         router: this.$router,
         success: (res) => {
@@ -355,7 +361,7 @@ export default {
             message: '导入成功',
             type: 'success'
           })
-          this.pageList()
+          this.pageList(this.$store.state.pagination)
         }
       })
     },
@@ -405,6 +411,13 @@ export default {
     },
     // 保存
     saveDialogForm () {
+      if (this.shipDialogForm.iEPort === this.shipForm.iEPort) {
+        this.$message({
+          message: '该进出口关别已经存在',
+          type: 'error'
+        })
+        return false
+      }
       this.$refs['shipDialogForm'].validate((valid) => {
         if (valid) {
           this.$store.dispatch('ajax', {
@@ -417,7 +430,7 @@ export default {
                 this.resetDialogForm()
                 this.$refs['shipDialogForm'].resetFields()
                 this.trafModeTipsVisible = false
-                this.pageList()
+                this.pageList(this.$store.state.pagination)
               } else {
                 this.$message({
                   message: res.message,

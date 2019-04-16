@@ -93,7 +93,7 @@
           </el-table-column>
           <el-table-column label="浮动区间" min-width="80" prop="bandArea" v-if="thList[7].value">
           <template slot-scope="scope">
-            <span>{{scope.row.bandArea}}%</span>
+            <span>{{scope.row.bandArea+''}}%</span>
           </template>
         </el-table-column>
           <el-table-column label="原产国" min-width="80" prop="originCountryValue" v-if="thList[8].value">
@@ -113,6 +113,7 @@
               <el-form-item label="进出口标识" prop='type'>
                 <el-select placeholder="" v-model="priceDialogForm.type"
                   filterable clearable
+                  :disabled="isDetail"
                   ref="type" dataRef ='type'
                   style="width:100%">
                   <el-option
@@ -341,6 +342,7 @@ export default {
   created () {
     this.paginationInit = this.$store.state.pagination
     this.getCommonParams()
+    this.searchQueryForm()
   },
   methods: {
     // 查询
@@ -371,7 +373,6 @@ export default {
         success: (res) => {
           this.priceList = res.result.list
           this.paginationInit = res.page
-          // this.total = res.page.total
         }
       })
     },
@@ -380,9 +381,13 @@ export default {
       this.resetDialogForm()
       if (type === 'view') {
         this.priceDialogForm = row
+        this.priceDialogForm.declPrice = row.declPrice + ''
+        this.priceDialogForm.bandArea = row.bandArea + ''
         this.isDetail = true
       } else if (type === 'edit') {
         this.priceDialogForm = row
+        this.priceDialogForm.declPrice = row.declPrice + ''
+        this.priceDialogForm.bandArea = row.bandArea + ''
         this.isDetail = false
       } else {
         this.isDetail = false
