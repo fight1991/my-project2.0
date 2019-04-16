@@ -87,7 +87,7 @@
     <div class="order">
       <div class="button">
         <button class="btn btn-default" @click="register">立即注册</button>
-        <button @click.prevent="order('anchor')" class="btn btn-warning pull-right">预约演示</button>
+        <button @click.prevent="order('anchor','other')" class="btn btn-warning pull-right">预约演示</button>
       </div>
     </div>
   </div>
@@ -168,8 +168,11 @@ export default {
         return
       }
       // 立即预约 轮播图跳转 或点击按钮跳转
-      if ((index >= 0 && this.bannerList[index].linkUrl.indexOf('#') > -1) || index === undefined) {
+      if ((index >= 0 && this.bannerList[index].linkUrl.indexOf('#') > -1) || index === 'other') {
         this.$router.push('/contactUs#anchor')
+        eventBus.$emit('changeStyle', null)
+      } else if (index >= 0 && this.bannerList[index].linkUrl.indexOf('talent') > -1) {
+        this.$router.push('/talent')
         eventBus.$emit('changeStyle', null)
       } else { // 其他链接地址
         window.open(this.bannerList[index].linkUrl, '_blank')
