@@ -14,6 +14,11 @@ export default new Vuex.Store({
     TabsStore
   },
   state: {
+    pagination: {
+      pageIndex: 1, // 当前页
+      pageSize: 10, // 每页数据条数
+      total: 0 // 总条数
+    },
     // 登陆后的用户数据信息
     userLoginInfo: {
       token: '', // token数据
