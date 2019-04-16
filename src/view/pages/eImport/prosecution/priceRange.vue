@@ -328,14 +328,14 @@ export default {
       }, {
         value: true,
         text: '原产国'
-      }]
+      }],
+      countryParams: [], // 国家参数
+      curryParams: [], // 币制参数
+      selectObj: {
+        obj: '',
+        params: ''
+      }
     }
-  },
-  countryParams: [], // 国家参数
-  curryParams: [], // 币制参数
-  selectObj: {
-    obj: '',
-    params: ''
   },
   watch: {},
   created () {
