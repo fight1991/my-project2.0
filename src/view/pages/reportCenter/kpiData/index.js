@@ -9,11 +9,11 @@ const MENU = {
   },
   children: [
     {
-      path: '/reportCenter/kpiData/delDecSt',
+      path: '/reportCenter/kpiData/workLoad',
       name: 'delDecSt',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./workLoad.vue'], resolve),
         title: '删改单报表'
       }
     }, {
