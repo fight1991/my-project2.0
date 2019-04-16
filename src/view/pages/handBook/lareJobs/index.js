@@ -3,7 +3,7 @@ const MENU = {
   path: '/handBook/lareJobs',
   name: 'handBook-lareJobs',
   icon: 'icons-menu-lareJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20702000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '申报业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/handBook/taxList_I_hand/list',
       name: 'taxList_I_hand',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20702010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/handBook/taxList_E_hand/list',
       name: 'taxList_E_hand',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20702020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/handBook/taxListQuery_hand/list',
       name: 'taxListQuery_hand',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20702030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

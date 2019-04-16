@@ -2,7 +2,6 @@
     <iframe-view :url='url'></iframe-view>
 </template>
 <script>
-import pathList from '@/config/pathList'
 export default {
   name: 'index',
   data () {
@@ -12,7 +11,6 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.reportCenter[this.$route.name] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
   }
 }
 </script>

@@ -3,7 +3,7 @@ const MENU = [
   {
     path: '/circulation/goodsBill/deliver/list',
     name: 'deliver',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101040000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),
@@ -13,7 +13,7 @@ const MENU = [
   {
     path: '/circulation/goodsBill/take/list',
     name: 'take',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101050000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),
@@ -23,7 +23,7 @@ const MENU = [
   {
     path: '/circulation/goodsBill/query/list',
     name: 'query',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101060000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),

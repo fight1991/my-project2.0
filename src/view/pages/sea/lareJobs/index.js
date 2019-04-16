@@ -3,7 +3,7 @@ const MENU = {
   path: '/sea/lareJobs',
   name: 'sea-lareJobs',
   icon: 'icons-menu-lareJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20902000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '申报业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/sea/taxList_I_sea/list',
       name: 'taxList_I_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/sea/taxList_E_sea/list',
       name: 'taxList_E_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/sea/taxListQuery_sea/list',
       name: 'taxListQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/sea/centDeclare_sea/list',
       name: 'centDeclare_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902040000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/sea/clearance_sea/list',
       name: 'clearance_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902050000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/sea/clearanceQuery_sea/list',
       name: 'clearanceQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20902060000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

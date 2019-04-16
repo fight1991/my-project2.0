@@ -3,7 +3,7 @@ const MENU = {
   path: '/account/beianJobs',
   name: 'account-beianJobs',
   icon: 'icons-menu-beianJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20801000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '备案业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/account/apl/list',
       name: 'apl',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20801010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/account/aplQuery/list',
       name: 'aplQuery',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20801020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/account/accountAdd/list',
       name: 'accountAdd',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20801030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/account/accountQuery/list',
       name: 'accountQuery',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20801040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

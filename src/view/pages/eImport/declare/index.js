@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/declare',
   name: 'declare',
   icon: 'icons-menu-declare',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20203000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '关检整合申报'
@@ -13,7 +13,7 @@ const MENU = {
       path: '/eImport/declare/import',
       name: 'importDec',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -23,7 +23,7 @@ const MENU = {
       path: '/eImport/declare/importRecord',
       name: 'importRecord',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -33,7 +33,7 @@ const MENU = {
       path: '/eImport/declare/export',
       name: 'exportDec',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -43,7 +43,7 @@ const MENU = {
       path: '/eImport/declare/exportRecord',
       name: 'exportRecord',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -53,7 +53,7 @@ const MENU = {
       path: '/eImport/declare/importTaxList',
       name: 'importTaxList',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -63,7 +63,7 @@ const MENU = {
       path: '/eImport/declare/exportTaxList',
       name: 'exportTaxList',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20203060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

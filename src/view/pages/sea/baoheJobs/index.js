@@ -3,7 +3,7 @@ const MENU = {
   path: '/sea/baoheJobs',
   name: 'sea-baoheJobs',
   icon: 'icons-menu-baoheJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20903000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '报核业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/sea/accountBookVer_sea/list',
       name: 'accountBookVer_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20903010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/sea/accountBookVerQuery_sea/list',
       name: 'accountBookVerQuery_sea',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20903020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

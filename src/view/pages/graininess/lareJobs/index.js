@@ -3,7 +3,7 @@ const MENU = {
   path: '/graininess/lareJobs',
   name: 'graininess-lareJobs',
   icon: 'icons-menu-lareJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA21002000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '申报业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/graininess/taxList_I_gra/list',
       name: 'taxList_I_gra',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA21002010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/graininess/taxList_E_gra/list',
       name: 'taxList_E_gra',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA21002020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/graininess/taxListQuery_gra/list',
       name: 'taxListQuery_gra',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA21002030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/graininess/centDeclare_gra/list',
       name: 'centDeclare_gra',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA21002040000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/receipt',
   name: 'receipt',
   icon: 'icons-menu-receipt',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20202000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '接单'
@@ -13,7 +13,7 @@ const MENU = {
       path: '/eImport/receipt/import',
       name: 'iReceipt',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20202010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -23,7 +23,7 @@ const MENU = {
       path: '/eImport/receipt/export',
       name: 'eReceipt',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20202020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

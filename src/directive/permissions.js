@@ -17,7 +17,7 @@ export default {
       bind: (el, binding) => {
         if (!checkMenuCode(binding.value)) {
           if (isIE()) {
-            // el.removeNode(true)
+            el.removeNode(true)
           } else {
             // el.remove()
           }

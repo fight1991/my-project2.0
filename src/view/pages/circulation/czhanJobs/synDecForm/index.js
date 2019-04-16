@@ -3,7 +3,7 @@ const MENU = [
   {
     path: '/circulation/synDecForm/list',
     name: 'synDecForm',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101080000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),

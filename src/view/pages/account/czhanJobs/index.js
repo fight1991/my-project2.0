@@ -3,7 +3,7 @@ const MENU = {
   path: '/account/czhanJobs',
   name: 'account-czhanJobs',
   icon: 'icons-menu-czhanJobs',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20804000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '场站业务'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/handBook/declareFormAcc/list',
       name: 'declareFormAcc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/handBook/declareFormAccQuery/list',
       name: 'declareFormAccQuery',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/handBook/deliveryAcc/list',
       name: 'deliveryAcc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/handBook/deliveryAccQuery/list',
       name: 'deliveryAccQuery',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/handBook/recipientAcc/list',
       name: 'recipientAcc',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/handBook/recipientAccQuery/list',
       name: 'recipientAccQuery',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20804050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

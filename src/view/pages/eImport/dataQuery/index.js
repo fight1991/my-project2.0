@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/dataQuery',
   name: 'dataQuery',
   icon: 'icons-menu-dataQuery',
-  permissions: 'SAASOM0900000000',
+  permissions: 'CCBA20205000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '业务数据查询'
@@ -13,7 +13,7 @@ const MENU = {
       path: '/eImport/dataQuery/decInfo',
       name: 'decInfo',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20205010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -24,7 +24,7 @@ const MENU = {
       path: '/eImport/dataQuery/taxInfo',
       name: 'taxInfo',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20205020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -35,7 +35,7 @@ const MENU = {
       path: '/eImport/dataQuery/tLedger',
       name: 'tLedger',
       icon: 'icons-menu-price',
-      permissions: 'SAASOM0504000000',
+      permissions: 'CCBA20205030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

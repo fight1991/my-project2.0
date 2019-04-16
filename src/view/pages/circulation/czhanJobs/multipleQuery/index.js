@@ -3,7 +3,7 @@ const MENU = [
   {
     path: '/circulation/multipleQuery/list',
     name: 'multipleQuery',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101070000',
     hidden: false,
     meta: {
       component: resolve => require(['./multipleQuery.vue'], resolve),

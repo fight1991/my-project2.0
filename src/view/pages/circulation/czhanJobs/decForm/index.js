@@ -3,7 +3,7 @@ const MENU = [
   {
     path: '/circulation/decForm/I/list',
     name: 'outedcform',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101010000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),
@@ -13,7 +13,7 @@ const MENU = [
   {
     path: '/circulation/decForm/E/list',
     name: 'incform',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101020000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),
@@ -23,7 +23,7 @@ const MENU = [
   {
     path: '/circulation/decForm/decFormQuery/list',
     name: 'decFormQuery',
-    permissions: 'SAASOM0504000000',
+    permissions: 'CCBA21101030000',
     hidden: false,
     meta: {
       component: resolve => require(['./index.vue'], resolve),
