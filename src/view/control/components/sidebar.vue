@@ -81,7 +81,9 @@ export default {
   padding-top: 40px;
   overflow:auto;
   width: 217px;
-  height: 100%;
+  // height: 100%;
+  // box-sizing: border-box;
+  height: calc(~"(100% - 40px)");
 }
 .collapse-btn{
   position: absolute;
