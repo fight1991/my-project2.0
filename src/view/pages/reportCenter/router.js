@@ -1,5 +1,5 @@
 import Business from './business/index' // 业务报表
-import KpiData from './kpiData/index' // KPI报表
+// import KpiData from './kpiData/index' // KPI报表
 const MENU = [
   {
     path: '/reportCenter/index',
@@ -12,7 +12,7 @@ const MENU = [
       title: '首页'
     }
   },
-  Business.MENU,
-  KpiData.MENU
+  Business.MENU
+  // KpiData.MENU
 ]
 export default {MENU}

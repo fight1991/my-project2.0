@@ -1,15 +1,15 @@
 <template>
   <div id="list" class="clearfix">
-    <div id='div1' class='divItems' ref="div1">
+    <div id='div1' class='divItems' ref="div1" v-permissions="'CCBA20101000000'">
       <board></board>
     </div>
-    <div id='div2' class='divItems'>
+    <div id='div2' class='divItems' v-permissions="'CCBA20102000000'">
       <report></report>
     </div>
-    <div id='div4' class='divItems'>
+    <div id='div4' class='divItems' v-permissions="'CCBA20103000000'">
       <news></news>
     </div>
-    <div id='div3' class='divItems'>
+    <div id='div3' class='divItems' v-permissions="'CCBA20104000000'">
       <corpDisplay></corpDisplay>
     </div>
   </div>
