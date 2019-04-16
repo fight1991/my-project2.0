@@ -7,12 +7,12 @@
           <el-row :gutter="10">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识" prop='type'>
-              <el-select placeholder="" v-model="queryForm.type"
+              <el-select placeholder="" size="mini" v-model="queryForm.type"
                 filterable clearable style="width:100%">
                 <el-option
                   v-for="item in iEList"
                   :key="item.codeField"
-                  :label="item.codeField + '-' + item.nameField"
+                  :label="item.nameField"
                   :value="item.codeField">
                 </el-option>
               </el-select>
@@ -20,17 +20,17 @@
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="境内收发货人">
-              <el-input size="mini" clearable v-model="queryForm.tradeName"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.tradeName" :maxlength="70"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品名称">
-              <el-input size="mini" clearable v-model="queryForm.gName"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.gName" :maxlength="255"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
             <el-form-item label="商品编码">
-              <el-input size="mini" clearable v-model="queryForm.codeTs"></el-input>
+              <el-input size="mini" clearable v-model="queryForm.codeTs" :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -48,7 +48,7 @@
       <div class='query-table'>
         <!-- 按钮 -->
         <el-row class="op-btn">
-          <el-button size="mini" @click="openAddPage" icon="fa fa-plus fa-lg">&nbsp;新增</el-button>
+          <el-button size="mini" @click="openFun('add', 'add')" icon="fa fa-plus fa-lg">&nbsp;新增</el-button>
           <el-button size="mini" @click="deleteFun" icon="fa fa-trash-o fa-lg">&nbsp;删除</el-button>
           <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
@@ -57,7 +57,7 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" icon="fa fa-list fa-lg" slot="reference"></el-button>
+            <el-button size="mini" slot="reference"><i class="fa fa-list fa-lg" style="vertical-align: sub; margin-left: 5px"></i></el-button>
           </el-popover>
         </div>
           <span class="span-right">已选择{{checkedNum}}项</span>
@@ -68,23 +68,26 @@
           :data="priceList"
           @selection-change="selectVal">
           <el-table-column type="selection" width="35"></el-table-column>
-          <el-table-column label="操作" width="80">
+          <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="openEditPage(scope.row)"></el-button>
-            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="openDetailPage(scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="openFun('edit',scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="openFun('view',scope.row)"></el-button>
           </template>
           </el-table-column>
-          <el-table-column label="进出口标识" min-width="80" prop="type" v-if="thList[0].value">
+          <el-table-column label="进出口标识" min-width="100" prop="type" v-if="thList[0].value">
           </el-table-column>
           <el-table-column label="境内收发货人" min-width="150" prop="tradeName" v-if="thList[1].value">
           </el-table-column>
-          <el-table-column label="商品编码" min-width="100" prop="codeTs" v-if="thList[2].value">
+          <el-table-column label="商品编码" min-width="150" prop="codeTs" v-if="thList[2].value">
           </el-table-column>
           <el-table-column label="商品名称" min-width="150" prop="gName" v-if="thList[3].value">
           </el-table-column>
           <el-table-column label="规格型号" min-width="150" prop="gModel" v-if="thList[4].value">
           </el-table-column>
           <el-table-column label="单价" min-width="80" prop="declPrice" v-if="thList[5].value">
+            <template slot-scope="scope">
+              {{scope.row.declPrice+''}}
+            </template>
           </el-table-column>
           <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[6].value">
           </el-table-column>
@@ -109,13 +112,13 @@
             <el-col :span="8">
               <el-form-item label="进出口标识" prop='type'>
                 <el-select placeholder="" v-model="priceDialogForm.type"
-                  @change="iEFlagChange" filterable clearable
+                  filterable clearable
                   ref="type" dataRef ='type'
                   style="width:100%">
                   <el-option
                     v-for="item in iEList"
                     :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
+                    :label="item.nameField"
                     :value="item.codeField">
                   </el-option>
                 </el-select>
@@ -123,33 +126,55 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="境内收发货人" prop='tradeName'>
-                <el-input v-model="priceDialogForm.tradeName" ref="tradeName" dataRef ='tradeName' :readonly="isDetail"></el-input>
+                <el-input v-model="priceDialogForm.tradeName" ref="tradeName" dataRef ='tradeName' :readonly="isDetail" :maxlength="70"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="原产国(地区)" prop='originCountry'>
+                <el-select placeholder="" v-model="priceDialogForm.originCountry"
+                  filterable clearable remote default-first-option
+                  :disabled="isDetail"
+                  ref="originCountry" dataRef ='originCountry'
+                  @focus="tipsFillMessage('countryParams','SAAS_COUNTRY')"
+                  :remote-method="checkParamsList"
+                  style="width:100%">
+                  <el-option
+                    v-for="item in countryParams"
+                    :key="item.codeField"
+                    :label="item.codeField + '-' + item.nameField"
+                    :value="item.codeField">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="商品编号" prop='codeTs'>
+                <el-input v-model="priceDialogForm.codeTs"
+                  ref="codeTs" dataRef ='codeTs'
+                  autofocus="true"
+                  :maxlength="10" :readonly="isDetail"
+                 @keyup.enter.native="queryHistoryGoods"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="商品名称" prop='gName'>
-                <el-input v-model="priceDialogForm.gName" ref="gName" dataRef ='gName' :readonly="isDetail"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="商品编码" prop='codeTs'>
-                <el-input v-model="priceDialogForm.codeTs" autofocus="true" ref="codeTs" dataRef ='codeTs' :readonly="isDetail" @keyup.enter.native="queryHistoryGoods"></el-input>
+                <el-input v-model="priceDialogForm.gName" ref="gName" dataRef ='gName' :readonly="isDetail" :maxlength="255"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="规格型号" prop="gModel">
-                <el-input v-model="priceDialogForm.gModel" ref="gModel" dataRef ='gModel' :readonly="isDetail"></el-input>
+                <el-input v-model="priceDialogForm.gModel" ref="gModel" dataRef ='gModel' :readonly="isDetail" :maxlength="255"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="8">
-            <el-form-item label="单价" prop='declPrice'>
-              <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :readonly="isDetail"></el-input>
-            </el-form-item>
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="8">
+            <el-form-item label="单价" prop='declPrice'>
+              <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :readonly="isDetail" :maxlength="19"></el-input>
+            </el-form-item>
+            </el-col>
             <el-col :span="8">
               <el-form-item label="币制" prop='tradeCurr'>
                 <el-select placeholder="" v-model="priceDialogForm.tradeCurr"
@@ -170,48 +195,44 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="价格浮动区间(%)" prop ='bandArea' required>
-                <el-input  v-model="priceDialogForm.bandArea" ref="bandArea" dataRef ='bandArea' :readonly="isDetail"
-                placeholder="填写1~99"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8" v-if="originCountryShow">
-              <el-form-item label="原产国(地区)" prop='originCountry'>
-                <el-select placeholder="" v-model="priceDialogForm.originCountry"
-                  filterable clearable remote default-first-option
-                  :disabled="isDetail"
-                  ref="originCountry" dataRef ='originCountry'
-                  enter = 'no' @keyup.enter.native="savePriceTips"
-                  @focus="tipsFillMessage('countryParams','SAAS_COUNTRY')"
-                  :remote-method="checkParamsList"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in countryParams"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
+                <el-input  v-model="priceDialogForm.bandArea"
+                ref="bandArea" dataRef ='bandArea'
+                enter = 'no'
+                :readonly="isDetail" :maxlength="10"
+                placeholder=""></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer"  v-if="!isDetail">
           <el-button class="layer-btn-primary" @click="saveDialogForm" :readonly="isDetail">确定</el-button>
           <el-button class="layer-btn" @click="cancleDialogForm" :readonly="isDetail">取消</el-button>
         </span>
       </el-dialog>
+      <el-dialog
+      title="历史商品数据"
+      :visible.sync="historyGoodsVisible"
+      class="sys-dec-class"
+      :show-close='true'
+      width="640px">
+       <history-goods :initParams="initHistory"  @backDatas="historyGoodsData"  @cancLeData="historyGoodsCompnent"  v-if="historyGoodsVisible"></history-goods>
+    </el-dialog>
     </section>
 </template>
 <script>
 import util from '../../../../common/util'
 import commonParam from '../../../../common/commonParam'
 export default {
+  components: {
+    'history-goods': resolve => require(['./component/historyGoods.vue'], resolve)
+  },
   name: 'priceRange',
   data () {
     return {
       priceList: [], // 表格数据
       priceDialogVisible: false, // 新增组件控制
       checkedNum: 0, // 被选中的数量
+      checkedData: [], // 选中得数据
       queryForm: {// 列表查询条件
         type: '',
         tradeName: '',
@@ -220,7 +241,7 @@ export default {
       },
       priceDialogForm: {
         pid: '', // 主键
-        type: '',
+        type: 'I',
         tradeName: '',
         originCountry: '',
         gName: '',
@@ -231,14 +252,15 @@ export default {
         bandArea: ''
       },
       isDetail: false, // 查看详情置灰
-      originCountryShow: true,
+      historyGoodsVisible: false, // 历史商品数据弹出框
+      initHistory: {},
       pages: {},
       rules: {
         type: [
           { required: true, message: '请选择业务类型', trigger: 'blur' }
         ],
         codeTs: [
-          { required: true, message: '请输入10位商品编号', trigger: 'blur' }
+          { required: true, message: '请输入10位商品编号', validator: this.checkValid, trigger: 'blur' }
         ],
         tradeName: [
           { required: true, message: '请输入境内收发货人', trigger: 'blur' }
@@ -253,22 +275,31 @@ export default {
           { required: true, message: '请选择币制', trigger: 'change' }
         ],
         declPrice: [
-          { required: true, message: '请输入单价', trigger: 'blur' }
+          { required: true, message: '请输入单价,整数最多14位小数最多4位', validator: this.checkValid, trigger: 'blur' }
         ],
         bandArea: [
-          { required: true, message: '', validator: this.checkValid, trigger: 'blur' }
+          { required: true, message: '请输入价格浮动区间,整数最多5位小数最多4位', validator: this.checkValid, trigger: 'blur' }
         ],
         originCountry: [
           { required: true, message: '请选择原产国', trigger: 'change' }
         ]
       },
+      ruleRegx: {
+        'codeTs': '^[A-Za-z0-9]{10}$',
+        'declPrice': '^\\d{1,14}(\\.\\d{1,4})?$|^$',
+        'bandArea': '^\\d{1,5}(\\.\\d{1,4})?$|^$'
+      },
       iEList: [
         {
+          codeField: '',
+          nameField: '全部'
+        },
+        {
           codeField: 'E',
-          nameField: '出口报关'
+          nameField: '出口'
         }, {
           codeField: 'I',
-          nameField: '进口报关'
+          nameField: '进口'
         }],
       thList: [{
         value: true,
@@ -333,29 +364,93 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.priceList = res.result
+          this.priceList = res.result.list
           this.total = res.page.total
         }
       })
     },
-    // 打开新增页面
-    openAddPage () {
+    // 打开弹出框
+    openFun (type, row) {
+      this.resetDialogForm()
+      if (type === 'view') {
+        this.priceDialogForm = row
+        this.isDetail = true
+      } else if (type === 'edit') {
+        this.priceDialogForm = row
+        this.isDetail = false
+      } else {
+        this.isDetail = false
+      }
       this.priceDialogVisible = true
-      this.initSelected(this.priceSelectDown, this.priceDialogForm)
-      this.getCommonParams()
     },
     // 删除
     deleteFun () {
-
+      if (this.checkedData.length === 0) {
+        this.$message({
+          message: '选择一条数据',
+          type: 'error'
+        })
+        return false
+      }
+      let pidList = []
+      for (let i in this.checkedData) {
+        pidList.push(this.checkedData[i].pid)
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/decParam/common/delDecPriceInfo',
+        data: {
+          'list': pidList
+        },
+        router: this.$router,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message(res.message)
+            this.queryList()
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        }
+      })
     },
-
     // 保存
-    saveDialogForm () {},
+    saveDialogForm () {
+      this.$refs['priceDialogForm'].validate((valid) => {
+        if (valid) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/dec-common/decParam/common/saveDecPriceInfo',
+            data: this.priceDialogForm,
+            router: this.$router,
+            success: (res) => {
+              if (res.code === '0000') {
+                this.$message(res.message)
+                this.resetDialogForm()
+                this.$refs['priceDialogForm'].resetFields()
+                this.priceDialogVisible = false
+                this.queryList()
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: 'error'
+                })
+              }
+            }
+          })
+        }
+      })
+    },
     // 取消
-    cancleDialogForm () {},
-    // 多选框
+    cancleDialogForm () {
+      this.resetDialogForm()
+      this.$refs['priceDialogForm'].resetFields()
+      this.priceDialogVisible = false
+    },
+    // 选中
     selectVal (val) {
-      this.selectData = val
+      this.checkedData = val
+      this.checkedNum = val.length
     },
     // 关闭弹出框
     beforeClose () {
@@ -363,10 +458,11 @@ export default {
       this.$refs['priceDialogForm'].resetFields()
       this.priceDialogVisible = false
     },
+    // 重置弹出框表单
     resetDialogForm () {
       this.priceDialogForm = {
         pid: '', // 主键
-        type: '',
+        type: 'I',
         tradeName: '',
         originCountry: '',
         gName: '',
@@ -376,13 +472,50 @@ export default {
         tradeCurr: '',
         bandArea: ''
       }
+      this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_CURR')).slice(0, 10)
+      this.countryParams = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY')).slice(0, 10)
     },
-    // 根据进出口类型控制原产国是否显示
-    iEFlagChange (value) {
-      if (value === 'I') {
-        this.originCountryShow = true
-      } else {
-        this.originCountryShow = false
+    // 历史商品数据弹出框
+    queryHistoryGoods () {
+      if (util.isEmpty(this.priceDialogForm.type) || this.priceDialogForm.codeTs.length !== 10) {
+        return
+      }
+      this.initHistory = {
+        iEFlag: this.priceDialogForm.type,
+        codeTs: this.priceDialogForm.codeTs
+      }
+      this.historyGoodsVisible = true
+    },
+    // 历史商品数据
+    historyGoodsData (param) {
+      let decList = util.simpleClone(param.goodsInfo)
+      this.priceDialogForm.tradeName = decList.tradeName
+      this.priceDialogForm.gName = decList.gName
+      this.priceDialogForm.gModel = decList.gModel
+      this.priceDialogForm.tradeCurr = decList.tradeCurr
+      this.priceDialogForm.declPrice = this.removeZero(decList.declPrice)
+      this.priceDialogForm.originCountry = decList.originCountry
+      this.selectObj = {
+        obj: 'curryParams',
+        params: 'SAAS_CURR'
+      }
+      this.checkParamsList(this.priceDialogForm.tradeCurr)
+      this.selectObj = {
+        obj: 'countryParams',
+        params: 'SAAS_COUNTRY'
+      }
+      this.checkParamsList(this.priceDialogForm.originCountry)
+      this.historyGoodsVisible = false
+    },
+    // 取消选择历史商品数据
+    historyGoodsCompnent () {
+      this.historyGoodsVisible = false
+    },
+    // 提示需要填写的内容
+    tipsFillMessage (obj, params) {
+      this.selectObj = {
+        obj: obj,
+        params: params
       }
     },
     // 获取公共字典list
@@ -407,13 +540,6 @@ export default {
         this.countryParams = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY')).slice(0, 10)
       }
     },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
     checkParamsList (query) {
       let keyValue = query.toString().trim()
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
@@ -428,38 +554,122 @@ export default {
         this[this.selectObj.obj] = filterList.slice(0, 10)
       }
     },
-    // 重复次数校验
+    // // 价格区间校验
+    // bandAreaCheckValid (rule, value, callback) {
+    //   if (util.isEmpty(value)) {
+    //     this.$refs['priceDialogForm'].clearValidate([name])
+    //     callback(new Error('请输浮动区间'))
+    //   } else if (this.priceDialogForm.bandArea !== '0') {
+    //     const pattern = /^[1-9][0-9]?$/
+    //     if (!pattern.test(value)) {
+    //       this.$refs['priceDialogForm'].clearValidate([name])
+    //       callback(new Error('99的数字'))
+    //     } else {
+    //       callback()
+    //     }
+    //   } else {
+    //     callback()
+    //   }
+    // },
+    // 校验
     checkValid (rule, value, callback) {
-      if (util.isEmpty(value)) {
+      let name = rule.field
+      if (!value && !rule.required) {
+        callback()
+      }
+      if ((!this.ruleRegx[name] && !value) || (rule.required && !value)) { // 校验规则不存在且输入为空值
         this.$refs['priceDialogForm'].clearValidate([name])
-        callback(new Error('请输浮动区间'))
-      } else if (this.submitData.repeatCount !== '0') {
-        const pattern = /^[1-9][0-9]?$/
-        if (!pattern.test(value)) {
-          this.$refs['priceDialogForm'].clearValidate([name])
-          callback(new Error('99的数字'))
-        } else {
-          callback()
-        }
+        callback(new Error(rule.message))
+        return
+      }
+      let reg = new RegExp(this.ruleRegx[name])
+      if (!reg.test(value)) {
+        this.$refs['priceDialogForm'].clearValidate([name])
+        callback(new Error(rule.message))
       } else {
         callback()
       }
     },
+    // 调用切换焦点的方法
     switchFoucsByEnter (e) {
-      // 给input的父元素form表单绑定keyup时间 由input触发(事件冒泡)
-      // 找到所有input,并转化成数组
-      let inputBox = Array.from(e.target.form.querySelectorAll('input'))
-      // 过滤掉属性为readonly 或placeholder为空值input
-      let newInputBox = inputBox.filter(v => {
-        return (!v.readOnly || v.placeholder) && !v.disabled
-      })
-      // 找到目标元素在newInputBox中的位置
-      let index = newInputBox.findIndex(v => {
-        return e.target === v
-      })
-      // 下一个元素获取焦点
-      if (index < newInputBox.length - 1) {
-        newInputBox[index + 1].focus()
+      e.srcElement.blur()
+      // 获取当前焦点所在的 form表单
+      let form = e.srcElement.form
+      // 获取form表单下的所有 input
+      let focusable = form.querySelectorAll('input')
+      let newFocusable = []
+      // 排除 disabled 属性的 input
+      for (let n in focusable) {
+        if (focusable[n].disabled === false) {
+          newFocusable.push(focusable[n])
+        }
+      }
+      focusable = newFocusable
+      // 排除disabled元素
+      let index
+      for (let i in focusable) {
+        if (e.srcElement === focusable[i]) {
+          index = i
+          break
+        }
+      }
+      // 下一个元素
+      let next = focusable[parseInt(index) + 1]
+      // 上一个元素
+      let prev = focusable[parseInt(index) - 1]
+      if (e.shiftKey) { // shift+enter 光标向上个元素移动
+        if (prev) {
+          if (e.srcElement.attributes.shiftEnter && e.srcElement.attributes.shiftEnter.nodeValue === 'no') {
+            return false
+          } else {
+            if (e.srcElement.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
+              let ref = e.srcElement.parentElement.offsetParent.attributes.dataRef.nodeValue
+              this.$refs[ref].blur()
+            }
+            prev.focus()
+          }
+        }
+      } else if (e.ctrlKey && this.localName === 'textarea') { // Ctrl+enter 在textaera中换行
+        let myValue = '\n'
+        let t = e.srcElement
+        if (document.selection) { // ie<9
+          t.focus()
+          let sel = document.selection.createRange()
+          sel.text = myValue
+          t.focus()
+          sel.moveStart('character', -1)
+        } else if (t.selectionStart || t.selectionStart === '0') { // 现代浏览器
+          let startPos = t.selectionStart
+          let endPos = t.selectionEnd
+          let scrollTop = t.scrollTop
+          t.value = t.value.substring(0, startPos) + myValue + t.value.substring(endPos, t.value.length)
+          t.focus()
+          // 因为myValue回车显示为\n
+          t.selectionStart = startPos + myValue.length
+          t.selectionEnd = startPos + myValue.length
+          t.scrollTop = scrollTop
+        } else {
+          t.value += myValue
+          t.focus()
+        }
+      } else {
+        if (e.srcElement.localName === 'textarea') { // enter 光标向下个元素移动
+          e.preventDefault()
+          e.stopPropagation()
+        }
+        // 下个元素存在
+        if (next) {
+          if (e.srcElement.attributes.enter && e.srcElement.attributes.enter.nodeValue === 'no') {
+            return false
+          } else {
+            if (e.srcElement.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
+              let ref = e.srcElement.parentElement.offsetParent.attributes.dataRef.nodeValue
+              this.$refs[ref].blur()
+            }
+            next.focus()
+            next.select()
+          }
+        }
       }
     }
   }
@@ -467,7 +677,6 @@ export default {
 </script>
 <style scoped lang="less">
 .query-main {
-    // background-color: #e5f2ff;
     padding: 20px;
     font-size:12px;
     font-family: Arial,Microsoft YaHei,SimSun;

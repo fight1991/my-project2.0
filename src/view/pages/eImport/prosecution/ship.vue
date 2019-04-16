@@ -67,19 +67,26 @@
     <div class='query-table'>
       <!-- 操作 -->
        <el-row class="op-btn">
-        <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
-        <el-button @click="openAddPage" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
+         <el-upload
+          style="display: inline-block;"
+          action="http://127.0.0.1"
+          :before-upload="beforeUpload"
+          :show-file-list="false">
+          <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
+        </el-upload>
+        <el-button @click="openFun('add', 'add')" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
         <el-button @click="deleteInfo" icon="fa fa-trash-o fa-lg" size="mini">&nbsp;删除</el-button>
+        <span class="span-right">已选择{{checkedNum}}项</span>
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="shipList"
          @selection-change="shipListChange"
          border highlight-current-row size="mini"  height="400">
         <el-table-column type="selection" width="35"></el-table-column>
-        <el-table-column label="操作" width="80">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="goDetail('edit', scope.row)"></el-button>
-            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="goDetail('view', scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="openFun('edit', scope.row)"></el-button>
+            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="openFun('view', scope.row)"></el-button>
           </template>
         </el-table-column>
         <el-table-column label="进出境关别" prop="iEPortValue" min-width="80"></el-table-column>
@@ -106,7 +113,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.iEPort"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasCustomsRel2','SAAS_CUSTOMS_REL')"
-                  :remote-method="checkParamsList"
+                  :remote-method="checkParamsList"  :readonly="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasCustomsRel2"
@@ -124,7 +131,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.entyPortCode"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasInlandPort2','SAAS_INLAND_PORT')"
-                  :remote-method="checkParamsList"
+                  :remote-method="checkParamsList"  :readonly="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasInlandPort2"
@@ -142,7 +149,7 @@
                 <el-select placeholder="" v-model="shipDialogForm.trafMode"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasTransportType2','SAAS_TRANSPORT_TYPE')"
-                  :remote-method="checkParamsList"
+                  :remote-method="checkParamsList"  :readonly="isDetail"
                   style="width:100%">
                   <el-option
                     v-for="item in saasTransportType2"
@@ -156,7 +163,7 @@
           </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn-primary" @click="saveDialogForm" >确定</el-button>
+        <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
         <el-button class="layer-btn" @click="cancleDialogForm" >取消</el-button>
       </span>
     </el-dialog>
@@ -175,6 +182,7 @@ export default {
         entyPortCode: '', // 入/离境口岸
         trafMode: '' // 运输方式
       },
+      checkedNum: '0',
       shipList: [], // table表加载数据
       saasCustomsRel1: [], // 进出境关别
       saasCustomsRel2: [], // 进出境关别
@@ -221,40 +229,23 @@ export default {
       this.saasInlandPort1 = JSON.parse(window.localStorage.getItem('SAAS_INLAND_PORT')).slice(0, 10)
       this.saasTransportType1 = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')).slice(0, 10)
     },
-    // 打开新增页面
-    openAddPage () {
-      this.trafModeTipsVisible = true
-    },
     beforeClose () {
       this.resetDialogForm()
       this.$refs['shipDialogForm'].resetFields()
       this.trafModeTipsVisible = false
     },
-    // 打开编辑页面
-    openEditPage () {
-      if (this.checkedData.length !== 1) {
-        this.$message({
-          message: '选择一条数据,且只能选择一条数据',
-          type: 'error'
-        })
-        return false
+    // 打开弹出框
+    openFun (type, row) {
+      this.resetDialogForm()
+      if (type === 'view') {
+        this.shipDialogForm = row
+        this.isDetail = true
+      } else if (type === 'edit') {
+        this.shipDialogForm = row
+        this.isDetail = false
+      } else {
+        this.isDetail = false
       }
-      this.shipDialogForm = util.simpleClone(this.checkedData[0])
-      this.selectObj = {
-        obj: 'saasCustomsRel2',
-        params: 'SAAS_CUSTOMS_REL'
-      }
-      this.checkParamsList(this.shipDialogForm.iEPort)
-      this.selectObj = {
-        obj: 'saasInlandPort2',
-        params: 'SAAS_INLAND_PORT'
-      }
-      this.checkParamsList(this.shipDialogForm.entyPortCode)
-      this.selectObj = {
-        obj: 'saasTransportType2',
-        params: 'SAAS_TRANSPORT_TYPE'
-      }
-      this.checkParamsList(this.shipDialogForm.trafMode)
       this.trafModeTipsVisible = true
     },
     // 删除 操作
@@ -291,6 +282,7 @@ export default {
     },
     shipListChange (value) {
       this.checkedData = value
+      this.checkedNum = value.length
     },
     // 查询
     searchShipForm () {
@@ -316,6 +308,55 @@ export default {
         obj: obj,
         params: params
       }
+    },
+    // 上传文件
+    beforeUpload (file) {
+      if (!(file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+        this.$message({
+          message: '上传文件只支持execl格式',
+          type: 'error'
+        })
+        this.$emit('closeEditUpload')
+      } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
+        this.$message({
+          message: '上传文件大小不能超过2MB',
+          type: 'error'
+        })
+        this.$emit('closeEditUpload')
+      } else {
+        let param = new FormData()
+        param.append('multiFile', file, file.name)
+        this.$store.dispatch('upload', {
+          url: 'FILE@/saas-upload/upload/uploadFile',
+          data: param,
+          router: this.$router,
+          success: (res) => {
+            this.fileList = []
+            this.fileList.push(res.result)
+            this.upLoadExcel(this.fileList)
+          }
+        })
+      }
+      return false
+    },
+    // 导入
+    upLoadExcel (fileList) {
+      let data = {
+        httpUrl: fileList[0].url,
+        type: '01'
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/decParam/common/importDecTrafRelExcel',
+        data: data,
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '导入成功',
+            type: 'success'
+          })
+          this.pageList()
+        }
+      })
     },
     // 获取公共字典list
     getCommonParams () {
@@ -409,7 +450,6 @@ export default {
 
 <style scoped lang="less">
   .query-main {
-    // background-color: #e5f2ff;
     padding: 20px;
     font-size:12px;
     font-family: Arial,Microsoft YaHei,SimSun;
@@ -489,8 +529,4 @@ export default {
   .el-select-dropdown__list {
       padding: 0;
   }
-//   .el-message{
-//     position:relative !important;
-//     z-index: 9999 !important;
-// }
 </style>
