@@ -56,7 +56,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核放单录入'
+        title: '核放单'
       }
     },
     {

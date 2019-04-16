@@ -40,16 +40,6 @@ const MENU = {
       }
     },
     {
-      path: '/handBook/deliveryQuery/list',
-      name: 'deliveryQuery',
-      permissions: 'CCBA20704050000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '外发加工发货单查询'
-      }
-    },
-    {
       path: '/handBook/recipient/list',
       name: 'recipient',
       permissions: 'CCBA20704040000',
@@ -66,7 +56,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '外发加工收货单查询'
+        title: '外发加工收发货单查询'
       }
     }
   ]

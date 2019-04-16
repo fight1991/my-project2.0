@@ -36,7 +36,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '不作价设备使用'
+        title: '不作价设备使用情况'
       }
     },
     {
@@ -46,7 +46,17 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '不作价设备使用查询'
+        title: '不作价设备使用情况查询'
+      }
+    },
+    {
+      path: '/handBook/relieveQuery/list',
+      name: 'relieveQuery',
+      permissions: 'CCBA20701040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '不作价设备解除监管查询'
       }
     }
   ]

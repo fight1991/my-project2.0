@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '手册报核录入'
+        title: '加工贸易手册报核'
       }
     },
     {
@@ -26,7 +26,17 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '手册报核查询'
+        title: '加工贸易手册报核查询'
+      }
+    },
+    {
+      path: '/handBook/handBookCerQuery/list',
+      name: 'handBookCerQuery',
+      permissions: 'CCBA20703020000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '加工贸易手册催核查询'
       }
     }
   ]

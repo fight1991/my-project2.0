@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '保税核注清单（进口）'
+        title: '进口核注清单'
       }
     },
     {
@@ -26,7 +26,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '保税核注清单（出口）'
+        title: '出口核注清单'
       }
     },
     {
@@ -36,7 +36,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '保税核注清单查询'
+        title: '核注清单查询'
       }
     }
   ]

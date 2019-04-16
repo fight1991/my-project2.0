@@ -88,6 +88,8 @@ export default {
     exaluate: url.JINER + '/handBook/datainput/exaluate',
     // 不作价设备使用情况查询
     evaluateQuery: url.JINER + '/handBook/dataQuery/evaluateQuery',
+    // 不作价设备解除监管查询
+    relieveQuery: url.JINER + '/handBook/dataQuery/relieveQuery',
 
     // 手册-申报业务
     // 保税核注清单(进口)
@@ -102,6 +104,8 @@ export default {
     handBookVer: url.JINER + '/handBook/datainput/handBookVer',
     // 加工贸易手册报核查询
     handBookVerQuery: url.JINER + '/handBook/dataQuery/handBookVerQuery',
+    // 加工贸易手册报核查询
+    handBookCerQuery: url.JINER + '/handBook/dataQuery/handBookCerQuery',
 
     // 手册-场站业务
     // 外发加工申报表
@@ -110,11 +114,9 @@ export default {
     declareFormQuery: url.JINER + '/handBook/dataQuery/declareFormQuery',
     // 外发加工发货单
     delivery: url.JINER + '/handBook/datainput/delivery',
-    // 外发加工发货单查询
-    deliveryQuery: url.JINER + '/handBook/dataQuery/deliveryQuery',
     // 外发加工收货单
     recipient: url.JINER + '/handBook/datainput/recipient',
-    // 外发加工收货单查询
+    // 外发加工收发货单查询
     recipientQuery: url.JINER + '/handBook/dataQuery/recipientQuery',
 
     // 账册-备案业务
