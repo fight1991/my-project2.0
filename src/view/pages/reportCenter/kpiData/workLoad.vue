@@ -7,25 +7,13 @@
         <el-row class='sys-search mg-b-30' :gutter="5">
           <!-- 查询条件 -->
           <el-col :span="4">
-            <el-form-item size="mini" label="客户名称">
+            <el-form-item size="mini" label="操作员">
               <el-input></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <el-form-item size="mini" label="统计口径">
-              <el-select  v-model="QueryForm.tjkj">
-                <el-option
-                  v-for="item in graininess"
-                  :key="item.value +'feeOptions'"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="6">
-            <el-form-item size="mini" label="统计区间">
-            <el-date-picker  v-model="dates" style="width:100%"
+            <el-form-item size="mini" label="时间">
+              <el-date-picker  v-model="dates" style="width:100%"
               @change="doInit()"
               type="daterange"
               :clearable = 'false'
@@ -36,47 +24,13 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-              <el-form-item size="mini" label-width="10px">
-              <el-radio-group size='small'  v-model="dateConfig"  @change="datesChange">
-                <el-radio-button label="7">最近7天</el-radio-button>
-                <el-radio-button label="30">最近30天</el-radio-button>
-                <el-radio-button label="180">最近180天</el-radio-button>
-              </el-radio-group>
-              </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item size="mini" label="进出口标志">
-              <el-select  v-model="QueryForm.iEFlag">
-                <el-option
-                  v-for="item in ports"
-                  :key="item.value +'feeOptions'"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row >
-            <el-col :span="2" :offset="8" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180"  type="primary" @click="doInit">查询</el-button>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180" @click="doInit">重置</el-button>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180" @click="doInit">导出</el-button>
-            </el-form-item>
-            </el-col>
+            <el-button type="primary" size="mini">查询</el-button>
         </el-row>
         </el-form>
         <!-- 查询条件 end-->
+         <div class='mg-b-30'>
+          <e-chart :datas='resultChartData' :height="'300px'" :reset='resetChartData'></e-chart>
+        </div>
         <!-- 列表 list -->
         <el-row class='mg-b-30'>
           <div class='mg-lr-30 sys-main-table' style="margin-bottom:100px">
@@ -86,42 +40,37 @@
                   <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="客户" min-width="100">
+              <el-table-column label="操作员" min-width="100">
                 <template slot-scope="scope">
                     <div class='sys-td-l'>{{scope.row.tradeCoName}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="时间" min-width="100">
+              <el-table-column label="单证接单数" min-width="100">
                 <template slot-scope="scope">
                     <div class='sys-td-r'>{{scope.row.iCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="报关单数" min-width="100">
+              <el-table-column label="单证录入数" min-width="100">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.eCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="改单数" min-width="100">
+              <el-table-column label="单证审核数" min-width="100">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.totalCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="改单比例（%）" width="150">
+              <el-table-column label="单证申报数" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
+                  <div class='sys-td-r'>{{scope.row.totalCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="删改单" width="100">
+              <el-table-column label="录入差错率" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
+                  <div class='sys-td-r'>{{scope.row.totalCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="删单比例（%）" width="150" >
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
-                </template>
-              </el-table-column>
-               <el-table-column label="删改比例（%）" width="150" >
+              <el-table-column label="审核差错率" width="150" >
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
                 </template>
@@ -209,7 +158,6 @@ export default {
       }
     },
     doInit () {
-      this.$store.commit('pageInit') // 初始化当前页
       this.getChartData()
     },
     // 获取图表数据
@@ -252,28 +200,37 @@ export default {
             this.tableData = []
           }
           this.resultChartData = {
+            title: {
+              text: ''
+            },
             tooltip: {
-              trigger: 'item',
-              formatter: '{a} <br/>{b} : {c}({d})%'
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow'
+              }
             },
             legend: {
-              type: 'scroll',
-              orient: 'vertical',
-              right: 300,
-              top: 10,
-              bottom: 20,
-              data: legendData
+              data: ['2011年']
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            xAxis: {
+              type: 'value',
+              boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+              type: 'category',
+              data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
             },
             series: [
               {
-                name: '单量统计',
-                type: 'pie',
-                radius: '90%',
-                label: {
-                  show: false
-                },
-                center: ['50%', '50%'],
-                data: pieList
+                name: '2011年',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
               }
             ]
           }
