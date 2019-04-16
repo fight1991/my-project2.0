@@ -493,7 +493,7 @@ export default {
       this.priceDialogForm.gName = decList.gName
       this.priceDialogForm.gModel = decList.gModel
       this.priceDialogForm.tradeCurr = decList.tradeCurr
-      this.priceDialogForm.declPrice = this.removeZero(decList.declPrice)
+      this.priceDialogForm.declPrice = decList.declPrice
       this.priceDialogForm.originCountry = decList.originCountry
       this.selectObj = {
         obj: 'curryParams',

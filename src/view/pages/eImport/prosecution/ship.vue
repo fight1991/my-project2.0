@@ -67,6 +67,8 @@
     <div class='query-table'>
       <!-- 操作 -->
        <el-row class="op-btn">
+        <el-button @click="openFun('add', 'add')" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
+        <el-button @click="deleteInfo" icon="fa fa-trash-o fa-lg" size="mini">&nbsp;删除</el-button>
          <el-upload
           style="display: inline-block;"
           action="http://127.0.0.1"
@@ -74,8 +76,6 @@
           :show-file-list="false">
           <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
         </el-upload>
-        <el-button @click="openFun('add', 'add')" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
-        <el-button @click="deleteInfo" icon="fa fa-trash-o fa-lg" size="mini">&nbsp;删除</el-button>
         <span class="span-right">已选择{{checkedNum}}项</span>
       </el-row>
       <!-- 列表 list -->
@@ -192,6 +192,7 @@ export default {
       saasTransportType2: [], // 运输方式
       checkedData: [], // 选中得数据
       trafModeTipsVisible: false, // 控制新增编辑时的弹出框
+      isDetail: false, // 查看置灰
       shipDialogForm: {
         pid: '', // 主键
         iEPort: '', // 进出境关别
