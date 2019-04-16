@@ -93,8 +93,8 @@ export default {
       } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'EMS') { // 报关单/备案清单/金二菜单
         let data = event.data.data.operationType
         if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
-          let tabId = new Date().getTime()
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${tabId}::${tabId}`)
+          let getTimeTabId = new Date().getTime()
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${data === 'copy' ? getTimeTabId : event.data.data.tabId}::${data === 'copy' ? getTimeTabId : event.data.data.tabId}`)
           router.push({
             name: 'eImport-new',
             params: {
