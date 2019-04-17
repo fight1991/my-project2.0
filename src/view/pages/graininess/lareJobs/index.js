@@ -48,6 +48,26 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '集中报关'
       }
+    },
+    {
+      path: '/graininess/clearance_gra/list',
+      name: 'clearance_gra',
+      permissions: 'CCBA21002040000',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '清单结关'
+      }
+    },
+    {
+      path: '/graininess/clearanceQuery_gra/list',
+      name: 'clearanceQuery_gra',
+      permissions: 'CCBA21002040000',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '清单结关查询'
+      }
     }
   ]
 }

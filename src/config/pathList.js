@@ -246,6 +246,10 @@ export default {
     taxListQuery_gra: url.JINER + '/graininess/dataQuery/taxListQuery',
     // 集中报关
     centDeclare_gra: url.JINER + '/graininess/datainput/centDeclare',
+    // 清单结关
+    clearance_gra: url.JINER + '/graininess/datainput/clearance',
+    // 清单结关查询
+    clearanceQuery_gra: url.JINER + '/graininess/dataQuery/clearanceQuery',
 
     // 保税物流管理 - 场站业务
     // 业务申报表
