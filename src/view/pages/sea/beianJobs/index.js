@@ -48,6 +48,26 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '物流账册查询'
       }
+    },
+    {
+      path: '/sea/cmb_sea/list',
+      name: 'cmb_sea',
+      permissions: 'CCBA20901040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '加工贸易耗料单'
+      }
+    },
+    {
+      path: '/sea/cmbQuery_sea/list',
+      name: 'cmbQuery_sea',
+      permissions: 'CCBA20901040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '加工贸易耗料单查询'
+      }
     }
   ]
 }

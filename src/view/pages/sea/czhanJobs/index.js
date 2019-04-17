@@ -30,6 +30,16 @@ const MENU = {
       }
     },
     {
+      path: '/sea/applyIxEQuery_sea/list',
+      name: 'applyIxEQuery_sea',
+      permissions: 'CCBA20904040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '申报表货物进出查询'
+      }
+    },
+    {
       path: '/sea/stock_sea/list',
       name: 'stock_sea',
       permissions: 'CCBA20904040000',
@@ -67,6 +77,26 @@ const MENU = {
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '核放单查询'
+      }
+    },
+    {
+      path: '/sea/stockReleseQuery_sea/list',
+      name: 'stockReleseQuery_sea',
+      permissions: 'CCBA20904070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '出入库单生成核放单查询'
+      }
+    },
+    {
+      path: '/sea/taxReleseQuery_sea/list',
+      name: 'taxReleseQuery_sea',
+      permissions: 'CCBA20904070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '核注清单生成核放单查询'
       }
     },
     {

@@ -166,6 +166,10 @@ export default {
     bwl_sea: url.JINER + '/sea/datainput/bwl',
     // 物流账册数据查询
     bwlQuery_sea: url.JINER + '/sea/dataQuery/bwlQuery',
+    // 加工贸易耗料单
+    cmb_sea: url.JINER + '/sea/datainput/cmb',
+    // 加工贸易耗料单查询
+    cmbQuery_sea: url.JINER + '/sea/dataQuery/cmbQuery',
 
     // 海关特殊监管区域 - 申报业务
     // 保税核注清单（进口）
@@ -204,6 +208,12 @@ export default {
     carInfo_sea: url.JINER + '/sea/datainput/carInfo',
     // 车辆信息查询
     carInfoQuery_sea: url.JINER + '/sea/dataQuery/carInfoQuery',
+    // 申报表货物进出查询
+    applyIxEQuery_sea: url.JINER + '/sea/dataQuery/applyIxEQuery',
+    // 出入库单生成核放单查询
+    stockReleseQuery_sea: url.JINER + '/sea/dataQuery/stockReleseQuery',
+    // 核注清单生成核放单查询
+    taxReleseQuery_sea: url.JINER + '/sea/dataQuery/taxReleseQuery',
 
     // 保税货物流转 - 场站业务
     // 转出申报
@@ -253,7 +263,13 @@ export default {
     // 车辆信息
     carInfo_gra: url.JINER + '/graininess/datainput/carInfo',
     // 车辆信息查询
-    carInfoQuery_gra: url.JINER + '/graininess/dataQuery/carInfoQuery'
+    carInfoQuery_gra: url.JINER + '/graininess/dataQuery/carInfoQuery',
+    // 申报表货物进出情况查询
+    applyIxEQuery_gra: url.JINER + '/graininess/dataQuery/applyIxEQuery',
+    // 出入库单生成核放单查询
+    stockReleseQuery_gra: url.JINER + '/graininess/dataQuery/stockReleseQuery',
+    // 核注清单生成核放单查询
+    taxReleseQuery_gra: url.JINER + '/graininess/dataQuery/taxReleseQuery'
   },
   // 通关参数
   passParams: {
@@ -387,9 +403,5 @@ export default {
     }
   ],
   WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/control',
-  WWWOLDLOCATION: {
-    dev: 'https://www.51baoguan.cn:8091/login/index?flag=1',
-    prod: 'https://www.51baoguan.cn'
-  },
   WWWCCBA: url.CCBA + '/control'
 }

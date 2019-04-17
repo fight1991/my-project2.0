@@ -30,6 +30,16 @@ const MENU = {
       }
     },
     {
+      path: '/graininess/applyIxEQuery_gra/list',
+      name: 'applyIxEQuery_gra',
+      permissions: 'CCBA21003040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '申报表货物进出情况查询'
+      }
+    },
+    {
       path: '/graininess/stock_gra/list',
       name: 'stock_gra',
       permissions: 'CCBA21003040000',
@@ -67,6 +77,26 @@ const MENU = {
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '核放单查询'
+      }
+    },
+    {
+      path: '/graininess/stockReleseQuery_gra/list',
+      name: 'stockReleseQuery_gra',
+      permissions: 'CCBA21003070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '出入库单生成核放单查询'
+      }
+    },
+    {
+      path: '/graininess/taxReleseQuery_gra/list',
+      name: 'taxReleseQuery_gra',
+      permissions: 'CCBA21003070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '核注清单生成核放单查询'
       }
     },
     {

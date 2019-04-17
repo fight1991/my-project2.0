@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '手册报核录入'
+        title: '加工贸易账册报核'
       }
     },
     {
@@ -26,7 +26,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '手册报核查询'
+        title: '加工贸易账册报核查询'
       }
     }
   ]
