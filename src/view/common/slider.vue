@@ -71,7 +71,7 @@ export default {
   position: relative;
   height: 100%;
   overflow:auto;
-  width: 217px;
+  width: 237px;
 }
 .leftSolider::-webkit-scrollbar,
 .leftSolider::-moz-scrollbar,{/*滚动条整体样式*/
