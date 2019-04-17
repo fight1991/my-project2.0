@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/sea/cmb_sea/list',
       name: 'cmb_sea',
-      permissions: 'CCBA20901040000',
+      permissions: 'CCBA20901050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/sea/cmbQuery_sea/list',
       name: 'cmbQuery_sea',
-      permissions: 'CCBA20901040000',
+      permissions: 'CCBA20901060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

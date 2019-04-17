@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/handBook/handBookCerQuery/list',
       name: 'handBookCerQuery',
-      permissions: 'CCBA20703020000',
+      permissions: 'CCBA20703030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

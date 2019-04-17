@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/sea/applyIxEQuery_sea/list',
       name: 'applyIxEQuery_sea',
-      permissions: 'CCBA20904040000',
+      permissions: 'CCBA20904030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -82,7 +82,7 @@ const MENU = {
     {
       path: '/sea/stockReleseQuery_sea/list',
       name: 'stockReleseQuery_sea',
-      permissions: 'CCBA20904070000',
+      permissions: 'CCBA20904080000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -92,7 +92,7 @@ const MENU = {
     {
       path: '/sea/taxReleseQuery_sea/list',
       name: 'taxReleseQuery_sea',
-      permissions: 'CCBA20904070000',
+      permissions: 'CCBA20904090000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

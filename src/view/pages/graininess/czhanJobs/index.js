@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/graininess/applyIxEQuery_gra/list',
       name: 'applyIxEQuery_gra',
-      permissions: 'CCBA21003040000',
+      permissions: 'CCBA21003030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -82,7 +82,7 @@ const MENU = {
     {
       path: '/graininess/stockReleseQuery_gra/list',
       name: 'stockReleseQuery_gra',
-      permissions: 'CCBA21003070000',
+      permissions: 'CCBA21003080000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -92,7 +92,7 @@ const MENU = {
     {
       path: '/graininess/taxReleseQuery_gra/list',
       name: 'taxReleseQuery_gra',
-      permissions: 'CCBA21003070000',
+      permissions: 'CCBA21003090000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
