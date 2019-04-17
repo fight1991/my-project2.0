@@ -32,7 +32,9 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   externals: {
-    echarts: 'echarts'
+    'AMap': 'AMap',
+    'AMapUI': 'AMapUI',
+    'echarts': 'echarts',
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
