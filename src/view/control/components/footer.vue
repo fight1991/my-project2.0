@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="quikItems">
-        <div class="item-detail" v-for="item in quickItems" :key="item.id" @click="routerTo(item.path)">
+        <div class="item-detail" v-for="item in quickItems" :key="item.id" @click="routerTo(item.path)"  v-permissions="item.permissions">
           <img :src="item.icon" alt="">
           <span>{{item.text}}</span>
         </div>
