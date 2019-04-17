@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/graininess/clearance_gra/list',
       name: 'clearance_gra',
-      permissions: 'CCBA21002040000',
+      permissions: 'CCBA21002050000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/graininess/clearanceQuery_gra/list',
       name: 'clearanceQuery_gra',
-      permissions: 'CCBA21002040000',
+      permissions: 'CCBA21002060000',
       hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
