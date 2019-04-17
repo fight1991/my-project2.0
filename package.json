@@ -16,7 +16,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-mock-adapter": "^1.15.0",
-    "echarts": "^4.2.0-rc.1",
     "element-ui": "^2.4.3",
     "font-awesome": "^4.7.0",
     "mockjs": "^1.0.1-beta3",

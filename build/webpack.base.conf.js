@@ -31,6 +31,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+    echarts: 'echarts'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -56,7 +59,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 1,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
@@ -72,7 +75,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 1,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
@@ -80,7 +83,7 @@ module.exports = {
   },
   plugins: [
     new CommonsChunkPlugin({
-      names: ['vendor4', 'vendor3', 'vendor2', 'vendor1'],
+      names: ['vendor3', 'vendor2', 'vendor1'],
       minChunks: Infinity
     })
   ],
