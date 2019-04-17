@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/handBook/relieveQuery/list',
       name: 'relieveQuery',
-      permissions: 'CCBA20701040000',
+      permissions: 'CCBA20701050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
