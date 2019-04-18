@@ -32,7 +32,8 @@ export default new Vuex.Store({
     },
     childSys: {
       type: '',
-      title: ''
+      title: '',
+      permissions: ''
     }, // 子级系统
     isFirst: true, // 是否初次进入系统
     loading: false, // loading

@@ -16,7 +16,7 @@ const MENU = {
       permissions: 'CCBA20302010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./demo.vue'], resolve),
+        component: resolve => require(['./licManage.vue'], resolve),
         title: '许可证管理'
       }
     }, {
@@ -26,7 +26,7 @@ const MENU = {
       permissions: 'CCBA20302020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./demo.vue'], resolve),
+        component: resolve => require(['./certificate.vue'], resolve),
         title: '证书管理'
       }
     }
