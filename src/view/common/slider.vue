@@ -1,6 +1,7 @@
 <template>
   <div class="leftSolider">
     <el-menu
+      v-permissions='$store.state.childSys.permissions'
       :default-active="$route.path" router
       :collapse='$store.state.collapse'>
       <template v-for="item in menus">

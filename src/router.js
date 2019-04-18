@@ -95,67 +95,78 @@ router.beforeEach((to, from, next) => {
       case 'eImport':
         json = {
           type: 'eImport',
-          title: '进出口管理'
+          title: '进出口管理',
+          permissions: 'CCBA20200000000'
         }
         break
       case 'dataCenter':
         json = {
           type: 'dataCenter',
-          title: '资料中心'
+          title: '资料中心',
+          permissions: 'CCBA20300000000'
         }
         break
       case 'reportCenter':
         json = {
           type: 'reportCenter',
-          title: '报表中心'
+          title: '报表中心',
+          permissions: 'CCBA20600000000'
         }
         break
       case 'aircraft':
         json = {
           type: 'aircraft',
-          title: '航空器申报'
+          title: '航空器申报',
+          permissions: 'CCBA20400000000'
         }
         break
       case 'account':
         json = {
           type: 'account',
-          title: '加工贸易账册'
+          title: '加工贸易账册',
+          permissions: 'CCBA20800000000'
         }
         break
       case 'handBook':
         json = {
           type: 'handBook',
-          title: '加工贸易手册'
+          title: '加工贸易手册',
+          permissions: 'CCBA20700000000'
         }
         break
       case 'circulation':
         json = {
           type: 'circulation',
-          title: '保税货物流转'
+          title: '保税货物流转',
+          permissions: 'CCBA21100000000'
         }
         break
       case 'graininess':
         json = {
           type: 'graininess',
-          title: '保税物流管理'
+          title: '保税物流管理',
+          permissions: 'CCBA21000000000'
         }
         break
       case 'sea':
         json = {
           type: 'sea',
-          title: '海关特殊监管区域'
+          title: '海关特殊监管区域',
+          permissions: 'CCBA20900000000'
         }
         break
       case 'passParams':
         json = {
           type: 'passParams',
-          title: '通关参数'
+          title: '通关参数',
+          permissions: ''
         }
         break
       case 'passStatus':
         json = {
           type: 'passStatus',
-          title: '通关状态'
+          title: '通关状态',
+          permissions: ''
         }
         break
     }

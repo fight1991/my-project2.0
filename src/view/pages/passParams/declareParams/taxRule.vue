@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column label="申报要素、退税" min-width="150">
           <template slot-scope="scope">
-            <a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="gotoDetail('view', scope.row)"><i class='dec-i'></i></a>
+            <a href="javascript:void(0)" class="list-icon-look border-0" title="查看"><i class='dec-i'></i></a>
           </template>
         </el-table-column>
       </el-table>
@@ -75,5 +75,9 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
+.list-icon-look{
+  &:hover i,&:focus i{
+    background-color: #fff;
+  }
+}
 </style>
