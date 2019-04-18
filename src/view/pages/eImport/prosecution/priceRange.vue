@@ -106,7 +106,7 @@
             </el-col>
         </el-row>
       </div>
-      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" width="950px" :before-close='beforeClose'>
+      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" width="950px">
         <el-form label-width="150px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row>
             <el-col :span="8">
@@ -261,7 +261,7 @@ export default {
           { required: true, message: '请选择业务类型', trigger: 'blur' }
         ],
         codeTs: [
-          { required: true, message: '请输入10位商品编号', validator: this.checkValid, trigger: 'blur' }
+          { required: true, message: '请输入10位商品编号', trigger: 'blur' }
         ],
         tradeName: [
           { required: true, message: '请输入境内收发货人', trigger: 'blur' }
@@ -286,7 +286,6 @@ export default {
         ]
       },
       ruleRegx: {
-        'codeTs': '^[A-Za-z0-9]{10}$',
         'declPrice': '^\\d{1,14}(\\.\\d{1,4})?$|^$',
         'bandArea': '^\\d{1,5}(\\.\\d{1,4})?$|^$'
       },
@@ -454,8 +453,6 @@ export default {
     },
     // 取消
     cancleDialogForm () {
-      this.resetDialogForm()
-      this.$refs['priceDialogForm'].resetFields()
       this.priceDialogVisible = false
     },
     // 选中
@@ -463,12 +460,12 @@ export default {
       this.checkedData = val
       this.checkedNum = val.length
     },
-    // 关闭弹出框
-    beforeClose () {
-      this.resetDialogForm()
-      this.$refs['priceDialogForm'].resetFields()
-      this.priceDialogVisible = false
-    },
+    // // 关闭弹出框
+    // beforeClose () {
+    //   this.resetDialogForm()
+    //   this.$refs['priceDialogForm'].resetFields()
+    //   this.priceDialogVisible = false
+    // },
     // 重置弹出框表单
     resetDialogForm () {
       this.priceDialogForm = {
@@ -553,10 +550,11 @@ export default {
     },
     checkParamsList (query) {
       let keyValue = query.toString().trim()
+      console.log(keyValue)
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
       let filterList = []
       if (util.isEmpty(keyValue)) {
-        // this[this.selectObj.obj] = list.slice(0, 10)
+        this[this.selectObj.obj] = list.slice(0, 10)
       } else {
         filterList = list.filter(item => {
           let str = item.codeField + '-' + item.nameField

@@ -69,13 +69,28 @@
        <el-row class="op-btn">
         <el-button @click="openFun('add', 'add')" icon="fa fa-plus fa-lg" size="mini">&nbsp;新增</el-button>
         <el-button @click="deleteInfo" icon="fa fa-trash-o fa-lg" size="mini">&nbsp;删除</el-button>
-         <el-upload
+        <el-dropdown trigger="click">
+          <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <el-upload
+                class="upload-demo"
+                action="http://127.0.0.1"
+                :before-upload="beforeUpload"
+                :show-file-list="false">
+                <span>选择文件导入</span>
+              </el-upload>
+            </el-dropdown-item>
+            <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+         <!-- <el-upload
           style="display: inline-block;"
           action="http://127.0.0.1"
           :before-upload="beforeUpload"
           :show-file-list="false">
           <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
-        </el-upload>
+        </el-upload> -->
         <span class="span-right">已选择{{checkedNum}}项</span>
       </el-row>
       <!-- 列表 list -->
@@ -103,7 +118,6 @@
     <el-dialog
       title="运输方式提示"
       :visible.sync="trafModeTipsVisible"
-      :before-close='beforeClose'
       width="400px">
       <el-form label-width="100px" size="mini" :rules="rules"
        label-position="right" :model="shipDialogForm" ref='shipDialogForm'>
@@ -233,11 +247,11 @@ export default {
       this.saasTransportType1 = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')).slice(0, 10)
       this.searchShipForm()
     },
-    beforeClose () {
-      this.resetDialogForm()
-      this.$refs['shipDialogForm'].resetFields()
-      this.trafModeTipsVisible = false
-    },
+    // beforeClose () {
+    //   this.resetDialogForm()
+    //   this.$refs['shipDialogForm'].resetFields()
+    //   this.trafModeTipsVisible = false
+    // },
     // 打开弹出框
     openFun (type, row) {
       this.resetDialogForm()
@@ -365,6 +379,10 @@ export default {
         }
       })
     },
+    // 模板下载
+    download () {
+      // window.open('https://www.5itrade.cn/files/decTemplet/orderTakenTemp.xlsx', '_blank')
+    },
     // 获取公共字典list
     getCommonParams () {
       let par = ['SAAS_TRANSPORT_TYPE', 'SAAS_INLAND_PORT', 'SAAS_CUSTOMS_REL']
@@ -400,7 +418,7 @@ export default {
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
       let filterList = []
       if (util.isEmpty(keyValue)) {
-        // this[this.selectObj.obj] = list.slice(0, 10)
+        this[this.selectObj.obj] = list.slice(0, 10)
       } else {
         filterList = list.filter(item => {
           let str = item.codeField + '-' + item.nameField
@@ -443,8 +461,6 @@ export default {
       })
     },
     cancleDialogForm () {
-      this.resetDialogForm()
-      this.$refs['shipDialogForm'].resetFields()
       this.trafModeTipsVisible = false
     },
     resetDialogForm () {
