@@ -13,6 +13,16 @@ const MENU = [
       title: '首页'
     }
   },
+  {
+    path: '/sea/new/:sysData',
+    name: 'sea-new',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   beianJobs.MENU,
   lareJobs.MENU
   // baoheJobs.MENU,

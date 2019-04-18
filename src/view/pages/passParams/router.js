@@ -12,6 +12,16 @@ const MENU = [
       title: '首页'
     }
   },
+  {
+    path: '/passParams/new/:sysData',
+    name: 'passParams-new',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   PassCode.MENU,
   DeclareParams.MENU,
   CarlareParams.MENU

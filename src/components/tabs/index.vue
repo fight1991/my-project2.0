@@ -96,7 +96,7 @@ export default {
           let getTimeTabId = new Date().getTime()
           let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${data === 'copy' ? getTimeTabId : event.data.data.tabId}::${data === 'copy' ? getTimeTabId : event.data.data.tabId}`)
           router.push({
-            name: 'eImport-new',
+            name: `${store.state.childSys.type}-new`,
             params: {
               sysData: sysData
             }

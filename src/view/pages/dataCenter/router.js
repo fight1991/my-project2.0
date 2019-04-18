@@ -12,6 +12,16 @@ const MENU = [
       title: '首页'
     }
   },
+  {
+    path: '/dataCenter/new/:sysData',
+    name: 'dataCenter-new',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   // License.MENU,
   Goods.MENU
 ]

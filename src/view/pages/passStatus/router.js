@@ -11,6 +11,16 @@ const MENU = [
       title: '首页'
     }
   },
+  {
+    path: '/passStatus/new/:sysData',
+    name: 'passStatus-new',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   AirQuery.MENU,
   DecQuery.MENU
 ]
