@@ -58,6 +58,7 @@ export default {
   watch: {},
   mounted () {
     window.addEventListener('message', function (event) {
+      console.log(event)
       if (event.data.type === 'close') {
         // 关闭指定的tab
         let data = store.getters.GetOpenedTabs.filter(item => {
