@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" placeholder="港口代码/港口名称" maxlength="50"></el-input>
+          <el-input size="mini" placeholder="中文名称/英文名称" maxlength="50"></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -15,23 +15,28 @@
     <!-- 查询条件 end -->
     <!-- 主显示框 -->
     <div class='query-body'>
-      <el-table class='sys-table-table' :data="portList" border highlight-current-row size="mini">
+      <el-table class='sys-table-table' :data="ceCompareList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
           <!-- <template slot-scope="scope">
             <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
           </template> -->
         </el-table-column>
-        <el-table-column label="港口代码" min-width="150">
-          <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="港口名称" min-width="150">
+        <el-table-column label="中文名称" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-c'>{{scope.row.title}}</div>
           </template>
         </el-table-column>
         <el-table-column label="英文名称" min-width="150">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.title}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="公司名称" min-width="150">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.title}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="类型" min-width="110">
           <template slot-scope="scope">
             <div class='sys-td-c'>{{scope.row.title}}</div>
           </template>
@@ -50,13 +55,13 @@
 </template>
 <script>
 export default {
-  name: 'port',
+  name: 'ceCompare',
   data () {
     return {
-      portForm: {
+      ceCompareForm: {
 
       },
-      portList: []
+      ceCompareList: []
     }
   },
   mounted () {

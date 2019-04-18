@@ -1,5 +1,5 @@
 <template>
-  <div id="list">
+  <div id="list" v-permissions="'CCBA20100000000'">
     <div id='div1' class='divItems' v-permissions="'CCBA20101000000'">
       <board></board>
     </div>
