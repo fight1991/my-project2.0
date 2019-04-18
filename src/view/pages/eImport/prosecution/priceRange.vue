@@ -261,7 +261,7 @@ export default {
           { required: true, message: '请选择业务类型', trigger: 'blur' }
         ],
         codeTs: [
-          { required: true, message: '请输入10位商品编号', trigger: 'blur' }
+          { required: true, message: '请输入商品编号', trigger: 'blur' }
         ],
         tradeName: [
           { required: true, message: '请输入境内收发货人', trigger: 'blur' }
@@ -460,12 +460,6 @@ export default {
       this.checkedData = val
       this.checkedNum = val.length
     },
-    // // 关闭弹出框
-    // beforeClose () {
-    //   this.resetDialogForm()
-    //   this.$refs['priceDialogForm'].resetFields()
-    //   this.priceDialogVisible = false
-    // },
     // 重置弹出框表单
     resetDialogForm () {
       this.priceDialogForm = {
@@ -485,7 +479,7 @@ export default {
     },
     // 历史商品数据弹出框
     queryHistoryGoods () {
-      if (util.isEmpty(this.priceDialogForm.type) || this.priceDialogForm.codeTs.length !== 10) {
+      if (util.isEmpty(this.priceDialogForm.type) || this.priceDialogForm.codeTs.length === 0) {
         return
       }
       this.initHistory = {
@@ -497,6 +491,7 @@ export default {
     // 历史商品数据
     historyGoodsData (param) {
       let decList = util.simpleClone(param.goodsInfo)
+      this.priceDialogForm.codeTs = decList.codeTs
       this.priceDialogForm.tradeName = decList.tradeName
       this.priceDialogForm.gName = decList.gName
       this.priceDialogForm.gModel = decList.gModel
