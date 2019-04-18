@@ -316,7 +316,7 @@ export default {
     // 监管证件
     regulate: url.COMMON + '',
     // 随附单据
-    license: url.COMMON + '',
+    licensePass: url.COMMON + '',
     // 优惠贸易协定
     tradePro: url.COMMON + '',
     // 国内地区

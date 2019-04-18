@@ -120,8 +120,8 @@ const MENU = {
       }
     },
     {
-      path: '/passParams/license/list',
-      name: 'license',
+      path: '/passParams/licensePass/list',
+      name: 'licensePass',
       permissions: 'CCBA20202010000',
       hidden: false,
       meta: {

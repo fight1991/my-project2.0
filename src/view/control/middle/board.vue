@@ -24,7 +24,7 @@
         <div class="ccba-table" v-else>
           <el-table
             :data="tableData"
-            @row-click="goToDecInfo"
+            @cell-click="goToDecInfo"
             :row-class-name = 'cursor'
             style="width:100%">
             <el-table-column
@@ -36,13 +36,15 @@
               prop="iCount"
               label="进口报关单"
               width="110"
-              align="right">
+              align="right"
+              >
             </el-table-column>
             <el-table-column
               prop="eCount"
               width="110"
               label="出口报关单"
-              align="right">
+              align="right"
+              >
             </el-table-column>
           </el-table>
         </div>
@@ -126,9 +128,13 @@ export default {
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
-    goToDecInfo () {
+    goToDecInfo (row, column, cell) {
+      console.log(row, column)
+      let flag = column.property === 'iCount' ? 'I' : 'E'
+      let [ iEFlag, status, startTime, endTime ] = [flag, row.status, this.dates[0], this.dates[1]]
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
-      window.open(location.origin + '/eImport/dataQuery/decInfo' + '?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + sysId, '_blank')
+      let params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
+      window.open(location.origin + `/eImport/dataQuery/decInfo?token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}${params}`, '_blank')
     },
     // 行点击样式
     cursor () {
