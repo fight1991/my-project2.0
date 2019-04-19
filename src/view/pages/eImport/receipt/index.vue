@@ -12,7 +12,8 @@ export default {
   },
   mounted () {
     let params = ''
-    if (this.$route.query !== {}) {
+    if (this.$route.query.status) {
+      // 说明从工作台看板跳转过来的
       let {iEFlag, status, startTime, endTime} = this.$route.query
       params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
     }
