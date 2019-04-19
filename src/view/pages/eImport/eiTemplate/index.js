@@ -30,7 +30,8 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '进口模板'
       }
-    }, {
+    },
+    {
       path: '/eImport/eiTemplate/export',
       name: 'eTemplate',
       icon: 'icons-menu-price',
@@ -39,6 +40,17 @@ const MENU = {
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '出口模板'
+      }
+    },
+    {
+      path: '/eImport/eiTemplate/shipping',
+      name: 'shipping',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: 'shipping'
       }
     }
   ]

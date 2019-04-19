@@ -25,7 +25,7 @@
           <el-table
             :data="tableData"
             @cell-click="goToDecInfo"
-            :row-class-name = 'cursor'
+            :cell-class-name = 'cursor'
             style="width:100%">
             <el-table-column
               prop="statusVal"
@@ -128,17 +128,30 @@ export default {
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
+    // 点击进口或出口单元格,跳转
     goToDecInfo (row, column, cell) {
-      console.log(row, column)
+      if (column.property === 'statusVal') return
       let flag = column.property === 'iCount' ? 'I' : 'E'
       let [ iEFlag, status, startTime, endTime ] = [flag, row.status, this.dates[0], this.dates[1]]
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
       let params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
-      window.open(location.origin + `/eImport/dataQuery/decInfo?token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}${params}`, '_blank')
+      console.log(params)
+      // 如果状态为0 跳转到进口接单或出口接单,否则跳转到报关单查询
+      if (status === '0') {
+        if (iEFlag === 'I') {
+          window.open(location.origin + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+        } else {
+          window.open(location.origin + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+        }
+      } else {
+        window.open(location.origin + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+      }
     },
     // 行点击样式
-    cursor () {
-      return 'cursor'
+    cursor ({row, column, rowIndex, columnIndex}) {
+      if (columnIndex > 0) {
+        return 'cursor'
+      }
     }
   }
 }

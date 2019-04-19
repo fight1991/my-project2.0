@@ -136,6 +136,7 @@ export default {
   }
 .banner,.banner-default {
   width: 70%;
+  height: 300px;
   padding-left: 20px;
   box-sizing: border-box;
   margin-top: 15px;
@@ -148,8 +149,9 @@ export default {
     margin-top: 5px;
   }
   a {
-    display: inline-block;
+    display: block;
     height: 100%;
+    width: 100%;
   }
 }
 .link-icon {
@@ -185,6 +187,8 @@ export default {
 }
 .el-carousel__item {
   overflow: visible;
+  width: 100%;
+  height: 100%;
   img {
     height: 100%;
     width: 100%;

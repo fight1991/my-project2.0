@@ -30,7 +30,9 @@ export default {
     // 核注清单查询
     taxInfo: url.JINER + '/eImport/dataQuery/taxInfo',
     // 业务跟踪台账
-    tLedger: url.COMMON + '/declaration/businessTrack'
+    tLedger: url.COMMON + '/declaration/businessTrack',
+    // 青源模板
+    shipping: url.COMMON + ''
   },
   // 资料中心
   dataCenter: {

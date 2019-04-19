@@ -53,7 +53,7 @@ const MENU = {
       path: '/sea/cmb_sea/list',
       name: 'cmb_sea',
       permissions: 'CCBA20901050000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单'
@@ -63,7 +63,7 @@ const MENU = {
       path: '/sea/cmbQuery_sea/list',
       name: 'cmbQuery_sea',
       permissions: 'CCBA20901060000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单查询'

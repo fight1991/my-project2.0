@@ -11,10 +11,15 @@ export default {
     }
   },
   mounted () {
+    let params = ''
+    if (this.$route.query !== {}) {
+      let {iEFlag, status, startTime, endTime} = this.$route.query
+      params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
+    }
     if (this.$route.name === 'iReceipt') {
-      this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else {
-      this.url = pathList.eImport['decExReceipt'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }

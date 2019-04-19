@@ -1,58 +1,60 @@
 <template>
   <div class="top-header">
     <div class="logo"></div>
-    <div class="user-info">
-      <i class="sys-menu-move"  @click='menuShowClick()'></i>
-      <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
-        <span class="el-dropdown-link">
-          <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
-          <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
-        </span>
-        <el-dropdown-menu slot="dropdown" class="ccba-control">
-          <div class="personBgc"></div>
-          <el-dropdown-item  class='hidden-xs-only dropDown-top'>
-            <div class="userInfo">
-              <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
-              <div class="headImg" v-else><img src="../../../assets/img/icon/admin.png" alt=""></div>
-              <div class="introduce">
-                <p class="name">{{$store.state.userLoginInfo.userName}}</p>
-                <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
-                <div class="switchCorp" @click="switchCorp">切换公司</div>
-                <div class="glory">
-                  <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
-                    <img src="../../../assets/img/icon/admin_vip.png" alt="">
-                    <p>{{item.titleName}}</p>
+    <div class="header-right">
+      <div class="little-icon hidden-xs-only">
+        <!-- <span class="search"></span> -->
+        <el-tooltip content="消息中心" placement="top">
+          <el-badge :value="totalNum" :max="99" class="item">
+            <span class="message" @click="goToMessage"></span>
+          </el-badge>
+        </el-tooltip>
+        <el-tooltip content="我的联系人" placement="top">
+          <el-badge :value="newPersonNum" :max="99" class="item">
+            <span class="add" @click="getInfo('add')"></span>
+          </el-badge>
+        </el-tooltip>
+        <!-- <span class="date"></span> -->
+        <!-- <span class="setting"></span> -->
+      </div>
+      <div class="user-info">
+        <i class="sys-menu-move"  @click='menuShowClick()'></i>
+        <el-dropdown @command='userInfoLi' trigger="click" :hide-on-click="false">
+          <span class="el-dropdown-link">
+            <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
+            <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
+            <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
+          </span>
+          <el-dropdown-menu slot="dropdown" class="ccba-control">
+            <div class="personBgc"></div>
+            <el-dropdown-item  class='hidden-xs-only dropDown-top'>
+              <div class="userInfo">
+                <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
+                <div class="headImg" v-else><img src="../../../assets/img/icon/admin.png" alt=""></div>
+                <div class="introduce">
+                  <p class="name">{{$store.state.userLoginInfo.userName}}</p>
+                  <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
+                  <div class="switchCorp" @click="switchCorp">切换公司</div>
+                  <div class="glory">
+                    <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
+                      <img src="../../../assets/img/icon/admin_vip.png" alt="">
+                      <p>{{item.titleName}}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </el-dropdown-item>
-          <el-dropdown-item  class="myCenter">
-            <span :class="{'line':$store.state.userLoginInfo.adminFlag === 'true'}" @click="getInfo">个人中心</span>
-            <span class="line" @click="serviceCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">服务订购</span>
-            <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
-          </el-dropdown-item>
-          <el-dropdown-item command="loginOut" class="dropDown-bottom">
-            <div class="loginOut"><span>退出登录</span></div>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-    <div class="little-icon hidden-xs-only">
-      <!-- <span class="search"></span> -->
-      <el-tooltip content="消息中心" placement="top">
-        <el-badge :value="totalNum" :max="99" class="item">
-          <span class="message" @click="goToMessage"></span>
-        </el-badge>
-      </el-tooltip>
-      <el-tooltip content="我的联系人" placement="top">
-        <el-badge :value="newPersonNum" :max="99" class="item">
-          <span class="add" @click="getInfo('add')"></span>
-        </el-badge>
-      </el-tooltip>
-      <!-- <span class="date"></span> -->
-      <!-- <span class="setting"></span> -->
+            </el-dropdown-item>
+            <el-dropdown-item  class="myCenter">
+              <span :class="{'line':$store.state.userLoginInfo.adminFlag === 'true'}" @click="getInfo">个人中心</span>
+              <span class="line" @click="serviceCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">服务订购</span>
+              <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
+            </el-dropdown-item>
+            <el-dropdown-item command="loginOut" class="dropDown-bottom">
+              <div class="loginOut"><span>退出登录</span></div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
     <div class="welcome hidden-xs-only">
       {{$store.state.userLoginInfo.companyName}}
@@ -76,7 +78,7 @@
 </template>
 <script>
 import config from '../../../config/config'
-import eventBus from '../middle/eventBus.js'
+// import eventBus from '../middle/eventBus.js'
 export default {
   data () {
     return {
@@ -163,16 +165,18 @@ export default {
         data: {corpId: corpId},
         router: this.$router,
         success: (res) => {
-          // 重新请求左侧菜单列表
-          eventBus.$emit('getAllApp')
-          // 重新请求企业风采
-          eventBus.$emit('getAllCorpDIY')
-          // 重新请求图表数据
-          eventBus.$emit('getEchart')
-          // 重新请求咨询数据
-          eventBus.$emit('getNews')
-          // 重新请求报关单数据
-          eventBus.$emit('getDecList')
+          // 刷新当前页
+          location.reload()
+          // // 重新请求左侧菜单列表
+          // eventBus.$emit('getAllApp')
+          // // 重新请求企业风采
+          // eventBus.$emit('getAllCorpDIY')
+          // // 重新请求图表数据
+          // eventBus.$emit('getEchart')
+          // // 重新请求咨询数据
+          // eventBus.$emit('getNews')
+          // // 重新请求报关单数据
+          // eventBus.$emit('getDecList')
         }
       })
     },
@@ -217,17 +221,19 @@ export default {
     },
     // 获取新增联系人条数
     queryPersonNum () {
+      // API@/login/user/getNewContactsPage
       this.$store.dispatch('ajax', {
-        url: 'API@/login/user/getNewContactsPage',
+        url: 'API@/login/user/getUnreadApplyCount',
         data: {
-          page: {
-            pageSize: 10,
-            pageIndex: 1
-          }
+          // page: {
+          //   pageSize: 10,
+          //   pageIndex: 1
+          // }
         },
         router: this.$router,
         isLoad: false,
         success: (res) => {
+          console.log(res)
           if (res.result && Array.isArray(res.result)) {
             let arr = res.result.filter(v => {
               return v.status === 'todo'
@@ -266,11 +272,6 @@ export default {
         vertical-align: top;
     }
     .user-info{
-        position: absolute;
-        top:50%;
-        transform: translateY(-50%);
-        right: 15px;
-        z-index: 3001;
         .userName {
           margin-right: 15px;
           font-size: 16px;
@@ -383,46 +384,53 @@ export default {
   }
 }
 
-.little-icon {
-  box-sizing:border-box;
-  height: 62px;
-  padding: 21px;
+.header-right {
   position: absolute;
-  padding-right: 10px;
-  // background-color: green;
-  top: 0;
-  right: 150px;
-  .search {
-    background: url("../../../assets/img/icon/top_search.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .message {
-    background: url("../../../assets/img/icon/top_notice.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .add {
-    background: url("../../../assets/img/icon/top_add.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .date {
-    background: url("../../../assets/img/icon/top_date.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  .setting {
-    background: url("../../../assets/img/icon/top_set.png") no-repeat;
-    background-clip: content-box;
-    background-origin: content-box;
-  }
-  span {
-    float: left;
-    width: 20px;
-    height: 20px;
-    padding: 0 12px;
-    cursor: pointer;
+  top:50%;
+  transform: translateY(-50%);
+  right: 15px;
+  z-index: 3001;
+  display: flex;
+  align-items: center;
+  .little-icon {
+    box-sizing:border-box;
+    height: 62px;
+    padding-right: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .search {
+      background: url("../../../assets/img/icon/top_search.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .message {
+      background: url("../../../assets/img/icon/top_notice.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .add {
+      background: url("../../../assets/img/icon/top_add.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .date {
+      background: url("../../../assets/img/icon/top_date.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    .setting {
+      background: url("../../../assets/img/icon/top_set.png") no-repeat;
+      background-clip: content-box;
+      background-origin: content-box;
+    }
+    span {
+      float: left;
+      width: 20px;
+      height: 20px;
+      padding: 0 12px;
+      cursor: pointer;
+    }
   }
 }
 
