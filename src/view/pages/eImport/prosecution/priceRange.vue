@@ -127,7 +127,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="境内收发货人" prop='tradeName'>
-                <el-input v-model="priceDialogForm.tradeName" ref="tradeName" dataRef ='tradeName' :readonly="isDetail" :maxlength="70"></el-input>
+                <el-input v-model="priceDialogForm.tradeName" ref="tradeName" dataRef ='tradeName' :disabled="isDetail" :maxlength="70"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -155,25 +155,25 @@
                 <el-input v-model="priceDialogForm.codeTs"
                   ref="codeTs" dataRef ='codeTs'
                   autofocus="true"
-                  :maxlength="10" :readonly="isDetail"
+                  :maxlength="10" :disabled="isDetail"
                  @keyup.enter.native="queryHistoryGoods"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="商品名称" prop='gName'>
-                <el-input v-model="priceDialogForm.gName" ref="gName" dataRef ='gName' :readonly="isDetail" :maxlength="255"></el-input>
+                <el-input v-model="priceDialogForm.gName" ref="gName" dataRef ='gName' :disabled="isDetail" :maxlength="255"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="规格型号" prop="gModel">
-                <el-input v-model="priceDialogForm.gModel" ref="gModel" dataRef ='gModel' :readonly="isDetail" :maxlength="255"></el-input>
+                <el-input v-model="priceDialogForm.gModel" ref="gModel" dataRef ='gModel' :disabled="isDetail" :maxlength="255"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
             <el-form-item label="单价" prop='declPrice'>
-              <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :readonly="isDetail" :maxlength="19"></el-input>
+              <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :disabled="isDetail" :maxlength="19"></el-input>
             </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -199,15 +199,15 @@
                 <el-input  v-model="priceDialogForm.bandArea"
                 ref="bandArea" dataRef ='bandArea'
                 enter = 'no'
-                :readonly="isDetail" :maxlength="10"
+                :disabled="isDetail" :maxlength="10"
                 placeholder=""></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer"  v-if="!isDetail">
-          <el-button class="layer-btn-primary" @click="saveDialogForm" :readonly="isDetail">确定</el-button>
-          <el-button class="layer-btn" @click="cancleDialogForm" :readonly="isDetail">取消</el-button>
+          <el-button class="layer-btn-primary" @click="saveDialogForm" :disabled="isDetail">确定</el-button>
+          <el-button class="layer-btn" @click="cancleDialogForm" :disabled="isDetail">取消</el-button>
         </span>
       </el-dialog>
       <el-dialog

@@ -12,12 +12,20 @@ const MENU = {
     {
       path: '/dataCenter/licenses/license',
       name: 'license',
-      icon: 'icons-menu-price',
       permissions: 'CCBA20302010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./licManage.vue'], resolve),
+        component: resolve => require(['./licManage/index.vue'], resolve),
         title: '许可证管理'
+      }
+    }, {
+      path: '/dataCenter/licenses/add',
+      name: '许可证新增',
+      permissions: 'CCBA20302010000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./licManage/add.vue'], resolve),
+        title: '许可证新增'
       }
     }, {
       path: '/dataCenter/licenses/certificate',
@@ -26,7 +34,7 @@ const MENU = {
       permissions: 'CCBA20302020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./certificate.vue'], resolve),
+        component: resolve => require(['./certificate/index.vue'], resolve),
         title: '证书管理'
       }
     }

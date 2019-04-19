@@ -17,7 +17,7 @@
             <el-form-item label-width="100px" label="最近上传日期">
               <el-date-picker size="mini"
                 v-model="dates"
-                @change="uploadTime"
+                @change="search()"
                 type="daterange"
                 :editable='false'
                 range-separator="至"
@@ -58,6 +58,12 @@
             </template>
           </el-table-column>
         </el-table>
+        <!--分页-->
+        <el-row class='sys-page-list'>
+            <el-col :span="24" align="right">
+                <page-box :pagination='paginationInit' @change="queryList"></page-box>
+            </el-col>
+        </el-row>
       </div>
   </section>
 </template>
@@ -68,17 +74,47 @@ export default {
     return {
       queryForm: {
         ID: ''
-      }
+      },
+      dates: ['', ''],
+      resultList: [] // 表格数据
     }
   },
-  created () {},
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.search()
+  },
   methods: {
     // 新建
-    add () {},
+    add () {
+      this.$router.push({
+        name: '许可证新增'
+      })
+    },
     // 查询
-    search () {},
+    search () {
+      this.queryList(this.$store.state.pagination)
+    },
+    // 列表
+    queryList (pagination) {
+      // this.paginationInit = pagination
+      // this.$store.dispatch('ajax', {
+      //   url: 'API@/dec-common/decParam/common/getPriceList',
+      //   data: {
+      //     ...this.queryForm,
+      //     page: pagination
+      //   },
+      //   router: this.$router,
+      //   isPageList: true,
+      //   success: (res) => {
+      //     this.priceList = res.result.list
+      //     this.paginationInit = res.page
+      //   }
+      // })
+    },
     // 重置
-    reset () {},
+    reset () {
+      this.dates = ['', '']
+    },
     // 跳转到详情页面
     toChild (id) {
       // this.$router.push({
@@ -101,87 +137,5 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
-    .el-table td, .el-table th{
-      text-align: center !important;
-    }
-  }
-  .op-btn {
-    margin-bottom: 14px;
-  }
-  .query-btn {
-    text-align: center;
-  }
-  .icon-btn {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-  }
-  .m-r-10{
-    margin-right: 10px;
-  }
-  .span-right{
-    float: right;
-    margin-right: 2%;
-    color: #0b93f3;
-    margin-top: 6px;
-  }
-  .airvehicle-table-popper{
-    min-width: auto;
-    ul{
-        li{
-            line-height: 20px;
-            .el-checkbox__label{
-                font-size: 12px;
-            }
-        }
-    }
-  }
-  .airvehicle-list-drop {
-    float: right;
-  }
-  .layer-btn-primary {
-    height: 32px;
-    line-height: 32px;
-    margin: 0 6px;
-    padding: 0 15px;
-    border: 1px solid #4898d5;
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    background-color: #2e8ded;
-    color: #fff;
-  }
-   .layer-btn {
-    height: 32px;
-    line-height: 32px;
-    margin: 0 6px;
-    padding: 0 15px;
-    border: 1px solid #d8d8d8;
-    border-radius: 2px;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    color: #333333;
-  }
-  .el-select-dropdown__item.selected {
-        background: #0080ff;
-        color: #ffffff;
-    }
-  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
-      background: #dbed8a;
-      font-weight: bold;
-  }
-  .el-select-dropdown__item {
-      font-size: 12px;
-      padding: 0 15px;
-      height: 22px;
-      line-height: 22px;
-      border: #c0c0c0 solid 1px;
-  }
-  .el-select-dropdown__list {
-      padding: 0;
   }
 </style>

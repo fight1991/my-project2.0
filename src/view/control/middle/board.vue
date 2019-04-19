@@ -108,6 +108,7 @@ export default {
         this.tableData = []
         return
       }
+      this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decListHomePage',
         data: {
