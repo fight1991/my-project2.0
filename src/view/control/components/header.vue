@@ -221,14 +221,13 @@ export default {
     },
     // 获取新增联系人条数
     queryPersonNum () {
-      // API@/login/user/getNewContactsPage
       this.$store.dispatch('ajax', {
-        url: 'API@/login/user/getUnreadApplyCount',
+        url: 'API@/login/user/getNewContactsPage',
         data: {
-          // page: {
-          //   pageSize: 10,
-          //   pageIndex: 1
-          // }
+          page: {
+            pageSize: 10,
+            pageIndex: 1
+          }
         },
         router: this.$router,
         isLoad: false,
