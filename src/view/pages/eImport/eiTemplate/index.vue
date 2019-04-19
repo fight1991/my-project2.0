@@ -17,6 +17,8 @@ export default {
       this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'templateList') {
       this.url = pathList.eImport['decTemplateList'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'shipping') {
+      this.url = pathList.eImport['shipping'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }

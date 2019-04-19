@@ -1,6 +1,6 @@
 <template>
   <div class="top-header">
-    <div class="logo fl"></div>
+    <div class="logo fl" @click="goToControl"></div>
     <div :class="{'split-line':$store.state.childSys.title!== '', 'fl':true}"></div>
     <div class="title fl">{{$store.state.childSys.title}}</div>
     <div class="user-info">
@@ -61,7 +61,7 @@
 </template>
 <script>
 import config from '../../config/config'
-
+import commonPath from '../../config/commonPath'
 export default {
   data () {
     return {
@@ -69,7 +69,8 @@ export default {
       corpName: '',
       corpList: [],
       userTitleList: [], // 个人荣誉
-      totalNum: 0
+      totalNum: 0,
+      logoClick: false
     }
   },
   created () {
@@ -147,6 +148,8 @@ export default {
         companyName: temp.corpName,
         adminFlag: temp.adminFlag // 是否是管理员
       })
+      // 刷新当前页面
+      location.reload()
       this.corpDialogVisible = false
     },
     // 选择公司后重新请求数据
@@ -166,6 +169,16 @@ export default {
     // 管理员中心
     adminCenter () {
       window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/companyAdmin/index?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&corpId=' + this.$store.state.userLoginInfo.companyCode + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    },
+    // 点击logo跳转到控制台
+    goToControl () {
+      // 防止双击
+      if (this.logoClick) return
+      this.logoClick = true
+      setTimeout(() => {
+        this.logoClick = false
+      }, 300)
+      window.open(commonPath['CONTROL'] + '/control?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     }
   }
 }
@@ -252,6 +265,7 @@ export default {
   background-size: 280px 64px;
   background-size: cover;
   vertical-align: middle;
+  cursor: pointer;
 }
 .title {
   height: 62px;

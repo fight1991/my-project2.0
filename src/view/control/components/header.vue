@@ -76,7 +76,7 @@
 </template>
 <script>
 import config from '../../../config/config'
-import eventBus from '../middle/eventBus.js'
+// import eventBus from '../middle/eventBus.js'
 export default {
   data () {
     return {
@@ -163,16 +163,18 @@ export default {
         data: {corpId: corpId},
         router: this.$router,
         success: (res) => {
-          // 重新请求左侧菜单列表
-          eventBus.$emit('getAllApp')
-          // 重新请求企业风采
-          eventBus.$emit('getAllCorpDIY')
-          // 重新请求图表数据
-          eventBus.$emit('getEchart')
-          // 重新请求咨询数据
-          eventBus.$emit('getNews')
-          // 重新请求报关单数据
-          eventBus.$emit('getDecList')
+          // 刷新当前页
+          location.reload()
+          // // 重新请求左侧菜单列表
+          // eventBus.$emit('getAllApp')
+          // // 重新请求企业风采
+          // eventBus.$emit('getAllCorpDIY')
+          // // 重新请求图表数据
+          // eventBus.$emit('getEchart')
+          // // 重新请求咨询数据
+          // eventBus.$emit('getNews')
+          // // 重新请求报关单数据
+          // eventBus.$emit('getDecList')
         }
       })
     },
