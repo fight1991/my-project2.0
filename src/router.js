@@ -176,6 +176,12 @@ router.beforeEach((to, from, next) => {
      1、登录页面直接放行
   */
   if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder' || to.path === '/talent') {
+    if (!util.isEmpty(to.query.token)) {
+      router.app.$options.store.commit('setToken', to.query.token)
+      window.localStorage.setItem('token', to.query.token)
+    } else if (!util.isEmpty(window.localStorage.getItem('token'))) {
+      router.app.$options.store.commit('setToken', window.localStorage.getItem('token'))
+    }
     next()
   } else if (to.path === '/login') {
     window.localStorage.clear()
