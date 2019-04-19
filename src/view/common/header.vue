@@ -178,7 +178,7 @@ export default {
       setTimeout(() => {
         this.logoClick = false
       }, 300)
-      window.open(commonPath['CONTROL'] + '/control?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+      window.open(commonPath['CCBA'] + '/control?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
     }
   }
 }
