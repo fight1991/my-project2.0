@@ -135,15 +135,16 @@ export default {
       let [ iEFlag, status, startTime, endTime ] = [flag, row.status, this.dates[0], this.dates[1]]
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
       let params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
+      console.log(params)
       // 如果状态为0 跳转到进口接单或出口接单,否则跳转到报关单查询
       if (status === '0') {
         if (iEFlag === 'I') {
-          window.open(location.origin + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}${params}`, '_blank')
+          window.open(location.origin + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
         } else {
-          window.open(location.origin + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}${params}`, '_blank')
+          window.open(location.origin + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
         }
       } else {
-        window.open(location.origin + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}${params}`, '_blank')
+        window.open(location.origin + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
       }
     },
     // 行点击样式
