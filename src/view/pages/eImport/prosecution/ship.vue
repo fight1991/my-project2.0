@@ -84,13 +84,6 @@
             <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-         <!-- <el-upload
-          style="display: inline-block;"
-          action="http://127.0.0.1"
-          :before-upload="beforeUpload"
-          :show-file-list="false">
-          <el-button size="mini" icon="fa fa-sign-in fa-lg">&nbsp;导入</el-button>
-        </el-upload> -->
         <span class="span-right">已选择{{checkedNum}}项</span>
       </el-row>
       <!-- 列表 list -->
@@ -381,7 +374,7 @@ export default {
     },
     // 模板下载
     download () {
-      // window.open('https://www.5itrade.cn/files/decTemplet/orderTakenTemp.xlsx', '_blank')
+      window.open('https://www.5itrade.cn/files/emsTemplet/transportMode.xls', '_blank')
     },
     // 获取公共字典list
     getCommonParams () {

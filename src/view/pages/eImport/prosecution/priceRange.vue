@@ -545,7 +545,6 @@ export default {
     },
     checkParamsList (query) {
       let keyValue = query.toString().trim()
-      console.log(keyValue)
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
       let filterList = []
       if (util.isEmpty(keyValue)) {
@@ -558,23 +557,6 @@ export default {
         this[this.selectObj.obj] = filterList.slice(0, 10)
       }
     },
-    // // 价格区间校验
-    // bandAreaCheckValid (rule, value, callback) {
-    //   if (util.isEmpty(value)) {
-    //     this.$refs['priceDialogForm'].clearValidate([name])
-    //     callback(new Error('请输浮动区间'))
-    //   } else if (this.priceDialogForm.bandArea !== '0') {
-    //     const pattern = /^[1-9][0-9]?$/
-    //     if (!pattern.test(value)) {
-    //       this.$refs['priceDialogForm'].clearValidate([name])
-    //       callback(new Error('99的数字'))
-    //     } else {
-    //       callback()
-    //     }
-    //   } else {
-    //     callback()
-    //   }
-    // },
     // 校验
     checkValid (rule, value, callback) {
       let name = rule.field
