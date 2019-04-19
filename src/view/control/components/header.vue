@@ -221,25 +221,13 @@ export default {
     },
     // 获取新增联系人条数
     queryPersonNum () {
-      // API@/login/user/getNewContactsPage
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/getUnreadApplyCount',
-        data: {
-          // page: {
-          //   pageSize: 10,
-          //   pageIndex: 1
-          // }
-        },
+        data: {},
         router: this.$router,
         isLoad: false,
         success: (res) => {
-          console.log(res)
-          if (res.result && Array.isArray(res.result)) {
-            let arr = res.result.filter(v => {
-              return v.status === 'todo'
-            })
-            this.newPersonNum = arr.length === 0 ? '' : arr.length
-          }
+          this.newPersonNum = res.result === 0 ? '' : res.result
           clearInterval(this.timeOut)
           this.timeOut = setInterval(() => {
             this.queryPersonNum()
