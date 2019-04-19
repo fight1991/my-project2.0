@@ -9,6 +9,7 @@
             :key="item.path"
             :closable = 'index!==0'
             v-for="(item, index) in openedTabs"
+            v-if = '!item.isDel'
             :label="item.title"
             :name="item.path">
           </el-tab-pane>

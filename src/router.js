@@ -312,7 +312,8 @@ router.afterEach(route => {
     component: route.meta.component,
     path: path,
     route: route,
-    other: tabData
+    other: tabData,
+    isDel: false
   })
 })
 export default router
