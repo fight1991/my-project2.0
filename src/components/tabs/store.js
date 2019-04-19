@@ -45,10 +45,16 @@ export default {
   mutations: {
     // 从 tab 列表 移除 tab
     RemoveTab (state, data) {
-      // 数据移除
-      state.tabsList = state.tabsList.filter(item => {
-        return item.path !== data.path
-      })
+      for (let x in state.tabsList) {
+        if (state.tabsList[x].path === data.path) {
+          state.tabsList[x].isDel = true
+          state.tabsList[x].component = ''
+        }
+      }
+      // // 数据移除
+      // state.tabsList = state.tabsList.filter(item => {
+      //   return item.path !== data.path
+      // })
       // 判断是否是当前打开的页签
       if (state.currentTab.path === data.path) {
         let index = state.tabsList.length > 1 ? 1 : 0
@@ -86,7 +92,9 @@ export default {
     // 新增页签数据
     SetTabData (state, data) {
       // 判断 tab 项是否已存在
-      let tabExsit = state.tabsList.find(i => i.path === data.path)
+      let tabExsit = state.tabsList.find(i => {
+        return i.path === data.path && i.isDel === false
+      })
       if (!tabExsit) {
         state.tabsList.push(data)
       }
