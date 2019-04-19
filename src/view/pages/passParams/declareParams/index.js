@@ -20,6 +20,15 @@ const MENU = {
       }
     },
     {
+      path: '/passParams/taxRule/detail',
+      name: 'taxRuleInfo',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./taxRuleInfo.vue'], resolve),
+        title: '税则详情'
+      }
+    },
+    {
       path: '/passParams/productCate/list',
       name: 'productCate',
       permissions: 'CCBA20202010000',

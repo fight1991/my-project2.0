@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column label="申报要素、退税" min-width="100">
           <template slot-scope="scope">
-            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看"><i class='dec-i'></i></a></div>
+            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row)"><i class='dec-i'></i></a></div>
           </template>
         </el-table-column>
       </el-table>
@@ -70,6 +70,12 @@ export default {
     // 获取表格
     pageList () {
 
+    },
+    // 跳转详情
+    toDetail () {
+      this.$router.push({
+        name: 'taxRuleInfo'
+      })
     }
   }
 }
