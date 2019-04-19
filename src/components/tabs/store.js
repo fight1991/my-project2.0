@@ -14,7 +14,9 @@ export default {
         name: 'index',
         query: {},
         params: {}
-      }
+      },
+      other: '',
+      isDel: false
     },
     // 当前活动页签
     currentTab: {},
@@ -29,7 +31,9 @@ export default {
         name: 'index',
         query: {},
         params: {}
-      }
+      },
+      other: '',
+      isDel: false
     }]
   },
   getters: {
@@ -51,11 +55,6 @@ export default {
           state.tabsList[x].component = ''
         }
       }
-      // // 数据移除
-      // state.tabsList = state.tabsList.filter(item => {
-      //   return item.path !== data.path
-      // })
-      // 判断是否是当前打开的页签
       if (state.currentTab.path === data.path) {
         let index = state.tabsList.length > 1 ? 1 : 0
         store.commit('SetCurrentTab', state.tabsList[index])
@@ -71,6 +70,26 @@ export default {
           })
         }
       }
+      // // 数据移除
+      // state.tabsList = state.tabsList.filter(item => {
+      //   return item.path !== data.path
+      // })
+      // 判断是否是当前打开的页签
+      // if (state.currentTab.path === data.path) {
+      //   let index = state.tabsList.length > 1 ? 1 : 0
+      //   store.commit('SetCurrentTab', state.tabsList[index])
+      //   if (JSON.stringify(state.tabsList[index].route.params) === '{}') {
+      //     router.push({
+      //       path: state.tabsList[index].route.path,
+      //       query: state.tabsList[index].route.query
+      //     })
+      //   } else {
+      //     router.push({
+      //       name: state.tabsList[index].route.name,
+      //       params: state.tabsList[index].route.params
+      //     })
+      //   }
+      // }
     },
     // 关闭页签 all关闭所有；other关闭其他；
     CloseTabs (state, type) {
@@ -83,10 +102,14 @@ export default {
           path: state.homeTab.path
         })
       } else if (type === 'other') {
-        if (state.tabsList.length > 1 && state.homeTab.path !== state.currentTab.path) {
-          json.push(state.currentTab)
+        if (state.tabsList.length > 1) {
+          for (let x = 1; x < state.tabsList.length; x++) {
+            if (state.tabsList[x].path !== state.currentTab.path) {
+              state.tabsList[x].isDel = true
+              state.tabsList[x].component = ''
+            }
+          }
         }
-        state.tabsList = json
       }
     },
     // 新增页签数据
@@ -124,7 +147,9 @@ export default {
           name: 'index',
           query: {},
           params: {}
-        }
+        },
+        other: '',
+        isDel: false
       }
       state.tabsList[0] = {
         tabId: 'index',
@@ -136,7 +161,9 @@ export default {
           name: 'index',
           query: {},
           params: {}
-        }
+        },
+        other: '',
+        isDel: false
       }
     }
   },

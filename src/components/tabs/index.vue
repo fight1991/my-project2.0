@@ -29,7 +29,7 @@
     </el-header>
     <el-main>
       <div class='page-tab-content' v-loading="$store.state.loading">
-        <div style='height:100%;box-sizing: border-box' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path">
+        <div style='height:100%;box-sizing: border-box' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
           <component :is="item.component"></component>
         </div>
       </div>
@@ -109,16 +109,22 @@ export default {
   methods: {
     // 修改当前活动tab
     setCurrentTab (tab, event) {
-      let data = this.openedTabs[tab.index]
-      this.$router.push(data.path)
-      this.$store.commit('SetCurrentTab', data)
+      let data = this.openedTabs.filter(item => {
+        return item.path === tab.name
+      })
+      this.$router.push(data[0].path)
+      this.$store.commit('SetCurrentTab', data[0])
     },
     // 移除页签
     delTab (tabName) {
-      let data = this.openedTabs.filter(item => {
-        return item.path === tabName
-      })
-      this.$store.commit('RemoveTab', data[0])
+      let index = 0
+      for (let x in this.openedTabs) {
+        if (this.openedTabs[x].path === tabName) {
+          index = x
+          break
+        }
+      }
+      this.$store.commit('RemoveTab', this.openedTabs[index])
     },
     // 关闭所有或其他页签
     closeTabs (tag) {

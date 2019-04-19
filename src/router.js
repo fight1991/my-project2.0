@@ -282,7 +282,7 @@ router.afterEach(route => {
     }
   }
   let fun = 'SetTabData'
-  let tabData
+  let tabData = ''
   let title = route.meta.title
   let tabId = new Date().getTime()
   // sysData 交互特有字段 不等于空  则使用自定义的title
