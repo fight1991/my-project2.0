@@ -31,9 +31,9 @@
             <div class='sys-td-c'>{{scope.row.title}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="申报要素、退税" min-width="150">
+        <el-table-column label="申报要素、退税" min-width="100">
           <template slot-scope="scope">
-            <a href="javascript:void(0)" class="list-icon-look border-0" title="查看"><i class='dec-i'></i></a>
+            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看"><i class='dec-i'></i></a></div>
           </template>
         </el-table-column>
       </el-table>
@@ -75,9 +75,21 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.param-td-c{
+  text-align: center;
+}
 .list-icon-look{
+  i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    margin-top: -2px;
+    background: url('../../../../assets/img/icon/icon-look.png') no-repeat;
+  }
   &:hover i,&:focus i{
-    background-color: #fff;
+    background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
   }
 }
 </style>
