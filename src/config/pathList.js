@@ -175,9 +175,9 @@ export default {
 
     // 海关特殊监管区域 - 申报业务
     // 保税核注清单（进口）
-    taxList_I_sea: '/sea/datainput/I/taxList',
+    taxList_I_sea: url.JINER + '/sea/datainput/I/taxList',
     // 保税核注清单（出口）
-    taxList_E_sea: '/sea/datainput/E/taxList',
+    taxList_E_sea: url.JINER + '/sea/datainput/E/taxList',
     // 保税核注清单查询
     taxListQuery_sea: url.JINER + '/sea/dataQuery/taxListQuery',
     // 集中报关
