@@ -49,7 +49,6 @@ export default {
   mutations: {
     // 从 tab 列表 移除 tab
     RemoveTab (state, data) {
-      console.log(data)
       let firstIndex = 0
       for (let x in state.tabsList) {
         if (state.tabsList[x].path === data.path && !state.tabsList[x].isDel) {
@@ -67,8 +66,6 @@ export default {
       let listLength = state.tabsList.filter(item => {
         return !item.isDel
       }).length
-      console.log('listLength-----------------' + listLength)
-      console.log('firstIndex-----------------' + firstIndex)
       if (state.currentTab.path === data.path) {
         let index = listLength > 1 ? firstIndex : 0
         store.commit('SetCurrentTab', state.tabsList[index])
