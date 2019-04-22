@@ -38,18 +38,27 @@
         <el-table class='sys-table-table'
           border highlight-current-row size="mini"
           :data="resultList">
-          <el-table-column label="委托企业" min-width="100" prop="ID"></el-table-column>
-          <el-table-column label="许可证数" min-width="100" prop="ID">
+          <el-table-column label="委托企业" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.ID+''}}
+              {{scope.row.ID+'' || '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="累计业务票数" min-width="100">
+            <template slot-scope="scope">
+              {{scope.row.ID+'' || '-'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="累计上传单证" min-width="100">
+            <template slot-scope="scope">
+              {{scope.row.ID+'' || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="最近上传时间" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.lastFireTime | date()}}
+              {{scope.row.time | date() || '-'}}
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="100">
+          <el-table-column label="操作" width="50">
             <template slot-scope="scope">
               <el-button type="text" @click="toChild(scope.row.roleId)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
             </template>
@@ -60,15 +69,17 @@
 </template>
 
 <script>
+import util from '../../../../common/util'
 export default {
   data () {
     return {
       queryForm: {
-        ID: ''
+        ID: '',
+        time: util.dateFormat(new Date(), 'yyyy-MM-dd')
       },
       dates: ['', ''],
       resultList: [
-        {ID: '222222222222'},
+        {ID: '222222222222', time: '20110101'},
         {ID: '111111'},
         {ID: '33333333'}
       ]
@@ -88,7 +99,7 @@ export default {
     // 跳转到详情页面
     toChild (id) {
       this.$router.push({
-        name: '业务单证详情',
+        name: '业务单证列表',
         params: {
           id: id
         }

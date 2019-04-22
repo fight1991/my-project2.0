@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column label="最近上传时间" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.lastFireTime | date()}}
+              {{scope.row.lastFireTime | date() || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="操作" width="100">

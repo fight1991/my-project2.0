@@ -84,12 +84,12 @@
         </el-table-column>
         <el-table-column label="创建日期" min-width="90">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.ID | date() || '-'}}</div>
+            <div class='sys-td-c'>{{scope.row.ID || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="上传单证数" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.ID+'' || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200">
@@ -177,9 +177,8 @@ export default {
       //   }
       // })
     },
-    // 预览图片
-    previewPicture () {
-      window.open(this.fileList[0].url, '_blank')
+    // 导入
+    upload () {
     },
     // 删除
     deleteBtn () {
