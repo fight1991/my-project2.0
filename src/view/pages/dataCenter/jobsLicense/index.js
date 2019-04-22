@@ -4,7 +4,7 @@ const MENU = [
     path: '/dataCenter/jobsLicense',
     name: 'jobsLicense',
     icon: 'icons-menu-jobsLicense',
-    permissions: 'CCBA20301000000',
+    permissions: 'CCBA20303000000',
     meta: {
       title: '业务单证管理',
       component: resolve => require(['./index.vue'], resolve)

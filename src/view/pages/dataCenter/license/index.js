@@ -29,7 +29,6 @@ const MENU = {
     }, {
       path: '/dataCenter/licenses/license/:id',
       name: '许可证详情',
-      permissions: 'CCBA20302010000',
       hidden: false,
       meta: {
         component: resolve => require(['./licManage/detail.vue'], resolve),
