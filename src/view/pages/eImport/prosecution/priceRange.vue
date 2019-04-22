@@ -356,7 +356,6 @@ export default {
         gName: '',
         codeTs: ''
       }
-      this.searchQueryForm()
     },
     // 列表
     queryList (pagination) {
@@ -437,7 +436,6 @@ export default {
               if (res.code === '0000') {
                 this.$message(res.message)
                 this.resetDialogForm()
-                this.$refs['priceDialogForm'].resetFields()
                 this.priceDialogVisible = false
                 this.queryList(this.$store.state.pagination)
               } else {
@@ -474,6 +472,10 @@ export default {
         tradeCurr: '',
         bandArea: ''
       }
+      this.$nextTick(() => {
+        this.$refs['priceDialogForm'].clearValidate()
+      })
+      this.searchQueryForm()
       this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_CURR')).slice(0, 10)
       this.countryParams = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY')).slice(0, 10)
     },

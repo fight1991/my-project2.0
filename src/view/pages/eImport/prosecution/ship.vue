@@ -240,11 +240,7 @@ export default {
       this.saasTransportType1 = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')).slice(0, 10)
       this.searchShipForm()
     },
-    // beforeClose () {
-    //   this.resetDialogForm()
-    //   this.$refs['shipDialogForm'].resetFields()
-    //   this.trafModeTipsVisible = false
-    // },
+
     // 打开弹出框
     openFun (type, row) {
       this.resetDialogForm()
@@ -439,7 +435,6 @@ export default {
               if (res.code === '0000') {
                 this.$message(res.message)
                 this.resetDialogForm()
-                this.$refs['shipDialogForm'].resetFields()
                 this.trafModeTipsVisible = false
                 this.pageList(this.$store.state.pagination)
               } else {
@@ -463,6 +458,9 @@ export default {
         entyPortCode: '', // 入/离境口岸
         trafMode: '' // 运输方式
       }
+      this.$nextTick(() => {
+        this.$refs['shipDialogForm'].clearValidate()
+      })
       this.saasCustomsRel2 = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL')).slice(0, 10)
       this.saasInlandPort2 = JSON.parse(window.localStorage.getItem('SAAS_INLAND_PORT')).slice(0, 10)
       this.saasTransportType2 = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')).slice(0, 10)
