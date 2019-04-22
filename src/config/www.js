@@ -113,7 +113,7 @@ const jobs = [
       name: '蔡丽燕',
       tel: '400-928-2077',
       email: 'YANWEN@LONGSHINE.COM（Email主题务必注明：姓名--求职职位名称）',
-      company: '朗新金关信息科技有限公司'
+      company: '朗新一诺（苏州）信息科技有限公司'
     },
     zp_info: [
       {
