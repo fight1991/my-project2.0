@@ -13,7 +13,7 @@ const jobs = [
         jobTitle: 'LX-M016销售经理(1人)',
         wage: '<span style="color: #808080;">月薪:</span><span style="color: #FEA12E;padding-left:10px">6-10k</span>',
         culture: '<span style="color: #808080;">学历:</span><span style="padding-left:10px">不限</span>',
-        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">地点: 成都、重庆M017、银川M018</span>',
+        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">成都、重庆M017、银川M018</span>',
         detail: [
           {
             id: 1,
@@ -42,7 +42,7 @@ const jobs = [
         jobTitle: 'LX-M013 市场经理(1人)',
         wage: '<span style="color: #808080;">月薪:</span><span style="color: #FEA12E;padding-left:10px">6-10k</span>',
         culture: '<span style="color: #808080;">学历:</span><span style="padding-left:10px">大专</span>',
-        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">地点: 无锡</span>',
+        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">无锡</span>',
         detail: [
           {
             id: 1,
@@ -79,7 +79,7 @@ const jobs = [
         jobTitle: 'LX-M014 市场专员(4人)',
         wage: '<span style="color: #808080;">月薪:</span><span style="color: #FEA12E;padding-left:10px">4-6K</span>',
         culture: '<span style="color: #808080;">学历:</span><span style="padding-left:10px">大专</span>',
-        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">地点: 无锡</span>',
+        place: '<span style="color: #808080;">地点:</span><span style="padding-left:10px">无锡</span>',
         detail: [
           {
             id: 1,

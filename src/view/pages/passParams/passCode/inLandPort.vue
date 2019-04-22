@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" placeholder="国内口岸代码/国内口岸名称" maxlength="50"></el-input>
+          <el-input size="mini" v-model="inLandPortForm.keywords" placeholder="国内口岸代码/国内口岸名称" maxlength="50" clearable></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -17,16 +17,21 @@
     <div class='query-body'>
       <el-table class='sys-table-table' :data="inLandPortList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
-          <!-- <template slot-scope="scope">
+          <template slot-scope="scope">
             <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="国内口岸代码" min-width="150">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.portCode}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="国内口岸名称" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-c'>{{scope.row.title}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="国内口岸名称" min-width="150">
+        <el-table-column label="英文名称" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-c'>{{scope.row.title}}</div>
           </template>
@@ -44,15 +49,21 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   name: 'inLandPort',
   data () {
     return {
       inLandPortForm: {
-
+        keywords: ''
       },
-      inLandPortList: []
+      inLandPortList: [],
+      pages: {}
     }
+  },
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.search()
   },
   mounted () {
 
@@ -60,11 +71,25 @@ export default {
   methods: {
     // 查询
     search () {
-
+      this.pageList(this.$store.state.pagination)
     },
     // 获取表格
-    pageList () {
-
+    pageList (pagination) {
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getInlandPortList',
+        data: {...this.inLandPortForm, page: pagination},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.inLandPortList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+          this.pages = {
+            pageIndex: res.page.pageIndex,
+            pageSize: res.page.pageSize
+          }
+        }
+      })
     }
   }
 }
