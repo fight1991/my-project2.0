@@ -63,7 +63,7 @@ export default {
       if (event.data.type === 'close') {
         // 关闭指定的tab
         let data = store.getters.GetOpenedTabs.filter(item => {
-          return item.tabId === event.data.data.tabId
+          return item.tabId === event.data.data.tabId && !item.isDel
         })
         if (data.length !== 0) {
           store.commit('RemoveTab', data[0])
@@ -73,7 +73,7 @@ export default {
         // 原tab标识改变了： 打开最新tab的url
         let data = store.getters.GetOpenedTabs.filter((item, x) => {
           let tag = false
-          if (item.tabId === event.data.data.tabId) {
+          if (item.tabId === event.data.data.tabId && !item.isDel) {
             tag = true
             index = x
           }
@@ -120,7 +120,7 @@ export default {
     delTab (tabName) {
       let index = 0
       for (let x in this.openedTabs) {
-        if (this.openedTabs[x].path === tabName) {
+        if (this.openedTabs[x].path === tabName && !this.openedTabs[x].isDel) {
           index = x
           break
         }

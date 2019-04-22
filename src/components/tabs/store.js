@@ -49,14 +49,28 @@ export default {
   mutations: {
     // 从 tab 列表 移除 tab
     RemoveTab (state, data) {
+      console.log(data)
+      let firstIndex = 0
       for (let x in state.tabsList) {
-        if (state.tabsList[x].path === data.path) {
+        if (state.tabsList[x].path === data.path && !state.tabsList[x].isDel) {
           state.tabsList[x].isDel = true
           state.tabsList[x].component = ''
+          break
         }
       }
+      for (let x in state.tabsList) {
+        if (x > 0 && !state.tabsList[x].isDel) {
+          firstIndex = x
+          break
+        }
+      }
+      let listLength = state.tabsList.filter(item => {
+        return !item.isDel
+      }).length
+      console.log('listLength-----------------' + listLength)
+      console.log('firstIndex-----------------' + firstIndex)
       if (state.currentTab.path === data.path) {
-        let index = state.tabsList.length > 1 ? 1 : 0
+        let index = listLength > 1 ? firstIndex : 0
         store.commit('SetCurrentTab', state.tabsList[index])
         if (JSON.stringify(state.tabsList[index].route.params) === '{}') {
           router.push({
@@ -126,7 +140,7 @@ export default {
     // 指定位置新增页签数据
     SetTabDataIndex (state, data) {
       // 判断 tab 项是否已存在
-      let tabExsit = state.tabsList.find(i => i.path === data.path)
+      let tabExsit = state.tabsList.find(i => i.path === data.path && !i.isDel)
       if (!tabExsit) {
         state.tabsList.splice(data.other, 1, data)
       }
