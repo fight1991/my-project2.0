@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" placeholder="商品编码/商品名称" maxlength="50"></el-input>
+          <el-input size="mini" v-model="CIQCodeForm.keywords" placeholder="商品编码/商品名称" maxlength="50" clearable></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -17,23 +17,23 @@
     <div class='query-body'>
       <el-table class='sys-table-table' :data="CIQCodeList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
-          <!-- <template slot-scope="scope">
+          <template slot-scope="scope">
             <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="商品编码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.codeTs}}</div>
           </template>
         </el-table-column>
         <el-table-column label="商品名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.hsGName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="CIQ信息" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row)"><i class='dec-i'></i></a></div>
           </template>
         </el-table-column>
       </el-table>
@@ -49,15 +49,21 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   name: 'CIQCode',
   data () {
     return {
       CIQCodeForm: {
-
+        keywords: ''
       },
-      CIQCodeList: []
+      CIQCodeList: [],
+      pages: {}
     }
+  },
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.search()
   },
   mounted () {
 
@@ -65,14 +71,45 @@ export default {
   methods: {
     // 查询
     search () {
-
+      this.pageList(this.$store.state.pagination)
     },
     // 获取表格
-    pageList () {
-
+    pageList (pagination) {
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getCiqcodeList',
+        data: {...this.CIQCodeForm, page: pagination},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.CIQCodeList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+          this.pages = {
+            pageIndex: res.page.pageIndex,
+            pageSize: res.page.pageSize
+          }
+        }
+      })
     }
   }
 }
 </script>
 <style scoped lang="less">
+.param-td-c{
+  text-align: center;
+}
+.list-icon-look{
+  i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    margin-top: -2px;
+    background: url('../../../../assets/img/icon/icon-look.png') no-repeat;
+  }
+  &:hover i,&:focus i{
+    background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
+  }
+}
 </style>

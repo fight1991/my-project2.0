@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" placeholder="商品编码/商品名称" maxlength="50"></el-input>
+          <el-input size="mini" v-model="taxRuleForm.keywords" placeholder="商品编码/商品名称" maxlength="50" clearable></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -17,18 +17,18 @@
     <div class='query-body'>
       <el-table class='sys-table-table' :data="taxRuleList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
-          <!-- <template slot-scope="scope">
+          <template slot-scope="scope">
             <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="商品编码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.codeTs}}</div>
           </template>
         </el-table-column>
         <el-table-column label="商品名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.gName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="申报要素、退税" min-width="100">
@@ -49,15 +49,21 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   name: 'taxRule',
   data () {
     return {
       taxRuleForm: {
-
+        keywords: ''
       },
-      taxRuleList: [{}]
+      taxRuleList: [],
+      pages: {}
     }
+  },
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.search()
   },
   mounted () {
 
@@ -65,11 +71,25 @@ export default {
   methods: {
     // 查询
     search () {
-
+      this.pageList(this.$store.state.pagination)
     },
     // 获取表格
-    pageList () {
-
+    pageList (pagination) {
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getComplexList',
+        data: {...this.taxRuleForm, page: pagination},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.taxRuleList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+          this.pages = {
+            pageIndex: res.page.pageIndex,
+            pageSize: res.page.pageSize
+          }
+        }
+      })
     },
     // 跳转详情
     toDetail () {

@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" placeholder="商品编码" maxlength="50"></el-input>
+          <el-input size="mini" v-model="treeCateForm.keywords" placeholder="商品编码" maxlength="50" clearable></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -17,20 +17,20 @@
     <div class='query-body'>
       <el-table class='sys-table-table' :data="treeCateList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
-          <!-- <template slot-scope="scope">
+          <template slot-scope="scope">
             <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="商品编码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.codeTs}}</div>
           </template>
         </el-table-column>
       </el-table>
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-          <page-box @change="pageList"></page-box>
+          <page-box :pagination="paginationInit" @change="pageList"></page-box>
         </el-col>
       </el-row>
       <!-- 分页 end -->
@@ -39,15 +39,21 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   name: 'treeCate',
   data () {
     return {
       treeCateForm: {
-
+        keywords: ''
       },
-      treeCateList: []
+      treeCateList: [],
+      pages: {}
     }
+  },
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.search()
   },
   mounted () {
 
@@ -55,11 +61,25 @@ export default {
   methods: {
     // 查询
     search () {
-
+      this.pageList(this.$store.state.pagination)
     },
     // 获取表格
-    pageList () {
-
+    pageList (pagination) {
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getCccList',
+        data: {...this.treeCateForm, page: pagination},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.treeCateList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+          this.pages = {
+            pageIndex: res.page.pageIndex,
+            pageSize: res.page.pageSize
+          }
+        }
+      })
     }
   }
 }

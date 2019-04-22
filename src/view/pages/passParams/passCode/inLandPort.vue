@@ -28,19 +28,19 @@
         </el-table-column>
         <el-table-column label="国内口岸名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.portCname}}</div>
           </template>
         </el-table-column>
         <el-table-column label="英文名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.portEname}}</div>
           </template>
         </el-table-column>
       </el-table>
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-          <page-box @change="pageList"></page-box>
+          <page-box :pagination="paginationInit" @change="pageList"></page-box>
         </el-col>
       </el-row>
       <!-- 分页 end -->
