@@ -24,7 +24,7 @@ const MENU = [
     }
   },
   License.MENU,
-  JobsLicense.MENU,
+  ...JobsLicense.MENU,
   Goods.MENU
 ]
 export default {MENU}

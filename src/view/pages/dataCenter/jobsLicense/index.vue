@@ -65,11 +65,20 @@ export default {
     return {
       queryForm: {
         ID: ''
-      }
+      },
+      dates: ['', ''],
+      resultList: [
+        {ID: '222222222222'},
+        {ID: '111111'},
+        {ID: '33333333'}
+      ]
     }
   },
   created () {},
   methods: {
+    uploadTime () {
+
+    },
     // 新建
     add () {},
     // 查询
@@ -79,8 +88,8 @@ export default {
     // 跳转到详情页面
     toChild (id) {
       // this.$router.push({
-      //   name: '业务单证信息',
-      //   params: {
+      //   name: '业务单证详情',
+      //   query: {
       //     id: id
       //   }
       // })
