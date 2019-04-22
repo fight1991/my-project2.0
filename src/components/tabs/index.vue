@@ -37,6 +37,7 @@
   </el-container>
 </template>
 <script>
+import util from '@/common/util'
 import base64 from '@/common/base64'
 import router from '@/router'
 import store from '@/store/store'
@@ -60,6 +61,10 @@ export default {
   mounted () {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
+      let symbol = '&'
+      if (!util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
+        symbol = '?'
+      }
       if (event.data.type === 'close') {
         // 关闭指定的tab
         let data = store.getters.GetOpenedTabs.filter(item => {
@@ -80,7 +85,7 @@ export default {
           return tag
         })
         if (data.length !== 0) {
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${event.data.data.tabId}::${event.data.data.tabId}::${index}`)
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}${symbol}sysId=CCBA&tabId=${event.data.data.tabId}::${event.data.data.tabId}::${index}`)
           router.push({
             name: `${store.state.childSys.type}-new`,
             params: {
@@ -96,7 +101,7 @@ export default {
         let data = event.data.data.operationType
         if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
           let getTimeTabId = new Date().getTime()
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}&sysId=CCBA&tabId=${data === 'copy' ? getTimeTabId : event.data.data.tabId}::${data === 'copy' ? getTimeTabId : event.data.data.tabId}`)
+          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}${symbol}sysId=CCBA&tabId=${data === 'copy' ? getTimeTabId : event.data.data.tabId}::${data === 'copy' ? getTimeTabId : event.data.data.tabId}`)
           router.push({
             name: `${store.state.childSys.type}-new`,
             params: {
