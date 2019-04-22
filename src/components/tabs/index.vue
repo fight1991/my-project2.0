@@ -58,6 +58,7 @@ export default {
   },
   watch: {},
   mounted () {
+    // 通讯消息监听
     window.addEventListener('message', function (event) {
       if (event.data.type === 'close') {
         // 关闭指定的tab
