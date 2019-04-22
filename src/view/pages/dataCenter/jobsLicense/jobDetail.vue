@@ -19,12 +19,12 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-form label-width="0px" :model="detailForm" size="mini" label-position="right">
+          <el-form label-width="0px" :model="jobDetailForm" size="mini" label-position="right">
         <!-- 查询条件 -->
             <el-row :gutter="20" style="padding-top:30px">
               <el-col :span="6" :xs="12">
                 <el-form-item>
-                  <el-input size="mini" clearable v-model="detailForm.ID" placeholder="许可证号、涉证商品编号"></el-input>
+                  <el-input size="mini" clearable v-model="jobDetailForm.ID" placeholder="许可证号、涉证商品编号"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="8" :xs="12">
@@ -95,9 +95,8 @@
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button type="text" @click="toDetailChild('detail',scope.row.ID)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+            <el-button type="text" @click="upload" title="导入"><i class="fa fa-sign-in"></i></el-button>
             <el-button type="text" @click="toDetailChild('edit',scope.row.ID)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-            <el-button type="text" @click="previewPicture" title="附件"><i class="fa fa-eye f-18"></i></el-button>
-            <el-button type="text" @click="deleteBtn(scope.row.ID)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
           </template>
         </el-table-column>
       </el-table>

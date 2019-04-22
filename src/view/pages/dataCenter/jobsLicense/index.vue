@@ -87,12 +87,12 @@ export default {
     reset () {},
     // 跳转到详情页面
     toChild (id) {
-      // this.$router.push({
-      //   name: '业务单证详情',
-      //   query: {
-      //     id: id
-      //   }
-      // })
+      this.$router.push({
+        name: '业务单证详情',
+        params: {
+          id: id
+        }
+      })
     }
   }
 }

@@ -370,7 +370,7 @@ export default {
     },
     // 模板下载
     download () {
-      window.open('https://www.5itrade.cn/files/emsTemplet/transportMode.xls', '_blank')
+      window.open('https://www.5itrade.cn/files/decTemplet/transportMode.xls', '_blank')
     },
     // 获取公共字典list
     getCommonParams () {
