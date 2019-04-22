@@ -19,13 +19,21 @@ const MENU = {
         title: '许可证管理'
       }
     }, {
-      path: '/dataCenter/licenses/add',
+      path: '/dataCenter/licenses/license/add',
       name: '许可证新增',
-      permissions: 'CCBA20302010000',
-      hidden: false,
+      hidden: true,
       meta: {
         component: resolve => require(['./licManage/add.vue'], resolve),
         title: '许可证新增'
+      }
+    }, {
+      path: '/dataCenter/licenses/license/:id',
+      name: '许可证详情',
+      permissions: 'CCBA20302010000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./licManage/detail.vue'], resolve),
+        title: '许可证详情'
       }
     }, {
       path: '/dataCenter/licenses/certificate',

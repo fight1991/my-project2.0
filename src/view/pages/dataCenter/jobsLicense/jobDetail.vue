@@ -4,11 +4,8 @@
     <el-row class='sys-header'>
       <!-- 返回按钮 -->
       <el-row>
-        <el-col :span='12' :xs='24'>
+        <el-col :span='18' :xs='24'>
           <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
-        </el-col>
-        <el-col :span='12' :xs='24'>
-          <el-button type="primary" size="mini" @click="add(detail,resultTopData.id)" class="sys-fr">新建</el-button>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -59,70 +56,48 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table'
         border highlight-current-row size="mini"
-        :data="resultList">
-        <el-table-column type="expand" label="更多">
-          <template slot-scope="scope">
-            <div class='sys-table-detail-expand'>
-              <el-row :gutter="20">
-                <el-col :span="20" style="padding:0;" class='detail-infos'>
-                  <el-table class='sys-table-table' :data="scope.row.licenseList">
-                    <el-table-column label="上传时间" min-width="100">
-                      <template slot-scope="scope">
-                        {{scope.row.ID | date() || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="许可证号" min-width="200">
-                      <template slot-scope="scope">
-                        {{scope.row.ID || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="涉证商品" min-width="200">
-                      <template slot-scope="scope">
-                        {{scope.row.ID || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="许可证截止有效日期" min-width="200">
-                      <template slot-scope="scope">
-                        {{scope.row.ID | date() || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="可用次数" min-width="100">
-                      <template slot-scope="scope">
-                        {{scope.row.ID + '' || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="剩余可用数量" min-width="100">
-                      <template slot-scope="scope">
-                        {{scope.row.ID + '' || '-'}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column label="操作" width="200">
-                      <template slot-scope="scope">
-                        <el-button type="text" @click="toDetailChild('detail',scope.row.ID)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-                        <el-button type="text" @click="toDetailChild('edit',scope.row.ID)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-                        <el-button type="text" @click="previewPicture" title="附件"><i class="fa fa-eye f-18"></i></el-button>
-                        <el-button type="text" @click="deleteBtn(scope.row.ID)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </el-col>
-              </el-row>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="许可证名称" min-width="200">
+        :data="resultJobList">
+        <el-table-column label="报关单系统编号" min-width="200">
           <template slot-scope="scope">
             {{scope.row.ID || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="监管证件代码" min-width="200">
+        <el-table-column label="接单编号" min-width="200">
           <template slot-scope="scope">
             {{scope.row.ID || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="许可证数" min-width="100">
+        <el-table-column label="统一编号" min-width="200">
           <template slot-scope="scope">
-            <!-- {{scope.row.licenseList.length || '-'}} -->
+            {{scope.row.ID || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="海关编号" min-width="200">
+          <template slot-scope="scope">
+            {{scope.row.ID || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="业务状态" min-width="200">
+          <template slot-scope="scope">
+            {{scope.row.ID || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="创建日期" min-width="90">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.ID | date() || '-'}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="上传单证数" min-width="200">
+          <template slot-scope="scope">
+            {{scope.row.ID || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="200">
+          <template slot-scope="scope">
+            <el-button type="text" @click="toDetailChild('detail',scope.row.ID)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+            <el-button type="text" @click="toDetailChild('edit',scope.row.ID)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="previewPicture" title="附件"><i class="fa fa-eye f-18"></i></el-button>
+            <el-button type="text" @click="deleteBtn(scope.row.ID)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -140,11 +115,11 @@
 export default {
   data () {
     return {
-      detailForm: {
+      jobDetailForm: {
         ID: ''
       },
       dates: ['', ''],
-      resultList: [
+      resultJobList: [
         {ID: '222222222222'},
         {ID: '111111'},
         {ID: '33333333'}
@@ -179,7 +154,7 @@ export default {
       // this.$store.dispatch('ajax', {
       //   url: 'API@/dec-common/decParam/common/getPriceList',
       //   data: {
-      //     ...this.detailForm,
+      //     ...this.jobDetailForm,
       //     page: pagination
       //   },
       //   router: this.$router,
@@ -235,7 +210,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }
