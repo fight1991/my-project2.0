@@ -4,11 +4,10 @@
       <el-row v-if="editOrDetail">
         <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px">&nbsp;导入</el-button>
       </el-row>
-      <div>
         <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
-            <el-col :span="12">
-              <el-card class="license-card" v-for="(item,index) in submitData.licenseList" :key="index">
+            <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
+              <el-card class="license-card">
                 <i class="license-close-icon" @click="delLicense(index)" v-if="editOrDetail"></i>
                 <el-row>
                   <el-col :span="10">
@@ -59,7 +58,6 @@
           <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)" v-if="!editOrDetail">取消</el-button>
         </el-col>
-      </div>
     </el-row>
   </section>
 </template>
@@ -159,9 +157,6 @@ export default {
   .query-btn {
     text-align: center;
   }
-  .sys-fr{
-    float: right;
-  }
   .license-close-icon{
       width: 20px;
       height: 20px;
@@ -172,36 +167,30 @@ export default {
       top: 0;
       cursor: pointer;
     }
-    .role-submit-btn{
-      .el-button{
-        margin: 0 auto;
-        display: block;
-      }
-    }
-    .license-card{
-      position: relative;
-      margin-bottom: 20px;
-      padding-right: 10px;
-    }
-    .detail-img,.no-pic{
-      display: inline-block;
-      padding-right: 10px;
-      margin-bottom: 12px;
-      width: 178px;
-      height: 178px;
-      cursor: pointer;
-    }
-    .avatar-uploader {
-      margin:20px auto;
-      text-align: center;
-    }
-    .avatar-uploader-icon {
-      border: 1px solid #d9d9d9;
-      font-size: 28px;
-      color: #8c939d;
-      width: 178px;
-      height: 178px;
-      line-height: 178px;
-      text-align: center;
-    }
+  .license-card{
+    position: relative;
+    margin-bottom: 20px;
+    padding-right: 10px;
+  }
+  .detail-img,.no-pic{
+    display: inline-block;
+    padding-right: 10px;
+    margin-bottom: 12px;
+    width: 178px;
+    height: 178px;
+    cursor: pointer;
+  }
+  .avatar-uploader {
+    margin:20px auto;
+    text-align: center;
+  }
+  .avatar-uploader-icon {
+    border: 1px solid #d9d9d9;
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
 </style>

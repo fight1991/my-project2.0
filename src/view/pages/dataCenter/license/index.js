@@ -27,12 +27,12 @@ const MENU = {
         title: '许可证新增'
       }
     }, {
-      path: '/dataCenter/licenses/license/:id',
-      name: '许可证详情',
+      path: '/dataCenter/licenses/detailList/:id',
+      name: '许可证详情列表',
       hidden: false,
       meta: {
-        component: resolve => require(['./licManage/detail.vue'], resolve),
-        title: '许可证详情'
+        component: resolve => require(['./licManage/detailList.vue'], resolve),
+        title: '许可证详情列表'
       }
     }, {
       path: '/dataCenter/licenses/certificate',

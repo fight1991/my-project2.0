@@ -118,7 +118,7 @@ export default {
     // 跳转到详情页面
     toChild (id) {
       // this.$router.push({
-      //   name: '业务单证信息',
+      //   name: '许可证详情列表',
       //   params: {
       //     id: id
       //   }
