@@ -62,6 +62,16 @@ const routes = [
       title: '详情'
     }
   },
+  // {
+  //   path: '/demo',
+  //   name: '拖拽小样',
+  //   hidden: true,
+  //   permissions: 'WF000000',
+  //   component: resolve => require(['./view/demo/sortable.vue'], resolve),
+  //   meta: {
+  //     title: '详情'
+  //   }
+  // },
   Errors.MENU
 ]
 
