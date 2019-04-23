@@ -65,6 +65,7 @@ export default {
             pageIndex: 1
           }
         },
+        isLoad: false,
         router: this.$router,
         success: (res) => {
           this.newsInfo.forEach(v => {
