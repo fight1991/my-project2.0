@@ -65,7 +65,9 @@ export default {
       if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
         symbol = '?'
       }
-      if (event.data.type === 'close') {
+      if (event.data.type === 'window-open') {
+        window.open(event.data.data.url, '_blank')
+      } else if (event.data.type === 'close') {
         // 关闭指定的tab
         let data = store.getters.GetOpenedTabs.filter(item => {
           return item.tabId === event.data.data.tabId && !item.isDel
