@@ -62,7 +62,7 @@ export default {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
       let symbol = '&'
-      if (!util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
+      if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
         symbol = '?'
       }
       if (event.data.type === 'close') {
