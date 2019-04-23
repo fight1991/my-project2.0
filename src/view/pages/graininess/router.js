@@ -5,7 +5,7 @@ const MENU = [
   {
     path: '/graininess/index',
     name: 'graininess-index',
-    hidden: true,
+    hidden: false,
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {

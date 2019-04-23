@@ -6,7 +6,7 @@ const MENU = [
   {
     path: '/handBook/index',
     name: 'hand-index',
-    hidden: true,
+    hidden: false,
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {

@@ -3,7 +3,7 @@ const MENU = [
   {
     path: '/circulation/index',
     name: 'circulation-index',
-    hidden: true,
+    hidden: false,
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {

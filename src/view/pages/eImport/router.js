@@ -9,7 +9,7 @@ const MENU = [
   {
     path: '/eImport/index',
     name: 'eImport-index',
-    hidden: true,
+    hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
