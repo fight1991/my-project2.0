@@ -61,5 +61,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+  .container{
+    width: 80px;
+    height: 300px;
+    position: absolute;
+    left: 0;
+    display:flex;
+    flex-direction: column;
+    padding: 0;
+  }
+  .item {
+    margin-top: 10px;
+    transition: all linear .3s
+  }
 </style>

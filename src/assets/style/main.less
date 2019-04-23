@@ -620,7 +620,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 // 子系统主样式
 .sys-main {
-  padding: 20px;
+  padding: 15px;
+  height: calc(~"(100% - 30px)");
+  overflow-y: auto;
   .el-input.is-active .el-input__inner, .el-input__inner:focus {
     border: 1px solid @line-color-input;
     outline: 0;

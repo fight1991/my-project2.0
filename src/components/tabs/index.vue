@@ -29,7 +29,7 @@
     </el-header>
     <el-main class="abtrate">
       <div class='page-tab-content' v-loading="$store.state.loading">
-        <div style='height:100%;box-sizing: border-box;overflow-y: auto;' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
+        <div style='height:100%;box-sizing: border-box;' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
           <component :is="item.component"></component>
         </div>
       </div>
