@@ -19,17 +19,8 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '进口报关单'
       }
-    }, {
-      path: '/eImport/declare/importRecord',
-      name: 'importRecord',
-      icon: 'icons-menu-price',
-      permissions: 'CCBA20203020000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '进境备案清单'
-      }
-    }, {
+    },
+    {
       path: '/eImport/declare/export',
       name: 'exportDec',
       icon: 'icons-menu-price',
@@ -39,7 +30,19 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '出口报关单'
       }
-    }, {
+    },
+    {
+      path: '/eImport/declare/importRecord',
+      name: 'importRecord',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20203020000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '进境备案清单'
+      }
+    },
+    {
       path: '/eImport/declare/exportRecord',
       name: 'exportRecord',
       icon: 'icons-menu-price',
@@ -49,7 +52,8 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '出境备案清单'
       }
-    }, {
+    },
+    {
       path: '/eImport/declare/importTaxList',
       name: 'importTaxList',
       icon: 'icons-menu-price',
@@ -59,7 +63,8 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '进口核注清单'
       }
-    }, {
+    },
+    {
       path: '/eImport/declare/exportTaxList',
       name: 'exportTaxList',
       icon: 'icons-menu-price',

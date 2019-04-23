@@ -1,6 +1,6 @@
 <template>
   <div id="list" v-permissions="'CCBA20100000000'">
-    <div id='div1' class='divItems' v-permissions="'CCBA20101000000'">
+    <!-- <div id='div1' class='divItems' v-permissions="'CCBA20101000000'">
       <board></board>
     </div>
     <div id='div2' class='divItems' v-permissions="'CCBA20102000000'">
@@ -11,21 +11,45 @@
     </div>
     <div id='div3' class='divItems' v-permissions="'CCBA20104000000'">
       <corpDisplay></corpDisplay>
+    </div> -->
+    <div v-for="item in divList" :key="item.id" :id='item.id' class='divItems' v-permissions="item.permissions">
+      <component :is="item.component"></component>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  components: {
-    board: resolve => require(['./middle/board.vue'], resolve),
-    report: resolve => require(['./middle/report.vue'], resolve),
-    corpDisplay: resolve => require(['./middle/corpDisplay.vue'], resolve),
-    news: resolve => require(['./middle/news.vue'], resolve)
-  },
+  // components: {
+  //   board: resolve => require(['./middle/board.vue'], resolve),
+  //   report: resolve => require(['./middle/report.vue'], resolve),
+  //   news: resolve => require(['./middle/news.vue'], resolve),
+  //   corpDisplay: resolve => require(['./middle/corpDisplay.vue'], resolve)
+  // },
   data () {
     return {
-
+      divList: [
+        {
+          id: 'div1',
+          component: () => import('./middle/board.vue'),
+          permissions: 'CCBA20101000000'
+        },
+        {
+          id: 'div2',
+          component: () => import('./middle/report.vue'),
+          permissions: 'CCBA20102000000'
+        },
+        {
+          id: 'div3',
+          component: () => import('./middle/news.vue'),
+          permissions: 'CCBA20103000000'
+        },
+        {
+          id: 'div4',
+          component: () => import('./middle/corpDisplay.vue'),
+          permissions: 'CCBA20104000000'
+        }
+      ]
     }
   },
   mounted () {
