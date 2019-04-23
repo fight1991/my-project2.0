@@ -6,7 +6,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">商品编号</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.codeTs}}</div>
             </div>
           </el-col>
         </el-row>
@@ -14,7 +14,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">商品名称</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.gName}}</div>
             </div>
           </el-col>
         </el-row>
@@ -22,7 +22,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">申报要素</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.codeTs}}</div>
             </div>
           </el-col>
         </el-row>
@@ -30,13 +30,13 @@
             <el-col :span="8">
               <div class="param-row">
                 <div class="param-left params-borderR">法定第一计量单位</div>
-                <div class="param-right params-borderR">12222222</div>
+                <div class="param-right params-borderR">{{taxForm.unit1}}</div>
               </div>
             </el-col>
             <el-col :span="16">
               <div class="param-row">
                 <div class="param-left params-borderR">法定第二单位</div>
-                <div class="param-right">12222222</div>
+                <div class="param-right">{{taxForm.unit2}}</div>
               </div>
             </el-col>
         </el-row>
@@ -44,19 +44,19 @@
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">最惠国进口税率</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.lowRate}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">普通进口税率</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.highRate}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">暂定进口税率</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.tempRate}}</div>
             </div>
           </el-col>
         </el-row>
@@ -64,19 +64,19 @@
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">消费税率</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.commRate}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">出口税率</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.outRate}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">出口退税率</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.otherRate}}</div>
             </div>
           </el-col>
         </el-row>
@@ -84,7 +84,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">协定税率</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.codeTs}}</div>
             </div>
           </el-col>
         </el-row>
@@ -92,19 +92,19 @@
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">增值税率</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.taxRate}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">监管条件</div>
-              <div class="param-right params-borderR">12222222</div>
+              <div class="param-right params-borderR">{{taxForm.controlMa}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">检验检疫类别</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.ciqMa}}</div>
             </div>
           </el-col>
         </el-row>
@@ -112,7 +112,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">品目注释</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.itemNote}}</div>
             </div>
           </el-col>
         </el-row>
@@ -120,7 +120,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">备注</div>
-              <div class="param-right">12222222</div>
+              <div class="param-right">{{taxForm.noteS}}</div>
             </div>
           </el-col>
         </el-row>
@@ -129,19 +129,32 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   data () {
     return {
-      taxForm: {
-
-      }
+      taxForm: {},
+      code: ''
     }
   },
   created () {
-
+    this.code = this.$route.params.id
+    this.getDetail()
+  },
+  mounted () {
   },
   methods: {
-
+    // 获取详情
+    getDetail () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getComplexDetail',
+        data: {code: this.code},
+        router: this.$router,
+        success: (res) => {
+          this.taxForm = util.isEmpty(res.result) ? {} : res.result
+        }
+      })
+    }
   }
 }
 </script>
