@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column label="注释" min-width="100">
           <template slot-scope="scope">
-            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row.listNo)"><i class='dec-i'></i></a></div>
+            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row.thrcontentInf)"><i class='dec-i'></i></a></div>
           </template>
         </el-table-column>
       </el-table>
@@ -51,6 +51,13 @@
       <!-- 分页 end -->
     </div>
     <!-- 主显示框 end -->
+    <!-- 注释弹窗 -->
+    <el-dialog title="注释" :close-on-click-modal="false" :append-to-body="true" :visible.sync="explanatoryVisable" width="40%">
+      <el-row>
+        <div style="word-break: break-all;">{{thrcontentInf}}</div>
+      </el-row>
+    </el-dialog>
+    <!-- 注释弹窗 end -->
   </section>
 </template>
 <script>
@@ -63,7 +70,9 @@ export default {
         keywords: ''
       },
       productList: [],
-      pages: {}
+      pages: {},
+      explanatoryVisable: false,
+      thrcontentInf: ''
     }
   },
   created () {
@@ -97,8 +106,9 @@ export default {
       })
     },
     // 跳转详情
-    toDetail () {
-
+    toDetail (data) {
+      this.thrcontentInf = data
+      this.explanatoryVisable = true
     }
   }
 }

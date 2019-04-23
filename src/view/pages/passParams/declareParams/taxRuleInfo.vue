@@ -22,7 +22,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">申报要素</div>
-              <div class="param-right">{{taxForm.codeTs}}</div>
+              <div class="param-right">{{taxForm.gModel}}</div>
             </div>
           </el-col>
         </el-row>
@@ -84,7 +84,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">协定税率</div>
-              <div class="param-right">{{taxForm.codeTs}}</div>
+              <div class="param-right"></div>
             </div>
           </el-col>
         </el-row>
@@ -172,21 +172,21 @@ export default {
       }
     }
     .param-row{
-        display: table;
-        width: 100%;
-        >div{
-          display: table-cell;
-        }
-        .param-left{
-          width: 180px;
-          padding: 15px;
-          text-align: center;
-        }
-        .param-right{
-          padding: 15px;
-          word-break: break-all;
-        }
+      display: table;
+      width: 100%;
+      >div{
+        display: table-cell;
       }
+      .param-left{
+        width: 180px;
+        padding: 15px;
+        text-align: center;
+      }
+      .param-right{
+        padding: 15px;
+        word-break: break-all;
+      }
+    }
   }
 }
 </style>

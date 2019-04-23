@@ -44,7 +44,7 @@
   </section>
 </template>
 <script>
-// import util from '../../../../common/util'
+import util from '../../../../common/util'
 export default {
   name: 'pakageKinds',
   data () {
@@ -70,21 +70,21 @@ export default {
     },
     // 获取表格
     pageList (pagination) {
-      // this.paginationInit = pagination
-      // this.$store.dispatch('ajax', {
-      //   url: 'API@/saas-dictionary/decParam/getTransfList',
-      //   data: {...this.pakageForm, page: pagination},
-      //   isPageList: true,
-      //   router: this.$router,
-      //   success: (res) => {
-      //     this.pakageList = util.isEmpty(res.result) ? [] : res.result
-      //     this.paginationInit = res.page
-      //     this.pages = {
-      //       pageIndex: res.page.pageIndex,
-      //       pageSize: res.page.pageSize
-      //     }
-      //   }
-      // })
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/decParam/getWrapList',
+        data: {...this.pakageForm, page: pagination},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.pakageList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+          this.pages = {
+            pageIndex: res.page.pageIndex,
+            pageSize: res.page.pageSize
+          }
+        }
+      })
     }
   }
 }
