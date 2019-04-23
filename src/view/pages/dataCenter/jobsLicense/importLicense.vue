@@ -2,37 +2,25 @@
   <section class='sys-main'>
      <!-- 头部 -->
       <el-row class = "query-condition">
-        <el-row class='mg-b-15'>
-          <el-button type="primary" size="mini" @click="add">新建</el-button>
-        </el-row>
-        <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
-      <!-- 查询条件 -->
-          <el-row :gutter="20" style="padding-top:10px">
-            <el-col :span="6" :xs="12">
-              <el-form-item>
-              <el-input size="mini" clearable v-model="queryForm.ID" placeholder="委托企业"></el-input>
-            </el-form-item>
+        <el-row>
+          <el-col :span="8">
+              委托企业:{{resultTopData.id}}
             </el-col>
-            <el-col :span="8" :xs="12">
-            <el-form-item label-width="100px" label="最近上传日期">
-              <el-date-picker size="mini"
-                v-model="dates"
-                @change="search()"
-                type="daterange"
-                :editable='false'
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10" :xs="12">
-            <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-            <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
-          </el-col>
+            <el-col :span="8">
+              报关单系统编号:{{resultTopData.id + ''}}
+            </el-col>
+            <el-col :span="8">
+              接单编号:{{resultTopData.id + ''}}
+            </el-col>
           </el-row>
-       <!-- 查询条件 end-->
-        </el-form>
+          <el-row>
+          <el-col :span="8">
+              统一编号:{{resultTopData.id}}
+            </el-col>
+            <el-col :span="8">
+              报关单号:{{resultTopData.id + ''}}
+            </el-col>
+          </el-row>
       </el-row>
       <!-- 头部 end-->
       <!-- 主显示框 -->
