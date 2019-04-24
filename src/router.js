@@ -169,7 +169,7 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'passParams',
           title: '通关参数',
-          permissions: ''
+          permissions: 'CCBA21200000000'
         }
         break
       case 'passStatus':
