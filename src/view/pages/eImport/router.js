@@ -1,4 +1,4 @@
-// import Manufacturer from './manufacturer/index' // 厂商管理
+import Manufacturer from './manufacturer/index' // 厂商管理
 import Prosecution from './prosecution/index' // 逻辑检控设置
 import EiTemplate from './eiTemplate/index' // 进出口模板
 import Receipt from './receipt/index' // 接单
@@ -27,7 +27,7 @@ const MENU = [
       title: '编辑详情'
     }
   },
-  // Manufacturer.MENU,
+  Manufacturer.MENU,
   Prosecution.MENU,
   EiTemplate.MENU,
   Receipt.MENU,
