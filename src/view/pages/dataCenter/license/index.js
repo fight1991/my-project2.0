@@ -19,24 +19,24 @@ const MENU = {
         title: '许可证管理'
       }
     }, {
-      path: '/dataCenter/licenses/license/add',
-      name: '许可证新增',
+      path: '/dataCenter/licenses/license/addLicense',
+      name: 'addLicense',
       hidden: true,
       meta: {
-        component: resolve => require(['./licManage/add.vue'], resolve),
+        component: resolve => require(['./licManage/addLicense.vue'], resolve),
         title: '许可证新增'
       }
     }, {
       path: '/dataCenter/licenses/license/detailList/:corpSccCode',
-      name: '许可证详情列表',
+      name: 'detailListLicense',
       hidden: true,
       meta: {
-        component: resolve => require(['./licManage/detailList.vue'], resolve),
+        component: resolve => require(['./licManage/detailListLicense.vue'], resolve),
         title: '许可证详情列表'
       }
     }, {
       path: '/dataCenter/licenses/license/manageDetail/:id',
-      name: '许可证详情编辑',
+      name: 'manageDetail',
       hidden: true,
       meta: {
         component: resolve => require(['./licManage/manageDetail.vue'], resolve),
@@ -61,7 +61,7 @@ const MENU = {
         title: '编辑证书信息'
       }
     }, {
-      path: '/dataCenter/licenses/certificate/detail/:corpSccCode',
+      path: '/dataCenter/licenses/certificate/detailList/:corpSccCode',
       name: 'detailListCertificate',
       hidden: true,
       meta: {

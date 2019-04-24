@@ -12,7 +12,7 @@ const MENU = [
   },
   {
     path: '/dataCenter/jobsLicense/jobDetailList/:id',
-    name: '业务单证列表',
+    name: 'jobDetailList',
     hidden: true,
     meta: {
       component: resolve => require(['./jobDetailList.vue'], resolve),
@@ -20,17 +20,17 @@ const MENU = [
     }
   },
   {
-    path: '/dataCenter/jobsLicense/detailEditByLicno',
-    name: '业务单证编辑详情',
+    path: '/dataCenter/jobsLicense/detailEdit',
+    name: 'detailEditJobs',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailEditByLicno.vue'], resolve),
+      component: resolve => require(['./detailEditJobs.vue'], resolve),
       title: '业务单证编辑详情'
     }
   },
   {
     path: '/dataCenter/jobsLicense/importLicense',
-    name: '导入业务单证',
+    name: 'importLicense',
     hidden: true,
     meta: {
       component: resolve => require(['./importLicense.vue'], resolve),
