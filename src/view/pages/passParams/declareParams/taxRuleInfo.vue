@@ -30,13 +30,13 @@
             <el-col :span="8">
               <div class="param-row">
                 <div class="param-left params-borderR">法定第一计量单位</div>
-                <div class="param-right params-borderR">{{taxForm.unit1}}</div>
+                <div class="param-right params-borderR">{{taxForm.unit1}}&nbsp;&nbsp;&nbsp;{{taxForm.unit1Value}}</div>
               </div>
             </el-col>
             <el-col :span="16">
               <div class="param-row">
                 <div class="param-left params-borderR">法定第二单位</div>
-                <div class="param-right">{{taxForm.unit2}}</div>
+                <div class="param-right">{{taxForm.unit2}}&nbsp;&nbsp;&nbsp;{{taxForm.unit2Value}}</div>
               </div>
             </el-col>
         </el-row>
@@ -84,7 +84,7 @@
           <el-col :span="24">
             <div class="param-row">
               <div class="param-left params-borderR">协定税率</div>
-              <div class="param-right"></div>
+              <div class="param-right">{{taxForm.agreedRate}}</div>
             </div>
           </el-col>
         </el-row>
