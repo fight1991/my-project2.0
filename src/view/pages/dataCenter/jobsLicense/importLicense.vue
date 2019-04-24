@@ -74,7 +74,7 @@
             <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多业务单证</span></span>
           </el-row>
           <el-row class="query-btn">
-            <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
         </el-form>

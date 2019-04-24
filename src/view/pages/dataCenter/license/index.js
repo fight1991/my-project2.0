@@ -35,6 +35,14 @@ const MENU = {
         title: '许可证详情列表'
       }
     }, {
+      path: '/dataCenter/licenses/detailList/manageDetail/:id',
+      name: '许可证详情编辑',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./licManage/manageDetail.vue'], resolve),
+        title: '许可证详情编辑'
+      }
+    }, {
       path: '/dataCenter/licenses/certificate',
       name: 'certificate',
       icon: 'icons-menu-price',

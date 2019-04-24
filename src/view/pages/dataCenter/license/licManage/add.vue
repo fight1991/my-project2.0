@@ -11,7 +11,7 @@
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-condition">
-        <el-form label-width="200px" :model="addForm" size="mini" label-position="right">
+        <el-form label-width="150px" :model="addForm" size="mini" label-position="right">
           <el-row :gutter="20">
               <el-form-item label="委托企业" prop="licenseList">
                 <!-- <el-autocomplete class='sys-certified'
@@ -30,73 +30,75 @@
               </el-form-item>
           </el-row>
           <el-row :gutter="20">
-              <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
-                <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
-                <el-row>
-                  <el-form-item label="许可证类型:" :prop="'licenseList.'+index+'.licenseId'" :rules="rules.licenseSelect">
-                    <el-select size="mini" v-model="item.licenseId"
-                      filterable
-                      @change="licenseInfo(item.licenseId,index)" clearable placeholder="请选择许可证类型">
-                      <el-option
-                        v-for="(item,k) in licenses"
-                        :key="'licenses'+index+k+item.licenseId"
-                        :label="item.serviceName"
-                        :value="item.licenseId">
-                      </el-option>
+            <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
+              <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
+              <el-row>
+                <el-col :span="12">
+                <el-form-item label="许可证类型:" :prop="'licenseList.'+index+'.licenseId'" :rules="rules.licenseSelect">
+                  <el-select size="mini" v-model="item.licenseId" style="width:100%"
+                    filterable
+                    @change="licenseInfo(item.licenseId,index)" clearable placeholder="请选择许可证类型">
+                    <el-option
+                      v-for="(item,k) in licenses"
+                      :key="'licenses'+index+k+item.licenseId"
+                      :label="item.serviceName"
+                      :value="item.licenseId">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-form-item label="许可证文件:">
+                  <el-upload
+                    action="http://127.0.0.1"
+                    :before-upload="beforeUpload"
+                    :file-list="fileLists"
+                    :show-file-list="fileType"
+                    :on-preview="showfileUrl"
+                    :on-remove="handleDelete">
+                    <img v-if="addForm.licenseList  && !fileType" :src="addForm.licenseList" class="detail-img">
+                    <el-button size="small" type="primary">上传附件</el-button>
+                    </el-upload>
+                    <img class="detail-img" v-if="!fileType" :src="addForm.licenseList">
+                    <!-- <span v-if="isPdf" style="cursor:pointer;text-decoration:underline;" @click="showfile(resultDetail.businessLicenseUrl)">企业营业执照.pdf</span> -->
+                </el-form-item>
+              </el-row>
+              <el-row>
+                <el-col :span="12" :xs='24'>
+                  <el-form-item label="许可证编号:" prop="licensePath">
+                    <el-input clearable size="mini" :maxlength="30" v-model="item.licensePath"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs='24'>
+                  <el-form-item label="有效截止日期" prop="licensePath">
+                    <el-date-picker size="mini" type="datetime" style="width:100%" v-model="item.licensePath"></el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12" :xs='24'>
+                  <el-form-item label="可用次数" prop="licensePath" >
+                    <el-select v-model="item.licensePath" style="width:100%"
+                      filterable remote clearable placeholder="请选择许可证可用次数">
+                      <el-option label="一批一证" value="0"></el-option>
+                      <el-option label="非一批一证" value="1"></el-option>
                     </el-select>
                   </el-form-item>
-                </el-row>
-                <el-row>
-                  <el-form-item label="许可证文件:">
-                    <el-upload
-                      action="http://127.0.0.1"
-                      :before-upload="beforeUpload"
-                      :file-list="fileLists"
-                      :show-file-list="fileType"
-                      :on-preview="showfileUrl"
-                      :on-remove="handleDelete">
-                      <img v-if="addForm.licenseList  && !fileType" :src="addForm.licenseList" class="detail-img">
-                      <el-button size="small" type="primary">上传附件</el-button>
-                      </el-upload>
-                      <img class="detail-img" v-if="!fileType" :src="addForm.licenseList">
-                      <!-- <span v-if="isPdf" style="cursor:pointer;text-decoration:underline;" @click="showfile(resultDetail.businessLicenseUrl)">企业营业执照.pdf</span> -->
+                </el-col>
+                <el-col :span="12" :xs='24'>
+                  <el-form-item label="涉证商品:" prop="licensePath">
+                    <el-input clearable size="mini" :maxlength="30" v-model="item.licensePath"></el-input>
                   </el-form-item>
-                </el-row>
-                <el-row>
-                  <el-col :span="12" :xs='24'>
-                    <el-form-item label="许可证编号:" prop="licensePath">
-                      <el-input clearable size="mini" :maxlength="30" v-model="item.licensePath"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12" :xs='24'>
-                    <el-form-item label="有效截止日期" prop="licensePath">
-                      <el-date-picker size="mini" type="datetime" v-model="item.licensePath"></el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="12" :xs='24'>
-                    <el-form-item label="可用次数" prop="licensePath" >
-                      <el-select v-model="item.licensePath"
-                        filterable remote clearable placeholder="请选择许可证可用次数">
-                        <el-option label="一批一证" value="0"></el-option>
-                        <el-option label="非一批一证" value="1"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12" :xs='24'>
-                    <el-form-item label="涉证商品:" prop="licensePath">
-                      <el-input clearable size="mini" :maxlength="30" v-model="item.licensePath"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-card>
+                </el-col>
+              </el-row>
+            </el-card>
           </el-row>
           <el-row>
             <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
           </el-row>
           <el-row class="query-btn">
-            <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
         </el-form>
