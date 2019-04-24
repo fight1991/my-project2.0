@@ -7,25 +7,13 @@
         <el-row class='sys-search mg-b-30' :gutter="5">
           <!-- 查询条件 -->
           <el-col :span="4">
-            <el-form-item size="mini" label="客户名称">
-              <el-input></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item size="mini" label="统计口径">
-              <el-select  v-model="QueryForm.tjkj">
-                <el-option
-                  v-for="item in graininess"
-                  :key="item.value +'feeOptions'"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+            <el-form-item size="mini" label="操作员">
+              <el-input v-model="QueryForm.operateUser"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item size="mini" label="统计区间">
-            <el-date-picker  v-model="dates" style="width:100%"
+            <el-form-item size="mini" label="时间">
+              <el-date-picker  v-model="dates" style="width:100%"
               @change="doInit()"
               type="daterange"
               :clearable = 'false'
@@ -36,47 +24,21 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-              <el-form-item size="mini" label-width="10px">
-              <el-radio-group size='small'  v-model="dateConfig"  @change="datesChange">
-                <el-radio-button label="7">最近7天</el-radio-button>
-                <el-radio-button label="30">最近30天</el-radio-button>
-                <el-radio-button label="180">最近180天</el-radio-button>
-              </el-radio-group>
-              </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item size="mini" label="进出口标志">
-              <el-select  v-model="QueryForm.iEFlag">
-                <el-option
-                  v-for="item in ports"
-                  :key="item.value +'feeOptions'"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+            <el-button type="primary" size="mini" @click="getTableData()">查询</el-button>
         </el-row>
-        <el-row >
-            <el-col :span="2" :offset="8" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180"  type="primary" @click="doInit">查询</el-button>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180" @click="doInit">重置</el-button>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2" >
-            <el-form-item size="mini" label-width="0px">
-            <el-button label="180" @click="doInit">导出</el-button>
-            </el-form-item>
-            </el-col>
-        </el-row>
+        <el-radio-group v-model="QueryForm.type" size="mini" @change="getTableData()" style="display:block;margin-right:0;">
+          <el-radio-button label="1">接单数</el-radio-button>
+          <el-radio-button label="2">录入数</el-radio-button>
+          <el-radio-button label="3">审核数</el-radio-button>
+          <el-radio-button label="4">申报数</el-radio-button>
+          <el-radio-button label="5">录入差错率</el-radio-button>
+          <el-radio-button label="6">审核差错率</el-radio-button>
+        </el-radio-group>
         </el-form>
         <!-- 查询条件 end-->
+         <div class='mg-b-30'>
+          <e-chart :datas='resultChartData' :height="'300px'" :reset='resetChartData'></e-chart>
+        </div>
         <!-- 列表 list -->
         <el-row class='mg-b-30'>
           <div class='mg-lr-30 sys-main-table' style="margin-bottom:100px">
@@ -86,51 +48,46 @@
                   <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="客户" min-width="100">
+              <el-table-column label="操作员" min-width="100">
                 <template slot-scope="scope">
-                    <div class='sys-td-l'>{{scope.row.tradeCoName}}</div>
+                    <div class='sys-td-l'>{{scope.row.auditUser}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="时间" min-width="100">
+              <el-table-column label="单证接单数" min-width="100">
                 <template slot-scope="scope">
-                    <div class='sys-td-r'>{{scope.row.iCount}}</div>
+                    <div class='sys-td-r'>{{scope.row.acceptCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="报关单数" min-width="100">
+              <el-table-column label="单证录入数" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.eCount}}</div>
+                  <div class='sys-td-r'>{{scope.row.inputCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="改单数" min-width="100">
+              <el-table-column label="单证审核数" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.totalCount}}</div>
+                  <div class='sys-td-r'>{{scope.row.verityCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="改单比例（%）" width="150">
+              <el-table-column label="单证申报数" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
+                  <div class='sys-td-r'>{{scope.row.decCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="删改单" width="100">
+              <el-table-column label="录入差错率" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
+                  <div class='sys-td-r'>{{scope.row.iFailCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="删单比例（%）" width="150" >
+              <el-table-column label="审核差错率" width="150" >
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
-                </template>
-              </el-table-column>
-               <el-table-column label="删改比例（%）" width="150" >
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.percent*100 | money(2)}}%</div>
+                  <div class='sys-td-r'>{{scope.row.vFailCount}}%</div>
                 </template>
               </el-table-column>
             </el-table>
             <!--分页-->
             <el-row class='sys-page-list'>
               <el-col :span="24" align="right">
-                  <page-box @change="getChartData()"></page-box>
+                  <page-box @change="getTableData()"></page-box>
               </el-col>
             </el-row>
           </div>
@@ -148,9 +105,9 @@ export default {
       // 存放查询检索表单数据
       dates: ['', ''],
       QueryForm: {
-        iEFlag: 'ALL',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        operateUser: ''
       },
       tableData: [],
       graininess: [
@@ -209,11 +166,53 @@ export default {
       }
     },
     doInit () {
-      this.$store.commit('pageInit') // 初始化当前页
-      this.getChartData()
+      this.getTableData()
+    },
+    getCharData () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/dec/decReport/statisticsWork',
+        data: this.QueryForm,
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.resultChartData = {
+            title: {
+              text: '接单数',
+              left: 'center'
+            },
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow'
+              }
+            },
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+            },
+            xAxis: {
+              type: 'value',
+              boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+              type: 'category',
+              data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+            },
+            series: [
+              {
+                name: '2011年',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
+              }
+            ]
+          }
+        }
+      })
     },
     // 获取图表数据
-    getChartData () {
+    getTableData () {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''
         this.QueryForm.endDate = ''
@@ -222,96 +221,15 @@ export default {
         this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-report/decReport/decCount',
+        url: 'API@/saas-report/dec/decReport/statisticsWork',
         data: this.QueryForm,
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          let pieList = []
-          let legendData = []
-          if (!util.isEmpty(res.result.decCountPieVO) && res.result.decCountPieVO.length > 0) {
-            this.pages = res.page
-            let leftcount = res.result.decCountPieVO[0].totalCount
-            for (let item in res.result.decCountPieVO) {
-              leftcount = leftcount - res.result.decCountPieVO[item].count
-              pieList.push({name: res.result.decCountPieVO[item].tradeCoName,
-                value: res.result.decCountPieVO[item].count})
-              legendData.push(res.result.decCountPieVO[item].tradeCoName)
-            }
-            if (res.result.decCountPieVO.length >= 9) {
-              pieList.push({name: '其他企业',
-                value: leftcount})
-              legendData.push('其他企业')
-            }
-            this.tableData = res.result.decCountTableVO
-          } else {
-            this.$message({
-              message: '暂无数据',
-              type: 'warning'
-            })
-            this.tableData = []
-          }
-          this.resultChartData = {
-            tooltip: {
-              trigger: 'item',
-              formatter: '{a} <br/>{b} : {c}({d})%'
-            },
-            legend: {
-              type: 'scroll',
-              orient: 'vertical',
-              right: 300,
-              top: 10,
-              bottom: 20,
-              data: legendData
-            },
-            series: [
-              {
-                name: '单量统计',
-                type: 'pie',
-                radius: '90%',
-                label: {
-                  show: false
-                },
-                center: ['50%', '50%'],
-                data: pieList
-              }
-            ]
-          }
+          this.tableData = res.result
+          this.getCharData()
         }
       })
-    },
-    // 日期切换
-    datesChange (value) {
-      let days = -(parseInt(value) - 1)
-      this.dates = [util.getNdayDate(new Date(), days), new Date()]
-    },
-    // 图表类型切换
-    restTypeChartData () {
-      let type = ''
-      if (this.chartType === '1') {
-        type = 'line'
-        this.resultChartData.xAxis.boundaryGap = false
-      } else {
-        type = 'bar'
-        this.resultChartData.xAxis.boundaryGap = true
-      }
-      for (let x in this.resultChartData.series) {
-        this.resultChartData.series[x].type = type
-      }
-      this.resetChartData = Math.random()
-    },
-    // 跳转到用户访问明细页面
-    toDetail (date) {
-      let json = {
-        path: '/statistics/visitDetail',
-        query: {
-          'actionName': encodeURIComponent('登录'),
-          'startTime': date,
-          'endTime': date
-        }
-      }
-      this.$store.commit('addTab', {tabName: `用户访问明细-登录(${date})`, tabPath: json})
-      this.$router.push(json)
     }
   }
 }
