@@ -23,17 +23,17 @@
         </el-table-column>
         <el-table-column label="币制代码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.currCode}}</div>
           </template>
         </el-table-column>
         <el-table-column label="币制名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.currName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="英文名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.currSymb}}</div>
           </template>
         </el-table-column>
       </el-table>

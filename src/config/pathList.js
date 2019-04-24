@@ -32,7 +32,7 @@ export default {
     // 业务跟踪台账
     tLedger: url.COMMON + '/declaration/businessTrack',
     // 青源模板
-    shipping: url.COMMON + ''
+    shipping: url.COMMON + '/declaration/shipping'
   },
   // 资料中心
   dataCenter: {

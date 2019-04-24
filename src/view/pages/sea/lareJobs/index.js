@@ -43,7 +43,7 @@ const MENU = {
       path: '/sea/centDeclare_sea/list',
       name: 'centDeclare_sea',
       permissions: 'CCBA20902040000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '集中报关'
@@ -53,7 +53,7 @@ const MENU = {
       path: '/sea/clearance_sea/list',
       name: 'clearance_sea',
       permissions: 'CCBA20902050000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '清单结关'
@@ -63,7 +63,7 @@ const MENU = {
       path: '/sea/clearanceQuery_sea/list',
       name: 'clearanceQuery_sea',
       permissions: 'CCBA20902060000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '清单结关查询'

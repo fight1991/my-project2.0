@@ -23,12 +23,12 @@
         </el-table-column>
         <el-table-column label="计量单位代码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.unitCode}}</div>
           </template>
         </el-table-column>
         <el-table-column label="计量单位名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.unitName}}</div>
           </template>
         </el-table-column>
       </el-table>

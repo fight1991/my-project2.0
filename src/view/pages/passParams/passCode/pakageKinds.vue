@@ -23,12 +23,12 @@
         </el-table-column>
         <el-table-column label="包装种类代码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.wrapType}}</div>
           </template>
         </el-table-column>
         <el-table-column label="包装种类名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.title}}</div>
+            <div class='sys-td-c'>{{scope.row.wrapName}}</div>
           </template>
         </el-table-column>
       </el-table>

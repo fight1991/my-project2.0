@@ -47,7 +47,7 @@ const MENU = {
       name: 'shipping',
       icon: 'icons-menu-price',
       permissions: 'CCBA20201030000',
-      hidden: true,
+      hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: 'shipping'
