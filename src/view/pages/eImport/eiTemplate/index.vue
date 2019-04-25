@@ -12,13 +12,13 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'iTemplate') {
-      this.url = pathList.eImport['decImTemplate'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'eTemplate') {
-      this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'templateList') {
-      this.url = pathList.eImport['decTemplateList'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'shipping') {
-      this.url = pathList.eImport['shipping'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['shipping'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }
