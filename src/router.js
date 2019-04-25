@@ -296,8 +296,13 @@ router.afterEach(route => {
   let title = route.meta.title
   let tabId = new Date().getTime()
   // sysData 交互特有字段 不等于空  则使用自定义的title
-  if (!util.isEmpty(route.params.sysData)) {
-    let datas = base64.decode(route.params.sysData).split('::')
+  if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
+    let datas = []
+    if (!util.isEmpty(route.params.sysData)) {
+      datas = base64.decode(route.params.sysData).split('::')
+    } else if (!util.isEmpty(route.query.sysData)) {
+      datas = base64.decode(route.query.sysData).split('::')
+    }
     let otherTabId = datas[3]
     let businessTitle = datas[1]
     let businessId = datas[0]
