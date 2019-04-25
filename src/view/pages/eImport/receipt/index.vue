@@ -22,17 +22,15 @@ export default {
       // 说明从从子系统打开此页面
       let datas = []
       if (this.$route.params.sysData) {
-        datas = base64.decode(this.$route.params.sysData).split('::')
+        datas = JSON.parse(base64.decode(this.$route.params.sysData))
       } else if (this.$route.query.sysData) {
-        datas = base64.decode(this.$route.query.sysData).split('::')
+        datas = JSON.parse(base64.decode(this.$route.query.sysData))
       }
-      if (datas.length > 5) {
-        let data = JSON.parse(datas[5])
-        for (let item in data) {
-          params += `&${item}=${data[item]}`
-        }
-        params += `&tabId=${datas[3]}`
+      let data = JSON.parse(datas.params)
+      for (let item in data) {
+        params += `&${item}=${data[item]}`
       }
+      params += `&tabId=${datas.tabId}`
     }
     if (this.$route.name === 'iReceipt') {
       this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
