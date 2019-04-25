@@ -299,13 +299,13 @@ router.afterEach(route => {
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
     let datas = []
     if (!util.isEmpty(route.params.sysData)) {
-      datas = base64.decode(route.params.sysData).split('::')
+      datas = JSON.parse(base64.decode(route.params.sysData))
     } else if (!util.isEmpty(route.query.sysData)) {
-      datas = base64.decode(route.query.sysData).split('::')
+      datas = JSON.parse(base64.decode(route.query.sysData))
     }
-    let otherTabId = datas[3]
-    let businessTitle = datas[1]
-    let businessId = datas[0]
+    let otherTabId = datas.tabId
+    let businessTitle = datas.title
+    let businessId = datas.id + ''
     if (businessId.split('-')[0] !== 'none') {
       title = businessTitle + '-' + businessId
     } else {
@@ -314,11 +314,9 @@ router.afterEach(route => {
     if (!util.isEmpty(otherTabId)) {
       tabId = otherTabId
     }
-    if (datas.length > 4) {
-      if (!util.isEmpty(datas[4]) && datas[4] !== 'null') {
-        fun = 'SetTabDataIndex'
-        tabData = datas[4]
-      }
+    if (!util.isEmpty(datas.index) && datas.index !== 'null') {
+      fun = 'SetTabDataIndex'
+      tabData = datas.index
     }
   }
   router.app.$options.store.commit(fun, {

@@ -61,69 +61,87 @@ export default {
   mounted () {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
-      let symbol = '&'
-      // 判断子系统传递的URL是否已包含参数
-      if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
-        symbol = '?'
-      }
-      // window-open ：由于在iframe中window.open被限制所以提到父级页面执行
-      if (event.data.type === 'window-open') {
-        window.open(event.data.data.url, '_blank')
-      } else if (event.data.type === 'sys-tab') {
-        // sys-tab: 从子系统打开2.0的路由页面
-        router.push({
-          name: event.data.data.url,
-          params: {
-            sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}::${event.data.data.tabId}::${null}::${event.data.data.params}`)
-          },
-          query: {
-            sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}::${event.data.data.tabId}::${null}::${event.data.data.params}`)
-          }
-        })
-      } else if (event.data.type === 'close') {
-        // close： 关闭指定的tab
-        let data = store.getters.GetOpenedTabs.filter(item => {
-          return item.tabId === event.data.data.tabId && !item.isDel
-        })
-        if (data.length !== 0) {
-          store.commit('RemoveTab', data[0])
+      if (event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS') {
+        let symbol = '&'
+        // 判断子系统传递的URL是否已包含参数
+        if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
+          symbol = '?'
         }
-      } else if (event.data.type === 'refresh') {
-        let index = 0
-        // refresh：原tab标识改变了，打开最新tab的url
-        let data = store.getters.GetOpenedTabs.filter((item, x) => {
-          let tag = false
-          if (item.tabId === event.data.data.tabId && !item.isDel) {
-            tag = true
-            index = x
-          }
-          return tag
-        })
-        if (data.length !== 0) {
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}${symbol}sysId=CCBA&tabId=${event.data.data.tabId}::${event.data.data.tabId}::${index}`)
-          router.push({
-            name: `${store.state.childSys.type}-new`,
-            params: {
-              sysData: sysData
-            }
-          })
+        let sysData = {
+          id: util.isEmpty(event.data.data.id) ? '' : event.data.data.id, // 业务的id或标记
+          title: event.data.data.title, // 页签的展示名称
+          url: event.data.data.url, // 要打开的外部URL
+          tabId: event.data.data.tabId + '', // 页签的id
+          index: null, // 页签的数组位置下标
+          params: event.data.data.params // 其他参数
         }
-      } else if (event.data.type === 'login') {
-        setTimeout(() => {
-          router.push('/login')
-        }, 2000)
-      } else if (event.data.type === 'declaration' || event.data.type === 'EMS') {
-        // 报关单/金二菜单
-        let data = event.data.data.operationType
-        if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
-          let getTimeTabId = new Date().getTime()
-          let sysData = base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}${symbol}sysId=CCBA&tabId=${data === 'copy' ? getTimeTabId : event.data.data.tabId}::${data === 'copy' ? getTimeTabId : event.data.data.tabId}`)
-          router.push({
-            name: `${store.state.childSys.type}-new`,
-            params: {
-              sysData: sysData
+        let operationType = event.data.data.operationType
+        switch (event.data.type) {
+          case 'window-open':
+          // window-open ：由于在iframe中window.open被限制所以提到父级页面执行
+            window.open(event.data.data.url, '_blank')
+            break
+          case 'sys-tab':
+          // sys-tab: 从子系统打开2.0的路由页面
+            router.push({
+              name: event.data.data.url,
+              params: {
+                sysData: base64.encode(JSON.stringify(sysData))
+              }
+            })
+            break
+          case 'close':
+            // close： 关闭指定的tab
+            let tabData = store.getters.GetOpenedTabs.filter(item => {
+              return item.tabId === sysData.tabId && !item.isDel
+            })
+            if (tabData.length !== 0) {
+              store.commit('RemoveTab', tabData[0])
             }
-          })
+            break
+          case 'refresh':
+            let index = 0
+            // refresh：原tab标识改变了，打开最新tab的url
+            let data = store.getters.GetOpenedTabs.filter((item, x) => {
+              let tag = false
+              if (item.tabId === sysData.tabId && !item.isDel) {
+                tag = true
+                index = x
+              }
+              return tag
+            })
+            sysData.index = index
+            sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
+            if (data.length !== 0) {
+              router.push({
+                name: `${store.state.childSys.type}-new`,
+                params: {
+                  sysData: base64.encode(JSON.stringify(sysData))
+                }
+              })
+            }
+            break
+          case 'login':
+            setTimeout(() => {
+              router.push('/login')
+            }, 2000)
+            break
+          case 'declaration' :
+          case 'EMS':
+            // 报关单/金二菜单
+            if (operationType === 'add' || operationType === 'edit' || operationType === 'look' || operationType === 'copy') {
+              if (operationType === 'copy') {
+                sysData.tabId = new Date().getTime() + ''
+              }
+              sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
+              router.push({
+                name: `${store.state.childSys.type}-new`,
+                params: {
+                  sysData: base64.encode(JSON.stringify(sysData))
+                }
+              })
+            }
+            break
         }
       }
     }, 1000)
