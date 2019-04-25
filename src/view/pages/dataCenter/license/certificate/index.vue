@@ -8,25 +8,24 @@
       <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
         <el-row :gutter="20" style="padding-top:10px">
-          <el-col :span="6" :xs="12">
+          <el-col :span="6" :xs="24">
             <el-form-item>
               <el-input size="mini" clearable :maxlength="20" v-model="queryForm.input" placeholder="委托企业"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" :xs="12">
-            <el-form-item label-width="100px" label="最近上传日期">
+          <el-col :span="8" :xs="24">
+            <el-form-item label-width="100px" label="最近上传时间">
               <el-date-picker size="mini"
                 v-model="dates"
-                @change="search()"
-                type="daterange"
+                type="datetimerange"
                 :editable='false'
                 range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                start-placeholder="开始时间"
+                end-placeholder="结束时间">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="10" :xs="12">
+          <el-col :span="10" :xs="24">
             <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
             <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
           </el-col>
@@ -107,8 +106,8 @@ export default {
         this.queryForm.startTime = ''
         this.queryForm.endTime = ''
       } else {
-        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd hh:mm:ss')
+        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd hh:mm:ss')
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
@@ -136,11 +135,11 @@ export default {
       this.search()
     },
     // 跳转到详情页面
-    toDetailList (corpSccCode) {
+    toDetailList (rowId) {
       this.$router.push({
         name: 'detailListCertificate',
         params: {
-          corpSccCode: corpSccCode
+          'corpSccCode': rowId
         }
       })
     }

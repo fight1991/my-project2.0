@@ -10,17 +10,17 @@
       </el-row>
       <!-- 返回按钮 end-->
     </el-row>
-    <el-row class = "query-condition">
+    <el-row class = "query-table">
       <el-col :span="18" :offset="3">
         <el-form label-width="150px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-autocomplete
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
+                :maxlength="20"
                 v-model="addForm.corpName"
                 :fetch-suggestions="querySearch"
-                :trigger-on-focus="false"
-                @select="handleSelect">
+                :trigger-on-focus="false">
             </el-autocomplete>
           </el-form-item>
           <el-form-item  label="证书名称" prop="certificateName">
@@ -80,7 +80,7 @@ export default {
         ifWarning: '1',
         certificateUrl: ''
       },
-      restaurants: [],
+      corpListOptions: [],
       fileLists: [], // 存放文件
       fileType: true,
       isImg: false,
@@ -92,13 +92,14 @@ export default {
   watch: {
     '$route': function (to, from) {
       // 初始化组件
-      if (to.path.indexOf('licenses/certificate/add') === -1) {
+      if (to.path.indexOf('addCertificate') === -1) {
         return
       }
       this.rest()
     }
   },
   created () {
+    this.corpList()
     this.type = this.$route.params.type
     this.certificatePid = this.$route.params.rowId
     if (this.type === 'edit') {
@@ -106,6 +107,9 @@ export default {
     } else {
       this.rest()
     }
+  },
+  mounted () {
+
   },
   methods: {
     // 重置
@@ -124,7 +128,7 @@ export default {
     },
     queryEdit () {
       this.$store.dispatch('ajax', {
-        url: 'API@/task-center/task/getTask',
+        url: 'API@/saas-document-center/certificate/queryDetail',
         data: {pid: this.certificatePid},
         router: this.$router,
         success: (res) => {
@@ -154,24 +158,39 @@ export default {
         }
       }
     },
+    // 委托企业
+    corpList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/dccommon/queryCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          if (res.success) {
+            let json = JSON.stringify(res.result)
+            json = json.replace(/ownerName/g, 'value')
+            this.corpListOptions = JSON.parse(json)
+          }
+        }
+      })
+    },
     // 输入2个字后搜索
     querySearch (queryString, cb) {
       if (this.addForm.corpName.length < 2) {
         return
       }
-      let restaurants = this.restaurants
+      let restaurants = this.corpListOptions
       let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
       // 调用 callback 返回建议列表的数据
-      cb(results)
+      cb(results.slice(0, 10))
     },
     createFilter (queryString) {
       return (restaurant) => {
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+        if (util.isEmpty(restaurant.value)) {
+          return false
+        } else {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+        }
       }
-    },
-    // 选中返回数据
-    handleSelect (item) {
-      console.log(item)
     },
     // 更多上传
     addLicense () {

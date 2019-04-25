@@ -17,7 +17,6 @@
             <el-form-item label-width="100px" label="最近上传日期">
               <el-date-picker size="mini"
                 v-model="dates"
-                @change="search()"
                 type="daterange"
                 :editable='false'
                 range-separator="至"
@@ -90,7 +89,7 @@ export default {
     // 新建
     add () {
       this.$router.push({
-        name: '许可证新增'
+        name: 'addLicense'
       })
     },
     // 查询
@@ -108,7 +107,7 @@ export default {
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/certificate/queryCorpList',
+        url: 'API@/saas-document-center/license/queryCorpList',
         data: {
           ...this.queryForm,
           page: pagination
@@ -134,9 +133,9 @@ export default {
     // 跳转到详情页面
     toDetailList (corpSccCode) {
       this.$router.push({
-        name: '许可证详情列表',
+        name: 'detailListLicense',
         params: {
-          corpSccCode: corpSccCode
+          'corpSccCode': corpSccCode
         }
       })
     }

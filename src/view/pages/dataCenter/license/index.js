@@ -58,7 +58,7 @@ const MENU = {
       hidden: true,
       meta: {
         component: resolve => require(['./certificate/addCertificate.vue'], resolve),
-        title: '编辑证书信息'
+        title: '证书信息'
       }
     }, {
       path: '/dataCenter/licenses/certificate/detailList/:corpSccCode',
