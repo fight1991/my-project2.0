@@ -27,7 +27,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
+            <!-- <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
               <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
               <el-row>
                 <el-col :span="12">
@@ -59,9 +59,8 @@
                     :on-remove="handleDelete">
                     <img v-if="addForm.licenseList  && !fileType" :src="addForm.licenseList" class="detail-img">
                     <el-button size="small" type="primary">上传附件</el-button>
-                    </el-upload>
+                  </el-upload>
                     <img class="detail-img" v-if="!fileType" :src="addForm.licenseList">
-                    <!-- <span v-if="isPdf" style="cursor:pointer;text-decoration:underline;" @click="showfile(resultDetail.businessLicenseUrl)">企业营业执照.pdf</span> -->
                 </el-form-item>
               </el-row>
               <el-row>
@@ -92,10 +91,10 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-            </el-card>
+            </el-card> -->
           </el-row>
           <el-row>
-            <span class="license-add" @click="addLicense"><img class="pointer" v-if="index !== 0" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+            <!-- <span class="license-add" @click="addLicense"><img class="pointer" v-if="index !== 0" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span> -->
           </el-row>
           <el-row class="query-btn">
             <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
@@ -107,7 +106,7 @@
         <el-form :model="addForm.goodsDialogForm" ref="goodsDialogForm" :rules="dialogRule" size="mini">
           <el-row>
             <el-col :span="18" :offset="4">
-              <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in addForm.goodsDialogForm" :key="index">
+              <!-- <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in addForm.goodsDialogForm" :key="index2">
                 <el-col :span="7">
                   <el-form-item :prop="'goodsDialogForm.'+index2+'.gNo'" :rules="dialogRule.gNo">
                     <el-input size="mini" clearable v-model="item.gNo" placeholder="请输入商品编号"></el-input>
@@ -119,17 +118,17 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="7">
-                  <el-form-item :prop="'goodsDialogForm.'+index+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
+                  <el-form-item :prop="'goodsDialogForm.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
                     <el-input size="mini" clearable v-model="item.declaredQuantity" placeholder="请输入申报数量"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                  <el-button type="text" title="删除" @click="deleteGood(index)"><i class="fa fa-times-circle-o"></i></el-button>
+                  <el-button type="text" title="删除" @click="deleteGood(index2)"><i class="fa fa-times-circle-o"></i></el-button>
                 </el-col>
               </el-row>
               <el-row>
-                <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
-              </el-row>
+                <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+              </el-row> -->
             </el-col>
           </el-row>
         </el-form>
