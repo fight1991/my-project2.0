@@ -23,7 +23,7 @@
         </el-table-column>
         <el-table-column label="币制代码" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.currCode}}</div>
+            <div class='sys-td-c'>{{scope.row.cusCode}}</div>
           </template>
         </el-table-column>
         <el-table-column label="币制名称" min-width="150">
