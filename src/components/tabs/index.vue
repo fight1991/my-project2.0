@@ -62,7 +62,6 @@ export default {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
       if (event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS') {
-        console.log(event.data)
         let symbol = '&'
         // 判断子系统传递的URL是否已包含参数
         if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
@@ -111,7 +110,6 @@ export default {
               }
               return tag
             })
-            console.log(index)
             sysData.index = index
             sysData.tabId = `${operationType}-${sysData.id}`
             sysData.url += `${symbol}sysId=CCBA&tabId=${operationType}-${sysData.id}`
