@@ -50,8 +50,10 @@ export default {
 }
   .container {
     width: 800px;
-    margin: 84px auto;
+    margin: 84px auto 16px;
     padding: 30px 20px;
+    box-sizing: border-box;
+    min-height: calc(~"(100% - 100px)");
     background-color: #fff;
     border-radius: 10px;
     // background-color: pink;

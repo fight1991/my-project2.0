@@ -33,12 +33,12 @@
         </el-table-column>
         <el-table-column label="公司名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.companyName}}</div>
+            <div class='sys-td-c'>{{scope.row.brankFactory}}</div>
           </template>
         </el-table-column>
         <el-table-column label="类型" min-width="110">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.remarks}}</div>
+            <div class='sys-td-c'>{{scope.row.brankRemarks}}</div>
           </template>
         </el-table-column>
       </el-table>

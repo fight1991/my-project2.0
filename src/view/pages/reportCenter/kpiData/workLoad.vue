@@ -8,7 +8,14 @@
           <!-- 查询条件 -->
           <el-col :span="4">
             <el-form-item size="mini" label="操作员">
-              <el-input v-model="QueryForm.operateUser"></el-input>
+              <el-select v-model="QueryForm.operateUser" filterable >
+                <el-option
+                  v-for="item in operaters"
+                  :key="item.userId"
+                  :label="item.userName"
+                  :value="item.userId">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -24,7 +31,10 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :span="2">
             <el-button type="primary" size="mini" @click="getTableData($store.state.pagination)">查询</el-button>
+            <el-button size="mini" @click="resetquery()">重置</el-button>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="7" :offset="17">
@@ -79,7 +89,7 @@
               </el-table-column>
               <el-table-column label="录入差错率" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.iFailCount}}%</div>
+                  <div class='sys-td-r'>{{scope.row.iFailCount}}</div>
                 </template>
               </el-table-column>
               <!--<el-table-column label="审核差错率" width="150" >
@@ -114,6 +124,7 @@ export default {
         operateUser: '',
         type: '1'
       },
+      operaters: [], // 操作员
       paginationInit: {},
       tableData: [],
       graininess: [
@@ -149,7 +160,8 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
-    this.dates = [util.getNdayDate(new Date(), -29), new Date()]
+    this.getOperaters()
+    this.dateinit()
   },
   mounted () {
     window.onresize = () => {
@@ -172,8 +184,37 @@ export default {
         total: this.$store.state.pagination.total // 总条数
       }
     },
+    getOperaters () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/queryUserList',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          this.operaters = res.result
+        }
+      })
+    },
     doInit () {
       this.getTableData(this.$store.state.pagination)
+    },
+    resetquery () {
+      this.dateinit()
+      this.QueryForm.operateUser = ''
+    },
+    dateinit () {
+      let datenow = new Date()
+      let lastmonth = datenow.getMonth()
+      let lastmonthyear = datenow.getFullYear()
+      let lastmonthday = datenow.getDate()
+      if (datenow.getMonth() === 0) {
+        lastmonth = 12
+        lastmonthyear = lastmonthyear - 1
+      }
+      if ((new Date(lastmonthyear, lastmonth, 0)).getDate() < lastmonthday) {
+        lastmonthday = new Date(lastmonthyear, lastmonth, 0).getDate()
+      }
+      var d = new Date(lastmonthyear + '/' + lastmonth + '/' + lastmonthday)
+      this.dates = [d, new Date()]
     },
     gettype (type) {
       if (type === '1') {
