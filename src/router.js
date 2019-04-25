@@ -64,12 +64,12 @@ const routes = [
   },
   // {
   //   path: '/demo',
-  //   name: '拖拽小样',
+  //   name: 'drag-drop',
   //   hidden: true,
   //   permissions: 'WF000000',
   //   component: resolve => require(['./view/demo/sortable.vue'], resolve),
   //   meta: {
-  //     title: '详情'
+  //     title: '拖拽功能小样'
   //   }
   // },
   Errors.MENU
