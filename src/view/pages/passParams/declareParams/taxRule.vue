@@ -40,7 +40,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-          <page-box @change="pageList"></page-box>
+          <page-box :pagination="paginationInit" @change="pageList"></page-box>
         </el-col>
       </el-row>
       <!-- 分页 end -->
