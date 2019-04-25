@@ -49,6 +49,9 @@ export default {
   flex-wrap: wrap;
   overflow-y: scroll;
   overflow-x: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .divItems {
   width: calc(~"(50% - 15px)");
