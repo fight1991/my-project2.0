@@ -3,7 +3,7 @@ const MENU = {
   path: '/passParams/carParams',
   name: 'passParams-carParams',
   icon: 'icons-menu-carParams',
-  permissions: 'CCBA20202000000',
+  permissions: 'CCBA21203000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '汽车申报参数'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/passParams/ceCompare/list',
       name: 'ceCompare',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21203010000',
       hidden: false,
       meta: {
         component: resolve => require(['./ceCompare.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/passParams/carParter/list',
       name: 'carParter',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21203020000',
       hidden: false,
       meta: {
         component: resolve => require(['./carParter.vue'], resolve),

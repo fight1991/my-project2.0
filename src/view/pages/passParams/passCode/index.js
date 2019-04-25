@@ -3,7 +3,7 @@ const MENU = {
   path: '/passParams/passCode',
   name: 'passParams-passCode',
   icon: 'icons-menu-passCode',
-  permissions: 'CCBA20202000000',
+  permissions: 'CCBA21201000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '通关代码'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/passParams/customs/list',
       name: 'customs',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201010000',
       hidden: false,
       meta: {
         component: resolve => require(['./customs.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/passParams/country/list',
       name: 'country',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201020000',
       hidden: false,
       meta: {
         component: resolve => require(['./country.vue'], resolve),
@@ -32,7 +32,7 @@ const MENU = {
     {
       path: '/passParams/money/list',
       name: 'money',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201030000',
       hidden: false,
       meta: {
         component: resolve => require(['./money.vue'], resolve),
@@ -42,7 +42,7 @@ const MENU = {
     {
       path: '/passParams/unit/list',
       name: 'unit',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201040000',
       hidden: false,
       meta: {
         component: resolve => require(['./unit.vue'], resolve),
@@ -52,7 +52,7 @@ const MENU = {
     {
       path: '/passParams/controlMode/list',
       name: 'controlMode',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201050000',
       hidden: false,
       meta: {
         component: resolve => require(['./controlMode.vue'], resolve),
@@ -62,7 +62,7 @@ const MENU = {
     {
       path: '/passParams/transport/list',
       name: 'transport',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201060000',
       hidden: false,
       meta: {
         component: resolve => require(['./transport.vue'], resolve),
@@ -72,7 +72,7 @@ const MENU = {
     {
       path: '/passParams/redemp/list',
       name: 'redemp',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201070000',
       hidden: false,
       meta: {
         component: resolve => require(['./redemp.vue'], resolve),
@@ -82,7 +82,7 @@ const MENU = {
     {
       path: '/passParams/port/list',
       name: 'port',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201080000',
       hidden: false,
       meta: {
         component: resolve => require(['./port.vue'], resolve),
@@ -92,7 +92,7 @@ const MENU = {
     {
       path: '/passParams/pakageKinds/list',
       name: 'pakageKinds',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201090000',
       hidden: false,
       meta: {
         component: resolve => require(['./pakageKinds.vue'], resolve),
@@ -102,7 +102,7 @@ const MENU = {
     {
       path: '/passParams/bargain/list',
       name: 'bargain',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201100000',
       hidden: false,
       meta: {
         component: resolve => require(['./bargain.vue'], resolve),
@@ -112,7 +112,7 @@ const MENU = {
     {
       path: '/passParams/regulate/list',
       name: 'regulate',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201110000',
       hidden: false,
       meta: {
         component: resolve => require(['./regulate.vue'], resolve),
@@ -122,7 +122,7 @@ const MENU = {
     {
       path: '/passParams/licensePass/list',
       name: 'licensePass',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201120000',
       hidden: false,
       meta: {
         component: resolve => require(['./license.vue'], resolve),
@@ -132,7 +132,7 @@ const MENU = {
     {
       path: '/passParams/tradePro/list',
       name: 'tradePro',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201130000',
       hidden: false,
       meta: {
         component: resolve => require(['./tradePro.vue'], resolve),
@@ -142,7 +142,7 @@ const MENU = {
     {
       path: '/passParams/inLandArea/list',
       name: 'inLandArea',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201140000',
       hidden: false,
       meta: {
         component: resolve => require(['./inLandArea.vue'], resolve),
@@ -152,7 +152,7 @@ const MENU = {
     {
       path: '/passParams/taxFree/list',
       name: 'taxFree',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201150000',
       hidden: false,
       meta: {
         component: resolve => require(['./taxFree.vue'], resolve),
@@ -162,7 +162,7 @@ const MENU = {
     {
       path: '/passParams/inLandPort/list',
       name: 'inLandPort',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21201160000',
       hidden: false,
       meta: {
         component: resolve => require(['./inLandPort.vue'], resolve),

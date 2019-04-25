@@ -1,5 +1,12 @@
 <template>
   <section class='sys-main'>
+    <!-- 返回按钮 -->
+    <el-row style="margin-bottom: 15px;">
+      <el-col :span='18' :xs='24'>
+        <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+      </el-col>
+    </el-row>
+    <!-- 返回按钮 end-->
     <el-row class="params-info">
       <el-row class="params-border-panel">
         <el-row>
@@ -187,6 +194,21 @@ export default {
         word-break: break-all;
       }
     }
+  }
+}
+.sys-back-btn{
+  display: inline-block;
+  font-size: 13px;
+  color: @font-color-main;
+  cursor: pointer;
+  .back-btn{
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      background: url('../../../../assets/img/icon/back.png') no-repeat center center;
+      background-size: 100%;
+      vertical-align: middle;
   }
 }
 </style>
