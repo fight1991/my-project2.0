@@ -38,7 +38,6 @@ export default {
           permissions: 'CCBA20104000000'
         }
       ],
-
       dragging: null
     }
   },
@@ -62,16 +61,15 @@ export default {
       this.dragging = null
     },
     // 发生在目标元素上,当拖动元素在目标元素范围内时,反复触发
-    // 首先把div变成可以放置的元素，即重写dragenter/dragover
     handleDragOver (e) {
-      // e.dataTransfer.dropEffect="move";//在dragenter中针对放置目标来设置!
       e = e || window.event
+      // 在dragenter中针对放置目标来设置!
       e.dataTransfer.dropEffect = 'move'
     },
     // 拖动元素在目标元素内释放时(在设置了dropover事件的前提下)
     handleDrop (e, item) {
-      // 为需要移动的元素设置dragstart事件
       e = e || window.event
+      // 为需要移动的元素设置dragstart事件
       e.dataTransfer.effectAllowed = 'move'
       if (item === this.dragging) {
         return
@@ -84,7 +82,6 @@ export default {
       // 位置互换
       newItems.splice(dst, 1, this.dragging)
       newItems.splice(src, 1, item)
-      // newItems.splice(dst, 0, ...newItems.splice(src, 1))
       // 保存位置信息
       let indexInfo = newItems.map(v => {
         return v.id
@@ -92,7 +89,7 @@ export default {
       localStorage.setItem('indexInfo', JSON.stringify(indexInfo))
       this.items = newItems
     },
-    // // 根据存储的位置信息排序
+    // 根据存储的位置信息排序
     indexSort () {
       let arr = []
       if (localStorage.getItem('indexInfo')) {
