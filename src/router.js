@@ -294,7 +294,7 @@ router.afterEach(route => {
   let fun = 'SetTabData'
   let tabData = ''
   let title = route.meta.title
-  let tabId = new Date().getTime()
+  let tabId = route.name
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
     let datas = []
@@ -320,7 +320,7 @@ router.afterEach(route => {
     }
   }
   router.app.$options.store.commit(fun, {
-    tabId: tabId,
+    tabId: tabId + '',
     title: title,
     component: route.meta.component,
     path: path,

@@ -6,7 +6,7 @@
         <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
         <el-tabs class='tabs-items' :value='getCurrentTab.path' type="card"  @tab-remove="delTab" @tab-click="setCurrentTab">
           <el-tab-pane
-            :key="item.path"
+            :key="'tab-' + index"
             :closable = 'index!==0'
             v-for="(item, index) in openedTabs"
             v-if = '!item.isDel'
@@ -29,7 +29,7 @@
     </el-header>
     <el-main class="abtrate">
       <div class='page-tab-content' v-loading="$store.state.loading">
-        <div style='height:100%;box-sizing: border-box;' v-for="(item,index) in openedTabs" :key="item.path + '-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
+        <div style='height:100%;box-sizing: border-box;' v-for="(item,index) in openedTabs" :key="'panel-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
           <component :is="item.component"></component>
         </div>
       </div>
@@ -111,7 +111,8 @@ export default {
               return tag
             })
             sysData.index = index
-            sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
+            sysData.tabId = `${operationType}-${sysData.id}`
+            sysData.url += `${symbol}sysId=CCBA&tabId=${operationType}-${sysData.id}`
             if (data.length !== 0) {
               router.push({
                 name: `${store.state.childSys.type}-new`,
