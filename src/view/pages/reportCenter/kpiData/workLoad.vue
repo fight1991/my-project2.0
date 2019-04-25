@@ -11,9 +11,9 @@
               <el-select v-model="QueryForm.operateUser" filterable >
                 <el-option
                   v-for="item in operaters"
-                  :key="item.corpId"
-                  :label="item.corpName"
-                  :value="item.corpId">
+                  :key="item.userId"
+                  :label="item.userName"
+                  :value="item.userId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -89,7 +89,7 @@
               </el-table-column>
               <el-table-column label="录入差错率" min-width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.iFailCount}}%</div>
+                  <div class='sys-td-r'>{{scope.row.iFailCount}}</div>
                 </template>
               </el-table-column>
               <!--<el-table-column label="审核差错率" width="150" >
@@ -187,7 +187,7 @@ export default {
     getOperaters () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/queryUserList',
-        data: this.QueryForm,
+        data: {},
         router: this.$router,
         success: (res) => {
           this.operaters = res.result
