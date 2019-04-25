@@ -1,11 +1,12 @@
 <template>
   <transition-group tag="div" id="list">
-    <div v-for="item in items" :key="item.id" :id='item.id' class='divItems' v-permissions="item.permissions"
+    <div v-for="item in items" :key="item.id" :id="item.id" :class="{'divItems':true,'shadow':item.isShadow}" v-permissions="item.permissions"
       draggable="true"
       @dragstart="handleDragStart($event, item)"
       @dragover.prevent="handleDragOver($event, item)"
       @drop="handleDrop($event, item)"
-      @dragend="handleDragEnd($event, item)">
+      @dragend="handleDragEnd($event, item)"
+      @dragleave="handleDragLeave($event, item)">
       <component :is="item.component"></component>
     </div>
 </transition-group>
@@ -20,22 +21,26 @@ export default {
         {
           id: 'div1',
           component: () => import('../control/middle/board.vue'),
-          permissions: 'CCBA20101000000'
+          permissions: 'CCBA20101000000',
+          isShadow: false
         },
         {
           id: 'div2',
           component: () => import('../control/middle/report.vue'),
-          permissions: 'CCBA20102000000'
+          permissions: 'CCBA20102000000',
+          isShadow: false
         },
         {
           id: 'div3',
           component: () => import('../control/middle/news.vue'),
-          permissions: 'CCBA20103000000'
+          permissions: 'CCBA20103000000',
+          isShadow: false
         },
         {
           id: 'div4',
           component: () => import('../control/middle/corpDisplay.vue'),
-          permissions: 'CCBA20104000000'
+          permissions: 'CCBA20104000000',
+          isShadow: false
         }
       ],
       dragging: null
@@ -61,16 +66,24 @@ export default {
       this.dragging = null
     },
     // 发生在目标元素上,当拖动元素在目标元素范围内时,反复触发
-    handleDragOver (e) {
+    handleDragOver (e, item) {
       e = e || window.event
       // 在dragenter中针对放置目标来设置!
       e.dataTransfer.dropEffect = 'move'
+      if (item !== this.dragging) {
+        item.isShadow = true
+      }
+    },
+    // 离开目标元素
+    handleDragLeave (e, item) {
+      item.isShadow = false
     },
     // 拖动元素在目标元素内释放时(在设置了dropover事件的前提下)
     handleDrop (e, item) {
       e = e || window.event
       // 为需要移动的元素设置dragstart事件
       e.dataTransfer.effectAllowed = 'move'
+      item.isShadow = false
       if (item === this.dragging) {
         return
       }
@@ -117,7 +130,7 @@ export default {
 .divItems {
   transition: all linear .3s;
   overflow: hidden;
-  border: 1px solid red;
+  // border: 1px solid red;
   width: calc(~"(50% - 15px)");
   margin-right: 15px;
   min-width: 400px;
@@ -126,6 +139,9 @@ export default {
   border-radius: 5px;
   box-sizing: border-box;
   margin-bottom: 15px;
+}
+.shadow {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .4)
 }
 @media screen and (max-width:1090px) {
  .divItems {
