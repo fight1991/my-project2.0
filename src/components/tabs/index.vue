@@ -62,13 +62,26 @@ export default {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
       let symbol = '&'
+      // 判断子系统传递的URL是否已包含参数
       if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
         symbol = '?'
       }
+      // window-open ：由于在iframe中window.open被限制所以提到父级页面执行
       if (event.data.type === 'window-open') {
         window.open(event.data.data.url, '_blank')
+      } else if (event.data.type === 'sys-tab') {
+        // sys-tab: 从子系统打开2.0的路由页面
+        router.push({
+          name: event.data.data.url,
+          params: {
+            sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}::${event.data.data.tabId}::${null}::${event.data.data.params}`)
+          },
+          query: {
+            sysData: base64.encode(`${event.data.data.id}::${event.data.data.title}::${event.data.data.url}::${event.data.data.tabId}::${null}::${event.data.data.params}`)
+          }
+        })
       } else if (event.data.type === 'close') {
-        // 关闭指定的tab
+        // close： 关闭指定的tab
         let data = store.getters.GetOpenedTabs.filter(item => {
           return item.tabId === event.data.data.tabId && !item.isDel
         })
@@ -77,7 +90,7 @@ export default {
         }
       } else if (event.data.type === 'refresh') {
         let index = 0
-        // 原tab标识改变了： 打开最新tab的url
+        // refresh：原tab标识改变了，打开最新tab的url
         let data = store.getters.GetOpenedTabs.filter((item, x) => {
           let tag = false
           if (item.tabId === event.data.data.tabId && !item.isDel) {
@@ -99,7 +112,8 @@ export default {
         setTimeout(() => {
           router.push('/login')
         }, 2000)
-      } else if (event.data.type === 'declaration' || event.data.type === 'recordList' || event.data.type === 'EMS') { // 报关单/备案清单/金二菜单
+      } else if (event.data.type === 'declaration' || event.data.type === 'EMS') {
+        // 报关单/金二菜单
         let data = event.data.data.operationType
         if (data === 'add' || data === 'edit' || data === 'look' || data === 'copy') {
           let getTimeTabId = new Date().getTime()

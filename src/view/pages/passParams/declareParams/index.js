@@ -3,7 +3,7 @@ const MENU = {
   path: '/passParams/productParams',
   name: 'passParams-productParams',
   icon: 'icons-menu-productParams',
-  permissions: 'CCBA20202000000',
+  permissions: 'CCBA21202000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '商品申报参数'
@@ -12,7 +12,7 @@ const MENU = {
     {
       path: '/passParams/taxRule/list',
       name: 'taxRule',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202010000',
       hidden: false,
       meta: {
         component: resolve => require(['./taxRule.vue'], resolve),
@@ -31,7 +31,7 @@ const MENU = {
     {
       path: '/passParams/productCate/list',
       name: 'productCate',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202020000',
       hidden: false,
       meta: {
         component: resolve => require(['./productCate.vue'], resolve),
@@ -41,7 +41,7 @@ const MENU = {
     {
       path: '/passParams/declareEle/list',
       name: 'declareEle',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202030000',
       hidden: false,
       meta: {
         component: resolve => require(['./declareEle.vue'], resolve),
@@ -51,7 +51,7 @@ const MENU = {
     {
       path: '/passParams/checkCate/list',
       name: 'checkCate',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202040000',
       hidden: false,
       meta: {
         component: resolve => require(['./checkCate.vue'], resolve),
@@ -61,7 +61,7 @@ const MENU = {
     {
       path: '/passParams/treeCate/list',
       name: 'treeCate',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202050000',
       hidden: false,
       meta: {
         component: resolve => require(['./treeCate.vue'], resolve),
@@ -71,7 +71,7 @@ const MENU = {
     {
       path: '/passParams/CIQCode/list',
       name: 'CIQCode',
-      permissions: 'CCBA20202010000',
+      permissions: 'CCBA21202060000',
       hidden: false,
       meta: {
         component: resolve => require(['./CIQCode.vue'], resolve),

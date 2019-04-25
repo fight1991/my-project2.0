@@ -16,15 +16,16 @@ const MENU = {
         component: resolve => require(['./workLoad.vue'], resolve),
         title: '工作量统计'
       }
-    }, {
-      path: '/reportCenter/kpiData/decEdiCert',
-      name: 'delDecSt',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./decEdiCert.vue'], resolve),
-        title: '删改单报表'
-      }
     }
+    // , {
+    //   path: '/reportCenter/kpiData/decEdiCert',
+    //   name: 'delDecSt',
+    //   hidden: false,
+    //   meta: {
+    //     component: resolve => require(['./decEdiCert.vue'], resolve),
+    //     title: '删改单报表'
+    //   }
+    // }
   ]
 }
 export default {MENU}

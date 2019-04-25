@@ -169,7 +169,7 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'passParams',
           title: '通关参数',
-          permissions: ''
+          permissions: 'CCBA21200000000'
         }
         break
       case 'passStatus':
@@ -309,8 +309,8 @@ router.afterEach(route => {
     if (!util.isEmpty(otherTabId)) {
       tabId = otherTabId
     }
-    if (datas.length > 3) {
-      if (!util.isEmpty(datas[4])) {
+    if (datas.length > 4) {
+      if (!util.isEmpty(datas[4]) && datas[4] !== 'null') {
         fun = 'SetTabDataIndex'
         tabData = datas[4]
       }
