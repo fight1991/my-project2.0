@@ -4,37 +4,11 @@ import router from '@/router'
 export default {
   state: {
     // 主页
-    homeTab: {
-      tabId: 'index',
-      title: '首页',
-      component: resolve => require(['@/view/pages/index.vue'], resolve),
-      path: '/index',
-      route: {
-        path: '/eImport/index',
-        name: 'index',
-        query: {},
-        params: {}
-      },
-      other: '',
-      isDel: false
-    },
+    homeTab: {},
     // 当前活动页签
     currentTab: {},
     // 所有打开的页签数据
-    tabsList: [{
-      tabId: 'index',
-      title: '首页',
-      component: resolve => require(['@/view/pages/index.vue'], resolve),
-      path: '/eImport/index',
-      route: {
-        path: '/eImport/index',
-        name: 'index',
-        query: {},
-        params: {}
-      },
-      other: '',
-      isDel: false
-    }]
+    tabsList: []
   },
   getters: {
     // 获取 打开的 tab 列表
@@ -127,17 +101,20 @@ export default {
     SetTabData (state, data) {
       // 判断 tab 项是否已存在
       let tabExsit = state.tabsList.find(i => {
-        return i.path === data.path && i.isDel === false
+        return (i.tabId === data.tabId || i.path === data.path) && i.isDel === false
       })
       if (!tabExsit) {
         state.tabsList.push(data)
+      }
+      if (tabExsit && data.path !== tabExsit.path) {
+        data = tabExsit
       }
       state.currentTab = data
     },
     // 指定位置新增页签数据
     SetTabDataIndex (state, data) {
       // 判断 tab 项是否已存在
-      let tabExsit = state.tabsList.find(i => i.path === data.path && !i.isDel)
+      let tabExsit = state.tabsList.find(i => i.path === data.path && i.isDel === false)
       if (!tabExsit) {
         state.tabsList.splice(data.other, 1, data)
       }
@@ -155,7 +132,7 @@ export default {
         path: `/${data}/index`,
         route: {
           path: `/${data}/index`,
-          name: 'index',
+          name: `${data}-index`,
           query: {},
           params: {}
         },
@@ -169,7 +146,7 @@ export default {
         path: `/${data}/index`,
         route: {
           path: `/${data}/index`,
-          name: 'index',
+          name: `${data}-index`,
           query: {},
           params: {}
         },

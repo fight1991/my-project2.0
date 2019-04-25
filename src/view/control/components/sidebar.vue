@@ -115,8 +115,8 @@ export default {
   width: 30px;
   height: 30px;
   img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 }
 </style>

@@ -15,7 +15,7 @@ export default {
   mounted () {
     if (!this.$route.query.status) {
       // 如果status不存在,说明不是从控制台看板跳转过来的
-      this.url = pathList.eImport[this.$route.name] + `?sysId=CCBA&token=${encodeURIComponent(window.localStorage.getItem('token'))}`
+      this.url = pathList.eImport[this.$route.name] + `?sysId=CCBA&tabId' + this.$route.name + '&token=${encodeURIComponent(window.localStorage.getItem('token'))}`
     } else {
       let {iEFlag, status, startTime, endTime} = this.$route.query
       this.url = pathList.eImport[this.$route.name] + `?sysId=CCBA&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}&token=${encodeURIComponent(window.localStorage.getItem('token'))}`

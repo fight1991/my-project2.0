@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.jinerInfo[this.$route.name] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.jinerInfo[this.$route.name] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
   }
 }
 </script>

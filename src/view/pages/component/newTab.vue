@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted () {
-    this.url = base64.decode(this.$route.params.sysData).split('::')[2]
+    this.url = JSON.parse(base64.decode(this.$route.params.sysData)).url
   }
 }
 </script>

@@ -148,8 +148,6 @@ export default {
         companyName: temp.corpName,
         adminFlag: temp.adminFlag // 是否是管理员
       })
-      // 刷新当前页面
-      location.reload()
       this.corpDialogVisible = false
     },
     // 选择公司后重新请求数据
@@ -159,6 +157,8 @@ export default {
         data: {corpId: corpId},
         router: this.$router,
         success: (res) => {
+          // 刷新当前页面
+          location.reload()
         }
       })
     },

@@ -18,14 +18,19 @@ export default {
       let {iEFlag, status, startTime, endTime} = this.$route.query
       params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
     }
-    if (this.$route.params.sysData) {
+    if (this.$route.params.sysData || this.$route.query.sysData) {
       // 说明从从子系统打开此页面
-      let datas = base64.decode(this.$route.params.sysData).split('::')
-      if (datas.length > 5) {
-        for (let item in datas[6]) {
-          params += `&${item}=${datas[6][item]}`
-        }
+      let datas = []
+      if (this.$route.params.sysData) {
+        datas = JSON.parse(base64.decode(this.$route.params.sysData))
+      } else if (this.$route.query.sysData) {
+        datas = JSON.parse(base64.decode(this.$route.query.sysData))
       }
+      let data = JSON.parse(datas.params)
+      for (let item in data) {
+        params += `&${item}=${data[item]}`
+      }
+      params += `&tabId=${datas.tabId}`
     }
     if (this.$route.name === 'iReceipt') {
       this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))

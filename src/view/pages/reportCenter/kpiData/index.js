@@ -2,6 +2,7 @@
 const MENU = {
   path: '/reportCenter/kpiData',
   name: 'kpiData',
+  permissions: 'CCBA20602000000',
   icon: 'icons-menu-kpiList',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
@@ -11,6 +12,7 @@ const MENU = {
     {
       path: '/reportCenter/kpiData/workLoad',
       name: 'workComputer',
+      permissions: 'CCBA20602010000',
       hidden: false,
       meta: {
         component: resolve => require(['./workLoad.vue'], resolve),

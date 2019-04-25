@@ -7,7 +7,7 @@ export default {
   name: 'index',
   data () {
     return {
-      url: pathList.eImport['decReviewed'] + '?sysId=CCBA&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      url: pathList.eImport['decReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   },
   mounted () {

@@ -185,12 +185,12 @@ export default {
         display: table-cell;
       }
       .param-left{
-        width: 180px;
-        padding: 15px;
+        width: 140px;
+        padding: 15px 10px;
         text-align: center;
       }
       .param-right{
-        padding: 15px;
+        padding: 15px 10px;
         word-break: break-all;
       }
     }

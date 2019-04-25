@@ -64,12 +64,12 @@ const routes = [
   },
   // {
   //   path: '/demo',
-  //   name: '拖拽小样',
+  //   name: 'drag-drop',
   //   hidden: true,
   //   permissions: 'WF000000',
   //   component: resolve => require(['./view/demo/sortable.vue'], resolve),
   //   meta: {
-  //     title: '详情'
+  //     title: '拖拽功能小样'
   //   }
   // },
   Errors.MENU
@@ -294,13 +294,18 @@ router.afterEach(route => {
   let fun = 'SetTabData'
   let tabData = ''
   let title = route.meta.title
-  let tabId = new Date().getTime()
+  let tabId = route.name
   // sysData 交互特有字段 不等于空  则使用自定义的title
-  if (!util.isEmpty(route.params.sysData)) {
-    let datas = base64.decode(route.params.sysData).split('::')
-    let otherTabId = datas[3]
-    let businessTitle = datas[1]
-    let businessId = datas[0]
+  if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
+    let datas = []
+    if (!util.isEmpty(route.params.sysData)) {
+      datas = JSON.parse(base64.decode(route.params.sysData))
+    } else if (!util.isEmpty(route.query.sysData)) {
+      datas = JSON.parse(base64.decode(route.query.sysData))
+    }
+    let otherTabId = datas.tabId
+    let businessTitle = datas.title
+    let businessId = datas.id + ''
     if (businessId.split('-')[0] !== 'none') {
       title = businessTitle + '-' + businessId
     } else {
@@ -309,15 +314,13 @@ router.afterEach(route => {
     if (!util.isEmpty(otherTabId)) {
       tabId = otherTabId
     }
-    if (datas.length > 4) {
-      if (!util.isEmpty(datas[4]) && datas[4] !== 'null') {
-        fun = 'SetTabDataIndex'
-        tabData = datas[4]
-      }
+    if (!util.isEmpty(datas.index) && datas.index !== 'null') {
+      fun = 'SetTabDataIndex'
+      tabData = datas.index
     }
   }
   router.app.$options.store.commit(fun, {
-    tabId: tabId,
+    tabId: tabId + '',
     title: title,
     component: route.meta.component,
     path: path,
