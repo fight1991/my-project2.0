@@ -185,7 +185,7 @@ export default {
         display: table-cell;
       }
       .param-left{
-        width: 145px;
+        width: 140px;
         padding: 15px 10px;
         text-align: center;
       }
