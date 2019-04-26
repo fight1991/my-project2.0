@@ -39,6 +39,13 @@ export default {
   data () {
     return {}
   },
+  created () {
+    window.addEventListener('resize', () => {
+      this.$nextTick(() => {
+        this.initEchart()
+      })
+    })
+  },
   mounted () {
     this.$nextTick(() => {
       this.initEchart()
