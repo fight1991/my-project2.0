@@ -92,7 +92,11 @@ export default {
         licensePath: [{ required: true, message: '请输入单证编号', trigger: 'blur' }]
       },
       resultTopData: {
-        id: ''
+        decPid: '',
+        ownerName: '',
+        ownerCodeScc: '',
+        bossId: '',
+        seqNo: ''
       },
       submitData: {
         licenseList: [
@@ -108,7 +112,16 @@ export default {
     }
   },
   created () {
-
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('importLicense') === -1) {
+        return
+      }
+      this.resultTopData = this.$route.query
+      this.submitData.licenseList = []
+    }
   },
   methods: {
     // 更多上传

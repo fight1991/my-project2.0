@@ -11,11 +11,14 @@
       <!-- 返回按钮 end-->
       <el-row class = "query-table">
         <el-row>
-          <el-col :span="12">
-            委托企业:{{resultTopData.id}}
+          <el-col :span="8">
+            委托企业:{{ownerName}}
           </el-col>
-          <el-col :span="12">
-            许可证数:{{resultTopData.id + ''}}
+          <el-col :span="8">
+            累计业务票数:{{decCount + ''}}
+          </el-col>
+          <el-col :span="8">
+            累计上传单证:{{edocCount + ''}}
           </el-col>
         </el-row>
         <el-row>
@@ -24,14 +27,13 @@
             <el-row :gutter="20" style="padding-top:30px">
               <el-col :span="6" :xs="12">
                 <el-form-item>
-                  <el-input size="mini" clearable v-model="jobDetailForm.ID" placeholder="许可证号、涉证商品编号"></el-input>
+                  <el-input size="mini" clearable v-model="jobDetailForm.keywords" placeholder="接单编号、系统编号、报关单号"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="8" :xs="12">
-                  <el-form-item label-width="100px" label="上传日期">
+                  <el-form-item label-width="100px" label="创建日期">
                   <el-date-picker size="mini"
                     v-model="dates"
-                    @change="search()"
                     type="daterange"
                     :editable='false'
                     range-separator="至"
@@ -59,44 +61,44 @@
         :data="resultJobList">
         <el-table-column label="报关单系统编号" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.decPid || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="接单编号" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.bossId || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="统一编号" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.seqNo || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="海关编号" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.entryId || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="业务状态" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.isExamineValue || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="创建日期" min-width="90">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.ID || '-'}}</div>
+            <div>{{scope.row.createTime|date() || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="上传单证数" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID+'' || '-'}}
+            {{scope.row.count+'' || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" @click="toDetailChild('detail',scope.row.ID)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-            <el-button type="text" @click="upload" title="导入"><i class="fa fa-sign-in"></i></el-button>
-            <el-button type="text" @click="toDetailChild('edit',scope.row.ID)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="toDetailChild('detail',scope.row.decPid)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+            <el-button type="text" @click="upload(scope.row.decPid,this.ownerName,this.ownerCodeScc,scope.row.bossId,scope.row.seqNo)" title="导入"><i class="fa fa-sign-in"></i></el-button>
+            <el-button type="text" @click="toDetailChild('edit',scope.row.decPid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -111,78 +113,102 @@
 </template>
 
 <script>
+import util from '../../../../common/util'
 export default {
   data () {
     return {
       jobDetailForm: {
-        ID: ''
+        keywords: '',
+        updateTimeStart: '',
+        updateTimeEnd: ''
       },
       dates: ['', ''],
-      resultJobList: [
-        {ID: '222222222222'},
-        {ID: '111111'},
-        {ID: '33333333'}
-      ], // 表格数据
-      resultTopData: {
-        id: ''
-      }
+      resultJobList: [], // 表格数据
+      ownerName: '',
+      ownerCodeScc: '',
+      decCount: '',
+      edocCount: ''
     }
   },
   created () {
     this.paginationInit = this.$store.state.pagination
+    this.ownerName = this.$route.query.ownerName
+    this.ownerCodeScc = this.$route.query.ownerCodeScc
+    this.decCount = this.$route.query.decCount
+    this.edocCount = this.$route.query.edocCount
+    this.reset()
     this.search()
   },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('jobDetailList') === -1) {
+        return
+      }
+      this.reset()
+      this.search()
+    }
+  },
   methods: {
-    // 新建
-    add (type, name) {
-      this.$router.push({
-        name: '许可证新增',
-        query: {
-          type: type,
-          name: name
-        }
-      })
-    },
     // 查询
     search () {
       this.queryList(this.$store.state.pagination)
     },
     // 列表
     queryList (pagination) {
-      // this.paginationInit = pagination
-      // this.$store.dispatch('ajax', {
-      //   url: 'API@/dec-common/decParam/common/getPriceList',
-      //   data: {
-      //     ...this.jobDetailForm,
-      //     page: pagination
-      //   },
-      //   router: this.$router,
-      //   isPageList: true,
-      //   success: (res) => {
-      //     this.priceList = res.result.list
-      //     this.paginationInit = res.page
-      //   }
-      // })
+      if (this.dates === '' || this.dates === null) {
+        this.jobDetailForm.updateTimeStart = ''
+        this.jobDetailForm.updateTimeEnd = ''
+      } else {
+        this.jobDetailForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.jobDetailForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/queryDecList',
+        data: {
+          ...this.jobDetailForm,
+          page: pagination
+        },
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.priceList = res.result
+          this.paginationInit = res.page
+        }
+      })
     },
     // 重置
     reset () {
       this.dates = ['', '']
+      this.jobDetailForm = {
+        keywords: '',
+        updateTimeStart: '',
+        updateTimeEnd: ''
+      }
     },
     // 跳转到详情页面
     toDetailChild (type, id) {
-      // this.$router.push({
-      //   name: '业务单证信息',
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.$router.push({
+        name: 'detailEditJobs',
+        params: {
+          type: type,
+          id: id
+        }
+      })
     },
     // 导入
-    upload () {
-    },
-    // 删除
-    deleteBtn () {
-
+    upload (decPid, ownerName, ownerCodeScc, bossId, seqNo) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/importLicense',
+        query: {
+          decPid: decPid,
+          ownerName: ownerName,
+          ownerCodeScc: ownerCodeScc,
+          bossId: bossId,
+          seqNo: seqNo
+        }
+      })
     }
   }
 }

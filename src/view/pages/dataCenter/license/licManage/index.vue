@@ -10,7 +10,14 @@
         <el-row :gutter="20" style="padding-top:10px">
           <el-col :span="6" :xs="12">
             <el-form-item>
-              <el-input size="mini" clearable :maxlength="20" v-model="queryForm.input" placeholder="委托企业"></el-input>
+              <el-autocomplete
+                size='mini' style="width:100%"
+                placeholder="输入2个字后搜索"
+                :maxlength="20"
+                v-model="queryForm.input"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="false">
+              </el-autocomplete>
             </el-form-item>
           </el-col>
           <el-col :span="8" :xs="12">
@@ -53,7 +60,7 @@
           </el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" @click="toDetailList(scope.row.corpSccCode)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <el-button type="text" @click="toDetailList(scope.row.corpName,scope.row.corpSccCode,scope.row.count)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -78,12 +85,23 @@ export default {
         endTime: ''
       },
       dates: ['', ''],
+      corpListOptions: [], // 委托企业
       resultList: [] // 表格数据
     }
   },
   created () {
     this.paginationInit = this.$store.state.pagination
+    this.corpList()
     this.search()
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path === '/dataCenter/licenses/license') {
+        this.corpList()
+        this.search()
+      }
+    }
   },
   methods: {
     // 新建
@@ -91,6 +109,40 @@ export default {
       this.$router.push({
         name: 'addLicense'
       })
+    },
+    // 委托企业
+    corpList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/dccommon/queryCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          if (res.success) {
+            let json = JSON.stringify(res.result)
+            json = json.replace(/ownerName/g, 'value')
+            this.corpListOptions = JSON.parse(json)
+          }
+        }
+      })
+    },
+    // 输入2个字后搜索
+    querySearch (queryString, cb) {
+      if (this.queryForm.input.length < 2) {
+        return
+      }
+      let restaurants = this.corpListOptions
+      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      // 调用 callback 返回建议列表的数据
+      cb(results.slice(0, 10))
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        if (util.isEmpty(restaurant.value)) {
+          return false
+        } else {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+        }
+      }
     },
     // 查询
     search () {
@@ -131,11 +183,13 @@ export default {
       this.search()
     },
     // 跳转到详情页面
-    toDetailList (corpSccCode) {
+    toDetailList (corpName, corpSccCode, count) {
       this.$router.push({
-        name: 'detailListLicense',
-        params: {
-          'corpSccCode': corpSccCode
+        path: '/dataCenter/jobsLicense/jobDetailList',
+        query: {
+          corpName: corpName,
+          corpSccCode: corpSccCode,
+          count: count
         }
       })
     }

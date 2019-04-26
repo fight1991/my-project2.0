@@ -27,7 +27,7 @@ const MENU = {
         title: '许可证新增'
       }
     }, {
-      path: '/dataCenter/licenses/license/detailList/:corpSccCode',
+      path: '/dataCenter/licenses/license/detailListLicense',
       name: 'detailListLicense',
       hidden: true,
       meta: {
@@ -53,7 +53,7 @@ const MENU = {
         title: '证书管理'
       }
     }, {
-      path: '/dataCenter/licenses/certificate/add/:type/:rowId',
+      path: '/dataCenter/licenses/certificate/addCertificate',
       name: 'addCertificate',
       hidden: true,
       meta: {
@@ -61,7 +61,7 @@ const MENU = {
         title: '证书信息'
       }
     }, {
-      path: '/dataCenter/licenses/certificate/detailList/:corpSccCode',
+      path: '/dataCenter/licenses/certificate/detailListCertificate',
       name: 'detailListCertificate',
       hidden: true,
       meta: {

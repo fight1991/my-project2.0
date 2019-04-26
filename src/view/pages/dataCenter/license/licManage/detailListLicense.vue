@@ -8,17 +8,17 @@
           <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
         <el-col :span='12' :xs='24'>
-          <el-button type="primary" size="mini" @click="add(detail,resultTopData.id)" class="sys-fr">新建</el-button>
+          <el-button type="primary" size="mini" @click="add(corpSccCode, corpName)" class="sys-fr">新建</el-button>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
       <el-row class = "query-table">
         <el-row>
           <el-col :span="12">
-            委托企业:{{resultTopData.id}}
+            委托企业:{{corpName}}
           </el-col>
           <el-col :span="12">
-            许可证数:{{resultTopData.id + ''}}
+            许可证数:{{count + ''}}
           </el-col>
         </el-row>
         <el-row>
@@ -27,7 +27,7 @@
             <el-row :gutter="20" style="padding-top:30px">
               <el-col :span="6" :xs="12">
                 <el-form-item>
-                  <el-input size="mini" clearable v-model="detailForm.ID" placeholder="许可证号、涉证商品编号"></el-input>
+                  <el-input size="mini" clearable v-model="detailForm.input" placeholder="许可证号、涉证商品编号"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="8" :xs="12">
@@ -68,12 +68,12 @@
                   <el-table class='sys-table-table' :data="scope.row.licenseList">
                     <el-table-column label="上传时间" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.ID | date() || '-'}}
+                        {{scope.row.updateTime | date() || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="许可证号" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.ID || '-'}}
+                        {{scope.row.licenseNo || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="涉证商品" min-width="200">
@@ -83,12 +83,12 @@
                     </el-table-column>
                     <el-table-column label="许可证截止有效日期" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.ID | date() || '-'}}
+                        {{scope.row.expiryDate | date() || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="可用次数" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.ID + '' || '-'}}
+                        {{scope.row.availableNum + '' || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="剩余可用数量" min-width="100">
@@ -98,10 +98,10 @@
                     </el-table-column>
                     <el-table-column label="操作" width="200">
                       <template slot-scope="scope">
-                        <el-button type="text" @click="toDetailChild('detail',scope.row.ID)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-                        <el-button type="text" @click="toDetailChild('edit',scope.row.ID)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+                        <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+                        <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
                         <el-button type="text" @click="previewPicture" title="附件"><i class="fa fa-eye f-18"></i></el-button>
-                        <el-button type="text" @click="deleteBtn(scope.row.ID)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
+                        <el-button type="text" @click="deleteBtn(scope.row.licensePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -112,7 +112,7 @@
         </el-table-column>
         <el-table-column label="许可证名称" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.licenseTypeValue || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="监管证件代码" min-width="200">
@@ -122,7 +122,7 @@
         </el-table-column>
         <el-table-column label="许可证数" min-width="100">
           <template slot-scope="scope">
-            <!-- {{scope.row.licenseList.length || '-'}} -->
+            {{scope.row.licenseList.length || '-'}}
           </template>
         </el-table-column>
       </el-table>
@@ -137,35 +137,46 @@
 </template>
 
 <script>
+import util from '../../../../../common/util'
 export default {
   data () {
     return {
       detailForm: {
-        ID: ''
+        input: '',
+        startTime: '',
+        endTime: ''
       },
+      corpName: '',
+      corpSccCode: '',
+      count: '',
       dates: ['', ''],
-      resultList: [
-        {ID: '222222222222'},
-        {ID: '111111'},
-        {ID: '33333333'}
-      ], // 表格数据
-      resultTopData: {
-        id: ''
-      }
+      resultList: [] // 表格数据
     }
   },
   created () {
     this.paginationInit = this.$store.state.pagination
+    this.corpSccCode = this.$route.query.corpSccCode
+    this.corpName = this.$route.query.corpName
+    this.count = this.$route.query.count
     this.search()
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('detailListLicense') === -1) {
+        return
+      }
+      this.reset()
+    }
   },
   methods: {
     // 新建
-    add (type, name) {
+    add (corpSccCode, corpName) {
       this.$router.push({
-        name: '许可证新增',
+        path: '/dataCenter/licenses/license/addLicense',
         query: {
-          type: type,
-          name: name
+          corpSccCode: corpSccCode,
+          corpName: corpName
         }
       })
     },
@@ -175,23 +186,35 @@ export default {
     },
     // 列表
     queryList (pagination) {
-      // this.paginationInit = pagination
-      // this.$store.dispatch('ajax', {
-      //   url: 'API@/dec-common/decParam/common/getPriceList',
-      //   data: {
-      //     ...this.detailForm,
-      //     page: pagination
-      //   },
-      //   router: this.$router,
-      //   isPageList: true,
-      //   success: (res) => {
-      //     this.priceList = res.result.list
-      //     this.paginationInit = res.page
-      //   }
-      // })
+      if (this.dates === '' || this.dates === null) {
+        this.detailForm.startTime = ''
+        this.detailForm.endTime = ''
+      } else {
+        this.detailForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.detailForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/license/queryEmlList',
+        data: {
+          ...this.detailForm,
+          page: pagination
+        },
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.priceList = res.result
+          this.paginationInit = res.page
+        }
+      })
     },
     // 重置
     reset () {
+      this.detailForm = {
+        input: '',
+        startTime: '',
+        endTime: ''
+      }
       this.dates = ['', '']
     },
     // 跳转到详情页面
@@ -208,8 +231,26 @@ export default {
       window.open(this.fileList[0].url, '_blank')
     },
     // 删除
-    deleteBtn () {
-
+    deleteBtn (val) {
+      this.$confirm('确认删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/license/delete',
+          data: {pid: val},
+          router: this.$router,
+          success: (res) => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.search()
+          }
+        })
+      }).catch(() => {
+      })
     }
   }
 }

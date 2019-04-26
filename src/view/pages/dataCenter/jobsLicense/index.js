@@ -11,7 +11,7 @@ const MENU = [
     }
   },
   {
-    path: '/dataCenter/jobsLicense/jobDetailList/:id',
+    path: '/dataCenter/jobsLicense/jobDetailList',
     name: 'jobDetailList',
     hidden: true,
     meta: {
@@ -20,7 +20,7 @@ const MENU = [
     }
   },
   {
-    path: '/dataCenter/jobsLicense/detailEdit',
+    path: '/dataCenter/jobsLicense/detailEdit/:type/:id',
     name: 'detailEditJobs',
     hidden: true,
     meta: {

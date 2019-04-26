@@ -7,26 +7,32 @@
           <el-row :gutter="20" style="padding-top:10px">
             <el-col :span="6" :xs="12">
               <el-form-item>
-              <el-input size="mini" clearable v-model="queryForm.ID" placeholder="委托企业"></el-input>
-            </el-form-item>
+                <el-autocomplete
+                  size='mini' style="width:100%"
+                  placeholder="输入2个字后搜索"
+                  :maxlength="20"
+                  v-model="queryForm.keywords"
+                  :fetch-suggestions="querySearch"
+                  :trigger-on-focus="false">
+                </el-autocomplete>
+              </el-form-item>
             </el-col>
             <el-col :span="8" :xs="12">
-            <el-form-item label-width="100px" label="最近上传日期">
-              <el-date-picker size="mini"
-                v-model="dates"
-                @change="uploadTime"
-                type="daterange"
-                :editable='false'
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10" :xs="12">
-            <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-            <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
-          </el-col>
+              <el-form-item label-width="100px" label="最近上传日期">
+                <el-date-picker size="mini"
+                  v-model="dates"
+                  type="daterange"
+                  :editable='false'
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10" :xs="12">
+              <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
+              <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
+            </el-col>
           </el-row>
        <!-- 查询条件 end-->
         </el-form>
@@ -40,27 +46,27 @@
           :data="resultList">
           <el-table-column label="委托企业" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.ID+'' || '-'}}
+              {{scope.row.ownerName || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="累计业务票数" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.ID+'' || '-'}}
+              {{scope.row.decCount+'' || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="累计上传单证" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.ID+'' || '-'}}
+              {{scope.row.edocCount+'' || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="最近上传时间" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.time | date() || '-'}}
+              {{scope.row.updateTime | date() || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="操作" width="50">
             <template slot-scope="scope">
-              <el-button type="text" @click="toChild(scope.row.roleId)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <el-button type="text" @click="toChild(scope.row.ownerName,scope.row.ownerCodeScc,scope.row.decCount,scope.row.edocCount)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -74,34 +80,111 @@ export default {
   data () {
     return {
       queryForm: {
-        ID: '',
-        time: util.dateFormat(new Date(), 'yyyy-MM-dd')
+        keywords: '',
+        updateTimeStart: '',
+        updateTimeEnd: ''
       },
+      corpListOptions: [], // 委托企业
       dates: ['', ''],
-      resultList: [
-        {ID: '222222222222', time: '20110101'},
-        {ID: '111111'},
-        {ID: '33333333'}
-      ]
+      resultList: []
     }
   },
-  created () {},
+  created () {
+    this.paginationInit = this.$store.state.pagination
+    this.corpList()
+    this.search()
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path === '/dataCenter/jobsLicense') {
+        this.corpList()
+        this.search()
+      }
+    }
+  },
   methods: {
-    uploadTime () {
-
-    },
-    // 新建
-    add () {},
     // 查询
-    search () {},
+    search () {
+      this.queryList(this.$store.state.pagination)
+    },
+    // 列表
+    queryList (pagination) {
+      if (this.dates === '' || this.dates === null) {
+        this.queryForm.startTime = ''
+        this.queryForm.endTime = ''
+      } else {
+        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/queryOwnerList',
+        data: {
+          ...this.queryForm,
+          page: pagination
+        },
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.resultList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page
+        }
+      })
+    },
     // 重置
-    reset () {},
+    reset () {
+      this.dates = ['', '']
+      this.queryForm = {
+        keywords: '',
+        updateTimeStart: '',
+        updateTimeEnd: ''
+      }
+      this.search()
+    },
+    // 委托企业
+    corpList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/dccommon/queryCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          if (res.success) {
+            let json = JSON.stringify(res.result)
+            json = json.replace(/ownerName/g, 'value')
+            this.corpListOptions = JSON.parse(json)
+          }
+        }
+      })
+    },
+    // 输入2个字后搜索
+    querySearch (queryString, cb) {
+      if (this.queryForm.keywords.length < 2) {
+        return
+      }
+      let restaurants = this.corpListOptions
+      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      // 调用 callback 返回建议列表的数据
+      cb(results.slice(0, 10))
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        if (util.isEmpty(restaurant.value)) {
+          return false
+        } else {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+        }
+      }
+    },
     // 跳转到详情页面
-    toChild (id) {
+    toChild (ownerName, ownerCodeScc, decCount, edocCount) {
       this.$router.push({
-        name: '业务单证列表',
-        params: {
-          id: id
+        path: '/dataCenter/jobsLicense/jobDetailList',
+        query: {
+          ownerName: ownerName,
+          ownerCodeScc: ownerCodeScc,
+          decCount: decCount,
+          edocCount: edocCount
         }
       })
     }

@@ -27,7 +27,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <!-- <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
+            <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
               <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
               <el-row>
                 <el-col :span="12">
@@ -57,10 +57,10 @@
                     :show-file-list="fileType"
                     :on-preview="showfileUrl"
                     :on-remove="handleDelete">
-                    <img v-if="addForm.licenseList  && !fileType" :src="addForm.licenseList" class="detail-img">
+                    <img v-if="item.licenseUrl  && !fileType" :src="item.licenseUrl" class="detail-img">
                     <el-button size="small" type="primary">上传附件</el-button>
                   </el-upload>
-                    <img class="detail-img" v-if="!fileType" :src="addForm.licenseList">
+                    <img class="detail-img" v-if="!fileType" :src="item.licenseUrl">
                 </el-form-item>
               </el-row>
               <el-row>
@@ -87,14 +87,14 @@
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="涉证商品:">
-                    <el-input clearable size="mini" :maxlength="30" v-model="item.goods" @focus="openGoodsDialog"></el-input>
+                    <el-input clearable size="mini" :maxlength="30" v-model="item.goodsList" @focus="openGoodsDialog"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-            </el-card> -->
+            </el-card>
           </el-row>
           <el-row>
-            <!-- <span class="license-add" @click="addLicense"><img class="pointer" v-if="index !== 0" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span> -->
+            <!-- <span class="license-add" @click="addLicense"><img class="pointer" v-if="this.licenseList.length > 1" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span> -->
           </el-row>
           <el-row class="query-btn">
             <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
@@ -106,7 +106,7 @@
         <el-form :model="addForm.goodsDialogForm" ref="goodsDialogForm" :rules="dialogRule" size="mini">
           <el-row>
             <el-col :span="18" :offset="4">
-              <!-- <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in addForm.goodsDialogForm" :key="index2">
+              <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in addForm.goodsDialogForm" :key="index2">
                 <el-col :span="7">
                   <el-form-item :prop="'goodsDialogForm.'+index2+'.gNo'" :rules="dialogRule.gNo">
                     <el-input size="mini" clearable v-model="item.gNo" placeholder="请输入商品编号"></el-input>
@@ -123,12 +123,12 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                  <el-button type="text" title="删除" @click="deleteGood(index2)"><i class="fa fa-times-circle-o"></i></el-button>
+                  <!-- <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialogForm.length > 1"><i class="fa fa-times-circle-o"></i></el-button> -->
                 </el-col>
               </el-row>
               <el-row>
                 <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
-              </el-row> -->
+              </el-row>
             </el-col>
           </el-row>
         </el-form>
@@ -149,7 +149,7 @@ export default {
       rules: {
         corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
-        licenseUrl: [{ required: true, message: '', trigger: '' }],
+        // licenseUrl: [{ required: true, message: '', trigger: '' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
@@ -165,6 +165,8 @@ export default {
       }],
       goodsDialogVisible: false,
       addForm: {
+        corpName: '',
+        corpSccCode: '',
         goodsList: [
           {
             gNo: '',
@@ -193,8 +195,36 @@ export default {
   },
   created () {
     this.getCommonParams()
+    this.corpList()
+    if (this.$route.query.corpSccCode) {
+      this.reset()
+      this.addForm.corpSccCode = this.$route.query.corpSccCode
+      this.addForm.corpName = this.$route.query.corpName
+    } else {
+      this.reset()
+    }
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('addLicense') === -1) {
+        return
+      }
+      this.reset()
+      this.corpList()
+      this.getCommonParams()
+    }
   },
   methods: {
+    // 重置
+    reset () {
+      this.addForm = {
+        corpName: '',
+        corpSccCode: '',
+        goodsList: [],
+        licenseList: []
+      }
+    },
     // 保存
     saveDialogForm () {
       this.goods = this.goodsDialogForm

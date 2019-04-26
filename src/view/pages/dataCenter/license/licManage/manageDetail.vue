@@ -21,18 +21,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <!-- <el-form-item label="企业类型:"  prop="corpType" class="h-42">
-                  <el-select v-model="resultDetail.corpType" size="mini" v-if="flag" clearable>
-                    <el-option
-                      v-for="item in corpTypeDescList"
-                      :key="item.value"
-                      :label="item.text"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                  <span v-if="!flag" v-text="resultDetail.corpTypeName"></span>
-                </el-form-item> -->
-                <el-form-item label="许可证类型" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licensePath" ref="licTypeCode">
+              <el-form-item label="许可证类型" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licensePath" ref="licTypeCode">
                 <el-select size="mini" filterable v-model="addForm.licTypeCode" class="select-Color" v-if="!isDetail" style="width:100%">
                   <el-option
                     v-for="item in LicTypeList"
@@ -82,20 +71,20 @@
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="goodsList">
-                  <el-table-column label="商品名称" min-width="100" prop="ID"></el-table-column>
-                  <el-table-column label="商品编号" min-width="100" prop="ID">
+                  <el-table-column label="商品名称" min-width="100" prop="gName"></el-table-column>
+                  <el-table-column label="商品编号" min-width="100" prop="gNo">
                     <template slot-scope="scope">
-                      {{scope.row.ID}}
+                      {{scope.row.gNo}}
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" v-model="licensePath" :readonly="isDetail">{{scope.row.ID+''}}</el-input>
+                      <el-input clearable size="mini" v-model="declaredQuantity" :readonly="isDetail">{{scope.row.ID+''}}</el-input>
                     </template>
                   </el-table-column>
-                  <el-table-column label="剩余可用数量" min-width="100" prop="ID">
+                  <el-table-column label="剩余可用数量" min-width="100" prop="availableQuantity">
                     <template slot-scope="scope">
-                      {{scope.row.ID+''}}
+                      {{scope.row.availableQuantity+''}}
                     </template>
                   </el-table-column>
                   <el-table-column label="操作" width="100">

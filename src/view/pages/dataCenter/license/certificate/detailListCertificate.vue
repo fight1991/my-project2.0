@@ -9,7 +9,7 @@
         </el-col>
         <el-col :span='12' :xs='24'>
           <el-button type="primary" size="mini" @click="warningSet" class="sys-fr" style='float: right;margin-left:5px;'>预警设置</el-button>
-          <el-button type="primary" size="mini" @click="add('detailAdd',corpSccCode)" class="sys-fr">新建</el-button>
+          <el-button type="primary" size="mini" @click="add(corpSccCode, corpName)" class="sys-fr">新建</el-button>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -108,13 +108,15 @@
                       <el-radio label="5">到期前5天</el-radio>
                     </el-row>
                     <el-row >
-                      <el-radio @click="getInputDays" label="自定义">自定义到期时间</el-radio>
+                      <el-radio label="">自定义到期时间</el-radio>
                     </el-row>
                   </el-radio-group>
                 </el-row>
               </el-form-item>
               <el-form-item label="" prop="inputDays">
-                <span style="padding-left:20px">到期时间前<el-input style="width:50px;margin:0 10px" size="mini" clearable v-model="setDialogForm.inputDays" :disabled="isDisabled"></el-input>天</span>
+                <span style="padding-left:20px">到期时间前
+                  <el-input style="width:80px;margin:0 10px" size="mini" clearable v-model="setDialogForm.inputDays" :disabled="isDisabled" :maxlength="3"></el-input>
+                  天</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -129,11 +131,12 @@
 
 <script>
 import validator from '../../../../../common/validator'
+import util from '../../../../../common/util'
 export default {
   data () {
     return {
       rule: {
-        inputDays: [{ required: true, validator: validator.Zz0, message: '', trigger: 'blur' }]
+        inputDays: [{ required: true, validator: validator.Zz0, message: '请输入正整数,最多三位', trigger: 'blur' }]
       },
       setDialogVisible: false, // 预警弹框
       setDialogForm: {
@@ -142,7 +145,7 @@ export default {
       },
       isDisabled: true,
       corpName: '',
-      corpSccCode: [this.$route.params.corpSccCode],
+      corpSccCode: '',
       count: '',
       certificateDetailForm: {
         input: '',
@@ -155,20 +158,72 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
+    this.corpSccCode = this.$route.query.corpSccCode
+    this.corpName = this.$route.query.corpName
+    this.count = this.$route.query.count
     this.search()
   },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('detailListCertificate') === -1) {
+        return
+      }
+      this.reset()
+    }
+  },
   methods: {
-    // 预警设置
+    // 打开预警设置弹出框
     warningSet () {
       this.setDialogVisible = true
+      this.setDialogForm.inputDays = ''
+      this.setDialogForm.dateConfig = '30'
+      this.$nextTick(() => {
+        this.$refs['setDialogForm'].clearValidate()
+      })
     },
-    // 选中自定义
-    getInputDays () {
-      this.isDisabled = false
-    },
-    saveDialogForm () {},
+    // 关闭弹出框
     cancleDialogForm () {
       this.setDialogVisible = false
+    },
+    // 预警设置
+    datesChange (value) {
+      if (value === '') {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+        this.setDialogForm.inputDays = ''
+        this.$nextTick(() => {
+          this.$refs['setDialogForm'].clearValidate()
+        })
+      }
+    },
+
+    // 预警设置保存
+    saveDialogForm () {
+      let days = ''
+      if (this.setDialogForm.inputDays === '') {
+        days = this.setDialogForm.dateConfig
+      } else {
+        days = this.setDialogForm.inputDays
+        this.$refs['setDialogForm'].validate((valid) => {
+          if (!valid) {
+            return false
+          }
+        })
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/certificate/editTime',
+        data: [{pid: '123', days: days}],
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '设置成功',
+            type: 'success'
+          })
+          this.setDialogVisible = false
+        }
+      })
     },
     // 查询
     search () {
@@ -176,6 +231,13 @@ export default {
     },
     // 证书列表
     queryList (pagination) {
+      if (this.dates === '' || this.dates === null) {
+        this.certificateDetailForm.startTime = ''
+        this.certificateDetailForm.endTime = ''
+      } else {
+        this.certificateDetailForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.certificateDetailForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/certificate/queryList',
@@ -204,15 +266,25 @@ export default {
     // 导入
     upload () {
     },
-    // 编辑
-    toDetailChild (type, rowId) {
+    // 新建
+    add (corpSccCode, corpName) {
       this.$router.push({
-        name: 'addCertificate',
-        params: {
-          'type': type,
-          'rowId': rowId
+        path: '/dataCenter/licenses/certificate/detailListCertificate',
+        query: {
+          corpSccCode: corpSccCode,
+          corpName: corpName
         }
       })
+    },
+    // 编辑
+    toDetailChild (type, rowId) {
+      // this.$router.push({
+      //   name: 'detailListCertificate',
+      //   params: {
+      //     'type': type,
+      //     'rowId': rowId
+      //   }
+      // })
     },
     // 删除
     deleteBtn (val) {
@@ -223,7 +295,7 @@ export default {
       }).then(() => {
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/certificate/delete',
-          data: [{pid: val}],
+          data: {pid: val},
           router: this.$router,
           success: (res) => {
             this.$message({

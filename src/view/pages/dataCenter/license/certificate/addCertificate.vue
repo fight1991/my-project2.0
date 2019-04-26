@@ -67,12 +67,13 @@ export default {
   data () {
     return {
       rule: {
-        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'blur' }],
+        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
         certificateName: [{ required: true, message: '请输入证书名称', trigger: 'blur' }],
         certificateNo: [{ required: true, message: '请输入证书编号', trigger: 'blur' }],
         expiryDate: [{ required: true, message: '请选择到期时间', trigger: 'change' }]
       },
       addForm: {
+        corpSccCode: '',
         corpName: '',
         certificateName: '',
         certificateNo: '',
@@ -80,7 +81,7 @@ export default {
         ifWarning: '1',
         certificateUrl: ''
       },
-      corpListOptions: [],
+      corpListOptions: [], // 委托企业
       fileLists: [], // 存放文件
       fileType: true,
       isImg: false,
@@ -95,17 +96,19 @@ export default {
       if (to.path.indexOf('addCertificate') === -1) {
         return
       }
-      this.rest()
+      this.reset()
+      this.corpList()
     }
   },
   created () {
     this.corpList()
-    this.type = this.$route.params.type
-    this.certificatePid = this.$route.params.rowId
-    if (this.type === 'edit') {
+    if (this.$route.query.corpSccCode) {
+      this.reset()
+      this.addForm.corpSccCode = this.$route.query.corpSccCode
+      this.addForm.corpName = this.$route.query.corpName
       this.queryEdit()
     } else {
-      this.rest()
+      this.reset()
     }
   },
   mounted () {
@@ -113,19 +116,21 @@ export default {
   },
   methods: {
     // 重置
-    rest () {
+    reset () {
       this.addForm = {
+        corpSccCode: '',
         corpName: '',
         certificateName: '',
         certificateNo: '',
         expiryDate: '',
-        ifWarning: '1',
+        ifWarning: 'true',
         certificateUrl: ''
       }
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
     },
+    // 编辑反显
     queryEdit () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/certificate/queryDetail',
@@ -133,6 +138,7 @@ export default {
         router: this.$router,
         success: (res) => {
           this.addForm = {
+            corpSccCode: res.result.corpSccCode,
             corpName: res.result.corpName,
             certificateName: res.result.certificateName,
             certificateNo: res.result.certificateNo,
