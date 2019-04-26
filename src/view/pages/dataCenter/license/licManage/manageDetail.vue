@@ -4,74 +4,79 @@
         <el-form label-width="150px" :model="addForm" size="mini" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="委托企业" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licenseList" >
-                <!-- <el-autocomplete class='sys-certified'
-                    size='mini' :readonly="isDetail"
-                    placeholder="输入2个字后搜索"
-                    :class='ctrlState.styleValue'
-                    v-model="dataCompanyForm.companyName"
-                    :fetch-suggestions="querySearch"
-                    :trigger-on-focus="false"
-                    @select="handleSelect">
-                  <template slot="append" v-if="ctrlState.stateValue != ''">
-                    <i></i>
-                    <span v-text="ctrlState.stateValue"></span>
-                  </template>
-                </el-autocomplete> -->
+              <el-form-item label="委托企业"  prop="corpName" >
+                <el-autocomplete
+                size='mini' style="width:100%"
+                :disabled="isDetail"
+                placeholder="输入2个字后搜索"
+                :maxlength="20"
+                v-model="addForm.corpName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="false">
+                </el-autocomplete>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="许可证类型" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licensePath" ref="licTypeCode">
-                <el-select size="mini" filterable v-model="addForm.licTypeCode" class="select-Color" v-if="!isDetail" style="width:100%">
+              <el-form-item label="许可证类型"  prop="licenseType" ref="licenseType">
+                <el-select placeholder="请选择许可证类型" v-model="addForm.licenseType"
+                remote filterable clearable
+                :disabled="isDetail"
+                @focus="tipsFillMessage('saasLicType','SAAS_LIC_TYPE')"
+                :remote-method="checkParamsList"
+                ref="licTypeCode" dataRef='licTypeCode'
+                style="width:100%">
                   <el-option
-                    v-for="item in LicTypeList"
-                    :key="item.value"
-                    :label="item.text"
-                    :value="item.value">
+                    v-for="item in saasLicType"
+                    :key="item.codeField"
+                    :label="item.codeField + '-' + item.nameField"
+                    :value="item.codeField">
                   </el-option>
-                  <span v-if="isDetail" v-text="resultDetail.corpTypeName"></span>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12" :xs='24'>
-              <el-form-item label="许可证编号:" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licensePath">
-                <el-input clearable size="mini" :maxlength="30" v-model="addForm.licTypeCode" :readonly="isDetail"></el-input>
+              <el-form-item label="许可证编号:"  prop="licenseNo">
+                <el-input clearable size="mini" :maxlength="30" v-model="addForm.licenseNo" :disabled="isDetail"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="有效截止日期" :class="{ 'require-color': controller.requireColor &&  !isDetail }"  prop="licensePath">
-                <el-date-picker size="mini" type="datetime" style="width:100%" v-model="addForm.licTypeCode" :disabled="isDetail"></el-date-picker>
+              <el-form-item label="有效截止日期"  prop="expiryDate">
+                <el-date-picker size="mini" type="datetime" style="width:100%" v-model="addForm.expiryDate" :disabled="isDetail"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12" :xs='24'>
-              <el-form-item label="上传时间" prop="licensePath">
-                <el-input clearable size="mini" v-model="addForm.licTypeCode" readonly></el-input>
+              <el-form-item label="上传时间" prop="updateTime">
+                <el-input clearable size="mini" v-model="addForm.updateTime" readonly></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="可用次数" :class="{ 'require-color': controller.requireColor &&  !isDetail }" prop="licensePath" >
+              <el-form-item label="可用次数" prop="availableNum" >
                 <el-select style="width:100%"
-                  v-model="addForm.licTypeCode"
+                  v-model="addForm.availableNum"
                   :disabled="isDetail"
                   filterable remote clearable
                   placeholder="请选择许可证可用次数">
-                  <el-option label="一批一证" value="0"></el-option>
-                  <el-option label="非一批一证" value="1"></el-option>
+                  <el-option label="一批一证" value="1"></el-option>
+                  <el-option label="非一批一证" value="0"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col>
-              <el-form-item label="涉证商品" prop="licensePath" >
+              <el-form-item label="涉证商品">
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="goodsList">
-                  <el-table-column label="商品名称" min-width="100" prop="gName"></el-table-column>
+                  <el-table-column label="商品名称" min-width="100" prop="gName">
+                    <template slot-scope="scope">
+                      {{scope.row.gName}}
+                    </template>
+                  </el-table-column>
                   <el-table-column label="商品编号" min-width="100" prop="gNo">
                     <template slot-scope="scope">
                       {{scope.row.gNo}}
@@ -79,7 +84,7 @@
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" v-model="declaredQuantity" :readonly="isDetail">{{scope.row.ID+''}}</el-input>
+                      <el-input clearable size="mini" v-model="declaredQuantity" :disabled="isDetail">{{scope.row.declaredQuantity+''}}</el-input>
                     </template>
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100" prop="availableQuantity">
@@ -89,28 +94,28 @@
                   </el-table-column>
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
-                      <el-button type="text" @click="deleteGoods(scope.row.roleId)" title="删除"><i class="fa fa-times-circle f-18"></i></el-button>
+                      <el-button type="text" @click="deleteGoods(scope.row.relatedGoodsPid)" title="删除" v-if="isDetail"><i class="fa fa-times-circle f-18"></i></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
-                <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>增加涉证商品</span></span>
+                <span class="license-add" @click="addRelatedGoods"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>增加涉证商品</span></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-form-item label="许可证文件:">
               <el-upload
-                action="http://127.0.0.1"
-                :before-upload="beforeUpload"
-                :file-list="fileLists"
-                :show-file-list="fileType"
-                :on-preview="showfileUrl"
-                :on-remove="handleDelete">
-                <img v-if="licenseList  && !fileType" :src="licenseList" class="detail-img">
-                </el-upload>
-                <img class="detail-img" v-if="!fileType" :src="licenseList">
-                <el-button size="small" type="primary">点击图片重新上传</el-button>
-                <!-- <span v-if="isPdf" style="cursor:pointer;text-decoration:underline;" @click="showfile(resultDetail.businessLicenseUrl)">企业营业执照.pdf</span> -->
+              action="http://127.0.0.1"
+              :before-upload="beforeUpload"
+              :file-list="fileLists"
+              :show-file-list="fileType"
+              :on-preview="showfileUrl">
+              <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <el-button size="small" type="primary">上传附件</el-button>
+            </el-upload>
             </el-form-item>
           </el-row>
           <el-row class="query-btn">
@@ -124,15 +129,16 @@
 
 <script>
 import util from '../../../../../common/util'
+import commonParam from '../../../../../common/commonParam'
 export default {
   data () {
     return {
       rules: {
-        licenseList: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
-        licenseSelect: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
-        licensePath: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }]
-        // licensePath: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
-        // licensePath: [{ required: true, message: '请输入涉证商品', trigger: 'blur' }]
+        corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
+        licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
+        licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
+        expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
+        availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
       },
       controller: {
         requiredColor: true
@@ -140,61 +146,163 @@ export default {
       LicTypeList: [],
       isDetail: false,
       addForm: {
-        licTypeCode: ''
+        corpName: '',
+        licenseType: '',
+        licenseNo: '',
+        expiryDate: '',
+        updateTime: '',
+        availableNum: '',
+        goodsList: [
+          {
+            gNo: '',
+            gName: '',
+            declaredQuantity: ''
+          }
+        ]
       },
-      licenseList: [],
+      type: '',
+      corpListOptions: [], // 委托企业
       fileLists: [], // 存放文件
       fileType: true,
+      isImg: false,
+      isPdf: false,
+      isWord: false,
+      isExcel: false,
       licenses: [],
+      saasLicType: [],
+      selectObj: {
+        obj: '',
+        params: ''
+      },
       goodsList: []
     }
   },
   created () {
-
+    this.reset()
+    this.corpList()
+    this.getCommonParams()
+    this.type = this.$route.params.type
+    this.id = this.$route.params.id
+    if (this.type === 'detail') {
+      this.isDetail = true
+    } else {
+      this.isDetail = false
+    }
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('manageDetail') === -1) {
+        return
+      }
+      this.reset()
+      this.corpList()
+      this.getCommonParams()
+    }
   },
   methods: {
+    // 重置
+    reset () {
+      this.addForm = {
+        corpName: '',
+        licenseType: '',
+        licenseNo: '',
+        expiryDate: '',
+        updateTime: '',
+        availableNum: '',
+        goodsList: [
+          {
+            gNo: '',
+            gName: '',
+            declaredQuantity: ''
+          }
+        ]
+      }
+    },
     // 更多上传
-    addLicense () {
-      this.addForm.licenseList.push({
-        servicePath: '',
-        licenseId: ''
+    addRelatedGoods () {
+      this.goodsList.push({
+        licenseType: '',
+        licenseUrl: '',
+        licenseNo: '',
+        expiryDate: '',
+        availableNum: ''
       })
     },
     // 保存
-    submit () {},
-    // 格式化许可证类型
-    formateLicenseType (val) {
-      let label = ''
-      for (let x in this.LicTypeList) {
-        if (val === this.LicTypeList[x].value) {
-          label = this.LicTypeList[x].text
-          break
+    submit () {
+      this.$refs['addForm'].validate((valId) => {
+        if (!valId) {
+          return false
+        }
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/license/edit',
+          data: this.addForm,
+          router: this.$router,
+          success: (res) => {
+            this.$message({
+              message: '编辑成功',
+              type: 'success'
+            })
+            this.$router.go(-1)
+          }
+        })
+      })
+    },
+    // 刪除
+    deleteGoods (index) {
+      this.goodsList.splice(index, 1)
+    },
+    // 委托企业
+    corpList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/dccommon/queryCorps',
+        data: {},
+        router: this.$router,
+        success: (res) => {
+          if (res.success) {
+            let json = JSON.stringify(res.result)
+            json = json.replace(/ownerName/g, 'value')
+            this.corpListOptions = JSON.parse(json)
+          }
+        }
+      })
+    },
+    // 输入2个字后搜索
+    querySearch (queryString, cb) {
+      if (this.addForm.corpName.length < 2) {
+        return
+      }
+      let restaurants = this.corpListOptions
+      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      // 调用 callback 返回建议列表的数据
+      cb(results.slice(0, 10))
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        if (util.isEmpty(restaurant.value)) {
+          return false
+        } else {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
         }
       }
-      return label
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file, info) {
-      if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || (info === '0' && file.type === 'application/pdf'))) {
-        if (info === '0') {
-          this.$message({
-            message: '上传文件暂时只支持jpg/png/gif/pdf格式',
-            type: 'error'
-          })
-        } else {
-          this.$message({
-            message: '上传图片暂时只支持jpg/png/gif格式',
-            type: 'error'
-          })
-        }
+    beforeUpload (file) {
+      this.fileLists = []
+      if (!util.getFileTypeByName(file.name)) {
+        this.$message({
+          message: '上传文件暂时只支持图片/PDF/word/Excel格式',
+          type: 'error'
+        })
         this.$emit('closeEditUpload')
-      } else if (file.type !== 'application/pdf' && !(Math.ceil(file.size / 1024) <= 2048)) {
+      } else if ((file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 2048)) {
         this.$message({
           message: '上传图片大小不能超过2MB',
           type: 'error'
         })
         this.$emit('closeEditUpload')
-      } else if (file.type === 'application/pdf' && !(Math.ceil(file.size / 1024) <= 10240)) {
+      } else if (util.getFileTypeByName(file.name) && !(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 10240)) {
         this.$message({
           message: '上传文件大小不能超过10MB',
           type: 'error'
@@ -208,43 +316,97 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
-            if (info === '0') {
-              if (file.type === 'application/pdf') {
-                this.fileLists.push({
-                  name: res.result.name,
-                  url: res.result.url
-                })
-                this.fileType = true
-              } else {
-                this.resultDetail.businessLicenseUrl = res.result.url
-                this.fileType = false
-              }
-            } else if (info === '1') {
-              this.resultDetail.adminConfirmation = res.result.url
-            } else if (info === '2') {
-              this.resultDetail.idCardFront = res.result.url
+            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
+              this.addForm.certificateUrl = res.result.url
+              this.fileType = false
+              this.isImg = true
+              this.isPdf = false
+              this.isWord = false
+              this.isExcel = false
             } else {
-              this.resultDetail.idCardBak = res.result.url
+              this.fileLists.push({
+                name: res.result.name,
+                url: res.result.url
+              })
+              if (file.type === 'application/pdf') {
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = true
+                this.isWord = false
+                this.isExcel = false
+              } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                this.addForm.certificateUrl = res.result.url
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = false
+                this.isWord = true
+                this.isExcel = false
+              } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                this.addForm.certificateUrl = res.result.url
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = false
+                this.isWord = false
+                this.isExcel = true
+              }
             }
           }
         })
       }
       return false
     },
-    // pdf 预览
+    // 预览
     showfileUrl (file) {
+      console.log('预览' + file)
       util.fileView(file.url)
     },
-    // 附件删除
-    handleDelete (file, fileList) {
-      for (let i = 0; i < this.fileLists.length; i++) {
-        if (file.name === this.fileLists[i].name) {
-          this.fileLists.splice(i, 1)
-          this.resultDetail.businessLicenseUrl = ''
-        }
+    // 文件点击事件
+    showfile (url) {
+      if (!util.isEmpty(url)) {
+        util.fileView(url)
       }
     },
-    deleteGoods () {}
+    // 提示需要填写的内容
+    tipsFillMessage (obj, params) {
+      this.selectObj = {
+        obj: obj,
+        params: params
+      }
+    },
+    // 获取公共字典list
+    getCommonParams () {
+      let par = ['SAAS_LIC_TYPE']
+      let tableNames = commonParam.isRequire(par)
+      if (tableNames.length > 0) {
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-dictionary/dictionary/getParam',
+          data: {
+            'tableNames': tableNames
+          },
+          router: this.$router,
+          success: (res) => {
+            commonParam.saveParams(res.result)
+            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+          }
+        })
+      } else {
+        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+      }
+    },
+    checkParamsList (query) {
+      let keyValue = query.toString().trim()
+      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+      let filterList = []
+      if (util.isEmpty(keyValue)) {
+        this[this.selectObj.obj] = list.slice(0, 10)
+      } else {
+        filterList = list.filter(item => {
+          let str = item.codeField + '-' + item.nameField
+          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+        })
+        this[this.selectObj.obj] = filterList.slice(0, 10)
+      }
+    }
   }
 }
 </script>

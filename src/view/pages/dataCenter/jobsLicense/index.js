@@ -20,12 +20,22 @@ const MENU = [
     }
   },
   {
-    path: '/dataCenter/jobsLicense/detailEdit/:type/:id',
-    name: 'detailEditJobs',
+    path: '/dataCenter/jobsLicense/detailJobs',
+    name: 'detailJobs',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailEditJobs.vue'], resolve),
-      title: '业务单证编辑详情'
+      component: resolve => require(['./detailJobs.vue'], resolve),
+      title: '业务单证详情'
+    }
+  },
+
+  {
+    path: '/dataCenter/jobsLicense/editJobs',
+    name: 'editJobs',
+    hidden: true,
+    meta: {
+      component: resolve => require(['./editJobs.vue'], resolve),
+      title: '编辑业务单证'
     }
   },
   {

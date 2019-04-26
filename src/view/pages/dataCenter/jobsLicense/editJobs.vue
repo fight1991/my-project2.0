@@ -1,37 +1,33 @@
 <template>
   <section class='sys-main'>
-     <!-- 头部 -->
     <el-row class = "query-condition">
       <el-row>
-        <el-col :span="8" :xs='24'>
-          委托企业:{{resultTopData.ownerName}}
-        </el-col>
-        <el-col :span="8" :xs='24'>
-          报关单系统编号:{{resultTopData.decPid}}
-        </el-col>
-        <el-col :span="8" :xs='24'>
-          接单编号:{{resultTopData.bossId}}
-        </el-col>
+        <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid)">&nbsp;导入</el-button>
       </el-row>
-      <el-row>
-      <el-col :span="8" :xs='24'>
-          统一编号:{{resultTopData.seqNo}}
-        </el-col>
-        <el-col :span="8" :xs='24'>
-          报关单号:{{'暂无'}}
-        </el-col>
-      </el-row>
-    </el-row>
-      <!-- 头部 end-->
-      <!-- 主显示框 -->
-    <div class='query-table'>
-      <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
+        <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
-            <el-col :span="12" :xs='24' v-for="(item,index) in submitData.licenseList" :key="index">
+            <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
-                <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
+                <i class="license-close-icon" @click="delLicense(index)"></i>
                 <el-row>
-                  <el-col :span="12" :xs='24'>
+                  <el-col :span="10">
+                    <el-upload
+                      action="http://127.0.0.1"
+                      :before-upload="beforeUpload"
+                      :file-list="fileLists"
+                      :show-file-list="fileType"
+                      :on-preview="showfileUrl"
+                      :on-remove="handleDelete">
+                      <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
+                      <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+                      <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+                      <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+                      <el-row>
+                        <el-button size="small" type="primary">重新上传附件</el-button>
+                      </el-row>
+                    </el-upload>
+                  </el-col>
+                  <el-col :span="11">
                     <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" v-model="item.documentType"
                       remote filterable clearable
@@ -47,41 +43,20 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="12" :xs='24'>
                     <el-form-item label="单证编号:" prop="documentNo">
-                      <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo"></el-input>
+                      <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo" :disabled=isDetail></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row>
-                  <el-form-item label="单证文件:">
-                     <el-upload
-                      action="http://127.0.0.1"
-                      :before-upload="beforeUpload"
-                      :file-list="fileLists"
-                      :show-file-list="fileType"
-                      :on-preview="showfileUrl">
-                      <img v-if="isImg  && !fileType" :src="item.documentUrl" class="detail-img">
-                      <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <el-button size="small" v-if="fileType" type="primary">上传附件</el-button>
-                    </el-upload>
-                  </el-form-item>
-                </el-row>
               </el-card>
             </el-col>
-          </el-row>
-          <el-row>
-            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多业务单证</span></span>
-          </el-row>
-          <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
-            <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
-          </el-row>
+            </el-row>
         </el-form>
-    </div>
+        <el-col :span="24" class="query-btn">
+          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
+          <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+        </el-col>
+    </el-row>
   </section>
 </template>
 
@@ -93,13 +68,6 @@ export default {
     return {
       rules: {
         documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
-      },
-      resultTopData: {
-        decPid: '',
-        ownerName: '',
-        ownerCodeScc: '',
-        bossId: '',
-        seqNo: ''
       },
       submitData: {
         licenseList: [
@@ -125,31 +93,37 @@ export default {
     }
   },
   created () {
+    this.decPid = this.$route.query.decPid
     this.getCommonParams()
+    this.querylist()
   },
   watch: {
     '$route': function (to, from) {
       // 初始化组件
-      if (to.path.indexOf('importLicense') === -1) {
+      if (to.path.indexOf('editJobs') === -1) {
         return
       }
-      this.resultTopData = this.$route.query
       this.submitData.licenseList = []
       this.getCommonParams()
+      this.querylist()
     }
   },
   methods: {
+    // 列表
+    querylist () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/queryEditAttachList',
+        data: {decPid: this.decPid},
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
+        }
+      })
+    },
     // 删除业务单证
     delLicense (index) {
       this.submitData.licenseList.splice(index, 1)
-    },
-    // 更多上传
-    addLicense () {
-      this.submitData.licenseList.push({
-        documentNo: '',
-        documentType: '',
-        documentUrl: ''
-      })
     },
     // 保存
     submit () {
@@ -158,12 +132,12 @@ export default {
           return false
         }
         this.$store.dispatch('ajax', {
-          url: 'API@/saas-document-center/business/save',
+          url: 'API@/saas-document-center/business/edit',
           data: this.submitData,
           router: this.$router,
           success: (res) => {
             this.$message({
-              message: '导入成功',
+              message: '编辑成功',
               type: 'success'
             })
             this.$router.push({name: 'jobDetailList'})
@@ -290,6 +264,19 @@ export default {
         })
         this[this.selectObj.obj] = filterList.slice(0, 10)
       }
+    },
+    // 导入
+    upload (decPid) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/importLicense',
+        query: {
+          decPid: decPid
+          // ownerName: ownerName,
+          // ownerCodeScc: ownerCodeScc,
+          // bossId: bossId,
+          // seqNo: seqNo
+        }
+      })
     }
   }
 }
@@ -307,12 +294,6 @@ export default {
   }
   .query-btn {
     text-align: center;
-  }
-  .license-add{
-    cursor: pointer;
-    span{
-      margin-left: 5px;
-    }
   }
   .license-close-icon{
       width: 20px;
@@ -336,6 +317,10 @@ export default {
     width: 178px;
     height: 178px;
     cursor: pointer;
+  }
+  .avatar-uploader {
+    margin:20px auto;
+    text-align: center;
   }
   .avatar-uploader-icon {
     border: 1px solid #d9d9d9;

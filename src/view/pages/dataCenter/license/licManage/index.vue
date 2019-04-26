@@ -185,7 +185,7 @@ export default {
     // 跳转到详情页面
     toDetailList (corpName, corpSccCode, count) {
       this.$router.push({
-        path: '/dataCenter/jobsLicense/jobDetailList',
+        path: '/dataCenter/licenses/license/detailListLicense',
         query: {
           corpName: corpName,
           corpSccCode: corpSccCode,

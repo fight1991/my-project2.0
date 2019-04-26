@@ -65,7 +65,7 @@
             <div class='sys-table-detail-expand'>
               <el-row :gutter="20">
                 <el-col :span="20" style="padding:0;" class='detail-infos'>
-                  <el-table class='sys-table-table' :data="scope.row.licenseList">
+                  <el-table class='sys-table-table' :data="scope.row.licenseInfos">
                     <el-table-column label="上传时间" min-width="100">
                       <template slot-scope="scope">
                         {{scope.row.updateTime | date() || '-'}}
@@ -78,7 +78,7 @@
                     </el-table-column>
                     <el-table-column label="涉证商品" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.ID || '-'}}
+                        {{scope.row.goodCount || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="许可证截止有效日期" min-width="200">
@@ -93,14 +93,14 @@
                     </el-table-column>
                     <el-table-column label="剩余可用数量" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.ID + '' || '-'}}
+                        {{scope.row.lastCount + '' || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column label="操作" width="200">
                       <template slot-scope="scope">
                         <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
                         <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-                        <el-button type="text" @click="previewPicture" title="附件"><i class="fa fa-eye f-18"></i></el-button>
+                        <el-button type="text" @click="previewPicture(scope.row.licensePid)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
                         <el-button type="text" @click="deleteBtn(scope.row.licensePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
                       </template>
                     </el-table-column>
@@ -117,12 +117,12 @@
         </el-table-column>
         <el-table-column label="监管证件代码" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.ID || '-'}}
+            {{scope.row.licenseType || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="许可证数" min-width="100">
           <template slot-scope="scope">
-            {{scope.row.licenseList.length || '-'}}
+            {{scope.row.count || '-'}}
           </template>
         </el-table-column>
       </el-table>
@@ -150,7 +150,14 @@ export default {
       corpSccCode: '',
       count: '',
       dates: ['', ''],
-      resultList: [] // 表格数据
+      resultList: [
+        {
+          licenseTypeValue: '',
+          licenseType: '',
+          count: '',
+          licenseInfos: []
+        }
+      ] // 表格数据
     }
   },
   created () {
@@ -195,7 +202,7 @@ export default {
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/license/queryEmlList',
+        url: 'API@/saas-document-center/license/queryLicenseTypeList',
         data: {
           ...this.detailForm,
           page: pagination
@@ -203,7 +210,7 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.priceList = res.result
+          this.resultList = res.result
           this.paginationInit = res.page
         }
       })
@@ -219,16 +226,17 @@ export default {
     },
     // 跳转到详情页面
     toDetailChild (type, id) {
-      // this.$router.push({
-      //   name: '业务单证信息',
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.$router.push({
+        name: 'manageDetail',
+        params: {
+          type: type,
+          id: id
+        }
+      })
     },
     // 预览图片
-    previewPicture () {
-      window.open(this.fileList[0].url, '_blank')
+    previewPicture (index) {
+      window.open(this.fileList[index].url, '_blank')
     },
     // 删除
     deleteBtn (val) {

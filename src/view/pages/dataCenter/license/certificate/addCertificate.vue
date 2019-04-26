@@ -48,7 +48,7 @@
               <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-button size="small" type="primary">上传附件</el-button>
-              </el-upload>
+            </el-upload>
               <!-- <img class="detail-img" v-if="!fileType" :src="addForm.certificateUrl"> -->
           </el-form-item>
           <el-row class="query-btn">
@@ -198,13 +198,6 @@ export default {
         }
       }
     },
-    // 更多上传
-    addLicense () {
-      this.addForm.licenseList.push({
-        servicePath: '',
-        licenseId: ''
-      })
-    },
     // 上传图片前的格式及大小判断
     beforeUpload (file) {
       this.fileLists = []
@@ -286,7 +279,6 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList) {
-      console.log('删除' + file, fileList)
       // for (let i = 0; i < this.fileLists.length; i++) {
       //   if (file.name === this.fileLists[i].name) {
       //     this.fileLists.splice(i, 1)

@@ -57,10 +57,12 @@
                     :show-file-list="fileType"
                     :on-preview="showfileUrl"
                     :on-remove="handleDelete">
-                    <img v-if="item.licenseUrl  && !fileType" :src="item.licenseUrl" class="detail-img">
+                    <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
+                    <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+                    <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+                    <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
                     <el-button size="small" type="primary">上传附件</el-button>
                   </el-upload>
-                    <img class="detail-img" v-if="!fileType" :src="item.licenseUrl">
                 </el-form-item>
               </el-row>
               <el-row>
@@ -94,7 +96,7 @@
             </el-card>
           </el-row>
           <el-row>
-            <!-- <span class="license-add" @click="addLicense"><img class="pointer" v-if="this.licenseList.length > 1" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span> -->
+            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
           </el-row>
           <el-row class="query-btn">
             <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
@@ -102,11 +104,11 @@
           </el-row>
         </el-form>
     </el-row>
-    <el-dialog title="涉证商品" :visible.sync="goodsDialogVisible" width="950px">
-        <el-form :model="addForm.goodsDialogForm" ref="goodsDialogForm" :rules="dialogRule" size="mini">
+    <el-dialog title="涉证商品" :visible.sync="goodsDialogVisible" width="950px" :before-close='beforeClose'>
+        <el-form :model="goodsDialogForm" ref="goodsDialogForm" :rules="dialogRule" size="mini">
           <el-row>
             <el-col :span="18" :offset="4">
-              <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in addForm.goodsDialogForm" :key="index2">
+              <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in goodsDialogForm" :key="index2">
                 <el-col :span="7">
                   <el-form-item :prop="'goodsDialogForm.'+index2+'.gNo'" :rules="dialogRule.gNo">
                     <el-input size="mini" clearable v-model="item.gNo" placeholder="请输入商品编号"></el-input>
@@ -123,7 +125,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                  <!-- <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialogForm.length > 1"><i class="fa fa-times-circle-o"></i></el-button> -->
+                  <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialogForm.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
                 </el-col>
               </el-row>
               <el-row>
@@ -185,7 +187,12 @@ export default {
         ]
       },
       fileLists: [], // 存放文件
+      corpListOptions: [], // 委托企业
       fileType: true,
+      isImg: false,
+      isPdf: false,
+      isWord: false,
+      isExcel: false,
       saasLicType: [],
       selectObj: {
         obj: '',
@@ -222,15 +229,36 @@ export default {
         corpName: '',
         corpSccCode: '',
         goodsList: [],
-        licenseList: []
+        licenseList: [
+          {
+            licenseType: '',
+            licenseUrl: '',
+            licenseNo: '',
+            expiryDate: '',
+            availableNum: ''
+          }
+        ]
       }
+      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
     },
     // 保存
     saveDialogForm () {
-      this.goods = this.goodsDialogForm
+      this.goodsList = this.goodsDialogForm
+      this.goodsDialogVisible = false
     },
     // 取消
     cancleDialogForm () {
+      this.goodsDialogForm = [{
+        gNo: '',
+        gName: '',
+        declaredQuantity: ''
+      }]
+      this.$nextTick(() => {
+        this.$refs['goodsDialogForm'].clearValidate()
+      })
+      this.goodsDialogVisible = false
+    },
+    beforeClose () {
       this.goodsDialogForm = [{
         gNo: '',
         gName: '',
@@ -281,7 +309,7 @@ export default {
     },
     // 更多上传许可证
     addLicense () {
-      this.goodsDialogForm.push({
+      this.addForm.licenseList.push({
         licenseType: '',
         licenseUrl: '',
         licenseNo: '',
@@ -291,11 +319,11 @@ export default {
     },
     // 删除许可证
     delLicense (index) {
-      this.goodsDialogForm.splice(index, 1)
+      this.addForm.licenseList.splice(index, 1)
     },
     // 更多商品
     addGood () {
-      this.addForm.goodsList.push({
+      this.goodsDialogForm.push({
         gNo: '',
         gName: '',
         declaredQuantity: ''
@@ -303,36 +331,44 @@ export default {
     },
     // 删除商品
     deleteGood (index) {
-      this.addForm.goodsList.splice(index, 1)
+      this.goodsDialogForm.splice(index, 1)
     },
     // 保存
-    submit () {},
-    // 重置表单
-    restAddForm () {
-      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+    submit () {
+      this.$refs['addForm'].validate((valId) => {
+        if (!valId) {
+          return false
+        }
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/license/save',
+          data: this.addForm,
+          router: this.$router,
+          success: (res) => {
+            this.$message({
+              message: '新建成功',
+              type: 'success'
+            })
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file, info) {
-      if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || (info === '0' && file.type === 'application/pdf'))) {
-        if (info === '0') {
-          this.$message({
-            message: '上传文件暂时只支持jpg/png/gif/pdf格式',
-            type: 'error'
-          })
-        } else {
-          this.$message({
-            message: '上传图片暂时只支持jpg/png/gif格式',
-            type: 'error'
-          })
-        }
+    beforeUpload (file) {
+      this.fileLists = []
+      if (!util.getFileTypeByName(file.name)) {
+        this.$message({
+          message: '上传文件暂时只支持图片/PDF/word/Excel格式',
+          type: 'error'
+        })
         this.$emit('closeEditUpload')
-      } else if (file.type !== 'application/pdf' && !(Math.ceil(file.size / 1024) <= 2048)) {
+      } else if ((file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 2048)) {
         this.$message({
           message: '上传图片大小不能超过2MB',
           type: 'error'
         })
         this.$emit('closeEditUpload')
-      } else if (file.type === 'application/pdf' && !(Math.ceil(file.size / 1024) <= 10240)) {
+      } else if (util.getFileTypeByName(file.name) && !(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 10240)) {
         this.$message({
           message: '上传文件大小不能超过10MB',
           type: 'error'
@@ -346,32 +382,55 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
-            if (info === '0') {
-              if (file.type === 'application/pdf') {
-                this.fileLists.push({
-                  name: res.result.name,
-                  url: res.result.url
-                })
-                this.fileType = true
-              } else {
-                this.resultDetail.businessLicenseUrl = res.result.url
-                this.fileType = false
-              }
-            } else if (info === '1') {
-              this.resultDetail.adminConfirmation = res.result.url
-            } else if (info === '2') {
-              this.resultDetail.idCardFront = res.result.url
+            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
+              this.addForm.certificateUrl = res.result.url
+              this.fileType = false
+              this.isImg = true
+              this.isPdf = false
+              this.isWord = false
+              this.isExcel = false
             } else {
-              this.resultDetail.idCardBak = res.result.url
+              this.fileLists.push({
+                name: res.result.name,
+                url: res.result.url
+              })
+              if (file.type === 'application/pdf') {
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = true
+                this.isWord = false
+                this.isExcel = false
+              } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                this.addForm.certificateUrl = res.result.url
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = false
+                this.isWord = true
+                this.isExcel = false
+              } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                this.addForm.certificateUrl = res.result.url
+                this.fileType = false
+                this.isImg = false
+                this.isPdf = false
+                this.isWord = false
+                this.isExcel = true
+              }
             }
           }
         })
       }
       return false
     },
-    // pdf 预览
+    // 预览
     showfileUrl (file) {
+      console.log('预览' + file)
       util.fileView(file.url)
+    },
+    // 文件点击事件
+    showfile (url) {
+      if (!util.isEmpty(url)) {
+        util.fileView(url)
+      }
     },
     // 附件删除
     handleDelete (file, fileList) {
