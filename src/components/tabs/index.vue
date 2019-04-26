@@ -87,6 +87,9 @@ export default {
               name: event.data.data.url,
               params: {
                 sysData: base64.encode(JSON.stringify(sysData))
+              },
+              query: {
+                temp: base64.encode(util.isEmpty(sysData.id) ? '' : sysData.id)
               }
             })
             break
