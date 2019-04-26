@@ -47,7 +47,7 @@ export default {
   created () {
     // 如果本地有缓存信息,则根据缓存位置信息来排序
     if (this.indexSort().length > 0) {
-      this.items = this.indexSort()
+      this.divList = this.indexSort()
     }
   },
   mounted () {
