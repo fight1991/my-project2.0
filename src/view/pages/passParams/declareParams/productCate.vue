@@ -53,8 +53,8 @@
     <!-- 主显示框 end -->
     <!-- 注释弹窗 -->
     <el-dialog title="注释" :close-on-click-modal="false" :append-to-body="true" :visible.sync="explanatoryVisable" width="40%">
-      <el-row>
-        <div style="word-break: break-all;">{{thrcontentInf}}</div>
+      <el-row class="pro-inf">
+        <div v-html="thrcontentInf"></div>
       </el-row>
     </el-dialog>
     <!-- 注释弹窗 end -->
@@ -107,7 +107,7 @@ export default {
     },
     // 跳转详情
     toDetail (data) {
-      this.thrcontentInf = data
+      this.thrcontentInf = data.replace('"', '').replace('"', '')
       this.explanatoryVisable = true
     }
   }
@@ -129,6 +129,14 @@ export default {
   }
   &:hover i,&:focus i{
     background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
+  }
+}
+.pro-inf{
+  max-height: 400px;
+  overflow: auto;
+  >div{
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 }
 </style>
