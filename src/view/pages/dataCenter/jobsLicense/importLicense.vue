@@ -61,7 +61,8 @@
                     :before-upload="(e)=>{beforeUpload(e,item)}"
                     :file-list="fileLists"
                     :show-file-list="item.fileType"
-                    :on-preview="showfileUrl">
+                    :on-preview="showfileUrl"
+                    :on-remove="(e)=>{handleDelete(e,item)}">
                     <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
@@ -280,13 +281,21 @@ export default {
     },
     // 预览
     showfileUrl (file) {
-      console.log('预览' + file)
-      util.fileView(file.url)
+      // util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
-      if (!util.isEmpty(url)) {
-        util.fileView(url)
+      // if (!util.isEmpty(url)) {
+      //   util.fileView(url)
+      // }
+    },
+    // 附件删除
+    handleDelete (file, fileList, row) {
+      for (let i = 0; i < this.row.fileLists.length; i++) {
+        if (file.name === this.row.fileLists[i].name) {
+          this.row.fileLists.splice(i, 1)
+          this.row.documentUrl = ''
+        }
       }
     },
     // 提示需要填写的内容

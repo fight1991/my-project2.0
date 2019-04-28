@@ -13,8 +13,7 @@
                     :before-upload="(e)=>{beforeUpload(e,item)}"
                     :file-list="fileLists"
                     :show-file-list="item.fileType"
-                    :on-preview="showfileUrl"
-                    :on-remove="handleDelete">
+                    :on-preview="showfileUrl">
                     <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">

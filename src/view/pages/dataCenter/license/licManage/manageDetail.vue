@@ -180,8 +180,8 @@ export default {
   },
   created () {
     this.reset()
-    this.corpList()
-    this.getCommonParams()
+    // this.corpList()
+    // this.getCommonParams()
     this.type = this.$route.params.type
     this.info.licensePid = this.$route.params.id
     if (this.type === 'detail') {
@@ -198,8 +198,8 @@ export default {
         return
       }
       this.reset()
-      this.corpList()
-      this.getCommonParams()
+      // this.corpList()
+      // this.getCommonParams()
       this.type = this.$route.params.type
       this.info.licensePid = this.$route.params.id
       if (this.type === 'detail') {

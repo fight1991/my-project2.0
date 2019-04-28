@@ -57,7 +57,7 @@
                     :file-list="fileLists"
                     :show-file-list="item.info.fileType"
                     :on-preview="showfileUrl"
-                    :on-remove="handleDelete">
+                    :on-remove="(e)=>{handleDelete(e,item)}">
                     <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
                     <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                     <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
@@ -74,7 +74,7 @@
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="有效截止日期" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
-                    <el-date-picker size="mini" type="datetime" style="width:100%" v-model="item.info.expiryDate"></el-date-picker>
+                    <el-date-picker size="mini" type="date" style="width:100%" v-model="item.info.expiryDate"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -90,44 +90,16 @@
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="涉证商品:">
-                    <el-input clearable size="mini" @focus="openGoodsDialog" :maxlength="30"></el-input>
+                    <el-input clearable size="mini" @focus="openGoodsDialog"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-dialog title="涉证商品" :visible.sync="goodsDialogVisible" width="950px" :before-close='beforeClose'>
-                  <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini">
-                    <el-row>
-                      <el-col :span="18" :offset="4">
-                        <el-row :gutter="10" style="margin-bottom:10px" v-for="(item2,index2) in goodsDialog.goods" :key="index2">
-                          <el-col :span="7">
-                            <el-form-item :prop="'goods.'+index2+'.gNo'" :rules="dialogRule.gNo">
-                              <el-input size="mini" clearable v-model="item2.gNo" placeholder="请输入商品编号"></el-input>
-                            </el-form-item>
-                          </el-col>
-                          <el-col :span="7">
-                            <el-form-item>
-                              <el-input size="mini" clearable v-model="item2.gName" placeholder="请输入商品名称"></el-input>
-                            </el-form-item>
-                          </el-col>
-                          <el-col :span="7">
-                            <el-form-item :prop="'goods.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
-                              <el-input size="mini" clearable v-model="item2.declaredQuantity" placeholder="请输入申报数量"></el-input>
-                            </el-form-item>
-                          </el-col>
-                          <el-col :span="3">
-                            <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialog.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
-                          </el-col>
-                        </el-row>
-                        <el-row>
-                          <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
-                        </el-row>
-                      </el-col>
-                    </el-row>
-                  </el-form>
-                  <span slot="footer">
-                    <el-button class="layer-btn-primary" @click="saveDialogForm(item)">确定</el-button>
-                    <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
-                  </span>
+              <el-dialog
+              title="涉证商品"
+              :visible.sync="goodsDialogVisible"
+              :show-close='true'
+              width="640px">
+              <goods-dialog :init="item"  @backDatas="saveDialogForm(item)"  @cancLeData="cancleDialogForm(item)"  v-show="goodsDialogVisible"></goods-dialog>
               </el-dialog>
             </el-card>
           </el-row>
@@ -147,6 +119,9 @@
 import util from '../../../../../common/util'
 import commonParam from '../../../../../common/commonParam'
 export default {
+  components: {
+    'goods-dialog': resolve => require(['./components/goodsDialog.vue'], resolve)
+  },
   data () {
     return {
       rules: {
@@ -202,21 +177,6 @@ export default {
         isPdf: false,
         isWord: false,
         isExcel: false
-      },
-      goods: [{
-        gNo: '',
-        gName: '',
-        declaredQuantity: ''
-      }],
-      goodsDialog: {
-        gNo: '',
-        gName: '',
-        declaredQuantity: '',
-        goods: [{
-          gNo: '',
-          gName: '',
-          declaredQuantity: ''
-        }]
       },
       fileLists: [], // 存放文件
       corpListOptions: [], // 委托企业
@@ -289,32 +249,12 @@ export default {
     },
     // 保存
     saveDialogForm (row) {
+      row.goods = util.simpleClone(row)
       this.goodsDialogVisible = false
-      // this.$refs['goodsDialog'].validate((valId) => {
-      //   this.goodsDialogVisible = false
-      // })
     },
     // 取消
-    cancleDialogForm () {
-      this.goods = [{
-        gNo: '',
-        gName: '',
-        declaredQuantity: ''
-      }]
-      // this.$nextTick(() => {
-      //   this.$refs['goodsDialog'].clearValidate()
-      // })
-      this.goodsDialogVisible = false
-    },
-    beforeClose () {
-      this.goods = [{
-        gNo: '',
-        gName: '',
-        declaredQuantity: ''
-      }]
-      // this.$nextTick(() => {
-      //   this.$refs['goodsDialog'].clearValidate()
-      // })
+    cancleDialogForm (row) {
+      row.goods = []
       this.goodsDialogVisible = false
     },
     // 委托企业
@@ -380,18 +320,6 @@ export default {
     // 删除许可证
     delLicense (index) {
       this.addForm.submitDataList.splice(index, 1)
-    },
-    // 更多商品
-    addGood () {
-      this.goods.push({
-        gNo: '',
-        gName: '',
-        declaredQuantity: ''
-      })
-    },
-    // 删除商品
-    deleteGood (index) {
-      this.goods.splice(index, 1)
     },
     // 保存
     submit () {
@@ -502,20 +430,20 @@ export default {
     },
     // 预览
     showfileUrl (file) {
-      util.fileView(file.url)
+      // util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
       if (!util.isEmpty(url)) {
-        util.fileView(url)
+        // util.fileView(url)
       }
     },
     // 附件删除
-    handleDelete (file, fileList) {
-      for (let i = 0; i < this.fileLists.length; i++) {
-        if (file.name === this.fileLists[i].name) {
-          this.fileLists.splice(i, 1)
-          this.info.licenseUrl = ''
+    handleDelete (file, fileList, row) {
+      for (let i = 0; i < this.row.info.fileLists.length; i++) {
+        if (file.name === this.row.info.fileLists[i].name) {
+          this.row.info.fileLists.splice(i, 1)
+          this.row.info.licenseUrl = ''
         }
       }
     },
