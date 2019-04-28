@@ -200,6 +200,7 @@ export default {
     resetquery () {
       this.dateinit()
       this.QueryForm.operateUser = ''
+      this.getTableData(this.$store.state.pagination)
     },
     dateinit () {
       let datenow = new Date()
