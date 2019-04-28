@@ -4,7 +4,7 @@
     <el-row class = "query-condition">
       <el-row>
         <el-col :span="8" :xs='24'>
-          委托企业:{{resultTopData.ownerName}}
+          委托企业:{{resultTopData.corpName}}
         </el-col>
         <el-col :span="8" :xs='24'>
           报关单系统编号:{{resultTopData.decPid}}
@@ -18,7 +18,7 @@
           统一编号:{{resultTopData.seqNo}}
         </el-col>
         <el-col :span="8" :xs='24'>
-          报关单号:{{'暂无'}}
+          报关单号:{{resultTopData.decNo}}
         </el-col>
       </el-row>
     </el-row>
@@ -97,8 +97,8 @@ export default {
       },
       resultTopData: {
         decPid: '',
-        ownerName: '',
-        ownerCodeScc: '',
+        corpName: '',
+        decNo: '',
         bossId: '',
         seqNo: ''
       },
@@ -123,17 +123,38 @@ export default {
         obj: '',
         params: ''
       }
-      // licenses: []
     }
   },
   created () {
+    this.reset()
     this.resultTopData.decPid = this.$route.query.decPid
-    this.resultTopData.ownerName = this.$route.query.ownerName
-    this.resultTopData.ownerCodeScc = this.$route.query.ownerCodeScc
-    this.resultTopData.bossId = this.$route.query.bossId
-    this.submitData = {
-      licenseList: [
-        {
+    this.getCommonParams()
+    this.queryList()
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('importLicense') === -1) {
+        return
+      }
+      this.reset()
+      this.resultTopData.decPid = this.$route.query.decPid
+      this.getCommonParams()
+      this.queryList()
+    }
+  },
+  methods: {
+    // 初始化
+    reset () {
+      this.resultTopData = {
+        decPid: '',
+        corpName: '',
+        decNo: '',
+        bossId: '',
+        seqNo: ''
+      }
+      this.submitData = {
+        licenseList: [{
           documentNo: '',
           documentType: '',
           documentUrl: '',
@@ -143,44 +164,14 @@ export default {
           isPdf: false,
           isWord: false,
           isExcel: false
-        }
-      ]
-    }
-    this.getCommonParams()
-  },
-  watch: {
-    '$route': function (to, from) {
-      // 初始化组件
-      if (to.path.indexOf('importLicense') === -1) {
-        return
+        }]
       }
-      this.resultTopData.decPid = this.$route.query.decPid
-      this.resultTopData.ownerName = this.$route.query.ownerName
-      this.resultTopData.ownerCodeScc = this.$route.query.ownerCodeScc
-      this.resultTopData.bossId = this.$route.query.bossId
-      this.submitData = {
-        licenseList: [
-          {
-            documentNo: '',
-            documentType: '',
-            documentUrl: '',
-            fileLists: [], // 存放文件
-            fileType: true,
-            isImg: false,
-            isPdf: false,
-            isWord: false,
-            isExcel: false
-          }
-        ]
-      }
-    }
-  },
-  methods: {
+    },
     // 列表
     queryList () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/business/queryDecList',
-        data: this.decPid,
+        url: 'API@/saas-document-center/business/queryDecInfo',
+        data: {decPid: this.resultTopData.decPid},
         router: this.$router,
         success: (res) => {
           this.resultTopData = res.result
