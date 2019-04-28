@@ -11,7 +11,7 @@
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
-        <el-form label-width="150px" :model="addForm" :rules="rules" size="mini" label-position="right">
+        <el-form label-width="150px" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="委托企业" prop="corpName">
@@ -21,18 +21,19 @@
                 :maxlength="20"
                 v-model="addForm.corpName"
                 :fetch-suggestions="querySearch"
+                @select="handleSelect($event)"
                 :trigger-on-focus="false">
                 </el-autocomplete>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-card class="license-card" v-for="(item,index) in addForm.licenseList" :key="index">
+            <el-card class="license-card" v-for="(item,index) in addForm.submitDataList" :key="index">
               <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
               <el-row>
                 <el-col :span="12">
-                <el-form-item label="许可证类型:" :prop="'licenseList.'+index+'.licenseType'" :rules="rules.licenseType">
-                  <el-select placeholder="请选择许可证类型" v-model="item.licenseType"
+                <el-form-item label="许可证类型:" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
+                  <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
                   remote filterable clearable
                   @focus="tipsFillMessage('saasLicType','SAAS_LIC_TYPE')"
                   :remote-method="checkParamsList"
@@ -40,7 +41,7 @@
                   style="width:100%">
                     <el-option
                       v-for="(item,i) in saasLicType"
-                      :key="'licenses'+index+i+item.licenseType"
+                      :key="'saasLicType'+index+i+item.licenseType"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
                     </el-option>
@@ -49,50 +50,85 @@
                 </el-col>
               </el-row>
               <el-row>
-                <el-form-item label="许可证文件:" :prop="'licenseList.'+index+'.licenseUrl'" :rules="rules.licenseUrl">
+                <el-form-item label="许可证文件:">
                   <el-upload
                     action="http://127.0.0.1"
-                    :before-upload="beforeUpload"
+                    :before-upload="(e)=>{beforeUpload(e,item)}"
                     :file-list="fileLists"
-                    :show-file-list="fileType"
+                    :show-file-list="item.info.fileType"
                     :on-preview="showfileUrl"
                     :on-remove="handleDelete">
-                    <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
-                    <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-                    <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-                    <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-                    <el-button size="small" type="primary">上传附件</el-button>
+                    <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
+                    <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                    <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                    <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                    <el-button size="small" type="primary" v-if="item.info.fileType">上传附件</el-button>
                   </el-upload>
                 </el-form-item>
               </el-row>
               <el-row>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="许可证编号:" :prop="'licenseList.'+index+'.licenseNo'" :rules="rules.licenseNo">
-                    <el-input clearable size="mini" :maxlength="30" v-model="item.licenseNo"></el-input>
+                  <el-form-item label="许可证编号:" :prop="'submitDataList.'+index+'.info.licenseNo'" :rules="rules.licenseNo">
+                    <el-input clearable size="mini" :maxlength="30" v-model="item.info.licenseNo"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="有效截止日期" :prop="'licenseList.'+index+'.expiryDate'" :rules="rules.expiryDate">
-                    <el-date-picker size="mini" type="datetime" style="width:100%" v-model="item.expiryDate"></el-date-picker>
+                  <el-form-item label="有效截止日期" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
+                    <el-date-picker size="mini" type="datetime" style="width:100%" v-model="item.info.expiryDate"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="可用次数" :prop="'licenseList.'+index+'.availableNum'" :rules="rules.availableNum">
-                    <el-select v-model="item.availableNum" style="width:100%"
+                  <el-form-item label="可用次数" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
+                    <el-select v-model="item.info.availableNum" style="width:100%"
                       filterable remote clearable placeholder="请选择许可证可用次数">
-                      <el-option label="一批一证" value="0"></el-option>
-                      <el-option label="非一批一证" value="1"></el-option>
+                      <el-option label="一批一证" value="1"></el-option>
+                      <el-option label="非一批一证" value="0"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="涉证商品:">
-                    <el-input clearable size="mini" :maxlength="30" v-model="item.goodsList" @focus="openGoodsDialog"></el-input>
+                    <el-input clearable size="mini" @focus="openGoodsDialog" :maxlength="30"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-dialog title="涉证商品" :visible.sync="goodsDialogVisible" width="950px" :before-close='beforeClose'>
+                  <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini">
+                    <el-row>
+                      <el-col :span="18" :offset="4">
+                        <el-row :gutter="10" style="margin-bottom:10px" v-for="(item2,index2) in goodsDialog.goods" :key="index2">
+                          <el-col :span="7">
+                            <el-form-item :prop="'goods.'+index2+'.gNo'" :rules="dialogRule.gNo">
+                              <el-input size="mini" clearable v-model="item2.gNo" placeholder="请输入商品编号"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="7">
+                            <el-form-item>
+                              <el-input size="mini" clearable v-model="item2.gName" placeholder="请输入商品名称"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="7">
+                            <el-form-item :prop="'goods.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
+                              <el-input size="mini" clearable v-model="item2.declaredQuantity" placeholder="请输入申报数量"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          <el-col :span="3">
+                            <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialog.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
+                          </el-col>
+                        </el-row>
+                        <el-row>
+                          <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+                        </el-row>
+                      </el-col>
+                    </el-row>
+                  </el-form>
+                  <span slot="footer">
+                    <el-button class="layer-btn-primary" @click="saveDialogForm(item)">确定</el-button>
+                    <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
+                  </span>
+              </el-dialog>
             </el-card>
           </el-row>
           <el-row>
@@ -104,41 +140,6 @@
           </el-row>
         </el-form>
     </el-row>
-    <el-dialog title="涉证商品" :visible.sync="goodsDialogVisible" width="950px" :before-close='beforeClose'>
-        <el-form :model="goodsDialogForm" ref="goodsDialogForm" :rules="dialogRule" size="mini">
-          <el-row>
-            <el-col :span="18" :offset="4">
-              <el-row :gutter="10" style="margin-bottom:10px" v-for="(item,index2) in goodsDialogForm" :key="index2">
-                <el-col :span="7">
-                  <el-form-item :prop="'goodsDialogForm.'+index2+'.gNo'" :rules="dialogRule.gNo">
-                    <el-input size="mini" clearable v-model="item.gNo" placeholder="请输入商品编号"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="7">
-                  <el-form-item>
-                    <el-input size="mini" clearable v-model="item.gName" placeholder="请输入商品名称"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="7">
-                  <el-form-item :prop="'goodsDialogForm.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
-                    <el-input size="mini" clearable v-model="item.declaredQuantity" placeholder="请输入申报数量"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialogForm.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
-                </el-col>
-              </el-row>
-              <el-row>
-                <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
-              </el-row>
-            </el-col>
-          </el-row>
-        </el-form>
-        <span slot="footer">
-          <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
-          <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
-        </span>
-    </el-dialog>
   </section>
 </template>
 
@@ -149,7 +150,7 @@ export default {
   data () {
     return {
       rules: {
-        corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
+        corpName: [{ required: true, message: '请输入委托企业', trigger: 'change' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         // licenseUrl: [{ required: true, message: '', trigger: '' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
@@ -160,39 +161,65 @@ export default {
         gNo: [{ required: true, message: '请输入商品编号', trigger: 'blur' }],
         declaredQuantity: [{ required: true, message: '请输入申报数量', trigger: 'blur' }]
       },
-      goodsDialogForm: [{
-        gNo: '',
-        gName: '',
-        declaredQuantity: ''
-      }],
       goodsDialogVisible: false,
       addForm: {
         corpName: '',
         corpSccCode: '',
-        goodsList: [
-          {
-            gNo: '',
-            gName: '',
-            declaredQuantity: ''
-          }
-        ],
-        licenseList: [
-          {
+        submitDataList: [{
+          info: {
+            corpName: '',
+            corpSccCode: '',
             licenseType: '',
             licenseUrl: '',
             licenseNo: '',
             expiryDate: '',
-            availableNum: ''
-          }
-        ]
+            availableNum: '',
+            fileLists: [], // 存放文件
+            fileType: true,
+            isImg: false,
+            isPdf: false,
+            isWord: false,
+            isExcel: false
+          },
+          goods: [{
+            gNo: '',
+            gName: '',
+            declaredQuantity: ''
+          }]
+        }]
+      },
+      info: {
+        corpName: '',
+        corpSccCode: '',
+        licenseType: '',
+        licenseUrl: '',
+        licenseNo: '',
+        expiryDate: '',
+        availableNum: '',
+        fileLists: [], // 存放文件
+        fileType: true,
+        isImg: false,
+        isPdf: false,
+        isWord: false,
+        isExcel: false
+      },
+      goods: [{
+        gNo: '',
+        gName: '',
+        declaredQuantity: ''
+      }],
+      goodsDialog: {
+        gNo: '',
+        gName: '',
+        declaredQuantity: '',
+        goods: [{
+          gNo: '',
+          gName: '',
+          declaredQuantity: ''
+        }]
       },
       fileLists: [], // 存放文件
       corpListOptions: [], // 委托企业
-      fileType: true,
-      isImg: false,
-      isPdf: false,
-      isWord: false,
-      isExcel: false,
       saasLicType: [],
       selectObj: {
         obj: '',
@@ -223,50 +250,71 @@ export default {
     }
   },
   methods: {
+    handleSelect (item) {
+      this.addForm.corpSccCode = item.ownerCodeScc
+      // this.addForm.corpName = item.value
+    },
     // 重置
     reset () {
       this.addForm = {
         corpName: '',
         corpSccCode: '',
-        goodsList: [],
-        licenseList: [
-          {
+        submitDataList: [{
+          info: {
+            corpName: '',
+            corpSccCode: '',
             licenseType: '',
             licenseUrl: '',
             licenseNo: '',
             expiryDate: '',
-            availableNum: ''
-          }
-        ]
+            availableNum: '',
+            fileLists: [], // 存放文件
+            fileType: true,
+            isImg: false,
+            isPdf: false,
+            isWord: false,
+            isExcel: false
+          },
+          goods: [{
+            gNo: '',
+            gName: '',
+            declaredQuantity: ''
+          }]
+        }]
       }
+      this.$nextTick(() => {
+        this.$refs['addForm'].clearValidate()
+      })
       this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
     },
     // 保存
-    saveDialogForm () {
-      this.goodsList = this.goodsDialogForm
+    saveDialogForm (row) {
       this.goodsDialogVisible = false
+      // this.$refs['goodsDialog'].validate((valId) => {
+      //   this.goodsDialogVisible = false
+      // })
     },
     // 取消
     cancleDialogForm () {
-      this.goodsDialogForm = [{
+      this.goods = [{
         gNo: '',
         gName: '',
         declaredQuantity: ''
       }]
-      this.$nextTick(() => {
-        this.$refs['goodsDialogForm'].clearValidate()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs['goodsDialog'].clearValidate()
+      // })
       this.goodsDialogVisible = false
     },
     beforeClose () {
-      this.goodsDialogForm = [{
+      this.goods = [{
         gNo: '',
         gName: '',
         declaredQuantity: ''
       }]
-      this.$nextTick(() => {
-        this.$refs['goodsDialogForm'].clearValidate()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs['goodsDialog'].clearValidate()
+      // })
       this.goodsDialogVisible = false
     },
     // 委托企业
@@ -309,21 +357,33 @@ export default {
     },
     // 更多上传许可证
     addLicense () {
-      this.addForm.licenseList.push({
-        licenseType: '',
-        licenseUrl: '',
-        licenseNo: '',
-        expiryDate: '',
-        availableNum: ''
+      this.fileLists = []
+      this.addForm.submitDataList.push({
+        info: {
+          corpName: '',
+          corpSccCode: '',
+          licenseType: '',
+          licenseUrl: '',
+          licenseNo: '',
+          expiryDate: '',
+          availableNum: '',
+          fileLists: [], // 存放文件
+          fileType: true,
+          isImg: false,
+          isPdf: false,
+          isWord: false,
+          isExcel: false
+        },
+        goods: []
       })
     },
     // 删除许可证
     delLicense (index) {
-      this.addForm.licenseList.splice(index, 1)
+      this.addForm.submitDataList.splice(index, 1)
     },
     // 更多商品
     addGood () {
-      this.goodsDialogForm.push({
+      this.goods.push({
         gNo: '',
         gName: '',
         declaredQuantity: ''
@@ -331,17 +391,39 @@ export default {
     },
     // 删除商品
     deleteGood (index) {
-      this.goodsDialogForm.splice(index, 1)
+      this.goods.splice(index, 1)
     },
     // 保存
     submit () {
+      console.log(this.addForm.submitDataList)
       this.$refs['addForm'].validate((valId) => {
         if (!valId) {
           return false
         }
+        let list = []
+        list = this.addForm.submitDataList
+        for (let i = 0; i < list.length; i++) {
+          for (let j = list.length - 1; j > i; j--) {
+            if (list[i].info.licenseNo === list[j].info.licenseNo && list[i].info.licenseType === list[j].info.licenseType) {
+              this.$message({
+                message: '许可证类型和许可证编号已存在',
+                type: 'error'
+              })
+              return
+            }
+          }
+          list[i].info.corpName = this.addForm.corpName
+          list[i].info.corpSccCode = this.addForm.corpSccCode
+          list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
+          list[i].goods = [{
+            gNo: '11',
+            gName: '11',
+            declaredQuantity: '11'
+          }]
+        }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/license/save',
-          data: this.addForm,
+          data: {list: this.addForm.submitDataList},
           router: this.$router,
           success: (res) => {
             this.$message({
@@ -354,8 +436,7 @@ export default {
       })
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file) {
-      this.fileLists = []
+    beforeUpload (file, row) {
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -382,38 +463,36 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
+            row.info.licenseUrl = res.result.url
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
-              this.addForm.certificateUrl = res.result.url
-              this.fileType = false
-              this.isImg = true
-              this.isPdf = false
-              this.isWord = false
-              this.isExcel = false
+              row.info.fileType = false
+              row.info.isImg = true
+              row.info.isPdf = false
+              row.info.isWord = false
+              row.info.isExcel = false
             } else {
-              this.fileLists.push({
+              row.info.fileLists.push({
                 name: res.result.name,
                 url: res.result.url
               })
               if (file.type === 'application/pdf') {
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = true
-                this.isWord = false
-                this.isExcel = false
+                row.info.fileType = false
+                row.info.isImg = false
+                row.info.isPdf = true
+                row.info.isWord = false
+                row.info.isExcel = false
               } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                this.addForm.certificateUrl = res.result.url
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = false
-                this.isWord = true
-                this.isExcel = false
+                row.info.fileType = false
+                row.info.isImg = false
+                row.info.isPdf = false
+                row.info.isWord = true
+                row.info.isExcel = false
               } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                this.addForm.certificateUrl = res.result.url
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = false
-                this.isWord = false
-                this.isExcel = true
+                row.info.fileType = false
+                row.info.isImg = false
+                row.info.isPdf = false
+                row.info.isWord = false
+                row.info.isExcel = true
               }
             }
           }
@@ -423,7 +502,6 @@ export default {
     },
     // 预览
     showfileUrl (file) {
-      console.log('预览' + file)
       util.fileView(file.url)
     },
     // 文件点击事件
@@ -437,7 +515,7 @@ export default {
       for (let i = 0; i < this.fileLists.length; i++) {
         if (file.name === this.fileLists[i].name) {
           this.fileLists.splice(i, 1)
-          this.resultDetail.businessLicenseUrl = ''
+          this.info.licenseUrl = ''
         }
       }
     },

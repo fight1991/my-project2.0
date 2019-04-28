@@ -83,7 +83,7 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" @click="toDetailChild('edit',scope.row.certificatePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="toEdit('edit',scope.row.certificatePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
             <el-button type="text" @click="deleteBtn(scope.row.certificatePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
           </template>
         </el-table-column>
@@ -173,6 +173,7 @@ export default {
     }
   },
   methods: {
+
     // 打开预警设置弹出框
     warningSet () {
       this.setDialogVisible = true
@@ -269,7 +270,7 @@ export default {
     // 新建
     add (corpSccCode, corpName) {
       this.$router.push({
-        path: '/dataCenter/licenses/certificate/detailListCertificate',
+        path: '/dataCenter/licenses/certificate/addCertificate',
         query: {
           corpSccCode: corpSccCode,
           corpName: corpName
@@ -277,14 +278,14 @@ export default {
       })
     },
     // 编辑
-    toDetailChild (type, rowId) {
-      // this.$router.push({
-      //   name: 'detailListCertificate',
-      //   params: {
-      //     'type': type,
-      //     'rowId': rowId
-      //   }
-      // })
+    toEdit (type, certificatePid) {
+      this.$router.push({
+        path: '/dataCenter/licenses/certificate/addCertificate',
+        query: {
+          type: type,
+          certificatePid: certificatePid
+        }
+      })
     },
     // 删除
     deleteBtn (val) {

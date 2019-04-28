@@ -81,6 +81,8 @@ export default {
         ifWarning: '1',
         certificateUrl: ''
       },
+      type: '',
+      certificatePid: '',
       corpListOptions: [], // 委托企业
       fileLists: [], // 存放文件
       fileType: true,
@@ -98,17 +100,28 @@ export default {
       }
       this.reset()
       this.corpList()
+      if (this.$route.query.type) {
+        this.type = this.$route.query.type
+        this.certificatePid = this.$route.query.certificatePid
+        this.queryEdit()
+      }
+      if (this.$route.query.corpSccCode) {
+        this.addForm.corpSccCode = this.$route.query.corpSccCode
+        this.addForm.corpName = this.$route.query.corpName
+      }
     }
   },
   created () {
+    this.reset()
     this.corpList()
+    if (this.$route.query.type) {
+      this.type = this.$route.query.type
+      this.certificatePid = this.$route.query.certificatePid
+      this.queryEdit()
+    }
     if (this.$route.query.corpSccCode) {
-      this.reset()
       this.addForm.corpSccCode = this.$route.query.corpSccCode
       this.addForm.corpName = this.$route.query.corpName
-      this.queryEdit()
-    } else {
-      this.reset()
     }
   },
   mounted () {
@@ -123,7 +136,7 @@ export default {
         certificateName: '',
         certificateNo: '',
         expiryDate: '',
-        ifWarning: 'true',
+        ifWarning: '1',
         certificateUrl: ''
       }
       this.$nextTick(() => {
@@ -132,22 +145,55 @@ export default {
     },
     // 编辑反显
     queryEdit () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/certificate/queryDetail',
-        data: {pid: this.certificatePid},
-        router: this.$router,
-        success: (res) => {
-          this.addForm = {
-            corpSccCode: res.result.corpSccCode,
-            corpName: res.result.corpName,
-            certificateName: res.result.certificateName,
-            certificateNo: res.result.certificateNo,
-            expiryDate: res.result.expiryDate,
-            ifWarning: res.result.ifWarning,
-            certificateUrl: res.result.certificateUrl
+      if (this.type === 'edit') {
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/certificate/queryDetail',
+          data: {pid: this.certificatePid},
+          router: this.$router,
+          success: (res) => {
+            this.addForm = {
+              corpSccCode: res.result.corpSccCode,
+              corpName: res.result.corpName,
+              certificateName: res.result.certificateName,
+              certificateNo: res.result.certificateNo,
+              expiryDate: res.result.expiryDate,
+              ifWarning: res.result.ifWarning,
+              certificateUrl: res.result.certificateUrl
+            }
+            let url = res.result.certificateUrl
+            if (!util.isEmpty(url)) {
+              let suffix = util.getFileTypeByName(url)
+              if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
+                this.fileType = false
+                this.isImg = true
+                this.isPdf = false
+                this.isWord = false
+                this.isExcel = false
+              } else {
+                if (suffix === 'application/pdf') {
+                  this.fileType = false
+                  this.isImg = false
+                  this.isPdf = true
+                  this.isWord = false
+                  this.isExcel = false
+                } else if (suffix === 'application/msword' || suffix === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                  this.fileType = false
+                  this.isImg = false
+                  this.isPdf = false
+                  this.isWord = true
+                  this.isExcel = false
+                } else if (suffix === 'application/vnd.ms-excel' || suffix === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                  this.fileType = false
+                  this.isImg = false
+                  this.isPdf = false
+                  this.isWord = false
+                  this.isExcel = true
+                }
+              }
+            }
           }
-        }
-      })
+        })
+      }
     },
     // 校验
     checkValid (rule, value, callback) {

@@ -7,10 +7,20 @@
               <el-card class="license-card">
                 <el-row>
                   <el-col :span="10">
-                    <img v-if="isImg" :src="item.documentUrl" class="detail-img">
-                    <img v-if="isPdf" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="isWord" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="isExcel" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <el-upload
+                    disabled
+                    action="http://127.0.0.1"
+                    :before-upload="(e)=>{beforeUpload(e,item)}"
+                    :file-list="fileLists"
+                    :show-file-list="item.fileType"
+                    :on-preview="showfileUrl"
+                    :on-remove="handleDelete">
+                    <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
+                    <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <el-button size="small" type="primary" v-if="item.fileType">上传附件</el-button>
+                    </el-upload>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型:">
@@ -20,7 +30,7 @@
                       {{ item.documentNo }}
                     </el-form-item>
                     <el-form-item label="上传时间:">
-                      {{ item.updateTime }}
+                      {{ item.updateTime|date() }}
                     </el-form-item>
                     <el-form-item label="上传人:">
                       {{ item.updateUser }}
@@ -32,7 +42,7 @@
             </el-row>
         </el-form>
         <el-col :span="24" class="query-btn">
-          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toEdit(decPid)">编辑</el-button>
+          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
           <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">确认</el-button>
         </el-col>
     </el-row>
@@ -45,6 +55,8 @@ export default {
   data () {
     return {
       decPid: '',
+      ownerCodeScc: '',
+      fileLists: [], // 存放文件
       submitData: {
         licenseList: [
           {
@@ -52,19 +64,35 @@ export default {
             documentType: '',
             documentNo: '',
             updateTime: '',
-            updateUser: ''
+            updateUser: '',
+            fileLists: [], // 存放文件
+            fileType: true,
+            isImg: false,
+            isPdf: false,
+            isWord: false,
+            isExcel: false
           }
         ]
-      },
-      isImg: false,
-      isPdf: false,
-      isWord: false,
-      isExcel: false
+      }
     }
   },
   created () {
     this.decPid = this.$route.query.decPid
+    this.ownerCodeScc = this.$route.query.ownerCodeScc
+    this.submitData.licenseList = []
     this.querylist()
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('detailJobs') === -1) {
+        return
+      }
+      this.decPid = this.$route.query.decPid
+      this.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.submitData.licenseList = []
+      this.querylist()
+    }
   },
   methods: {
     // 列表
@@ -76,8 +104,110 @@ export default {
         isPageList: true,
         success: (res) => {
           this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
+          res.result.forEach(item => {
+            let url = item.documentUrl
+            if (!util.isEmpty(url)) {
+              let suffix = util.getFileTypeByName(url)
+              if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
+                item.fileType = false
+                item.isImg = true
+                item.isPdf = false
+                item.isWord = false
+                item.isExcel = false
+              } else {
+                if (suffix === 'application/pdf') {
+                  item.fileType = false
+                  item.isImg = false
+                  item.isPdf = true
+                  item.isWord = false
+                  item.isExcel = false
+                } else if (suffix === 'application/msword' || suffix === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                  item.fileType = false
+                  item.isImg = false
+                  item.isPdf = false
+                  item.isWord = true
+                  item.isExcel = false
+                } else if (suffix === 'application/vnd.ms-excel' || suffix === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                  item.fileType = false
+                  item.isImg = false
+                  item.isPdf = false
+                  item.isWord = false
+                  item.isExcel = true
+                }
+              }
+            }
+          })
         }
       })
+    },
+    // 上传图片前的格式及大小判断
+    beforeUpload (file, row) {
+      if (!util.getFileTypeByName(file.name)) {
+        this.$message({
+          message: '上传文件暂时只支持图片/PDF/word/Excel格式',
+          type: 'error'
+        })
+        this.$emit('closeEditUpload')
+      } else if ((file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 2048)) {
+        this.$message({
+          message: '上传图片大小不能超过2MB',
+          type: 'error'
+        })
+        this.$emit('closeEditUpload')
+      } else if (util.getFileTypeByName(file.name) && !(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 10240)) {
+        this.$message({
+          message: '上传文件大小不能超过10MB',
+          type: 'error'
+        })
+      } else {
+        let param = new FormData()
+        param.append('multiFile', file, file.name)
+        this.$store.dispatch('upload', {
+          url: 'FILE@/saas-upload/upload/uploadFile',
+          data: param,
+          isLoad: false,
+          router: this.$router,
+          success: (res) => {
+            row.documentUrl = res.result.url
+            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
+              row.fileType = false
+              row.isImg = true
+              row.isPdf = false
+              row.isWord = false
+              row.isExcel = false
+            } else {
+              row.fileLists.push({
+                name: res.result.name,
+                url: res.result.url
+              })
+              if (file.type === 'application/pdf') {
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = true
+                row.isWord = false
+                row.isExcel = false
+              } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = false
+                row.isWord = true
+                row.isExcel = false
+              } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = false
+                row.isWord = false
+                row.isExcel = true
+              }
+            }
+          }
+        })
+      }
+      return false
+    },
+    // 预览
+    showfileUrl (file) {
+      util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
@@ -86,10 +216,11 @@ export default {
       }
     },
     // 跳转到编辑页面
-    toEdit (decPid) {
+    toEdit (decPid, ownerCodeScc) {
       this.$router.push({
-        name: 'editJobs',
+        path: '/dataCenter/jobsLicense/editJobs',
         query: {
+          ownerCodeScc: ownerCodeScc,
           decPid: decPid
         }
       })

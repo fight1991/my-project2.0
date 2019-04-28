@@ -235,8 +235,9 @@ export default {
       })
     },
     // 预览图片
-    previewPicture (index) {
-      window.open(this.fileList[index].url, '_blank')
+    previewPicture (file) {
+      // window.open(this.fileList[index].url, '_blank')
+      util.fileView(file.licenseUrl)
     },
     // 删除
     deleteBtn (val) {

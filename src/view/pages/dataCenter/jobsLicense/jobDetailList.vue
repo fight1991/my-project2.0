@@ -96,9 +96,9 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" @click="toDetail(scope.row.decPid)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-            <el-button type="text" @click="upload(scope.row.decPid,ownerName,ownerCodeScc,scope.row.bossId,scope.row.seqNo)" title="导入"><i class="fa fa-sign-in"></i></el-button>
-            <el-button type="text" @click="toEdit(scope.row.decPid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="toDetail(scope.row.decPid,ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+            <el-button type="text" @click="upload(scope.row.decPid,ownerName,ownerCodeScc,scope.row.bossId)" title="导入"><i class="fa fa-sign-in"></i></el-button>
+            <el-button type="text" @click="toEdit(scope.row.decPid,ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -146,6 +146,11 @@ export default {
       if (to.path.indexOf('jobDetailList') === -1) {
         return
       }
+      this.paginationInit = this.$store.state.pagination
+      this.ownerName = this.$route.query.ownerName
+      this.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.decCount = this.$route.query.decCount
+      this.edocCount = this.$route.query.edocCount
       this.reset()
       this.search()
     }
@@ -190,33 +195,34 @@ export default {
       }
     },
     // 跳转到详情页面
-    toDetail (decPid) {
+    toDetail (decPid, ownerCodeScc) {
       this.$router.push({
-        name: 'detailJobs',
+        path: '/dataCenter/jobsLicense/detailJobs',
         query: {
+          ownerCodeScc: ownerCodeScc,
           decPid: decPid
         }
       })
     },
     // 跳转到编辑页面
-    toEdit (decPid) {
+    toEdit (decPid, ownerCodeScc) {
       this.$router.push({
-        name: 'editJobs',
+        path: '/dataCenter/jobsLicense/editJobs',
         query: {
+          ownerCodeScc: ownerCodeScc,
           decPid: decPid
         }
       })
     },
     // 导入
-    upload (decPid, ownerName, ownerCodeScc, bossId, seqNo) {
+    upload (decPid, ownerName, ownerCodeScc, bossId) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
           decPid: decPid,
           ownerName: ownerName,
           ownerCodeScc: ownerCodeScc,
-          bossId: bossId,
-          seqNo: seqNo
+          bossId: bossId
         }
       })
     }

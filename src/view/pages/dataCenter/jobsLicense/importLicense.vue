@@ -13,7 +13,7 @@
           接单编号:{{resultTopData.bossId}}
         </el-col>
       </el-row>
-      <el-row>
+      <el-row style="padding-top:10px">
       <el-col :span="8" :xs='24'>
           统一编号:{{resultTopData.seqNo}}
         </el-col>
@@ -41,7 +41,7 @@
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
-                          :key="'licenses'+index+i+item.documentType"
+                          :key="'licenseList'+index+i+item.documentType"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
                         </el-option>
@@ -56,17 +56,17 @@
                 </el-row>
                 <el-row>
                   <el-form-item label="单证文件:">
-                     <el-upload
-                      action="http://127.0.0.1"
-                      :before-upload="beforeUpload"
-                      :file-list="fileLists"
-                      :show-file-list="fileType"
-                      :on-preview="showfileUrl">
-                      <img v-if="isImg  && !fileType" :src="item.documentUrl" class="detail-img">
-                      <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <el-button size="small" v-if="fileType" type="primary">上传附件</el-button>
+                    <el-upload
+                    action="http://127.0.0.1"
+                    :before-upload="(e)=>{beforeUpload(e,item)}"
+                    :file-list="fileLists"
+                    :show-file-list="item.fileType"
+                    :on-preview="showfileUrl">
+                    <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
+                    <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <el-button size="small" type="primary" v-if="item.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
                 </el-row>
@@ -101,12 +101,19 @@ export default {
         bossId: '',
         seqNo: ''
       },
+      fileLists: [],
       submitData: {
         licenseList: [
           {
             documentNo: '',
             documentType: '',
-            documentUrl: ''
+            documentUrl: '',
+            fileLists: [], // 存放文件
+            fileType: true,
+            isImg: false,
+            isPdf: false,
+            isWord: false,
+            isExcel: false
           }
         ]
       },
@@ -114,17 +121,30 @@ export default {
       selectObj: {
         obj: '',
         params: ''
-      },
-      licenses: [],
-      fileLists: [], // 存放文件
-      fileType: true,
-      isImg: false,
-      isPdf: false,
-      isWord: false,
-      isExcel: false
+      }
+      // licenses: []
     }
   },
   created () {
+    this.resultTopData.decPid = this.$route.query.decPid
+    this.resultTopData.ownerName = this.$route.query.ownerName
+    this.resultTopData.ownerCodeScc = this.$route.query.ownerCodeScc
+    this.resultTopData.bossId = this.$route.query.bossId
+    this.submitData = {
+      licenseList: [
+        {
+          documentNo: '',
+          documentType: '',
+          documentUrl: '',
+          fileLists: [], // 存放文件
+          fileType: true,
+          isImg: false,
+          isPdf: false,
+          isWord: false,
+          isExcel: false
+        }
+      ]
+    }
     this.getCommonParams()
   },
   watch: {
@@ -133,9 +153,25 @@ export default {
       if (to.path.indexOf('importLicense') === -1) {
         return
       }
-      this.resultTopData = this.$route.query
-      this.submitData.licenseList = []
-      this.getCommonParams()
+      this.resultTopData.decPid = this.$route.query.decPid
+      this.resultTopData.ownerName = this.$route.query.ownerName
+      this.resultTopData.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.resultTopData.bossId = this.$route.query.bossId
+      this.submitData = {
+        licenseList: [
+          {
+            documentNo: '',
+            documentType: '',
+            documentUrl: '',
+            fileLists: [], // 存放文件
+            fileType: true,
+            isImg: false,
+            isPdf: false,
+            isWord: false,
+            isExcel: false
+          }
+        ]
+      }
     }
   },
   methods: {
@@ -148,7 +184,13 @@ export default {
       this.submitData.licenseList.push({
         documentNo: '',
         documentType: '',
-        documentUrl: ''
+        documentUrl: '',
+        fileLists: [], // 存放文件
+        fileType: true,
+        isImg: false,
+        isPdf: false,
+        isWord: false,
+        isExcel: false
       })
     },
     // 保存
@@ -159,7 +201,7 @@ export default {
         }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/business/save',
-          data: this.submitData,
+          data: this.submitData.licenseList,
           router: this.$router,
           success: (res) => {
             this.$message({
@@ -172,8 +214,7 @@ export default {
       })
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file) {
-      this.fileLists = []
+    beforeUpload (file, row) {
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -200,38 +241,36 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
+            row.documentUrl = res.result.url
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
-              this.submitData.licenseList[0].documentUrl = res.result.url
-              this.fileType = false
-              this.isImg = true
-              this.isPdf = false
-              this.isWord = false
-              this.isExcel = false
+              row.fileType = false
+              row.isImg = true
+              row.isPdf = false
+              row.isWord = false
+              row.isExcel = false
             } else {
-              this.fileLists.push({
+              row.fileLists.push({
                 name: res.result.name,
                 url: res.result.url
               })
               if (file.type === 'application/pdf') {
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = true
-                this.isWord = false
-                this.isExcel = false
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = true
+                row.isWord = false
+                row.isExcel = false
               } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                this.submitData.licenseList[0].documentUrl = res.result.url
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = false
-                this.isWord = true
-                this.isExcel = false
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = false
+                row.isWord = true
+                row.isExcel = false
               } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                this.submitData.licenseList[0].documentUrl = res.result.url
-                this.fileType = false
-                this.isImg = false
-                this.isPdf = false
-                this.isWord = false
-                this.isExcel = true
+                row.fileType = false
+                row.isImg = false
+                row.isPdf = false
+                row.isWord = false
+                row.isExcel = true
               }
             }
           }
