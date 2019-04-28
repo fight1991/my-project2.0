@@ -43,7 +43,7 @@
             </el-col>
             <el-col :span="12" :xs='24'>
               <el-form-item label="有效截止日期"  prop="expiryDate">
-                <el-date-picker size="mini" type="datetime" style="width:100%" v-model="info.expiryDate" :disabled="isDetail"></el-date-picker>
+                <el-date-picker size="mini" type="date" style="width:100%" v-model="info.expiryDate" :disabled="isDetail"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>

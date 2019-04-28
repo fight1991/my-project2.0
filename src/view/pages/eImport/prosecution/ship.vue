@@ -111,6 +111,7 @@
     <el-dialog
       title="运输方式提示"
       :visible.sync="trafModeTipsVisible"
+      :close-on-click-modal="false"
       width="400px">
       <el-form label-width="100px" size="mini" :rules="rules"
        label-position="right" :model="shipDialogForm" ref='shipDialogForm'>

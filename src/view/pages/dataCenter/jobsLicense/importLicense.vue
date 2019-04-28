@@ -176,6 +176,17 @@ export default {
     }
   },
   methods: {
+    // 列表
+    queryList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/queryDecList',
+        data: this.decPid,
+        router: this.$router,
+        success: (res) => {
+          this.resultTopData = res.result
+        }
+      })
+    },
     // 删除业务单证
     delLicense (index) {
       this.submitData.licenseList.splice(index, 1)

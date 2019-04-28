@@ -106,7 +106,7 @@
             </el-col>
         </el-row>
       </div>
-      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" width="950px">
+      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" :close-on-click-modal="false" width="950px">
         <el-form label-width="150px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row>
             <el-col :span="8">
@@ -214,6 +214,7 @@
       title="历史商品数据"
       :visible.sync="historyGoodsVisible"
       class="sys-dec-class"
+      :close-on-click-modal="false"
       :show-close='true'
       width="640px">
        <history-goods :initParams="initHistory"  @backDatas="historyGoodsData"  @cancLeData="historyGoodsCompnent"  v-if="historyGoodsVisible"></history-goods>

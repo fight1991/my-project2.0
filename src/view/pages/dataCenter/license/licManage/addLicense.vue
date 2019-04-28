@@ -90,17 +90,11 @@
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="涉证商品:">
-                    <el-input clearable size="mini" @focus="openGoodsDialog"></el-input>
+                    <el-input clearable size="mini" @focus="openGoodsDialog(index)"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-dialog
-              title="涉证商品"
-              :visible.sync="goodsDialogVisible"
-              :show-close='true'
-              width="640px">
-              <goods-dialog :init="item"  @backDatas="saveDialogForm(item)"  @cancLeData="cancleDialogForm(item)"  v-show="goodsDialogVisible"></goods-dialog>
-              </el-dialog>
+
             </el-card>
           </el-row>
           <el-row>
@@ -112,18 +106,65 @@
           </el-row>
         </el-form>
     </el-row>
+    <el-dialog
+    title="涉证商品"
+    :close-on-click-modal="false"
+    :visible.sync="goodsDialogVisible"
+    v-show="goodsDialogVisible"
+    :before-close='beforeClose'
+    width="640px">
+    <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini" label-position="right">
+        <el-row>
+          <el-col :span="21" :offset="3">
+            <el-row :gutter="10" style="margin-bottom:10px" v-for="(item2,index2) in goodsDialog.goods" :key="index2">
+              <el-col :span="7">
+                <el-form-item :prop="'goods.'+index2+'.gNo'" :rules="dialogRule.gNo">
+                  <el-input size="mini" clearable v-model="item2.gNo" placeholder="请输入商品编号" :maxlength="10"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item>
+                  <el-input size="mini" clearable v-model="item2.gName" placeholder="请输入商品名称" :maxlength="20"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item :prop="'goods.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
+                  <el-input size="mini" clearable v-model="item2.declaredQuantity" placeholder="请输入申报数量" :maxlength="10"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="3">
+                <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialog.goods.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
+              </el-col>
+            </el-row>
+            <el-row>
+              <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+            </el-row>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="sys-dialog-footer" style="text-align:center;">
+        <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
+        <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
 <script>
+import validator from '../../../../../common/validator'
 import util from '../../../../../common/util'
 import commonParam from '../../../../../common/commonParam'
 export default {
-  components: {
-    'goods-dialog': resolve => require(['./components/goodsDialog.vue'], resolve)
-  },
   data () {
     return {
+      index: '',
+      goodsDialog: {
+        goods: [{
+          gNo: '',
+          gName: '',
+          declaredQuantity: ''
+        }]
+      },
       rules: {
         corpName: [{ required: true, message: '请输入委托企业', trigger: 'change' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
@@ -133,8 +174,8 @@ export default {
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
       },
       dialogRule: {
-        gNo: [{ required: true, message: '请输入商品编号', trigger: 'blur' }],
-        declaredQuantity: [{ required: true, message: '请输入申报数量', trigger: 'blur' }]
+        gNo: [{ required: true, validator: this.checkValid, message: '请输入商品编号', trigger: 'blur' }],
+        declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
       goodsDialogVisible: false,
       addForm: {
@@ -156,11 +197,7 @@ export default {
             isWord: false,
             isExcel: false
           },
-          goods: [{
-            gNo: '',
-            gName: '',
-            declaredQuantity: ''
-          }]
+          goods: []
         }]
       },
       info: {
@@ -210,9 +247,35 @@ export default {
     }
   },
   methods: {
+    // 校验
+    checkValid (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['goodsDialog'].clearValidate()
+        callback(new Error(''))
+      } else {
+        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
+        if (!pattern.test(value)) {
+          this.$refs['goodsDialog'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
+    },
+    // 更多商品
+    addGood () {
+      this.goodsDialog.goods.push({
+        gNo: '',
+        gName: '',
+        declaredQuantity: ''
+      })
+    },
+    // 删除商品
+    deleteGood (index2) {
+      this.goodsDialog.goods.splice(index2, 1)
+    },
     handleSelect (item) {
       this.addForm.corpSccCode = item.ownerCodeScc
-      // this.addForm.corpName = item.value
     },
     // 重置
     reset () {
@@ -235,11 +298,7 @@ export default {
             isWord: false,
             isExcel: false
           },
-          goods: [{
-            gNo: '',
-            gName: '',
-            declaredQuantity: ''
-          }]
+          goods: []
         }]
       }
       this.$nextTick(() => {
@@ -248,13 +307,27 @@ export default {
       this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
     },
     // 保存
-    saveDialogForm (row) {
-      row.goods = util.simpleClone(row)
+    saveDialogForm () {
+      this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
       this.goodsDialogVisible = false
     },
     // 取消
-    cancleDialogForm (row) {
-      row.goods = []
+    cancleDialogForm () {
+      this.addForm.submitDataList[this.index].goods = []
+      this.goodsDialog.goods = [{
+        gNo: '',
+        gName: '',
+        declaredQuantity: ''
+      }]
+      this.goodsDialogVisible = false
+    },
+    beforeClose () {
+      this.addForm.submitDataList[this.index].goods = []
+      this.goodsDialog.goods = [{
+        gNo: '',
+        gName: '',
+        declaredQuantity: ''
+      }]
       this.goodsDialogVisible = false
     },
     // 委托企业
@@ -292,7 +365,8 @@ export default {
       }
     },
     // 涉证商品弹窗
-    openGoodsDialog () {
+    openGoodsDialog (index) {
+      this.index = index
       this.goodsDialogVisible = true
     },
     // 更多上传许可证
@@ -323,7 +397,7 @@ export default {
     },
     // 保存
     submit () {
-      console.log(this.addForm.submitDataList)
+      console.log(this.goodsDialog.goods)
       this.$refs['addForm'].validate((valId) => {
         if (!valId) {
           return false
@@ -343,11 +417,6 @@ export default {
           list[i].info.corpName = this.addForm.corpName
           list[i].info.corpSccCode = this.addForm.corpSccCode
           list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
-          list[i].goods = [{
-            gNo: '11',
-            gName: '11',
-            declaredQuantity: '11'
-          }]
         }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/license/save',
