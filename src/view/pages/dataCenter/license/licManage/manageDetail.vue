@@ -72,12 +72,12 @@
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="goods">
-                  <el-table-column label="商品名称" min-width="100" prop="gName">
+                  <el-table-column label="商品名称" min-width="100">
                     <template slot-scope="scope">
                       {{scope.row.gName}}
                     </template>
                   </el-table-column>
-                  <el-table-column label="商品编号" min-width="100" prop="gNo">
+                  <el-table-column label="商品编号" min-width="100">
                     <template slot-scope="scope">
                       {{scope.row.gNo}}
                     </template>
@@ -87,9 +87,9 @@
                       <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity"></el-input>
                     </template>
                   </el-table-column>
-                  <el-table-column label="剩余可用数量" min-width="100" prop="availableQuantity">
+                  <el-table-column label="剩余可用数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.availableQuantity"></el-input>
+                      {{scope.row.availableQuantity}}
                     </template>
                   </el-table-column>
                   <el-table-column label="操作" width="100">
