@@ -4,7 +4,7 @@
         <el-form label-width="150px" :model="info" ref="info" :rules="rules" size="mini" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="委托企业" prop="corpName" >
+              <el-form-item label="委托企业" prop="corpName">
                 <el-autocomplete
                 size='mini' style="width:100%"
                 :disabled="isDetail"
@@ -50,7 +50,7 @@
           <el-row :gutter="20">
             <el-col :span="12" :xs='24'>
               <el-form-item label="上传时间">
-                <el-input clearable size="mini" v-model="info.updateTime" readonly></el-input>
+                <el-input clearable size="mini" v-model="info.updateTime" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
@@ -72,19 +72,20 @@
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="goods">
-                  <el-table-column label="商品名称" min-width="100">
+                  <el-table-column label="商品名称" min-width="100" :maxlength="10">
                     <template slot-scope="scope">
-                      {{scope.row.gName}}
+
+                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
                     </template>
                   </el-table-column>
-                  <el-table-column label="商品编号" min-width="100">
+                  <el-table-column label="商品编号" min-width="100" :maxlength="20">
                     <template slot-scope="scope">
-                      {{scope.row.gNo}}
+                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity"></el-input>
+                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
                     </template>
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100">
@@ -180,8 +181,8 @@ export default {
   },
   created () {
     this.reset()
-    // this.corpList()
-    // this.getCommonParams()
+    this.corpList()
+    this.getCommonParams()
     this.type = this.$route.params.type
     this.info.licensePid = this.$route.params.id
     if (this.type === 'detail') {
@@ -198,8 +199,8 @@ export default {
         return
       }
       this.reset()
-      // this.corpList()
-      // this.getCommonParams()
+      this.corpList()
+      this.getCommonParams()
       this.type = this.$route.params.type
       this.info.licensePid = this.$route.params.id
       if (this.type === 'detail') {

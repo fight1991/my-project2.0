@@ -151,7 +151,6 @@ export default {
       this.ownerCodeScc = this.$route.query.ownerCodeScc
       this.decCount = this.$route.query.decCount
       this.edocCount = this.$route.query.edocCount
-      this.reset()
       this.search()
     }
   },

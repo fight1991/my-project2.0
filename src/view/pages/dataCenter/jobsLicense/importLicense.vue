@@ -166,6 +166,9 @@ export default {
           isExcel: false
         }]
       }
+      this.$nextTick(() => {
+        this.$refs['submitData'].clearValidate()
+      })
     },
     // 列表
     queryList () {
@@ -202,6 +205,19 @@ export default {
         if (!valId) {
           return false
         }
+        let list = []
+        list = this.submitData.licenseList
+        for (let i = 0; i < list.length; i++) {
+          for (let j = list.length - 1; j > i; j--) {
+            if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
+              this.$message({
+                message: '此单证类型和单证编号已存在',
+                type: 'error'
+              })
+              return
+            }
+          }
+        }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/business/save',
           data: this.submitData.licenseList,
@@ -211,7 +227,16 @@ export default {
               message: '导入成功',
               type: 'success'
             })
-            this.$router.push({name: 'jobDetailList'})
+            this.$router.go(-1)
+            //   this.$router.push({
+            //     path: '/dataCenter/jobsLicense/jobDetailList',
+            //     query: {
+            //       ownerName: this.resultTopData.corpName,
+            //       ownerCodeScc: this.resultTopData.ownerCodeScc,
+            //       decCount: this.resultTopData.decCount,
+            //       edocCount: this.resultTopData.edocCount
+            //     }
+            //   })
           }
         })
       })

@@ -113,7 +113,7 @@
     v-show="goodsDialogVisible"
     :before-close='beforeClose'
     width="640px">
-    <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini" label-position="right">
+      <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini" label-position="right">
         <el-row>
           <el-col :span="21" :offset="3">
             <el-row :gutter="10" style="margin-bottom:10px" v-for="(item2,index2) in goodsDialog.goods" :key="index2">
@@ -180,11 +180,11 @@ export default {
       goodsDialogVisible: false,
       addForm: {
         corpName: '',
-        corpSccCode: '',
+        ownerCodeScc: '',
         submitDataList: [{
           info: {
             corpName: '',
-            corpSccCode: '',
+            ownerCodeScc: '',
             licenseType: '',
             licenseUrl: '',
             licenseNo: '',
@@ -202,7 +202,7 @@ export default {
       },
       info: {
         corpName: '',
-        corpSccCode: '',
+        ownerCodeScc: '',
         licenseType: '',
         licenseUrl: '',
         licenseNo: '',
@@ -229,7 +229,7 @@ export default {
     this.corpList()
     if (this.$route.query.corpSccCode) {
       this.reset()
-      this.addForm.corpSccCode = this.$route.query.corpSccCode
+      this.addForm.ownerCodeScc = this.$route.query.corpSccCode
       this.addForm.corpName = this.$route.query.corpName
     } else {
       this.reset()
@@ -275,17 +275,17 @@ export default {
       this.goodsDialog.goods.splice(index2, 1)
     },
     handleSelect (item) {
-      this.addForm.corpSccCode = item.ownerCodeScc
+      this.addForm.ownerCodeScc = item.ownerCodeScc
     },
     // 重置
     reset () {
       this.addForm = {
         corpName: '',
-        corpSccCode: '',
+        ownerCodeScc: '',
         submitDataList: [{
           info: {
             corpName: '',
-            corpSccCode: '',
+            ownerCodeScc: '',
             licenseType: '',
             licenseUrl: '',
             licenseNo: '',
@@ -375,7 +375,7 @@ export default {
       this.addForm.submitDataList.push({
         info: {
           corpName: '',
-          corpSccCode: '',
+          ownerCodeScc: '',
           licenseType: '',
           licenseUrl: '',
           licenseNo: '',
@@ -397,7 +397,7 @@ export default {
     },
     // 保存
     submit () {
-      console.log(this.goodsDialog.goods)
+      console.log(this.addForm.submitDataList[this.index].goods)
       this.$refs['addForm'].validate((valId) => {
         if (!valId) {
           return false
@@ -415,7 +415,7 @@ export default {
             }
           }
           list[i].info.corpName = this.addForm.corpName
-          list[i].info.corpSccCode = this.addForm.corpSccCode
+          list[i].info.ownerCodeScc = this.addForm.ownerCodeScc
           list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
         }
         this.$store.dispatch('ajax', {
@@ -427,7 +427,10 @@ export default {
               message: '新建成功',
               type: 'success'
             })
-            this.$router.go(-1)
+            this.addForm.submitDataList[this.index].goods = []
+            this.$router.push({
+              name: 'license'
+            })
           }
         })
       })
@@ -503,9 +506,9 @@ export default {
     },
     // 文件点击事件
     showfile (url) {
-      if (!util.isEmpty(url)) {
-        // util.fileView(url)
-      }
+      // if (!util.isEmpty(url)) {
+      //   util.fileView(url)
+      // }
     },
     // 附件删除
     handleDelete (file, fileList, row) {

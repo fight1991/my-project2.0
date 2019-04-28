@@ -315,14 +315,11 @@ export default {
       }
     },
     // 导入
-    upload (decPid, ownerName, ownerCodeScc, bossId) {
+    upload (decPid) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
-          decPid: decPid,
-          ownerName: ownerName,
-          ownerCodeScc: ownerCodeScc,
-          bossId: bossId
+          decPid: decPid
         }
       })
     }

@@ -90,6 +90,7 @@ export default {
     }
   },
   created () {
+    this.reset()
     this.paginationInit = this.$store.state.pagination
     this.corpList()
     this.search()

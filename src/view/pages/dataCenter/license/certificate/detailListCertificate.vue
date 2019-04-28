@@ -169,7 +169,11 @@ export default {
       if (to.path.indexOf('detailListCertificate') === -1) {
         return
       }
-      this.reset()
+      this.paginationInit = this.$store.state.pagination
+      this.corpSccCode = this.$route.query.corpSccCode
+      this.corpName = this.$route.query.corpName
+      this.count = this.$route.query.count
+      this.search()
     }
   },
   methods: {

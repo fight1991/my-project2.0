@@ -142,6 +142,7 @@ export default {
   data () {
     return {
       detailForm: {
+        corpSccCode: '',
         input: '',
         startTime: '',
         endTime: ''
@@ -161,6 +162,7 @@ export default {
     }
   },
   created () {
+    this.reset()
     this.paginationInit = this.$store.state.pagination
     this.corpSccCode = this.$route.query.corpSccCode
     this.corpName = this.$route.query.corpName
@@ -173,7 +175,10 @@ export default {
       if (to.path.indexOf('detailListLicense') === -1) {
         return
       }
-      this.reset()
+      this.corpSccCode = this.$route.query.corpSccCode
+      this.corpName = this.$route.query.corpName
+      this.count = this.$route.query.count
+      this.search()
     }
   },
   methods: {
