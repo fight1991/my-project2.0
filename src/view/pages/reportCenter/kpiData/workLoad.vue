@@ -273,12 +273,12 @@ export default {
             },
             yAxis: {
               type: 'category',
-              data: showydata
+              data: showydata.reverse()
             },
             series: [
               {
                 type: 'bar',
-                data: showdata
+                data: showdata.reverse()
               }
             ]
           }
