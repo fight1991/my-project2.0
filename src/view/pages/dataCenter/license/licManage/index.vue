@@ -99,6 +99,7 @@ export default {
     '$route': function (to, from) {
       // 初始化组件
       if (to.path === '/dataCenter/licenses/license') {
+        this.paginationInit = this.$store.state.pagination
         this.corpList()
         this.search()
       }
