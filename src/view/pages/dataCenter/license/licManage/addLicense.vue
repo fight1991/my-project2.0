@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row class='mg-b-15'>
         <el-col :span="18">
-          <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -247,6 +247,12 @@ export default {
     }
   },
   methods: {
+    // 返回按钮
+    back () {
+      this.$router.push({
+        name: 'license'
+      })
+    },
     // 校验
     checkValid (rule, value, callback) {
       if (util.isEmpty(value)) {

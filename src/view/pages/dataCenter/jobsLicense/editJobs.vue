@@ -69,25 +69,28 @@ export default {
       },
       fileLists: [],
       submitData: {
-        licenseList: [
-          {
-            documentNo: '',
-            documentType: '',
-            documentUrl: '',
-            fileLists: [], // 存放文件
-            fileType: true,
-            isImg: false,
-            isPdf: false,
-            isWord: false,
-            isExcel: false
-          }
-        ]
+        licenseList: [{
+          documentNo: '',
+          documentType: '',
+          documentUrl: '',
+          fileLists: [], // 存放文件
+          fileType: true,
+          isImg: false,
+          isPdf: false,
+          isWord: false,
+          isExcel: false
+        }]
+        // decInfo: {
+        //   decPid: '',
+        //   ownerCodeScc: '',
+        //   ownerName: '',
+        //   decNo: '',
+        //   bossId: '',
+        //   seqNo: '',
+        //   edocCount: '',
+        //   decCount: ''
+        // }
       },
-      decPid: '',
-      ownerName: '',
-      ownerCodeScc: '',
-      bossId: '',
-      seqNo: '',
       saasEdocCode: [],
       selectObj: {
         obj: '',
@@ -99,7 +102,7 @@ export default {
     this.decPid = this.$route.query.decPid
     this.ownerCodeScc = this.$route.query.ownerCodeScc
     this.submitData.licenseList = []
-    this.getCommonParams(this.decPid, this.bossId, this.seqNo)
+    this.getCommonParams()
     this.querylist()
   },
   watch: {

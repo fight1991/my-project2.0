@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row>
         <el-col :span='12' :xs='24'>
-          <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
         <el-col :span='12' :xs='24'>
           <el-button type="primary" size="mini" @click="add(corpSccCode, corpName)" class="sys-fr">新建</el-button>
@@ -142,13 +142,13 @@ export default {
   data () {
     return {
       detailForm: {
+        sccCode: '',
         corpSccCode: '',
         input: '',
         startTime: '',
         endTime: ''
       },
       corpName: '',
-      corpSccCode: '',
       count: '',
       dates: ['', ''],
       resultList: [
@@ -164,7 +164,6 @@ export default {
   created () {
     this.reset()
     this.paginationInit = this.$store.state.pagination
-    this.corpSccCode = this.$route.query.corpSccCode
     this.corpName = this.$route.query.corpName
     this.count = this.$route.query.count
     this.search()
@@ -182,6 +181,12 @@ export default {
     }
   },
   methods: {
+    // 返回按钮
+    back () {
+      this.$router.push({
+        name: 'license'
+      })
+    },
     // 新建
     add (corpSccCode, corpName) {
       this.$router.push({

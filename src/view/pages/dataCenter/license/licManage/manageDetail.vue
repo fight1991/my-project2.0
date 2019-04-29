@@ -95,7 +95,7 @@
                   </el-table-column>
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
-                      <el-button type="text" @click="deleteGoods(scope.row.relatedGoodsPid)" title="删除" v-if="!isDetail"><i class="fa fa-times-circle f-18"></i></el-button>
+                      <el-button type="text" @click="deleteGoods(scope.row.relatedGoodsPid,scope.row.availableQuantity)" title="删除" v-if="!isDetail"><i class="fa fa-times-circle f-18"></i></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -332,8 +332,20 @@ export default {
       })
     },
     // 刪除
-    deleteGoods (index) {
-      this.goods.splice(index, 1)
+    deleteGoods (index, num) {
+      let availableQuantity = parseInt('num')
+      if (availableQuantity > 0) {
+        this.$confirm('当前许可证尚有可用数量的剩余，若进行删除，可能影响后续报关，是否确定删除当前许可证？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.goods.splice(index, 1)
+        }).catch(() => {
+        })
+      } else {
+        this.goods.splice(index, 1)
+      }
     },
     // 委托企业
     corpList () {

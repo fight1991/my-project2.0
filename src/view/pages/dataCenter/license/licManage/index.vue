@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" @click="toDetailList(scope.row.corpName,scope.row.corpSccCode,scope.row.count)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <el-button type="text" @click="toDetailList(scope.row.corpName,scope.row.count)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -184,12 +184,11 @@ export default {
       this.search()
     },
     // 跳转到详情页面
-    toDetailList (corpName, corpSccCode, count) {
+    toDetailList (corpName, count) {
       this.$router.push({
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
           corpName: corpName,
-          corpSccCode: corpSccCode,
           count: count
         }
       })

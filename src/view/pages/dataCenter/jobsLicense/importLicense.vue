@@ -228,15 +228,15 @@ export default {
               type: 'success'
             })
             this.$router.go(-1)
-            //   this.$router.push({
-            //     path: '/dataCenter/jobsLicense/jobDetailList',
-            //     query: {
-            //       ownerName: this.resultTopData.corpName,
-            //       ownerCodeScc: this.resultTopData.ownerCodeScc,
-            //       decCount: this.resultTopData.decCount,
-            //       edocCount: this.resultTopData.edocCount
-            //     }
-            //   })
+            // this.$router.push({
+            //   path: '/dataCenter/jobsLicense/jobDetailList',
+            //   query: {
+            //     ownerName: this.resultTopData.corpName,
+            //     ownerCodeScc: this.resultTopData.ownerCodeScc,
+            //     decCount: this.resultTopData.decCount,
+            //     edocCount: this.resultTopData.edocCount
+            //   }
+            // })
           }
         })
       })
