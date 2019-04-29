@@ -447,7 +447,10 @@ export default {
             })
             this.addForm.submitDataList[this.index].goods = []
             this.$router.push({
-              name: 'license'
+              path: '/dataCenter/licenses/license/detailListLicense',
+              query: {
+                sccCode: this.addForm.ownerCodeScc
+              }
             })
           }
         })

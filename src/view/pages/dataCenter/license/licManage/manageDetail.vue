@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     handleSelect (item) {
-      this.addForm.ownerCodeScc = item.ownerCodeScc
+      this.info.ownerCodeScc = item.ownerCodeScc
     },
     // 重置
     reset () {
@@ -290,7 +290,10 @@ export default {
               type: 'success'
             })
             this.$router.push({
-              name: 'license'
+              path: '/dataCenter/licenses/license/detailListLicense',
+              query: {
+                sccCode: this.info.ownerCodeScc
+              }
             })
           }
         })
