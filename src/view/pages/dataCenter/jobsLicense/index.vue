@@ -66,7 +66,7 @@
           </el-table-column>
           <el-table-column label="操作" width="50">
             <template slot-scope="scope">
-              <el-button type="text" @click="toChild(scope.row.ownerName,scope.row.ownerCodeScc,scope.row.decCount,scope.row.edocCount)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <el-button type="text" @click="toChild(scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -178,14 +178,11 @@ export default {
       }
     },
     // 跳转到详情页面
-    toChild (ownerName, ownerCodeScc, decCount, edocCount) {
+    toChild (ownerCodeScc) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerName: ownerName,
-          ownerCodeScc: ownerCodeScc,
-          decCount: decCount,
-          edocCount: edocCount
+          ownerCodeScc: ownerCodeScc
         }
       })
     }

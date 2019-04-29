@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row>
         <el-col :span='18' :xs='24'>
-          <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -97,7 +97,7 @@
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button type="text" @click="toDetail(scope.row.decPid,ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-            <el-button type="text" @click="upload(scope.row.decPid)" title="导入"><i class="fa fa-sign-in"></i></el-button>
+            <el-button type="text" @click="upload(scope.row.decPid,ownerCodeScc)" title="导入"><i class="fa fa-sign-in"></i></el-button>
             <el-button type="text" @click="toEdit(scope.row.decPid,ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
           </template>
         </el-table-column>
@@ -133,10 +133,7 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
-    this.ownerName = this.$route.query.ownerName
     this.ownerCodeScc = this.$route.query.ownerCodeScc
-    this.decCount = this.$route.query.decCount
-    this.edocCount = this.$route.query.edocCount
     this.reset()
     this.search()
   },
@@ -147,14 +144,17 @@ export default {
         return
       }
       this.paginationInit = this.$store.state.pagination
-      this.ownerName = this.$route.query.ownerName
       this.ownerCodeScc = this.$route.query.ownerCodeScc
-      this.decCount = this.$route.query.decCount
-      this.edocCount = this.$route.query.edocCount
       this.search()
     }
   },
   methods: {
+    // 返回按钮
+    back () {
+      this.$router.push({
+        name: 'jobsLicense'
+      })
+    },
     // 查询
     search () {
       this.queryList(this.$store.state.pagination)
@@ -178,8 +178,11 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.resultJobList = res.result
+          this.resultJobList = util.isEmpty(res.result.decs) ? [] : res.result.decs
           this.paginationInit = res.page
+          this.ownerName = res.result.ownerName
+          this.decCount = res.result.decCount
+          this.edocCount = res.result.edocCount
         }
       })
     },
@@ -198,8 +201,8 @@ export default {
       this.$router.push({
         path: '/dataCenter/jobsLicense/detailJobs',
         query: {
-          ownerCodeScc: ownerCodeScc,
-          decPid: decPid
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
@@ -208,16 +211,17 @@ export default {
       this.$router.push({
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
-          ownerCodeScc: ownerCodeScc,
-          decPid: decPid
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
     // 导入
-    upload (decPid) {
+    upload (decPid, ownerCodeScc) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
+          ownerCodeScc: ownerCodeScc,
           decPid: decPid
         }
       })

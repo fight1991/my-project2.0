@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row class='mg-b-15'>
         <el-col :span="18">
-          <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -40,6 +40,7 @@
               action="http://127.0.0.1"
               :before-upload="beforeUpload"
               :file-list="fileLists"
+              @select="handleSelect($event)"
               :show-file-list="fileType"
               :on-preview="showfileUrl"
               :on-remove="handleDelete">
@@ -52,7 +53,7 @@
               <!-- <img class="detail-img" v-if="!fileType" :src="addForm.certificateUrl"> -->
           </el-form-item>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="back">取消</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
         </el-form>
@@ -73,7 +74,7 @@ export default {
         expiryDate: [{ required: true, message: '请选择到期时间', trigger: 'change' }]
       },
       addForm: {
-        corpSccCode: '',
+        ownerCodeScc: '',
         corpName: '',
         certificateName: '',
         certificateNo: '',
@@ -105,8 +106,8 @@ export default {
         this.certificatePid = this.$route.query.certificatePid
         this.queryEdit()
       }
-      if (this.$route.query.corpSccCode) {
-        this.addForm.corpSccCode = this.$route.query.corpSccCode
+      if (this.$route.query.corpName) {
+        this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
         this.addForm.corpName = this.$route.query.corpName
       }
     }
@@ -119,8 +120,8 @@ export default {
       this.certificatePid = this.$route.query.certificatePid
       this.queryEdit()
     }
-    if (this.$route.query.corpSccCode) {
-      this.addForm.corpSccCode = this.$route.query.corpSccCode
+    if (this.$route.query.corpName) {
+      this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.addForm.corpName = this.$route.query.corpName
     }
   },
@@ -128,10 +129,20 @@ export default {
 
   },
   methods: {
+    // 返回按钮
+    back () {
+      this.$router.push({
+        name: 'certificate'
+      })
+    },
+    // 企业编码
+    handleSelect (item) {
+      this.addForm.ownerCodeScc = item.ownerCodeScc
+    },
     // 重置
     reset () {
       this.addForm = {
-        corpSccCode: '',
+        ownerCodeScc: '',
         corpName: '',
         certificateName: '',
         certificateNo: '',
@@ -152,7 +163,7 @@ export default {
           router: this.$router,
           success: (res) => {
             this.addForm = {
-              corpSccCode: res.result.corpSccCode,
+              ownerCodeScc: res.result.ownerCodeScc,
               corpName: res.result.corpName,
               certificateName: res.result.certificateName,
               certificateNo: res.result.certificateNo,
@@ -314,23 +325,22 @@ export default {
     },
     // 预览
     showfileUrl (file) {
-      console.log('预览' + file)
-      util.fileView(file.url)
+      // util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
-      if (!util.isEmpty(url)) {
-        util.fileView(url)
-      }
+      // if (!util.isEmpty(url)) {
+      //   util.fileView(url)
+      // }
     },
     // 附件删除
     handleDelete (file, fileList) {
-      // for (let i = 0; i < this.fileLists.length; i++) {
-      //   if (file.name === this.fileLists[i].name) {
-      //     this.fileLists.splice(i, 1)
-      //     this.addForm.certificateUrl = ''
-      //   }
-      // }
+      for (let i = 0; i < this.fileLists.length; i++) {
+        if (file.name === this.fileLists[i].name) {
+          this.fileLists.splice(i, 1)
+          this.addForm.certificateUrl = ''
+        }
+      }
     },
     // 保存
     submit () {
@@ -371,7 +381,12 @@ export default {
               message: message,
               type: 'success'
             })
-            this.$router.go(-1)
+            this.$router.push({
+              path: '/dataCenter/licenses/certificate/detailListCertificate',
+              query: {
+                sccCode: this.addForm.ownerCodeScc
+              }
+            })
           }
         })
       })

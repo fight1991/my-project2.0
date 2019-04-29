@@ -90,7 +90,7 @@
                 </el-col>
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="涉证商品:">
-                    <el-input clearable size="mini" @focus="openGoodsDialog(index)"></el-input>
+                    <el-input clearable size="mini" v-model="item.info.goodInput" @focus="openGoodsDialog(index)"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -101,7 +101,7 @@
             <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
           </el-row>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="back">取消</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
         </el-form>
@@ -166,7 +166,7 @@ export default {
         }]
       },
       rules: {
-        corpName: [{ required: true, message: '请输入委托企业', trigger: 'change' }],
+        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         // licenseUrl: [{ required: true, message: '', trigger: '' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
@@ -195,9 +195,11 @@ export default {
             isImg: false,
             isPdf: false,
             isWord: false,
-            isExcel: false
+            isExcel: false,
+            goodInput: ''
           },
           goods: []
+
         }]
       },
       info: {
@@ -227,9 +229,9 @@ export default {
   created () {
     this.getCommonParams()
     this.corpList()
-    if (this.$route.query.corpSccCode) {
+    if (this.$route.query.corpName) {
       this.reset()
-      this.addForm.ownerCodeScc = this.$route.query.corpSccCode
+      this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.addForm.corpName = this.$route.query.corpName
     } else {
       this.reset()
@@ -241,9 +243,15 @@ export default {
       if (to.path.indexOf('addLicense') === -1) {
         return
       }
-      this.reset()
       this.corpList()
       this.getCommonParams()
+      if (this.$route.query.corpName) {
+        this.reset()
+        this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
+        this.addForm.corpName = this.$route.query.corpName
+      } else {
+        this.reset()
+      }
     }
   },
   methods: {
@@ -302,7 +310,8 @@ export default {
             isImg: false,
             isPdf: false,
             isWord: false,
-            isExcel: false
+            isExcel: false,
+            goodInput: ''
           },
           goods: []
         }]
@@ -315,6 +324,10 @@ export default {
     // 保存
     saveDialogForm () {
       this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
+      for (let i of this.goodsDialog.goods) {
+        this.addForm.submitDataList[this.index].info.goodInput += i.gNo + ','
+      }
+      console.log(this.addForm.submitDataList[this.index].info.goodInput)
       this.goodsDialogVisible = false
     },
     // 取消
@@ -403,7 +416,6 @@ export default {
     },
     // 保存
     submit () {
-      console.log(this.addForm.submitDataList[this.index].goods)
       this.$refs['addForm'].validate((valId) => {
         if (!valId) {
           return false
@@ -435,7 +447,10 @@ export default {
             })
             this.addForm.submitDataList[this.index].goods = []
             this.$router.push({
-              name: 'license'
+              path: '/dataCenter/licenses/license/detailListLicense',
+              query: {
+                sccCode: this.addForm.ownerCodeScc
+              }
             })
           }
         })

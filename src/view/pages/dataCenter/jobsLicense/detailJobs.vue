@@ -42,7 +42,7 @@
         </el-form>
         <el-col :span="24" class="query-btn">
           <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
-          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">确认</el-button>
+          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toDetail(ownerCodeScc)">确认</el-button>
         </el-col>
     </el-row>
   </section>
@@ -103,7 +103,7 @@ export default {
         isPageList: true,
         success: (res) => {
           this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
-          res.result.forEach(item => {
+          this.submitData.licenseList.forEach(item => {
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -219,8 +219,17 @@ export default {
       this.$router.push({
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
-          ownerCodeScc: ownerCodeScc,
-          decPid: decPid
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
+        }
+      })
+    },
+    // 跳转到详情页面
+    toDetail (ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/jobDetailList',
+        query: {
+          ownerCodeScc: ownerCodeScc
         }
       })
     }

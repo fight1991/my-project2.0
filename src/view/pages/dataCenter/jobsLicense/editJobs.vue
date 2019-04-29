@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <el-row class = "query-condition">
       <el-row>
-        <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerName, ownerCodeScc, bossId)">&nbsp;导入</el-button>
+        <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
       </el-row>
         <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
@@ -52,7 +52,7 @@
         </el-form>
         <el-col :span="24" class="query-btn">
           <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
-          <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+          <el-button style="padding:8px 20px 5px 20px;" size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
   </section>
@@ -68,6 +68,8 @@ export default {
         documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
       },
       fileLists: [],
+      decPid: '',
+      ownerCodeScc: '',
       submitData: {
         licenseList: [{
           documentNo: '',
@@ -80,16 +82,6 @@ export default {
           isWord: false,
           isExcel: false
         }]
-        // decInfo: {
-        //   decPid: '',
-        //   ownerCodeScc: '',
-        //   ownerName: '',
-        //   decNo: '',
-        //   bossId: '',
-        //   seqNo: '',
-        //   edocCount: '',
-        //   decCount: ''
-        // }
       },
       saasEdocCode: [],
       selectObj: {
@@ -318,11 +310,21 @@ export default {
       }
     },
     // 导入
-    upload (decPid) {
+    upload (decPid, ownerCodeScc) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
-          decPid: decPid
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
+        }
+      })
+    },
+    // 跳转到详情页面
+    toDetail (ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/jobDetailList',
+        query: {
+          ownerCodeScc: ownerCodeScc
         }
       })
     }

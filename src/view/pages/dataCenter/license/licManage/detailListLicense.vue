@@ -8,7 +8,7 @@
           <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
         <el-col :span='12' :xs='24'>
-          <el-button type="primary" size="mini" @click="add(corpSccCode, corpName)" class="sys-fr">新建</el-button>
+          <el-button type="primary" size="mini" @click="add()" class="sys-fr">新建</el-button>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -98,8 +98,8 @@
                     </el-table-column>
                     <el-table-column label="操作" width="200">
                       <template slot-scope="scope">
-                        <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-                        <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+                        <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+                        <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
                         <el-button type="text" @click="previewPicture(scope.row.licensePid)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
                         <el-button type="text" @click="deleteBtn(scope.row.licensePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
                       </template>
@@ -143,7 +143,6 @@ export default {
     return {
       detailForm: {
         sccCode: '',
-        corpSccCode: '',
         input: '',
         startTime: '',
         endTime: ''
@@ -164,8 +163,7 @@ export default {
   created () {
     this.reset()
     this.paginationInit = this.$store.state.pagination
-    this.corpName = this.$route.query.corpName
-    this.count = this.$route.query.count
+    this.detailForm.sccCode = this.$route.query.sccCode
     this.search()
   },
   watch: {
@@ -174,9 +172,9 @@ export default {
       if (to.path.indexOf('detailListLicense') === -1) {
         return
       }
+      this.reset()
+      this.paginationInit = this.$store.state.pagination
       this.corpSccCode = this.$route.query.corpSccCode
-      this.corpName = this.$route.query.corpName
-      this.count = this.$route.query.count
       this.search()
     }
   },
@@ -188,12 +186,12 @@ export default {
       })
     },
     // 新建
-    add (corpSccCode, corpName) {
+    add () {
       this.$router.push({
         path: '/dataCenter/licenses/license/addLicense',
         query: {
-          corpSccCode: corpSccCode,
-          corpName: corpName
+          ownerCodeScc: this.detailForm.sccCode,
+          corpName: this.corpName
         }
       })
     },
@@ -220,7 +218,9 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.resultList = res.result
+          this.resultList = util.isEmpty(res.result.licenses) ? [] : res.result.licenses
+          this.corpName = res.result.corpName
+          this.count = res.result.count
           this.paginationInit = res.page
         }
       })
@@ -228,6 +228,7 @@ export default {
     // 重置
     reset () {
       this.detailForm = {
+        sccCode: '',
         input: '',
         startTime: '',
         endTime: ''
@@ -235,12 +236,13 @@ export default {
       this.dates = ['', '']
     },
     // 跳转到详情页面
-    toDetailChild (type, id) {
+    toDetailChild (type, id, ownerCodeScc) {
       this.$router.push({
         name: 'manageDetail',
         params: {
           type: type,
-          id: id
+          id: id,
+          ownerCodeScc: ownerCodeScc
         }
       })
     },

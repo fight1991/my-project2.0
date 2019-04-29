@@ -78,7 +78,7 @@
             <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多业务单证</span></span>
           </el-row>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
         </el-form>
@@ -95,6 +95,7 @@ export default {
       rules: {
         documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
       },
+      ownerCodeScc: '',
       resultTopData: {
         decPid: '',
         corpName: '',
@@ -128,6 +129,7 @@ export default {
   created () {
     this.reset()
     this.resultTopData.decPid = this.$route.query.decPid
+    this.ownerCodeScc = this.$route.query.ownerCodeScc
     this.getCommonParams()
     this.queryList()
   },
@@ -139,6 +141,7 @@ export default {
       }
       this.reset()
       this.resultTopData.decPid = this.$route.query.decPid
+      this.ownerCodeScc = this.$route.query.ownerCodeScc
       this.getCommonParams()
       this.queryList()
     }
@@ -227,18 +230,23 @@ export default {
               message: '导入成功',
               type: 'success'
             })
-            this.$router.go(-1)
-            // this.$router.push({
-            //   path: '/dataCenter/jobsLicense/jobDetailList',
-            //   query: {
-            //     ownerName: this.resultTopData.corpName,
-            //     ownerCodeScc: this.resultTopData.ownerCodeScc,
-            //     decCount: this.resultTopData.decCount,
-            //     edocCount: this.resultTopData.edocCount
-            //   }
-            // })
+            this.$router.push({
+              path: '/dataCenter/jobsLicense/jobDetailList',
+              query: {
+                ownerCodeScc: this.ownerCodeScc
+              }
+            })
           }
         })
+      })
+    },
+    // 跳转到详情页面
+    toDetail (ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/jobDetailList',
+        query: {
+          ownerCodeScc: ownerCodeScc
+        }
       })
     },
     // 上传图片前的格式及大小判断

@@ -121,7 +121,7 @@
             </el-form-item>
           </el-row>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="!isDetail" @click="$router.go(-1)">取消</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
             <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="isDetail" @click="edit">编辑</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
           </el-row>
@@ -185,6 +185,7 @@ export default {
     this.getCommonParams()
     this.type = this.$route.params.type
     this.info.licensePid = this.$route.params.id
+    this.info.ownerCodeScc = this.$route.params.ownerCodeScc
     if (this.type === 'detail') {
       this.isDetail = true
     } else {
@@ -203,6 +204,7 @@ export default {
       this.getCommonParams()
       this.type = this.$route.params.type
       this.info.licensePid = this.$route.params.id
+      this.info.ownerCodeScc = this.$route.params.ownerCodeScc
       if (this.type === 'detail') {
         this.isDetail = true
       } else {
@@ -283,9 +285,22 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
-            this.$router.go(-1)
+            this.$router.push({
+              path: '/dataCenter/licenses/license/detailListLicense',
+              query: {
+                sccCode: this.info.ownerCodeScc
+              }
+            })
           }
         })
+      })
+    },
+    toDetail () {
+      this.$router.push({
+        path: '/dataCenter/licenses/license/detailListLicense',
+        query: {
+          sccCode: this.info.ownerCodeScc
+        }
       })
     },
     // 显示详情

@@ -5,11 +5,11 @@
       <!-- 返回按钮 -->
       <el-row>
         <el-col :span='12' :xs='24'>
-          <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
         <el-col :span='12' :xs='24'>
           <el-button type="primary" size="mini" @click="warningSet" class="sys-fr" style='float: right;margin-left:5px;'>预警设置</el-button>
-          <el-button type="primary" size="mini" @click="add(corpSccCode, corpName)" class="sys-fr">新建</el-button>
+          <el-button type="primary" size="mini" @click="add" class="sys-fr">新建</el-button>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -83,7 +83,7 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" @click="toEdit('edit',scope.row.certificatePid)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="toEdit('edit',scope.row.certificatePid,certificateDetailForm.sccCode)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
             <el-button type="text" @click="deleteBtn(scope.row.certificatePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
           </template>
         </el-table-column>
@@ -145,9 +145,9 @@ export default {
       },
       isDisabled: true,
       corpName: '',
-      corpSccCode: '',
       count: '',
       certificateDetailForm: {
+        sccCode: '',
         input: '',
         startTime: '',
         endTime: ''
@@ -158,9 +158,7 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
-    this.corpSccCode = this.$route.query.corpSccCode
-    this.corpName = this.$route.query.corpName
-    this.count = this.$route.query.count
+    this.certificateDetailForm.sccCode = this.$route.query.sccCode
     this.search()
   },
   watch: {
@@ -170,14 +168,17 @@ export default {
         return
       }
       this.paginationInit = this.$store.state.pagination
-      this.corpSccCode = this.$route.query.corpSccCode
-      this.corpName = this.$route.query.corpName
-      this.count = this.$route.query.count
+      this.certificateDetailForm.sccCode = this.$route.query.sccCode
       this.search()
     }
   },
   methods: {
-
+    // 返回按钮
+    back () {
+      this.$router.push({
+        name: 'certificate'
+      })
+    },
     // 打开预警设置弹出框
     warningSet () {
       this.setDialogVisible = true
@@ -253,14 +254,17 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.certificateList = res.result
+          this.certificateList = util.isEmpty(res.result.certificateInfoVOS) ? [] : res.result.certificateInfoVOS
           this.paginationInit = res.page
+          this.corpName = res.result.corpName
+          this.count = res.result.count
         }
       })
     },
     // 重置
     reset () {
       this.certificateDetailForm = {
+        sccCode: '',
         input: '',
         startTime: '',
         endTime: ''
@@ -268,26 +272,24 @@ export default {
       this.dates = ['', '']
       this.search()
     },
-    // 导入
-    upload () {
-    },
     // 新建
-    add (corpSccCode, corpName) {
+    add () {
       this.$router.push({
         path: '/dataCenter/licenses/certificate/addCertificate',
         query: {
-          corpSccCode: corpSccCode,
-          corpName: corpName
+          ownerCodeScc: this.certificateDetailForm.sccCode,
+          corpName: this.corpName
         }
       })
     },
     // 编辑
-    toEdit (type, certificatePid) {
+    toEdit (type, certificatePid, ownerCodeScc) {
       this.$router.push({
         path: '/dataCenter/licenses/certificate/addCertificate',
         query: {
           type: type,
-          certificatePid: certificatePid
+          certificatePid: certificatePid,
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
