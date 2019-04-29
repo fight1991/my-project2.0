@@ -4,7 +4,7 @@
     <el-row class = "query-condition">
       <el-row>
         <el-col :span="8" :xs='24'>
-          委托企业:{{resultTopData.corpName}}
+          委托企业:{{resultTopData.ownerName}}
         </el-col>
         <el-col :span="8" :xs='24'>
           报关单系统编号:{{resultTopData.decPid}}
@@ -98,7 +98,7 @@ export default {
       ownerCodeScc: '',
       resultTopData: {
         decPid: '',
-        corpName: '',
+        ownerName: '',
         decNo: '',
         bossId: '',
         seqNo: ''
@@ -151,7 +151,7 @@ export default {
     reset () {
       this.resultTopData = {
         decPid: '',
-        corpName: '',
+        ownerName: '',
         decNo: '',
         bossId: '',
         seqNo: ''
@@ -180,7 +180,11 @@ export default {
         data: {decPid: this.resultTopData.decPid},
         router: this.$router,
         success: (res) => {
-          this.resultTopData = res.result
+          this.resultTopData.decPid = res.result.decPid
+          this.resultTopData.ownerName = res.result.ownerName
+          this.resultTopData.decNo = res.result.decNo
+          this.resultTopData.bossId = res.result.bossId
+          this.resultTopData.seqNo = res.result.seqNo
         }
       })
     },
