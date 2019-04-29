@@ -9,6 +9,7 @@
                 size='mini' style="width:100%"
                 :disabled="isDetail"
                 placeholder="输入2个字后搜索"
+                @select="handleSelect($event)"
                 :maxlength="20"
                 v-model="info.corpName"
                 :fetch-suggestions="querySearch"
@@ -214,6 +215,9 @@ export default {
     }
   },
   methods: {
+    handleSelect (item) {
+      this.addForm.ownerCodeScc = item.ownerCodeScc
+    },
     // 重置
     reset () {
       this.info = {
@@ -286,10 +290,7 @@ export default {
               type: 'success'
             })
             this.$router.push({
-              path: '/dataCenter/licenses/license/detailListLicense',
-              query: {
-                sccCode: this.info.ownerCodeScc
-              }
+              name: 'license'
             })
           }
         })
