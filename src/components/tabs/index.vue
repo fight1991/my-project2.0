@@ -82,7 +82,7 @@ export default {
             window.open(event.data.data.url, '_blank')
             break
           case 'sys-tab':
-          // sys-tab: 从子系统打开2.0的路由页面
+          // sys-tab: 从子系统打开2.0系统的路由页面
             router.push({
               name: event.data.data.url,
               params: {
