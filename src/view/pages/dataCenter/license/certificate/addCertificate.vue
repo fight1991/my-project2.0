@@ -20,6 +20,7 @@
                 placeholder="输入2个字后搜索"
                 :maxlength="20"
                 v-model="addForm.corpName"
+                @select="handleSelect($event)"
                 :fetch-suggestions="querySearch"
                 :trigger-on-focus="false">
             </el-autocomplete>
@@ -41,7 +42,6 @@
               action="http://127.0.0.1"
               :before-upload="beforeUpload"
               :file-list="fileLists"
-              @select="handleSelect($event)"
               :show-file-list="fileType"
               :on-preview="showfileUrl"
               :on-remove="handleDelete">
@@ -147,6 +147,7 @@ export default {
     // 企业编码
     handleSelect (item) {
       this.addForm.ownerCodeScc = item.ownerCodeScc
+      this.addForm.corpName = item.value
     },
     // 重置
     reset () {
@@ -366,6 +367,7 @@ export default {
       }
       this.addForm.expiryDate = util.dateFormat(this.addForm.expiryDate, 'yyyy-MM-dd hh:mm:ss')
       this.addForm.corpName = this.addForm.corpName
+      this.addForm.ownerCodeScc = this.addForm.ownerCodeScc
       this.addForm.certificateName = this.addForm.certificateName
       this.addForm.certificateNo = this.addForm.certificateNo
       this.addForm.ifWarning = this.addForm.ifWarning
