@@ -157,6 +157,7 @@ export default {
     }
   },
   created () {
+    this.reset()
     this.paginationInit = this.$store.state.pagination
     this.certificateDetailForm.sccCode = this.$route.query.sccCode
     this.search()
@@ -167,7 +168,6 @@ export default {
       if (to.path.indexOf('detailListCertificate') === -1) {
         return
       }
-      this.paginationInit = this.$store.state.pagination
       this.certificateDetailForm.sccCode = this.$route.query.sccCode
       this.search()
     }
@@ -270,7 +270,6 @@ export default {
         endTime: ''
       }
       this.dates = ['', '']
-      this.search()
     },
     // 新建
     add () {

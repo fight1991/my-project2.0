@@ -142,7 +142,6 @@ export default {
       if (to.path.indexOf('jobDetailList') === -1) {
         return
       }
-      this.paginationInit = this.$store.state.pagination
       this.jobDetailForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.search()
     }
