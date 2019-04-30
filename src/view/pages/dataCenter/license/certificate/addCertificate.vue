@@ -15,6 +15,7 @@
         <el-form label-width="150px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-autocomplete
+                :disabled="isDetailAdd"
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
                 :maxlength="20"
@@ -91,7 +92,8 @@ export default {
       isImg: false,
       isPdf: false,
       isWord: false,
-      isExcel: false
+      isExcel: false,
+      isDetailAdd: false
     }
   },
   watch: {
@@ -110,6 +112,9 @@ export default {
       if (this.$route.query.corpName) {
         this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
         this.addForm.corpName = this.$route.query.corpName
+        this.isDetailAdd = true
+      } else {
+        this.isDetailAdd = false
       }
     }
   },
@@ -124,6 +129,9 @@ export default {
     if (this.$route.query.corpName) {
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.addForm.corpName = this.$route.query.corpName
+      this.isDetailAdd = true
+    } else {
+      this.isDetailAdd = false
     }
   },
   mounted () {

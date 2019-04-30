@@ -19,6 +19,7 @@
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
                 :maxlength="20"
+                :disabled="isDetailAdd"
                 v-model="addForm.corpName"
                 :fetch-suggestions="querySearch"
                 @select="handleSelect($event)"
@@ -178,6 +179,7 @@ export default {
         gName: [{ validator: this.checkValid, message: '商品名称为中英文', trigger: 'blur' }],
         declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
+      isDetailAdd: false,
       goodsDialogVisible: false,
       addForm: {
         corpName: '',
@@ -234,8 +236,10 @@ export default {
       this.reset()
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.addForm.corpName = this.$route.query.corpName
+      this.isDetailAdd = true
     } else {
       this.reset()
+      this.isDetailAdd = false
     }
   },
   watch: {
@@ -250,8 +254,10 @@ export default {
         this.reset()
         this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
         this.addForm.corpName = this.$route.query.corpName
+        this.isDetailAdd = true
       } else {
         this.reset()
+        this.isDetailAdd = false
       }
     }
   },

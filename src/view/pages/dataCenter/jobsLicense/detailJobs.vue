@@ -18,7 +18,8 @@
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <el-button size="small" type="primary" v-if="item.fileType">上传附件</el-button>
+                    <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+                    <!-- <el-button size="small" type="primary" v-else>上传附件</el-button> -->
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
@@ -32,7 +33,7 @@
                       {{ item.updateTime|date() }}
                     </el-form-item>
                     <el-form-item label="上传人:">
-                      {{ item.updateUser }}
+                      {{ item.updateUserName }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -63,7 +64,7 @@ export default {
             documentType: '',
             documentNo: '',
             updateTime: '',
-            updateUser: '',
+            updateUserName: '',
             fileLists: [], // 存放文件
             fileType: true,
             isImg: false,

@@ -22,7 +22,8 @@
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <el-button size="small" type="primary" v-if="item.fileType">上传附件</el-button>
+                    <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+                    <el-button size="small" type="primary" v-else>上传附件</el-button>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
@@ -165,9 +166,14 @@ export default {
         if (!valId) {
           return false
         }
+        let data = {
+          ownerCodeScc: this.ownerCodeScc,
+          decPid: this.decPid,
+          attachs: this.submitData.licenseList
+        }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/business/edit',
-          data: this.submitData.licenseList,
+          data: data,
           router: this.$router,
           success: (res) => {
             this.$message({

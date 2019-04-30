@@ -254,10 +254,12 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.certificateList = util.isEmpty(res.result.certificateInfoVOS) ? [] : res.result.certificateInfoVOS
-          this.paginationInit = res.page
-          this.corpName = res.result.corpName
-          this.count = res.result.count
+          if (!util.isEmpty(res.result)) {
+            this.certificateList = util.isEmpty(res.result.certificateInfoVOS) ? [] : res.result.certificateInfoVOS
+            this.paginationInit = res.page
+            this.corpName = res.result.corpName
+            this.count = res.result.count
+          }
         }
       })
     },

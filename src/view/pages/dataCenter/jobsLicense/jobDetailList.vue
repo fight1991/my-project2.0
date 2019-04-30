@@ -176,11 +176,13 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.resultJobList = util.isEmpty(res.result.decs) ? [] : res.result.decs
-          this.paginationInit = res.page
-          this.ownerName = res.result.ownerName
-          this.decCount = res.result.decCount
-          this.edocCount = res.result.edocCount
+          if (!util.isEmpty(res.result)) {
+            this.resultJobList = util.isEmpty(res.result.decs) ? [] : res.result.decs
+            this.paginationInit = res.page
+            this.ownerName = res.result.ownerName
+            this.decCount = res.result.decCount
+            this.edocCount = res.result.edocCount
+          }
         }
       })
     },

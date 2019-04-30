@@ -216,10 +216,12 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.resultList = util.isEmpty(res.result.licenses) ? [] : res.result.licenses
-          this.corpName = res.result.corpName
-          this.count = res.result.count
-          this.paginationInit = res.page
+          if (!util.isEmpty(res.result)) {
+            this.resultList = util.isEmpty(res.result.licenses) ? [] : res.result.licenses
+            this.corpName = res.result.corpName
+            this.count = res.result.count
+            this.paginationInit = res.page
+          }
         }
       })
     },
