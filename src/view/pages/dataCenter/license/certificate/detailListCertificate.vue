@@ -220,7 +220,7 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/certificate/editTime',
-        data: [{pid: '123', days: days}],
+        data: {sccCode: this.certificateDetailForm.sccCode, days: days},
         router: this.$router,
         success: (res) => {
           this.$message({
