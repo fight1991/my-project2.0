@@ -237,7 +237,6 @@ export default {
     } else {
       this.reset()
     }
-    this.addForm.submitDataList[this.index].goods = []
   },
   watch: {
     '$route': function (to, from) {
