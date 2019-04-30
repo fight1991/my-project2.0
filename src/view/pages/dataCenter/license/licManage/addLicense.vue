@@ -254,7 +254,6 @@ export default {
       } else {
         this.reset()
       }
-      this.addForm.submitDataList[this.index].goods = []
     }
   },
   methods: {
