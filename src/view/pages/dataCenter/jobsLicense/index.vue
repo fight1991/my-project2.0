@@ -61,7 +61,7 @@
           </el-table-column>
           <el-table-column label="最近上传时间" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.updateTime | date() || '-'}}
+              {{(scope.row.updateTime | date()) || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="操作" width="50">
@@ -154,6 +154,7 @@ export default {
             let json = JSON.stringify(res.result)
             json = json.replace(/ownerName/g, 'value')
             this.corpListOptions = JSON.parse(json)
+            console.log(this.corpListOptions)
           }
         }
       })

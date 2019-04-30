@@ -96,9 +96,9 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" @click="toDetail(scope.row.decPid,ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-            <el-button type="text" @click="upload(scope.row.decPid,ownerCodeScc)" title="导入"><i class="fa fa-sign-in"></i></el-button>
-            <el-button type="text" @click="toEdit(scope.row.decPid,ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <el-button type="text" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+            <el-button type="text" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i class="fa fa-sign-in"></i></el-button>
+            <el-button type="text" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -118,7 +118,7 @@ export default {
   data () {
     return {
       jobDetailForm: {
-        ownerCodeScc: this.$route.query.ownerCodeScc,
+        ownerCodeScc: '',
         keywords: '',
         updateTimeStart: '',
         updateTimeEnd: ''
@@ -126,15 +126,14 @@ export default {
       dates: ['', ''],
       resultJobList: [], // 表格数据
       ownerName: '',
-      ownerCodeScc: '',
       decCount: '',
       edocCount: ''
     }
   },
   created () {
-    this.paginationInit = this.$store.state.pagination
-    this.ownerCodeScc = this.$route.query.ownerCodeScc
     this.reset()
+    this.paginationInit = this.$store.state.pagination
+    this.jobDetailForm.ownerCodeScc = this.$route.query.ownerCodeScc
     this.search()
   },
   watch: {
@@ -144,7 +143,7 @@ export default {
         return
       }
       this.paginationInit = this.$store.state.pagination
-      this.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.jobDetailForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.search()
     }
   },
@@ -190,7 +189,7 @@ export default {
     reset () {
       this.dates = ['', '']
       this.jobDetailForm = {
-        ownerCodeScc: this.$route.query.ownerCodeScc,
+        ownerCodeScc: '',
         keywords: '',
         updateTimeStart: '',
         updateTimeEnd: ''

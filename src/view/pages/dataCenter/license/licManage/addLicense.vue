@@ -174,7 +174,8 @@ export default {
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
       },
       dialogRule: {
-        gNo: [{ required: true, validator: this.checkValid, message: '请输入商品编号', trigger: 'blur' }],
+        gNo: [{ required: true, validator: validator.Zz0, message: '请输入商品编号(数字)', trigger: 'blur' }],
+        gName: [{ validator: this.checkValid, message: '商品名称为中英文', trigger: 'blur' }],
         declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
       goodsDialogVisible: false,
@@ -236,6 +237,7 @@ export default {
     } else {
       this.reset()
     }
+    this.addForm.submitDataList[this.index].goods = []
   },
   watch: {
     '$route': function (to, from) {
@@ -252,6 +254,7 @@ export default {
       } else {
         this.reset()
       }
+      this.addForm.submitDataList[this.index].goods = []
     }
   },
   methods: {
@@ -290,6 +293,7 @@ export default {
     },
     handleSelect (item) {
       this.addForm.ownerCodeScc = item.ownerCodeScc
+      this.addForm.corpName = item.value
     },
     // 重置
     reset () {
@@ -324,10 +328,13 @@ export default {
     // 保存
     saveDialogForm () {
       this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
-      for (let i of this.goodsDialog.goods) {
-        this.addForm.submitDataList[this.index].info.goodInput += i.gNo + ','
+      if (this.goodsDialog.goods.length > 1) {
+        for (let i of this.goodsDialog.goods) {
+          this.addForm.submitDataList[this.index].info.goodInput += ',' + i.gNo
+        }
+      } else {
+        this.addForm.submitDataList[this.index].info.goodInput = this.goodsDialog.goods[0].gNo0
       }
-      console.log(this.addForm.submitDataList[this.index].info.goodInput)
       this.goodsDialogVisible = false
     },
     // 取消
@@ -386,6 +393,16 @@ export default {
     // 涉证商品弹窗
     openGoodsDialog (index) {
       this.index = index
+      if (this.addForm.submitDataList[index].goods.length === 0) {
+        this.addForm.submitDataList[index].info.goodInput = ''
+        this.goodsDialog.goods = [{
+          gNo: '',
+          gName: '',
+          declaredQuantity: ''
+        }]
+      } else {
+        this.addForm.submitDataList[index].info.goodInput = this.goodsDialog.goods
+      }
       this.goodsDialogVisible = true
     },
     // 更多上传许可证
@@ -445,7 +462,7 @@ export default {
               message: '新建成功',
               type: 'success'
             })
-            this.addForm.submitDataList[this.index].goods = []
+
             this.$router.push({
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
