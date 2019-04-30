@@ -43,7 +43,7 @@
           <el-radio-button label="2">单证录入数</el-radio-button>
           <el-radio-button label="3">单证审核数</el-radio-button>
           <el-radio-button label="4">单证申报数</el-radio-button>
-          <el-radio-button label="5">录入差错率</el-radio-button>
+          <el-radio-button label="5">录入差错数</el-radio-button>
           <!--<el-radio-button label="6">审核差错率</el-radio-button> -->
         </el-radio-group>
           </el-col>
@@ -87,7 +87,7 @@
                   <div class='sys-td-r'>{{scope.row.decCount}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="录入差错率" min-width="100">
+              <el-table-column label="录入差错数" min-width="100">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.iFailCount}}</div>
                 </template>
@@ -231,7 +231,7 @@ export default {
         return ['decCount', '单证申报数']
       }
       if (type === '5') {
-        return ['iFailCount', '录入差错率']
+        return ['iFailCount', '录入差错数']
       }
       if (type === '6') {
         return ['vFailCount', '审核差错率']
