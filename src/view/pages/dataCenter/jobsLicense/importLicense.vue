@@ -225,9 +225,14 @@ export default {
             }
           }
         }
+        let data = {
+          ownerCodeScc: this.ownerCodeScc,
+          decPid: this.resultTopData.decPid,
+          attachs: this.submitData.licenseList
+        }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/business/save',
-          data: this.submitData.licenseList,
+          data: data,
           router: this.$router,
           success: (res) => {
             this.$message({
