@@ -61,7 +61,7 @@
           </el-table-column>
           <el-table-column label="最近上传时间" min-width="100">
             <template slot-scope="scope">
-              {{(scope.row.updateTime | date()) || '-'}}
+              {{scope.row.updateTime | date() || '-'}}
             </template>
           </el-table-column>
           <el-table-column label="操作" width="50">
@@ -70,6 +70,12 @@
             </template>
           </el-table-column>
         </el-table>
+        <!--分页-->
+        <el-row class='sys-page-list'>
+            <el-col :span="24" align="right">
+                <page-box :pagination='paginationInit' @change="queryList"></page-box>
+            </el-col>
+        </el-row>
       </div>
   </section>
 </template>
@@ -112,11 +118,11 @@ export default {
     // 列表
     queryList (pagination) {
       if (this.dates === '' || this.dates === null) {
-        this.queryForm.startTime = ''
-        this.queryForm.endTime = ''
+        this.queryForm.updateTimeStart = ''
+        this.queryForm.updateTimeEnd = ''
       } else {
-        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.queryForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.queryForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
@@ -154,7 +160,6 @@ export default {
             let json = JSON.stringify(res.result)
             json = json.replace(/ownerName/g, 'value')
             this.corpListOptions = JSON.parse(json)
-            console.log(this.corpListOptions)
           }
         }
       })

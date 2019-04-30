@@ -327,11 +327,12 @@ export default {
     saveDialogForm () {
       this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
       if (this.goodsDialog.goods.length > 1) {
-        for (let i of this.goodsDialog.goods) {
-          this.addForm.submitDataList[this.index].info.goodInput += ',' + i.gNo
+        for (let i = 0; i < this.goodsDialog.goods.length; i++) {
+          this.addForm.submitDataList[this.index].info.goodInput += this.goodsDialog.goods[i].gNo + ','
         }
+        this.addForm.submitDataList[this.index].info.goodInput = this.addForm.submitDataList[this.index].info.goodInput.substr(0, this.addForm.submitDataList[this.index].info.goodInput.length - 1)
       } else {
-        this.addForm.submitDataList[this.index].info.goodInput = this.goodsDialog.goods[0].gNo0
+        this.addForm.submitDataList[this.index].info.goodInput = this.goodsDialog.goods[0].gNo
       }
       this.goodsDialogVisible = false
     },
@@ -391,15 +392,15 @@ export default {
     // 涉证商品弹窗
     openGoodsDialog (index) {
       this.index = index
+      this.addForm.submitDataList[index].info.goodInput = ''
       if (this.addForm.submitDataList[index].goods.length === 0) {
-        this.addForm.submitDataList[index].info.goodInput = ''
         this.goodsDialog.goods = [{
           gNo: '',
           gName: '',
           declaredQuantity: ''
         }]
       } else {
-        this.addForm.submitDataList[index].info.goodInput = this.goodsDialog.goods
+        this.goodsDialog.goods = this.addForm.submitDataList[index].goods
       }
       this.goodsDialogVisible = true
     },
