@@ -80,7 +80,8 @@ export default {
         certificateNo: '',
         expiryDate: '',
         ifWarning: '1',
-        certificateUrl: ''
+        certificateUrl: '',
+        certificatePid: ''
       },
       type: '',
       certificatePid: '',
@@ -148,7 +149,8 @@ export default {
         certificateNo: '',
         expiryDate: '',
         ifWarning: '1',
-        certificateUrl: ''
+        certificateUrl: '',
+        certificatePid: ''
       }
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
@@ -169,7 +171,8 @@ export default {
               certificateNo: res.result.certificateNo,
               expiryDate: res.result.expiryDate,
               ifWarning: res.result.ifWarning,
-              certificateUrl: res.result.certificateUrl
+              certificateUrl: res.result.certificateUrl,
+              certificatePid: res.result.certificatePid
             }
             let url = res.result.certificateUrl
             if (!util.isEmpty(url)) {
@@ -358,6 +361,7 @@ export default {
       this.addForm.certificateName = this.addForm.certificateName
       this.addForm.certificateNo = this.addForm.certificateNo
       this.addForm.ifWarning = this.addForm.ifWarning
+      this.addForm.certificatePid = this.addForm.certificatePid
       this.saveForm(url)
     },
     // 保存接口请求

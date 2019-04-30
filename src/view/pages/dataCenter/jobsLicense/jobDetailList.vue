@@ -86,7 +86,7 @@
         </el-table-column>
         <el-table-column label="创建日期" min-width="90">
           <template slot-scope="scope">
-            <div>{{scope.row.createTime|date() || '-'}}</div>
+            <div>{{scope.row.createTime || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="上传单证数" min-width="200">
