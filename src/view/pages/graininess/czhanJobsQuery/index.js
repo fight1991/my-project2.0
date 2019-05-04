@@ -1,18 +1,18 @@
 // 海关监管-场站作业查询
 const MENU = {
-  path: '/sea/czhanJobs',
-  name: 'sea-czhanJobsQuery',
+  path: '/graininess/czhanJobs',
+  name: 'graininess-czhanJobsQuery',
   icon: 'icons-menu-queryList',
-  permissions: 'CCBA20905000000',
+  permissions: 'CCBA21005000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '场站作业查询'
   },
   children: [
     {
-      path: '/sea/applyQuery_sea/list',
-      name: 'applyQuery_sea',
-      permissions: 'CCBA20905010000',
+      path: '/graininess/applyQuery_gra/list',
+      name: 'applyQuery_gra',
+      permissions: 'CCBA21005010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -20,9 +20,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/applyIxEQuery_sea/list',
-      name: 'applyIxEQuery_sea',
-      permissions: 'CCBA20905020000',
+      path: '/graininess/applyIxEQuery_gra/list',
+      name: 'applyIxEQuery_gra',
+      permissions: 'CCBA21005020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -30,9 +30,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/stockQuery_sea/list',
-      name: 'stockQuery_sea',
-      permissions: 'CCBA20905030000',
+      path: '/graininess/stockQuery_gra/list',
+      name: 'stockQuery_gra',
+      permissions: 'CCBA21005030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -40,9 +40,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/releseQuery_sea/list',
-      name: 'releseQuery_sea',
-      permissions: 'CCBA20905040000',
+      path: '/graininess/releseQuery_gra/list',
+      name: 'releseQuery_gra',
+      permissions: 'CCBA21005040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -50,9 +50,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/stockReleseQuery_sea/list',
-      name: 'stockReleseQuery_sea',
-      permissions: 'CCBA20905050000',
+      path: '/graininess/stockReleseQuery_gra/list',
+      name: 'stockReleseQuery_gra',
+      permissions: 'CCBA21005050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -60,9 +60,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/taxReleseQuery_sea/list',
-      name: 'taxReleseQuery_sea',
-      permissions: 'CCBA20905060000',
+      path: '/graininess/taxReleseQuery_gra/list',
+      name: 'taxReleseQuery_gra',
+      permissions: 'CCBA21005060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -70,9 +70,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/carInfoQuery_sea/list',
-      name: 'carInfoQuery_sea',
-      permissions: 'CCBA20905070000',
+      path: '/sea/carInfoQuery_gra/list',
+      name: 'carInfoQuery_gra',
+      permissions: 'CCBA21005070000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

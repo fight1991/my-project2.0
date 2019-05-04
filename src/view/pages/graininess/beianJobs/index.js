@@ -1,4 +1,4 @@
-// 加工贸易账册-备案业务
+// 加工贸易账册-电子底账
 const MENU = {
   path: '/graininess/beianJobs',
   name: 'graininess-beianJobs',
@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA21001000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '备案业务'
+    title: '电子底账'
   },
   children: [
     {

@@ -255,6 +255,13 @@ export default {
     // 清单结关查询
     clearanceQuery_gra: url.JINER + '/graininess/dataQuery/clearanceQuery',
 
+    // 报核业务
+    // 加工贸易账册报核
+    accountBookVer_gra: url.JINER + '/graininess/datainput/accountBookVer',
+    // 加工贸易账册报核查询
+    accountBookVerQuery_gra: url.JINER + '/graininess/dataQuery/accountBookVerQuery',
+    // 物流账册平衡表
+
     // 保税物流管理 - 场站业务
     // 业务申报表
     apply_gra: url.JINER + '/graininess/datainput/apply',
