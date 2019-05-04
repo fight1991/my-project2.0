@@ -196,6 +196,8 @@ export default {
     accountBookVer_sea: url.JINER + '/sea/datainput/accountBookVer',
     // 加工贸易账册报核查询
     accountBookVerQuery_sea: url.JINER + '/sea/dataQuery/accountBookQuery',
+    // 物流账册平衡表
+    phDataList_sea: url.JINER + '',
 
     // 海关特殊监管区域 - 场站业务
     // 业务申报表

@@ -28,6 +28,16 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易账册报核查询'
       }
+    },
+    {
+      path: '/sea/phDataList_sea/list',
+      name: 'phDataList_sea',
+      permissions: 'CCBA20903030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '物流账册平衡表'
+      }
     }
   ]
 }
