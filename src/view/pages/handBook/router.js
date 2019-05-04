@@ -1,7 +1,7 @@
-import baoheJobs from './baoheJobs/index' // 报核业务
-import beianJobs from './beianJobs/index' // 备案业务
-import czhanJobs from './czhanJobs/index' // 场站业务
-import lareJobs from './lareJobs/index' // 申报业务
+import baoheJobs from './baoheJobs/index' // 核销核算
+import beianJobs from './beianJobs/index' // 电子底账
+import czhanJobs from './czhanJobs/index' // 外发加工
+import lareJobs from './lareJobs/index' // 通关作业
 const MENU = [
   {
     path: '/handBook/index',

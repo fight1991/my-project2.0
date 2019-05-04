@@ -1,42 +1,42 @@
-// 加工贸易手册-申报业务
+// 加工贸易手册-通关作业
 const MENU = {
   path: '/handBook/lareJobs',
   name: 'handBook-lareJobs',
   icon: 'icons-menu-lareJobs',
-  permissions: 'CCBA20702000000',
+  permissions: 'CCBA20802000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '申报业务'
+    title: '通关作业'
   },
   children: [
     {
       path: '/handBook/taxList_I_hand/list',
       name: 'taxList_I_hand',
-      permissions: 'CCBA20702010000',
+      permissions: 'CCBA20802010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '进口核注清单'
+        title: '保税核注清单（进口）'
       }
     },
     {
       path: '/handBook/taxList_E_hand/list',
       name: 'taxList_E_hand',
-      permissions: 'CCBA20702020000',
+      permissions: 'CCBA20802020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出口核注清单'
+        title: '保税核注清单（出口）'
       }
     },
     {
       path: '/handBook/taxListQuery_hand/list',
       name: 'taxListQuery_hand',
-      permissions: 'CCBA20702030000',
+      permissions: 'CCBA20802030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单查询'
+        title: '保税核注清单查询'
       }
     }
   ]
