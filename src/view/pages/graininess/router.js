@@ -2,6 +2,7 @@ import beianJobs from './beianJobs/index' // 电子底账
 import czhanJobs from './czhanJobs/index' // 场站业务
 import lareJobs from './lareJobs/index' // 通关作业
 import baoheJobs from './baoheJobs/index' // 核算核销
+import czhanJobsQuery from './czhanJobsQuery/index' // 场站业务查询
 const MENU = [
   {
     path: '/graininess/index',
@@ -26,6 +27,7 @@ const MENU = [
   beianJobs.MENU,
   lareJobs.MENU,
   baoheJobs.MENU,
-  czhanJobs.MENU
+  czhanJobs.MENU,
+  czhanJobsQuery.MENU
 ]
 export default {MENU}

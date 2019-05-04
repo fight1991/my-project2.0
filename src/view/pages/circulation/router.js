@@ -1,4 +1,7 @@
-import CzhanJobs from './czhanJobs/index' // 场站业务
+import decForom from './decForm/index' // 申报表
+import goodsBill from './goodsBill/index' // 收发货单
+import multipleQuery from './multipleQuery/index' // 综合查询
+import synDecForm from './synDecForm/index' // 同步申报表
 const MENU = [
   {
     path: '/circulation/index',
@@ -20,6 +23,9 @@ const MENU = [
       title: '编辑详情'
     }
   },
-  CzhanJobs.MENU
+  decForom.MENU,
+  goodsBill.MENU,
+  multipleQuery.MENU,
+  synDecForm.MENU
 ]
 export default {MENU}
