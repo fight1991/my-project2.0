@@ -1,6 +1,6 @@
 // 海关监管-场站作业查询
 const MENU = {
-  path: '/graininess/czhanJobs',
+  path: '/graininess/czhanJobsQuery',
   name: 'graininess-czhanJobsQuery',
   icon: 'icons-menu-queryList',
   permissions: 'CCBA21005000000',

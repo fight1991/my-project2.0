@@ -68,16 +68,6 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单查询'
       }
-    },
-    {
-      path: '/sea/relieveQuery_sea/list',
-      name: 'relieveQuery_sea',
-      permissions: 'CCBA20901070000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '不作价设备解除监管查询'
-      }
     }
   ]
 }

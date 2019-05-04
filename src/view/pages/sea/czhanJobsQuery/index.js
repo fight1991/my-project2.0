@@ -1,6 +1,6 @@
 // 海关监管-场站作业查询
 const MENU = {
-  path: '/sea/czhanJobs',
+  path: '/sea/czhanJobsQuery',
   name: 'sea-czhanJobsQuery',
   icon: 'icons-menu-queryList',
   permissions: 'CCBA20905000000',

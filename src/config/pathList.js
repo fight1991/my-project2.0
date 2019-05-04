@@ -130,6 +130,8 @@ export default {
     accountAdd: url.JINER + '/account/datainput/accountBook',
     // 加工贸易账册查询
     accountQuery: url.JINER + '/account/dataQuery/accountBookQuery',
+    // 生产能力证明查询
+    productPowerQuery: url.JINER + '/account/dataQuery/productPowerQuery',
 
     // 账册-申报业务
     // 保税核注清单(进口)
@@ -261,6 +263,7 @@ export default {
     // 加工贸易账册报核查询
     accountBookVerQuery_gra: url.JINER + '/graininess/dataQuery/accountBookVerQuery',
     // 物流账册平衡表
+    phDataList_gra: url.JINER + '',
 
     // 保税物流管理 - 场站业务
     // 业务申报表

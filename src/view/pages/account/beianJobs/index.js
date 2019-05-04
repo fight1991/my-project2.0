@@ -48,6 +48,16 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易账册查询'
       }
+    },
+    {
+      path: '/account/productPowerQuery/list',
+      name: 'productPowerQuery',
+      permissions: 'CCBA20701050000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '生产能力证明查询'
+      }
     }
   ]
 }
