@@ -236,6 +236,8 @@ export default {
     multipleQuery: url.JINER + '/circulation/multipleQuery',
     // 同步申报表
     synDecForm: url.JINER + '/circulation/synDecForm',
+    // 收发货单查询
+    query: url.JINER + '/circulation/goodsBill/query',
 
     // 保税物流管理 - 备案业务
     // 物流账册

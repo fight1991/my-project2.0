@@ -10,8 +10,8 @@ const MENU = {
   },
   children: [
     {
-      path: '/circulation/goodsBill/deliver/list',
-      name: 'deliver',
+      path: '/circulation/goodsBill/deliverOut/list',
+      name: 'deliverOut',
       permissions: 'CCBA21102010000',
       hidden: false,
       meta: {
@@ -20,8 +20,8 @@ const MENU = {
       }
     },
     {
-      path: '/circulation/goodsBill/take/list',
-      name: 'take',
+      path: '/circulation/goodsBill/takeIn/list',
+      name: 'takeIn',
       permissions: 'CCBA21102020000',
       hidden: false,
       meta: {

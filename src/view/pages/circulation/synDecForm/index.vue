@@ -1,3 +1,6 @@
+<template>
+  <iframe-view :url='url'></iframe-view>
+</template>
 <script>
 import pathList from '@/config/pathList'
 export default {
