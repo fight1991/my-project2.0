@@ -1,4 +1,4 @@
-// 海关监管-申报业务
+// 海关监管-通关作业
 const MENU = {
   path: '/sea/lareJobs',
   name: 'sea-lareJobs',
@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA20902000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '申报业务'
+    title: '通关作业'
   },
   children: [
     {
@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '进口核注清单'
+        title: '保税核注清单（进口）'
       }
     },
     {
@@ -26,23 +26,13 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出口核注清单'
-      }
-    },
-    {
-      path: '/sea/taxListQuery_sea/list',
-      name: 'taxListQuery_sea',
-      permissions: 'CCBA20902030000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单查询'
+        title: '保税核注清单（出口）'
       }
     },
     {
       path: '/sea/centDeclare_sea/list',
       name: 'centDeclare_sea',
-      permissions: 'CCBA20902040000',
+      permissions: 'CCBA20902030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -52,11 +42,21 @@ const MENU = {
     {
       path: '/sea/clearance_sea/list',
       name: 'clearance_sea',
-      permissions: 'CCBA20902050000',
+      permissions: 'CCBA20902040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '清单结关'
+      }
+    },
+    {
+      path: '/sea/taxListQuery_sea/list',
+      name: 'taxListQuery_sea',
+      permissions: 'CCBA20902050000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '保税核注清单查询'
       }
     },
     {

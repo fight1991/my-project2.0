@@ -1,4 +1,4 @@
-// 加工贸易账册-备案业务
+// 加工贸易账册-电子底账
 const MENU = {
   path: '/sea/beianJobs',
   name: 'sea-beianJobs',
@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA20901000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '备案业务'
+    title: '电子底账'
   },
   children: [
     {
@@ -20,19 +20,9 @@ const MENU = {
       }
     },
     {
-      path: '/sea/accountBookQuery_sea/list',
-      name: 'accountBookQuery_sea',
-      permissions: 'CCBA20901020000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '加工贸易账册查询'
-      }
-    },
-    {
       path: '/sea/bwl_sea/list',
       name: 'bwl_sea',
-      permissions: 'CCBA20901030000',
+      permissions: 'CCBA20901020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -40,23 +30,33 @@ const MENU = {
       }
     },
     {
-      path: '/sea/bwlQuery_sea/list',
-      name: 'bwlQuery_sea',
-      permissions: 'CCBA20901040000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '物流账册查询'
-      }
-    },
-    {
       path: '/sea/cmb_sea/list',
       name: 'cmb_sea',
-      permissions: 'CCBA20901050000',
+      permissions: 'CCBA20901030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单'
+      }
+    },
+    {
+      path: '/sea/accountBookQuery_sea/list',
+      name: 'accountBookQuery_sea',
+      permissions: 'CCBA20901040000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '加工贸易账册查询'
+      }
+    },
+    {
+      path: '/sea/bwlQuery_sea/list',
+      name: 'bwlQuery_sea',
+      permissions: 'CCBA20901050000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '物流账册查询'
       }
     },
     {
@@ -67,6 +67,16 @@ const MENU = {
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '加工贸易耗料单查询'
+      }
+    },
+    {
+      path: '/sea/relieveQuery_sea/list',
+      name: 'relieveQuery_sea',
+      permissions: 'CCBA20901070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '不作价设备解除监管查询'
       }
     }
   ]

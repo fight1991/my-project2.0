@@ -172,6 +172,8 @@ export default {
     cmb_sea: url.JINER + '/sea/datainput/cmb',
     // 加工贸易耗料单查询
     cmbQuery_sea: url.JINER + '/sea/dataQuery/cmbQuery',
+    // 不作价设备解除监管查询
+    relieveQuery_sea: url.JINER + '/sea/dataQuery/relieveQuery',
 
     // 海关特殊监管区域 - 申报业务
     // 保税核注清单（进口）

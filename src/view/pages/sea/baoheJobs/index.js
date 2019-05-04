@@ -1,4 +1,4 @@
-// 加工贸易账册-报核业务
+// 加工贸易账册-核销核算
 const MENU = {
   path: '/sea/baoheJobs',
   name: 'sea-baoheJobs',
@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA20903000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '报核业务'
+    title: '核销核算'
   },
   children: [
     {
