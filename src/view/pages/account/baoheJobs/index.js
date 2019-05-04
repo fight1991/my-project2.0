@@ -1,18 +1,18 @@
-// 加工贸易账册-报核业务
+// 加工贸易账册-核销核算
 const MENU = {
   path: '/account/baoheJobs',
   name: 'account-baoheJobs',
   icon: 'icons-menu-baoheJobs',
-  permissions: 'CCBA20803000000',
+  permissions: 'CCBA20703000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '报核业务'
+    title: '核销核算'
   },
   children: [
     {
       path: '/handBook/accountBookVerAcc/list',
       name: 'accountBookVerAcc',
-      permissions: 'CCBA20803010000',
+      permissions: 'CCBA20703010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -22,7 +22,7 @@ const MENU = {
     {
       path: '/handBook/accountBookVerAccQuery/list',
       name: 'accountBookVerAccQuery',
-      permissions: 'CCBA20803020000',
+      permissions: 'CCBA20703020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
