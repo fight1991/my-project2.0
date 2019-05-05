@@ -172,7 +172,7 @@ export default {
       if (to.path.indexOf('detailListLicense') === -1) {
         return
       }
-      this.corpSccCode = this.$route.query.corpSccCode
+      this.detailForm.sccCode = this.$route.query.sccCode
       this.search()
     }
   },
