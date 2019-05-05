@@ -144,6 +144,12 @@ export default {
       code: ''
     }
   },
+  watch: {
+    '$route' (newVal, oldVal) {
+      this.code = newVal.params.id
+      this.getDetail()
+    }
+  },
   created () {
     this.code = this.$route.params.id
     this.getDetail()
