@@ -16,6 +16,7 @@ import Graininess from './view/pages/graininess/router'
 import Sea from './view/pages/sea/router'
 import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
+import ExpressDeclare from './view/pages/expressDeclare/router'
 Vue.use(Router)
 
 const routes = [
@@ -87,6 +88,7 @@ routes[1].children.push(...Graininess.MENU)
 routes[1].children.push(...Sea.MENU)
 routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
+routes[1].children.push(...ExpressDeclare.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -134,14 +136,14 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'account',
           title: '加工贸易账册',
-          permissions: 'CCBA20800000000'
+          permissions: 'CCBA20700000000'
         }
         break
       case 'handBook':
         json = {
           type: 'handBook',
           title: '加工贸易手册',
-          permissions: 'CCBA20700000000'
+          permissions: 'CCBA20800000000'
         }
         break
       case 'circulation':
@@ -177,6 +179,13 @@ router.beforeEach((to, from, next) => {
           type: 'passStatus',
           title: '通关状态',
           permissions: ''
+        }
+        break
+      case 'expressDeclare':
+        json = {
+          type: 'expressDeclare',
+          title: '快件申报',
+          permissions: 'CCBA21200000000'
         }
         break
     }
