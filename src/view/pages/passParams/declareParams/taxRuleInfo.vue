@@ -146,8 +146,10 @@ export default {
   },
   watch: {
     '$route' (newVal, oldVal) {
-      this.code = newVal.params.id
-      this.getDetail()
+      if (newVal.name === 'taxRuleInfo') {
+        this.code = newVal.params.id
+        this.getDetail()
+      }
     }
   },
   created () {
