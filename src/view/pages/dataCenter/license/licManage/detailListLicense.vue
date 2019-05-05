@@ -100,7 +100,7 @@
                       <template slot-scope="scope">
                         <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
                         <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-                        <el-button type="text" @click="previewPicture(scope.row.licensePid)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
+                        <el-button type="text" @click="previewPicture(scope.row)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
                         <el-button type="text" @click="deleteBtn(scope.row.licensePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
                       </template>
                     </el-table-column>
@@ -265,7 +265,6 @@ export default {
     },
     // 预览图片
     previewPicture (file) {
-      // window.open(this.fileList[index].url, '_blank')
       util.fileView(file.licenseUrl)
     },
     // 删除

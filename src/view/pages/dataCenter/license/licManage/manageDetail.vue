@@ -18,11 +18,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="许可证类型"  prop="licenseType" ref="licenseType">
-                <el-select placeholder="请选择许可证类型" v-model="info.licenseType"
+              <el-form-item label="许可证类型"  prop="licenseTypeValue" ref="licenseTypeValue">
+                <el-select placeholder="请选择许可证类型" v-model="info.licenseTypeValue"
                 remote filterable clearable
                 :disabled="isDetail"
-                @focus="tipsFillMessage('saasLicType','SAAS_LIC_TYPE')"
+                @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
                 :remote-method="checkParamsList"
                 ref="licTypeCode" dataRef='licTypeCode'
                 style="width:100%">
@@ -139,7 +139,7 @@ export default {
     return {
       rules: {
         corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
-        licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
+        licenseTypeValue: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
@@ -152,7 +152,7 @@ export default {
         corpName: '',
         licensePid: '',
         ownerCodeScc: '',
-        licenseType: '',
+        licenseTypeValue: '',
         licenseUrl: '',
         licenseNo: '',
         expiryDate: '',
@@ -223,7 +223,7 @@ export default {
       this.info = {
         corpName: '',
         ownerCodeScc: '',
-        licenseType: '',
+        licenseTypeValue: '',
         licenseUrl: '',
         licenseNo: '',
         expiryDate: '',
@@ -244,21 +244,6 @@ export default {
     edit () {
       this.isDetail = false
     },
-    // 列表
-    querylist () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/license/queryDetail',
-        data: {pid: this.info.licensePid},
-        router: this.$router,
-        isPageList: true,
-        success: (res) => {
-          this.info = res.result.info
-          this.goods = res.result.goods
-          this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
-          this.info.updateTime = util.dateFormat(this.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
-        }
-      })
-    },
     // 更多上传
     addRelatedGoods () {
       this.goods.push({
@@ -273,6 +258,9 @@ export default {
       this.$refs['info'].validate((valId) => {
         if (!valId) {
           return false
+        }
+        if (this.fileLists.length > 0 && this.fileType) {
+          this.info.licenseUrl = this.fileLists[0].url
         }
         this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
         this.info.updateTime = ''
@@ -308,15 +296,17 @@ export default {
       })
     },
     // 显示详情
-    queryDetail () {
+    querylist () {
       this.$store.dispatch('ajax', {
-        url: 'API@/task-center/task/getTask',
+        url: 'API@/saas-document-center/license/queryDetail',
         data: {pid: this.info.licensePid},
         router: this.$router,
         success: (res) => {
           this.info = res.result.info
-          this.goods = res.result.goods
-          let url = res.result.info.certificateUrl
+          this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
+          this.info.updateTime = util.dateFormat(this.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
+          this.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
+          let url = res.result.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)
             if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
@@ -429,8 +419,8 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
+            this.info.licenseUrl = res.result.url
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
-              this.info.licenseUrl = res.result.url
               this.fileType = false
               this.isImg = true
               this.isPdf = false
@@ -442,21 +432,18 @@ export default {
                 url: res.result.url
               })
               if (file.type === 'application/pdf') {
-                this.info.licenseUrl = res.result.url
                 this.fileType = false
                 this.isImg = false
                 this.isPdf = true
                 this.isWord = false
                 this.isExcel = false
               } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                this.info.licenseUrl = res.result.url
                 this.fileType = false
                 this.isImg = false
                 this.isPdf = false
                 this.isWord = true
                 this.isExcel = false
               } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                this.info.licenseUrl = res.result.url
                 this.fileType = false
                 this.isImg = false
                 this.isPdf = false
@@ -488,7 +475,7 @@ export default {
     },
     // 获取公共字典list
     getCommonParams () {
-      let par = ['SAAS_LIC_TYPE']
+      let par = ['SAAS_LICENSEDOCU']
       let tableNames = commonParam.isRequire(par)
       if (tableNames.length > 0) {
         this.$store.dispatch('ajax', {
@@ -499,11 +486,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
       }
     },
     checkParamsList (query) {

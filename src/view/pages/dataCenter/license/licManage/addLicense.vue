@@ -36,7 +36,7 @@
                 <el-form-item label="许可证类型:" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
                   remote filterable clearable
-                  @focus="tipsFillMessage('saasLicType','SAAS_LIC_TYPE')"
+                  @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
                   :remote-method="checkParamsList"
                   ref="licTypeCode" dataRef='licTypeCode'
                   style="width:100%">
@@ -90,7 +90,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="涉证商品:">
+                  <el-form-item label="涉证商品:" :prop="'submitDataList.'+index+'.info.goodInput'" :rules="rules.goodInput">
                     <el-input clearable size="mini" v-model="item.info.goodInput" @focus="openGoodsDialog(index)"></el-input>
                   </el-form-item>
                 </el-col>
@@ -172,7 +172,8 @@ export default {
         licenseUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
-        availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
+        availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }],
+        goodInput: [{ required: true, message: '请输入涉证商品', trigger: 'change' }]
       },
       dialogRule: {
         gNo: [{ required: true, validator: validator.Zz0, message: '请输入商品编号(数字)', trigger: 'blur' }],
@@ -327,7 +328,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
-      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
     },
     // 保存
     saveDialogForm () {
@@ -555,12 +556,12 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList, row) {
-      for (let i = 0; i < this.row.info.fileLists.length; i++) {
-        if (file.name === this.row.info.fileLists[i].name) {
-          this.row.info.fileLists.splice(i, 1)
-          this.row.info.licenseUrl = ''
-        }
-      }
+      // for (let i = 0; i < this.row.info.fileLists.length; i++) {
+      //   if (file.name === this.row.info.fileLists[i].name) {
+      //     this.row.info.fileLists.splice(i, 1)
+      //     this.row.info.licenseUrl = ''
+      //   }
+      // }
     },
     // 提示需要填写的内容
     tipsFillMessage (obj, params) {
@@ -571,7 +572,7 @@ export default {
     },
     // 获取公共字典list
     getCommonParams () {
-      let par = ['SAAS_LIC_TYPE']
+      let par = ['SAAS_LICENSEDOCU']
       let tableNames = commonParam.isRequire(par)
       if (tableNames.length > 0) {
         this.$store.dispatch('ajax', {
@@ -582,11 +583,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE')).slice(0, 10)
+        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
       }
     },
     checkParamsList (query) {

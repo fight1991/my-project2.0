@@ -26,8 +26,8 @@
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
-                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
-                      <el-select placeholder="请选择单证类型" v-model="item.documentType"
+                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentTypeValue'" :rules="rules.documentTypeValue">
+                      <el-select placeholder="请选择单证类型" v-model="item.documentTypeValue"
                       remote filterable clearable
                       @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
                       :remote-method="checkParamsList"
@@ -35,7 +35,7 @@
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
-                          :key="'licenseList'+index+i+item.documentType"
+                          :key="'licenseList'+index+i+item.documentTypeValue"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
                         </el-option>
@@ -65,7 +65,7 @@ export default {
   data () {
     return {
       rules: {
-        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
+        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }]
       },
       fileLists: [],
       decPid: '',
@@ -73,7 +73,7 @@ export default {
       submitData: {
         licenseList: [{
           documentNo: '',
-          documentType: '',
+          documentTypeValue: '',
           documentUrl: '',
           fileLists: [], // 存放文件
           fileType: true,
@@ -191,7 +191,6 @@ export default {
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, row) {
-      debugger
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -257,7 +256,6 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList, row) {
-      debugger
       for (let i = 0; i < this.row.fileLists.length; i++) {
         if (file.name === this.row.fileLists[i].name) {
           this.row.fileLists.splice(i, 1)

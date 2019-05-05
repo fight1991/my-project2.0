@@ -307,8 +307,8 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
+            this.addForm.certificateUrl = res.result.url
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
-              this.addForm.certificateUrl = res.result.url
               this.fileType = false
               this.isImg = true
               this.isPdf = false
@@ -326,14 +326,12 @@ export default {
                 this.isWord = false
                 this.isExcel = false
               } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                this.addForm.certificateUrl = res.result.url
                 this.fileType = false
                 this.isImg = false
                 this.isPdf = false
                 this.isWord = true
                 this.isExcel = false
               } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                this.addForm.certificateUrl = res.result.url
                 this.fileType = false
                 this.isImg = false
                 this.isPdf = false
@@ -358,12 +356,13 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList) {
-      for (let i = 0; i < this.fileLists.length; i++) {
-        if (file.name === this.fileLists[i].name) {
-          this.fileLists.splice(i, 1)
-          this.addForm.certificateUrl = ''
-        }
-      }
+      // console.log(file, this.fileLists)
+      // for (let i = 0; i < this.fileLists.length; i++) {
+      //   if (file.name === this.fileLists[i].name) {
+      //     this.fileLists.splice(i, 1)
+      //     this.addForm.certificateUrl = ''
+      //   }
+      // }
     },
     // 保存
     submit () {
