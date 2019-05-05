@@ -17,7 +17,7 @@
         </div>
         <div class="link fr">
           <img src="@/assets/www-img/images/erweima.png" alt="">
-          <p>智慧通关小程序</p>
+          <p>关注智慧通关小程序</p>
         </div>
       </div>
     </div>
@@ -39,9 +39,14 @@ export default {
           url: 'https://www.singlewindow.cn/'
         },
         {
-          icon: require('@/assets/www-img/images/partner/tianjing.png'),
-          name: '天津报关协会',
-          url: 'http://www.tcba.org.cn'
+          icon: require('@/assets/www-img/images/partner/yatai.png'),
+          name: '亚太示范电子口岸网络运营中心',
+          url: 'javascript:;'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/ruikumaoyi.png'),
+          name: '北京睿库贸易安全及便利化研究中心',
+          url: 'javascript:;'
         },
         {
           icon: require('@/assets/www-img/images/partner/beijing.png'),
@@ -59,10 +64,36 @@ export default {
           url: 'javascript:;'
         },
         {
-          icon: require('@/assets/www-img/images/partner/yatai.png'),
-          name: '亚太示范电子口岸网络运营中心',
+          icon: require('@/assets/www-img/images/partner/tianjing.png'),
+          name: '天津报关协会',
+          url: 'http://www.tcba.org.cn'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/shanghai.png'),
+          name: '上海报关协会',
+          url: 'javascript:;'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/jiangsu.png'),
+          name: '江苏报关协会',
+          url: 'javascript:;'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/anhui.png'),
+          name: '安徽报关协会',
+          url: 'javascript:;'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/zhejiang.png'),
+          name: '浙江报关协会',
+          url: 'javascript:;'
+        },
+        {
+          icon: require('@/assets/www-img/images/partner/guangxi.png'),
+          name: '广西报关协会',
           url: 'javascript:;'
         }
+
       ]
     }
   }
@@ -80,16 +111,19 @@ export default {
     padding: 30px 5px;
     background-color: #0A5CA0;
     color: #fff;
+    .content {
+      position: relative;
+    }
     .companyInfo  {
-      width: 750px;
+      width: 850px;
       h3 {
         font-size: 16px;
         font-weight: bold;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
       }
       .partner {
-        margin-right: 20px;
-        width:45%;
+        margin-right: 10px;
+        width:32%;
         padding: 5px 0;
         // line-height: 40px;
         color: #fff;
@@ -119,8 +153,14 @@ export default {
       }
     }
   }
+  .link {
+    position:absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%)
+  }
   .link p {
-    margin-top: 10px;
+    margin-top: 5px;
     text-align: center;
   }
   .footer-bottom {

@@ -26,17 +26,6 @@
             :class="{'bottomColor':tabList[index]['status'],'angle':tabList[index]['status']}">
               <div class="routeA" @click.prevent="routeTo(item.path)">{{item.name}}</div>
             </li>
-            <el-dropdown @command="getGrop">
-              <li
-                :class="{'bottomColor':aboutUs['status'],'angle':aboutUs['status']}">
-                <div class="routeA">关于我们</div>
-              </li>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="/aboutUs">关于我们</el-dropdown-item>
-                <el-dropdown-item command="/contactUs">在线预约</el-dropdown-item>
-                <el-dropdown-item command="/talent">人才招聘</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
          </ul>
        </div>
      </div>
@@ -68,10 +57,24 @@ export default {
           isLink: true
         },
         {
-          id: 4,
+          id: 3,
           status: false,
           path: '/charge',
           name: '典型案例',
+          isLink: true
+        },
+        {
+          id: 4,
+          status: false,
+          path: '/aboutUs',
+          name: '关于我们',
+          isLink: true
+        },
+        {
+          id: 5,
+          status: false,
+          path: '/talent',
+          name: '人才招聘',
           isLink: true
         }
       ],
@@ -84,12 +87,8 @@ export default {
   created () {
     this.checkLogin()
     let tabs = sessionStorage.getItem('tabs')
-    let aboutUs = sessionStorage.getItem('aboutUs')
     if (tabs) {
       this.tabList = JSON.parse(tabs)
-    }
-    if (aboutUs) {
-      this.aboutUs = JSON.parse(aboutUs)
     }
   },
   mounted () {
@@ -97,32 +96,12 @@ export default {
     eventBus.$on('custormAnchor', this.custormAnchor)
   },
   methods: {
-    // 下拉框路由跳转
-    getGrop (path) {
-      // 其余tabs的边框重置
-      this.changeStyle()
-      // 更改下边框颜色
-      this.aboutUs = {
-        status: true
-      }
-      // 存储本地
-      sessionStorage.setItem('aboutUs', JSON.stringify(this.aboutUs))
-      this.$router.push(path)
-    },
     // 路由跳转
     routeTo (path) {
       this.$router.push(path)
     },
     // 改变底部边框颜色
     changeStyle (num) {
-      // 如果num存在 说明不是getGrop调用的
-      if (num || num === 0) {
-        // 重置关于我们的下边框
-        this.aboutUs = {
-          status: false
-        }
-        sessionStorage.setItem('aboutUs', JSON.stringify(this.aboutUs))
-      }
       let arr = JSON.parse(JSON.stringify(this.tabList))
       arr.forEach((item, index) => {
         if (index === num) {
@@ -259,7 +238,7 @@ export default {
       display: flex;
       .tabs {
         position: absolute;
-        left: 50%;
+        left: 55%;
         top: 0;
         transform: translateX(-50%);
       }
@@ -282,7 +261,9 @@ export default {
       }
       .tabs ul {
         display: flex;
-        justify-content: space-around
+        justify-content: space-around;
+        padding: 0;
+        width: 552px;
       }
       ul li {
         position: relative;
@@ -333,6 +314,9 @@ export default {
     .logo {
       width: 110px!important;
       overflow: hidden;
+    }
+    .hello {
+      display: none!important;
     }
   }
 </style>

@@ -6,11 +6,13 @@
         <p class="big">产品介绍</p>
         <p class="light">PRODUCT INTRODUCTION</p>
       </div>
-      <div class="text mainer">
-        {{text}}
-      </div>
-      <div class="img mainer">
-        <img src="@/assets/www-img/images/spots.png" alt="">
+      <div class="pro-intro mainer">
+        <div class="text">
+          {{text}}
+        </div>
+        <div class="pro-picture">
+          <img src="@/assets/www-img/images/PI-Layout.png" alt="">
+        </div>
       </div>
     </div>
     <!-- 产品流程区域 -->
@@ -84,6 +86,13 @@
           </li>
         </ul>
       </div>
+      <div class="title">
+        <p class="big">功能亮点</p>
+        <p class="light">FUNCTIONAL HIGHTLIGHTS</p>
+      </div>
+      <div class="img mainer">
+        <img src="@/assets/www-img/images/spots.png" alt="">
+      </div>
     </div>
   </div>
 </template>
@@ -141,16 +150,22 @@ export default {
 
 .introItems {
   padding: 40px 0;
+}
+.pro-intro {
+  display: flex;
   .text {
     text-indent: 2em;
     line-height: 30px;
     color: #2E2E2E;
+    padding: 20px 40px;
+    flex: 1;
   }
-  .img {
-    margin: 40px auto;
+  .pro-picture {
+    width: 227px;
+    margin-left: 10px;
     img {
       display: block;
-      width:100%;
+      width: 100%;
     }
   }
 }
@@ -193,6 +208,13 @@ export default {
 }
 .solution {
   padding: 30px 0;
+  .img {
+    margin: 40px auto;
+    img {
+      display: block;
+      width:100%;
+    }
+  }
 }
 .sluItem {
   li {
