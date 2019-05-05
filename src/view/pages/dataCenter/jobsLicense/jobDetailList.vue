@@ -44,7 +44,7 @@
               </el-col>
               <el-col :span="10" :xs="12">
                 <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-                <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
+                <el-button size="mini" @click="resetQuery" style="padding:8px 20px 5px 20px;">重置</el-button>
               </el-col>
             </el-row>
           <!-- 查询条件 end-->
@@ -142,6 +142,8 @@ export default {
       if (to.path.indexOf('jobDetailList') === -1) {
         return
       }
+      this.reset()
+      this.paginationInit = this.$store.state.pagination
       this.jobDetailForm.ownerCodeScc = this.$route.query.ownerCodeScc
       this.search()
     }
@@ -156,6 +158,17 @@ export default {
     // 查询
     search () {
       this.queryList(this.$store.state.pagination)
+    },
+    // 重置查询条件
+    resetQuery () {
+      this.dates = ['', '']
+      this.jobDetailForm = {
+        ownerCodeScc: this.$route.query.ownerCodeScc,
+        keywords: '',
+        updateTimeStart: '',
+        updateTimeEnd: ''
+      }
+      this.search()
     },
     // 列表
     queryList (pagination) {
@@ -182,6 +195,8 @@ export default {
             this.ownerName = res.result.ownerName
             this.decCount = res.result.decCount
             this.edocCount = res.result.edocCount
+          } else {
+            this.resultJobList = []
           }
         }
       })
@@ -195,6 +210,9 @@ export default {
         updateTimeStart: '',
         updateTimeEnd: ''
       }
+      this.ownerName = ''
+      this.decCount = ''
+      this.edocCount = ''
     },
     // 跳转到详情页面
     toDetail (decPid, ownerCodeScc) {

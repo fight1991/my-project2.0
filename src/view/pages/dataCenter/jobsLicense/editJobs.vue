@@ -22,7 +22,6 @@
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
                     <el-button size="small" type="primary" v-else>上传附件</el-button>
                     </el-upload>
                   </el-col>
@@ -192,6 +191,7 @@ export default {
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, row) {
+      debugger
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -257,6 +257,7 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList, row) {
+      debugger
       for (let i = 0; i < this.row.fileLists.length; i++) {
         if (file.name === this.row.fileLists[i].name) {
           this.row.fileLists.splice(i, 1)

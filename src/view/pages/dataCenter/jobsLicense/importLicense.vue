@@ -49,13 +49,13 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" :xs='24'>
-                    <el-form-item label="单证编号:" prop="documentNo">
+                    <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-form-item label="单证文件:">
+                   <el-form-item label="单证文件:" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
                     <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item)}"
@@ -93,7 +93,9 @@ export default {
   data () {
     return {
       rules: {
-        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
+        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }],
+        documentUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
+        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }]
       },
       ownerCodeScc: '',
       resultTopData: {

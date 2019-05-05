@@ -37,7 +37,7 @@
           <el-form-item label="" prop="ifWarning">
             <el-checkbox label="需要进行到期预警" v-model="addForm.ifWarning" name="type" true-label='1' false-label='0'></el-checkbox>
           </el-form-item>
-          <el-form-item label="附件:">
+          <el-form-item label="附件:" prop="certificateUrl">
             <el-upload
               action="http://127.0.0.1"
               :before-upload="beforeUpload"
@@ -72,6 +72,7 @@ export default {
         corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
         certificateName: [{ required: true, message: '请输入证书名称', trigger: 'blur' }],
         certificateNo: [{ required: true, message: '请输入证书编号', trigger: 'blur' }],
+        certificateUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
         expiryDate: [{ required: true, message: '请选择到期时间', trigger: 'change' }]
       },
       addForm: {
@@ -164,6 +165,16 @@ export default {
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
+      this.type = ''
+      this.certificatePid = ''
+      this.corpListOptions = [] // 委托企业
+      this.fileLists = [] // 存放文件
+      this.fileType = true
+      this.isImg = false
+      this.isPdf = false
+      this.isWord = false
+      this.isExcel = false
+      this.isDetailAdd = false
     },
     // 编辑反显
     queryEdit () {

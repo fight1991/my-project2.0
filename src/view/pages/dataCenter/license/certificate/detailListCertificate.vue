@@ -46,7 +46,7 @@
                 </el-col>
                 <el-col :span="10" :xs="12">
                   <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-                  <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
+                  <el-button size="mini" @click="resetQuery" style="padding:8px 20px 5px 20px;">重置</el-button>
                 </el-col>
               </el-row>
             </el-form>
@@ -168,6 +168,8 @@ export default {
       if (to.path.indexOf('detailListCertificate') === -1) {
         return
       }
+      this.reset()
+      this.paginationInit = this.$store.state.pagination
       this.certificateDetailForm.sccCode = this.$route.query.sccCode
       this.search()
     }
@@ -208,16 +210,20 @@ export default {
     // 预警设置保存
     saveDialogForm () {
       let days = ''
-      if (this.setDialogForm.inputDays === '') {
+      if (this.setDialogForm.dateConfig !== '') {
         days = this.setDialogForm.dateConfig
+        this.saveDispatch(days)
       } else {
         days = this.setDialogForm.inputDays
         this.$refs['setDialogForm'].validate((valid) => {
           if (!valid) {
             return false
           }
+          this.saveDispatch(days)
         })
       }
+    },
+    saveDispatch (days) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/certificate/editTime',
         data: {sccCode: this.certificateDetailForm.sccCode, days: days},
@@ -235,6 +241,17 @@ export default {
     // 查询
     search () {
       this.queryList(this.$store.state.pagination)
+    },
+    // 重置查询条件
+    resetQuery () {
+      this.dates = ['', '']
+      this.certificateDetailForm = {
+        sccCode: this.$route.query.sccCode,
+        input: '',
+        startTime: '',
+        endTime: ''
+      }
+      this.search()
     },
     // 证书列表
     queryList (pagination) {
@@ -260,12 +277,16 @@ export default {
             this.paginationInit = res.page
             this.corpName = res.result.corpName
             this.count = res.result.count
+          } else {
+            this.certificateList = []
           }
         }
       })
     },
     // 重置
     reset () {
+      this.corpName = ''
+      this.count = ''
       this.certificateDetailForm = {
         sccCode: '',
         input: '',

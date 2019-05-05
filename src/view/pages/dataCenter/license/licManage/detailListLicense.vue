@@ -45,7 +45,7 @@
               </el-col>
               <el-col :span="10" :xs="12">
                 <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-                <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
+                <el-button size="mini" @click="resetQuery" style="padding:8px 20px 5px 20px;">重置</el-button>
               </el-col>
             </el-row>
           <!-- 查询条件 end-->
@@ -172,6 +172,8 @@ export default {
       if (to.path.indexOf('detailListLicense') === -1) {
         return
       }
+      this.reset()
+      this.paginationInit = this.$store.state.pagination
       this.detailForm.sccCode = this.$route.query.sccCode
       this.search()
     }
@@ -197,6 +199,17 @@ export default {
     search () {
       this.queryList(this.$store.state.pagination)
     },
+    // 重置查询条件
+    resetQuery () {
+      this.dates = ['', '']
+      this.detailForm = {
+        sccCode: this.$route.query.sccCode,
+        input: '',
+        startTime: '',
+        endTime: ''
+      }
+      this.search()
+    },
     // 列表
     queryList (pagination) {
       if (this.dates === '' || this.dates === null) {
@@ -221,12 +234,16 @@ export default {
             this.corpName = res.result.corpName
             this.count = res.result.count
             this.paginationInit = res.page
+          } else {
+            this.resultList = []
           }
         }
       })
     },
     // 重置
     reset () {
+      this.corpName = ''
+      this.count = ''
       this.detailForm = {
         sccCode: '',
         input: '',

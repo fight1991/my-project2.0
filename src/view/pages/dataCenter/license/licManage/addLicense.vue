@@ -51,7 +51,7 @@
                 </el-col>
               </el-row>
               <el-row>
-                <el-form-item label="许可证文件:">
+                <el-form-item label="许可证文件:" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
                   <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item)}"
@@ -169,7 +169,7 @@ export default {
       rules: {
         corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
-        // licenseUrl: [{ required: true, message: '', trigger: '' }],
+        licenseUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
