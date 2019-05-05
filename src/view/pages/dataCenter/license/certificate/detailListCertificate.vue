@@ -228,6 +228,7 @@ export default {
             type: 'success'
           })
           this.setDialogVisible = false
+          this.search()
         }
       })
     },
