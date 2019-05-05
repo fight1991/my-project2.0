@@ -170,14 +170,11 @@ export default {
   }
 }
 .proFlow {
-  background-color: #0B5BA0;
+  // background-color: #0B5BA0;
   padding: 30px 5px;
-  .big {
-    color:#fff;
-  }
   .line-arrow {
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-bottom: 30px;
   }
 }
 .function {
