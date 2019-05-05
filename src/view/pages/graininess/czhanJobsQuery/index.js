@@ -2,7 +2,7 @@
 const MENU = {
   path: '/graininess/czhanJobsQuery',
   name: 'graininess-czhanJobsQuery',
-  icon: 'icons-menu-queryList',
+  icon: 'icons-menu-czjbquery',
   permissions: 'CCBA21005000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {

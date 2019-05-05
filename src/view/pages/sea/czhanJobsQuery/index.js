@@ -2,7 +2,7 @@
 const MENU = {
   path: '/sea/czhanJobsQuery',
   name: 'sea-czhanJobsQuery',
-  icon: 'icons-menu-queryList',
+  icon: 'icons-menu-czjbquery',
   permissions: 'CCBA20905000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
