@@ -48,8 +48,8 @@
       <div class='query-table'>
         <!-- 按钮 -->
         <el-row class="op-btn">
-          <el-button size="mini" @click="openFun('add', 'add')" icon="fa fa-plus fa-lg">&nbsp;新增</el-button>
-          <el-button size="mini" @click="deleteFun" icon="fa fa-trash-o fa-lg">&nbsp;删除</el-button>
+          <el-button size="mini" class="list-btns list-icon-add" @click="openFun('add', 'add')"><i></i>&nbsp;新增</el-button>
+          <el-button size="mini" class="list-btns list-icon-delete" @click="deleteFun"><i></i>&nbsp;删除</el-button>
           <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
             <ul>
@@ -70,8 +70,8 @@
           <el-table-column type="selection" width="35"></el-table-column>
           <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="fa fa-pencil-square-o" title="编辑" @click="openFun('edit',scope.row)"></el-button>
-            <el-button size="mini" type="text" icon="fa fa-search" title="详情" @click="openFun('view',scope.row)"></el-button>
+            <el-button size="mini" class="table-icon list-icon-edit" type="text" title="编辑" @click="openFun('edit',scope.row)"><i></i></el-button>
+            <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="openFun('view',scope.row)"><i></i></el-button>
           </template>
           </el-table-column>
           <el-table-column label="进出口标识" min-width="100" prop="type" v-if="thList[0].value">
@@ -205,9 +205,9 @@
             </el-col>
           </el-row>
         </el-form>
-        <span slot="footer" class="dialog-footer"  v-if="!isDetail">
-          <el-button class="layer-btn-primary" @click="saveDialogForm" :disabled="isDetail">确定</el-button>
-          <el-button class="layer-btn" @click="cancleDialogForm" :disabled="isDetail">取消</el-button>
+        <span slot="footer"  v-if="!isDetail">
+          <el-button size="mini" type="primary" @click="saveDialogForm" :disabled="isDetail">确定</el-button>
+          <el-button size="mini" @click="cancleDialogForm" :disabled="isDetail">取消</el-button>
         </span>
       </el-dialog>
       <el-dialog
@@ -741,23 +741,5 @@ export default {
     cursor: pointer;
     text-decoration: none;
     color: #333333;
-  }
-  .el-select-dropdown__item.selected {
-        background: #0080ff;
-        color: #ffffff;
-    }
-  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
-      background: #dbed8a;
-      font-weight: bold;
-  }
-  .el-select-dropdown__item {
-      font-size: 12px;
-      padding: 0 15px;
-      height: 22px;
-      line-height: 22px;
-      border: #c0c0c0 solid 1px;
-  }
-  .el-select-dropdown__list {
-      padding: 0;
   }
 </style>
