@@ -3,7 +3,7 @@
     <!-- 查询条件 -->
     <div class="query-header">
       <el-form :model="queryForm" size="mini" label-width="105px">
-        <el-row :gutter="20">
+        <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="总运单号">
               <el-input v-model="queryForm.keywords" clearable></el-input>
@@ -44,6 +44,7 @@
           <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
         </el-upload>
         <el-button size="mini" class="list-btns list-icon-declare"><i></i>申报</el-button>
+        <el-button size="mini" class="list-btns list-icon-delete"><i></i>删除</el-button>
       </el-row>
       <el-row>
         <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini">
@@ -84,7 +85,7 @@
           </el-table-column>
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
-              <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情"><i></i></el-button>
+              <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail(scope.row)"><i></i></el-button>
               <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除"><i></i></el-button>
             </template>
           </el-table-column>
@@ -158,6 +159,15 @@ export default {
         })
       }
       return false
+    },
+    // 跳转到详情
+    toDetail (data) {
+      this.$router.push({
+        name: 'shipBillDetail',
+        params: {
+          id: '1'
+        }
+      })
     }
   }
 }
@@ -168,7 +178,7 @@ export default {
 }
 .list-btns{
   padding: 7px 10px;
-  margin-right: 3px;
+  margin: 0 3px 0 0;
   font-size: 14px;
   i{
     display: inline-block;
