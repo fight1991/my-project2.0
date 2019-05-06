@@ -306,7 +306,7 @@ export default {
           this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
           this.info.updateTime = util.dateFormat(this.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
           this.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
-          let url = res.result.info.licenseUrl
+          let url = this.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)
             if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {

@@ -18,11 +18,11 @@
                     :show-file-list="item.fileType"
                     :on-preview="showfileUrl"
                     :on-remove="(e)=>{handleDelete(e,item)}">
-                    <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
-                    <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <el-button size="small" type="primary" v-else>上传附件</el-button>
+                      <img v-if="item.isImg && !item.fileType" :src="item.documentUrl" class="detail-img">
+                      <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                      <el-button size="small" type="primary" v-else>上传附件</el-button>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
@@ -41,7 +41,7 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
-                    <el-form-item label="单证编号:" prop="documentNo">
+                    <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
@@ -73,7 +73,7 @@ export default {
       submitData: {
         licenseList: [{
           documentNo: '',
-          documentTypeValue: '',
+          documentType: '',
           documentUrl: '',
           fileLists: [], // 存放文件
           fileType: true,
@@ -93,7 +93,17 @@ export default {
   created () {
     this.decPid = this.$route.query.decPid
     this.ownerCodeScc = this.$route.query.ownerCodeScc
-    this.submitData.licenseList = []
+    this.submitData.licenseList = [{
+      documentNo: '',
+      documentType: '',
+      documentUrl: '',
+      fileLists: [],
+      fileType: true,
+      isImg: false,
+      isPdf: false,
+      isWord: false,
+      isExcel: false
+    }]
     this.getCommonParams()
     this.querylist()
   },
@@ -105,7 +115,17 @@ export default {
       }
       this.decPid = this.$route.query.decPid
       this.ownerCodeScc = this.$route.query.ownerCodeScc
-      this.submitData.licenseList = []
+      this.submitData.licenseList = [{
+        documentNo: '',
+        documentType: '',
+        documentUrl: '',
+        fileLists: [],
+        fileType: true,
+        isImg: false,
+        isPdf: false,
+        isWord: false,
+        isExcel: false
+      }]
       this.getCommonParams()
       this.querylist()
     }
@@ -119,7 +139,7 @@ export default {
         router: this.$router,
         success: (res) => {
           this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
-          res.result.forEach(item => {
+          this.submitData.licenseList.forEach(item => {
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -150,6 +170,7 @@ export default {
                   item.isExcel = true
                 }
               }
+              item.fileLists = [{url: item.documentUrl}]
             }
           })
         }
@@ -164,6 +185,19 @@ export default {
       this.$refs['submitData'].validate((valId) => {
         if (!valId) {
           return false
+        }
+        let list = []
+        list = this.submitData.licenseList
+        for (let i = 0; i < list.length; i++) {
+          for (let j = list.length - 1; j > i; j--) {
+            if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
+              this.$message({
+                message: '此单证类型和单证编号已存在',
+                type: 'error'
+              })
+              return
+            }
+          }
         }
         let data = {
           ownerCodeScc: this.ownerCodeScc,
@@ -218,6 +252,7 @@ export default {
           router: this.$router,
           success: (res) => {
             row.documentUrl = res.result.url
+            row.fileLists = []
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
               row.fileType = false
               row.isImg = true
@@ -249,6 +284,8 @@ export default {
                 row.isExcel = true
               }
             }
+            this.submitData.licenseList.push({})
+            this.submitData.licenseList.pop()
           }
         })
       }
