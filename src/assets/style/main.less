@@ -679,7 +679,94 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       vertical-align: middle;
     }
   }
-  
+  // 按钮样式
+  .list-btns{
+    padding: 7px 10px;
+    margin-right: 3px;
+    font-size: 14px;
+    i{
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      margin-top: -2px;
+    }
+  }
+  .list-icon-add{
+    i{
+      background: url('../../assets/img/icon/icon-add.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-addH.png') no-repeat;
+    }
+  }
+  .list-icon-look{
+    i{
+      background: url('../../assets/img/icon/icon-look.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-lookH.png') no-repeat;
+    }
+  }
+  .list-icon-import{
+    i{
+      background: url('../../assets/img/icon/icon-import.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-importH.png') no-repeat;
+    }
+  }
+  .list-icon-declare{
+    i{
+      background: url('../../assets/img/icon/icon-declare.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-declareH.png') no-repeat;
+    }
+  }
+  .list-icon-delete{
+    i{
+      background: url('../../assets/img/icon/icon-delete.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-deleteH.png') no-repeat;
+    }
+  }
+  .table-icon{
+    margin: 0;
+    i{
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      margin-top: -2px;
+    }
+  }
+  // 表格form样式
+  .form-table-panel{
+    border: 1px solid #b7b7b7;
+    border-bottom: none;
+    border-right: none;
+    .el-form-item--mini.el-form-item{
+      margin-bottom: 0;
+    }
+    .el-row{
+      border-bottom: 1px solid #b7b7b7;
+      .el-form-item__label{
+        border-right: 1px solid #b7b7b7;
+        padding: 0 8px 0 0;
+      }
+      .el-form-item__content{
+        border-right: 1px solid #b7b7b7;
+      }
+      .el-input__inner{
+        border: none;
+        padding: 0 0 0 10px;
+      }
+    }
+  }
 }
 // 历史商品弹框样式
 .sys-dec-class{
