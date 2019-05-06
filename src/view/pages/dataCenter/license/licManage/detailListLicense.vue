@@ -101,7 +101,7 @@
                         <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
                         <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
                         <el-button type="text" @click="previewPicture(scope.row)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
-                        <el-button type="text" @click="deleteBtn(scope.row.licensePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
+                        <el-button type="text" @click="deleteBtn(scope.row.licensePid,scope.row.lastCount)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -268,12 +268,29 @@ export default {
       util.fileView(file.licenseUrl)
     },
     // 删除
-    deleteBtn (val) {
-      this.$confirm('确认删除吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+    deleteBtn (val, num) {
+      let lastCount = parseInt('num')
+      if (lastCount > 0) {
+        this.$confirm('当前许可证尚有可用数量的剩余，若进行删除，可能影响后续报关，是否确定删除当前许可证？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('ajax', {
+            url: 'API@/saas-document-center/license/delete',
+            data: {pid: val},
+            router: this.$router,
+            success: (res) => {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              this.search()
+            }
+          })
+        }).catch(() => {
+        })
+      } else {
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/license/delete',
           data: {pid: val},
@@ -286,8 +303,7 @@ export default {
             this.search()
           }
         })
-      }).catch(() => {
-      })
+      }
     }
   }
 }

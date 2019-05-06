@@ -176,7 +176,7 @@ export default {
         goodInput: [{ required: true, message: '请输入涉证商品', trigger: 'change' }]
       },
       dialogRule: {
-        gNo: [{ required: true, validator: validator.Zz0, message: '请输入商品编号(数字)', trigger: 'blur' }],
+        gNo: [{ required: true, validator: this.checkValidNum, message: '请输入商品编号(数字)', trigger: 'blur' }],
         gName: [{ validator: this.checkValid, message: '商品名称为中英文', trigger: 'blur' }],
         declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
@@ -276,6 +276,21 @@ export default {
         callback(new Error(''))
       } else {
         const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
+        if (!pattern.test(value)) {
+          this.$refs['goodsDialog'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
+    },
+    // 校验
+    checkValidNum (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['goodsDialog'].clearValidate()
+        callback(new Error(''))
+      } else {
+        const pattern = /^[0-9]+$/
         if (!pattern.test(value)) {
           this.$refs['goodsDialog'].clearValidate()
           callback(new Error(''))
@@ -428,7 +443,8 @@ export default {
           isImg: false,
           isPdf: false,
           isWord: false,
-          isExcel: false
+          isExcel: false,
+          goodInput: ''
         },
         goods: []
       })
@@ -458,6 +474,15 @@ export default {
           list[i].info.corpName = this.addForm.corpName
           list[i].info.ownerCodeScc = this.addForm.ownerCodeScc
           list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
+          for (let k = 0; k < list[i].goods.length; k++) {
+            if (util.isEmpty(list[i].goods[k].gNo) || util.isEmpty(list[i].goods[k].declaredQuantity)) {
+              this.$message({
+                message: '商品编号和商品数量不能为空',
+                type: 'error'
+              })
+              return
+            }
+          }
         }
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/license/save',
