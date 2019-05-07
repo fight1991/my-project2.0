@@ -22,7 +22,7 @@ export default {
   },
   mutations: {
     // 关闭页签:data :url 或 tabId
-    close (state, data) {
+    CloseTab (state, data) {
       let index = 0
       for (let x in state.tabsList) {
         if ((state.tabsList[x].path === data || state.tabsList[x].tabId === data) && !state.tabsList[x].isDel) {

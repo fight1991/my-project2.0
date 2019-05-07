@@ -95,7 +95,7 @@ export default {
             break
           case 'close':
             // close： 关闭指定的tab
-            store.commit('close', sysData.tabId)
+            store.commit('CloseTab', sysData.tabId)
             break
           case 'refresh':
             let index = 0
@@ -156,7 +156,7 @@ export default {
     },
     // 移除页签
     delTab (tabName) {
-      this.$store.commit('close', tabName)
+      this.$store.commit('CloseTab', tabName)
     },
     // 关闭所有或其他页签
     closeTabs (tag) {
