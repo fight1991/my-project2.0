@@ -3,8 +3,8 @@
       <!-- 头部 -->
       <el-row class = "query-condition">
       <!-- 查询条件 -->
-        <el-form label-width="100px" label-position="right" :model="queryForm" ref="queryForm">
-          <el-row :gutter="10">
+        <el-form label-width="95px" label-position="right" :model="queryForm" ref="queryForm">
+          <el-row :gutter="30">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识" prop='type'>
               <el-select placeholder="" size="mini" v-model="queryForm.type"
@@ -47,7 +47,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 按钮 -->
-        <el-row class="op-btn">
+        <el-row class="mg-b-15">
           <el-button size="mini" class="list-btns list-icon-add" @click="openFun('add', 'add')"><i></i>&nbsp;新增</el-button>
           <el-button size="mini" class="list-btns list-icon-delete" @click="deleteFun"><i></i>&nbsp;删除</el-button>
           <div class="airvehicle-list-drop">
@@ -57,10 +57,10 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" slot="reference"><i class="fa fa-list fa-lg" style="vertical-align: sub; margin-left: 5px"></i></el-button>
+            <el-button size="mini" slot="reference"><i class="fa fa-list fa-lg" style="vertical-align: sub;"></i></el-button>
           </el-popover>
         </div>
-          <span class="span-right">已选择{{checkedNum}}项</span>
+          <span class="span-right" style="font-size: 14px; color: #606266;">已选择{{checkedNum}}项</span>
         </el-row>
         <!-- 列表 list -->
         <el-table class='sys-table-table'
@@ -70,13 +70,19 @@
           <el-table-column type="selection" width="35"></el-table-column>
           <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="mini" class="table-icon list-icon-edit" type="text" title="编辑" @click="openFun('edit',scope.row)"><i></i></el-button>
-            <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="openFun('view',scope.row)"><i></i></el-button>
+            <div class='sys-td-c'>
+              <el-button size="mini" class="table-icon list-icon-edit" type="text" title="编辑" @click="openFun('edit',scope.row)"><i></i></el-button>
+              <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="openFun('view',scope.row)"><i></i></el-button>
+            </div>
           </template>
           </el-table-column>
           <el-table-column label="进出口标识" min-width="100" prop="type" v-if="thList[0].value">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>{{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}</div>
+            </template>
           </el-table-column>
           <el-table-column label="境内收发货人" min-width="150" prop="tradeName" v-if="thList[1].value">
+
           </el-table-column>
           <el-table-column label="商品编码" min-width="150" prop="codeTs" v-if="thList[2].value">
           </el-table-column>
@@ -86,14 +92,17 @@
           </el-table-column>
           <el-table-column label="单价" min-width="80" prop="declPrice" v-if="thList[5].value">
             <template slot-scope="scope">
-              {{scope.row.declPrice+''}}
+              <div class='sys-td-r'>{{scope.row.declPrice+''}}</div>
             </template>
           </el-table-column>
           <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[6].value">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>{{scope.row.tradeCurrValue}}</div>
+            </template>
           </el-table-column>
           <el-table-column label="浮动区间" min-width="80" prop="bandArea" v-if="thList[7].value">
           <template slot-scope="scope">
-            <span>{{scope.row.bandArea+''}}%</span>
+            <div class='sys-td-r'>{{scope.row.bandArea+''}}%</div>
           </template>
         </el-table-column>
           <el-table-column label="原产国" min-width="80" prop="originCountryValue" v-if="thList[8].value">
@@ -107,8 +116,8 @@
         </el-row>
       </div>
       <el-dialog title="价格提示" :visible.sync="priceDialogVisible" :close-on-click-modal="false" width="950px">
-        <el-form label-width="150px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
-          <el-row>
+        <el-form label-width="120px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
+          <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="进出口标识" prop='type'>
                 <el-select placeholder="" v-model="priceDialogForm.type"
@@ -149,7 +158,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="商品编号" prop='codeTs'>
                 <el-input v-model="priceDialogForm.codeTs"
@@ -170,7 +179,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="30">
             <el-col :span="8">
             <el-form-item label="单价" prop='declPrice'>
               <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :disabled="isDetail" :maxlength="19"></el-input>
@@ -414,7 +423,10 @@ export default {
         router: this.$router,
         success: (res) => {
           if (res.code === '0000') {
-            this.$message(res.message)
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
             this.queryList(this.$store.state.pagination)
           } else {
             this.$message({
@@ -435,7 +447,10 @@ export default {
             router: this.$router,
             success: (res) => {
               if (res.code === '0000') {
-                this.$message(res.message)
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                })
                 this.resetDialogForm()
                 this.priceDialogVisible = false
                 this.queryList(this.$store.state.pagination)
@@ -681,17 +696,8 @@ export default {
     padding: 20px;
     margin-top: 20px;
   }
-  .op-btn {
-    margin-bottom: 14px;
-  }
   .query-btn {
     text-align: center;
-  }
-  .icon-btn {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
   }
   .m-r-10{
     margin-right: 10px;

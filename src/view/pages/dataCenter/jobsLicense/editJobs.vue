@@ -22,12 +22,14 @@
                       <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <el-button size="small" type="primary" v-else>上传附件</el-button>
+                      <el-row  v-else>
+                        <el-button size="small" type="primary">上传附件</el-button>
+                      </el-row>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
-                      <el-select placeholder="请选择单证类型" v-model="item.documentType"
+                      <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
                       remote filterable clearable
                       @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
                       :remote-method="checkParamsList"
@@ -220,6 +222,7 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
+            this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
               path: '/dataCenter/jobsLicense/jobDetailList',
               query: {
@@ -368,6 +371,7 @@ export default {
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {

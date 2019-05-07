@@ -1,25 +1,25 @@
 <template>
   <section class='sys-main'>
     <el-row class = "query-condition">
-        <el-form label-width="150px" :model="info" ref="info" :rules="rules" size="mini" label-position="right">
+        <el-form label-width="150px" :model="subData" ref="subData" :rules="rules" size="mini" label-position="right">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="委托企业" prop="corpName">
+              <el-form-item label="委托企业" prop="info.corpName" :rules="rules.corpName">
                 <el-autocomplete
                 size='mini' style="width:100%"
                 :disabled="isDetail"
                 placeholder="输入2个字后搜索"
                 @select="handleSelect($event)"
                 :maxlength="20"
-                v-model="info.corpName"
+                v-model="subData.info.corpName"
                 :fetch-suggestions="querySearch"
                 :trigger-on-focus="false">
                 </el-autocomplete>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="许可证类型"  prop="licenseType" ref="licenseType">
-                <el-select placeholder="请选择许可证类型" v-model="info.licenseType"
+              <el-form-item label="许可证类型" prop="info.licenseType" :rules="rules.licenseType">
+                <el-select placeholder="请选择许可证类型" v-model="subData.info.licenseType"
                 remote filterable clearable
                 :disabled="isDetail"
                 @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
@@ -38,26 +38,26 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12" :xs='24'>
-              <el-form-item label="许可证编号:"  prop="licenseNo">
-                <el-input clearable size="mini" :maxlength="30" v-model="info.licenseNo" :disabled="isDetail"></el-input>
+              <el-form-item label="许可证编号:" prop="info.licenseNo" :rules="rules.licenseNo">
+                <el-input clearable size="mini" :maxlength="30" v-model="subData.info.licenseNo" :disabled="isDetail"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="有效截止日期"  prop="expiryDate">
-                <el-date-picker size="mini" type="date" style="width:100%" v-model="info.expiryDate" :disabled="isDetail"></el-date-picker>
+              <el-form-item label="有效截止日期" prop="info.expiryDate" :rules="rules.expiryDate">
+                <el-date-picker size="mini" type="date" style="width:100%" v-model="subData.info.expiryDate" :disabled="isDetail"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12" :xs='24'>
-              <el-form-item label="上传时间">
-                <el-input clearable size="mini" v-model="info.updateTime" disabled></el-input>
+              <el-form-item label="上传时间" prop="info.updateTime" :rules="rules.updateTime">
+                <el-input clearable size="mini" v-model="subData.info.updateTime" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :xs='24'>
-              <el-form-item label="可用次数" prop="availableNum" >
+              <el-form-item label="可用次数" prop="info.availableNum" :rules="rules.availableNum" >
                 <el-select style="width:100%"
-                  v-model="info.availableNum"
+                  v-model="subData.info.availableNum"
                   :disabled="isDetail"
                   filterable remote clearable
                   placeholder="请选择许可证可用次数">
@@ -72,20 +72,26 @@
               <el-form-item label="涉证商品">
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
-                  :data="goods">
+                  :data="subData.goods">
                   <el-table-column label="商品名称" min-width="100" :maxlength="10">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
+                      <el-form-item label-width="0px">
+                        <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
+                      </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="商品编号" min-width="100" :maxlength="20">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
+                        <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
+                      </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
+                        <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
+                      </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100">
@@ -104,7 +110,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="许可证文件:">
+            <el-form-item label="许可证文件:" prop="info.licenseUrl" :rules="rules.licenseUrl">
               <el-upload
               :disabled="isDetail"
               action="http://127.0.0.1"
@@ -112,10 +118,10 @@
               :file-list="fileLists"
               :show-file-list="fileType"
               :on-preview="showfileUrl">
-              <img v-if="isImg  && !fileType" :src="info.licenseUrl" class="detail-img">
-              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(info.licenseUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(info.licenseUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(info.licenseUrl)" class="detail-img">
+              <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-button size="small" type="primary">点击图片重新上传</el-button>
             </el-upload>
             </el-form-item>
@@ -131,39 +137,45 @@
 </template>
 
 <script>
+import validator from '../../../../../common/validator'
 import util from '../../../../../common/util'
 import commonParam from '../../../../../common/commonParam'
 export default {
   data () {
     return {
       rules: {
-        corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
+        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'blur' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
+        licenseUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
-        availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }]
+        availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }],
+        gNo: [{ required: true, validator: this.checkvalidate, message: '请输入商品编号(数字)', trigger: 'blur' }],
+        declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
       controller: {
         requiredColor: true
       },
       isDetail: false,
-      info: {
-        corpName: '',
-        licensePid: '',
-        ownerCodeScc: '',
-        licenseType: '',
-        licenseUrl: '',
-        licenseNo: '',
-        expiryDate: '',
-        updateTime: '',
-        availableNum: ''
+      subData: {
+        info: {
+          corpName: '',
+          licensePid: '',
+          ownerCodeScc: '',
+          licenseType: '',
+          licenseUrl: '',
+          licenseNo: '',
+          expiryDate: '',
+          updateTime: '',
+          availableNum: ''
+        },
+        goods: [{
+          gName: '',
+          gNo: '',
+          declaredQuantity: '',
+          availableQuantity: ''
+        }]
       },
-      goods: [{
-        gName: '',
-        gNo: '',
-        declaredQuantity: '',
-        availableQuantity: ''
-      }],
       type: '',
       corpListOptions: [], // 委托企业
       fileLists: [], // 存放文件
@@ -184,8 +196,8 @@ export default {
     this.corpList()
     this.getCommonParams()
     this.type = this.$route.params.type
-    this.info.licensePid = this.$route.params.id
-    this.info.ownerCodeScc = this.$route.params.ownerCodeScc
+    this.subData.info.licensePid = this.$route.params.id
+    this.subData.info.ownerCodeScc = this.$route.params.ownerCodeScc
     if (this.type === 'detail') {
       this.isDetail = true
     } else {
@@ -203,8 +215,8 @@ export default {
       this.corpList()
       this.getCommonParams()
       this.type = this.$route.params.type
-      this.info.licensePid = this.$route.params.id
-      this.info.ownerCodeScc = this.$route.params.ownerCodeScc
+      this.subData.info.licensePid = this.$route.params.id
+      this.subData.info.ownerCodeScc = this.$route.params.ownerCodeScc
       if (this.type === 'detail') {
         this.isDetail = true
       } else {
@@ -215,29 +227,62 @@ export default {
   },
   methods: {
     handleSelect (item) {
-      this.info.ownerCodeScc = item.ownerCodeScc
+      this.subData.info.ownerCodeScc = item.ownerCodeScc
     },
     // 重置
     reset () {
-      this.info = {
-        corpName: '',
-        ownerCodeScc: '',
-        licenseType: '',
-        licenseUrl: '',
-        licenseNo: '',
-        expiryDate: '',
-        updateTime: '',
-        availableNum: ''
+      this.subData = {
+        info: {
+          corpName: '',
+          licensePid: '',
+          ownerCodeScc: '',
+          licenseType: '',
+          licenseUrl: '',
+          licenseNo: '',
+          expiryDate: '',
+          updateTime: '',
+          availableNum: ''
+        },
+        goods: [{
+          gName: '',
+          gNo: '',
+          declaredQuantity: '',
+          availableQuantity: ''
+        }]
       }
-      this.goods = [{
-        gName: '',
-        gNo: '',
-        declaredQuantity: '',
-        availableQuantity: ''
-      }]
       this.$nextTick(() => {
-        this.$refs['info'].clearValidate()
+        this.$refs['subData'].clearValidate()
       })
+    },
+    // 校验委托企业
+    checkValid (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['subData'].clearValidate()
+        callback(new Error(''))
+      } else {
+        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
+        if (!pattern.test(value)) {
+          this.$refs['subData'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
+    },
+    // 校验商品编码
+    checkvalidate (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['subData'].clearValidate()
+        callback(new Error(''))
+      } else {
+        const pattern = /^[0-9]+$/
+        if (!pattern.test(value)) {
+          this.$refs['subData'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
     },
     // 编辑
     edit () {
@@ -245,7 +290,7 @@ export default {
     },
     // 更多上传
     addRelatedGoods () {
-      this.goods.push({
+      this.subData.goods.push({
         gName: '',
         gNo: '',
         declaredQuantity: '',
@@ -254,22 +299,18 @@ export default {
     },
     // 保存
     submit () {
-      this.$refs['info'].validate((valId) => {
+      this.$refs['subData'].validate((valId) => {
         if (!valId) {
           return false
         }
         if (this.fileLists.length > 0 && this.fileType) {
-          this.info.licenseUrl = this.fileLists[0].url
+          this.subData.info.licenseUrl = this.fileLists[0].url
         }
-        this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
-        this.info.updateTime = ''
-        let data = {
-          info: this.info,
-          goods: this.goods
-        }
+        this.subData.info.expiryDate = util.dateFormat(this.subData.info.expiryDate, 'yyyy-MM-dd')
+        this.subData.info.updateTime = ''
         this.$store.dispatch('ajax', {
           url: 'API@/saas-document-center/license/edit',
-          data: data,
+          data: this.subData,
           router: this.$router,
           success: (res) => {
             this.$message({
@@ -279,7 +320,7 @@ export default {
             this.$router.push({
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
-                sccCode: this.info.ownerCodeScc
+                sccCode: this.subData.info.ownerCodeScc
               }
             })
           }
@@ -290,7 +331,7 @@ export default {
       this.$router.push({
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
-          sccCode: this.info.ownerCodeScc
+          sccCode: this.subData.info.ownerCodeScc
         }
       })
     },
@@ -298,14 +339,17 @@ export default {
     querylist () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/license/queryDetail',
-        data: {pid: this.info.licensePid},
+        data: {pid: this.subData.info.licensePid},
         router: this.$router,
         success: (res) => {
-          this.info = res.result.info
-          this.info.expiryDate = util.dateFormat(this.info.expiryDate, 'yyyy-MM-dd')
-          this.info.updateTime = util.dateFormat(this.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
-          this.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
-          let url = this.info.licenseUrl
+          this.tipsFillMessage('saasLicType', 'SAAS_LICENSEDOCU')
+          this.subData = res.result
+          this.subData.info = res.result.info
+          this.checkParamsList(this.subData.info.licenseType)
+          this.subData.info.expiryDate = util.dateFormat(this.subData.info.expiryDate, 'yyyy-MM-dd')
+          this.subData.info.updateTime = util.dateFormat(this.subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
+          this.subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
+          let url = this.subData.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)
             if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
@@ -347,7 +391,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.goods.splice(index, 1)
+        this.subData.goods.splice(index, 1)
       }).catch(() => {
       })
     },
@@ -368,7 +412,7 @@ export default {
     },
     // 输入2个字后搜索
     querySearch (queryString, cb) {
-      if (this.info.corpName.length < 2) {
+      if (this.subData.info.corpName.length < 2) {
         return
       }
       let restaurants = this.corpListOptions
@@ -414,7 +458,7 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
-            this.info.licenseUrl = res.result.url
+            this.subData.info.licenseUrl = res.result.url
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
               this.fileType = false
               this.isImg = true
