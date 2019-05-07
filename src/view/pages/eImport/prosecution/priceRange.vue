@@ -116,7 +116,7 @@
         </el-row>
       </div>
       <el-dialog title="价格提示" :visible.sync="priceDialogVisible" :close-on-click-modal="false" width="950px">
-        <el-form label-width="120px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
+        <el-form label-width="130px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="进出口标识" prop='type'>
