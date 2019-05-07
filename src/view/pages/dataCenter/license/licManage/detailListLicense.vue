@@ -15,7 +15,7 @@
       <el-row class = "query-table">
         <el-row>
           <el-col :span="12">
-            委托企业:{{corpName}}
+            委托企业:{{detailForm.corpName}}
           </el-col>
           <el-col :span="12">
             许可证数:{{count + ''}}
@@ -142,12 +142,12 @@ export default {
   data () {
     return {
       detailForm: {
+        corpName: '',
         sccCode: '',
         input: '',
         startTime: '',
         endTime: ''
       },
-      corpName: '',
       count: '',
       dates: ['', ''],
       resultList: [
@@ -164,6 +164,7 @@ export default {
     this.reset()
     this.paginationInit = this.$store.state.pagination
     this.detailForm.sccCode = this.$route.query.sccCode
+    this.detailForm.corpName = this.$route.query.corpName
     this.search()
   },
   watch: {
@@ -175,6 +176,7 @@ export default {
       this.reset()
       this.paginationInit = this.$store.state.pagination
       this.detailForm.sccCode = this.$route.query.sccCode
+      this.detailForm.corpName = this.$route.query.corpName
       this.search()
     }
   },
@@ -191,7 +193,7 @@ export default {
         path: '/dataCenter/licenses/license/addLicense',
         query: {
           ownerCodeScc: this.detailForm.sccCode,
-          corpName: this.corpName
+          corpName: this.detailForm.corpName
         }
       })
     },
@@ -204,6 +206,7 @@ export default {
       this.dates = ['', '']
       this.detailForm = {
         sccCode: this.$route.query.sccCode,
+        corpName: this.$route.query.corpName,
         input: '',
         startTime: '',
         endTime: ''
@@ -231,7 +234,6 @@ export default {
         success: (res) => {
           if (!util.isEmpty(res.result)) {
             this.resultList = util.isEmpty(res.result.licenses) ? [] : res.result.licenses
-            this.corpName = res.result.corpName
             this.count = res.result.count
             this.paginationInit = res.page
           } else {
@@ -242,10 +244,10 @@ export default {
     },
     // 重置
     reset () {
-      this.corpName = ''
       this.count = ''
       this.detailForm = {
         sccCode: '',
+        corpName: '',
         input: '',
         startTime: '',
         endTime: ''

@@ -16,7 +16,7 @@
         <el-row class = "query-table">
           <el-row>
             <el-col :span="12">
-              委托企业:{{corpName}}
+              委托企业:{{certificateDetailForm.corpName}}
             </el-col>
             <el-col :span="12">
               证书数:{{count}}
@@ -144,15 +144,16 @@ export default {
         inputDays: ''
       },
       isDisabled: true,
-      corpName: '',
       count: '',
       certificateDetailForm: {
+        corpName: '',
         sccCode: '',
         input: '',
         startTime: '',
         endTime: ''
       },
       dates: ['', ''],
+      warningDays: '',
       certificateList: [] // 表格数据
     }
   },
@@ -160,6 +161,7 @@ export default {
     this.reset()
     this.paginationInit = this.$store.state.pagination
     this.certificateDetailForm.sccCode = this.$route.query.sccCode
+    this.certificateDetailForm.corpName = this.$route.query.corpName
     this.search()
   },
   watch: {
@@ -171,6 +173,7 @@ export default {
       this.reset()
       this.paginationInit = this.$store.state.pagination
       this.certificateDetailForm.sccCode = this.$route.query.sccCode
+      this.certificateDetailForm.corpName = this.$route.query.corpName
       this.search()
     }
   },
@@ -184,8 +187,16 @@ export default {
     // 打开预警设置弹出框
     warningSet () {
       this.setDialogVisible = true
-      this.setDialogForm.inputDays = ''
-      this.setDialogForm.dateConfig = '30'
+      if (util.isEmpty(this.warningDays)) {
+        this.setDialogForm.inputDays = ''
+        this.setDialogForm.dateConfig = '30'
+      } else if (parseInt(this.warningDays) === 5 || parseInt(this.warningDays) === 15 || parseInt(this.warningDays) === 30) {
+        this.setDialogForm.dateConfig = this.warningDays + ''
+        this.setDialogForm.inputDays = ''
+      } else {
+        this.setDialogForm.dateConfig = ''
+        this.setDialogForm.inputDays = this.warningDays + ''
+      }
       this.$nextTick(() => {
         this.$refs['setDialogForm'].clearValidate()
       })
@@ -226,7 +237,7 @@ export default {
     saveDispatch (days) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/certificate/editTime',
-        data: {sccCode: this.certificateDetailForm.sccCode, days: days},
+        data: {corpName: this.certificateDetailForm.corpName, days: days},
         router: this.$router,
         success: (res) => {
           this.$message({
@@ -275,8 +286,8 @@ export default {
           if (!util.isEmpty(res.result)) {
             this.certificateList = util.isEmpty(res.result.certificateInfoVOS) ? [] : res.result.certificateInfoVOS
             this.paginationInit = res.page
-            this.corpName = res.result.corpName
             this.count = res.result.count
+            this.warningDays = res.result.warningDays
           } else {
             this.certificateList = []
           }
@@ -285,9 +296,9 @@ export default {
     },
     // 重置
     reset () {
-      this.corpName = ''
       this.count = ''
       this.certificateDetailForm = {
+        corpName: '',
         sccCode: '',
         input: '',
         startTime: '',
@@ -301,7 +312,7 @@ export default {
         path: '/dataCenter/licenses/certificate/addCertificate',
         query: {
           ownerCodeScc: this.certificateDetailForm.sccCode,
-          corpName: this.corpName
+          corpName: this.certificateDetailForm.corpName
         }
       })
     },
