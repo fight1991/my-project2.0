@@ -22,7 +22,9 @@
                       <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <el-button size="small" type="primary" v-else>上传附件</el-button>
+                      <el-row  v-else>
+                        <el-button size="small" type="primary">上传附件</el-button>
+                      </el-row>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">

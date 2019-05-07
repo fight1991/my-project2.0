@@ -3,8 +3,8 @@
     <!-- 查询条件 -->
     <div class = "query-condition">
       <!-- -->
-      <el-form label-width="150px" :model="shipForm" size="mini" label-position="right">
-        <el-row :gutter="10">
+      <el-form label-width="95px" :model="shipForm" size="mini" label-position="right">
+        <el-row :gutter="50">
           <el-col :span="8">
               <el-form-item label="进出境关别" prop='iEPort'>
                 <el-select placeholder="" v-model="shipForm.iEPort"
@@ -66,7 +66,7 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <!-- 操作 -->
-       <el-row class="op-btn">
+       <el-row class="mg-b-15">
         <el-button @click="openFun('add', 'add')" class="list-btns list-icon-add" size="mini"><i></i>&nbsp;新增</el-button>
         <el-button @click="deleteInfo" class="list-btns list-icon-delete" size="mini"><i></i>&nbsp;删除</el-button>
         <el-dropdown trigger="click">
@@ -84,7 +84,7 @@
             <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span class="span-right">已选择{{checkedNum}}项</span>
+        <span class="span-right" style="font-size: 14px; color: #606266;">已选择{{checkedNum}}项</span>
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="shipList"
@@ -93,13 +93,26 @@
         <el-table-column type="selection" width="35"></el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" class="table-icon list-icon-edit" title="编辑" @click="openFun('edit', scope.row)"><i></i></el-button>
-            <el-button size="mini" type="text" class="table-icon list-icon-look" title="详情" @click="openFun('view', scope.row)"><i></i></el-button>
+            <div class='sys-td-c'>
+              <el-button size="mini" type="text" class="table-icon list-icon-edit" title="编辑" @click="openFun('edit', scope.row)"><i></i></el-button>
+              <el-button size="mini" type="text" class="table-icon list-icon-look" title="详情" @click="openFun('view', scope.row)"><i></i></el-button>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column label="进出境关别" prop="iEPortValue" min-width="80"></el-table-column>
-        <el-table-column label="入/离境口岸" prop="entyPortCodeValue" min-width="110"></el-table-column>
-        <el-table-column label="运输方式" prop="trafModeValue" min-width="100"></el-table-column>
+        <el-table-column label="进出境关别" prop="iEPortValue" min-width="80">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.iEPortValue}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="入/离境口岸" prop="entyPortCodeValue" min-width="110">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.entyPortCodeValue}}</div>
+          </template></el-table-column>
+        <el-table-column label="运输方式" prop="trafModeValue" min-width="100">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>{{scope.row.trafModeValue}}</div>
+          </template>
+        </el-table-column>
       </el-table>
       <!--分页-->
       <el-row class='sys-page-list'>
@@ -170,9 +183,9 @@
             </el-col>
           </el-row>
       </el-form>
-      <span slot="footer" class="dialog-footer" v-if="!isDetail">
-        <el-button type="primary" @click="saveDialogForm">确定</el-button>
-        <el-button @click="cancleDialogForm" >取消</el-button>
+      <span slot="footer" v-if="!isDetail">
+        <el-button size="mini" type="primary" @click="saveDialogForm">确定</el-button>
+        <el-button size="mini"  @click="cancleDialogForm" >取消</el-button>
       </span>
     </el-dialog>
   </section>
@@ -277,7 +290,10 @@ export default {
         router: this.$router,
         success: (res) => {
           if (res.code === '0000') {
-            this.$message(res.message)
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
             this.pageList(this.$store.state.pagination)
           } else {
             this.$message({
@@ -434,8 +450,10 @@ export default {
             router: this.$router,
             success: (res) => {
               if (res.code === '0000') {
-                this.$message(res.message)
-                this.resetDialogForm()
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                })
                 this.trafModeTipsVisible = false
                 this.pageList(this.$store.state.pagination)
               } else {
@@ -486,9 +504,6 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
-  }
-  .op-btn {
-    margin-bottom: 14px;
   }
   .query-btn {
     text-align: center;
