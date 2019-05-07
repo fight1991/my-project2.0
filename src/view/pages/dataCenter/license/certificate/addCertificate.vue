@@ -141,6 +141,7 @@ export default {
   methods: {
     // 返回按钮
     back () {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         name: 'certificate'
       })
@@ -405,10 +406,12 @@ export default {
               message: message,
               type: 'success'
             })
+            this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
               path: '/dataCenter/licenses/certificate/detailListCertificate',
               query: {
-                sccCode: this.addForm.ownerCodeScc
+                sccCode: this.addForm.ownerCodeScc,
+                corpName: this.addForm.corpName
               }
             })
           }

@@ -217,6 +217,7 @@ export default {
     },
     // 跳转到编辑页面
     toEdit (decPid, ownerCodeScc) {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
@@ -227,6 +228,7 @@ export default {
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {

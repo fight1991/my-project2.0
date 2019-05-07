@@ -22,7 +22,7 @@
                 <el-select placeholder="请选择许可证类型" v-model="info.licenseType"
                 remote filterable clearable
                 :disabled="isDetail"
-                @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
+                @focus="tipsFillMessage('saasLicType','SAAS_LICENSE')"
                 :remote-method="checkParamsList"
                 ref="licTypeCode" dataRef='licTypeCode'
                 style="width:100%">
@@ -276,10 +276,12 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
+            this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
-                sccCode: this.info.ownerCodeScc
+                sccCode: this.info.ownerCodeScc,
+                corpName: this.info.corpName
               }
             })
           }
@@ -287,10 +289,12 @@ export default {
       })
     },
     toDetail () {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
-          sccCode: this.info.ownerCodeScc
+          sccCode: this.info.ownerCodeScc,
+          corpName: this.info.corpName
         }
       })
     },
@@ -470,7 +474,7 @@ export default {
     },
     // 获取公共字典list
     getCommonParams () {
-      let par = ['SAAS_LICENSEDOCU']
+      let par = ['SAAS_LICENSE']
       let tableNames = commonParam.isRequire(par)
       if (tableNames.length > 0) {
         this.$store.dispatch('ajax', {
@@ -481,11 +485,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
       }
     },
     checkParamsList (query) {

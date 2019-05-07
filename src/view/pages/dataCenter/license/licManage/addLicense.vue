@@ -36,7 +36,7 @@
                 <el-form-item label="许可证类型:" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
                   remote filterable clearable
-                  @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
+                  @focus="tipsFillMessage('saasLicType','SAAS_LICENSE')"
                   :remote-method="checkParamsList"
                   ref="licTypeCode" dataRef='licTypeCode'
                   style="width:100%">
@@ -267,6 +267,7 @@ export default {
   methods: {
     // 返回按钮
     back () {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         name: 'license'
       })
@@ -346,7 +347,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
-      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
     },
     // 保存
     saveDialogForm () {
@@ -497,11 +498,12 @@ export default {
               message: '新建成功',
               type: 'success'
             })
-
+            this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
-                sccCode: this.addForm.ownerCodeScc
+                sccCode: this.addForm.ownerCodeScc,
+                corpName: this.addForm.corpName
               }
             })
           }
@@ -601,7 +603,7 @@ export default {
     },
     // 获取公共字典list
     getCommonParams () {
-      let par = ['SAAS_LICENSEDOCU']
+      let par = ['SAAS_LICENSE']
       let tableNames = commonParam.isRequire(par)
       if (tableNames.length > 0) {
         this.$store.dispatch('ajax', {
@@ -612,11 +614,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
       }
     },
     checkParamsList (query) {
