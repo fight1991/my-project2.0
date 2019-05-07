@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-form :model="queryForm" size="mini" label-width="105px">
+      <el-form :model="queryForm" size="mini" label-width="110px">
         <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="总运单号">
@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="申报时间">
-              <el-date-picker v-model="dates"
+              <el-date-picker v-model="dates" style="width:100%;"
                 type="daterange"
                 :editable='false'
                 range-separator="至"
@@ -48,6 +48,7 @@
       </el-row>
       <el-row>
         <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
           <el-table-column label="序号" width="100">
             <!-- <template slot-scope="scope">
               <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
