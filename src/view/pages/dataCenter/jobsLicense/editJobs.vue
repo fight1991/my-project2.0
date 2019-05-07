@@ -26,8 +26,8 @@
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
-                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentTypeValue'" :rules="rules.documentTypeValue">
-                      <el-select placeholder="请选择单证类型" v-model="item.documentTypeValue"
+                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
+                      <el-select placeholder="请选择单证类型" v-model="item.documentType"
                       remote filterable clearable
                       @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
                       :remote-method="checkParamsList"
@@ -35,7 +35,7 @@
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
-                          :key="'licenseList'+index+i+item.documentTypeValue"
+                          :key="'licenseList'+index+i+item.documentType"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
                         </el-option>
@@ -74,6 +74,7 @@ export default {
         licenseList: [{
           documentNo: '',
           documentType: '',
+          documentTypeValue: '',
           documentUrl: '',
           fileLists: [], // 存放文件
           fileType: true,
@@ -96,6 +97,7 @@ export default {
     this.submitData.licenseList = [{
       documentNo: '',
       documentType: '',
+      documentTypeValue: '',
       documentUrl: '',
       fileLists: [],
       fileType: true,
@@ -118,6 +120,7 @@ export default {
       this.submitData.licenseList = [{
         documentNo: '',
         documentType: '',
+        documentTypeValue: '',
         documentUrl: '',
         fileLists: [],
         fileType: true,
@@ -140,6 +143,8 @@ export default {
         success: (res) => {
           this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
           this.submitData.licenseList.forEach(item => {
+            this.tipsFillMessage('saasEdocCode', 'SAAS_EDOC_CODE')
+            this.checkParamsList(item.documentType)
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -173,6 +178,8 @@ export default {
               item.fileLists = [{url: item.documentUrl}]
             }
           })
+          this.submitData.licenseList.push({})
+          this.submitData.licenseList.pop()
         }
       })
     },
@@ -284,8 +291,6 @@ export default {
                 row.isExcel = true
               }
             }
-            this.submitData.licenseList.push({})
-            this.submitData.licenseList.pop()
           }
         })
       }

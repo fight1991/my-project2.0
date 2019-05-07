@@ -247,7 +247,7 @@ export default {
     // 委托企业
     corpList () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryCorps',
+        url: 'API@/saas-document-center/dccommon/queryCertificateCorps',
         data: {},
         router: this.$router,
         success: (res) => {

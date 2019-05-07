@@ -190,6 +190,7 @@ export default {
             corpName: '',
             ownerCodeScc: '',
             licenseType: '',
+            licenseTypeValue: '',
             licenseUrl: '',
             licenseNo: '',
             expiryDate: '',
@@ -210,6 +211,7 @@ export default {
         corpName: '',
         ownerCodeScc: '',
         licenseType: '',
+        licenseTypeValue: '',
         licenseUrl: '',
         licenseNo: '',
         expiryDate: '',
@@ -325,6 +327,7 @@ export default {
             corpName: '',
             ownerCodeScc: '',
             licenseType: '',
+            licenseTypeValue: '',
             licenseUrl: '',
             licenseNo: '',
             expiryDate: '',
@@ -380,7 +383,7 @@ export default {
     // 委托企业
     corpList () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryCorps',
+        url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
         data: {},
         router: this.$router,
         success: (res) => {
@@ -434,6 +437,7 @@ export default {
           corpName: '',
           ownerCodeScc: '',
           licenseType: '',
+          licenseTypeValue: '',
           licenseUrl: '',
           licenseNo: '',
           expiryDate: '',

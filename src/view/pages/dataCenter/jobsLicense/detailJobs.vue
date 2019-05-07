@@ -24,7 +24,7 @@
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型:">
-                      {{ item.documentType }}
+                      {{ item.documentTypeValue }}
                     </el-form-item>
                     <el-form-item label="单证编号:" prop="licensePath">
                       {{ item.documentNo }}
@@ -61,7 +61,7 @@ export default {
         licenseList: [
           {
             documentUrl: '',
-            documentType: '',
+            documentTypeValue: '',
             documentNo: '',
             updateTime: '',
             updateUserName: '',
