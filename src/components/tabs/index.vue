@@ -95,12 +95,7 @@ export default {
             break
           case 'close':
             // close： 关闭指定的tab
-            let tabData = store.getters.GetOpenedTabs.filter(item => {
-              return item.tabId === sysData.tabId && !item.isDel
-            })
-            if (tabData.length !== 0) {
-              store.commit('RemoveTab', tabData[0])
-            }
+            store.commit('close', sysData.tabId)
             break
           case 'refresh':
             let index = 0
@@ -161,14 +156,7 @@ export default {
     },
     // 移除页签
     delTab (tabName) {
-      let index = 0
-      for (let x in this.openedTabs) {
-        if (this.openedTabs[x].path === tabName && !this.openedTabs[x].isDel) {
-          index = x
-          break
-        }
-      }
-      this.$store.commit('RemoveTab', this.openedTabs[index])
+      this.$store.commit('close', tabName)
     },
     // 关闭所有或其他页签
     closeTabs (tag) {

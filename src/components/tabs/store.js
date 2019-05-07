@@ -21,6 +21,17 @@ export default {
     }
   },
   mutations: {
+    // 关闭页签:data :url 或 tabId
+    close (state, data) {
+      let index = 0
+      for (let x in state.tabsList) {
+        if ((state.tabsList[x].path === data || state.tabsList[x].tabId === data) && !state.tabsList[x].isDel) {
+          index = x
+          break
+        }
+      }
+      store.commit('RemoveTab', state.tabsList[index])
+    },
     // 从 tab 列表 移除 tab
     RemoveTab (state, data) {
       let firstIndex = 0
