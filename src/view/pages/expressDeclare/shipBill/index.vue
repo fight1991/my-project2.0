@@ -36,13 +36,21 @@
     <!-- 主显示框 -->
     <div class='query-body'>
       <el-row class="mg-b-15">
-        <el-upload style="display:inline-block;"
-          class="upload-demo"
-          action="http://127.0.0.1"
-          :before-upload="beforeUpload"
-          :show-file-list="false">
+        <el-dropdown trigger="click">
           <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
-        </el-upload>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <el-upload
+                class="upload-demo"
+                action="http://127.0.0.1"
+                :before-upload="beforeUpload"
+                :show-file-list="false">
+                <span>导入模板</span>
+              </el-upload>
+            </el-dropdown-item>
+            <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-button size="mini" class="list-btns list-icon-declare"><i></i>申报</el-button>
         <el-button size="mini" class="list-btns list-icon-delete"><i></i>删除</el-button>
       </el-row>
@@ -86,8 +94,10 @@
           </el-table-column>
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
-              <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail(scope.row)"><i></i></el-button>
-              <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除"><i></i></el-button>
+              <div class='sys-td-c'>
+                <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
+                <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除"><i></i></el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -162,10 +172,11 @@ export default {
       return false
     },
     // 跳转到详情
-    toDetail (data) {
+    toDetail (type, data) {
       this.$router.push({
         name: 'shipBillDetail',
         params: {
+          type: type,
           id: '1'
         }
       })

@@ -20,7 +20,7 @@ const MENU = {
       }
     },
     {
-      path: '/expressDeclare/declareBill/detail',
+      path: '/expressDeclare/declareBill/detail/:type/:id',
       name: 'declareBillDetail',
       permissions: 'CCBA21203020000',
       hidden: true,

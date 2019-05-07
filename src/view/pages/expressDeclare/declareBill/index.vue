@@ -158,7 +158,7 @@
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>
-                <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="toDetail(scope.row)"><i></i></el-button>
+                <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
                 <el-button size="mini" class="table-icon list-icon-delete" type="text" title="删除"><i></i></el-button>
               </div>
             </template>
@@ -255,10 +255,11 @@ export default {
       return false
     },
     // 跳转到详情
-    toDetail (data) {
+    toDetail (type, data) {
       this.$router.push({
         name: 'declareBillDetail',
         params: {
+          type: type,
           id: '1'
         }
       })

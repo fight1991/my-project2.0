@@ -20,7 +20,7 @@ const MENU = {
       }
     },
     {
-      path: '/expressDeclare/shipBill/detail/:id',
+      path: '/expressDeclare/shipBill/detail/:type/:id',
       name: 'shipBillDetail',
       permissions: 'CCBA21203020000',
       hidden: true,
