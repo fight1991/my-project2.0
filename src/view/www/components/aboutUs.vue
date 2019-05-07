@@ -30,9 +30,21 @@
     </div>
     <!-- 联系我们区域 -->
     <div class="contactUs">
-      <div class="nameCard mainer">
-        <!-- <img src="@/assets/www-img/images/map.png" alt=""> -->
-        <e-chart :datas='mapChartData' :reset='resetChartData' height="1000px"></e-chart>
+      <div class="mainer">
+        <baidu-map class="map nameCard" :center="centerPoint" :zoom="zoom" :scroll-wheel-zoom="false">
+          <bml-marker-clusterer :averageCenter="true">
+            <bm-marker
+              v-for="marker of markers"
+              :position="{lng: marker.lng, lat: marker.lat}"
+              :key="marker.name"
+              :icon="{url:marker.iconPath,size: {width: 28, height: 28}}"
+              :title="marker.name"
+              @click="infoWindowOpen(marker.name)">
+              <bm-info-window :show="marker.show" @close="infoWindowClose(marker.name)" @open="infoWindowOpen(marker.name)">{{marker.name}}</bm-info-window>
+            </bm-marker>
+          </bml-marker-clusterer>
+          <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+        </baidu-map>
       </div>
     </div>
   </div>
@@ -41,7 +53,11 @@
 <script>
 import eventBus from '../common/eventBus'
 import {companys} from '@/config/www'
+import {BmlMarkerClusterer} from 'vue-baidu-map'
 export default {
+  components: {
+    BmlMarkerClusterer: BmlMarkerClusterer
+  },
   data () {
     return {
       bannerList: ['@/assets/www-img/images/banner01.png', '@/assets/www-img/images/banner02.png', '@/assets/www-img/images/banner03.png'],
@@ -52,273 +68,51 @@ export default {
         corpName: '',
         email: ''
       },
-      resetChartData: '',
-      mapChartData: {} // 地图
+      markers: [],
+      zoom: 5,
+      show: false,
+      centerPoint: {lng: 114.365689, lat: 30.579686} // 中心点
     }
   },
   mounted () {
-    this.doInitMap()
-    window.onresize = () => {
-      return (() => {
-        this.resetChartData = Math.random()
-      })()
-    }
     if (this.$route.hash) { // 说明是点击预约按钮跳转过来的,则定位到锚点
       eventBus.$emit('custormAnchor', 'anchor')
     }
   },
+  created () {
+    this.getMarker()
+  },
   methods: {
-    // 初始化地图信息
-    doInitMap () {
-      this.mapChartData = {
-        title: {
-          text: ''
-        },
-        // backgroundColor: '#FFFFFF',
-        tooltip: {
-          trigger: 'item',
-          formatter: function (param) {
-            return param.name
-          }
-        },
-        bmap: {
-          center: [104.114129, 37.550339],
-          zoom: 5,
-          roam: true,
-          mapStyle: {
-            styleJson: [{
-              // feature是特征，element是元素
-              'featureType': 'water', // 水
-              'elementType': 'all',
-              'stylers': {
-                'color': '#9DDDFB'
-              }
-            }, {
-              'featureType': 'land', // 陆地
-              'elementType': 'all',
-              'stylers': {
-                'color': '#f3f3f3'
-              }
-            }, {
-              'featureType': 'boundary', // 边界
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#064f85'
-              }
-            }, {
-              'featureType': 'railway', // 铁路
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'highway', // 高速及国道
-              'elementType': 'all',
-              'stylers': {
-                'color': '#fdfdfd'
-              }
-            }, {
-              'featureType': 'highway',
-              'elementType': 'labels',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'arterial', // 城市主路
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#fefefe'
-              }
-            }, {
-              'featureType': 'arterial',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                'color': '#fefefe'
-              }
-            }, {
-              'featureType': 'poi', // 定位
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'green',
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'subway',
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'manmade',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#d1d1d1'
-              }
-            }, {
-              'featureType': 'local',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#d1d1d1'
-              }
-            }, {
-              'featureType': 'arterial',
-              'elementType': 'labels',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }, {
-              'featureType': 'boundary',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#fefefe'
-              }
-            }, {
-              'featureType': 'building', // 建筑物
-              'elementType': 'all',
-              'stylers': {
-                'color': '#d1d1d1'
-              }
-            }, {
-              'featureType': 'label',
-              'elementType': 'labels.text.fill',
-              'stylers': {
-                'color': '#999999'
-              }
-            }]
-          }
-        },
-        series: [
-          {
-            name: '集团驻地',
-            type: 'effectScatter',
-            coordinateSystem: 'bmap',
-            data: companys.HQ,
-            symbolSize: function (val) {
-              return 10
-            },
-            showEffectOn: 'render',
-            rippleEffect: {
-              brushType: 'stroke'
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: '',
-                position: 'right',
-                show: false
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#ff0000',
-                shadowBlur: 10,
-                shadowColor: '#ff0000'
-              }
-            }
-          },
-          {
-            name: '集团分公司',
-            type: 'scatter',
-            coordinateSystem: 'bmap',
-            data: companys.part,
-            symbolSize: function (val) {
-              return 8
-            },
-            showEffectOn: 'render',
-            rippleEffect: {
-              brushType: 'stroke'
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: '',
-                position: 'right',
-                show: false
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#ff7800',
-                shadowBlur: 10,
-                shadowColor: '#ff7800'
-              }
-            }
-          },
-          {
-            name: '中国报关协会',
-            type: 'effectScatter',
-            coordinateSystem: 'bmap',
-            data: companys.cnbx,
-            symbolSize: function (val) {
-              return 9
-            },
-            showEffectOn: 'render',
-            rippleEffect: {
-              brushType: 'stroke'
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: '',
-                position: 'right',
-                show: false
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#14b33a',
-                shadowBlur: 10,
-                shadowColor: '#14b33a'
-              }
-            }
-          },
-          {
-            name: '地方报关协会',
-            type: 'scatter',
-            coordinateSystem: 'bmap',
-            data: companys.dfbx,
-            symbolSize: function (val) {
-              return 8
-            },
-            showEffectOn: 'render',
-            rippleEffect: {
-              brushType: 'stroke'
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: '',
-                position: 'right',
-                show: false
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#14b33a',
-                shadowBlur: 10,
-                shadowColor: '#14b33a'
-              }
-            }
-          }
-        ]
+    getMarker () {
+      for (let k in companys) {
+        companys[k].forEach(v => {
+          this.markers.push({
+            lng: v.value[0],
+            lat: v.value[1],
+            iconPath: v.iconPath,
+            name: v.name,
+            show: false
+          })
+        })
       }
+    },
+    infoWindowOpen (name) {
+      this.markers.forEach(v => {
+        if (v.name === name) {
+          v.show = true
+        } else {
+          v.show = false
+        }
+      })
+    },
+    infoWindowClose () {
+      this.markers.forEach(v => {
+        if (v.name === name) {
+          v.show = false
+        } else {
+          v.show = false
+        }
+      })
     }
   }
 }
@@ -399,5 +193,8 @@ export default {
       box-sizing: border-box;
       padding: 5px 5px 5px 10px;
     }
+  }
+  .nameCard {
+    height: 800px;
   }
 </style>

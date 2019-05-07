@@ -28,73 +28,12 @@
 </template>
 
 <script>
+import {partner} from '@/config/www'
 export default {
   data () {
     return {
       copyTxt: 'Copyrights © 2010-2020 朗新金关信息科技有限公司 苏IPC备17069948号-2',
-      partner: [
-        {
-          icon: require('@/assets/www-img/images/partner/danyichuangkou.png'),
-          name: '中国国际贸易单一窗口',
-          url: 'https://www.singlewindow.cn/'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/yatai.png'),
-          name: '亚太示范电子口岸网络运营中心',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/ruikumaoyi.png'),
-          name: '北京睿库贸易安全及便利化研究中心',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/beijing.png'),
-          name: '北京报关协会',
-          url: 'http://www.bjcustoms.com/bcba/'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/hunan.png'),
-          name: '湖南报关协会',
-          url: 'http://www.znidc.net/'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/hubei.png'),
-          name: '湖北报关协会',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/tianjing.png'),
-          name: '天津报关协会',
-          url: 'http://www.tcba.org.cn'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/shanghai.png'),
-          name: '上海报关协会',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/jiangsu.png'),
-          name: '江苏报关协会',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/anhui.png'),
-          name: '安徽报关协会',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/zhejiang.png'),
-          name: '浙江报关协会',
-          url: 'javascript:;'
-        },
-        {
-          icon: require('@/assets/www-img/images/partner/guangxi.png'),
-          name: '广西报关协会',
-          url: 'javascript:;'
-        }
-
-      ]
+      partner: partner
     }
   }
 }

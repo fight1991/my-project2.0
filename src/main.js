@@ -14,6 +14,10 @@ import './assets/style/icon.less'
 import MyComponents from './components'
 import Permissions from './directive/permissions'
 import {pagination} from './common/mixin/pagination'
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+  ak: 'qFHHVG13nGc25bOu8bOw6mIyWsQo78q8'
+})
 // Mock.bootstrap() // mock前端模拟数据
 Vue.use(ElementUI)
 Vue.filter('date', filters.date) // 自定义过滤器

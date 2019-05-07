@@ -69,14 +69,14 @@ export default {
           path: '/aboutUs',
           name: '关于我们',
           isLink: true
-        },
-        {
-          id: 5,
-          status: false,
-          path: '/talent',
-          name: '人才招聘',
-          isLink: true
         }
+        // {
+        //   id: 5,
+        //   status: false,
+        //   path: '/talent',
+        //   name: '人才招聘',
+        //   isLink: true
+        // }
       ],
       aboutUs: {
         status: false
