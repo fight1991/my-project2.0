@@ -68,14 +68,6 @@
           :data="priceList"
           @selection-change="selectVal">
           <el-table-column type="selection" width="35"></el-table-column>
-          <el-table-column label="操作" width="100">
-          <template slot-scope="scope">
-            <div class='sys-td-c'>
-              <el-button size="mini" class="table-icon list-icon-edit" type="text" title="编辑" @click="openFun('edit',scope.row)"><i></i></el-button>
-              <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="openFun('view',scope.row)"><i></i></el-button>
-            </div>
-          </template>
-          </el-table-column>
           <el-table-column label="进出口标识" min-width="100" prop="type" v-if="thList[0].value">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}</div>
@@ -104,8 +96,16 @@
           <template slot-scope="scope">
             <div class='sys-td-r'>{{scope.row.bandArea+''}}%</div>
           </template>
-        </el-table-column>
-          <el-table-column label="原产国" min-width="80" prop="originCountryValue" v-if="thList[8].value">
+          </el-table-column>
+            <el-table-column label="原产国" min-width="80" prop="originCountryValue" v-if="thList[8].value">
+            </el-table-column>
+          <el-table-column label="操作" width="100">
+          <template slot-scope="scope">
+            <div class='sys-td-c'>
+              <el-button size="mini" class="table-icon list-icon-edit" type="text" title="编辑" @click="openFun('edit',scope.row)"><i></i></el-button>
+              <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="openFun('view',scope.row)"><i></i></el-button>
+            </div>
+          </template>
           </el-table-column>
         </el-table>
         <!--分页-->
@@ -204,7 +204,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="价格浮动区间(%)" prop ='bandArea' required>
+              <el-form-item label="价格浮动区间(%)" prop ='bandArea'>
                 <el-input  v-model="priceDialogForm.bandArea"
                 ref="bandArea" dataRef ='bandArea'
                 enter = 'no'
@@ -451,7 +451,6 @@ export default {
                   message: '保存成功',
                   type: 'success'
                 })
-                this.resetDialogForm()
                 this.priceDialogVisible = false
                 this.queryList(this.$store.state.pagination)
               } else {

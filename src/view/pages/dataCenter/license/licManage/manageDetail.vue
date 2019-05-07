@@ -73,23 +73,23 @@
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="subData.goods">
-                  <el-table-column label="商品名称" min-width="100" :maxlength="10">
+                  <el-table-column label="商品名称" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px">
+                      <el-form-item label-width="0px" class="form-item-mg0">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
-                  <el-table-column label="商品编号" min-width="100" :maxlength="20">
+                  <el-table-column label="商品编号" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
+                      <el-form-item label-width="0px" class="form-item-mg0" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
+                      <el-form-item label-width="0px" class="form-item-mg0" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
@@ -101,7 +101,9 @@
                   </el-table-column>
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
-                      <el-button type="text" @click="deleteGoods(scope.row.relatedGoodsPid)" title="删除" v-if="!isDetail"><i class="fa fa-times-circle f-18"></i></el-button>
+                      <div class='sys-td-c'>
+                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(scope.row.relatedGoodsPid)" title="删除" v-if="!isDetail"><i></i></el-button>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -122,7 +124,9 @@
               <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
-              <el-button size="small" type="primary">点击图片重新上传</el-button>
+              <el-row>
+               <el-button size="small" type="primary" v-if="!isDetail">点击图片重新上传</el-button>
+              </el-row>
             </el-upload>
             </el-form-item>
           </el-row>
@@ -317,10 +321,12 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
+            this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
-                sccCode: this.subData.info.ownerCodeScc
+                sccCode: this.subData.info.ownerCodeScc,
+                corpName: this.subData.info.corpName
               }
             })
           }
@@ -328,10 +334,12 @@ export default {
       })
     },
     toDetail () {
+      this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
-          sccCode: this.subData.info.ownerCodeScc
+          sccCode: this.subData.info.ownerCodeScc,
+          corpName: this.subData.info.corpName
         }
       })
     },
@@ -398,7 +406,7 @@ export default {
     // 委托企业
     corpList () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryCorps',
+        url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
         data: {},
         router: this.$router,
         success: (res) => {

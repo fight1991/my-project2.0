@@ -91,26 +91,26 @@
          @selection-change="shipListChange"
          border highlight-current-row size="mini">
         <el-table-column type="selection" width="35"></el-table-column>
+        <el-table-column label="进出境关别" prop="iEPortValue" min-width="80">
+          <template slot-scope="scope">
+            <div class='sys-td-l'>{{scope.row.iEPortValue}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="入/离境口岸" prop="entyPortCodeValue" min-width="110">
+          <template slot-scope="scope">
+            <div class='sys-td-l'>{{scope.row.entyPortCodeValue}}</div>
+          </template></el-table-column>
+        <el-table-column label="运输方式" prop="trafModeValue" min-width="100">
+          <template slot-scope="scope">
+            <div class='sys-td-l'>{{scope.row.trafModeValue}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <div class='sys-td-c'>
               <el-button size="mini" type="text" class="table-icon list-icon-edit" title="编辑" @click="openFun('edit', scope.row)"><i></i></el-button>
               <el-button size="mini" type="text" class="table-icon list-icon-look" title="详情" @click="openFun('view', scope.row)"><i></i></el-button>
             </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="进出境关别" prop="iEPortValue" min-width="80">
-          <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.iEPortValue}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="入/离境口岸" prop="entyPortCodeValue" min-width="110">
-          <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.entyPortCodeValue}}</div>
-          </template></el-table-column>
-        <el-table-column label="运输方式" prop="trafModeValue" min-width="100">
-          <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.trafModeValue}}</div>
           </template>
         </el-table-column>
       </el-table>
