@@ -51,6 +51,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
+  padding: 0 8px;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus {
   border: 1px solid @line-color-input;
@@ -58,6 +59,12 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 .el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
   border-color: @line-color-input;
+}
+.mg-b-15{
+  margin-bottom: 15px;
+}
+.mg-b-20{
+  margin-bottom: 20px;
 }
 // 公共样式结束
 // ccba 官网样式开始
@@ -649,6 +656,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .el-form-item__label{
     text-align: left;
+    padding: 0 8px 0 0;
   }
   .query-body {
     background-color: #fff;
@@ -660,7 +668,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       padding: 10px 15px;
     }
     .el-table__expanded-cell th {
-        background-color: @sys-color-light;
+      background-color: @sys-color-light;
     }
     .el-table__empty-text {
       width: 100%;
@@ -670,6 +678,20 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
     .el-table__empty-block {
       align-items: inherit;
+    }
+    .el-table__header th>.cell{
+      text-align: center;
+    }
+    .el-table__body td .cell {
+      .sys-td-c{
+        text-align: center;
+      }
+      .sys-td-r{
+        text-align: right;
+      }
+      .sys-td-l{
+        text-align: left;
+      }
     }
   }
   .el-button--primary {
@@ -699,10 +721,16 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     margin: 10px 0;
     min-height: 50px;
   }
+  // form label过长时样式
+  .more-txt-lh{
+    .el-form-item__label{
+      line-height: 16px;
+    }
+  }
   // 按钮样式
   .list-btns{
     padding: 7px 10px;
-    margin-right: 3px;
+    margin: 0 3px 0 0;
     font-size: 14px;
     i{
       display: inline-block;

@@ -2,22 +2,22 @@
   <section class='sys-main'>
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-form :model="queryForm" size="mini">
-        <el-row :gutter="20">
+      <el-form :model="queryForm" size="mini" label-width="110px">
+        <el-row :gutter="50">
           <el-col :span="8">
-            <el-form-item label="进出口标志" label-width="130px">
+            <el-form-item label="进出口标志">
               <el-select v-model="queryForm.iEFlag" style="width:100%;">
                 <el-option v-for="item in iEFlagList" :key="item.value" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="总运单号" label-width="130px">
+            <el-form-item label="总运单号">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="关区代码" label-width="175px">
+            <el-form-item label="关区代码">
               <el-select v-model="queryForm.customCode"
                 default-first-option remote
                 filterable
@@ -34,19 +34,19 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="50">
           <el-col :span="8">
-            <el-form-item label="分运单号" label-width="130px">
+            <el-form-item label="分运单号">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="报关单号" label-width="130px">
+            <el-form-item label="报关单号">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申报时间" label-width="175px">
+            <el-form-item label="申报时间">
               <el-date-picker v-model="dates" style="width:100%;"
                 type="daterange"
                 :editable='false'
@@ -57,19 +57,19 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="50">
           <el-col :span="8">
-            <el-form-item label="收发货人编码" label-width="130px">
+            <el-form-item label="收发货人编码">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="状态信息" label-width="130px">
+            <el-form-item label="状态信息">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="收发货统一社会信用代码" label-width="175px">
+            <el-form-item label="收发货统一社会信用代码" class="more-txt-lh">
               <el-input v-model="queryForm.keywords" clearable></el-input>
             </el-form-item>
           </el-col>
@@ -84,18 +84,27 @@
     <!-- 主显示框 -->
     <div class='query-body'>
       <el-row class="mg-b-15">
-        <el-upload style="display:inline-block;"
-          class="upload-demo"
-          action="http://127.0.0.1"
-          :before-upload="beforeUpload"
-          :show-file-list="false">
+        <el-dropdown trigger="click">
           <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
-        </el-upload>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <el-upload
+                class="upload-demo"
+                action="http://127.0.0.1"
+                :before-upload="beforeUpload"
+                :show-file-list="false">
+                <span>导入模板</span>
+              </el-upload>
+            </el-dropdown-item>
+            <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-button size="mini" class="list-btns list-icon-declare"><i></i>申报</el-button>
         <el-button size="mini" class="list-btns list-icon-delete"><i></i>删除</el-button>
       </el-row>
       <el-row>
         <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
           <el-table-column label="序号" width="100">
             <!-- <template slot-scope="scope">
               <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
@@ -108,7 +117,7 @@
           </el-table-column>
           <el-table-column label="预录入编号" min-width="130">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-l'>{{scope.row.title}}</div>
             </template>
           </el-table-column>
           <el-table-column label="收发货人" min-width="150">
@@ -148,8 +157,10 @@
           </el-table-column>
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
-              <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="toDetail(scope.row)"><i></i></el-button>
-              <el-button size="mini" class="table-icon list-icon-delete" type="text" title="删除"><i></i></el-button>
+              <div class='sys-td-c'>
+                <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="toDetail(scope.row)"><i></i></el-button>
+                <el-button size="mini" class="table-icon list-icon-delete" type="text" title="删除"><i></i></el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -167,6 +178,7 @@
 </template>
 <script>
 import util from '../../../../common/util'
+import commonParam from '../../../../common/commonParam'
 export default {
   data () {
     return {
@@ -253,12 +265,12 @@ export default {
     },
     // 判断缓存中是否有数据
     getCommonParam () {
-      let map = {tableNames: ['SAAS_CUSTOMS_REL']}
-      let cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
-      if (!util.isEmpty(cusCustomsCodeList)) {
-        this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL')).slice(0, 30)
-      } else {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
         this.getCommonParams(map)
+      } else {
+        this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL')).slice(0, 30)
       }
     },
     // 获取公共字典list
@@ -268,7 +280,7 @@ export default {
         data: datas,
         router: this.$router,
         success: (res) => {
-          window.localStorage.setItem('SAAS_CUSTOMS_REL', JSON.stringify(res.result.SAAS_CUSTOMS_REL))
+          commonParam.saveParams(res.result)
           this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL')).slice(0, 30)
         }
       })
@@ -299,6 +311,10 @@ export default {
           this[this.selectObj.obj] = JSON.parse(window.localStorage.getItem(this.selectObj.params)).slice(0, 30)
         }
       }
+    },
+    // 下载模板
+    download () {
+
     }
   }
 }
