@@ -3,7 +3,7 @@
     <!-- 返回按钮 -->
     <el-row>
       <el-col :span='12' :xs='24'>
-        <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+        <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
       </el-col>
       <el-col :span='12' :xs='24'>
         <div style="text-align: right;"><el-button size="mini" type="primary" @click="declare">申报</el-button></div>
@@ -17,7 +17,20 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="申报地海关">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.customCode" :disabled="isDetail" placeholder=" "
+                    default-first-option remote
+                    filterable
+                    :remote-method="checkParamsList"
+                    @focus="tipsFillMessage('cusCustomsCodeList','SAAS_CUSTOMS_REL')"
+                    @change="checkParamsList"
+                    clearable style="width:100%" >
+                    <el-option
+                      v-for="item in cusCustomsCodeList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -69,7 +82,9 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="进出口标志">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.iEFlag" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in iEFlagList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -84,24 +99,54 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="进出口岸代码">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.customCodeA" :disabled="isDetail" placeholder=" "
+                    default-first-option remote
+                    filterable
+                    :remote-method="checkParamsList"
+                    @focus="tipsFillMessage('cusCustomsCodeListA','SAAS_CUSTOMS_REL')"
+                    @change="checkParamsList"
+                    clearable style="width:100%" >
+                    <el-option
+                      v-for="item in cusCustomsCodeListA"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="报关类别">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.decType" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in decTypeList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="申报单位类别">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.decUnitType" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in decUnitList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="监管方式">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.tradeMode" :disabled="isDetail" placeholder=" "
+                    default-first-option remote
+                    filterable
+                    :remote-method="checkParamsList"
+                    @focus="tipsFillMessage('tradeModeList','SAAS_TRADE')"
+                    @change="checkParamsList"
+                    clearable style="width:100%" >
+                    <el-option
+                      v-for="item in tradeModeList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -123,7 +168,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="运输方式代码">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.trafMode" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('trafList','SAAS_TRANSPORT_TYPE')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in trafList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -150,14 +206,36 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="贸易国(地区，起/抵运地)">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('countryList','SAAS_COUNTRY')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in countryList"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="货主单位地区代码">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('districtList','SAAS_DISTRICT_REL')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in districtList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -172,14 +250,36 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="征免性质分类">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('levyList','SAAS_LEVYMODE')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in levyList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="成交方式">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('tranList','SAAS_TRANSAC')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in tranList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -194,19 +294,43 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="包装种类">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('wrapList','SAAS_WRAP')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in wrapList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="运费标记">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.expressMark" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in expressMarkList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="运费币制">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('currList','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in currList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -216,19 +340,34 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="是否含有木质包装">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.isBoone" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in isList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="保险费标记">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.expressMark" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in expressMarkList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="保险费币制">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('currListA','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in currListA"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -238,19 +377,34 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="是否为旧物品">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.isBoone" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in isList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="6">
                 <el-form-item label="杂费标记">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.expressMark" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in expressMarkList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="杂费币制">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('currListB','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in currListB"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -260,7 +414,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="是否为低温运输">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.isBoone" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in isList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -311,17 +467,41 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="发件人国别">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('countryFList','SAAS_COUNTRY')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in countryFList"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收件人国别">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('countrySList','SAAS_COUNTRY')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in countrySList"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收发件人证件类型">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select v-model="headData.licenseType" placeholder=" " :disabled="isDetail" style="width:100%;" filterable>
+                    <el-option v-for="item in licenseTypeList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -387,7 +567,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="币制">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('currListC','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in currListC"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -531,7 +722,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="成交币制">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('currListD','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in currListD"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -563,7 +765,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="申报计量单位">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('unitList','SAAS_UNIT')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in unitList"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -575,7 +788,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="第一(法定)计量单位">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('unitListA','SAAS_UNIT')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in unitListA"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -585,7 +809,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="第二计量单位">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('unitListB','SAAS_UNIT')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in unitListB"
+                      :key="item.codeField"
+                      :label="item.codeField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -602,7 +837,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="产销国">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('countryCList','SAAS_COUNTRY')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in countryCList"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -659,7 +905,18 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="随附单证代码">
-                  <el-input :disabled="isDetail"></el-input>
+                  <el-select size="mini" v-model="headData.curr" placeholder=" " style="width:100%;" :disabled="isDetail"
+                    @focus="tipsFillMessage('licCodeList','SAAS_LICENSEDOCU')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @change="checkParamsList">
+                    <el-option
+                      v-for="item in licCodeList"
+                      :key="item.codeField"
+                      :label="item.otherField+'-'+item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -680,6 +937,8 @@
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
+import commonParam from '../../../../common/commonParam'
 export default {
   data () {
     return {
@@ -688,18 +947,206 @@ export default {
 
       },
       detailList: [],
-      licenseList: []
+      licenseList: [],
+      iEFlagList: [{
+        value: 'I',
+        label: '进口'
+      }, {
+        value: 'E',
+        label: '出口'
+      }], // 舱单进出口标志
+      decTypeList: [{
+        value: 'A',
+        label: 'A-A'
+      }, {
+        value: 'B',
+        label: 'B-B'
+      }, {
+        value: 'C',
+        label: 'C-C'
+      }], // 报关类别
+      decUnitList: [{
+        value: '0',
+        label: '企业'
+      }, {
+        value: '1',
+        label: '自然人'
+      }], // 申报单位类别
+      expressMarkList: [{
+        value: '1',
+        label: '1-率'
+      }, {
+        value: '2',
+        label: '2-单价'
+      }, {
+        value: '3',
+        label: '3-总价'
+      }], // 运费标记
+      isList: [{
+        value: '0',
+        label: '0-否'
+      }, {
+        value: '1',
+        label: '1-是'
+      }], // 是否
+      licenseTypeList: [{
+        value: '1',
+        label: '1-身份证'
+      }, {
+        value: '2',
+        label: '2-护照'
+      }, {
+        value: '3',
+        label: '3-其他'
+      }], // 证件类型
+      tableNameList: {
+        tableNames: [
+          'SAAS_CUSTOMS_REL', // 海关关区
+          'SAAS_SW_AIRPORT_CODE', // 港口
+          'SAAS_TRANSPORT_TYPE', // 运输方式
+          'SAAS_CURR', // 币制
+          'SAAS_TRADE', // 监管方式
+          'SAAS_COUNTRY', // 国家
+          'SAAS_DISTRICT_REL', // 地区代码
+          'SAAS_LEVYMODE', // 征免方式
+          'SAAS_TRANSAC', // 成交方式
+          'SAAS_WRAP', // 包装种类
+          'SAAS_UNIT', // 计量单位
+          'SAAS_LICENSEDOCU' // 随附单证
+        ]
+      }, // 字典标明
+      selectObj: {
+        obj: '',
+        params: ''
+      },
+      cusCustomsCodeList: [],
+      cusCustomsCodeListA: [],
+      tradeModeList: [],
+      trafList: [],
+      countryList: [],
+      districtList: [],
+      levyList: [],
+      tranList: [],
+      wrapList: [],
+      currList: [],
+      currListA: [],
+      currListB: [],
+      currListC: [],
+      currListD: [],
+      countrySList: [],
+      countryFList: [],
+      unitList: [],
+      unitListA: [],
+      unitListB: [],
+      countryCList: [],
+      licCodeList: []
     }
   },
   created () {
+    this.getCommonParam()
     if (this.$route.params.type === 'detail') {
       this.isDetail = true
     }
   },
   methods: {
+    // 判断缓存中是否有数据
+    getCommonParam () {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
+        this.getCommonParams(map)
+      } else {
+        this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
+        this.cusCustomsCodeListA = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
+        this.tradeModeList = JSON.parse(window.localStorage.getItem('SAAS_TRADE'))
+        this.trafList = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE'))
+        this.countryList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+        this.districtList = JSON.parse(window.localStorage.getItem('SAAS_DISTRICT_REL'))
+        this.levyList = JSON.parse(window.localStorage.getItem('SAAS_LEVYMODE'))
+        this.tranList = JSON.parse(window.localStorage.getItem('SAAS_TRANSAC'))
+        this.wrapList = JSON.parse(window.localStorage.getItem('SAAS_WRAP'))
+        this.currList = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+        this.currListA = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+        this.currListB = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+        this.currListC = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+        this.currListD = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+        this.countrySList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+        this.countryFList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+        this.unitList = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+        this.unitListA = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+        this.unitListB = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+        this.countryCList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+        this.licCodeList = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU'))
+      }
+    },
+    // 获取公共字典list
+    getCommonParams (datas) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/dictionary/getParam',
+        data: datas,
+        router: this.$router,
+        success: (res) => {
+          commonParam.saveParams(res.result)
+          this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
+          this.cusCustomsCodeListA = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
+          this.tradeModeList = JSON.parse(window.localStorage.getItem('SAAS_TRADE'))
+          this.trafList = JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE'))
+          this.countryList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+          this.districtList = JSON.parse(window.localStorage.getItem('SAAS_DISTRICT_REL'))
+          this.levyList = JSON.parse(window.localStorage.getItem('SAAS_LEVYMODE'))
+          this.tranList = JSON.parse(window.localStorage.getItem('SAAS_TRANSAC'))
+          this.wrapList = JSON.parse(window.localStorage.getItem('SAAS_WRAP'))
+          this.currList = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+          this.currListA = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+          this.currListC = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+          this.currListB = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+          this.currListD = JSON.parse(window.localStorage.getItem('SAAS_CURR'))
+          this.countrySList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+          this.countryFList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+          this.unitList = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+          this.unitListA = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+          this.unitListB = JSON.parse(window.localStorage.getItem('SAAS_UNIT'))
+          this.countryCList = JSON.parse(window.localStorage.getItem('SAAS_COUNTRY'))
+          this.licCodeList = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU'))
+        }
+      })
+    },
+    // 提示需要填写的内容
+    tipsFillMessage (obj, params) {
+      this.selectObj = {
+        obj: obj,
+        params: params
+      }
+    },
+    checkParamsList (query) {
+      if (query !== '') {
+        let keyValue = query.toString().trim()
+        let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        let filterList = []
+        if (util.isEmpty(keyValue)) {
+          this[this.selectObj.obj] = list
+        } else {
+          filterList = list.filter(item => {
+            let str = item.codeField + '-' + item.nameField
+            return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+          })
+          this[this.selectObj.obj] = filterList
+        }
+      } else {
+        if (!util.isEmpty(JSON.parse(window.localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        }
+      }
+    },
     // 申报
     declare () {
 
+    },
+    // 返回
+    back () {
+      this.$router.push({
+        name: 'declareBilllList'
+      })
     }
   }
 }

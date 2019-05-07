@@ -15,7 +15,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申报时间">
+            <el-form-item label="申报时间" class="form-item-mg0">
               <el-date-picker v-model="dates" style="width:100%;"
                 type="daterange"
                 :editable='false'
