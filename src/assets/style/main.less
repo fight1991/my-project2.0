@@ -46,6 +46,19 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .cursor{
   cursor: pointer;
 }
+.el-input__inner{
+  border: 1px solid @line-color-input;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+.el-input.is-active .el-input__inner, .el-input__inner:focus {
+  border: 1px solid @line-color-input;
+  outline: 0;
+}
+.el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
+  border-color: @line-color-input;
+}
 // 公共样式结束
 // ccba 官网样式开始
 .www {
@@ -504,7 +517,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     display: flex;
     justify-content: center;
     padding-top: 0;
-    button {
+    button.el-button--primary {
       background-color: @sys-color-main;
       border-color:@sys-color-main
     }
@@ -634,6 +647,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     background-color: #fff;
     padding: 20px;
   }
+  .el-form-item__label{
+    text-align: left;
+  }
   .query-body {
     background-color: #fff;
     margin-top: 20px;
@@ -678,6 +694,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       margin-right: 5px;
       vertical-align: middle;
     }
+  }
+  .sys-page-list{
+    margin: 10px 0;
+    min-height: 50px;
   }
   // 按钮样式
   .list-btns{
@@ -733,6 +753,14 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       background: url('../../assets/img/icon/icon-deleteH.png') no-repeat;
     }
   }
+  .list-icon-edit{
+    i{
+      background: url('../../assets/img/icon/icon-edit.png') no-repeat;
+    }
+    &:hover i,&:focus i{
+      background: url('../../assets/img/icon/icon-editH.png') no-repeat;
+    }
+  }
   .table-icon{
     margin: 0;
     i{
@@ -757,6 +785,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       .el-form-item__label{
         border-right: 1px solid #b7b7b7;
         padding: 0 8px 0 0;
+        text-align: right;
       }
       .el-form-item__content{
         border-right: 1px solid #b7b7b7;
