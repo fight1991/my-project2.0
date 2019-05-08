@@ -30,7 +30,7 @@
             <el-col :span="12" :xs='24' v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
-                <el-row>
+                <el-row :gutter="30">
                   <el-col :span="12" :xs='24'>
                     <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select size="mini" placeholder="请选择单证类型" v-model="item.documentType"

@@ -18,8 +18,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="8" :xs="12">
-              <el-form-item label-width="100px" label="最近上传日期">
-                <el-date-picker size="mini"
+              <el-form-item label-width="100px" label="报关单创建日期">
+                <el-date-picker size="mini"  style="width:100%;"
                   v-model="dates"
                   type="daterange"
                   :editable='false'
@@ -49,24 +49,32 @@
               {{scope.row.ownerName || '-'}}
             </template>
           </el-table-column>
-          <el-table-column label="累计业务票数" min-width="100">
+          <el-table-column label="累计业务票数" min-width="50">
             <template slot-scope="scope">
-              {{scope.row.decCount+'' || '-'}}
+              <div class='sys-td-r'>
+                {{scope.row.decCount+'' || '-'}}
+              </div>
             </template>
           </el-table-column>
-          <el-table-column label="累计上传单证" min-width="100">
+          <el-table-column label="累计上传单证" min-width="50">
             <template slot-scope="scope">
-              {{scope.row.edocCount+'' || '-'}}
+              <div class='sys-td-r'>
+                {{scope.row.edocCount+'' || '-'}}
+              </div>
             </template>
           </el-table-column>
-          <el-table-column label="最近上传时间" min-width="100">
+          <el-table-column label="报关单创建时间" min-width="50">
             <template slot-scope="scope">
-              {{scope.row.updateTime | date() || '-'}}
+              <div class='sys-td-c'>
+                {{scope.row.updateTime | date() || '-'}}
+              </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="50">
+          <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" @click="toChild(scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <div class='sys-td-c'>
+                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>

@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="8" :xs="12">
                   <el-form-item label-width="100px" label="上传日期">
-                  <el-date-picker size="mini"
+                  <el-date-picker size="mini"  style="width:100%;"
                     v-model="dates"
                     @change="search()"
                     type="daterange"
@@ -66,9 +66,9 @@
               <el-row :gutter="20">
                 <el-col :span="20" style="padding:0;" class='detail-infos'>
                   <el-table class='sys-table-table' :data="scope.row.licenseInfos">
-                    <el-table-column label="上传时间" min-width="100">
+                    <el-table-column label="上传时间" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.updateTime | date() || '-'}}
+                        <div class='sys-td-c'>{{scope.row.updateTime | date() || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="许可证号" min-width="200">
@@ -76,32 +76,34 @@
                         {{scope.row.licenseNo || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column label="涉证商品" min-width="200">
+                    <el-table-column label="涉证商品" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.goodCount || '-'}}
+                        <div class='sys-td-r'>{{scope.row.goodCount || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="许可证截止有效日期" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.expiryDate | date() || '-'}}
+                        <div class='sys-td-c'>{{scope.row.expiryDate | date() || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="可用次数" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.availableNum + '' || '-'}}
+                        <div class='sys-td-r'>{{scope.row.availableNum + '' || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="剩余可用数量" min-width="100">
                       <template slot-scope="scope">
-                        {{scope.row.lastCount + '' || '-'}}
+                        <div class='sys-td-r'>{{scope.row.lastCount + '' || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="操作" width="200">
                       <template slot-scope="scope">
-                        <el-button type="text" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-                        <el-button type="text" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-                        <el-button type="text" @click="previewPicture(scope.row)" title="附件"><i class="fa fa-eye f-18"></i></el-button>
-                        <el-button type="text" @click="deleteBtn(scope.row.licensePid,scope.row.lastCount)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
+                        <div class='sys-td-c'>
+                          <el-button type="text" class="table-icon list-icon-look" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
+                          <el-button type="text" class="table-icon list-icon-edit" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i></i></el-button>
+                          <el-button type="text" class="table-icon list-icon-look" @click="previewPicture(scope.row)" title="附件"><i></i></el-button>
+                          <el-button type="text" class="table-icon list-icon-delete" @click="deleteBtn(scope.row.licensePid,scope.row.lastCount)" title="删除"><i></i></el-button>
+                        </div>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -122,7 +124,7 @@
         </el-table-column>
         <el-table-column label="许可证数" min-width="100">
           <template slot-scope="scope">
-            {{scope.row.count || '-'}}
+            <div class='sys-td-r'>{{scope.row.count || '-'}}</div>
           </template>
         </el-table-column>
       </el-table>

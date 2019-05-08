@@ -22,8 +22,8 @@
                       <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <el-row  v-else>
-                        <el-button size="small" type="primary">上传附件</el-button>
+                      <el-row>
+                        <el-button size="small" type="primary">重新上传</el-button>
                       </el-row>
                     </el-upload>
                   </el-col>
@@ -67,7 +67,8 @@ export default {
   data () {
     return {
       rules: {
-        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }]
+        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }],
+        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
       },
       fileLists: [],
       decPid: '',
@@ -143,10 +144,12 @@ export default {
         data: {decPid: this.decPid},
         router: this.$router,
         success: (res) => {
-          this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
-          this.submitData.licenseList.forEach(item => {
-            this.tipsFillMessage('saasEdocCode', 'SAAS_EDOC_CODE')
-            this.checkParamsList(item.documentType)
+          this.tipsFillMessage('saasEdocCode', 'SAAS_EDOC_CODE')
+          let licenseList = util.isEmpty(res.result) ? [] : res.result
+          for (let i in licenseList) {
+            this.checkParamsList(licenseList[i].documentType)
+          }
+          licenseList.forEach(item => {
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -177,11 +180,9 @@ export default {
                   item.isExcel = true
                 }
               }
-              item.fileLists = [{url: item.documentUrl}]
             }
           })
-          this.submitData.licenseList.push({})
-          this.submitData.licenseList.pop()
+          this.submitData.licenseList = licenseList
         }
       })
     },

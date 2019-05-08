@@ -1,8 +1,8 @@
 <template>
   <section class='sys-main'>
     <el-row class = "query-condition">
-        <el-form label-width="150px" :model="subData" ref="subData" :rules="rules" size="mini" label-position="right">
-          <el-row :gutter="20">
+        <el-form label-width="120px" :model="subData" ref="subData" :rules="rules" size="mini" label-position="right">
+          <el-row :gutter="50">
             <el-col :span="12">
               <el-form-item label="委托企业" prop="info.corpName" :rules="rules.corpName">
                 <el-autocomplete
@@ -36,7 +36,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="50">
             <el-col :span="12" :xs='24'>
               <el-form-item label="许可证编号:" prop="info.licenseNo" :rules="rules.licenseNo">
                 <el-input clearable size="mini" :maxlength="30" v-model="subData.info.licenseNo" :disabled="isDetail"></el-input>
@@ -48,7 +48,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="50">
             <el-col :span="12" :xs='24'>
               <el-form-item label="上传时间" prop="info.updateTime" :rules="rules.updateTime">
                 <el-input clearable size="mini" v-model="subData.info.updateTime" disabled></el-input>
@@ -351,13 +351,13 @@ export default {
         router: this.$router,
         success: (res) => {
           this.tipsFillMessage('saasLicType', 'SAAS_LICENSEDOCU')
-          this.subData = res.result
-          this.subData.info = res.result.info
+          let subData = res.result
+          subData.info = res.result.info
+          subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
           this.checkParamsList(this.subData.info.licenseType)
-          this.subData.info.expiryDate = util.dateFormat(this.subData.info.expiryDate, 'yyyy-MM-dd')
-          this.subData.info.updateTime = util.dateFormat(this.subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
-          this.subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
-          let url = this.subData.info.licenseUrl
+          // subData.info.expiryDate = util.dateFormat(subData.info.expiryDate, 'yyyy-MM-dd')
+          // subData.info.updateTime = util.dateFormat(subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
+          let url = subData.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)
             if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
@@ -388,6 +388,7 @@ export default {
               }
             }
           }
+          this.subData = subData
         }
       })
     },
