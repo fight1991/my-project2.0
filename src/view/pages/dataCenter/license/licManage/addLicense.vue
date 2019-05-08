@@ -276,10 +276,7 @@ export default {
     },
     // 校验
     checkValid (rule, value, callback) {
-      if (util.isEmpty(value)) {
-        this.$refs['goodsDialog'].clearValidate()
-        callback(new Error(''))
-      } else {
+      if (!util.isEmpty(value)) {
         const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
         if (!pattern.test(value)) {
           this.$refs['goodsDialog'].clearValidate()
@@ -287,6 +284,8 @@ export default {
         } else {
           callback()
         }
+      } else {
+        callback()
       }
     },
     // 校验

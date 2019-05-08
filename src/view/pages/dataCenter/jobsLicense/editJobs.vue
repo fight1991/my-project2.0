@@ -31,12 +31,12 @@
                     <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
                       remote filterable clearable
-                      @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
+                      @focus="tipsFillMessage('saasEdocCode-'+index,'SAAS_EDOC_CODE')"
                       :remote-method="checkParamsList"
                       ref="saasEdocCode" dataRef='saasEdocCode'
                       style="width:100%">
                         <el-option
-                          v-for="(item,i) in saasEdocCode"
+                          v-for="(item,i) in saasEdocCode[index]"
                           :key="'licenseList.'+index+i+item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -44,7 +44,7 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
-                      <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo"></el-input>
+                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -146,9 +146,10 @@ export default {
         data: {decPid: this.decPid},
         router: this.$router,
         success: (res) => {
-          this.tipsFillMessage('saasEdocCode', 'SAAS_EDOC_CODE')
           let licenseList = util.isEmpty(res.result) ? [] : res.result
           licenseList.forEach(item => {
+            this.saasEdocCode.push([])
+            this.tipsFillMessage('saasEdocCode-' + licenseList.indexOf(item), 'SAAS_EDOC_CODE')
             this.checkParamsList(item.documentType)
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
@@ -351,14 +352,15 @@ export default {
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
       let filterList = []
       if (util.isEmpty(keyValue)) {
-        this[this.selectObj.obj] = list.slice(0, 10)
+        this[this.selectObj.obj.split('-')[0]][this.selectObj.obj.split('-')[1]] = list.slice(0, 10)
       } else {
         filterList = list.filter(item => {
           let str = item.codeField + '-' + item.nameField
           return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
         })
-        this[this.selectObj.obj] = filterList.slice(0, 10)
+        this[this.selectObj.obj.split('-')[0]][this.selectObj.obj.split('-')[1]] = filterList.slice(0, 10)
       }
+      this.$forceUpdate()
     },
     // 导入
     upload (decPid, ownerCodeScc) {

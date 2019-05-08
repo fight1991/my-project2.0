@@ -263,6 +263,7 @@ export default {
       this.dates = ['', '']
       this.certificateDetailForm = {
         sccCode: this.$route.query.sccCode,
+        corpName: this.$route.query.corpName,
         input: '',
         startTime: '',
         endTime: ''

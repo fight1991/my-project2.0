@@ -102,7 +102,7 @@
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
                       <div class='sys-td-c'>
-                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(scope.row)" title="删除" v-if="!isDetail"><i></i></el-button>
+                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(subData.goods.indexOf(scope.row))" title="删除" v-if="!isDetail"><i></i></el-button>
                       </div>
                     </template>
                   </el-table-column>
@@ -274,6 +274,8 @@ export default {
         } else {
           callback()
         }
+      } else {
+        callback()
       }
     },
     // 校验商品编码
