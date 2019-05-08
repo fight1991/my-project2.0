@@ -3,7 +3,7 @@
      <!-- 主显示框 -->
     <div class='content'>
       <div class='regist-panel' :model="QueryForm">
-        <el-form label-width="100px">
+        <el-form >
         <el-row class='sys-search mg-b-30' :gutter="5">
           <!-- 查询条件 -->
           <el-col :span="4">
@@ -20,7 +20,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item size="mini" label="时间">
-              <el-date-picker  v-model="dates" style="width:100%"
+              <el-date-picker  v-model="dates" style="width:90%"
               @change="doInit()"
               type="daterange"
               :clearable = 'false'
