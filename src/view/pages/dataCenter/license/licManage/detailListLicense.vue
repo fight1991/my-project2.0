@@ -101,7 +101,7 @@
                         <div class='sys-td-c'>
                           <el-button type="text" class="table-icon list-icon-look" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
                           <el-button type="text" class="table-icon list-icon-edit" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i></i></el-button>
-                          <el-button type="text" class="table-icon list-icon-look" @click="previewPicture(scope.row)" title="附件"><i></i></el-button>
+                          <el-button type="text" class="table-icon list-icon-scan" @click="previewPicture(scope.row)" title="附件"><i></i></el-button>
                           <el-button type="text" class="table-icon list-icon-delete" @click="deleteBtn(scope.row.licensePid,scope.row.lastCount)" title="删除"><i></i></el-button>
                         </div>
                       </template>
@@ -273,41 +273,39 @@ export default {
     },
     // 删除
     deleteBtn (val, num) {
-      let lastCount = parseInt('num')
-      if (lastCount > 0) {
+      if (parseInt(num) > 0) {
         this.$confirm('当前许可证尚有可用数量的剩余，若进行删除，可能影响后续报关，是否确定删除当前许可证？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$store.dispatch('ajax', {
-            url: 'API@/saas-document-center/license/delete',
-            data: {pid: val},
-            router: this.$router,
-            success: (res) => {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
-              this.search()
-            }
-          })
+          this.deleteDispatch(val)
         }).catch(() => {
         })
       } else {
-        this.$store.dispatch('ajax', {
-          url: 'API@/saas-document-center/license/delete',
-          data: {pid: val},
-          router: this.$router,
-          success: (res) => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.search()
-          }
+        this.$confirm('确认删除吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteDispatch(val)
+        }).catch(() => {
         })
       }
+    },
+    deleteDispatch (val) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/license/delete',
+        data: {pid: val},
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.search()
+        }
+      })
     }
   }
 }

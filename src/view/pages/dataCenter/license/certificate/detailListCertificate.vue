@@ -190,12 +190,15 @@ export default {
     warningSet () {
       this.setDialogVisible = true
       if (util.isEmpty(this.warningDays)) {
+        this.isDisabled = true
         this.setDialogForm.inputDays = ''
         this.setDialogForm.dateConfig = '30'
       } else if (parseInt(this.warningDays) === 5 || parseInt(this.warningDays) === 15 || parseInt(this.warningDays) === 30) {
         this.setDialogForm.dateConfig = this.warningDays + ''
         this.setDialogForm.inputDays = ''
+        this.isDisabled = true
       } else {
+        this.isDisabled = false
         this.setDialogForm.dateConfig = ''
         this.setDialogForm.inputDays = this.warningDays + ''
       }
