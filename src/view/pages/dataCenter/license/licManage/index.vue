@@ -7,7 +7,7 @@
       </el-row>
       <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
-        <el-row :gutter="20" style="padding-top:10px">
+        <el-row :gutter="50" style="padding-top:10px">
           <el-col :span="6" :xs="12">
             <el-form-item>
               <el-autocomplete

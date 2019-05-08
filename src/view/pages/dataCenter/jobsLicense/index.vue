@@ -4,7 +4,7 @@
       <el-row class = "query-condition">
         <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
       <!-- 查询条件 -->
-          <el-row :gutter="20" style="padding-top:10px">
+          <el-row :gutter="50" style="padding-top:10px">
             <el-col :span="6" :xs="12">
               <el-form-item>
                 <el-autocomplete
@@ -18,7 +18,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8" :xs="12">
-              <el-form-item label-width="100px" label="报关单创建日期">
+              <el-form-item label-width="120px" label="报关单创建日期">
                 <el-date-picker size="mini"  style="width:100%;"
                   v-model="dates"
                   type="daterange"

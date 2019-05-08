@@ -8,18 +8,15 @@
                 <el-row>
                   <el-col :span="10">
                     <el-upload
-                    disabled
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item)}"
                     :file-list="fileLists"
                     :show-file-list="item.fileType"
                     :on-preview="showfileUrl">
-                    <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
+                    <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
-                    <!-- <el-button size="small" type="primary" v-else>上传附件</el-button> -->
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
@@ -103,8 +100,8 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.submitData.licenseList = util.isEmpty(res.result) ? [] : res.result
-          this.submitData.licenseList.forEach(item => {
+          let licenseList = util.isEmpty(res.result) ? [] : res.result
+          licenseList.forEach(item => {
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -137,6 +134,7 @@ export default {
               }
             }
           })
+          this.submitData.licenseList = licenseList
         }
       })
     },

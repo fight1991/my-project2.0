@@ -102,7 +102,7 @@
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
                       <div class='sys-td-c'>
-                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods" title="删除" v-if="!isDetail"><i></i></el-button>
+                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(scope.row)" title="删除" v-if="!isDetail"><i></i></el-button>
                       </div>
                     </template>
                   </el-table-column>
@@ -114,13 +114,12 @@
           <el-row>
             <el-form-item label="许可证文件:" prop="info.licenseUrl" :rules="rules.licenseUrl">
               <el-upload
-              :disabled="isDetail"
               action="http://127.0.0.1"
               :before-upload="beforeUpload"
               :file-list="fileLists"
               :show-file-list="fileType"
               :on-preview="showfileUrl">
-              <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img">
+              <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click="showfile(subData.info.licenseUrl)">
               <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
@@ -250,6 +249,8 @@ export default {
           availableNum: ''
         },
         goods: [{
+          relatedGoodsPid: '',
+          licensePid: '',
           gName: '',
           gNo: '',
           declaredQuantity: '',
@@ -282,6 +283,8 @@ export default {
     // 更多上传
     addRelatedGoods () {
       this.subData.goods.push({
+        relatedGoodsPid: '',
+        licensePid: '',
         gName: '',
         gNo: '',
         declaredQuantity: '',
@@ -340,7 +343,7 @@ export default {
           this.tipsFillMessage('saasLicType', 'SAAS_LICENSEDOCU')
           let subData = res.result
           subData.info = res.result.info
-          subData.goods = util.isEmpty(res.result.goods) ? [] : util.simpleClone(res.result.goods)
+          subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
           this.checkParamsList(this.subData.info.licenseType)
           // subData.info.expiryDate = util.dateFormat(subData.info.expiryDate, 'yyyy-MM-dd')
           // subData.info.updateTime = util.dateFormat(subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
@@ -493,6 +496,7 @@ export default {
     },
     // 预览
     showfileUrl (file) {
+      console.log(file)
       util.fileView(file.url)
     },
     // 文件点击事件
