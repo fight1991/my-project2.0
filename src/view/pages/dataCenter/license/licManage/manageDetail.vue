@@ -73,23 +73,23 @@
                 <el-table class='sys-table-table'
                   border highlight-current-row size="mini"
                   :data="subData.goods">
-                  <el-table-column label="商品名称" min-width="100">
+                  <el-table-column label="商品名称" min-width="100" :maxlength="10">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" class="form-item-mg0">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gName'  " :rules="rules.gName">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
-                  <el-table-column label="商品编号" min-width="100">
+                  <el-table-column label="商品编号" min-width="100" :maxlength="20">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" class="form-item-mg0" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" class="form-item-mg0" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
@@ -102,7 +102,7 @@
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
                       <div class='sys-td-c'>
-                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(index)" title="删除" v-if="!isDetail"><i></i></el-button>
+                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(scope.row)" title="删除" v-if="!isDetail"><i></i></el-button>
                       </div>
                     </template>
                   </el-table-column>
@@ -154,6 +154,7 @@ export default {
         expiryDate: [{ required: true, message: '请选择有效截止日期', trigger: 'change' }],
         availableNum: [{ required: true, message: '请选择可用次数', trigger: 'change' }],
         gNo: [{ required: true, validator: this.checkvalidate, message: '请输入商品编号(数字)', trigger: 'blur' }],
+        gName: [{ validator: this.checkValid, message: '商品名称为中英文', trigger: 'blur' }],
         declaredQuantity: [{ required: true, validator: validator.Zz0, message: '请输入申报数量', trigger: 'blur' }]
       },
       controller: {
@@ -210,9 +211,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.querylist()
-    })
+    this.querylist()
   },
   watch: {
     '$route': function (to, from) {
@@ -264,6 +263,18 @@ export default {
       this.$nextTick(() => {
         this.$refs['subData'].clearValidate()
       })
+    },
+    // 校验委托企业
+    checkValid (rule, value, callback) {
+      if (!util.isEmpty(value)) {
+        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
+        if (!pattern.test(value)) {
+          this.$refs['subData'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
     },
     // 校验商品编码
     checkvalidate (rule, value, callback) {

@@ -137,9 +137,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.queryEdit()
-    })
+    this.queryEdit()
   },
   methods: {
     // 返回按钮

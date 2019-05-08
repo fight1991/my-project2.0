@@ -112,9 +112,7 @@ export default {
     this.getCommonParams()
   },
   mounted () {
-    this.$nextTick(() => {
-      this.querylist()
-    })
+    this.querylist()
   },
   watch: {
     '$route': function (to, from) {
@@ -150,10 +148,8 @@ export default {
         success: (res) => {
           this.tipsFillMessage('saasEdocCode', 'SAAS_EDOC_CODE')
           let licenseList = util.isEmpty(res.result) ? [] : res.result
-          for (let i in licenseList) {
-            this.checkParamsList(licenseList[i].documentType)
-          }
           licenseList.forEach(item => {
+            this.checkParamsList(item.documentType)
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
