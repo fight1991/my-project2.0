@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="8" :xs="12">
             <el-form-item label-width="100px" label="最近上传日期">
-              <el-date-picker size="mini"
+              <el-date-picker size="mini"  style="width:100%;"
                 v-model="dates"
                 type="daterange"
                 :editable='false'
@@ -48,19 +48,21 @@
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="100" prop="corpName"></el-table-column>
-          <el-table-column label="许可证数" min-width="100">
+          <el-table-column label="许可证数" min-width="80">
             <template slot-scope="scope">
-              {{scope.row.count+''}}
+              <div class='sys-td-r'>{{scope.row.count+''}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="最近上传时间" min-width="100">
+          <el-table-column label="最近上传时间" min-width="80">
             <template slot-scope="scope">
-              {{scope.row.updateTime || '-'}}
+              <div class='sys-td-c'>{{scope.row.updateTime || '-'}}</div>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" @click="toDetailList(scope.row.corpSccCode,scope.row.corpName)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
+              <div class='sys-td-c'>
+                <el-button type="text" class="table-icon list-icon-look" @click="toDetailList(scope.row.corpSccCode,scope.row.corpName)" title="查看"><i></i></el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -114,7 +116,7 @@ export default {
     // 委托企业
     corpList () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryCorps',
+        url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
         data: {},
         router: this.$router,
         success: (res) => {

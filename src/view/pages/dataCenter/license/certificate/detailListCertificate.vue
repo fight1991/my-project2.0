@@ -33,7 +33,7 @@
                   </el-col>
                   <el-col :span="8" :xs="12">
                     <el-form-item label-width="100px" label="到期日期">
-                    <el-date-picker size="mini"
+                    <el-date-picker size="mini" style="width:100%;"
                       v-model="dates"
                       @change="search()"
                       type="daterange"
@@ -71,20 +71,22 @@
             {{scope.row.certificateNo || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="到期日期" min-width="200">
+        <el-table-column label="到期日期" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.expiryDate || '-'}}
+            <div class='sys-td-c'>{{scope.row.expiryDate || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="到期预警日期" min-width="200">
+        <el-table-column label="到期预警日期" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.warningTime || '-'}}
+            <div class='sys-td-c'>{{scope.row.warningTime || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <el-button type="text" @click="toEdit('edit',scope.row.certificatePid,certificateDetailForm.sccCode)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
-            <el-button type="text" @click="deleteBtn(scope.row.certificatePid)" title="删除"><i class="fa fa-trash-o f-18"></i></el-button>
+            <div class='sys-td-c'>
+              <el-button type="text" class="table-icon list-icon-edit"  @click="toEdit('edit',scope.row.certificatePid,certificateDetailForm.sccCode)" title="编辑"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-delete" @click="deleteBtn(scope.row.certificatePid)" title="删除"><i></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -122,8 +124,8 @@
           </el-row>
         </el-form>
         <span slot="footer">
-          <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
-          <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
+          <el-button size="mini" type="primary" @click="saveDialogForm">确定</el-button>
+          <el-button size="mini" @click="cancleDialogForm">取消</el-button>
         </span>
     </el-dialog>
   </section>
@@ -405,30 +407,4 @@ export default {
         border-bottom: 1px solid #dfe6ec;
     }
   }
-  .layer-btn-primary {
-      height: 32px;
-      line-height: 32px;
-      margin: 0 6px;
-      padding: 0 15px;
-      border: 1px solid #4898d5;
-      border-radius: 2px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      background-color: #2e8ded;
-      color: #fff;
-    }
-    .layer-btn {
-      height: 32px;
-      line-height: 32px;
-      margin: 0 6px;
-      padding: 0 15px;
-      border: 1px solid #d8d8d8;
-      border-radius: 2px;
-      font-size: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      color: #333333;
-    }
 </style>

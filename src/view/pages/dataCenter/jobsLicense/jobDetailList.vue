@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="8" :xs="12">
                   <el-form-item label-width="100px" label="创建日期">
-                  <el-date-picker size="mini"
+                  <el-date-picker size="mini"  style="width:100%;"
                     v-model="dates"
                     type="daterange"
                     :editable='false'
@@ -59,46 +59,48 @@
       <el-table class='sys-table-table'
         border highlight-current-row size="mini"
         :data="resultJobList">
-        <el-table-column label="报关单系统编号" min-width="200">
+        <el-table-column label="报关单系统编号" min-width="150">
           <template slot-scope="scope">
             {{scope.row.decPid || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="接单编号" min-width="200">
+        <el-table-column label="接单编号" min-width="150">
           <template slot-scope="scope">
             {{scope.row.bossId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="统一编号" min-width="200">
+        <el-table-column label="统一编号" min-width="150">
           <template slot-scope="scope">
             {{scope.row.seqNo || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="海关编号" min-width="200">
+        <el-table-column label="海关编号" min-width="150">
           <template slot-scope="scope">
             {{scope.row.entryId || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="业务状态" min-width="200">
+        <el-table-column label="业务状态" min-width="100">
           <template slot-scope="scope">
             {{scope.row.isExamineValue || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="创建日期" min-width="90">
+        <el-table-column label="创建日期" min-width="100">
           <template slot-scope="scope">
-            <div>{{scope.row.createTime || '-'}}</div>
+            <div class='sys-td-c'>{{scope.row.createTime || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="上传单证数" min-width="200">
+        <el-table-column label="上传单证数" min-width="80">
           <template slot-scope="scope">
-            {{scope.row.count+'' || '-'}}
+            <div class='sys-td-r'>{{scope.row.count+'' || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <el-button type="text" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i class="fa fa-file-text-o f-18"></i></el-button>
-            <el-button type="text" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i class="fa fa-sign-in"></i></el-button>
-            <el-button type="text" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i class="fa fa-edit f-18"></i></el-button>
+            <div class='sys-td-c'>
+              <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i></i></el-button>
+              <el-button type="text" class="list-btns list-icon-import" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>

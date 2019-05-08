@@ -12,7 +12,7 @@
     </el-row>
     <el-row class = "query-table">
       <el-col :span="18" :offset="3">
-        <el-form label-width="150px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
+        <el-form label-width="100px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-autocomplete
                 :disabled="isDetailAdd"
@@ -32,7 +32,7 @@
             <el-input size="mini" clearable :maxlength="30" v-model="addForm.certificateNo"></el-input>
           </el-form-item>
           <el-form-item label="到期时间" prop="expiryDate">
-            <el-date-picker style="width:100%" size="mini" type="datetime" placeholder="选择到期时间" v-model="addForm.expiryDate"></el-date-picker>
+            <el-date-picker style="width:100%" size="mini" type="date" placeholder="选择到期时间" v-model="addForm.expiryDate"></el-date-picker>
           </el-form-item>
           <el-form-item label="" prop="ifWarning">
             <el-checkbox label="需要进行到期预警" v-model="addForm.ifWarning" name="type" true-label='1' false-label='0'></el-checkbox>
@@ -49,7 +49,9 @@
               <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <el-button size="small" type="primary">上传附件</el-button>
+              <el-row>
+               <el-button size="small" type="primary">上传附件</el-button>
+              </el-row>
             </el-upload>
               <!-- <img class="detail-img" v-if="!fileType" :src="addForm.certificateUrl"> -->
           </el-form-item>
@@ -376,7 +378,7 @@ export default {
       if (this.fileLists.length > 0 && this.fileType) {
         this.addForm.certificateUrl = this.fileLists[0].url
       }
-      this.addForm.expiryDate = util.dateFormat(this.addForm.expiryDate, 'yyyy-MM-dd hh:mm:ss')
+      this.addForm.expiryDate = util.dateFormat(this.addForm.expiryDate, 'yyyy-MM-dd')
       this.addForm.corpName = this.addForm.corpName
       this.addForm.ownerCodeScc = this.addForm.ownerCodeScc
       this.addForm.certificateName = this.addForm.certificateName

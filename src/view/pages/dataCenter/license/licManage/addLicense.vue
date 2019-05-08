@@ -11,10 +11,10 @@
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
-        <el-form label-width="150px" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item label="委托企业" prop="corpName">
+        <el-form label-width="120px" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
+          <el-row style="padding-left:20px;">
+            <el-col :span="12" style="padding-right:40px;">
+              <el-form-item label="委托企业:" prop="corpName">
                 <el-autocomplete
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
@@ -28,10 +28,10 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row>
             <el-card class="license-card" v-for="(item,index) in addForm.submitDataList" :key="index">
               <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
-              <el-row>
+              <el-row :gutter="50">
                 <el-col :span="12">
                 <el-form-item label="许可证类型:" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
@@ -50,38 +50,40 @@
                 </el-form-item>
                 </el-col>
               </el-row>
-              <el-row>
-                <el-form-item label="许可证文件:" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
-                  <el-upload
-                    action="http://127.0.0.1"
-                    :before-upload="(e)=>{beforeUpload(e,item)}"
-                    :file-list="fileLists"
-                    :show-file-list="item.info.fileType"
-                    :on-preview="showfileUrl"
-                    :on-remove="(e)=>{handleDelete(e,item)}">
-                    <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
-                    <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                    <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                    <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                    <el-button size="small" type="primary" v-if="item.info.fileType">上传附件</el-button>
-                  </el-upload>
-                </el-form-item>
+              <el-row :gutter="50">
+                <el-col :span="12">
+                  <el-form-item label="许可证文件:" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
+                    <el-upload
+                      action="http://127.0.0.1"
+                      :before-upload="(e)=>{beforeUpload(e,item)}"
+                      :file-list="fileLists"
+                      :show-file-list="item.info.fileType"
+                      :on-preview="showfileUrl"
+                      :on-remove="(e)=>{handleDelete(e,item)}">
+                      <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
+                      <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <el-button size="small" type="primary" v-if="item.info.fileType">上传附件</el-button>
+                    </el-upload>
+                  </el-form-item>
+                </el-col>
               </el-row>
-              <el-row>
+              <el-row :gutter="50">
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="许可证编号:" :prop="'submitDataList.'+index+'.info.licenseNo'" :rules="rules.licenseNo">
                     <el-input clearable size="mini" :maxlength="30" v-model="item.info.licenseNo"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="有效截止日期" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
+                  <el-form-item label="有效截止日期:" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
                     <el-date-picker size="mini" type="date" style="width:100%" v-model="item.info.expiryDate"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-row>
+              <el-row :gutter="50">
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="可用次数" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
+                  <el-form-item label="可用次数:" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
                     <el-select v-model="item.info.availableNum" style="width:100%"
                       filterable remote clearable placeholder="请选择许可证可用次数">
                       <el-option label="一批一证" value="1"></el-option>
@@ -143,9 +145,9 @@
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="sys-dialog-footer" style="text-align:center;">
-        <el-button class="layer-btn-primary" @click="saveDialogForm">确定</el-button>
-        <el-button class="layer-btn" @click="cancleDialogForm">取消</el-button>
+      <div slot="footer">
+        <el-button size="mini" type="primary" @click="saveDialogForm">确定</el-button>
+        <el-button size="mini" @click="cancleDialogForm">取消</el-button>
       </div>
     </el-dialog>
   </section>
