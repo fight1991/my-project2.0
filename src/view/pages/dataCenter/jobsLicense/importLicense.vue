@@ -50,7 +50,7 @@
                   </el-col>
                   <el-col :span="12" :xs='24'>
                     <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
-                      <el-input clearable size="mini" :maxlength="30" v-model="item.documentNo"></el-input>
+                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
