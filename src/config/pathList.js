@@ -197,7 +197,7 @@ export default {
     // 加工贸易账册报核查询
     accountBookVerQuery_sea: url.JINER + '/sea/dataQuery/accountBookQuery',
     // 物流账册平衡表
-    phDataList_sea: url.JINER + '',
+    phDataList_sea: url.JINER + '/sea/dataQuery/balanceQuery',
 
     // 海关特殊监管区域 - 场站业务
     // 业务申报表
@@ -267,7 +267,7 @@ export default {
     // 加工贸易账册报核查询
     accountBookVerQuery_gra: url.JINER + '/graininess/dataQuery/accountBookVerQuery',
     // 物流账册平衡表
-    phDataList_gra: url.JINER + '',
+    phDataList_gra: url.JINER + '/graininess/dataQuery/balanceQuery',
 
     // 保税物流管理 - 场站业务
     // 业务申报表
