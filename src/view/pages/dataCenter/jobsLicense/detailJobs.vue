@@ -77,7 +77,11 @@ export default {
     this.decPid = this.$route.query.decPid
     this.ownerCodeScc = this.$route.query.ownerCodeScc
     this.submitData.licenseList = []
-    this.querylist()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.querylist()
+    })
   },
   watch: {
     '$route': function (to, from) {

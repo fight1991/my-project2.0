@@ -110,7 +110,11 @@ export default {
       isExcel: false
     }]
     this.getCommonParams()
-    this.querylist()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.querylist()
+    })
   },
   watch: {
     '$route': function (to, from) {
