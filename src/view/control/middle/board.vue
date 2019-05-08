@@ -3,52 +3,52 @@
     <div class="title">跟踪看板</div>
     <el-tabs v-model="activeName">
       <el-tab-pane label="申报跟踪" name="first">
-      <el-form class="dateSearch">
-        <el-form-item label="操作日期查询">
-          <el-date-picker
-            v-model="dates"
-            size="mini"
-            type="daterange"
-            @change="getDecList"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <el-row>
-        <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
-        <div class="ccba-table" v-else>
-          <el-table
-            :data="tableData"
-            @cell-click="goToDecInfo"
-            :cell-class-name = 'cursor'
-            style="width:100%">
-            <el-table-column
-              prop="statusVal"
-              label="内容"
-              >
-            </el-table-column>
-            <el-table-column
-              prop="iCount"
-              label="进口报关单"
-              width="110"
+        <el-form class="dateSearch">
+          <el-form-item label="操作日期查询">
+            <el-date-picker
+              v-model="dates"
+              size="mini"
+              type="daterange"
+              @change="getDecList"
               align="right"
-              >
-            </el-table-column>
-            <el-table-column
-              prop="eCount"
-              width="110"
-              label="出口报关单"
-              align="right"
-              >
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-row>
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+        <el-row>
+          <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
+          <div class="ccba-table" v-else>
+            <el-table
+              :data="tableData"
+              @cell-click="goToDecInfo"
+              :cell-class-name = 'cursor'
+              style="width:100%">
+              <el-table-column
+                prop="statusVal"
+                label="内容"
+                >
+              </el-table-column>
+              <el-table-column
+                prop="iCount"
+                label="进口报关单"
+                width="110"
+                align="right"
+                >
+              </el-table-column>
+              <el-table-column
+                prop="eCount"
+                width="110"
+                label="出口报关单"
+                align="right"
+                >
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-row>
       </el-tab-pane>
       <!-- <el-tab-pane label="物流跟踪" name="second">配置管理</el-tab-pane>
       <el-tab-pane label="费用跟踪" name="third">角色管理</el-tab-pane> -->
@@ -66,6 +66,7 @@ export default {
     return {
       dates: '',
       activeName: 'first',
+      isLoading: false,
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -116,6 +117,7 @@ export default {
           'endDate': this.dates[1],
           'startDate': this.dates[0]
         },
+        isLoad: false,
         router: this.$router,
         success: (res) => {
           this.tableData = res.result.decListHomePageVOs

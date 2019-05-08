@@ -3,7 +3,25 @@
     <div class="title">报表统计</div>
     <div class="compute-content">
       <h3>单量统计</h3>
-      <div class="time">统计时间 :&nbsp;{{dates.startDate+' ~ '+dates.endDate}}</div>
+      <!-- <div class="time">统计时间 :&nbsp;{{dates.startDate+' ~ '+dates.endDate}}</div> -->
+      <el-row class="dateSearch">
+        <el-form label-width="70px">
+          <el-form-item label="统计时间 : ">
+            <el-date-picker
+              v-model="dates"
+              size="mini"
+              type="daterange"
+              @change="getEchart"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+      </el-row>
     </div>
     <div class="default" v-if="echartData.series[0].data.length===0"><img src="../../../assets/img/icon/list.png" alt=""></div>
     <div class="detail" ref="chartBox" v-else>
@@ -53,14 +71,30 @@ export default {
           }
         ]
       },
-      dates: {
-        startDate: '',
-        endDate: ''
+      dates: '',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
       }
     }
   },
   created () {
-    this.computeWeek()
+    this.getMonths()
     this.getEchart()
     eventBus.$on('getEchart', this.getEchart)
   },
@@ -71,17 +105,23 @@ export default {
   methods: {
     // 获取图表数据
     getEchart () {
+      if (!this.dates) {
+        this.echartData.series[0].data = []
+        return
+      }
+      this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decCount',
         data: {
           iEFlag: 'ALL',
-          startDate: this.dates.startDate,
-          endDate: this.dates.endDate,
+          startDate: this.dates[0],
+          endDate: this.dates[1],
           page: {
             pageSize: 10,
             pageIndex: 1
           }
         },
+        isLoad: false,
         router: this.$router,
         success: (res) => {
           let pieList = []
@@ -108,13 +148,12 @@ export default {
         }
       })
     },
-    // 计算最近一周
-    computeWeek () {
-      let end = new Date()
-      let start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-      this.dates.startDate = util.dateFormat(start, 'yyyy-MM-dd')
-      this.dates.endDate = util.dateFormat(end, 'yyyy-MM-dd')
+    // 获取当前一个月
+    getMonths () {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
     getBoxWidth () {
       this.$nextTick(() => {
@@ -162,6 +201,10 @@ export default {
     font-size: 12px;
     color: @font-color-title;
   }
+}
+.dateSearch {
+  display: flex;
+  justify-content: center;
 }
 
 </style>
