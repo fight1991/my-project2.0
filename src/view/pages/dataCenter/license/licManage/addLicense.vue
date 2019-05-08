@@ -126,7 +126,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="7">
-                <el-form-item>
+                <el-form-item :prop="'goods.'+index2+'.gName'" :rules="dialogRule.gName">
                   <el-input size="mini" clearable v-model="item2.gName" placeholder="请输入商品名称" :maxlength="20"></el-input>
                 </el-form-item>
               </el-col>
@@ -273,6 +273,21 @@ export default {
       this.$router.push({
         name: 'license'
       })
+    },
+    // 校验
+    checkValid (rule, value, callback) {
+      if (util.isEmpty(value)) {
+        this.$refs['goodsDialog'].clearValidate()
+        callback(new Error(''))
+      } else {
+        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
+        if (!pattern.test(value)) {
+          this.$refs['goodsDialog'].clearValidate()
+          callback(new Error(''))
+        } else {
+          callback()
+        }
+      }
     },
     // 校验
     checkValidNum (rule, value, callback) {
@@ -448,52 +463,58 @@ export default {
     // 保存
     submit () {
       this.$refs['addForm'].validate((valId) => {
-        if (!valId) {
-          return false
-        }
-        let list = []
-        list = this.addForm.submitDataList
-        for (let i = 0; i < list.length; i++) {
-          for (let j = list.length - 1; j > i; j--) {
-            if (list[i].info.licenseNo === list[j].info.licenseNo && list[i].info.licenseType === list[j].info.licenseType) {
-              this.$message({
-                message: '许可证类型和许可证编号已存在',
-                type: 'error'
-              })
-              return
-            }
-          }
-          list[i].info.corpName = this.addForm.corpName
-          list[i].info.ownerCodeScc = this.addForm.ownerCodeScc
-          list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
-          for (let k = 0; k < list[i].goods.length; k++) {
-            if (util.isEmpty(list[i].goods[k].gNo) || util.isEmpty(list[i].goods[k].declaredQuantity)) {
-              this.$message({
-                message: '商品编号和商品数量不能为空',
-                type: 'error'
-              })
-              return
-            }
-          }
-        }
-        this.$store.dispatch('ajax', {
-          url: 'API@/saas-document-center/license/save',
-          data: {list: this.addForm.submitDataList},
-          router: this.$router,
-          success: (res) => {
+        this.$refs['goodsDialog'].validate((valId) => {
+          if (!valId) {
             this.$message({
-              message: '新建成功',
-              type: 'success'
+              message: '验证不通过,请按校验规则填写',
+              type: 'error'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/licenses/license/detailListLicense',
-              query: {
-                sccCode: this.addForm.ownerCodeScc,
-                corpName: this.addForm.corpName
-              }
-            })
+            return false
           }
+          let list = []
+          list = this.addForm.submitDataList
+          for (let i = 0; i < list.length; i++) {
+            for (let j = list.length - 1; j > i; j--) {
+              if (list[i].info.licenseNo === list[j].info.licenseNo && list[i].info.licenseType === list[j].info.licenseType) {
+                this.$message({
+                  message: '许可证类型和许可证编号已存在',
+                  type: 'error'
+                })
+                return
+              }
+            }
+            list[i].info.corpName = this.addForm.corpName
+            list[i].info.ownerCodeScc = this.addForm.ownerCodeScc
+            list[i].info.expiryDate = util.dateFormat(list[i].info.expiryDate, 'yyyy-MM-dd')
+            for (let k = 0; k < list[i].goods.length; k++) {
+              if (util.isEmpty(list[i].goods[k].gNo) || util.isEmpty(list[i].goods[k].declaredQuantity)) {
+                this.$message({
+                  message: '商品编号和商品数量不能为空',
+                  type: 'error'
+                })
+                return
+              }
+            }
+          }
+          this.$store.dispatch('ajax', {
+            url: 'API@/saas-document-center/license/save',
+            data: {list: this.addForm.submitDataList},
+            router: this.$router,
+            success: (res) => {
+              this.$message({
+                message: '新建成功',
+                type: 'success'
+              })
+              this.$store.commit('CloseTab', this.$route.name)
+              this.$router.push({
+                path: '/dataCenter/licenses/license/detailListLicense',
+                query: {
+                  sccCode: this.addForm.ownerCodeScc,
+                  corpName: this.addForm.corpName
+                }
+              })
+            }
+          })
         })
       })
     },

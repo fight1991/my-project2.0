@@ -83,7 +83,7 @@
                     </el-table-column>
                     <el-table-column label="许可证截止有效日期" min-width="200">
                       <template slot-scope="scope">
-                        <div class='sys-td-c'>{{scope.row.expiryDate | date() || '-'}}</div>
+                        <div class='sys-td-c'>{{scope.row.expiryDate || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="可用次数" min-width="100">

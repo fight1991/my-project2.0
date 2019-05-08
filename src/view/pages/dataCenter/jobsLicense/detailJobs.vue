@@ -79,9 +79,7 @@ export default {
     this.submitData.licenseList = []
   },
   mounted () {
-    this.$nextTick(() => {
-      this.querylist()
-    })
+    this.querylist()
   },
   watch: {
     '$route': function (to, from) {
