@@ -127,7 +127,6 @@ export default {
     if (this.$route.query.type) {
       this.type = this.$route.query.type
       this.certificatePid = this.$route.query.certificatePid
-      this.queryEdit()
     }
     if (this.$route.query.corpName) {
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
@@ -138,7 +137,9 @@ export default {
     }
   },
   mounted () {
-
+    this.$nextTick(() => {
+      this.queryEdit()
+    })
   },
   methods: {
     // 返回按钮
@@ -187,7 +188,7 @@ export default {
           data: {pid: this.certificatePid},
           router: this.$router,
           success: (res) => {
-            this.addForm = {
+            let addForm = {
               ownerCodeScc: res.result.ownerCodeScc,
               corpName: res.result.corpName,
               certificateName: res.result.certificateName,
@@ -197,7 +198,7 @@ export default {
               certificateUrl: res.result.certificateUrl,
               certificatePid: res.result.certificatePid
             }
-            let url = res.result.certificateUrl
+            let url = addForm.certificateUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
               if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
@@ -228,6 +229,7 @@ export default {
                 }
               }
             }
+            this.addForm = addForm
           }
         })
       }
