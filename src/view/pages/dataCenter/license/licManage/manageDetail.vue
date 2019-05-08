@@ -102,7 +102,7 @@
                   <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
                       <div class='sys-td-c'>
-                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods(scope.row.relatedGoodsPid)" title="删除" v-if="!isDetail"><i></i></el-button>
+                        <el-button type="text" class="list-btns list-icon-delete" @click="deleteGoods" title="删除" v-if="!isDetail"><i></i></el-button>
                       </div>
                     </template>
                   </el-table-column>
@@ -125,7 +125,7 @@
               <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
-               <el-button size="small" type="primary" v-if="!isDetail">点击图片重新上传</el-button>
+               <el-button size="small" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
             </el-upload>
             </el-form-item>
@@ -148,7 +148,7 @@ export default {
   data () {
     return {
       rules: {
-        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'blur' }],
+        corpName: [{ required: true, message: '请输入委托企业', trigger: 'blur' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
         licenseUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
@@ -174,6 +174,8 @@ export default {
           availableNum: ''
         },
         goods: [{
+          relatedGoodsPid: '',
+          licensePid: '',
           gName: '',
           gNo: '',
           declaredQuantity: '',
@@ -258,21 +260,6 @@ export default {
         this.$refs['subData'].clearValidate()
       })
     },
-    // 校验委托企业
-    checkValid (rule, value, callback) {
-      if (util.isEmpty(value)) {
-        this.$refs['subData'].clearValidate()
-        callback(new Error(''))
-      } else {
-        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
-        if (!pattern.test(value)) {
-          this.$refs['subData'].clearValidate()
-          callback(new Error(''))
-        } else {
-          callback()
-        }
-      }
-    },
     // 校验商品编码
     checkvalidate (rule, value, callback) {
       if (util.isEmpty(value)) {
@@ -353,7 +340,7 @@ export default {
           this.tipsFillMessage('saasLicType', 'SAAS_LICENSEDOCU')
           let subData = res.result
           subData.info = res.result.info
-          subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
+          subData.goods = util.isEmpty(res.result.goods) ? [] : util.simpleClone(res.result.goods)
           this.checkParamsList(this.subData.info.licenseType)
           // subData.info.expiryDate = util.dateFormat(subData.info.expiryDate, 'yyyy-MM-dd')
           // subData.info.updateTime = util.dateFormat(subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')

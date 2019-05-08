@@ -71,7 +71,7 @@ export default {
   data () {
     return {
       rule: {
-        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
+        corpName: [{ required: true, message: '请输入委托企业', trigger: 'change' }],
         certificateName: [{ required: true, message: '请输入证书名称', trigger: 'blur' }],
         certificateNo: [{ required: true, message: '请输入证书编号', trigger: 'blur' }],
         certificateUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
@@ -230,21 +230,6 @@ export default {
             }
           }
         })
-      }
-    },
-    // 校验
-    checkValid (rule, value, callback) {
-      if (util.isEmpty(value)) {
-        this.$refs['addForm'].clearValidate()
-        callback(new Error(''))
-      } else {
-        const pattern = /^[A-Za-z0-9\u4e00-\u9fa5]+$/
-        if (!pattern.test(value)) {
-          this.$refs['addForm'].clearValidate()
-          callback(new Error(''))
-        } else {
-          callback()
-        }
       }
     },
     // 委托企业

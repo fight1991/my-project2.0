@@ -37,7 +37,7 @@
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
-                          :key="'licenseList'+index+i+item.documentType"
+                          :key="'licenseList.'+index+i+item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
                         </el-option>

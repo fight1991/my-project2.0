@@ -42,7 +42,7 @@
                   style="width:100%">
                     <el-option
                       v-for="(item,i) in saasLicType"
-                      :key="'saasLicType'+index+i+item.licenseType"
+                      :key="'saasLicType'+index+i+item.codeField"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
                     </el-option>
@@ -169,7 +169,7 @@ export default {
         }]
       },
       rules: {
-        corpName: [{ required: true, validator: this.checkValid, message: '请输入委托企业', trigger: 'change' }],
+        corpName: [{ required: true, message: '请输入委托企业', trigger: 'change' }],
         licenseType: [{ required: true, message: '请选择许可证类型', trigger: 'change' }],
         licenseUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
         licenseNo: [{ required: true, message: '请输入许可证编号', trigger: 'blur' }],
@@ -273,21 +273,6 @@ export default {
       this.$router.push({
         name: 'license'
       })
-    },
-    // 校验
-    checkValid (rule, value, callback) {
-      if (util.isEmpty(value)) {
-        this.$refs['goodsDialog'].clearValidate()
-        callback(new Error(''))
-      } else {
-        const pattern = /^[A-Za-z\u4e00-\u9fa5]+$/
-        if (!pattern.test(value)) {
-          this.$refs['goodsDialog'].clearValidate()
-          callback(new Error(''))
-        } else {
-          callback()
-        }
-      }
     },
     // 校验
     checkValidNum (rule, value, callback) {
