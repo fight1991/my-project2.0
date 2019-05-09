@@ -18,7 +18,7 @@
                 <el-autocomplete
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
-                :maxlength="20"
+                :maxlength="20" clearable
                 :disabled="isDetailAdd"
                 v-model="addForm.corpName"
                 :fetch-suggestions="querySearch"

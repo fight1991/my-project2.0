@@ -13,7 +13,7 @@
               <el-autocomplete
                 size='mini' style="width:100%"
                 placeholder="请输入委托企业(输入2个字后搜索)"
-                :maxlength="20"
+                :maxlength="20" clearable
                 v-model="queryForm.input"
                 :fetch-suggestions="querySearch"
                 :trigger-on-focus="false">

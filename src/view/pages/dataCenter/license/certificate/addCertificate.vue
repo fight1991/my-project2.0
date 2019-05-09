@@ -15,7 +15,7 @@
         <el-form label-width="100px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-autocomplete
-                :disabled="isDetailAdd"
+                :disabled="isDetailAdd" clearable
                 size='mini' style="width:100%"
                 placeholder="输入2个字后搜索"
                 :maxlength="20"

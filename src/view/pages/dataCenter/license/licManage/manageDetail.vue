@@ -7,7 +7,7 @@
               <el-form-item label="委托企业" prop="info.corpName" :rules="rules.corpName">
                 <el-autocomplete
                 size='mini' style="width:100%"
-                :disabled="isDetail"
+                :disabled="isDetail" clearable
                 placeholder="输入2个字后搜索"
                 @select="handleSelect($event)"
                 :maxlength="20"

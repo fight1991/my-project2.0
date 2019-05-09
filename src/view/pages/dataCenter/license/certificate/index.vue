@@ -11,7 +11,7 @@
           <el-col :span="6" :xs="24">
             <el-form-item>
               <el-autocomplete
-                size='mini' style="width:100%"
+                size='mini' style="width:100%" clearable
                 placeholder="请输入委托企业(输入2个字后搜索)"
                 :maxlength="20"
                 v-model="queryForm.input"
