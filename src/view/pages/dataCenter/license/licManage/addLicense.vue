@@ -509,7 +509,7 @@ export default {
                 path: '/dataCenter/licenses/license/detailListLicense',
                 query: {
                   sccCode: this.addForm.ownerCodeScc,
-                  corpName: this.addForm.corpName
+                  corpName: encodeURIComponent(this.addForm.corpName)
                 }
               })
             }

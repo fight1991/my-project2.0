@@ -332,7 +332,7 @@ export default {
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
                 sccCode: this.subData.info.ownerCodeScc,
-                corpName: this.subData.info.corpName
+                corpName: encodeURIComponent(this.subData.info.corpName)
               }
             })
           }
@@ -345,7 +345,7 @@ export default {
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
-          corpName: this.subData.info.corpName
+          corpName: encodeURIComponent(this.subData.info.corpName)
         }
       })
     },

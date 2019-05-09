@@ -404,7 +404,7 @@ export default {
               path: '/dataCenter/licenses/certificate/detailListCertificate',
               query: {
                 sccCode: this.addForm.ownerCodeScc,
-                corpName: this.addForm.corpName
+                corpName: encodeURIComponent(this.addForm.corpName)
               }
             })
           }

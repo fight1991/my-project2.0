@@ -318,7 +318,7 @@ export default {
         path: '/dataCenter/licenses/certificate/addCertificate',
         query: {
           ownerCodeScc: this.certificateDetailForm.sccCode,
-          corpName: this.certificateDetailForm.corpName
+          corpName: encodeURIComponent(this.certificateDetailForm.corpName)
         }
       })
     },
