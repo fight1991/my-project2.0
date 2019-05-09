@@ -163,7 +163,7 @@ export default {
     this.reset()
     this.paginationInit = this.$store.state.pagination
     this.certificateDetailForm.sccCode = this.$route.query.sccCode
-    this.certificateDetailForm.corpName = this.$route.query.corpName
+    this.certificateDetailForm.corpName = util.isEmpty(this.$route.query.corpName) ? '' : decodeURIComponent(this.$route.query.corpName)
     this.search()
   },
   watch: {
@@ -175,7 +175,7 @@ export default {
       this.reset()
       this.paginationInit = this.$store.state.pagination
       this.certificateDetailForm.sccCode = to.query.sccCode
-      this.certificateDetailForm.corpName = to.query.corpName
+      this.certificateDetailForm.corpName = util.isEmpty(to.query.corpName) ? '' : decodeURIComponent(to.query.corpName)
       this.search()
     }
   },
