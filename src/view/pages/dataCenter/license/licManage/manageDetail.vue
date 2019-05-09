@@ -221,9 +221,9 @@ export default {
       this.reset()
       this.corpList()
       this.getCommonParams()
-      this.type = this.$route.params.type
-      this.subData.info.licensePid = this.$route.params.id
-      this.subData.info.ownerCodeScc = this.$route.params.ownerCodeScc
+      this.type = to.params.type
+      this.subData.info.licensePid = to.params.id
+      this.subData.info.ownerCodeScc = to.params.ownerCodeScc
       if (this.type === 'detail') {
         this.isDetail = true
       } else {

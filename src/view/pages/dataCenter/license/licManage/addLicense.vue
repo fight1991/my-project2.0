@@ -240,7 +240,7 @@ export default {
     if (this.$route.query.corpName) {
       this.reset()
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
-      this.addForm.corpName = this.$route.query.corpName
+      this.addForm.corpName = decodeURIComponent(this.$route.query.corpName)
       this.isDetailAdd = true
     } else {
       this.reset()
@@ -255,10 +255,10 @@ export default {
       }
       this.corpList()
       this.getCommonParams()
-      if (this.$route.query.corpName) {
+      if (to.query.corpName) {
         this.reset()
-        this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
-        this.addForm.corpName = this.$route.query.corpName
+        this.addForm.ownerCodeScc = to.query.ownerCodeScc
+        this.addForm.corpName = decodeURIComponent(to.query.corpName)
         this.isDetailAdd = true
       } else {
         this.reset()

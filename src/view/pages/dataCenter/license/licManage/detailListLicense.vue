@@ -73,7 +73,7 @@
                     </el-table-column>
                     <el-table-column label="许可证号" min-width="200">
                       <template slot-scope="scope">
-                        {{scope.row.licenseNo || '-'}}
+                        <div class='sys-td-l'>{{scope.row.licenseNo || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="涉证商品" min-width="100">
@@ -114,12 +114,12 @@
         </el-table-column>
         <el-table-column label="许可证名称" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.licenseTypeValue || '-'}}
+            <div class='sys-td-l'>{{scope.row.licenseTypeValue || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="监管证件代码" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.licenseType || '-'}}
+            <div class='sys-td-l'>{{scope.row.licenseType || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="许可证数" min-width="100">
@@ -166,7 +166,7 @@ export default {
     this.reset()
     this.paginationInit = this.$store.state.pagination
     this.detailForm.sccCode = this.$route.query.sccCode
-    this.detailForm.corpName = this.$route.query.corpName
+    this.detailForm.corpName = util.isEmpty(this.$route.query.corpName) ? '' : decodeURIComponent(this.$route.query.corpName)
     this.search()
   },
   watch: {
@@ -177,8 +177,8 @@ export default {
       }
       this.reset()
       this.paginationInit = this.$store.state.pagination
-      this.detailForm.sccCode = this.$route.query.sccCode
-      this.detailForm.corpName = this.$route.query.corpName
+      this.detailForm.sccCode = to.query.sccCode
+      this.detailForm.corpName = util.isEmpty(to.query.corpName) ? '' : decodeURIComponent(to.query.corpName)
       this.search()
     }
   },

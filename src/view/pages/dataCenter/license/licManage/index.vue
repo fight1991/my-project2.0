@@ -47,7 +47,11 @@
         <el-table class='sys-table-table'
           border highlight-current-row size="mini"
           :data="resultList">
-          <el-table-column label="委托企业" min-width="100" prop="corpName"></el-table-column>
+          <el-table-column label="委托企业" min-width="100" prop="corpName">
+            <template slot-scope="scope">
+              <div class='sys-td-l'>{{scope.row.corpName}}</div>
+            </template>
+          </el-table-column>
           <el-table-column label="许可证数" min-width="80">
             <template slot-scope="scope">
               <div class='sys-td-r'>{{scope.row.count+''}}</div>

@@ -61,27 +61,27 @@
         :data="resultJobList">
         <el-table-column label="报关单系统编号" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.decPid || '-'}}
+            <div class='sys-td-l'>{{scope.row.decPid || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="接单编号" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.bossId || '-'}}
+            <div class='sys-td-l'>{{scope.row.bossId || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="统一编号" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.seqNo || '-'}}
+            <div class='sys-td-l'>{{scope.row.seqNo || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="海关编号" min-width="150">
           <template slot-scope="scope">
-            {{scope.row.entryId || '-'}}
+            <div class='sys-td-l'>{{scope.row.entryId || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="业务状态" min-width="100">
           <template slot-scope="scope">
-            {{scope.row.isExamineValue || '-'}}
+            <div class='sys-td-l'>{{scope.row.isExamineValue || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="创建日期" min-width="100">
@@ -146,7 +146,7 @@ export default {
       }
       this.reset()
       this.paginationInit = this.$store.state.pagination
-      this.jobDetailForm.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.jobDetailForm.ownerCodeScc = to.query.ownerCodeScc
       this.search()
     }
   },

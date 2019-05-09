@@ -85,8 +85,8 @@ export default {
       if (to.path.indexOf('detailJobs') === -1) {
         return
       }
-      this.decPid = this.$route.query.decPid
-      this.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.decPid = to.query.decPid
+      this.ownerCodeScc = to.query.ownerCodeScc
       this.submitData.licenseList = []
       this.querylist()
     }

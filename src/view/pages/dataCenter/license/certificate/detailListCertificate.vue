@@ -63,12 +63,12 @@
         :data="certificateList">
         <el-table-column label="证书名称" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.certificateName || '-'}}
+            <div class='sys-td-l'>{{scope.row.certificateName || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="证书编号" min-width="200">
           <template slot-scope="scope">
-            {{scope.row.certificateNo || '-'}}
+            <div class='sys-td-l'>{{scope.row.certificateNo || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="到期日期" min-width="150">
@@ -174,8 +174,8 @@ export default {
       }
       this.reset()
       this.paginationInit = this.$store.state.pagination
-      this.certificateDetailForm.sccCode = this.$route.query.sccCode
-      this.certificateDetailForm.corpName = this.$route.query.corpName
+      this.certificateDetailForm.sccCode = to.query.sccCode
+      this.certificateDetailForm.corpName = to.query.corpName
       this.search()
     }
   },

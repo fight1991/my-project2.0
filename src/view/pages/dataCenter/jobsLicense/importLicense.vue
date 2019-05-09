@@ -142,8 +142,8 @@ export default {
         return
       }
       this.reset()
-      this.resultTopData.decPid = this.$route.query.decPid
-      this.ownerCodeScc = this.$route.query.ownerCodeScc
+      this.resultTopData.decPid = to.query.decPid
+      this.ownerCodeScc = to.query.ownerCodeScc
       this.getCommonParams()
       this.queryList()
     }

@@ -107,14 +107,14 @@ export default {
       }
       this.reset()
       this.corpList()
-      if (this.$route.query.type) {
-        this.type = this.$route.query.type
-        this.certificatePid = this.$route.query.certificatePid
+      if (to.query.type) {
+        this.type = to.query.type
+        this.certificatePid = to.query.certificatePid
         this.queryEdit()
       }
-      if (this.$route.query.corpName) {
-        this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
-        this.addForm.corpName = this.$route.query.corpName
+      if (to.query.corpName) {
+        this.addForm.ownerCodeScc = to.query.ownerCodeScc
+        this.addForm.corpName = decodeURIComponent(to.query.corpName)
         this.isDetailAdd = true
       } else {
         this.isDetailAdd = false
@@ -130,7 +130,7 @@ export default {
     }
     if (this.$route.query.corpName) {
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
-      this.addForm.corpName = this.$route.query.corpName
+      this.addForm.corpName = decodeURIComponent(this.$route.query.corpName)
       this.isDetailAdd = true
     } else {
       this.isDetailAdd = false

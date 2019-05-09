@@ -46,7 +46,9 @@
           :data="resultList">
           <el-table-column label="委托企业" min-width="100">
             <template slot-scope="scope">
-              {{scope.row.ownerName || '-'}}
+              <div class='sys-td-l'>
+                {{scope.row.ownerName || '-'}}
+              </div>
             </template>
           </el-table-column>
           <el-table-column label="累计业务票数" min-width="50">
