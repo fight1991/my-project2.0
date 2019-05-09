@@ -6,16 +6,16 @@
         <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="总运单号">
-              <el-input v-model="queryForm.keywords" clearable></el-input>
+              <el-input v-model="queryForm.billNo" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="运输工具航次">
-              <el-input v-model="queryForm.keywords" clearable></el-input>
+              <el-input v-model="queryForm.voyageNo" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申报时间" class="form-item-mg0">
+            <el-form-item label="申报日期" class="form-item-mg0">
               <el-date-picker v-model="dates" style="width:100%;"
                 type="daterange"
                 :editable='false'
@@ -28,7 +28,7 @@
         </el-row>
         <el-row class="express-txt-c">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
-          <el-button size="mini">重置</el-button>
+          <el-button size="mini" @click="reset">重置</el-button>
         </el-row>
       </el-form>
     </div>
@@ -36,7 +36,7 @@
     <!-- 主显示框 -->
     <div class='query-body'>
       <el-row class="mg-b-15">
-        <el-dropdown trigger="click">
+        <el-dropdown trigger="hover">
           <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -51,96 +51,241 @@
             <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button size="mini" class="list-btns list-icon-declare"><i></i>申报</el-button>
-        <el-button size="mini" class="list-btns list-icon-delete"><i></i>删除</el-button>
+        <!-- <el-button size="mini" class="list-btns list-icon-declare" @click="declare"><i></i>申报</el-button> -->
+        <el-button size="mini" class="list-btns list-icon-delete" @click="deletes"><i></i>删除</el-button>
       </el-row>
       <el-row>
-        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini">
+        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange">
           <el-table-column  type="selection" min-width="50"></el-table-column>
           <el-table-column label="序号" width="100">
-            <!-- <template slot-scope="scope">
-              <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
-            </template> -->
+            <template slot-scope="scope">
+              <div class='sys-td-l'>{{(scope.$index+1)}}</div>
+            </template>
           </el-table-column>
           <el-table-column label="总运单号" min-width="120">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-l'>{{scope.row.billNo}}</div>
             </template>
           </el-table-column>
           <el-table-column label="主要货物名称" min-width="150">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-l'>{{scope.row.mainGName}}</div>
             </template>
           </el-table-column>
           <el-table-column label="重量(公斤)" min-width="110">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-r'>{{scope.row.tGrossWt}}</div>
             </template>
           </el-table-column>
           <el-table-column label="总件数" min-width="110">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-r'>{{scope.row.tPackNo}}</div>
             </template>
           </el-table-column>
           <el-table-column label="申报日期" min-width="130">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-c'>{{scope.row.dDate}}</div>
             </template>
           </el-table-column>
           <el-table-column label="状态" min-width="110">
             <template slot-scope="scope">
-              <div class='sys-td-c'>{{scope.row.title}}</div>
+              <div class='sys-td-c'>{{formatStatus(scope.row.status)}}</div>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>
                 <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
-                <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除"><i></i></el-button>
+                <el-button size="mini" class="list-tab-btns list-icon-declare" type="text" v-if="scope.row.status === 'DD'" @click="declare([scope.row.mftHeadPid])" title="申报"><i></i></el-button>
+                <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除" v-if="scope.row.status === 'DD'" @click="del([scope.row.mftHeadPid])"><i></i></el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
       </el-row>
-      <!--分页-->
-      <el-row class='sys-page-list'>
-        <el-col :span="24" align="right">
-          <page-box :pagination="paginationInit" @change="pageList"></page-box>
-        </el-col>
-      </el-row>
-      <!-- 分页 end -->
     </div>
     <!-- 主显示框 end -->
   </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   data () {
     return {
       dates: ['', ''],
       queryForm: {
-
+        billNo: '',
+        voyageNo: '',
+        startTime: '',
+        endTime: ''
       }, // 查询传参
-      shipList: [{}], // 表格数据
+      shipList: [], // 表格数据
       pages: {}, // 存放分页
-      fileList: [] // 文件
+      fileList: [], // 文件
+      statusList: [{
+        value: 'DD',
+        label: '暂存'
+      }, {
+        value: 'DZ',
+        label: '发送中'
+      }, {
+        value: 'DN',
+        label: '发送失败'
+      }, {
+        value: 'NN',
+        label: '海关入库失败'
+      }, {
+        value: 'NY',
+        label: '海关入库成功'
+      }, {
+        value: 'DN',
+        label: '数据中心入库失败'
+      }, {
+        value: 'DY',
+        label: '数据中心入库成功'
+      }], // 状态
+      selectData: [] // 多选框
     }
   },
   created () {
-    this.paginationInit = this.$store.state.pagination
+    this.search()
   },
   methods: {
     // 查询
     search () {
-
+      this.pageList()
     },
     // 重置
     reset () {
-
+      this.queryForm = {
+        billNo: '',
+        voyageNo: '',
+        startTime: '',
+        endTime: ''
+      }
+      this.dates = ['', '']
+      this.search()
     },
     // 获取列表数据
     pageList () {
-
+      if (this.dates === '' || this.dates === null) {
+        this.queryForm.startTime = ''
+        this.queryForm.endTime = ''
+      } else {
+        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/nexp/customs/queryMftList',
+        data: this.queryForm,
+        router: this.$router,
+        success: (res) => {
+          this.shipList = util.isEmpty(res.result) ? [] : res.result
+        }
+      })
+    },
+    // 格式化状态
+    formatStatus (val) {
+      let value = ''
+      for (let i = 0; i < this.statusList.length; i++) {
+        if (this.statusList[i].value === val) {
+          value = this.statusList[i].label
+          break
+        }
+      }
+      return value
+    },
+    // 多选框
+    selectChange (val) {
+      this.selectData = val
+    },
+    // 申报
+    declare (list) {
+      // if (this.selectData.length === 0) {
+      //   this.$message({
+      //     message: '请选择需要申报的数据',
+      //     type: 'warning'
+      //   })
+      // } else {
+      // let list = []
+      // for (let i of this.selectData) {
+      //   if (i.status === 'DD') {
+      //     list.push(i.mftHeadPid)
+      //   } else {
+      //     this.$message({
+      //       message: '当前数据不满足申报条件，无法进行申报',
+      //       type: 'warning'
+      //     })
+      //     return false
+      //   }
+      // }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/nexp/customs/declareMft',
+        data: {mftHeadPids: list},
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: res.result.statusValue,
+            type: 'success'
+          })
+          this.search()
+        }
+      })
+      // }
+    },
+    // 删除
+    deletes () {
+      if (this.selectData.length === 0) {
+        this.$message({
+          message: '请选择需要删除的数据',
+          type: 'warning'
+        })
+      } else {
+        this.$confirm('您确定删除所选数据吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let list = []
+          for (let i of this.selectData) {
+            if (i.status === 'DD') {
+              list.push(i.mftHeadPid)
+            } else {
+              this.$message({
+                message: '当前数据不满足删除条件，无法进行删除',
+                type: 'warning'
+              })
+              return false
+            }
+          }
+          this.delReq(list)
+        }).catch(() => {
+        })
+      }
+    },
+    del (list) {
+      this.$confirm('您确定删除所选数据吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.delReq(list)
+      }).catch(() => {
+      })
+    },
+    delReq (list) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/nexp/customs/deleteMft',
+        data: {mftHeadPids: list},
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.search()
+        }
+      })
     },
     // 上传文件
     beforeUpload (file) {
@@ -166,10 +311,26 @@ export default {
           success: (res) => {
             this.fileList = []
             this.fileList.push(res.result)
+            this.upLoadExcel(this.fileList)
           }
         })
       }
       return false
+    },
+    // 导入
+    upLoadExcel (fileList) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/nexp/customs/importManifests',
+        data: fileList[0].url,
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '导入成功',
+            type: 'success'
+          })
+          this.search()
+        }
+      })
     },
     // 跳转到详情
     toDetail (type, data) {
@@ -177,9 +338,14 @@ export default {
         name: 'shipBillDetail',
         params: {
           type: type,
-          id: '1'
+          id: data.mftHeadPid,
+          status: data.status
         }
       })
+    },
+    // 下载
+    download () {
+      window.open('http://www.5itrade.cn:8084/files/ShippingBillTemplate/快件舱单导入模板.xlsx', '_blank')
     }
   }
 }
@@ -210,38 +376,6 @@ export default {
     height: 14px;
     vertical-align: middle;
     margin-top: -2px;
-  }
-}
-.list-icon-look{
-  i{
-    background: url('../../../../assets/img/icon/icon-look.png') no-repeat;
-  }
-  &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
-  }
-}
-.list-icon-import{
-  i{
-    background: url('../../../../assets/img/icon/icon-import.png') no-repeat;
-  }
-  &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-importH.png') no-repeat;
-  }
-}
-.list-icon-declare{
-  i{
-    background: url('../../../../assets/img/icon/icon-declare.png') no-repeat;
-  }
-  &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-declareH.png') no-repeat;
-  }
-}
-.list-icon-delete{
-  i{
-    background: url('../../../../assets/img/icon/icon-delete.png') no-repeat;
-  }
-  &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-deleteH.png') no-repeat;
   }
 }
 .mg-b-15{

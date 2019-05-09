@@ -191,7 +191,7 @@ export default {
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
           sccCode: corpSccCode,
-          corpName: corpName
+          corpName: encodeURIComponent(corpName)
         }
       })
     }

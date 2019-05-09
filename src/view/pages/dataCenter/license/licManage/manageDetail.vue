@@ -117,12 +117,11 @@
               action="http://127.0.0.1"
               :before-upload="beforeUpload"
               :file-list="fileLists"
-              :show-file-list="fileType"
-              :on-preview="showfileUrl">
-              <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click="showfile(subData.info.licenseUrl)">
-              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(subData.info.licenseUrl)" class="detail-img">
+              :show-file-list="fileType">
+              <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click.stop="showfile(subData.info.licenseUrl)">
+              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
                <el-button size="small" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
@@ -333,7 +332,7 @@ export default {
               path: '/dataCenter/licenses/license/detailListLicense',
               query: {
                 sccCode: this.subData.info.ownerCodeScc,
-                corpName: this.subData.info.corpName
+                corpName: encodeURIComponent(this.subData.info.corpName)
               }
             })
           }
@@ -346,7 +345,7 @@ export default {
         path: '/dataCenter/licenses/license/detailListLicense',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
-          corpName: this.subData.info.corpName
+          corpName: encodeURIComponent(this.subData.info.corpName)
         }
       })
     },
@@ -433,8 +432,12 @@ export default {
       }
       let restaurants = this.corpListOptions
       let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
+      if (results.length === 0) {
+        this.subData.info.ownerCodeScc = ''
+      } else {
+        // 调用 callback 返回建议列表的数据
+        cb(results.slice(0, 10))
+      }
     },
     createFilter (queryString) {
       return (restaurant) => {
@@ -511,11 +514,10 @@ export default {
       }
       return false
     },
-    // 预览
-    showfileUrl (file) {
-      console.log(file)
-      util.fileView(file.url)
-    },
+    // // 预览
+    // showfileUrl (file) {
+    //   util.fileView(file.url)
+    // },
     // 文件点击事件
     showfile (url) {
       if (!util.isEmpty(url)) {

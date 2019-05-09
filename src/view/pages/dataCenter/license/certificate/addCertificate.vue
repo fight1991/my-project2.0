@@ -149,6 +149,7 @@ export default {
     },
     // 企业编码
     handleSelect (item) {
+      console.log(item)
       this.addForm.ownerCodeScc = item.ownerCodeScc
       this.addForm.corpName = item.value
     },
@@ -254,8 +255,12 @@ export default {
       }
       let restaurants = this.corpListOptions
       let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
+      if (results.length === 0) {
+        this.addForm.ownerCodeScc = ''
+      } else {
+        // 调用 callback 返回建议列表的数据
+        cb(results.slice(0, 10))
+      }
     },
     createFilter (queryString) {
       return (restaurant) => {
@@ -371,6 +376,7 @@ export default {
       this.addForm.ifWarning = this.addForm.ifWarning
       this.addForm.certificatePid = this.addForm.certificatePid
       this.saveForm(url)
+      console.log(this.addForm.ownerCodeScc)
     },
     // 保存接口请求
     saveForm (url) {
@@ -398,7 +404,7 @@ export default {
               path: '/dataCenter/licenses/certificate/detailListCertificate',
               query: {
                 sccCode: this.addForm.ownerCodeScc,
-                corpName: this.addForm.corpName
+                corpName: encodeURIComponent(this.addForm.corpName)
               }
             })
           }
