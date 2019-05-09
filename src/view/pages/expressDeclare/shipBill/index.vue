@@ -96,7 +96,7 @@
             <template slot-scope="scope">
               <div class='sys-td-c'>
                 <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
-                <el-button size="mini" class="list-btns list-icon-declare" v-if="scope.row.status === 'DD'" @click="declare([scope.row.mftHeadPid])"><i></i>申报</el-button>
+                <el-button size="mini" class="list-tab-btns list-icon-declare" type="text" v-if="scope.row.status === 'DD'" @click="declare([scope.row.mftHeadPid])" title="申报"><i></i></el-button>
                 <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除" v-if="scope.row.status === 'DD'" @click="del([scope.row.mftHeadPid])"><i></i></el-button>
               </div>
             </template>
