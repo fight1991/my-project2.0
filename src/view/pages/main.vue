@@ -4,7 +4,7 @@
       <el-header height="62px">
         <head-top></head-top>
       </el-header>
-      <el-container>
+      <el-container class="container">
         <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '220px'">
           <sidebar></sidebar>
         </el-aside>
@@ -35,6 +35,9 @@ export default {
   position: relative;
   height: 100%;
   overflow: hidden;
+}
+.el-container.container {
+  flex: 1;
 }
 .el-main {
   position: relative;

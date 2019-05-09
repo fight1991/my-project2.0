@@ -137,6 +137,11 @@ export default {
     },
     // 企业切换时
     changeCorpName () {
+      // 如果还是选择和登录时一样的
+      if (this.corpName === this.$store.state.userLoginInfo.companyName) {
+        this.corpDialogVisible = false
+        return
+      }
       // 找到对应企业的信息
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
@@ -159,6 +164,8 @@ export default {
         success: (res) => {
           // 刷新当前页面
           location.reload()
+          // 关闭之前打开的所有页签
+          this.$store.commit('CloseTabs', 'all')
         }
       })
     },
