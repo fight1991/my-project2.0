@@ -146,6 +146,8 @@ export default {
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
       })
+      // 关闭之前打开的所有页签
+      this.$store.commit('CloseTabs', 'all')
       this.selectUserCorp(temp.corpId)
       this.$store.commit('userCompanyInfo', {
         companyType: temp.corpType, // 公司类型
@@ -164,8 +166,6 @@ export default {
         success: (res) => {
           // 刷新当前页面
           location.reload()
-          // 关闭之前打开的所有页签
-          this.$store.commit('CloseTabs', 'all')
         }
       })
     },
