@@ -432,8 +432,12 @@ export default {
       }
       let restaurants = this.corpListOptions
       let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
+      if (results.length === 0) {
+        this.subData.info.ownerCodeScc = ''
+      } else {
+        // 调用 callback 返回建议列表的数据
+        cb(results.slice(0, 10))
+      }
     },
     createFilter (queryString) {
       return (restaurant) => {
