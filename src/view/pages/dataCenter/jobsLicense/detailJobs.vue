@@ -9,10 +9,8 @@
                   <el-col :span="10">
                     <el-upload
                     action="http://127.0.0.1"
-                    :before-upload="(e)=>{beforeUpload(e,item)}"
                     :file-list="fileLists"
-                    :show-file-list="item.fileType"
-                    :on-preview="showfileUrl">
+                    :show-file-list="item.fileType">
                     <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
@@ -139,75 +137,6 @@ export default {
           this.submitData.licenseList = licenseList
         }
       })
-    },
-    // 上传图片前的格式及大小判断
-    beforeUpload (file, row) {
-      if (!util.getFileTypeByName(file.name)) {
-        this.$message({
-          message: '上传文件暂时只支持图片/PDF/word/Excel格式',
-          type: 'error'
-        })
-        this.$emit('closeEditUpload')
-      } else if ((file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传图片大小不能超过2MB',
-          type: 'error'
-        })
-        this.$emit('closeEditUpload')
-      } else if (util.getFileTypeByName(file.name) && !(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') && !(Math.ceil(file.size / 1024) <= 10240)) {
-        this.$message({
-          message: '上传文件大小不能超过10MB',
-          type: 'error'
-        })
-      } else {
-        let param = new FormData()
-        param.append('multiFile', file, file.name)
-        this.$store.dispatch('upload', {
-          url: 'FILE@/saas-upload/upload/uploadFile',
-          data: param,
-          isLoad: false,
-          router: this.$router,
-          success: (res) => {
-            row.documentUrl = res.result.url
-            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
-              row.fileType = false
-              row.isImg = true
-              row.isPdf = false
-              row.isWord = false
-              row.isExcel = false
-            } else {
-              row.fileLists.push({
-                name: res.result.name,
-                url: res.result.url
-              })
-              if (file.type === 'application/pdf') {
-                row.fileType = false
-                row.isImg = false
-                row.isPdf = true
-                row.isWord = false
-                row.isExcel = false
-              } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                row.fileType = false
-                row.isImg = false
-                row.isPdf = false
-                row.isWord = true
-                row.isExcel = false
-              } else if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                row.fileType = false
-                row.isImg = false
-                row.isPdf = false
-                row.isWord = false
-                row.isExcel = true
-              }
-            }
-          }
-        })
-      }
-      return false
-    },
-    // 预览
-    showfileUrl (file) {
-      util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
