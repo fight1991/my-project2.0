@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" v-model="productForm.keywords" placeholder="类别/目录名称/简介" maxlength="50" clearable></el-input>
+          <el-input size="mini" v-model="productForm.keywords" placeholder="类别/目录名称/简介" maxlength="50" clearable @keyup.enter.native="search"></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -18,27 +18,27 @@
       <el-table class='sys-table-table' :data="productList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
+            <div class='sys-td-l'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="类别" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.directoryClass}}</div>
+            <div class='sys-td-l'>{{scope.row.directoryClass}}</div>
           </template>
         </el-table-column>
         <el-table-column label="目录名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.directoryName}}</div>
+            <div class='sys-td-l'>{{scope.row.directoryName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="简介" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.thrcontentName}}</div>
+            <div class='sys-td-l'>{{scope.row.thrcontentName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="注释" min-width="100">
           <template slot-scope="scope">
-            <div class='param-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row.thrcontentInf)"><i class='dec-i'></i></a></div>
+            <div class='sys-td-c'><a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="toDetail(scope.row.thrcontentInf)"><i class='dec-i'></i></a></div>
           </template>
         </el-table-column>
       </el-table>
