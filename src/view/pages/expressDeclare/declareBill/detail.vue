@@ -1021,7 +1021,7 @@ export default {
       tableNameList: {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区
-          'SAAS_SW_AIRPORT_CODE', // 港口
+          'SAAS_PORT', // 港口
           'SAAS_TRANSPORT_TYPE', // 运输方式
           'SAAS_CURR', // 币制
           'SAAS_TRADE', // 监管方式

@@ -93,7 +93,7 @@
               <el-col :span="6">
                 <el-form-item label="起运港/抵运港">
                   <!-- <el-select size="mini" v-model="headData.destinationPort" placeholder=" " style="width:100%;" :disabled="isDetail"
-                    @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CODE')"
+                    @focus="tipsFillMessage('portList','SAAS_PORT')"
                     filterable remote default-first-option clearable
                     :remote-method="checkParamsList"
                     @change="checkParamsList">
@@ -314,7 +314,7 @@ export default {
       tableNameList: {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区
-          'SAAS_SW_AIRPORT_CODE', // 港口
+          'SAAS_PORT', // 港口
           'SAAS_TRANSPORT_TYPE', // 运输方式
           'SAAS_CURR' // 币制
         ]
