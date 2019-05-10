@@ -447,8 +447,12 @@ export default {
         statusInfo: '',
         tradeScc: ''
       }
+      this.shipList = []
+      // this.$nextTick(() => {
+      //   this.search()
+      // })
       this.$nextTick(() => {
-        this.search()
+        this.$refs['queryForm'].clearValidate()
       })
     },
     // 获取列表数据
