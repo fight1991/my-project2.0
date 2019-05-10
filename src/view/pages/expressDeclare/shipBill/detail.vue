@@ -296,9 +296,7 @@ export default {
       isDetail: false, // 是否是详情
       headData: {},
       detailList: [],
-      bodyData: {
-
-      },
+      bodyData: {},
       iEFlagList: [{
         value: 'I',
         label: '进口'
@@ -432,6 +430,7 @@ export default {
         router: this.$router,
         success: (res) => {
           this.headData = util.isEmpty(res.result) ? {} : res.result
+          this.bodyData = {}
         }
       })
     },
@@ -459,6 +458,7 @@ export default {
     // 点击行显示详情
     rowClick (row) {
       this.bodyData = util.simpleClone(row)
+      this.bodyData.billNo = this.headData.billNo
     }
   }
 }

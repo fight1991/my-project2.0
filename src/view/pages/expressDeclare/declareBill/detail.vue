@@ -1174,6 +1174,8 @@ export default {
         router: this.$router,
         success: (res) => {
           this.headData = util.isEmpty(res.result) ? {} : res.result
+          this.bodyData = {}
+          this.docData = {}
         }
       })
     },
