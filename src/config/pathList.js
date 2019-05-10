@@ -23,6 +23,8 @@ export default {
     importTaxList: url.JINER + '/dec/datainput/I/taxList',
     // 出口核注清单（新增）
     exportTaxList: url.JINER + '/dec/datainput/E/taxList',
+    // 删改单登记
+    decRegister: url.COMMON + '/declaration/decRegister',
     // 报关单审核
     decReviewed: url.COMMON + '/declaration/decCheck/list',
     // 报关数据查询
