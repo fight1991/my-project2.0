@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" v-model="ceCompareForm.keywords" placeholder="中文名称/英文名称" maxlength="50" clearable></el-input>
+          <el-input size="mini" v-model="ceCompareForm.keywords" placeholder="中文名称/英文名称" maxlength="50" clearable @keyup.enter.native="search"></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -18,27 +18,27 @@
       <el-table class='sys-table-table' :data="ceCompareList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
+            <div class='sys-td-l'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="中文名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.brankSign}}</div>
+            <div class='sys-td-l'>{{scope.row.brankSign}}</div>
           </template>
         </el-table-column>
         <el-table-column label="英文名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.brankName}}</div>
+            <div class='sys-td-l'>{{scope.row.brankName}}</div>
           </template>
         </el-table-column>
         <el-table-column label="公司名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.brankFactory}}</div>
+            <div class='sys-td-l'>{{scope.row.brankFactory}}</div>
           </template>
         </el-table-column>
         <el-table-column label="类型" min-width="110">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.brankRemarks}}</div>
+            <div class='sys-td-l'>{{scope.row.brankRemarks}}</div>
           </template>
         </el-table-column>
       </el-table>

@@ -4,7 +4,7 @@
     <div class="query-header">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input size="mini" v-model="redempForm.keywords" placeholder="征免性质代码/征免性质名称" maxlength="50" clearable></el-input>
+          <el-input size="mini" v-model="redempForm.keywords" placeholder="征免性质代码/征免性质名称" maxlength="50" clearable @keyup.enter.native="search"></el-input>
         </el-col>
         <el-col :span="10">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
@@ -18,7 +18,7 @@
       <el-table class='sys-table-table' :data="redempList" border highlight-current-row size="mini">
         <el-table-column label="序号" width="130">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
+            <div class='sys-td-l'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="征免性质代码" min-width="150">
@@ -28,12 +28,12 @@
         </el-table-column>
         <el-table-column label="征免性质名称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.abbrCut}}</div>
+            <div class='sys-td-l'>{{scope.row.abbrCut}}</div>
           </template>
         </el-table-column>
         <el-table-column label="征免性质简称" min-width="150">
           <template slot-scope="scope">
-            <div class='sys-td-c'>{{scope.row.fullCut}}</div>
+            <div class='sys-td-l'>{{scope.row.fullCut || '-'}}</div>
           </template>
         </el-table-column>
       </el-table>
