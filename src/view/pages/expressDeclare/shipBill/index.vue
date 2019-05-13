@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-form :model="queryForm" size="mini" label-width="110px">
+      <el-form :model="queryForm" size="mini" label-width="93px">
         <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="总运单号">
