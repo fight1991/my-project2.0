@@ -350,7 +350,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['addForm'].clearValidate()
       })
-      this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
     },
     // 保存
     saveDialogForm () {

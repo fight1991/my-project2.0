@@ -41,7 +41,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-table class='sys-table-table'
+        <el-table class='sys-table-table' height="500px"
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="100">
@@ -215,18 +215,6 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
-  }
-  .op-btn {
-    margin-bottom: 14px;
-  }
-  .query-btn {
-    text-align: center;
-  }
-  .icon-btn {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
   }
   .m-r-10{
     margin-right: 10px;

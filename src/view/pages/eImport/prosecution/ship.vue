@@ -4,9 +4,9 @@
     <div class = "query-condition">
       <!-- -->
       <el-form label-width="85px" :model="shipForm" size="mini" label-position="right">
-        <el-row :gutter="50">
+        <el-row :gutter="66">
           <el-col :span="8">
-              <el-form-item label="进出境关别" prop='iEPort'>
+              <el-form-item label="进/出境关别" prop='iEPort'>
                 <el-select placeholder="" v-model="shipForm.iEPort"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasCustomsRel1','SAAS_CUSTOMS_REL')"
@@ -93,7 +93,7 @@
          @selection-change="shipListChange"
          border highlight-current-row size="mini">
         <el-table-column type="selection" width="35"></el-table-column>
-        <el-table-column label="进出境关别" prop="iEPortValue" min-width="80">
+        <el-table-column label="进/出境关别" prop="iEPortValue" min-width="80">
           <template slot-scope="scope">
             <div class='sys-td-l'>{{scope.row.iEPortValue}}</div>
           </template>
@@ -132,7 +132,7 @@
        label-position="right" :model="shipDialogForm" ref='shipDialogForm'>
           <el-row >
             <el-col :span="24">
-              <el-form-item label="进出境关别" prop='iEPort'>
+              <el-form-item label="进/出境关别" prop='iEPort'>
                 <el-select placeholder="" v-model="shipDialogForm.iEPort"
                   filterable clearable remote default-first-option
                   @focus="tipsFillMessage('saasCustomsRel2','SAAS_CUSTOMS_REL')"
@@ -229,7 +229,7 @@ export default {
       },
       rules: {
         iEPort: [
-          { required: true, message: '请选择进出境关别', trigger: 'blur' }
+          { required: true, message: '请选择进/出境关别', trigger: 'blur' }
         ],
         trafMode: [
           { required: true, message: '请选择进运输方式', trigger: 'blur' }

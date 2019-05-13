@@ -4,21 +4,21 @@
     <el-row class = "query-condition">
       <el-row>
         <el-col :span="8" :xs='24'>
-          委托企业:{{resultTopData.ownerName}}
+          委托企业：<span style="padding-left:10px">{{resultTopData.ownerName}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          报关单系统编号:{{resultTopData.decPid}}
+          报关单系统编号：<span style="padding-left:10px">{{resultTopData.decPid}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          接单编号:{{resultTopData.bossId}}
+          接单编号：<span style="padding-left:10px">{{resultTopData.bossId}}</span>
         </el-col>
       </el-row>
       <el-row style="padding-top:10px">
       <el-col :span="8" :xs='24'>
-          统一编号:{{resultTopData.seqNo}}
+          统一编号：<span style="padding-left:10px">{{resultTopData.seqNo}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          报关单号:{{resultTopData.decNo}}
+          报关单号：<span style="padding-left:10px">{{resultTopData.entryId}}</span>
         </el-col>
       </el-row>
     </el-row>
@@ -101,7 +101,7 @@ export default {
       resultTopData: {
         decPid: '',
         ownerName: '',
-        decNo: '',
+        entryId: '',
         bossId: '',
         seqNo: ''
       },
@@ -154,7 +154,7 @@ export default {
       this.resultTopData = {
         decPid: '',
         ownerName: '',
-        decNo: '',
+        entryId: '',
         bossId: '',
         seqNo: ''
       }
@@ -184,7 +184,7 @@ export default {
         success: (res) => {
           this.resultTopData.decPid = res.result.decPid
           this.resultTopData.ownerName = res.result.ownerName
-          this.resultTopData.decNo = res.result.decNo
+          this.resultTopData.entryId = res.result.entryId
           this.resultTopData.bossId = res.result.bossId
           this.resultTopData.seqNo = res.result.seqNo
         }

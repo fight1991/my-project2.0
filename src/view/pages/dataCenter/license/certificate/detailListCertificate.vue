@@ -3,7 +3,7 @@
      <!-- 头部 -->
     <el-row class='sys-header'>
       <!-- 返回按钮 -->
-      <el-row>
+      <el-row class='mg-b-15'>
         <el-col :span='12' :xs='24'>
           <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>
@@ -13,26 +13,27 @@
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
-        <el-row class = "query-table">
+        <el-row class = "query-condition">
           <el-row>
             <el-col :span="12">
-              委托企业:{{certificateDetailForm.corpName}}
+              委托企业：<span style="padding-left:10px">{{certificateDetailForm.corpName}}</span>
             </el-col>
             <el-col :span="12">
-              证书数:{{count}}
+              证书数：<span style="padding-left:10px">{{count}}</span>
             </el-col>
           </el-row>
-          <el-row>
+        </el-row>
+          <el-row class = "query-table">
           <!-- 查询条件 -->
             <el-form label-width="0px" :model="certificateDetailForm" size="mini" label-position="right">
-              <el-row :gutter="20" style="padding-top:30px">
+              <el-row :gutter="50">
                 <el-col :span="6" :xs="12">
-                  <el-form-item>
+                  <el-form-item class="form-item-mg0">
                     <el-input size="mini" clearable v-model="certificateDetailForm.input" placeholder="证书名称、证书编号"></el-input>
                   </el-form-item>
                   </el-col>
                   <el-col :span="8" :xs="12">
-                    <el-form-item label-width="100px" label="到期日期">
+                    <el-form-item :label-width="labelFormWidth.four" label="到期日期" class="form-item-mg0">
                     <el-date-picker size="mini" style="width:100%;"
                       v-model="dates"
                       @change="search()"
@@ -53,12 +54,11 @@
             <!-- 查询条件 end-->
           </el-row>
         </el-row>
-    </el-row>
     <!-- 头部 end-->
     <!-- 主显示框 -->
     <div class='query-table'>
       <!-- 列表 list -->
-      <el-table class='sys-table-table'
+      <el-table class='sys-table-table' height="390px"
         border highlight-current-row size="mini"
         :data="certificateList">
         <el-table-column label="证书名称" min-width="200">

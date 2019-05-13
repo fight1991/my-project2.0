@@ -1,15 +1,21 @@
 <template>
   <section class='sys-main'>
      <!-- 头部 -->
-    <el-row class = "query-condition">
+     <el-row class='sys-header'>
+      <!-- 新建按钮 -->
       <el-row class='mg-b-15'>
-        <el-button type="primary" size="mini" @click="add">新建</el-button>
+        <el-col :span="18">
+          <el-button type="primary" size="mini" @click="add">新建</el-button>
+        </el-col>
       </el-row>
+      <!-- 新建按钮 end-->
+    </el-row>
+    <el-row class = "query-condition">
       <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
-        <el-row :gutter="50" style="padding-top:10px">
+        <el-row :gutter="50">
           <el-col :span="6" :xs="24">
-            <el-form-item>
+            <el-form-item class="form-item-mg0">
               <el-autocomplete
                 size='mini' style="width:100%" clearable
                 placeholder="请输入委托企业(输入2个字后搜索)"
@@ -21,7 +27,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="9" :xs="24">
-            <el-form-item label-width="100px" label="最近上传时间">
+            <el-form-item :label-width="labelFormWidth.six" label="最近上传时间" class="form-item-mg0">
               <el-date-picker size="mini"  style="width:100%;"
                 v-model="dates"
                 type="datetimerange"
@@ -44,7 +50,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-table class='sys-table-table'
+        <el-table class='sys-table-table' height="470px"
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="100" prop="corpName">

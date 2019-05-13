@@ -56,7 +56,7 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <!-- 列表 list -->
-      <el-table class='sys-table-table'
+      <el-table class='sys-table-table' height="390px"
         border highlight-current-row size="mini"
         :data="resultJobList">
         <el-table-column label="报关单系统编号" min-width="150">
@@ -74,7 +74,7 @@
             <div class='sys-td-l'>{{scope.row.seqNo || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="海关编号" min-width="150">
+        <el-table-column label="报关单号" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-l'>{{scope.row.entryId || '-'}}</div>
           </template>

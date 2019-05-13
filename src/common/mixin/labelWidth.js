@@ -6,7 +6,7 @@ const labelWidth = {
         seven: '107px', // label 7个字的宽度 超过6个字折行,配合css使用
         six: '93px', // label 6个字的宽度
         five: '79px',
-        four: '65px',
+        four: '67px',
         three: '51px',
         two: '37px'
       }

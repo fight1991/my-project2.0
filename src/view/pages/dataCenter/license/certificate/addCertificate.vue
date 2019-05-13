@@ -3,16 +3,14 @@
      <!-- 头部 -->
     <el-row class='sys-header'>
       <!-- 返回按钮 -->
-      <el-row class='mg-b-15'>
-        <el-col :span="18">
-          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
-        </el-col>
-      </el-row>
+      <el-col :span="18">
+        <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+      </el-col>
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
       <el-col :span="18" :offset="3">
-        <el-form label-width="100px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
+        <el-form :label-width="labelFormWidth.five" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-select v-model="addForm.corpName" filterable clearable
               remote style="width:100%"
