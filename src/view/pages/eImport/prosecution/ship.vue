@@ -84,10 +84,12 @@
             <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span class="span-right" style="font-size: 14px; color: #606266;">已选择{{checkedNum}}项</span>
+        <span class="span-right" style="font-size: 14px; color: #606266;">
+          已选择<span style="color:#409EFF;">{{checkedNum}}</span>项
+        </span>
       </el-row>
       <!-- 列表 list -->
-      <el-table class='sys-table-table' :data="shipList"
+      <el-table class='sys-table-table' :data="shipList" height="400px"
          @selection-change="shipListChange"
          border highlight-current-row size="mini">
         <el-table-column type="selection" width="35"></el-table-column>
@@ -169,6 +171,7 @@
               <el-form-item label="运输方式" prop='trafMode'>
                 <el-select placeholder="" v-model="shipDialogForm.trafMode"
                   filterable clearable remote default-first-option
+                  enter = 'no' @keyup.enter.native="saveDialogForm"
                   @focus="tipsFillMessage('saasTransportType2','SAAS_TRANSPORT_TYPE')"
                   :remote-method="checkParamsList"  :disabled="isDetail"
                   style="width:100%">

@@ -390,7 +390,7 @@ export default {
         if (val.length >= 2) {
           this.$store.dispatch('ajax', {
             url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
-            data: val,
+            data: val.trim(),
             router: this.$router,
             success: (res) => {
               if (util.isEmpty(res.result)) {
