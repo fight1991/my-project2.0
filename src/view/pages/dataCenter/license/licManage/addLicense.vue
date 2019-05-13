@@ -452,6 +452,9 @@ export default {
     // 保存
     submit () {
       this.$refs['addForm'].validate((valId) => {
+        if (!valId) {
+          return false
+        }
         this.$refs['goodsDialog'].validate((valId) => {
           if (!valId) {
             this.$message({
