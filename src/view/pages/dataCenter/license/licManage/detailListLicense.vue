@@ -259,8 +259,8 @@ export default {
     // 跳转到详情页面
     toDetailChild (type, id, ownerCodeScc) {
       this.$router.push({
-        name: 'manageDetail',
-        params: {
+        path: '/dataCenter/licenses/license/manageDetail',
+        query: {
           type: type,
           id: id,
           ownerCodeScc: ownerCodeScc

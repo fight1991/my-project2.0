@@ -15,16 +15,22 @@
           <el-row style="padding-left:20px;">
             <el-col :span="12" style="padding-right:40px;">
               <el-form-item label="委托企业:" prop="corpName">
-                <el-autocomplete
-                size='mini' style="width:100%"
-                placeholder="输入2个字后搜索"
-                :maxlength="20" clearable
-                :disabled="isDetailAdd"
-                v-model="addForm.corpName"
-                :fetch-suggestions="querySearch"
-                @select="handleSelect($event)"
-                :trigger-on-focus="false">
-                </el-autocomplete>
+                <el-select v-model="addForm.corpName" filterable clearable
+                  remote style="width:100%"
+                  placeholder="输入2个字后搜索"
+                  :disabled="isDetailAdd"
+                  :remote-method="companyListFun"
+                  :no-data-text="noDataText"
+                  :default-first-option="true"
+                  @focus="companyListOptions=[];">
+                  <el-option
+                    v-show="searchCorpInfoView"
+                    v-for="(item,index) in companyListOptions"
+                    :key="item.ownerCodeScc +'companyListOptions'+index"
+                    :label="item.ownerName"
+                    :value="item.ownerName">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -226,7 +232,9 @@ export default {
         isExcel: false
       },
       fileLists: [], // 存放文件
-      corpListOptions: [], // 委托企业
+      searchCorpInfoView: false,
+      noDataText: '暂无匹配数据',
+      companyListOptions: [],
       saasLicType: [],
       selectObj: {
         obj: '',
@@ -236,7 +244,6 @@ export default {
   },
   created () {
     this.getCommonParams()
-    this.corpList()
     if (this.$route.query.corpName) {
       this.reset()
       this.addForm.ownerCodeScc = this.$route.query.ownerCodeScc
@@ -253,7 +260,6 @@ export default {
       if (to.path.indexOf('addLicense') === -1) {
         return
       }
-      this.corpList()
       this.getCommonParams()
       if (to.query.corpName) {
         this.reset()
@@ -314,10 +320,6 @@ export default {
     // 删除商品
     deleteGood (index2) {
       this.goodsDialog.goods.splice(index2, 1)
-    },
-    handleSelect (item) {
-      this.addForm.ownerCodeScc = item.ownerCodeScc
-      this.addForm.corpName = item.value
     },
     // 重置
     reset () {
@@ -382,37 +384,25 @@ export default {
       }]
       this.goodsDialogVisible = false
     },
-    // 委托企业
-    corpList () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
-        data: {},
-        router: this.$router,
-        success: (res) => {
-          if (res.success) {
-            let json = JSON.stringify(res.result)
-            json = json.replace(/ownerName/g, 'value')
-            this.corpListOptions = JSON.parse(json)
-          }
-        }
-      })
-    },
-    // 输入2个字后搜索
-    querySearch (queryString, cb) {
-      if (this.addForm.corpName.length < 2) {
-        return
-      }
-      let restaurants = this.corpListOptions
-      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
-    },
-    createFilter (queryString) {
-      return (restaurant) => {
-        if (util.isEmpty(restaurant.value)) {
-          return false
-        } else {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+    // 获取企业list
+    companyListFun (val) {
+      if (val !== '') {
+        if (val.length >= 2) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
+            data: val,
+            router: this.$router,
+            success: (res) => {
+              if (util.isEmpty(res.result)) {
+                this.companyListOptions = []
+                this.searchCorpInfoView = false
+                this.noDataText = '暂无匹配数据'
+              } else {
+                this.companyListOptions = res.result
+                this.searchCorpInfoView = true
+              }
+            }
+          })
         }
       }
     },

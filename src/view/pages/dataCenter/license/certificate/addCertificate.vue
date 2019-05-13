@@ -14,16 +14,22 @@
       <el-col :span="18" :offset="3">
         <el-form label-width="100px" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
-            <el-autocomplete
-                :disabled="isDetailAdd" clearable
-                size='mini' style="width:100%"
-                placeholder="输入2个字后搜索"
-                :maxlength="20"
-                v-model="addForm.corpName"
-                @select="handleSelect($event)"
-                :fetch-suggestions="querySearch"
-                :trigger-on-focus="false">
-            </el-autocomplete>
+            <el-select v-model="addForm.corpName" filterable clearable
+              remote style="width:100%"
+              placeholder="输入2个字后搜索"
+              :disabled="isDetailAdd"
+              :remote-method="companyListFun"
+              :no-data-text="noDataText"
+              :default-first-option="true"
+              @focus="companyListOptions=[];">
+              <el-option
+                v-show="searchCorpInfoView"
+                v-for="(item,index) in companyListOptions"
+                :key="item.ownerCodeScc +'companyListOptions'+index"
+                :label="item.ownerName"
+                :value="item.ownerName">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item  label="证书名称" prop="certificateName">
             <el-input size="mini" clearable :maxlength="30" v-model="addForm.certificateName"></el-input>
@@ -89,7 +95,9 @@ export default {
       },
       type: '',
       certificatePid: '',
-      corpListOptions: [], // 委托企业
+      searchCorpInfoView: false,
+      noDataText: '暂无匹配数据',
+      companyListOptions: [],
       fileLists: [], // 存放文件
       fileType: true,
       isImg: false,
@@ -106,7 +114,7 @@ export default {
         return
       }
       this.reset()
-      this.corpList()
+      // this.corpList()
       if (to.query.type) {
         this.type = to.query.type
         this.certificatePid = to.query.certificatePid
@@ -123,7 +131,6 @@ export default {
   },
   created () {
     this.reset()
-    this.corpList()
     if (this.$route.query.type) {
       this.type = this.$route.query.type
       this.certificatePid = this.$route.query.certificatePid
@@ -147,12 +154,6 @@ export default {
         name: 'certificate'
       })
     },
-    // 企业编码
-    handleSelect (item) {
-      console.log(item)
-      this.addForm.ownerCodeScc = item.ownerCodeScc
-      this.addForm.corpName = item.value
-    },
     // 重置
     reset () {
       this.addForm = {
@@ -170,7 +171,9 @@ export default {
       })
       this.type = ''
       this.certificatePid = ''
-      this.corpListOptions = [] // 委托企业
+      this.searchCorpInfoView = false
+      this.noDataText = '暂无匹配数据'
+      this.companyListOptions = []
       this.fileLists = [] // 存放文件
       this.fileType = true
       this.isImg = false
@@ -233,41 +236,25 @@ export default {
         })
       }
     },
-    // 委托企业
-    corpList () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryCertificateCorps',
-        data: {},
-        router: this.$router,
-        success: (res) => {
-          if (res.success) {
-            let json = JSON.stringify(res.result)
-            json = json.replace(/ownerName/g, 'value')
-            this.corpListOptions = JSON.parse(json)
-          }
-        }
-      })
-    },
-    // 输入2个字后搜索
-    querySearch (queryString, cb) {
-      if (this.addForm.corpName.length < 2) {
-        return
-      }
-      let restaurants = this.corpListOptions
-      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      if (results.length === 0) {
-        this.addForm.ownerCodeScc = ''
-      } else {
-        // 调用 callback 返回建议列表的数据
-        cb(results.slice(0, 10))
-      }
-    },
-    createFilter (queryString) {
-      return (restaurant) => {
-        if (util.isEmpty(restaurant.value)) {
-          return false
-        } else {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+    // 获取企业list
+    companyListFun (val) {
+      if (val !== '') {
+        if (val.length >= 2) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/saas-document-center/dccommon/queryCertificateCorps',
+            data: val,
+            router: this.$router,
+            success: (res) => {
+              if (util.isEmpty(res.result)) {
+                this.companyListOptions = []
+                this.searchCorpInfoView = false
+                this.noDataText = '暂无匹配数据'
+              } else {
+                this.companyListOptions = res.result
+                this.searchCorpInfoView = true
+              }
+            }
+          })
         }
       }
     },

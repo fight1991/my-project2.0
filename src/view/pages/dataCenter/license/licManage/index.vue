@@ -118,10 +118,10 @@ export default {
       })
     },
     // 委托企业
-    corpList () {
+    corpList (val) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
-        data: {},
+        data: val,
         router: this.$router,
         success: (res) => {
           if (res.success) {

@@ -35,7 +35,7 @@ const MENU = {
         title: '许可证详情列表'
       }
     }, {
-      path: '/dataCenter/licenses/license/manageDetail/:type/:id/:ownerCodeScc',
+      path: '/dataCenter/licenses/license/manageDetail',
       name: 'manageDetail',
       hidden: true,
       meta: {
