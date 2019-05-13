@@ -135,9 +135,9 @@
             </el-form-item>
           </el-row>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
             <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="isDetail" @click="edit">编辑</el-button>
             <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
+            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
           </el-row>
         </el-form>
     </el-row>
@@ -314,6 +314,13 @@ export default {
     submit () {
       this.$refs['subData'].validate((valId) => {
         if (!valId) {
+          return false
+        }
+        if (this.subData.goods.length === 0) {
+          this.$message({
+            message: '涉证商品不能为空',
+            type: 'error'
+          })
           return false
         }
         if (this.fileLists.length > 0 && this.fileType) {

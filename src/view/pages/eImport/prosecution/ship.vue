@@ -3,7 +3,7 @@
     <!-- 查询条件 -->
     <div class = "query-condition">
       <!-- -->
-      <el-form label-width="95px" :model="shipForm" size="mini" label-position="right">
+      <el-form label-width="85px" :model="shipForm" size="mini" label-position="right">
         <el-row :gutter="50">
           <el-col :span="8">
               <el-form-item label="进出境关别" prop='iEPort'>
