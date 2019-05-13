@@ -5,16 +5,22 @@
           <el-row :gutter="50">
             <el-col :span="12">
               <el-form-item label="委托企业" prop="info.corpName" :rules="rules.corpName">
-                <el-autocomplete
-                size='mini' style="width:100%"
-                :disabled="isDetail" clearable
-                placeholder="输入2个字后搜索"
-                @select="handleSelect($event)"
-                :maxlength="20"
-                v-model="subData.info.corpName"
-                :fetch-suggestions="querySearch"
-                :trigger-on-focus="false">
-                </el-autocomplete>
+                <el-select v-model="subData.info.corpName" filterable clearable
+                  remote style="width:100%"
+                  placeholder="输入2个字后搜索"
+                  :disabled="isDetail"
+                  :remote-method="companyListFun"
+                  :no-data-text="noDataText"
+                  :default-first-option="true"
+                  @focus="companyListOptions=[];">
+                  <el-option
+                    v-show="searchCorpInfoView"
+                    v-for="(item,index) in companyListOptions"
+                    :key="item.ownerCodeScc +'companyListOptions'+index"
+                    :label="item.ownerName"
+                    :value="item.ownerName">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -182,7 +188,9 @@ export default {
         }]
       },
       type: '',
-      corpListOptions: [], // 委托企业
+      searchCorpInfoView: false,
+      noDataText: '暂无匹配数据',
+      companyListOptions: [],
       fileLists: [], // 存放文件
       fileType: true,
       isImg: false,
@@ -198,11 +206,10 @@ export default {
   },
   created () {
     this.reset()
-    this.corpList()
     this.getCommonParams()
-    this.type = this.$route.params.type
-    this.subData.info.licensePid = this.$route.params.id
-    this.subData.info.ownerCodeScc = this.$route.params.ownerCodeScc
+    this.type = this.$route.query.type
+    this.subData.info.licensePid = this.$route.query.id
+    this.subData.info.ownerCodeScc = this.$route.query.ownerCodeScc
     if (this.type === 'detail') {
       this.isDetail = true
     } else {
@@ -219,11 +226,10 @@ export default {
         return
       }
       this.reset()
-      this.corpList()
       this.getCommonParams()
-      this.type = to.params.type
-      this.subData.info.licensePid = to.params.id
-      this.subData.info.ownerCodeScc = to.params.ownerCodeScc
+      this.type = to.query.type
+      this.subData.info.licensePid = to.query.id
+      this.subData.info.ownerCodeScc = to.query.ownerCodeScc
       if (this.type === 'detail') {
         this.isDetail = true
       } else {
@@ -233,9 +239,6 @@ export default {
     }
   },
   methods: {
-    handleSelect (item) {
-      this.subData.info.ownerCodeScc = item.ownerCodeScc
-    },
     // 重置
     reset () {
       this.subData = {
@@ -398,7 +401,6 @@ export default {
         }
       })
     },
-
     // 刪除
     deleteGoods (index) {
       this.$confirm('确认删除吗？', '提示', {
@@ -410,41 +412,25 @@ export default {
       }).catch(() => {
       })
     },
-    // 委托企业
-    corpList () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
-        data: {},
-        router: this.$router,
-        success: (res) => {
-          if (res.success) {
-            let json = JSON.stringify(res.result)
-            json = json.replace(/ownerName/g, 'value')
-            this.corpListOptions = JSON.parse(json)
-          }
-        }
-      })
-    },
-    // 输入2个字后搜索
-    querySearch (queryString, cb) {
-      if (this.subData.info.corpName.length < 2) {
-        return
-      }
-      let restaurants = this.corpListOptions
-      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      if (results.length === 0) {
-        this.subData.info.ownerCodeScc = ''
-      } else {
-        // 调用 callback 返回建议列表的数据
-        cb(results.slice(0, 10))
-      }
-    },
-    createFilter (queryString) {
-      return (restaurant) => {
-        if (util.isEmpty(restaurant.value)) {
-          return false
-        } else {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+    // 获取企业list
+    companyListFun (val) {
+      if (val !== '') {
+        if (val.length >= 2) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
+            data: val,
+            router: this.$router,
+            success: (res) => {
+              if (util.isEmpty(res.result)) {
+                this.companyListOptions = []
+                this.searchCorpInfoView = false
+                this.noDataText = '暂无匹配数据'
+              } else {
+                this.companyListOptions = res.result
+                this.searchCorpInfoView = true
+              }
+            }
+          })
         }
       }
     },
