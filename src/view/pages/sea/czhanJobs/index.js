@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA20904000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
-    title: '场站业务'
+    title: '场站作业'
   },
   children: [
     {
