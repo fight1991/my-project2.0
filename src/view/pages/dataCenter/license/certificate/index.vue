@@ -121,7 +121,7 @@ export default {
     corpList (val) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/dccommon/queryCertificateCorps',
-        data: val,
+        data: val.trim(),
         router: this.$router,
         success: (res) => {
           if (res.success) {

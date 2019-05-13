@@ -263,7 +263,7 @@ export default {
       this.dates = ['', '']
       this.certificateDetailForm = {
         sccCode: this.$route.query.sccCode,
-        corpName: this.$route.query.corpName,
+        corpName: util.isEmpty(this.$route.query.corpName) ? '' : decodeURIComponent(this.$route.query.corpName),
         input: '',
         startTime: '',
         endTime: ''

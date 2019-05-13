@@ -57,13 +57,15 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" slot="reference"><i class="fa fa-list fa-lg" style="vertical-align: sub;"></i></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-drop" slot="reference"><i class="list-icon-down"></i></el-button>
           </el-popover>
         </div>
-          <span class="span-right" style="font-size: 14px; color: #606266;">已选择{{checkedNum}}项</span>
+          <span class="span-right" style="font-size: 14px; color: #606266;">
+            已选择<span style="color:#409EFF;">{{checkedNum}}</span>项
+          </span>
         </el-row>
         <!-- 列表 list -->
-        <el-table class='sys-table-table'
+        <el-table class='sys-table-table' height="400px"
           border highlight-current-row size="mini"
           :data="priceList"
           @selection-change="selectVal">
@@ -97,7 +99,7 @@
             <div class='sys-td-r'>{{scope.row.bandArea+''}}%</div>
           </template>
           </el-table-column>
-            <el-table-column label="原产国" min-width="80" prop="originCountryValue" v-if="thList[8].value">
+            <el-table-column label="原产国" min-width="100" prop="originCountryValue" v-if="thList[8].value">
             </el-table-column>
           <el-table-column label="操作" width="100">
           <template slot-scope="scope">
@@ -207,9 +209,8 @@
               <el-form-item label="价格浮动区间(%)" prop ='bandArea'>
                 <el-input  v-model="priceDialogForm.bandArea"
                 ref="bandArea" dataRef ='bandArea'
-                enter = 'no'
-                :disabled="isDetail" :maxlength="10"
-                placeholder=""></el-input>
+                enter = 'no' @keyup.enter.native="saveDialogForm"
+                :disabled="isDetail" :maxlength="10"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
