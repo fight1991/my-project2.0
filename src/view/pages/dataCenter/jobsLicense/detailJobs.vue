@@ -1,13 +1,14 @@
 <template>
   <section class='sys-main'>
     <el-row class = "query-condition">
-        <el-form label-width="100px" :model="submitData" ref="submitData">
+        <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <el-row>
                   <el-col :span="10">
                     <el-upload
+                    action="http://127.0.0.1"
                     :auto-upload="false"
                     :file-list="fileLists"
                     :show-file-list="item.fileType">
@@ -18,16 +19,16 @@
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
-                    <el-form-item label="单证类型:">
+                    <el-form-item label="单证类型：">
                       {{ item.documentTypeValue }}
                     </el-form-item>
-                    <el-form-item label="单证编号:" prop="licensePath">
+                    <el-form-item label="单证编号：" prop="licensePath">
                       {{ item.documentNo }}
                     </el-form-item>
-                    <el-form-item label="上传时间:">
+                    <el-form-item label="上传时间：">
                       {{ item.updateTime|date() }}
                     </el-form-item>
-                    <el-form-item label="上传人:">
+                    <el-form-item label="上传人：">
                       {{ item.updateUserName }}
                     </el-form-item>
                   </el-col>

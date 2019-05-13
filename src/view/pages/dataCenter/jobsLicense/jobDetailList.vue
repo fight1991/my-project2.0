@@ -12,26 +12,27 @@
       <el-row class = "query-table">
         <el-row>
           <el-col :span="8">
-            委托企业:{{ownerName}}
+            委托企业：<span style="padding-left:10px">{{ownerName}}</span>
           </el-col>
           <el-col :span="8">
-            累计业务票数:{{decCount + ''}}
+            累计业务票数：<span style="padding-left:10px">{{decCount + ''}}</span>
           </el-col>
           <el-col :span="8">
-            累计上传单证:{{edocCount + ''}}
+            累计上传单证：<span style="padding-left:10px">{{edocCount + ''}}</span>
           </el-col>
         </el-row>
-        <el-row>
+      </el-row>
+        <el-row class = "query-table">
           <el-form label-width="0px" :model="jobDetailForm" size="mini" label-position="right">
         <!-- 查询条件 -->
-            <el-row :gutter="20" style="padding-top:30px">
+            <el-row :gutter="50" style="">
               <el-col :span="6" :xs="12">
-                <el-form-item>
+                <el-form-item class="form-item-mg0">
                   <el-input size="mini" clearable v-model="jobDetailForm.keywords" placeholder="接单编号、系统编号、报关单号"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="8" :xs="12">
-                  <el-form-item label-width="100px" label="创建日期">
+                  <el-form-item :label-width="labelFormWidth.four" label="创建日期" class="form-item-mg0">
                   <el-date-picker size="mini"  style="width:100%;"
                     v-model="dates"
                     type="daterange"
@@ -51,7 +52,6 @@
           </el-form>
         </el-row>
       </el-row>
-    </el-row>
     <!-- 头部 end-->
     <!-- 主显示框 -->
     <div class='query-table'>
@@ -98,7 +98,7 @@
           <template slot-scope="scope">
             <div class='sys-td-c'>
               <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i></i></el-button>
-              <el-button type="text" class="list-btns list-icon-import" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-import" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i></i></el-button>
             </div>
           </template>
@@ -259,6 +259,8 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
+    font-size: 14px;
+    color: #4c4c4c;
   }
   .sys-back-btn{
     display: inline-block;

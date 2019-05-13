@@ -25,14 +25,14 @@
       <!-- 头部 end-->
       <!-- 主显示框 -->
     <div class='query-table'>
-      <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
+      <el-form :label-width="labelFormWidth.four" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
             <el-col :span="12" :xs='24' v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
                 <el-row :gutter="30">
                   <el-col :span="12" :xs='24'>
-                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
+                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select size="mini" placeholder="请选择单证类型" v-model="item.documentType"
                       remote filterable clearable
                       @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
@@ -49,13 +49,13 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" :xs='24'>
-                    <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
+                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                   <el-form-item label="单证文件:" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
+                   <el-form-item label="单证文件" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
                     <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item)}"

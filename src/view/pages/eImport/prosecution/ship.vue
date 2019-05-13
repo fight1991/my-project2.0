@@ -84,7 +84,7 @@
             <el-dropdown-item><div @click.stop="download">模板下载</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span class="span-right" style="font-size: 14px; color: #606266;">
+        <span class="span-right" style="font-size: 14px; color: #4c4c4c;">
           已选择<span style="color:#409EFF;">{{checkedNum}}</span>项
         </span>
       </el-row>

@@ -4,7 +4,7 @@
       <el-row>
         <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
       </el-row>
-        <el-form label-width="100px" :model="submitData" ref="submitData" :rules="rules">
+        <el-form :label-width="labelFormWidth.four" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
@@ -28,7 +28,7 @@
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
-                    <el-form-item label="单证类型:" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
+                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
                       remote filterable clearable
                       @focus="tipsFillMessage('saasEdocCode-'+index,'SAAS_EDOC_CODE')"
@@ -43,7 +43,7 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
-                    <el-form-item label="单证编号:" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
+                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>

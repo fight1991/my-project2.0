@@ -3,7 +3,7 @@
       <!-- 头部 -->
       <el-row class = "query-condition">
       <!-- 查询条件 -->
-        <el-form label-width="93px" label-position="right" :model="queryForm" ref="queryForm">
+        <el-form :label-width="labelFormWidth.six" label-position="right" :model="queryForm" ref="queryForm">
           <el-row :gutter="30">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标识" prop='type'>
@@ -57,10 +57,10 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-drop" slot="reference"><i></i></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"><i></i></el-button>
           </el-popover>
         </div>
-          <span class="span-right" style="font-size: 14px; color: #606266;">
+          <span class="span-right" style="font-size: 14px; color: #4c4c4c;">
             已选择<span style="color:#409EFF;">{{checkedNum}}</span>项
           </span>
         </el-row>
