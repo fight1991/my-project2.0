@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main'>
     <el-row class = "query-condition">
-        <el-form label-width="120px" :model="subData" ref="subData" :rules="rules" size="mini" label-position="right">
+        <el-form :label-width="labelFormWidth.seven" :model="subData" ref="subData" :rules="rules" size="mini" label-position="right">
           <el-row :gutter="50">
             <el-col :span="12">
               <el-form-item label="委托企业" prop="info.corpName" :rules="rules.corpName">
@@ -44,7 +44,7 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :span="12" :xs='24'>
-              <el-form-item label="许可证编号:" prop="info.licenseNo" :rules="rules.licenseNo">
+              <el-form-item label="许可证编号" prop="info.licenseNo" :rules="rules.licenseNo">
                 <el-input clearable size="mini" :maxlength="30" v-model="subData.info.licenseNo" :disabled="isDetail"></el-input>
               </el-form-item>
             </el-col>
@@ -118,7 +118,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="许可证文件:" prop="info.licenseUrl" :rules="rules.licenseUrl">
+            <el-form-item label="许可证文件" prop="info.licenseUrl" :rules="rules.licenseUrl">
               <el-upload
               action="http://127.0.0.1"
               :before-upload="beforeUpload"

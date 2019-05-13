@@ -41,7 +41,7 @@
           <el-form-item label="" prop="ifWarning">
             <el-checkbox label="需要进行到期预警" v-model="addForm.ifWarning" name="type" true-label='1' false-label='0'></el-checkbox>
           </el-form-item>
-          <el-form-item label="附件:" prop="certificateUrl">
+          <el-form-item label="附件" prop="certificateUrl">
             <el-upload
               action="http://127.0.0.1"
               :before-upload="beforeUpload"

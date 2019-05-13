@@ -11,10 +11,10 @@
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
-        <el-form label-width="120px" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
+        <el-form :label-width="labelFormWidth.seven" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
           <el-row style="padding-left:20px;">
             <el-col :span="12" style="padding-right:40px;">
-              <el-form-item label="委托企业:" prop="corpName">
+              <el-form-item label="委托企业" prop="corpName">
                 <el-select v-model="addForm.corpName" filterable clearable
                   remote style="width:100%"
                   placeholder="输入2个字后搜索"
@@ -39,7 +39,7 @@
               <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
               <el-row :gutter="50">
                 <el-col :span="12">
-                <el-form-item label="许可证类型:" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
+                <el-form-item label="许可证类型" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
                   remote filterable clearable
                   @focus="tipsFillMessage('saasLicType','SAAS_LICENSE')"
@@ -58,7 +58,7 @@
               </el-row>
               <el-row :gutter="50">
                 <el-col :span="12">
-                  <el-form-item label="许可证文件:" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
+                  <el-form-item label="许可证文件" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
                     <el-upload
                       action="http://127.0.0.1"
                       :before-upload="(e)=>{beforeUpload(e,item)}"
@@ -77,19 +77,19 @@
               </el-row>
               <el-row :gutter="50">
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="许可证编号:" :prop="'submitDataList.'+index+'.info.licenseNo'" :rules="rules.licenseNo">
+                  <el-form-item label="许可证编号" :prop="'submitDataList.'+index+'.info.licenseNo'" :rules="rules.licenseNo">
                     <el-input clearable size="mini" :maxlength="30" v-model="item.info.licenseNo"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="有效截止日期:" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
+                  <el-form-item label="有效截止日期" :prop="'submitDataList.'+index+'.info.expiryDate'" :rules="rules.expiryDate">
                     <el-date-picker size="mini" type="date" style="width:100%" v-model="item.info.expiryDate"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="50">
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="可用次数:" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
+                  <el-form-item label="可用次数" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
                     <el-select v-model="item.info.availableNum" style="width:100%"
                       filterable remote clearable placeholder="请选择许可证可用次数">
                       <el-option label="一批一证" value="1"></el-option>
@@ -98,7 +98,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs='24'>
-                  <el-form-item label="涉证商品:" :prop="'submitDataList.'+index+'.info.goodInput'" :rules="rules.goodInput">
+                  <el-form-item label="涉证商品" :prop="'submitDataList.'+index+'.info.goodInput'" :rules="rules.goodInput">
                     <el-input clearable size="mini" v-model="item.info.goodInput" @focus="openGoodsDialog(index)"></el-input>
                   </el-form-item>
                 </el-col>
