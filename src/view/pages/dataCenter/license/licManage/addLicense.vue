@@ -3,7 +3,7 @@
      <!-- 头部 -->
     <el-row class='sys-header'>
       <!-- 返回按钮 -->
-      <el-row class='mg-b-15'>
+      <el-row>
         <el-col :span="18">
           <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
         </el-col>

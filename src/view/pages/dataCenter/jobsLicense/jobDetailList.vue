@@ -12,13 +12,13 @@
       <el-row class = "query-table">
         <el-row>
           <el-col :span="8">
-            委托企业：<span style="padding-left:10px">{{ownerName}}</span>
+            委托企业：<span class="top-text">{{ownerName}}</span>
           </el-col>
           <el-col :span="8">
-            累计业务票数：<span style="padding-left:10px">{{decCount + ''}}</span>
+            累计业务票数：<span class="top-text">{{decCount + ''}}</span>
           </el-col>
           <el-col :span="8">
-            累计上传单证：<span style="padding-left:10px">{{edocCount + ''}}</span>
+            累计上传单证：<span class="top-text">{{edocCount + ''}}</span>
           </el-col>
         </el-row>
       </el-row>
@@ -255,12 +255,17 @@ export default {
     background-color: #fff;
     padding: 20px;
   }
+  .top-text{
+    padding-left: 10px;
+    color: @font-color-main;
+    font-size: 14px;
+  }
   .query-table {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
     font-size: 14px;
-    color: #4c4c4c;
+    color: @font-color-main;
   }
   .sys-back-btn{
     display: inline-block;

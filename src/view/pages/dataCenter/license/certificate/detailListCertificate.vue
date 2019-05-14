@@ -16,10 +16,10 @@
         <el-row class = "query-condition">
           <el-row>
             <el-col :span="12">
-              委托企业：<span style="padding-left:10px">{{certificateDetailForm.corpName}}</span>
+              委托企业：<span class="top-text">{{certificateDetailForm.corpName}}</span>
             </el-col>
             <el-col :span="12">
-              证书数：<span style="padding-left:10px">{{count}}</span>
+              证书数：<span class="top-text">{{count}}</span>
             </el-col>
           </el-row>
         </el-row>
@@ -363,6 +363,11 @@ export default {
   .query-condition {
     background-color: #fff;
     padding: 20px;
+  }
+  .top-text{
+    padding-left: 10px;
+    color: @font-color-main;
+    font-size: 14px;
   }
   .query-table {
     background-color: #fff;

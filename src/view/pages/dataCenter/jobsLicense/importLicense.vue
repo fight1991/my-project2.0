@@ -4,21 +4,21 @@
     <el-row class = "query-condition">
       <el-row>
         <el-col :span="8" :xs='24'>
-          委托企业：<span style="padding-left:10px">{{resultTopData.ownerName}}</span>
+          委托企业：<span class="top-text">{{resultTopData.ownerName}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          报关单系统编号：<span style="padding-left:10px">{{resultTopData.decPid}}</span>
+          报关单系统编号：<span class="top-text">{{resultTopData.decPid}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          接单编号：<span style="padding-left:10px">{{resultTopData.bossId}}</span>
+          接单编号：<span class="top-text">{{resultTopData.bossId}}</span>
         </el-col>
       </el-row>
       <el-row style="padding-top:10px">
       <el-col :span="8" :xs='24'>
-          统一编号：<span style="padding-left:10px">{{resultTopData.seqNo}}</span>
+          统一编号：<span class="top-text">{{resultTopData.seqNo}}</span>
         </el-col>
         <el-col :span="8" :xs='24'>
-          报关单号：<span style="padding-left:10px">{{resultTopData.entryId}}</span>
+          报关单号：<span class="top-text">{{resultTopData.entryId}}</span>
         </el-col>
       </el-row>
     </el-row>
@@ -395,6 +395,11 @@ export default {
   .query-condition {
     background-color: #fff;
     padding: 20px;
+  }
+  .top-text{
+    padding-left: 10px;
+    color: @font-color-main;
+    font-size: 14px;
   }
   .query-table {
     background-color: #fff;
