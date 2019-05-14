@@ -67,10 +67,10 @@
     <div class='query-table'>
       <!-- 操作 -->
        <el-row class="mg-b-15">
-        <el-button @click="openFun('add', 'add')" class="list-btns list-icon-add" size="mini"><i></i>&nbsp;新增</el-button>
-        <el-button @click="deleteInfo" class="list-btns list-icon-delete" size="mini"><i></i>&nbsp;删除</el-button>
+        <el-button @click="openFun('add', 'add')" class="list-btns list-icon-add" size="mini"><i></i>新增</el-button>
+        <el-button @click="deleteInfo" class="list-btns list-icon-delete" size="mini"><i></i>删除</el-button>
         <el-dropdown trigger="click">
-          <el-button size="mini" class="list-btns list-icon-import"><i></i>&nbsp;导入</el-button>
+          <el-button size="mini" class="list-btns list-icon-import"><i></i>导入</el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
               <el-upload

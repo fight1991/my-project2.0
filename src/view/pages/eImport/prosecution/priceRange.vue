@@ -48,8 +48,8 @@
       <div class='query-table'>
         <!-- 按钮 -->
         <el-row class="mg-b-15">
-          <el-button size="mini" class="list-btns list-icon-add" @click="openFun('add', 'add')"><i></i>&nbsp;新增</el-button>
-          <el-button size="mini" class="list-btns list-icon-delete" @click="deleteFun"><i></i>&nbsp;删除</el-button>
+          <el-button size="mini" class="list-btns list-icon-add" @click="openFun('add', 'add')"><i></i>新增</el-button>
+          <el-button size="mini" class="list-btns list-icon-delete" @click="deleteFun"><i></i>删除</el-button>
           <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
             <ul>
