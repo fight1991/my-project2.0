@@ -903,7 +903,7 @@
             </el-table-column>
             <el-table-column label="随附单证代码" min-width="150">
               <template slot-scope="scope">
-                <div class='sys-td-l'>{{scope.row.orderNo}}</div>
+                <div class='sys-td-l'>{{scope.row.docuCodeValue}}</div>
               </template>
             </el-table-column>
             <el-table-column label="随附单证编号" min-width="150">
@@ -935,7 +935,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="docData.orderNo" :disabled="isDetail"></el-input>
+                  <el-input v-model="docData.docuCodeValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -1201,10 +1201,12 @@ export default {
     },
     // 点击商品表格显示商品信息
     gRowClick (row) {
+      this.bodyData = {}
       this.bodyData = util.simpleClone(row)
     },
     // 点击随附单证显示信息
     rowDocClick (row) {
+      this.docData = {}
       this.docData = util.simpleClone(row)
     }
   }

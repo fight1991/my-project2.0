@@ -457,6 +457,7 @@ export default {
     },
     // 点击行显示详情
     rowClick (row) {
+      this.bodyData = {}
       this.bodyData = util.simpleClone(row)
       this.bodyData.billNo = this.headData.billNo
     }
