@@ -20,7 +20,7 @@
           许可证数：<span style="padding-left:10px">{{count + ''}}</span>
         </el-col>
       </el-row>
-        <el-row class = "query-table">
+        <el-row class = "query-body">
           <el-form label-width="0px" :model="detailForm" size="mini" label-position="right">
         <!-- 查询条件 -->
             <el-row :gutter="50">
@@ -55,6 +55,7 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <!-- 列表 list -->
+      <el-row>
       <el-table class='sys-table-table' height="390px"
         border highlight-current-row size="mini"
         :data="resultList">
@@ -62,7 +63,7 @@
           <template slot-scope="scope">
             <div class='sys-table-detail-expand'>
               <el-row :gutter="20">
-                <el-col :span="20" style="padding:0;" class='detail-infos'>
+                <el-col :span="24" style="padding:0;">
                   <el-table class='sys-table-table' :data="scope.row.licenseInfos">
                     <el-table-column label="上传时间" min-width="200">
                       <template slot-scope="scope">
@@ -122,10 +123,11 @@
         </el-table-column>
         <el-table-column label="许可证数" min-width="100">
           <template slot-scope="scope">
-            <div class='sys-td-r'>{{scope.row.count || '-'}}</div>
+            <div class='sys-td-r' style="padding-right:10px">{{scope.row.count || '-'}}</div>
           </template>
         </el-table-column>
       </el-table>
+      </el-row>
       <!--分页-->
       <el-row class='sys-page-list'>
           <el-col :span="24" align="right">
@@ -316,7 +318,7 @@ export default {
   }
   .query-table {
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 20px 20px 20px;
     margin-top: 20px;
   }
   .sys-back-btn{
@@ -339,24 +341,6 @@ export default {
   }
   .sys-table-detail-expand{
     padding:0 15px;
-    .detail-infos{
-        margin:0 20px;
-        border-left: 1px solid #dfe6ec;
-        border-right: 1px solid #dfe6ec;
-        border-top: 1px solid #dfe6ec;
-        .detail-info{
-        padding: 5px 0;
-        }
-        .detail-info-title{
-        background-color: #eef1f6;
-        }
-        .detail-img,.no-pic{
-        display: inline-block;
-        margin-right: 20px;
-        height:100px;
-        cursor: pointer;
-        }
-    }
     .detail-infos:last-child{
         border-bottom: 1px solid #dfe6ec;
     }
