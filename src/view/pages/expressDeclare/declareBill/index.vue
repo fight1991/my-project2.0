@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-form size="mini" label-width="110px" :model="queryForm" ref="queryForm" :rules="rules">
+      <el-form size="mini" label-width="107px" :model="queryForm" ref="queryForm" :rules="rules">
         <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="进出口标志" prop="iEFlag">
