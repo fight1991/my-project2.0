@@ -757,7 +757,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="用途">
-                  <el-input v-model="bodyData.useTo" :disabled="isDetail"></el-input>
+                  <el-input v-model="bodyData.useToValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
