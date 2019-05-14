@@ -128,7 +128,7 @@
       :visible.sync="trafModeTipsVisible"
       :close-on-click-modal="false"
       width="400px">
-      <el-form label-width="100px" size="mini" :rules="rules"
+      <el-form label-width="96px" size="mini" :rules="rules"
        label-position="right" :model="shipDialogForm" ref='shipDialogForm'>
           <el-row >
             <el-col :span="24">

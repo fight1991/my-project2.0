@@ -57,7 +57,7 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"><i></i></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
           <span class="span-right" style="font-size: 14px; color: #4c4c4c;">
@@ -118,7 +118,7 @@
         </el-row>
       </div>
       <el-dialog title="价格提示" :visible.sync="priceDialogVisible" :close-on-click-modal="false" width="950px">
-        <el-form label-width="130px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
+        <el-form label-width="126px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="进出口标识标志" prop='type'>
