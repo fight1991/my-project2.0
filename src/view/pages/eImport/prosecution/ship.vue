@@ -89,7 +89,7 @@
         </span>
       </el-row>
       <!-- 列表 list -->
-      <el-table class='sys-table-table' :data="shipList" height="400px"
+      <el-table class='sys-table-table' :data="shipList" height="455px"
          @selection-change="shipListChange"
          border highlight-current-row size="mini">
         <el-table-column type="selection" width="35"></el-table-column>

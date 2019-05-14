@@ -65,7 +65,7 @@
           </span>
         </el-row>
         <!-- 列表 list -->
-        <el-table class='sys-table-table' height="400px"
+        <el-table class='sys-table-table' height="438px"
           border highlight-current-row size="mini"
           :data="priceList"
           @selection-change="selectVal">

@@ -30,8 +30,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="10" :xs="12">
-              <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-              <el-button size="mini" @click="reset" style="padding:8px 20px 5px 20px;">重置</el-button>
+              <el-button size="mini" type="primary" @click="search()">查询</el-button>
+              <el-button size="mini" @click="reset">重置</el-button>
             </el-col>
           </el-row>
        <!-- 查询条件 end-->
@@ -41,7 +41,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-table class='sys-table-table' height="500px"
+        <el-table class='sys-table-table' height="548px"
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="100">

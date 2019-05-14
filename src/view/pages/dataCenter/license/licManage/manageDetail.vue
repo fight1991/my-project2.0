@@ -135,9 +135,9 @@
             </el-form-item>
           </el-row>
           <el-row class="query-btn">
-            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="isDetail" @click="edit">编辑</el-button>
-            <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
-            <el-button style="padding:8px 20px 5px 20px;" size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
+            <el-button size="small" v-if="isDetail" @click="edit">编辑</el-button>
+            <el-button size="small" type="primary" @click="submit">确认</el-button>
+            <el-button size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
           </el-row>
         </el-form>
     </el-row>

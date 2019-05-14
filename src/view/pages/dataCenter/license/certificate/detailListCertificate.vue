@@ -46,8 +46,8 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12">
-                  <el-button size="mini" type="primary" @click="search()" style="padding:8px 20px 5px 20px;">查询</el-button>
-                  <el-button size="mini" @click="resetQuery" style="padding:8px 20px 5px 20px;">重置</el-button>
+                  <el-button size="mini" type="primary" @click="search()">查询</el-button>
+                  <el-button size="mini" @click="resetQuery">重置</el-button>
                 </el-col>
               </el-row>
             </el-form>
@@ -58,7 +58,7 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <!-- 列表 list -->
-      <el-table class='sys-table-table' height="390px"
+      <el-table class='sys-table-table' height="422px"
         border highlight-current-row size="mini"
         :data="certificateList">
         <el-table-column label="证书名称" min-width="200">

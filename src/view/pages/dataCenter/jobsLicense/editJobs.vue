@@ -53,8 +53,8 @@
             </el-row>
         </el-form>
         <el-col :span="24" class="query-btn">
-          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="submit">确认</el-button>
-          <el-button style="padding:8px 20px 5px 20px;" size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
+          <el-button type="primary" size="small" @click="submit">确认</el-button>
+          <el-button size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
   </section>

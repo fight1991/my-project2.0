@@ -38,8 +38,8 @@
             </el-row>
         </el-form>
         <el-col :span="24" class="query-btn">
-          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
-          <el-button type="primary" style="padding:8px 20px 5px 20px;" size="small" @click="toDetail(ownerCodeScc)">确认</el-button>
+          <el-button size="small" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
+          <el-button type="primary" size="small" @click="toDetail(ownerCodeScc)">确认</el-button>
         </el-col>
     </el-row>
   </section>
