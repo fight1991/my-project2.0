@@ -370,10 +370,9 @@ export default {
   },
   created () {
     this.getCommonParam()
-    // this.search()
+    this.search()
   },
   methods: {
-
     // 判断缓存中是否有数据
     getCommonParam () {
       let map = {tableNames: []}
@@ -425,12 +424,12 @@ export default {
     },
     // 查询
     search () {
-      this.$refs['queryForm'].validate((valId) => {
-        if (!valId) {
-          return false
-        }
-        this.pageList()
-      })
+      // this.$refs['queryForm'].validate((valId) => {
+      //   if (!valId) {
+      //     return false
+      //   }
+      this.pageList()
+      // })
     },
     // 重置
     reset () {
@@ -449,11 +448,11 @@ export default {
       }
       this.shipList = []
       // this.$nextTick(() => {
-      //   this.search()
+      this.search()
       // })
-      this.$nextTick(() => {
-        this.$refs['queryForm'].clearValidate()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs['queryForm'].clearValidate()
+      // })
     },
     // 获取列表数据
     pageList () {

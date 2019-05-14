@@ -112,7 +112,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="headData.iEPort" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.iEPortValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -181,7 +181,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="headData.trafMode" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.trafModeValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -203,7 +203,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="收发货人性质">
-                  <el-input v-model="headData.coOwner" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.coOwnerValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -239,7 +239,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="headData.districtCode" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.districtCodeValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -290,7 +290,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="码头/货场代码">
-                  <el-input v-model="headData.customsField" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.customsFieldValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -312,7 +312,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="headData.wrapType" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.wrapTypValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -976,13 +976,16 @@ export default {
       }], // 舱单进出口标志
       decTypeList: [{
         value: 'A',
-        label: 'A-A'
+        label: 'A'
       }, {
         value: 'B',
-        label: 'B-B'
+        label: 'B'
       }, {
         value: 'C',
-        label: 'C-C'
+        label: 'C'
+      }, {
+        value: 'D',
+        label: '普通货物'
       }], // 报关类别
       decUnitList: [{
         value: '0',
