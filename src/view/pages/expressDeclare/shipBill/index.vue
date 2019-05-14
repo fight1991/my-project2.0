@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-form :model="queryForm" size="mini" label-width="93px">
+      <el-form :model="queryForm" size="mini" :label-width="labelFormWidth.six">
         <el-row :gutter="50">
           <el-col :span="8">
             <el-form-item label="总运单号">
@@ -95,9 +95,9 @@
           <el-table-column label="操作" width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>
-                <el-button size="mini" class="list-tab-btns list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
-                <el-button size="mini" class="list-tab-btns list-icon-declare" type="text" v-if="scope.row.status === 'DD'" @click="declare([scope.row.mftHeadPid])" title="申报"><i></i></el-button>
-                <el-button size="mini" class="list-tab-btns list-icon-delete" type="text" title="删除" v-if="scope.row.status === 'DD'" @click="del([scope.row.mftHeadPid])"><i></i></el-button>
+                <el-button size="mini" class="table-icon list-icon-look" type="text" title="详情" @click="toDetail('detail',scope.row)"><i></i></el-button>
+                <el-button size="mini" class="table-icon list-icon-declare" type="text" v-if="scope.row.status === 'DD'" @click="declare([scope.row.mftHeadPid])" title="申报"><i></i></el-button>
+                <el-button size="mini" class="table-icon list-icon-delete" type="text" title="删除" v-if="scope.row.status === 'DD'" @click="del([scope.row.mftHeadPid])"><i></i></el-button>
               </div>
             </template>
           </el-table-column>
@@ -353,30 +353,6 @@ export default {
 <style lang="less" scoped>
 .express-txt-c{
   text-align: center;
-}
-.list-btns{
-  padding: 7px 10px;
-  margin: 0 3px 0 0;
-  font-size: 14px;
-  i{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
-    vertical-align: middle;
-    margin-top: -2px;
-  }
-}
-.list-tab-btns{
-  padding: 0;
-  margin: 0 5px 0 0;
-  i{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    vertical-align: middle;
-    margin-top: -2px;
-  }
 }
 .mg-b-15{
   margin-bottom: 15px;

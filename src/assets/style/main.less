@@ -685,6 +685,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     .el-table__empty-block {
       align-items: inherit;
     }
+    thead tr th{
+      background-color: #e5f2ff;
+    }
     .el-table__header th>.cell{
       text-align: center;
     }
@@ -700,6 +703,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
         text-align: left;
       }
     }
+  }
+  .el-button--mini{
+    padding: 8px 20px;
+    font-size: 14px;
   }
   .el-button--primary {
     color: #fff;
@@ -736,9 +743,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   // 按钮样式
   .list-btns{
-    padding: 7px 10px;
+    padding: 6px 7px;
     margin: 0 3px 0 0;
-    font-size: 14px;
+    font-size: 12px;
+    border-radius: 2px;
     i{
       display: inline-block;
       width: 14px;
@@ -812,6 +820,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     .list-icon-dropdown{
       width: 40px;
       height: 11px;
+      margin: 2px 4px;
       background: url('../../assets/img/icon/icon-dropdown.png') no-repeat;
     }
     &:hover .list-icon-dropdown,&:focus .list-icon-dropdown{
@@ -820,6 +829,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .table-icon{
     margin: 0;
+    padding: 0;
     i{
       display: inline-block;
       width: 14px;
