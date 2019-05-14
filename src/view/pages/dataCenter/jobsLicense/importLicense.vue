@@ -25,7 +25,7 @@
       <!-- 头部 end-->
       <!-- 主显示框 -->
     <div class='query-table'>
-      <el-form :label-width="labelFormWidth.four" :model="submitData" ref="submitData" :rules="rules">
+      <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
             <el-col :span="12" :xs='24' v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">

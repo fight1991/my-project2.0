@@ -4,7 +4,7 @@
       <el-row>
         <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
       </el-row>
-        <el-form :label-width="labelFormWidth.four" :model="submitData" ref="submitData" :rules="rules">
+        <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
