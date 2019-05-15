@@ -58,7 +58,7 @@
               <div class='sys-td-l'>{{scope.row.corpName}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="许可证数" min-width="70">
+          <el-table-column label="证书数量" min-width="70">
             <template slot-scope="scope">
               <div class='sys-td-r'>{{scope.row.count+''}}</div>
             </template>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import util from '../../../../../common/util'
+import util from '../../../../common/util'
 export default {
   data () {
     return {
@@ -110,7 +110,7 @@ export default {
   watch: {
     '$route': function (to, from) {
       // 初始化组件
-      if (to.path === '/dataCenter/licenses/certificate') {
+      if (to.path === '/dataCenter/certificate') {
         this.corpList()
         this.search()
       }
@@ -198,7 +198,7 @@ export default {
     // 跳转到详情页面
     toDetailList (corpSccCode, corpName) {
       this.$router.push({
-        path: '/dataCenter/licenses/certificate/detailListCertificate',
+        path: '/dataCenter/certificate/detailListCertificate',
         query: {
           sccCode: corpSccCode,
           corpName: encodeURIComponent(corpName)

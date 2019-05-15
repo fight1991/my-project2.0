@@ -26,11 +26,8 @@
             <el-col :span="12">
               <el-form-item label="许可证类型" prop="info.licenseType" :rules="rules.licenseType">
                 <el-select placeholder="请选择许可证类型" v-model="subData.info.licenseType"
-                remote filterable clearable
+                filterable clearable
                 :disabled="isDetail"
-                @focus="tipsFillMessage('saasLicType','SAAS_LICENSEDOCU')"
-                :remote-method="checkParamsList"
-                ref="licTypeCode" dataRef='licTypeCode'
                 style="width:100%">
                   <el-option
                     v-for="item in saasLicType"
@@ -65,7 +62,7 @@
                 <el-select style="width:100%"
                   v-model="subData.info.availableNum"
                   :disabled="isDetail"
-                  filterable remote clearable
+                  filterable clearable
                   placeholder="请选择许可证可用次数">
                   <el-option label="一批一证" value="1"></el-option>
                   <el-option label="非一批一证" value="0"></el-option>
@@ -102,7 +99,7 @@
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100">
                     <template slot-scope="scope">
-                      {{scope.row.availableQuantity}}
+                      {{scope.row.declaredQuantity}}
                     </template>
                   </el-table-column>
                   <el-table-column label="操作" width="100">
@@ -113,7 +110,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <span class="license-add" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>增加涉证商品</span></span>
+                <span class="license-add" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>增加涉证商品</span></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -125,9 +122,9 @@
               :file-list="fileLists"
               :show-file-list="fileType">
               <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click.stop="showfile(subData.info.licenseUrl)">
-              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
                <el-button size="small" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
@@ -145,9 +142,9 @@
 </template>
 
 <script>
-import validator from '../../../../../common/validator'
-import util from '../../../../../common/util'
-import commonParam from '../../../../../common/commonParam'
+import validator from '../../../../common/validator'
+import util from '../../../../common/util'
+import commonParam from '../../../../common/commonParam'
 export default {
   data () {
     return {
@@ -197,11 +194,7 @@ export default {
       isPdf: false,
       isWord: false,
       isExcel: false,
-      saasLicType: [],
-      selectObj: {
-        obj: '',
-        params: ''
-      }
+      saasLicType: []
     }
   },
   created () {
@@ -339,7 +332,7 @@ export default {
             })
             this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
-              path: '/dataCenter/licenses/license/detailListLicense',
+              path: '/dataCenter/license/detailListLicense',
               query: {
                 sccCode: this.subData.info.ownerCodeScc,
                 corpName: encodeURIComponent(this.subData.info.corpName)
@@ -352,7 +345,7 @@ export default {
     toDetail () {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
-        path: '/dataCenter/licenses/license/detailListLicense',
+        path: '/dataCenter/license/detailListLicense',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
           corpName: encodeURIComponent(this.subData.info.corpName)
@@ -366,13 +359,9 @@ export default {
         data: {pid: this.subData.info.licensePid},
         router: this.$router,
         success: (res) => {
-          this.tipsFillMessage('saasLicType', 'SAAS_LICENSEDOCU')
           let subData = res.result
           subData.info = res.result.info
           subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
-          this.checkParamsList(this.subData.info.licenseType)
-          // subData.info.expiryDate = util.dateFormat(subData.info.expiryDate, 'yyyy-MM-dd')
-          // subData.info.updateTime = util.dateFormat(subData.info.updateTime, 'yyyy-MM-dd hh:mm:ss')
           let url = subData.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)
@@ -517,16 +506,9 @@ export default {
         util.fileView(url)
       }
     },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
     // 获取公共字典list
     getCommonParams () {
-      let par = ['SAAS_LICENSEDOCU']
+      let par = ['SAAS_LICENSE']
       let tableNames = commonParam.isRequire(par)
       if (tableNames.length > 0) {
         this.$store.dispatch('ajax', {
@@ -537,25 +519,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
+            this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE'))
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSEDOCU')).slice(0, 10)
-      }
-    },
-    checkParamsList (query) {
-      let keyValue = query.toString().trim()
-      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
-      let filterList = []
-      if (util.isEmpty(keyValue)) {
-        this[this.selectObj.obj] = list.slice(0, 10)
-      } else {
-        filterList = list.filter(item => {
-          let str = item.codeField + '-' + item.nameField
-          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
-        })
-        this[this.selectObj.obj] = filterList.slice(0, 10)
+        this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE'))
       }
     }
   }
@@ -585,7 +553,7 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../../assets/img/icon/close.png') no-repeat;
+      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;
@@ -623,7 +591,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

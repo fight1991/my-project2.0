@@ -280,8 +280,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   background: url('../img/error/wait.png') no-repeat center center;
 }
 .el-loading-mask{
-  left: 5px;
-  // background-color: rgba(0,0,0,.2);
+  z-index: 3004;
+  // left: 5px;
+  background-color: rgba(0,0,0,.1);
 }
 // 控制台样式
 .ccba-control-detail.detail img {
@@ -1243,7 +1244,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .el-table .cell, .el-table th > .cell {
       text-overflow: initial;
       white-space: nowrap;
-      overflow: hidden;
+      overflow: hidden;  
   }
   .print-margin .el-row {
       border: 0;
@@ -1251,4 +1252,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 body .el-table th.gutter{
   display: table-cell!important;
+}
+.el-select-dropdown{
+  max-width: 500px;
+}
+.el-select-dropdown__item{
+  display: block;
 }
