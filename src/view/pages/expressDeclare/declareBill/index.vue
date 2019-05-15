@@ -5,19 +5,19 @@
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="queryForm" ref="queryForm" :rules="rules">
         <el-row :gutter="50">
           <el-col :span="8">
-            <el-form-item label="进出口标志" prop="iEFlag">
+            <el-form-item label="进出口标志">
               <el-select v-model="queryForm.iEFlag" filterable style="width:100%;">
                 <el-option v-for="item in iEFlagList" :key="item.value" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="总运单号" prop="billNo">
+            <el-form-item label="总运单号">
               <el-input v-model="queryForm.billNo" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="关区代码" prop="cusCustomsCode">
+            <el-form-item label="关区代码">
               <el-select v-model="queryForm.cusCustomsCode"
                 default-first-option remote
                 filterable
