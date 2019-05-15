@@ -588,7 +588,7 @@ export default {
         }).then(() => {
           let list = []
           for (let i of this.selectData) {
-            if (i.status === 'DD') {
+            if (i.opResult === 'DD') {
               list.push(i.entHeadPid)
             } else {
               this.$message({

@@ -1233,6 +1233,7 @@ export default {
 }
 .express-body-title{
   font-size: 16px;
+  color: @font-color-main;
 }
 .no-input{
   display: inline-block;
