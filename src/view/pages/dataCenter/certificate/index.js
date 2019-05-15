@@ -4,7 +4,7 @@ const MENU = [
     path: '/dataCenter/certificate',
     name: 'certificate',
     icon: 'icons-menu-certificate',
-    permissions: 'CCBA20302000000',
+    permissions: 'CCBA20304000000',
     meta: {
       title: '证书管理',
       component: resolve => require(['./index.vue'], resolve)

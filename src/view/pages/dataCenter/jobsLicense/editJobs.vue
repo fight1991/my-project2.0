@@ -18,19 +18,19 @@
                     :show-file-list="item.fileType"
                     :on-preview="showfileUrl"
                     :on-remove="(e)=>{handleDelete(e,item)}">
-                      <img v-if="item.isImg && !item.fileType" :src="item.documentUrl" class="detail-img">
-                      <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isImg && !item.fileType" :src="item.documentUrl" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
-                        <el-button size="small" type="primary">重新上传</el-button>
+                        <el-button size="small" type="primary" :disabled="isDisabled">重新上传</el-button>
                       </el-row>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
-                      filterable clearable
+                      filterable clearable :disabled="isDisabled"
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
@@ -41,7 +41,7 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
-                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
+                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo" :disabled="isDisabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -76,6 +76,7 @@ export default {
           documentType: '',
           documentTypeValue: '',
           documentUrl: '',
+          isDisabled: false,
           fileLists: [], // 存放文件
           fileType: true,
           isImg: false,
@@ -135,12 +136,17 @@ export default {
     // 列表
     querylist () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/business/queryEditAttachList',
+        url: 'API@/saas-document-center/business/queryAttachList',
         data: {decPid: this.decPid},
         router: this.$router,
         success: (res) => {
           let licenseList = util.isEmpty(res.result) ? [] : res.result
           licenseList.forEach(item => {
+            if (item.editable === true) {
+              item.isDisabled = false
+            } else {
+              item.isDisabled = true
+            }
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -302,13 +308,13 @@ export default {
     },
     // // 预览
     showfileUrl (file) {
-      // util.fileView(file.url)
+      util.fileView(file.url)
     },
     // 文件点击事件
     showfile (url) {
-      // if (!util.isEmpty(url)) {
-      //   util.fileView(url)
-      // }
+      if (!util.isEmpty(url)) {
+        util.fileView(url)
+      }
     },
     // 获取公共字典list
     getCommonParams () {
