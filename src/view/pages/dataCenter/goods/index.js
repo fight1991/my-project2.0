@@ -16,7 +16,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '非保税商品库'
+        title: '商品数据库'
       }
     }, {
       path: '/dataCenter/goods/bonded',
