@@ -132,8 +132,8 @@
 </template>
 
 <script>
-import validator from '../../../../../common/validator'
-import util from '../../../../../common/util'
+import validator from '../../../../common/validator'
+import util from '../../../../common/util'
 export default {
   data () {
     return {
@@ -315,7 +315,7 @@ export default {
     // 新建
     add () {
       this.$router.push({
-        path: '/dataCenter/licenses/certificate/addCertificate',
+        path: '/dataCenter/certificate/addCertificate',
         query: {
           ownerCodeScc: this.certificateDetailForm.sccCode,
           corpName: encodeURIComponent(this.certificateDetailForm.corpName)
@@ -325,7 +325,7 @@ export default {
     // 编辑
     toEdit (type, certificatePid, ownerCodeScc) {
       this.$router.push({
-        path: '/dataCenter/licenses/certificate/addCertificate',
+        path: '/dataCenter/certificate/addCertificate',
         query: {
           type: type,
           certificatePid: certificatePid,
@@ -384,7 +384,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

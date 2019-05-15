@@ -41,10 +41,7 @@
                 <el-col :span="12">
                 <el-form-item label="许可证类型" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
-                  remote filterable clearable
-                  @focus="tipsFillMessage('saasLicType','SAAS_LICENSE')"
-                  :remote-method="checkParamsList"
-                  ref="licTypeCode" dataRef='licTypeCode'
+                  filterable clearable
                   style="width:100%">
                     <el-option
                       v-for="(item,i) in saasLicType"
@@ -67,9 +64,9 @@
                       :on-preview="showfileUrl"
                       :on-remove="(e)=>{handleDelete(e,item)}">
                       <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
-                      <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <el-button size="small" type="primary" v-if="item.info.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
@@ -91,7 +88,7 @@
                 <el-col :span="12" :xs='24'>
                   <el-form-item label="可用次数" :prop="'submitDataList.'+index+'.info.availableNum'" :rules="rules.availableNum">
                     <el-select v-model="item.info.availableNum" style="width:100%"
-                      filterable remote clearable placeholder="请选择许可证可用次数">
+                      filterable clearable placeholder="请选择许可证可用次数">
                       <el-option label="一批一证" value="1"></el-option>
                       <el-option label="非一批一证" value="0"></el-option>
                     </el-select>
@@ -107,7 +104,7 @@
             </el-card>
           </el-row>
           <el-row>
-            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
+            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
           </el-row>
           <el-row class="query-btn">
             <el-button type="primary"  size="small" @click="submit">确认</el-button>
@@ -124,11 +121,11 @@
     width="640px">
       <el-form :model="goodsDialog" ref="goodsDialog" :rules="dialogRule" size="mini" label-position="right">
         <el-row>
-          <el-col :span="21" :offset="3">
+          <el-col :span="24" :offset="1">
             <el-row :gutter="10" style="margin-bottom:10px" v-for="(item2,index2) in goodsDialog.goods" :key="index2">
               <el-col :span="7">
                 <el-form-item :prop="'goods.'+index2+'.gNo'" :rules="dialogRule.gNo">
-                  <el-input size="mini" clearable v-model="item2.gNo" placeholder="请输入商品编号" :maxlength="10"></el-input>
+                  <el-input size="mini" clearable v-model="item2.gNo" placeholder="请输入商品编号（必填）" :maxlength="10"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
@@ -138,15 +135,15 @@
               </el-col>
               <el-col :span="7">
                 <el-form-item :prop="'goods.'+index2+'.declaredQuantity'" :rules="dialogRule.declaredQuantity">
-                  <el-input size="mini" clearable v-model="item2.declaredQuantity" placeholder="请输入申报数量" :maxlength="10"></el-input>
+                  <el-input size="mini" clearable v-model="item2.declaredQuantity" placeholder="请输入申报数量（必填）" :maxlength="10"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="3">
-                <el-button type="text" title="删除" @click="deleteGood(index2)"  v-if="goodsDialog.goods.length > '1'"><i class="fa fa-times-circle-o"></i></el-button>
+                <el-button type="text" class="table-icon list-icon-delete" title="删除" style="padding-top:5px"  @click="deleteGood(index2)"  v-if="goodsDialog.goods.length > '1'"><i></i></el-button>
               </el-col>
             </el-row>
             <el-row>
-              <span class="license-add" @click="addGood"><img class="pointer" src="../../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+              <span class="license-add" @click="addGood"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
             </el-row>
           </el-col>
         </el-row>
@@ -160,9 +157,9 @@
 </template>
 
 <script>
-import validator from '../../../../../common/validator'
-import util from '../../../../../common/util'
-import commonParam from '../../../../../common/commonParam'
+import validator from '../../../../common/validator'
+import util from '../../../../common/util'
+import commonParam from '../../../../common/commonParam'
 export default {
   data () {
     return {
@@ -235,11 +232,7 @@ export default {
       searchCorpInfoView: false,
       noDataText: '暂无匹配数据',
       companyListOptions: [],
-      saasLicType: [],
-      selectObj: {
-        obj: '',
-        params: ''
-      }
+      saasLicType: []
     }
   },
   created () {
@@ -353,16 +346,21 @@ export default {
     },
     // 保存
     saveDialogForm () {
-      this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
-      if (this.goodsDialog.goods.length > 1) {
-        for (let i = 0; i < this.goodsDialog.goods.length; i++) {
-          this.addForm.submitDataList[this.index].info.goodInput += this.goodsDialog.goods[i].gNo + ','
+      this.$refs['goodsDialog'].validate((valId) => {
+        if (!valId) {
+          return false
         }
-        this.addForm.submitDataList[this.index].info.goodInput = this.addForm.submitDataList[this.index].info.goodInput.substr(0, this.addForm.submitDataList[this.index].info.goodInput.length - 1)
-      } else {
-        this.addForm.submitDataList[this.index].info.goodInput = this.goodsDialog.goods[0].gNo
-      }
-      this.goodsDialogVisible = false
+        this.addForm.submitDataList[this.index].goods = util.simpleClone(this.goodsDialog.goods)
+        if (this.goodsDialog.goods.length > 1) {
+          for (let i = 0; i < this.goodsDialog.goods.length; i++) {
+            this.addForm.submitDataList[this.index].info.goodInput += this.goodsDialog.goods[i].gNo + ','
+          }
+          this.addForm.submitDataList[this.index].info.goodInput = this.addForm.submitDataList[this.index].info.goodInput.substr(0, this.addForm.submitDataList[this.index].info.goodInput.length - 1)
+        } else {
+          this.addForm.submitDataList[this.index].info.goodInput = this.goodsDialog.goods[0].gNo
+        }
+        this.goodsDialogVisible = false
+      })
     },
     // 取消
     cancleDialogForm () {
@@ -391,6 +389,7 @@ export default {
             url: 'API@/saas-document-center/dccommon/queryLicenseCorps',
             data: val.trim(),
             router: this.$router,
+            isLoading: false,
             success: (res) => {
               if (util.isEmpty(res.result)) {
                 this.companyListOptions = []
@@ -498,7 +497,7 @@ export default {
               })
               this.$store.commit('CloseTab', this.$route.name)
               this.$router.push({
-                path: '/dataCenter/licenses/license/detailListLicense',
+                path: '/dataCenter/license/detailListLicense',
                 query: {
                   sccCode: this.addForm.ownerCodeScc,
                   corpName: encodeURIComponent(this.addForm.corpName)
@@ -593,13 +592,6 @@ export default {
       //   }
       // }
     },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
     // 获取公共字典list
     getCommonParams () {
       let par = ['SAAS_LICENSE']
@@ -613,25 +605,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
+            this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE'))
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_LICENSE')).slice(0, 10)
-      }
-    },
-    checkParamsList (query) {
-      let keyValue = query.toString().trim()
-      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
-      let filterList = []
-      if (util.isEmpty(keyValue)) {
-        this[this.selectObj.obj] = list.slice(0, 10)
-      } else {
-        filterList = list.filter(item => {
-          let str = item.codeField + '-' + item.nameField
-          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
-        })
-        this[this.selectObj.obj] = filterList.slice(0, 10)
+        this.saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LICENSE'))
       }
     }
   }
@@ -661,7 +639,7 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../../assets/img/icon/close.png') no-repeat;
+      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;
@@ -699,7 +677,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

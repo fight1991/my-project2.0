@@ -1,5 +1,6 @@
 import License from './license/index' // 许可证件
 import Goods from './goods/index' // 商品资料库
+import certificate from './certificate/index' // 证书管理
 import JobsLicense from './jobsLicense/index' // 业务单证管理
 const MENU = [
   {
@@ -23,7 +24,8 @@ const MENU = [
       title: '编辑详情'
     }
   },
-  License.MENU,
+  ...License.MENU,
+  ...certificate.MENU,
   ...JobsLicense.MENU,
   Goods.MENU
 ]

@@ -87,7 +87,7 @@
                     </el-table-column>
                     <el-table-column label="可用次数" min-width="100">
                       <template slot-scope="scope">
-                        <div class='sys-td-r'>{{scope.row.availableNum + '' || '-'}}</div>
+                        <div class='sys-td-r'>{{scope.row.availableNumValue || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="剩余可用数量" min-width="100">
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import util from '../../../../../common/util'
+import util from '../../../../common/util'
 export default {
   data () {
     return {
@@ -192,7 +192,7 @@ export default {
     // 新建
     add () {
       this.$router.push({
-        path: '/dataCenter/licenses/license/addLicense',
+        path: '/dataCenter/license/addLicense',
         query: {
           ownerCodeScc: this.detailForm.sccCode,
           corpName: encodeURIComponent(this.detailForm.corpName)
@@ -259,7 +259,7 @@ export default {
     // 跳转到详情页面
     toDetailChild (type, id, ownerCodeScc) {
       this.$router.push({
-        path: '/dataCenter/licenses/license/manageDetail',
+        path: '/dataCenter/license/manageDetail',
         query: {
           type: type,
           id: id,
@@ -336,7 +336,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

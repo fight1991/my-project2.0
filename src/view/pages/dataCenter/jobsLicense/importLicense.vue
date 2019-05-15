@@ -34,10 +34,7 @@
                   <el-col :span="12" :xs='24'>
                     <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select size="mini" placeholder="请选择单证类型" v-model="item.documentType"
-                      remote filterable clearable
-                      @focus="tipsFillMessage('saasEdocCode','SAAS_EDOC_CODE')"
-                      :remote-method="checkParamsList"
-                      ref="saasEdocCode" dataRef='saasEdocCode'
+                      filterable clearable
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
@@ -121,11 +118,7 @@ export default {
           }
         ]
       },
-      saasEdocCode: [],
-      selectObj: {
-        obj: '',
-        params: ''
-      }
+      saasEdocCode: []
     }
   },
   created () {
@@ -346,13 +339,6 @@ export default {
         }
       }
     },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
     // 获取公共字典list
     getCommonParams () {
       let par = ['SAAS_EDOC_CODE']
@@ -366,25 +352,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')).slice(0, 10)
+            this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')).slice(0, 10)
-      }
-    },
-    checkParamsList (query) {
-      let keyValue = query.toString().trim()
-      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
-      let filterList = []
-      if (util.isEmpty(keyValue)) {
-        this[this.selectObj.obj] = list.slice(0, 10)
-      } else {
-        filterList = list.filter(item => {
-          let str = item.codeField + '-' + item.nameField
-          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
-        })
-        this[this.selectObj.obj] = filterList.slice(0, 10)
+        this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
       }
     }
   }

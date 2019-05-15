@@ -30,13 +30,10 @@
                   <el-col :span="11">
                     <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
-                      remote filterable clearable
-                      @focus="tipsFillMessage('saasEdocCode-'+index,'SAAS_EDOC_CODE')"
-                      :remote-method="checkParamsList"
-                      ref="saasEdocCode" dataRef='saasEdocCode'
+                      filterable clearable
                       style="width:100%">
                         <el-option
-                          v-for="(item,i) in saasEdocCode[index]"
+                          v-for="(item,i) in saasEdocCode"
                           :key="'licenseList.'+index+i+item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -87,11 +84,7 @@ export default {
           isExcel: false
         }]
       },
-      saasEdocCode: [],
-      selectObj: {
-        obj: '',
-        params: ''
-      }
+      saasEdocCode: []
     }
   },
   created () {
@@ -148,9 +141,6 @@ export default {
         success: (res) => {
           let licenseList = util.isEmpty(res.result) ? [] : res.result
           licenseList.forEach(item => {
-            this.saasEdocCode.push([])
-            this.tipsFillMessage('saasEdocCode-' + licenseList.indexOf(item), 'SAAS_EDOC_CODE')
-            this.checkParamsList(item.documentType)
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
@@ -320,13 +310,6 @@ export default {
       //   util.fileView(url)
       // }
     },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
     // 获取公共字典list
     getCommonParams () {
       let par = ['SAAS_EDOC_CODE']
@@ -340,27 +323,12 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')).slice(0, 10)
+            this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
           }
         })
       } else {
-        this.curryParams = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')).slice(0, 10)
+        this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
       }
-    },
-    checkParamsList (query) {
-      let keyValue = query.toString().trim()
-      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
-      let filterList = []
-      if (util.isEmpty(keyValue)) {
-        this[this.selectObj.obj.split('-')[0]][this.selectObj.obj.split('-')[1]] = list.slice(0, 10)
-      } else {
-        filterList = list.filter(item => {
-          let str = item.codeField + '-' + item.nameField
-          return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
-        })
-        this[this.selectObj.obj.split('-')[0]][this.selectObj.obj.split('-')[1]] = filterList.slice(0, 10)
-      }
-      this.$forceUpdate()
     },
     // 导入
     upload (decPid, ownerCodeScc) {

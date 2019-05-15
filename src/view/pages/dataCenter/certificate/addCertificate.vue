@@ -50,9 +50,9 @@
               :on-preview="showfileUrl"
               :on-remove="handleDelete">
               <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
-              <img v-if="isPdf  && !fileType" src="../../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-row>
                <el-button size="small" type="primary">上传附件</el-button>
               </el-row>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import util from '../../../../../common/util'
+import util from '../../../../common/util'
 export default {
   data () {
     return {
@@ -386,7 +386,7 @@ export default {
             })
             this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
-              path: '/dataCenter/licenses/certificate/detailListCertificate',
+              path: '/dataCenter/certificate/detailListCertificate',
               query: {
                 sccCode: this.addForm.ownerCodeScc,
                 corpName: encodeURIComponent(this.addForm.corpName)
@@ -423,7 +423,7 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../../assets/img/icon/close.png') no-repeat;
+      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;
@@ -461,7 +461,7 @@ export default {
         width: 20px;
         height: 20px;
         margin-right: 5px;
-        background: url('../../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

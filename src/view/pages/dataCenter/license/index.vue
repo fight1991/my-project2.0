@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import util from '../../../../../common/util'
+import util from '../../../../common/util'
 export default {
   data () {
     return {
@@ -110,7 +110,7 @@ export default {
   watch: {
     '$route': function (to, from) {
       // 初始化组件
-      if (to.path === '/dataCenter/licenses/license') {
+      if (to.path === '/dataCenter/license') {
         this.corpList()
         this.search()
       }
@@ -198,7 +198,7 @@ export default {
     // 跳转到详情页面
     toDetailList (corpSccCode, corpName) {
       this.$router.push({
-        path: '/dataCenter/licenses/license/detailListLicense',
+        path: '/dataCenter/license/detailListLicense',
         query: {
           sccCode: corpSccCode,
           corpName: encodeURIComponent(corpName)
