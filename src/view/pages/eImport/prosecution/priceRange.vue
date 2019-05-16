@@ -76,13 +76,22 @@
             </template>
           </el-table-column>
           <el-table-column label="境内收发货人" min-width="150" prop="tradeName" v-if="thList[1].value">
-
           </el-table-column>
           <el-table-column label="商品编码" min-width="150" prop="codeTs" v-if="thList[2].value">
           </el-table-column>
           <el-table-column label="商品名称" min-width="150" prop="gName" v-if="thList[3].value">
+            <template slot-scope="scope">
+              <div class="text-over-hid" :title="scope.row.gName">
+              {{scope.row.gName}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column label="规格型号" min-width="150" prop="gModel" v-if="thList[4].value">
+            <template slot-scope="scope">
+              <div class="text-over-hid" :title="scope.row.gModel">
+              {{scope.row.gModel}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column label="单价" min-width="80" prop="declPrice" v-if="thList[5].value">
             <template slot-scope="scope">
@@ -100,6 +109,11 @@
           </template>
           </el-table-column>
             <el-table-column label="原产国" min-width="100" prop="originCountryValue" v-if="thList[8].value">
+              <template slot-scope="scope">
+                <div class="sys-td-c text-over-hid" :title="scope.row.originCountryValue">
+                {{scope.row.originCountryValue}}
+                </div>
+              </template>
             </el-table-column>
           <el-table-column label="操作" width="100">
           <template slot-scope="scope">

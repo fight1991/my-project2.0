@@ -695,7 +695,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       font-weight: normal;
     }
     .el-table__body td .cell {
-      text-align: center;
+      // text-align: center;
       color: @font-color-main;
       font-weight: normal;
       .sys-td-c{
@@ -1245,4 +1245,9 @@ body .el-table th.gutter{
 }
 .el-select-dropdown__item{
   display: block;
+}
+.text-over-hid{
+  overflow:hidden; //超出的文本隐藏
+  text-overflow:ellipsis; //溢出用省略号显示
+  white-space:nowrap;
 }
