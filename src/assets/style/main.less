@@ -765,61 +765,47 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       background-color: #fff;
     }
   }
-  .list-icon-add{
-    i{
-      background: url('../../assets/img/icon/icon-add.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-addH.png') no-repeat;
-    }
+  .list-icon-add i{
+    background: url('../../assets/img/icon/icon-add.png') no-repeat;
   }
-  .list-icon-look{
-    i{
-      background: url('../../assets/img/icon/icon-look.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-lookH.png') no-repeat;
-    }
+  .list-icon-add:hover i,.list-icon-add:focus i,.sys-table-table .list-icon-add i{
+    background: url('../../assets/img/icon/icon-addH.png') no-repeat;
   }
-  .list-icon-import{
-    i{
-      background: url('../../assets/img/icon/icon-import.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-importH.png') no-repeat;
-    }
+  .list-icon-look i{
+    background: url('../../assets/img/icon/icon-look.png') no-repeat;
   }
-  .list-icon-declare{
-    i{
-      background: url('../../assets/img/icon/icon-declare.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-declareH.png') no-repeat;
-    }
+  .list-icon-look:hover i,.list-icon-look:focus i,.sys-table-table .list-icon-look i{
+    background: url('../../assets/img/icon/icon-lookH.png') no-repeat;
   }
-  .list-icon-delete{
-    i{
-      background: url('../../assets/img/icon/icon-delete.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-deleteH.png') no-repeat;
-    }
+  .list-icon-import i{
+    background: url('../../assets/img/icon/icon-import.png') no-repeat;
   }
-  .list-icon-edit{
-    i{
-      background: url('../../assets/img/icon/icon-edit.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-editH.png') no-repeat;
-    }
+  .list-icon-import:hover i,.list-icon-import:focus i,.sys-table-table .list-icon-import i{
+    background: url('../../assets/img/icon/icon-importH.png') no-repeat;
   }
-  .list-icon-scan{
-    i{
-      background: url('../../assets/img/icon/icon-scan.png') no-repeat;
-    }
-    &:hover i,&:focus i{
-      background: url('../../assets/img/icon/icon-scanH.png') no-repeat;
-    }
+  .list-icon-declare i{
+    background: url('../../assets/img/icon/icon-declare.png') no-repeat;
+  }
+  .list-icon-declare:hover i,.list-icon-declare:focus i,.sys-table-table .list-icon-declare i{
+    background: url('../../assets/img/icon/icon-declareH.png') no-repeat;
+  }
+  .list-icon-delete i{
+    background: url('../../assets/img/icon/icon-delete.png') no-repeat;
+  }
+  .list-icon-delete:hover i,.list-icon-delete:focus i,.sys-table-table .list-icon-delete i{
+    background: url('../../assets/img/icon/icon-deleteH.png') no-repeat;
+  }
+  .list-icon-edit i{
+    background: url('../../assets/img/icon/icon-edit.png') no-repeat;
+  }
+  .list-icon-edit:hover i,.list-icon-edit:focus i,.sys-table-table .list-icon-edit i{
+    background: url('../../assets/img/icon/icon-editH.png') no-repeat;
+  }
+  .list-icon-scan i{
+    background: url('../../assets/img/icon/icon-scan.png') no-repeat;
+  }
+  .list-icon-scan:hover i,.list-icon-scan:focus i,.sys-table-table .list-icon-scan i{
+    background: url('../../assets/img/icon/icon-scanH.png') no-repeat;
   }
   .list-btn-drop{
     .list-icon-dropdown{
@@ -851,25 +837,26 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   
   // 表格form样式
   .form-table-panel{
-    border: 1px solid #b7b7b7;
+    border: 1px solid @line-color-input;
     border-bottom: none;
     border-right: none;
     .el-form-item--mini.el-form-item{
       margin-bottom: 0;
     }
     .el-row{
-      border-bottom: 1px solid #b7b7b7;
+      border-bottom: 1px solid @line-color-input;
       .el-form-item__label{
-        border-right: 1px solid #b7b7b7;
+        border-right: 1px solid @line-color-input;
         padding: 0 8px 0 0;
         text-align: right;
       }
       .el-form-item__content{
-        border-right: 1px solid #b7b7b7;
+        border-right: 1px solid @line-color-input;
       }
       .el-input__inner{
         border: none;
-        padding: 0 0 0 8px;
+        padding: 0 8px 0 8px;
+        text-overflow: ellipsis;
       }
     }
   }
