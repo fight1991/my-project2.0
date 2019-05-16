@@ -28,14 +28,14 @@
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
-                        <el-button size="small" type="primary" :disabled="!item.editable">重新上传</el-button>
+                        <el-button size="small" type="primary">重新上传</el-button>
                       </el-row>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
-                      filterable clearable :disabled="!item.editable"
+                      filterable clearable
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
@@ -46,7 +46,7 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
-                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo" :disabled="!item.editable"></el-input>
+                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -81,7 +81,6 @@ export default {
           documentType: '',
           documentTypeValue: '',
           documentUrl: '',
-          editable: true,
           fileLists: [], // 存放文件
           fileType: true,
           isImg: false,
@@ -101,7 +100,6 @@ export default {
       documentType: '',
       documentTypeValue: '',
       documentUrl: '',
-      editable: true,
       fileLists: [],
       fileType: true,
       isImg: false,
@@ -127,7 +125,6 @@ export default {
         documentType: '',
         documentTypeValue: '',
         documentUrl: '',
-        editable: true,
         fileLists: [],
         fileType: true,
         isImg: false,
@@ -143,7 +140,7 @@ export default {
     // 列表
     querylist () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/business/queryAttachList',
+        url: 'API@/saas-document-center/business/queryEditAttachList',
         data: {decPid: this.decPid},
         router: this.$router,
         success: (res) => {
