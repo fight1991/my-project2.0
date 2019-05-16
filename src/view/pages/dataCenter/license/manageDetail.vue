@@ -99,7 +99,9 @@
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100">
                     <template slot-scope="scope">
-                      {{scope.row.declaredQuantity}}
+                      <el-form-item label-width="0px">
+                        <el-input size="mini" disabled v-model="scope.row.declaredQuantity"></el-input>
+                      </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="操作" width="100">
@@ -181,7 +183,7 @@ export default {
           gName: '',
           gNo: '',
           declaredQuantity: '',
-          availableQuantity: ''
+          availableQuantity: this.declaredQuantity
         }]
       },
       type: '',
@@ -252,7 +254,7 @@ export default {
           gName: '',
           gNo: '',
           declaredQuantity: '',
-          availableQuantity: ''
+          availableQuantity: this.declaredQuantity
         }]
       }
       this.$nextTick(() => {
@@ -300,7 +302,7 @@ export default {
         gName: '',
         gNo: '',
         declaredQuantity: '',
-        availableQuantity: ''
+        availableQuantity: this.declaredQuantity
       })
     },
     // 保存
@@ -319,6 +321,9 @@ export default {
         if (this.fileLists.length > 0 && this.fileType) {
           this.subData.info.licenseUrl = this.fileLists[0].url
         }
+        this.subData.goods.forEach(item => {
+          item.availableQuantity = item.declaredQuantity
+        })
         this.subData.info.expiryDate = util.dateFormat(this.subData.info.expiryDate, 'yyyy-MM-dd')
         this.subData.info.updateTime = ''
         this.$store.dispatch('ajax', {
@@ -362,6 +367,9 @@ export default {
           let subData = res.result
           subData.info = res.result.info
           subData.goods = util.isEmpty(res.result.goods) ? [] : res.result.goods
+          subData.goods.forEach(item => {
+            item.availableQuantity = item.declaredQuantity
+          })
           let url = subData.info.licenseUrl
           if (!util.isEmpty(url)) {
             let suffix = util.getFileTypeByName(url)

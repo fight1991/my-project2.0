@@ -4,6 +4,11 @@
       <el-row>
         <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
       </el-row>
+      <el-row style="color:#287fca">
+        <p>注意：</p>
+        <p>1. 从报关单上传的业务单证无法在当前模块进行编辑，若有需要，请回到报关单页面进行编辑</p>
+        <p>2. 在当前页面，您也无法编辑他人上传的文件</p>
+      </el-row>
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
@@ -23,14 +28,14 @@
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
-                        <el-button size="small" type="primary" :disabled="isDisabled">重新上传</el-button>
+                        <el-button size="small" type="primary" :disabled="!item.editable">重新上传</el-button>
                       </el-row>
                     </el-upload>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
-                      filterable clearable :disabled="isDisabled"
+                      filterable clearable :disabled="!item.editable"
                       style="width:100%">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
@@ -41,7 +46,7 @@
                       </el-select>
                     </el-form-item>
                     <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
-                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo" :disabled="isDisabled"></el-input>
+                      <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo" :disabled="!item.editable"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -76,7 +81,7 @@ export default {
           documentType: '',
           documentTypeValue: '',
           documentUrl: '',
-          isDisabled: false,
+          editable: true,
           fileLists: [], // 存放文件
           fileType: true,
           isImg: false,
@@ -96,6 +101,7 @@ export default {
       documentType: '',
       documentTypeValue: '',
       documentUrl: '',
+      editable: true,
       fileLists: [],
       fileType: true,
       isImg: false,
@@ -121,6 +127,7 @@ export default {
         documentType: '',
         documentTypeValue: '',
         documentUrl: '',
+        editable: true,
         fileLists: [],
         fileType: true,
         isImg: false,
@@ -142,11 +149,6 @@ export default {
         success: (res) => {
           let licenseList = util.isEmpty(res.result) ? [] : res.result
           licenseList.forEach(item => {
-            if (item.editable === true) {
-              item.isDisabled = false
-            } else {
-              item.isDisabled = true
-            }
             let url = item.documentUrl
             if (!util.isEmpty(url)) {
               let suffix = util.getFileTypeByName(url)
