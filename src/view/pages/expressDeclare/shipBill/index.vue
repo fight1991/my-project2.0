@@ -56,7 +56,7 @@
       </el-row>
       <el-row>
         <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange">
-          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  type="selection" min-width="35" align="center"></el-table-column>
           <el-table-column label="序号" width="100">
             <template slot-scope="scope">
               <div class='sys-td-l'>{{(scope.$index+1)}}</div>
