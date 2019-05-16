@@ -445,6 +445,7 @@ export default {
             message: res.result.statusValue,
             type: 'success'
           })
+          this.getDetail()
         }
       })
     },
