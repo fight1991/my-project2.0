@@ -312,7 +312,7 @@
                       :value="item.codeField">
                     </el-option>
                   </el-select> -->
-                  <el-input v-model="headData.wrapTypValue" :disabled="isDetail"></el-input>
+                  <el-input v-model="headData.wrapTypeValue" :disabled="isDetail"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
