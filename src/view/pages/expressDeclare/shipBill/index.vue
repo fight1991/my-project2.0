@@ -325,10 +325,17 @@ export default {
         router: this.$router,
         success: (res) => {
           this.$message({
-            message: '导入成功',
+            message: res.message,
             type: 'success'
           })
-          this.search()
+          this.pageList()
+        },
+        other: (res) => {
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.pageList()
         }
       })
     },

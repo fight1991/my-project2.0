@@ -6,7 +6,7 @@
         <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
       </el-col>
       <el-col :span='12' :xs='24'>
-        <div style="text-align: right;"><el-button size="mini" v-if="$route.params.status =='DD'" type="primary" @click="declare">申报</el-button></div>
+        <div style="text-align: right;"><el-button size="mini" v-if="isDeclare" type="primary" @click="declare">申报</el-button></div>
       </el-col>
     </el-row>
     <!-- 返回按钮 end-->
@@ -1061,13 +1061,19 @@ export default {
       unitListA: [],
       unitListB: [],
       countryCList: [],
-      licCodeList: []
+      licCodeList: [],
+      isDeclare: true // 是否显示申报按钮
     }
   },
   watch: {
     '$route' (newVal, oldVal) {
       if (newVal.name === 'declareBillDetail') {
         this.getDetail()
+        if (this.$route.params.status === 'DD') {
+          this.isDeclare = true
+        } else {
+          this.isDeclare = false
+        }
       }
     }
   },
@@ -1075,6 +1081,11 @@ export default {
     this.getCommonParam()
     if (this.$route.params.type === 'detail') {
       this.isDetail = true
+      if (this.$route.params.status === 'DD') {
+        this.isDeclare = true
+      } else {
+        this.isDeclare = false
+      }
     }
   },
   methods: {
@@ -1194,6 +1205,7 @@ export default {
             type: 'success'
           })
           this.getDetail()
+          this.isDeclare = false
         }
       })
     },
