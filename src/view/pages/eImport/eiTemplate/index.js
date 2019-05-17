@@ -50,7 +50,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: 'shipping'
+        title: '出口导入模板'
       }
     }
   ]
