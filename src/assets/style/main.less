@@ -710,7 +710,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
   }
   .el-button--mini{
-    padding: 8px 20px;
+    padding: 7px 20px;
     font-size: 14px;
   }
   .el-button--primary {
@@ -740,6 +740,14 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     margin-top: 10px;
     min-height: 30px;
   }
+  // 分页
+  .el-pagination.is-background .el-pager li:not(.disabled).active{
+    background-color: @sys-color-main;
+  }
+  .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li{
+    background-color: @sys-color-gray;
+    color: @font-color-main;
+  } 
   // form label过长时样式
   .more-txt-lh{
     .el-form-item__label{
