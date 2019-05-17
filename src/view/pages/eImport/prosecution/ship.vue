@@ -56,8 +56,8 @@
         </el-row>
         <el-row :gutter="50">
           <el-col :span="24" class='query-btn'>
-            <el-button size="mini" type="primary" @click="searchShipForm" style="padding: 8px 20px;">查询</el-button>
-            <el-button size="mini" @click="resetShipForm" style="padding: 8px 20px;">重置</el-button>
+            <el-button size="mini" type="primary" @click="searchShipForm">查询</el-button>
+            <el-button size="mini" @click="resetShipForm">重置</el-button>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
