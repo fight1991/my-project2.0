@@ -3,7 +3,7 @@
       <!-- 头部 -->
       <el-row class = "query-condition">
       <!-- 查询条件 -->
-        <el-form :label-width="labelFormWidth.seven" label-position="right" :model="queryForm" ref="queryForm">
+        <el-form :label-width="labelFormWidth.six" label-position="right" :model="queryForm" ref="queryForm">
           <el-row :gutter="56">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标志" prop='type'>
