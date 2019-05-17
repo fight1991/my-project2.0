@@ -16,8 +16,10 @@ module.exports = {
     graininess: './src/view/pages/graininess/router.js',
     sea:'./src/view/pages/sea/router.js',
     handBook:'./src/view/pages/handBook/router.js',
-    account:'./src/view/pages/account/router.js'
-
+    account:'./src/view/pages/account/router.js',
+    passStatus:'./src/view/pages/passStatus/router.js',
+    passParams:'./src/view/pages/passParams/router.js',
+    expressDeclare:'./src/view/pages/expressDeclare/router.js'
   },
   build: {
     vendor1: ['vue'],
@@ -36,6 +38,9 @@ module.exports = {
     graininess: ['babel-polyfill','./src/view/pages/graininess/router.js'],
     sea: ['babel-polyfill','./src/view/pages/sea/router.js'],
     handBook: ['babel-polyfill','./src/view/pages/handBook/router.js'],
-    account: ['babel-polyfill','./src/view/pages/account/router.js']
+    account: ['babel-polyfill','./src/view/pages/account/router.js'],
+    passStatus: ['babel-polyfill','./src/view/pages/passStatus/router.js'],
+    passParams :['babel-polyfill','./src/view/pages/passParams/router.js'],
+    expressDeclare :['babel-polyfill','./src/view/pages/expressDeclare/router.js']
   }
 }
