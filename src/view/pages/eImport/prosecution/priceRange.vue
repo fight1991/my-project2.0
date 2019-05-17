@@ -6,7 +6,7 @@
         <el-form :label-width="labelFormWidth.seven" label-position="right" :model="queryForm" ref="queryForm">
           <el-row :gutter="56">
           <el-col :span="6" :xs="12">
-            <el-form-item label="进出口标识标志" prop='type'>
+            <el-form-item label="进出口标志" prop='type'>
               <el-select placeholder="" size="mini" v-model="queryForm.type"
                 filterable clearable style="width:100%">
                 <el-option
@@ -70,7 +70,7 @@
           :data="priceList"
           @selection-change="selectVal">
           <el-table-column type="selection" width="36" align="center"></el-table-column>
-          <el-table-column label="进出口标识标志" min-width="100" prop="type" v-if="thList[0].value">
+          <el-table-column label="进出口标志" min-width="100" prop="type" v-if="thList[0].value">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}</div>
             </template>
@@ -140,7 +140,7 @@
         <el-form label-width="126px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item label="进出口标识标志" prop='type'>
+              <el-form-item label="进出口标志" prop='type'>
                 <el-select placeholder="" v-model="priceDialogForm.type"
                   filterable clearable
                   :disabled="isDetail"
@@ -333,7 +333,7 @@ export default {
         }],
       thList: [{
         value: true,
-        text: '进出口标识标志'
+        text: '进出口标志'
       }, {
         value: true,
         text: '境内收发货人'
