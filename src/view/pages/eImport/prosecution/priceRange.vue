@@ -36,8 +36,8 @@
         </el-row>
         <el-row :gutter="50" class="query-btn">
           <el-col :span="24">
-            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="searchQueryForm">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="resetQueryForm">重置</el-button>
+            <el-button size="mini" type="primary" @click="searchQueryForm">查询</el-button>
+            <el-button size="mini" @click="resetQueryForm">重置</el-button>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
