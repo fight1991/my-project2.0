@@ -92,7 +92,7 @@
       <el-table class='sys-table-table' :data="shipList" height="455px"
          @selection-change="shipListChange"
          border highlight-current-row size="mini">
-        <el-table-column type="selection" width="35"></el-table-column>
+        <el-table-column type="selection" width="36" align="center"></el-table-column>
         <el-table-column label="进/出境关别" prop="iEPortValue" min-width="80">
           <template slot-scope="scope">
             <div class='sys-td-l'>{{scope.row.iEPortValue}}</div>

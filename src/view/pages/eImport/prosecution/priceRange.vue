@@ -69,13 +69,18 @@
           border highlight-current-row size="mini"
           :data="priceList"
           @selection-change="selectVal">
-          <el-table-column type="selection" width="35"></el-table-column>
+          <el-table-column type="selection" width="36" align="center"></el-table-column>
           <el-table-column label="进出口标识标志" min-width="100" prop="type" v-if="thList[0].value">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}</div>
             </template>
           </el-table-column>
           <el-table-column label="境内收发货人" min-width="150" prop="tradeName" v-if="thList[1].value">
+            <template slot-scope="scope">
+              <div class="text-over-hid" :title="scope.row.tradeName">
+              {{scope.row.tradeName}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column label="商品编码" min-width="150" prop="codeTs" v-if="thList[2].value">
           </el-table-column>
