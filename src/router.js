@@ -92,7 +92,7 @@ routes[1].children.push(...ExpressDeclare.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
-  base: '',
+  base: 'ccba2',
   routes: routes
 })
 
