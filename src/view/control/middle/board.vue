@@ -141,12 +141,12 @@ export default {
       // 如果状态为0 跳转到进口接单或出口接单,否则跳转到报关单查询
       if (status === '0') {
         if (iEFlag === 'I') {
-          window.open(location.origin + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+          window.open(location.origin + '/ccba2' + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
         } else {
-          window.open(location.origin + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+          window.open(location.origin + '/ccba2' + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
         }
       } else {
-        window.open(location.origin + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+        window.open(location.origin + '/ccba2' + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
       }
     },
     // 行点击样式
