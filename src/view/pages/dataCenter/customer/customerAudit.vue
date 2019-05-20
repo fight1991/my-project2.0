@@ -1,5 +1,5 @@
 <template>
-    <div class="index">供应商</div>
+    <div class="index">客户审核</div>
 </template>
 <script>
 export default {

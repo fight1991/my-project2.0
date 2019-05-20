@@ -1,5 +1,5 @@
 <template>
-    <div class="index">客户</div>
+    <div class="index">客户信息</div>
 </template>
 <script>
 export default {
