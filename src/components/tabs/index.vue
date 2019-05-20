@@ -128,7 +128,7 @@ export default {
           case 'declaration' :
           case 'EMS':
             // 报关单/金二菜单
-            if (operationType === 'add' || operationType === 'edit' || operationType === 'look' || operationType === 'copy') {
+            if (operationType === 'add' || operationType === 'edit' || operationType === 'look' || operationType === 'copy' || operationType === 'rewEdit' || operationType === 'rewLook') {
               if (operationType === 'copy') {
                 sysData.tabId = new Date().getTime() + ''
               }
