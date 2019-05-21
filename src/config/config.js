@@ -3,6 +3,7 @@ export default {
   dev: {
     // 开发
     SYSID: 'CCBA', // 系统id
+    HOST: 'https://test.5itrade.cn/ccba2',
     COMMON: 'https://test.5itrade.cn/common', // 公共登录、注册等跳转地址
     FILE: 'https://test.5itrade.cn/zuul', // 文件上传
     API: 'https://test.5itrade.cn', // api接口服务器地址
