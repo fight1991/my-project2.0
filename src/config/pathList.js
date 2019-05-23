@@ -27,6 +27,8 @@ export default {
     decRegister: url.COMMON + '/declaration/decRegister',
     // 报关单审核
     decReviewed: url.COMMON + '/declaration/decCheck/list',
+    // 核注清单审核
+    taxReviewed: url.COMMON + '/taxList/taxListCheckQuery',
     // 报关数据查询
     decInfo: url.COMMON + '/declaration/list',
     // 核注清单查询
