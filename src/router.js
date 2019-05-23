@@ -92,7 +92,7 @@ routes[1].children.push(...ExpressDeclare.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
-  base: '',
+  base: 'ccba2',
   routes: routes
 })
 
@@ -258,7 +258,7 @@ router.beforeEach((to, from, next) => {
                 for (let x = 0, len = datas.length; x < len; x++) {
                   json[datas[x].objectId] = datas[x].auth
                 }
-                window.localStorage.setItem('menuCodes', JSON.stringify(json))
+                window.localStorage.setItem('ccbaMenuCodes', JSON.stringify(json))
                 next()
               }
             })

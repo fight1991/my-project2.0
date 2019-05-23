@@ -134,7 +134,7 @@ export default {
                 value: res.result.decCountPieVO[item].count})
               legendData.push(res.result.decCountPieVO[item].tradeCoName)
             }
-            if (res.result.decCountPieVO.length > 9) {
+            if (res.result.decCountPieVO.length >= 9) {
               pieList.push({name: '其他企业',
                 value: leftcount})
               legendData.push('其他企业')
