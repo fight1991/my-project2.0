@@ -3,6 +3,7 @@ import EiTemplate from './eiTemplate/index' // 进出口模板
 import Receipt from './receipt/index' // 接单
 import Declare from './declare/index' // 关检整合申报
 import Reviewed from './reviewed/index' // 报关单审核
+import TaxReviewed from './taxReviewed/index' // 核注清单审核
 import DecRegister from './decRegister/index' // 删改单登记
 import DataQuery from './dataQuery/index' // 业务数据查询
 const MENU = [
@@ -32,6 +33,7 @@ const MENU = [
   Receipt.MENU,
   Declare.MENU,
   Reviewed.MENU,
+  TaxReviewed.MENU,
   DecRegister.MENU,
   DataQuery.MENU
 ]

@@ -97,6 +97,13 @@ export default new Vuex.Store({
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
         'reqData': data
       }
+      if (isPageList) {
+        // 分页时增加分页数据
+        params.reqData.page = {
+          pageSize: state.pagination.pageSize,
+          pageIndex: state.pagination.pageIndex
+        }
+      }
       if (isLoad) {
         state.loading = true
       }
