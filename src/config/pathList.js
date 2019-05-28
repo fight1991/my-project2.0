@@ -1,40 +1,41 @@
 import url from './commonPath'
 export default {
+  // 进出口管理
   eImport: {
     // 模板列表
-    decTemplateList: url.COMMON + '/decTemplate/list',
+    decTemplateList: url.DEC + '/decTemplate/list',
     // 进口模板
-    decImTemplate: url.COMMON + '/declaration/decTemplate/import/add/new',
+    decImTemplate: url.DEC + '/declaration/decTemplate/import/add/new',
     // 出口模板
-    decExTemplate: url.COMMON + '/declaration/decTemplate/export/add/new',
+    decExTemplate: url.DEC + '/declaration/decTemplate/export/add/new',
     // 进口接单
-    decImReceipt: url.COMMON + '/declaration/receiveOrders/import',
+    decImReceipt: url.DEC + '/declaration/receiveOrders/import',
     // 出口接单
-    decExReceipt: url.COMMON + '/declaration/receiveOrders/export',
+    decExReceipt: url.DEC + '/declaration/receiveOrders/export',
     // 进口报关单（新增）
-    decImport: url.COMMON + '/declaration/declaration/import/add/new',
+    decImport: url.DEC + '/declaration/declaration/import/add/new',
     // 出口报关单（新增）
-    decExport: url.COMMON + '/declaration/declaration/export/add/new',
+    decExport: url.DEC + '/declaration/declaration/export/add/new',
     // 进境备案清单（新增）
-    recordImport: url.COMMON + '/declaration/recordList/import/add/new',
+    recordImport: url.DEC + '/declaration/recordList/import/add/new',
     // 出境备案清单（新增）
-    recordExport: url.COMMON + '/declaration/recordList/export/add/new',
+    recordExport: url.DEC + '/declaration/recordList/export/add/new',
     // 进口核注清单（新增）
     importTaxList: url.JINER + '/dec/datainput/I/taxList',
     // 出口核注清单（新增）
     exportTaxList: url.JINER + '/dec/datainput/E/taxList',
     // 删改单登记
-    decRegister: url.COMMON + '/declaration/decRegister',
+    decRegister: url.DEC + '/declaration/decRegister',
     // 报关单审核
-    decReviewed: url.COMMON + '/declaration/decCheck/list',
+    decReviewed: url.DEC + '/declaration/decCheck/list',
     // 报关数据查询
-    decInfo: url.COMMON + '/declaration/list',
+    decInfo: url.DEC + '/declaration/list',
     // 核注清单查询
     taxInfo: url.JINER + '/eImport/dataQuery/taxInfo',
     // 业务跟踪台账
-    tLedger: url.COMMON + '/declaration/businessTrack',
+    tLedger: url.DEC + '/declaration/businessTrack',
     // 青源模板
-    shipping: url.COMMON + '/declaration/shipping'
+    shipping: url.DEC + '/declaration/shipping'
   },
   // 资料中心
   dataCenter: {
@@ -65,21 +66,21 @@ export default {
   // 航空器申报
   aircraft: {
     // 备案管理-当日飞行计划
-    airplan: url.COMMON + '/airVehicle/airPlan/list',
+    airplan: url.AIR + '/airVehicle/airPlan/list',
     // 进/出境/港申报-进境/港动态申报
-    importDyn: url.COMMON + '/airVehicle/importDynamic/list',
+    importDyn: url.AIR + '/airVehicle/importDynamic/list',
     // 进/出境/港申报-进境/港单证申报
-    importDoc: url.COMMON + '/airVehicle/importDocument/list',
+    importDoc: url.AIR + '/airVehicle/importDocument/list',
     // 进/出境/港申报-出境/港动态申报
-    exportDyn: url.COMMON + '/airVehicle/exportDynamic/list',
+    exportDyn: url.AIR + '/airVehicle/exportDynamic/list',
     // 进/出境/港申报-出境/港单证申报
-    exportDoc: url.COMMON + '/airVehicle/exportDocument/list',
+    exportDoc: url.AIR + '/airVehicle/exportDocument/list',
     // 进/出境/港申报-航班取消申报
-    airCancel: url.COMMON + '/airVehicle/airCancel/list',
+    airCancel: url.AIR + '/airVehicle/airCancel/list',
     // 在港申报-海关在港申报
-    customPort: url.COMMON + '/airVehicle/customPort/list',
+    customPort: url.AIR + '/airVehicle/customPort/list',
     // 在港申报-进境/港单证申报
-    materials: url.COMMON + '/airVehicle/materials/list'
+    materials: url.AIR + '/airVehicle/materials/list'
   },
   // 金二
   jinerInfo: {
