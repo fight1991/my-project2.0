@@ -28,6 +28,8 @@ export default {
     decRegister: url.DEC + '/declaration/decRegister',
     // 报关单审核
     decReviewed: url.DEC + '/declaration/decCheck/list',
+    // 核注清单审核
+    taxReviewed: url.JINER + '/taxList/taxListCheckQuery',
     // 报关数据查询
     decInfo: url.DEC + '/declaration/list',
     // 核注清单查询
