@@ -10,6 +10,19 @@
         </el-carousel-item>
       </el-carousel>
     </div>
+    <div class="link">
+        <!-- 生态协调区域 -->
+      <div class="title">
+        <p class="big">生态、协同</p>
+        <p class="light">ECOLOGY、COLLABORATION</p>
+      </div>
+      <div class="link-items mainer">
+        <div class="link-detail" v-for="item in linkList" :key="item.id" @click="goToLink(item.link)">
+          <img :src="item.icon" alt="">
+          <p>{{item.text}}</p>
+        </div>
+      </div>
+    </div>
     <div class="mainer">
       <!-- 专业区域 -->
       <div class="pro">
@@ -97,6 +110,7 @@
 import eventBus from '../common/eventBus'
 import pathList from '@/config/pathList'
 import '@/assets/www-style/font/iconfont.css'
+import { linkList } from '@/config/www'
 export default {
   data () {
     return {
@@ -151,7 +165,8 @@ export default {
           text: '智慧通关服务平台完美满足AEO认证要求，主要参考标准为：内部控制标准、财务状况标准、守法规范标准、贸易安全标准和附加标准。'
         }
       ],
-      bannerList: []
+      bannerList: [],
+      linkList: []
     }
   },
   mounted () {
@@ -160,6 +175,8 @@ export default {
   },
   created () {
     this.getBanner()
+    let path = linkList[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']
+    this.linkList = path
   },
   methods: {
     order (anchor, index) {
@@ -202,6 +219,10 @@ export default {
           this.isShow = false
         }
       })
+    },
+    goToLink (link) {
+      link += `?token=${decodeURIComponent(localStorage.getItem('token')) || ''}`
+      window.open(link, '_blank')
     }
   }
 }
@@ -223,6 +244,36 @@ export default {
     }
   }
 }
+// 生态区域
+.link {
+  background-color: #f0f5ff;
+  padding: 40px 0 20px;
+  .link-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .link-detail {
+    width: 33.3%;
+    margin: 20px 0 30px;
+    cursor: pointer;
+    img {
+      display: block;
+      width: 80px;
+      margin: 0 auto;
+    }
+    p {
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      margin: 10px 0;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+    }
+  }
+}
 // 专业区域
 .big {
     font-size: 22px;
@@ -237,7 +288,7 @@ export default {
     margin: 5px 0 20px 0;
   }
 .pro {
-  height: 380px;
+  height: 350px;
   padding: 30px 0;
   .item {
     img {
@@ -260,8 +311,8 @@ export default {
 }
 // 智能区域
 .intel {
-  background-color: #F4F4F4;
-  padding: 40px 0 70px 0;
+  background-color: #fff;
+  padding: 0 0 70px 0;
   .detail {
     .item {
       float: left;
@@ -276,7 +327,7 @@ export default {
     }
       &.text {
         padding: 40px 20px 20px;
-        background-color: #fff;
+        background-color: #f0f5ff;
       }
       .title {
         font-size: 16px;

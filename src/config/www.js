@@ -342,6 +342,84 @@ const companys = {
   ]
 
 }
+const linkList = {
+  dev: [
+    {
+      id: '1',
+      icon: require('@/assets/www-img/images/star.png'),
+      text: '金关之星',
+      link: 'https://www.51aeo.com/Login/AuthCallBack'
+    },
+    {
+      id: '2',
+      icon: require('@/assets/www-img/images/SAAS.png'),
+      text: '赛吉思货代SAAS',
+      link: 'http://ops.cargoyun.com/access'
+    },
+    {
+      id: '3',
+      icon: require('@/assets/www-img/images/logistics.png'),
+      text: '物流费用管理系统',
+      link: 'https://test.5itrade.cn/fin2'
+    },
+    {
+      id: '4',
+      icon: require('@/assets/www-img/images/vip.png'),
+      text: '会员管理系统',
+      link: 'https://test.5itrade.cn/zvip'
+    },
+    {
+      id: '5',
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://test.5itrade.cn/op'
+    },
+    {
+      id: '6',
+      icon: require('@/assets/www-img/images/Rating.png'),
+      text: '双优评比系统',
+      link: 'https://test.5itrade.cn/zquestion'
+    }
+  ],
+  prod: [
+    {
+      id: '1',
+      icon: require('@/assets/www-img/images/star.png'),
+      text: '金关之星',
+      link: 'https://www.51aeo.com/Login/AuthCallBack'
+    },
+    {
+      id: '2',
+      icon: require('@/assets/www-img/images/SAAS.png'),
+      text: '赛吉思货代SAAS',
+      link: 'http://ops.cargoyun.com/access'
+    },
+    {
+      id: '3',
+      icon: require('@/assets/www-img/images/logistics.png'),
+      text: '物流费用管理系统',
+      link: 'https://www.5itrade.cn/fin2'
+    },
+    {
+      id: '4',
+      icon: require('@/assets/www-img/images/vip.png'),
+      text: '会员管理系统',
+      link: 'https://www.5itrade.cn/zvip'
+    },
+    {
+      id: '5',
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://www.5itrade.cn/op'
+    },
+    {
+      id: '6',
+      icon: require('@/assets/www-img/images/Rating.png'),
+      text: '双优评比系统',
+      link: 'https://www.5itrade.cn/zquestion'
+    }
+  ]
+}
 const partner = [
   {
     icon: require('@/assets/www-img/images/partner/danyichuangkou.png'),
@@ -404,4 +482,4 @@ const partner = [
     url: 'http://www.hbcba.cn'
   }
 ]
-export {jobs, companys, partner}
+export {jobs, companys, partner, linkList}
