@@ -90,27 +90,29 @@
                 </el-table-column>
                 <el-table-column label="社会信用代码" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.sccCode">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.sccCode">
                     {{scope.row.sccCode || '-'}}
                     </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="海关编码" min-width="130">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.tradeCode">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.tradeCode">
                     {{scope.row.tradeCode || '-'}}
                     </div>
                 </template></el-table-column>
                 <el-table-column label="检验检疫编码" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.ciqCode">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.ciqCode">
                     {{scope.row.ciqCode || '-'}}
                     </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="操作" min-width="40">
                 <template slot-scope="scope">
+                  <div class='customer-table-c'>
                     <el-button type="text" icon="fa fa-trash-o fa-lg" @click="delectCustomer(scope.row)" title="删除"></el-button>
+                  </div>
                 </template>
                 </el-table-column>
             </el-table>
@@ -119,19 +121,21 @@
               <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="connectQueryResult" ref="reference"  >
                 <el-table-column label="序号" min-width="130" >
                 <template slot-scope="scope">
+                  <div class='customer-table-c'>
                     {{scope.$index}}
+                  </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="姓名" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.customName">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.customName">
                     {{scope.row.customName || '-'}}
                     </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="手机号" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.sccCode">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.sccCode">
                     {{scope.row.sccCode || '-'}}
                     </div>
                     </template>
@@ -144,14 +148,16 @@
                 </template></el-table-column>
                 <el-table-column label="添加时间" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.ciqCode">
+                    <div class="text-over-hid customer-table-c" :title="scope.row.ciqCode">
                     {{scope.row.ciqCode || '-'}}
                     </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="操作" min-width="40">
                     <template  slot-scope="scope">
-                        <el-button type="text"  title="删除" icon="fa fa-trash-o" @click="delectProxy(scope.row.proxyCorpId)"></el-button>
+                      <div class="customer-table-c">
+                        <el-button type="text"  title="详情" icon="fa fa-trash-o" @click="showLinkMan(scope.row)"></el-button>
+                      </div>
                     </template>
                 </el-table-column>
               </el-table>
@@ -348,6 +354,49 @@
         </div>
       </el-form>
     </el-dialog>
+    <el-dialog title="联系人详情" :visible.sync="linkmanVisible" :close-on-click-modal="false" :append-to-body="true" width="60%">
+        <el-form :model="detailForm">
+            <el-row class="info-content link-dialog-content">
+                <el-col :span="4" class="link-person-name">
+                    <el-form-item>
+                        <img src="../../../../assets/img/defaultPic.png" v-if="detailForm.headPhoto === null || detailForm.headPhoto === ''" />
+                        <img :src="detailForm.headPhoto" v-else>
+                        <span class="fs-18">{{detailForm.userName}}</span>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" class="link-dialog-head">
+                    <el-form-item label="手机号:" label-width="70px">
+                        {{detailForm.mobile}}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="7" class="link-dialog-head">
+                    <el-form-item label="邮箱:" label-width="55px">
+                        {{detailForm.email}}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="7" class="link-dialog-head">
+                    <el-form-item label="添加时间:" label-width="80px">
+                        {{detailForm.addTime | date()}}
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-row class="link-detail-content" v-show="Object.keys(corpData).length!==0">
+            <el-row>
+                <el-col :span="10">企业名称：{{corpData.corpName=== null||corpData.corpName=== '' ? '':corpData.corpName}}</el-col>
+                <el-col :span="8">企业类型：{{formatType(corpData.corpType)}}</el-col>
+            </el-row>
+            <el-row class="link-detail-txt" v-if="corpData.contactWay && corpData.contactWay.length !== 0">
+                <el-col :span="20" v-if="!isExpend">
+                    <el-row class="mg-t-15 text-ellipsis"><div>收发货地址1: {{corpData.contactWay[0].countryValue+corpData.contactWay[0].provinceValue+corpData.contactWay[0].cityValue+corpData.contactWay[0].address}}</div></el-row>
+                </el-col>
+                <el-col :span="20" v-else>
+                    <el-row class="mg-t-15 text-ellipsis" v-for="(item,index) in corpData.contactWay" :key="index"><div>收发货地址{{index+1}}: {{item.countryValue+item.provinceValue+item.cityValue+item.address}}</div></el-row>
+                </el-col>
+                <el-col :span="3" v-show="corpData.contactWay.length>1"><div class="link-expend-btn"><el-button size="mini" type="text" @click="expendList">{{expendTxt}}</el-button></div></el-col>
+            </el-row>
+        </el-row>
+    </el-dialog>
     </section>
 </template>
 <script>
@@ -363,9 +412,13 @@ export default {
         dates: []
       }, // 金额统计查询条件
       resultAChartData: {}, // 金额统计数据
+      corpData: {},
       activeName: 'first',
       certACorps: [],
+      linkmanVisible: false, // 联系人详情显示标识
       newCorpView: false,
+      detailForm: {}, // 联系人详情
+      expendTxt: '展开',
       connectQueryResult: [], // 相关联系人
       corps: [],
       certTCorps: [],
@@ -448,6 +501,15 @@ export default {
         }
       }
     },
+    // 展开
+    expendList () {
+      this.isExpend = !this.isExpend
+      if (this.isExpend) {
+        this.expendTxt = '收起'
+      } else {
+        this.expendTxt = '展开'
+      }
+    },
     // 金额统计
     certAmountList () {
       if (this.dates === '' || this.dates === null) {
@@ -498,7 +560,6 @@ export default {
             },
             xAxis: {
               type: 'category',
-              boundaryGap: this.chartType === '2',
               data: []
             },
             yAxis: {
@@ -601,6 +662,29 @@ export default {
             type: 'success'
           })
           this.queryProxyList()
+        }
+      })
+    },
+    showLinkMan (data) {
+      this.detailForm = data
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/getUserDetail',
+        data: {userId: data.userId},
+        router: this.$router,
+        success: (res) => {
+          this.linkmanVisible = true
+          this.corpData = {}
+          if (!util.isEmpty(res.result)) {
+            if (res.result.length !== 0) {
+              if (res.result[0].corps.length !== 0) {
+                for (let i of res.result[0].corps) {
+                  if (i.defaultCorp === 'true') {
+                    this.corpData = i
+                  }
+                }
+              }
+            }
+          }
         }
       })
     },
@@ -759,6 +843,9 @@ export default {
 .index{
   width: 100%;
   height:100%;
+}
+.customer-table-c{
+  text-align: center
 }
 .query-condition {
     margin:20px 20px;

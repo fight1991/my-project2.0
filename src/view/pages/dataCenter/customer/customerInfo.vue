@@ -73,7 +73,7 @@
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
           <template slot-scope="scope">
-            <div class='sys-td-c'>
+            <div class='customer-table-c'>
             {{scope.row.customCode || '-'}}
             </div>
           </template>
@@ -87,35 +87,37 @@
         </el-table-column>
         <el-table-column label="社会信用代码" min-width="100">
            <template slot-scope="scope">
-             <div class="text-over-hid" :title="scope.row.sccCode">
+             <div class="text-over-hid customer-table-c" :title="scope.row.sccCode">
               {{scope.row.sccCode || '-'}}
               </div>
             </template>
         </el-table-column>
         <el-table-column label="海关编码" min-width="130">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.tradeCode">
+            <div class="text-over-hid customer-table-c" :title="scope.row.tradeCode">
             {{scope.row.tradeCode || '-'}}
             </div>
           </template></el-table-column>
         <el-table-column label="检验检疫编码" min-width="100">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.ciqCode">
+            <div class="text-over-hid customer-table-c" :title="scope.row.ciqCode">
             {{scope.row.ciqCode || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="状态" min-width="110">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.auditStatus">
-            {{scope.row.auditStatus || '-'}}
+            <div class="text-over-hid customer-table-c" :title="scope.row.auditStatusValue">
+            {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="操作" min-width="40">
           <template slot-scope="scope">
+            <div class='customer-table-c'>
             <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看"><i class="fa fa-file-text-o fa-lg"></i></el-button>
             <el-button type="text" @click="gotoDetail(scope.row,'edit')" title="编辑"><i class="el-icon-edit"></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -567,5 +569,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.customer-table-c{
+  text-align: center
+}
 </style>
