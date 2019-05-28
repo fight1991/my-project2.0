@@ -1,5 +1,5 @@
 <template>
-    <section class='query-main'>
+    <section class='query-main' style="margin:20px">
         <div class = "query-condition">
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
@@ -75,21 +75,16 @@
       </el-form>
     </div>
     <div style="margin:20px">
-        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="card">
             <el-tab-pane label="代理企业" name="first">
             <el-row>
-                <el-button type="primary" style="margin-bottom:5px;" @click="newCorpView" size="mini">新增企业</el-button>
+                <el-button type="primary" style="margin-bottom:5px;" @click="newCorpView = true" size="mini">新增企业</el-button>
             </el-row>
-                <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowselect'>
-                <el-table-column label="序号" min-width="130" >
-                <template slot-scope="scope">
-                    {{scope.$index}}
-                </template>
-                </el-table-column>
+                <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="proxtList" ref="proxtList">
                 <el-table-column label="企业名称" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.customName">
-                    {{scope.row.customName || '-'}}
+                    <div class="text-over-hid" :title="scope.row.proxyCorpName">
+                    {{scope.row.proxyCorpName || '-'}}
                     </div>
                 </template>
                 </el-table-column>
@@ -115,13 +110,13 @@
                 </el-table-column>
                 <el-table-column label="操作" min-width="40">
                 <template slot-scope="scope">
-                    <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看"><i class="fa fa-file-text-o fa-lg"></i></el-button>
+                    <el-button type="text" icon="fa fa-trash-o fa-lg" @click="delectCustomer(scope.row)" title="删除"></el-button>
                 </template>
                 </el-table-column>
             </el-table>
             </el-tab-pane>
             <el-tab-pane label="相关联系人" name="second">
-              <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowselect'>
+              <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="connectQueryResult" ref="reference"  >
                 <el-table-column label="序号" min-width="130" >
                 <template slot-scope="scope">
                     {{scope.$index}}
@@ -155,76 +150,605 @@
                 </template>
                 </el-table-column>
                 <el-table-column label="操作" min-width="40">
-                    <template >
-                        <el-button type="text"  title="详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
+                    <template  slot-scope="scope">
+                        <el-button type="text"  title="删除" icon="fa fa-trash-o" @click="delectProxy(scope.row.proxyCorpId)"></el-button>
                     </template>
                 </el-table-column>
               </el-table>
+              <el-row class='sys-page-list mg-b-30'>
+                <el-col :span="24" align="right">
+                <page-box @change="queryProxyList()"></page-box>
+                </el-col>
+            </el-row>
             </el-tab-pane>
             <el-tab-pane label="单量趋势" name="third">
+                <div>
+                   <el-form label-width="0px">
+                    <el-row class='sys-search mg-b-30' :gutter="20">
+                    <el-col :span="3">
+                        <el-form-item size="mini">
+                        <el-select placeholder="公司名称"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
+                            <el-option
+                            v-for="(item,cindex) in certTCorps"
+                            :key="item.code +'certTCorps'+cindex"
+                            :label="item.value"
+                            :value="item.code">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-form-item size="mini">
+                        <el-select v-model="certTQueryForm.iEFlag">
+                            <el-option
+                            v-for="(item,index) in ports"
+                            :key="item.value +'ports'+index"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-form-item size="mini">
+                        <el-select clearable  v-model="certTQueryForm.dateFlag">
+                            <el-option
+                            v-for="item in dateFlag"
+                            :key="item.value +'dateFlag'"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item size="mini">
+                        <el-date-picker  v-model="certTQueryForm.dates" style="width:100%"
+                        @change="doInit()"
+                        type="daterange"
+                        :clearable = 'false'
+                        :editable='false'
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                        </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="1">
+                        <el-form-item size="mini">
+                        <el-button label="180" @click="doCertTquery()">统计</el-button>
+                        </el-form-item>
+                    </el-col>
+                    </el-row>
+                    </el-form>
+                </div>
+                <div class='mg-b-30'>
+                    <e-chart :datas='resultChartData' ></e-chart>
+                </div>
 
             </el-tab-pane>
-            <el-tab-pane label="商品金额" name="fourth"></el-tab-pane>
+            <el-tab-pane label="商品金额" name="fourth">
+                <el-form label-width="0px">
+                    <el-row class='sys-search mg-b-30' :gutter="20">
+                    <!-- 查询条件 -->
+                    <el-col :span="3">
+                        <el-form-item size="mini">
+                        <el-select clearable placeholder="境内收发货人"  v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
+                            <el-option
+                            v-for="(item,index) in certACorps"
+                            :key="item.code +'feeOptions' + index"
+                            :label="item.value"
+                            :value="item.code">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item size="mini">
+                        <el-select placeholder="商品名称" v-model="amountQueryForm.hsCodes"  multiple :multiple-limit='5' style="width:100%" collapse-tags @change="changeGoods()">
+                            <el-option
+                            v-for="item in goods"
+                            :key="item.code +'feeOptions'"
+                            :label="item.value"
+                            :value="item.code">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-form-item size="mini">
+                        <el-select v-model="amountQueryForm.iEFlag">
+                            <el-option
+                            v-for="item in ports"
+                            :key="item.value +'feeOptions'"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item size="mini">
+                        <el-date-picker  v-model="amountQueryForm.dates" style="width:100%"
+                        @change="doInit()"
+                        type="daterange"
+                        :clearable = 'false'
+                        :editable='false'
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                        </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-form-item size="mini">
+                        <el-select clearable  v-model="amountQueryForm.graininess">
+                            <el-option
+                            v-for="item in graininess"
+                            :key="item.value +'graininess'"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="1">
+                        <el-form-item size="mini">
+                        <el-button label="180" @click="certAmountList()">统计</el-button>
+                        </el-form-item>
+                    </el-col>
+                    </el-row>
+                </el-form>
+                <div class='mg-b-30'>
+                    <e-chart :datas='resultAChartData' ></e-chart>
+                </div>
+            </el-tab-pane>
         </el-tabs>
     </div>
     <el-dialog title="新增企业"
-      :visible.sync="recordview">
+      :visible.sync="newCorpView" @closed='newcorpclosed'>
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="企业名称">
-                {{customerdetail.customCode}}
+               <el-select v-model="newCorp.proxyCorpName" maxlength="70" style="width:100%"
+                filterable remote clearable placeholder=" " @change="translatecorp()"
+                :remote-method="getcorps"
+                default-first-option >
+                <el-option
+                  v-for="item in corps"
+                  :key="item.corpId"
+                  :label="item.corpName"
+                  :value="item">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="社会信用代码">
-                {{customerdetail.sccCode}}
+               <el-input v-model="newCorp.sccCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="海关编码">
-                {{customerdetail.tradeCode}}
+                <el-input v-model="newCorp.tradeCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="检验检疫编码">
-                {{customerdetail.ciqCode}}
+                <el-input v-model="newCorp.ciqCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <div style="text-align:center">
-          <el-button type="primary" size="small" @click="savenew">确定</el-button>
-          <el-button  size="small" @click="newdiaview = false">取消</el-button>
+          <el-button type="primary" size="small" @click="saveProxy">确定</el-button>
+          <el-button  size="small" @click="newCorpView = false">取消</el-button>
         </div>
       </el-form>
     </el-dialog>
     </section>
 </template>
 <script>
+import util from '../../../../common/util'
 export default {
   name: 'index',
   data () {
     return {
       customerdetail: {},
+      selectcorpName: [], // 已选择公司
+      corpname: [], // 金额统计 已选公司
+      amountQueryForm: {
+        dates: []
+      }, // 金额统计查询条件
+      resultAChartData: {}, // 金额统计数据
       activeName: 'first',
-      newCorpView: false
+      certACorps: [],
+      newCorpView: false,
+      connectQueryResult: [], // 相关联系人
+      corps: [],
+      certTCorps: [],
+      proxtList: [],
+      dateFlag: [{
+        label: '按日',
+        value: 'DAY'
+      }, {
+        label: '按周',
+        value: 'WEEK'
+      }, {
+        label: '按月',
+        value: 'MONTH'
+      }],
+      graininess: [
+        {
+          label: '按日',
+          value: 1
+        }, {
+          label: '按周',
+          value: 0
+        }, {
+          label: '按月',
+          value: 2
+        }],
+      ports: [
+        {
+          label: '全部',
+          value: 'ALL'
+        }, {
+          label: '进口',
+          value: 'I'
+        }, {
+          label: '出口',
+          value: 'E'
+        }],
+      resultChartData: {},
+      goods: [], // 商品
+      selectGoodsName: [], // 金额统计选择企业
+      certTQueryForm: {
+        dates: [],
+        dateFlag: 'DAY',
+        startDate: '',
+        endDate: '',
+        iEFlag: 'ALL',
+        tradeCoScc: ''
+      }, // 单量趋势统计
+      resultCertTData: [], // 单量趋势统计结果
+      resultamountChartData: [], // 金额趋势统计结果
+      newCorp: {
+        'customId': '',
+        'proxyCorpId': '',
+        'proxyCorpName': '',
+        'sccCode': ''
+      }
     }
   },
   created () {
     this.getdetail()
+    this.certTgetCorp()
+    this.queryProxyList()
+    this.newCorp.customId = parseInt(this.$route.query.customId)
+    this.amountQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
+    this.certTQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
   },
   methods: {
+    translatecorp () {
+      this.newCorp.sccCode = this.newCorp.proxyCorpName.sccCode
+      this.newCorp.tradeCode = this.newCorp.proxyCorpName.tradeCode
+      this.newCorp.ciqCode = this.newCorp.proxyCorpName.ciqCode
+      this.newCorp.proxyCorpId = this.newCorp.proxyCorpName.corpId
+      this.newCorp.proxyCorpName = this.newCorp.proxyCorpName.corpName
+    },
+    delectProxy () {
+    },
+    changecompany () {
+      for (let a = 0; a < this.certTCorps.length; a++) {
+        if (this.certTCorps[a].code === this.certTQueryForm.tradeCoScc) {
+          this.selectcorpName[0] = this.certTCorps[a].value
+        }
+      }
+    },
+    // 金额统计
+    certAmountList () {
+      if (this.dates === '' || this.dates === null) {
+        this.amountQueryForm.startDate = ''
+        this.amountQueryForm.endDate = ''
+      } else {
+        this.amountQueryForm.startDate = util.dateFormat(this.amountQueryForm.dates[0], 'yyyy-MM-dd')
+        this.amountQueryForm.endDate = util.dateFormat(this.amountQueryForm.dates[1], 'yyyy-MM-dd')
+      }
+      if (this.amountQueryForm.hsCodes.length === 0) {
+        this.$message({
+          message: '至少选择一个公司',
+          type: 'warning'
+        })
+        return
+      }
+      if (this.goods.length === 0) {
+        this.$message({
+          message: '该公司 没有物料',
+          type: 'warning'
+        })
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/decMoneyCount',
+        data: this.amountQueryForm,
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          let dateList = []
+          let corpList = []
+          this.resultAChartData = {
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: []
+            },
+            title: {
+              text: '境内收发货人:' + this.corpname,
+              left: 'center'
+            },
+            grid: {
+              left: '30px',
+              right: '40px',
+              bottom: '5%',
+              containLabel: true
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: this.chartType === '2',
+              data: []
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [
+            ]
+          }
+          if (!util.isEmpty(res.result)) {
+            this.pages = res.page
+            for (let a = 0; a < this.selectGoodsName.length; a++) {
+              for (let item in res.result.decMoneyCountChartVO) {
+                corpList.push(res.result.decMoneyCountChartVO[item]['money' + (a + 1)])
+                if (a === 0) {
+                  dateList.push(res.result.decMoneyCountChartVO[item].date)
+                }
+              }
+              this.resultAChartData.xAxis.data = dateList
+              this.resultAChartData.series.push({
+                name: this.selectGoodsName[a],
+                type: 'line',
+                data: util.simpleClone(corpList)
+              })
+              corpList = []
+            }
+          }
+        }
+      })
+    },
+    getConnectUser () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/user/getUserContactsPage',
+        data: {corpId: this.customerdetail.customCorpId},
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.connectQueryResult = res.result
+        }
+      })
+    },
+    // 获取物料
+    getGoods () {
+      for (let a = 0; a < this.certACorps.length; a++) {
+        if (this.certACorps[a].code === this.amountQueryForm.tradeCoScc) {
+          this.corpname = this.certACorps[a].value
+        }
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/getGoods',
+        data: this.amountQueryForm.tradeCoScc,
+        router: this.$router,
+        success: (res) => {
+          this.goods = []
+          this.amountQueryForm.hsCodes = []
+          for (let a = 0; a < res.result.length; a++) {
+            if (res.result[a]) {
+              this.goods.push(res.result[a])
+            }
+          }
+          if (this.goods.length > 0) {
+            this.amountQueryForm.hsCodes.push(this.goods[0].code)
+            this.selectGoodsName = [this.goods[0].value]
+            this.certAmountList()
+          } else {
+            this.$message({
+              message: '暂无商品',
+              type: 'warning'
+            })
+          }
+        }
+      })
+    },
+    getcorps (query) {
+      if (query.length < 2) {
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/corp/getCorpByCond',
+        data: {
+          corpName: query
+        },
+        router: this.$router,
+        success: (res) => {
+          this.corps = res.result
+        }
+      })
+    },
+    // 删除代理企业
+    delectCustomer (row) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/custom-manage/deleteProxyCorp',
+        data: {
+          'customId': row.customId,
+          'proxyCorpId': row.proxyCorpId
+        },
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.queryProxyList()
+        }
+      })
+    },
+    // 单量趋势统计获取公司
+    certTgetCorp () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/getTradeCos',
+        data: '',
+        router: this.$router,
+        success: (res) => {
+          this.certTCorps = res.result
+          this.certACorps = res.result
+        }
+      })
+    },
+    doCertTquery () {
+      if (this.certTQueryForm.dates === '' || this.certTQueryForm.dates === null) {
+        this.certTQueryForm.startDate = ''
+        this.certTQueryForm.endDate = ''
+      } else {
+        this.certTQueryForm.startDate = util.dateFormat(this.certTQueryForm.dates[0], 'yyyy-MM-dd')
+        this.certTQueryForm.endDate = util.dateFormat(this.certTQueryForm.dates[1], 'yyyy-MM-dd')
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-report/decReport/decTrendCount',
+        data: this.certTQueryForm,
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          let dateList = []
+          let corpList = []
+          this.resultChartData = {
+            tooltip: {
+              trigger: 'axis'
+            },
+            legend: {
+              data: []
+            },
+            title: {
+              text: '境内收发货人:' + this.selectcorpName[0],
+              left: 'center'
+            },
+            grid: {
+              left: '30px',
+              right: '40px',
+              bottom: '5%',
+              containLabel: true
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: true,
+              data: []
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [
+            ]
+          }
+          if (!util.isEmpty(res.result)) {
+            for (let a = 0; a < this.selectcorpName.length; a++) {
+              for (let item in res.result.decTrendCountChartVO) {
+                if (this.certTQueryForm.iEFlag === 'ALL') {
+                  corpList.push(res.result.decTrendCountChartVO[item].aCount ? res.result.decTrendCountChartVO[item].aCount : '0')
+                } else if (this.certTQueryForm.iEFlag === 'I') {
+                  corpList.push(res.result.decTrendCountChartVO[item].iCount ? res.result.decTrendCountChartVO[item].iCount : '0')
+                } else {
+                  corpList.push(res.result.decTrendCountChartVO[item].eCount ? res.result.decTrendCountChartVO[item].eCount : '0')
+                }
+                if (a === 0) {
+                  dateList.push(res.result.decTrendCountChartVO[item].date)
+                }
+              }
+              this.resultChartData.xAxis.data = dateList
+              this.resultChartData.series.push({
+                name: this.selectcorpName[a],
+                type: 'line',
+                data: util.simpleClone(corpList)
+              })
+              corpList = []
+            }
+          } else {
+            this.$message({
+              message: '暂无数据',
+              type: 'warning'
+            })
+          }
+        }
+      })
+    },
+    // 商品改变
+    changeGoods () {
+      this.selectGoodsName = []
+      for (let a = 0; a < this.QueryForm.hsCodes.length; a++) {
+        for (let b = 0; b < this.goods.length; b++) {
+          if (this.QueryForm.hsCodes[a] === this.goods[b].code) {
+            this.selectGoodsName.push(this.goods[b].value)
+          }
+        }
+      }
+      this.doInit()
+    },
+    // 保存代理企业
+    saveProxy () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/custom-manage/saveCustomProxyCorp',
+        data: this.newCorp,
+        router: this.$router,
+        success: (res) => {
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.newCorpView = false
+          this.queryProxyList()
+        }
+      })
+    },
+    queryProxyList () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/custom-manage/getProxyCorpList',
+        data: {customId: this.newCorp.customId},
+        router: this.$router,
+        isPageList: true,
+        success: (res) => {
+          this.proxtList = res.result
+        }
+      })
+    },
+    newcorpclosed () {
+      this.corps = []
+      this.newCorp = {
+        'customId': parseInt(this.$route.query.customId),
+        'proxyCorpId': '',
+        'proxyCorpName': '',
+        'sccCode': ''
+      }
+    },
     getdetail () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustom',
         data: {
-          customId: this.$route.query.customId
+          customId: parseInt(this.$route.query.customId)
         },
         router: this.$router,
         success: (res) => {
           this.customerdetail = res.result
+          this.getConnectUser()
         }
       })
     }
