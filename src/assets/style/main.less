@@ -81,6 +81,25 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     /* css3 盒子模型, 好处: 设置宽高后, 如果有padding或者border 自动内减 */
     box-sizing: border-box;
   }
+  .map {
+    .sample {
+      /* background: rgba(0,0,0,0.5); */
+      overflow: hidden;
+      box-shadow: 0 0 5px #000;
+      color: #fff;
+      text-align: center;
+      position: absolute;
+      background: rgba(0,0,0,.5);
+      display: none;
+    }
+    .text {
+      padding: 10px 10px;
+      width: 100px;
+    }
+    .sample.active {
+      display: block;
+    }
+  }
   .pro,.intel,.effi {
     div {
       box-sizing: border-box;

@@ -19,32 +19,45 @@
           <p>中国报关协会的宗旨是配合政府部门加强对我国报关行业的管理，维护、改善报关市场的经营秩序，促进会员间的交流与合作，依法代表本行业利益，保护会员的合法权益，促进我国报关服务行业的健康发展。</p>
           <div class="shine"><img src="@/assets/www-img/images/shine.png" alt=""></div>
           <h3>朗新科技集团</h3>
-          <p>朗新金关信息科技有限公司是朗新科技集团创新业务板块的重要组成部分，着力于以创新思维提供新外贸信息化的整理解决方案。</p>
-          <p>朗新科技（股票代码：300682）语出《淮南子》：“日出天霁，朗而新之”，公司注册资本36000万，员工2000人，专业提供众多领域的应用解决方案，主要业务涉及电信、电力、供应链管理、人力资源管理、关务管理、大数据应用等。</p>
-          <p>朗新科技获得“国家发改委”、“财政部”、“信息产业部”、“商务部”、“国家税务总局”五部委颁发的“国家规划布布局内重点软件企业证书”，跻身“中国软件产业最大规模前100家企业”。</p>
+          <p>朗新科技股份有限公司成立于2003年,2017年8月1日在深交所创业板挂牌上市，股票代码：300682。公司专注于产业互联网业务，是蚂蚁金服投资的阿里生态伙伴公司。公司是国家规划布局内重点软件企业，拥有信息系统集成及服务一级资质，通过了CMMI5级认证。公司在北京、杭州、苏州、无锡、武汉、厦门、广州、重庆和南宁设有研发中心。公司拥有2000多名员工。</p>
+          <p>朗新科技作为中国企业家海关事务行业领导者，是“中国国际单一窗口”主要建设力量，“金关二期”参建方。在国际贸易单一窗口标准版建设中，工程组获得了海关总署2018年专项奖励集体一等功。在大外贸服务行业专注为“智慧海关+智慧口岸+智慧生态链+智慧货主单位”提供一站式全流程方案的优秀国际贸易服务商。</p>
           <h3 style="margin-top:20px">朗新金关信息科技有限公司</h3>
-          <p>朗新金关科技有限公司成立于2006年，公司从事海关管辖的加工贸易企业电子联网、关务管理、核查核销等关务专业软件开发及海关内部管理系统的软件开发；公司取得中国电子口岸认证的《电子联网资格认定证书》根据海关总署数据中心颁发的2007年115号文件，朗新金关成为全国13家具有合格资质的联网软件软件供应商。</p>
-          <p>朗新金关不仅作为国家“单一窗口”标准版建设的主要力量，另外依托开发优势为各地方智慧口岸建设提供方案设计、系统设计、运维服务等方面的能力输出。并且将以移动、智能、协同为创新应用亮点，从报关行、货代、货主、供应商、监管机构等多位视角，打造形成围绕通过物流生态圈的线上关务服务平台。</p>
+          <p>朗新金关信息科技有限公司是朗新科技专注通关行业产业互联网业务的公司。公司秉承“科技让通关更便利”的使命，业务领域涵盖智慧海关、智慧口岸及智慧通关链路服务等板块。公司参与中国海关核心系统建设，是中国国际贸易“单一窗口”系统的主要承建方，是海关总署重要的科技合作伙伴。公司与中国报关协会共同打造行业最具广度和最具深度的线上关务服务的生态平台——“中国报关协会智慧通关平台”。</p>
+          <p>朗新金关专注通关服务科技赋能，贯通围绕进出口链路服务环节中的货主、货代、报关行、仓储、运输等角色，运用人工智能、大数据、区块链、移动端等先进技术和手段，使新一代通关流程合规便利。</p>
         </div>
       </div>
     </div>
     <!-- 联系我们区域 -->
     <div class="contactUs">
-      <div class="mainer">
+      <div :class="{'mainer':true }" v-if="current">
         <baidu-map class="map nameCard" :center="centerPoint" :zoom="zoom" :scroll-wheel-zoom="false">
           <bml-marker-clusterer :averageCenter="true">
             <bm-marker
               v-for="marker of markers"
               :position="{lng: marker.lng, lat: marker.lat}"
               :key="marker.name"
-              :icon="{url:marker.iconPath,size: {width: 28, height: 28}}"
-              :title="marker.name"
-              @click="infoWindowOpen(marker.name)">
-              <bm-info-window :show="marker.show" @close="infoWindowClose(marker.name)" @open="infoWindowOpen(marker.name)">{{marker.name}}</bm-info-window>
+              :icon="{url:marker.iconPath,size: {width: 15, height: 19}}"
+              @mouseover="marker.show = true"
+              @mouseout="marker.show = false">
+              <!-- <bm-info-window :show="marker.show" @close="infoWindowClose(marker.name)" @open="infoWindowOpen(marker.name)">{{marker.name}}</bm-info-window> -->
+              <!-- :title="marker.name" -->
+              <my-overlay
+                :position="{lng: marker.lng, lat: marker.lat}"
+                :active="marker.show"
+                :text="marker.name">
+              </my-overlay>
             </bm-marker>
           </bml-marker-clusterer>
           <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
         </baidu-map>
+      </div>
+      <div :class="{'mainer':true ,'nameCard':true}" v-else>
+        <img class="map-static" src="../../../assets/www-img/images/map.png" alt="">
+      </div>
+      <div class="mainer switch">
+        <el-row>
+          <el-button plain @click="current=!current">{{current==true?'查看静态地图':'查看动态地图'}}</el-button>
+        </el-row>
       </div>
     </div>
   </div>
@@ -54,9 +67,11 @@
 import eventBus from '../common/eventBus'
 import {companys} from '@/config/www'
 import {BmlMarkerClusterer} from 'vue-baidu-map'
+import MyOverlay from './common/MyOverlay'
 export default {
   components: {
-    BmlMarkerClusterer: BmlMarkerClusterer
+    BmlMarkerClusterer,
+    MyOverlay
   },
   data () {
     return {
@@ -68,9 +83,11 @@ export default {
         corpName: '',
         email: ''
       },
+      current: false,
       markers: [],
       zoom: 5,
       show: false,
+      active: false,
       centerPoint: {lng: 114.365689, lat: 30.579686} // 中心点
     }
   },
@@ -113,12 +130,32 @@ export default {
           v.show = false
         }
       })
+    },
+    draw ({el, BMap, map}) {
+      const pixel = map.pointToOverlayPixel(new BMap.Point(116.404, 39.915))
+      el.style.left = pixel.x - 60 + 'px'
+      el.style.top = pixel.y - 20 + 'px'
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.map-static {
+  display: block;
+  margin: 0 auto;
+  width: 862px;
+}
+.switch {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  .el-button.is-plain:hover {
+    background: #fff;
+    border-color: #dcdfe6;
+    color: #409EFF;
+  }
+}
 // 公司简介区域
 .companyIntro {
   margin: 40px 0;
