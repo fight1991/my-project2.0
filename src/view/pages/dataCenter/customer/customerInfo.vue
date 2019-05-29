@@ -145,7 +145,7 @@
           <el-col :span="16">
             <el-form-item label="客户名称" prop='customName'>
               <el-select v-model="newcustomer.customName" maxlength="70" style="width:100%"
-                filterable remote clearable placeholder=" " @change="translatecustom()"
+                filterable remote clearable placeholder=" " allow-create @change="translatecustom()"
                 :remote-method="getcorps"
                 default-first-option >
                 <el-option
@@ -244,7 +244,7 @@
       width="50%"
       >
       <div  class="dec-div">
-      <el-form size="mini" :label-width="labelFormWidth.seven" :model="inputrecord" ref='newcustinput' :rules='newRule'>
+      <el-form size="mini" :label-width="labelFormWidth.seven" :model="inputrecord"  :rules='newRule'>
         <el-row >
           <el-col :span="8">
             <el-form-item label="导入时间" maxlength="400">
@@ -363,11 +363,13 @@ export default {
     },
     // 选择公司后
     translatecustom () {
-      this.newcustomer.sccCode = this.newcustomer.customName.sccCode
-      this.newcustomer.tradeCode = this.newcustomer.customName.tradeCode
-      this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
-      this.newcustomer.customCorpId = this.newcustomer.customName.corpId
-      this.newcustomer.customName = this.newcustomer.customName.corpName
+      if (typeof this.newcustomer.customName !== 'string') {
+        this.newcustomer.sccCode = this.newcustomer.customName.sccCode
+        this.newcustomer.tradeCode = this.newcustomer.customName.tradeCode
+        this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
+        this.newcustomer.customCorpId = this.newcustomer.customName.corpId
+        this.newcustomer.customName = this.newcustomer.customName.corpName
+      }
     },
     getcode () {
       this.$store.dispatch('ajax', {
@@ -402,6 +404,7 @@ export default {
         })
       })
     },
+    // 新增弹框
     opennewdia () {
       this.newdiaview = true
       this.ifedit = false
@@ -433,8 +436,9 @@ export default {
     newcustomerClosed () {
       if (this.ifedit) {
         this.newcustomer = {customCode: ''}
-        this.corps = []
       }
+      this.newcustomer.customId = 0
+      this.corps = []
     },
     // 查看或编辑
     gotoDetail (row, type) {
@@ -449,6 +453,7 @@ export default {
         })
       }
     },
+    // 导出
     exportcus () {
       let reqdata = []
       for (let a in this.nowselect) {
@@ -463,9 +468,11 @@ export default {
         }
       })
     },
+    // 选择变化
     selectionChange (selection, row) {
       this.nowselect = selection
     },
+    // 行点击
     rowselect (row) {
       if (this.nowselect.indexOf(row) >= 0) {
         this.$refs.reference.toggleRowSelection(row, false)
@@ -485,6 +492,7 @@ export default {
         }
       })
     },
+    // 下载
     downloadFun (type) {
       if (type === 'record') {
         this.recordview = true
@@ -500,6 +508,7 @@ export default {
         window.open('http://116.62.67.13:8075/download/attachments/10355015/%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF_Customer.xls?version=3&modificationDate=1558059714000&api=v2')
       }
     },
+    // 上传
     beforeUpload (file) {
       let fileType = util.getFileTypeByName(file.name)
       if (!(fileType === 'application/vnd.ms-excel')) {
@@ -526,6 +535,7 @@ export default {
       }
       return false
     },
+    // 导入
     uploadfilepath (url) {
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/importCorpAssMember',
@@ -546,20 +556,38 @@ export default {
     },
     // 保存新增客户
     savenew () {
-      let url = 'custom-manage/updateCustom'
-      if (this.newcustomer.customId === 0) {
-        url = 'custom-manage/saveCustom'
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/' + url,
-        data: this.newcustomer,
-        router: this.$router,
-        success: (res) => {
-          this.newcustomer = {}
-          this.newdiaview = false
-          this.$message({
-            message: ' 保存成功',
-            type: 'success'
+      this.$refs['newcustinput'].validate(valid => {
+        if (valid) {
+          let url = 'custom-manage/updateCustom'
+          if (this.newcustomer.customId === 0) {
+            url = 'custom-manage/saveCustom'
+          }
+          this.$store.dispatch('ajax', {
+            url: 'API@/login/' + url,
+            data: this.newcustomer,
+            router: this.$router,
+            success: (res) => {
+              this.newdiaview = false
+              this.newcustomer = {
+                'address': '',
+                'contactUser': '',
+                'contactWay': '',
+                'customCode': '',
+                'customCorpId': '',
+                'customCountry': '',
+                'customId': 0,
+                'customName': '',
+                'email': '',
+                'tradeCode': '',
+                'ciqCode': '',
+                'postCode': '',
+                'remark': '',
+                'sccCode': ''}
+              this.$message({
+                message: ' 保存成功',
+                type: 'success'
+              })
+            }
           })
         }
       })

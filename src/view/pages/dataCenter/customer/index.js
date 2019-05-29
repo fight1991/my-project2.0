@@ -13,7 +13,7 @@ const MENU = {
       path: '/dataCenter/customer/customerInfo',
       name: 'customerInfo',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20302010000',
+      permissions: 'CCBA20305010000',
       hidden: false,
       meta: {
         component: resolve => require(['./customerInfo.vue'], resolve),
@@ -23,7 +23,7 @@ const MENU = {
     {
       path: '/dataCenter/customer/customerDetail',
       name: 'customerDetail',
-      permissions: 'CCBA20302010000',
+      permissions: 'CCBA20305010000',
       hidden: true,
       meta: {
         component: resolve => require(['./customerDetail.vue'], resolve),
@@ -34,7 +34,7 @@ const MENU = {
       path: '/dataCenter/customer/customerAudit',
       name: 'customerAudit',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20302020000',
+      permissions: 'CCBA20305020000',
       hidden: false,
       meta: {
         component: resolve => require(['./customerAudit.vue'], resolve),
