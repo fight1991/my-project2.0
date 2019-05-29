@@ -51,7 +51,7 @@
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="所属国">
-                {{customerdetail.customCountry}}
+                {{customerdetail.customCountryValue}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -122,41 +122,41 @@
                 <el-table-column label="序号" min-width="130" >
                 <template slot-scope="scope">
                   <div class='customer-table-c'>
-                    {{scope.$index}}
+                    {{scope.$index + 1}}
                   </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="姓名" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid customer-table-c" :title="scope.row.customName">
-                    {{scope.row.customName || '-'}}
+                    <div class="text-over-hid customer-table-c" :title="scope.row.userName">
+                    {{scope.row.userName || '-'}}
                     </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="手机号" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid customer-table-c" :title="scope.row.sccCode">
-                    {{scope.row.sccCode || '-'}}
+                    <div class="text-over-hid customer-table-c" :title="scope.row.mobile">
+                    {{scope.row.mobile || '-'}}
                     </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="邮箱" min-width="130">
                 <template slot-scope="scope">
-                    <div class="text-over-hid" :title="scope.row.tradeCode">
-                    {{scope.row.tradeCode || '-'}}
+                    <div class="text-over-hid" :title="scope.row.email">
+                    {{scope.row.email || '-'}}
                     </div>
                 </template></el-table-column>
                 <el-table-column label="添加时间" min-width="100">
                 <template slot-scope="scope">
-                    <div class="text-over-hid customer-table-c" :title="scope.row.ciqCode">
-                    {{scope.row.ciqCode || '-'}}
+                    <div class="text-over-hid customer-table-c" :title="scope.row.addTime">
+                    {{formateDate(scope.row.addTime) || '-'}}
                     </div>
                 </template>
                 </el-table-column>
                 <el-table-column label="操作" min-width="40">
                     <template  slot-scope="scope">
                       <div class="customer-table-c">
-                        <el-button type="text"  title="详情" icon="fa fa-trash-o" @click="showLinkMan(scope.row)"></el-button>
+                        <el-button type="text"  title="详情" icon="fa fa-file-text-o fa-lg" @click="showLinkMan(scope.row)"></el-button>
                       </div>
                     </template>
                 </el-table-column>
@@ -458,6 +458,34 @@ export default {
       resultChartData: {},
       goods: [], // 商品
       selectGoodsName: [], // 金额统计选择企业
+      corpTypeDescList: [
+        {
+          value: '1',
+          text: '生产企业'
+        }, {
+          value: '3',
+          text: '货代'
+        }, {
+          value: '4',
+          text: '报关行'
+        }, {
+          value: '5',
+          text: '贸易企业'
+        }, {
+          value: '6',
+          text: '运输公司'
+        }, {
+          value: '7',
+          text: '仓储'
+        }, {
+          value: '8',
+          text: '报关协会'
+        },
+        {
+          value: '0',
+          text: '新外贸运营'
+        }
+      ],
       certTQueryForm: {
         dates: [],
         dateFlag: 'DAY',
@@ -494,12 +522,27 @@ export default {
     },
     delectProxy () {
     },
+    // 格式化企业类型
+    formatType (val) {
+      let label = ''
+      for (let x in this.corpTypeDescList) {
+        if (val === this.corpTypeDescList[x].value) {
+          label = this.corpTypeDescList[x].text
+          break
+        }
+      }
+      return label
+    },
     changecompany () {
       for (let a = 0; a < this.certTCorps.length; a++) {
         if (this.certTCorps[a].code === this.certTQueryForm.tradeCoScc) {
           this.selectcorpName[0] = this.certTCorps[a].value
         }
       }
+    },
+    // 日期格式化
+    formateDate (date) {
+      return util.dateFormat(date)
     },
     // 展开
     expendList () {
@@ -852,4 +895,32 @@ export default {
     background-color: #fff;
     padding: 20px;
   }
+  .link-dialog-content{
+    .link-dialog-head{
+        >div{
+            margin: 9px 0;
+        }
+    }
+}
+.link-person-name{
+    img{
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+}
+.link-detail-txt{
+    position: relative;
+}
+.text-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.link-detail-content{
+    border: 1px solid #d8d8d8;
+    padding: 20px;
+    max-height: 300px;
+    overflow: auto;
+}
 </style>
