@@ -435,6 +435,7 @@ export default {
       if (this.ifedit) {
         this.newcustomer = {customCode: ''}
       }
+      this.newcustomer.customId = 0
       this.corps = []
     },
     // 查看或编辑
