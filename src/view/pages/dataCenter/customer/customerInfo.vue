@@ -145,7 +145,7 @@
           <el-col :span="16">
             <el-form-item label="客户名称" prop='customName'>
               <el-select v-model="newcustomer.customName" maxlength="70" style="width:100%"
-                filterable remote clearable placeholder=" " @change="translatecustom()"
+                filterable remote clearable placeholder=" " allow-create @change="translatecustom()"
                 :remote-method="getcorps"
                 default-first-option >
                 <el-option
@@ -363,11 +363,13 @@ export default {
     },
     // 选择公司后
     translatecustom () {
-      this.newcustomer.sccCode = this.newcustomer.customName.sccCode
-      this.newcustomer.tradeCode = this.newcustomer.customName.tradeCode
-      this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
-      this.newcustomer.customCorpId = this.newcustomer.customName.corpId
-      this.newcustomer.customName = this.newcustomer.customName.corpName
+      if (typeof this.newcustomer.customName !== 'string') {
+        this.newcustomer.sccCode = this.newcustomer.customName.sccCode
+        this.newcustomer.tradeCode = this.newcustomer.customName.tradeCode
+        this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
+        this.newcustomer.customCorpId = this.newcustomer.customName.corpId
+        this.newcustomer.customName = this.newcustomer.customName.corpName
+      }
     },
     getcode () {
       this.$store.dispatch('ajax', {
@@ -566,6 +568,21 @@ export default {
             router: this.$router,
             success: (res) => {
               this.newdiaview = false
+              this.newcustomer = {
+                'address': '',
+                'contactUser': '',
+                'contactWay': '',
+                'customCode': '',
+                'customCorpId': '',
+                'customCountry': '',
+                'customId': 0,
+                'customName': '',
+                'email': '',
+                'tradeCode': '',
+                'ciqCode': '',
+                'postCode': '',
+                'remark': '',
+                'sccCode': ''}
               this.$message({
                 message: ' 保存成功',
                 type: 'success'
