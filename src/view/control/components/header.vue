@@ -1,6 +1,6 @@
 <template>
   <div class="top-header">
-    <div class="logo"></div>
+    <div class="logo" @click="goToWWW" title="返回官网"></div>
     <div class="header-right">
       <div class="little-icon hidden-xs-only">
         <!-- <span class="search"></span> -->
@@ -78,6 +78,7 @@
 </template>
 <script>
 import config from '../../../config/config'
+import commonPath from '../../../config/commonPath'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -87,7 +88,8 @@ export default {
       corpList: [],
       userTitleList: [], // 个人荣誉
       totalNum: '',
-      newPersonNum: ''
+      newPersonNum: '',
+      logoClick: false
     }
   },
   created () {
@@ -245,6 +247,16 @@ export default {
     // 管理员中心
     adminCenter () {
       window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/companyAdmin/index?token=' + encodeURIComponent(window.localStorage.getItem('token')) + '&corpId=' + this.$store.state.userLoginInfo.companyCode + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'], '_blank')
+    },
+    // 跳转到官网
+    goToWWW () {
+      // 防止双击
+      if (this.logoClick) return
+      this.logoClick = true
+      setTimeout(() => {
+        this.logoClick = false
+      }, 300)
+      window.open(commonPath['CCBA'] + '/index?token=' + encodeURIComponent(window.localStorage.getItem('token')), '_self')
     }
   }
 }
@@ -328,6 +340,7 @@ export default {
   background-size: 280px 64px;
   background-size: cover;
   vertical-align: middle;
+  cursor: pointer;
 }
 .userInfo {
   width: 340px;

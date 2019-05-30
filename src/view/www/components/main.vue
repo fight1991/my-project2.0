@@ -19,7 +19,7 @@
       <div class="link-items mainer">
         <div class="link-detail" v-for="item in linkList" :key="item.id" @click="goToLink(item.link)">
           <img :src="item.icon" alt="">
-          <p>{{item.text}}</p>
+          <p v-html="item.text"></p>
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@ export default {
   .link-items {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
   }
   .link-detail {

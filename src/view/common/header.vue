@@ -1,6 +1,6 @@
 <template>
   <div class="top-header">
-    <div class="logo fl" @click="goToControl"></div>
+    <div class="logo fl" @click="goToControl" title="返回工作台"></div>
     <div :class="{'split-line':$store.state.childSys.title!== '', 'fl':true}"></div>
     <div class="title fl">{{$store.state.childSys.title}}</div>
     <div class="user-info">
