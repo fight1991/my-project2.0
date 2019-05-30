@@ -161,7 +161,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="社会信用代码" prop='sccCode'>
-              <el-input v-model="newcustomer.sccCode" :disabled="ifedit" maxlength="18"  @keyup.enter.native="getcode()"></el-input>
+              <el-input v-model="newcustomer.sccCode" :disabled="ifedit || newcustomer.customId" maxlength="18"   @keyup.enter.native="getcode()"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -369,6 +369,8 @@ export default {
         this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
         this.newcustomer.customCorpId = this.newcustomer.customName.corpId
         this.newcustomer.customName = this.newcustomer.customName.corpName
+      } else {
+        this.newcustomer.customCorpId = ''
       }
     },
     getcode () {
@@ -510,7 +512,7 @@ export default {
           }
         })
       } else if (type === 'download') {
-        window.open('http://116.62.67.13:8075/download/attachments/10355015/%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF_Customer.xls?version=3&modificationDate=1558059714000&api=v2')
+        window.open('https://www.5itrade.cn/files/decTemplet/Customer.xls')
       }
     },
     // 上传
