@@ -125,7 +125,6 @@ export default {
         type: '1'
       },
       operaters: [], // 操作员
-      paginationInit: {},
       tableData: [],
       graininess: [
         {
@@ -299,7 +298,6 @@ export default {
         url: 'API@/saas-report/decReport/statisticsWork',
         data: {...this.QueryForm, page: pagination},
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.tableData = res.result
           this.paginationInit = res.page
