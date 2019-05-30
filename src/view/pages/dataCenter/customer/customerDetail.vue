@@ -175,10 +175,10 @@
                         <el-form-item size="mini">
                         <el-select placeholder="公司名称"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
                             <el-option
-                            v-for="(item,cindex) in certTCorps"
-                            :key="item.code +'certTCorps'+cindex"
-                            :label="item.value"
-                            :value="item.code">
+                            v-for="(item,cindex) in certACorps"
+                            :key="item.proxyCorpId +'certACorps'+cindex"
+                            :label="item.proxyCorpName"
+                            :value="item.proxyCorpId">
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -242,9 +242,9 @@
                         <el-select clearable placeholder="境内收发货人"  v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
                             <el-option
                             v-for="(item,index) in certACorps"
-                            :key="item.code +'feeOptions' + index"
-                            :label="item.value"
-                            :value="item.code">
+                            :key="item.proxyCorpId +'feeOptions' + index"
+                            :label="item.proxyCorpName"
+                            :value="item.proxyCorpId">
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -421,7 +421,6 @@ export default {
       expendTxt: '展开',
       connectQueryResult: [], // 相关联系人
       corps: [],
-      certTCorps: [],
       proxtList: [],
       dateFlag: [{
         label: '按日',
@@ -507,7 +506,6 @@ export default {
   created () {
     this.newCorp.customId = parseInt(this.$route.query.customId)
     this.getdetail()
-    this.certTgetCorp()
     this.queryProxyList()
     this.amountQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
     this.certTQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
@@ -534,9 +532,9 @@ export default {
       return label
     },
     changecompany () {
-      for (let a = 0; a < this.certTCorps.length; a++) {
-        if (this.certTCorps[a].code === this.certTQueryForm.tradeCoScc) {
-          this.selectcorpName[0] = this.certTCorps[a].value
+      for (let a = 0; a < this.certACorps.length; a++) {
+        if (this.certACorps[a].proxyCorpId === this.certTQueryForm.tradeCoScc) {
+          this.selectcorpName[0] = this.certACorps[a].proxyCorpName
         }
       }
     },
@@ -646,8 +644,8 @@ export default {
     // 获取物料
     getGoods () {
       for (let a = 0; a < this.certACorps.length; a++) {
-        if (this.certACorps[a].code === this.amountQueryForm.tradeCoScc) {
-          this.corpname = this.certACorps[a].value
+        if (this.certACorps[a].proxyCorpId === this.amountQueryForm.tradeCoScc) {
+          this.corpname = this.certACorps[a].proxyCorpName
         }
       }
       this.$store.dispatch('ajax', {
@@ -728,18 +726,6 @@ export default {
               }
             }
           }
-        }
-      })
-    },
-    // 单量趋势统计获取公司
-    certTgetCorp () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-report/decReport/getTradeCos',
-        data: '',
-        router: this.$router,
-        success: (res) => {
-          this.certTCorps = res.result
-          this.certACorps = res.result
         }
       })
     },
@@ -854,6 +840,7 @@ export default {
         isPageList: true,
         success: (res) => {
           this.proxtList = res.result
+          this.certACorps = [...this.certACorps, ...this.proxtList]
         }
       })
     },
@@ -875,6 +862,9 @@ export default {
         router: this.$router,
         success: (res) => {
           this.customerdetail = res.result
+          this.certACorps.push({
+            proxyCorpId: res.result.customId,
+            proxyCorpName: res.result.customName})
           this.getConnectUser()
         }
       })
