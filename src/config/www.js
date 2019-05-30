@@ -347,7 +347,7 @@ const linkList = {
     {
       id: '1',
       icon: require('@/assets/www-img/images/star.png'),
-      text: '金关之星',
+      text: '<div style="text-align:center">金关之星</div><div style="text-align:center">(GS-CMS)</div>',
       link: 'https://www.51aeo.com/Login/AuthCallBack'
     },
     {
@@ -385,7 +385,7 @@ const linkList = {
     {
       id: '1',
       icon: require('@/assets/www-img/images/star.png'),
-      text: '金关之星',
+      text: '<div style="text-align:center">金关之星</div><div style="text-align:center">(GS-CMS)</div>',
       link: 'https://www.51aeo.com/Login/AuthCallBack'
     },
     {
