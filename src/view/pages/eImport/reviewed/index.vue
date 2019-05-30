@@ -7,10 +7,15 @@ export default {
   name: 'index',
   data () {
     return {
-      url: pathList.eImport['decReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      url: ''
     }
   },
   mounted () {
+    if (this.$route.name === 'decReviewed') {
+      this.url = pathList.eImport['decReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'taxReviewed') {
+      this.url = pathList.eImport['taxReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    }
   }
 }
 </script>
