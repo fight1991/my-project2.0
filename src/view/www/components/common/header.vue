@@ -56,13 +56,13 @@ export default {
           name: '产品介绍',
           isLink: true
         },
-        {
-          id: 3,
-          status: false,
-          path: '/charge',
-          name: '典型案例',
-          isLink: true
-        },
+        // {
+        //   id: 3,
+        //   status: false,
+        //   path: '/charge',
+        //   name: '典型案例',
+        //   isLink: true
+        // },
         {
           id: 4,
           status: false,
