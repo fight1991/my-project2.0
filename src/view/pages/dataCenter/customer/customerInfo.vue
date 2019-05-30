@@ -436,8 +436,12 @@ export default {
     newcustomerClosed () {
       if (this.ifedit) {
         this.newcustomer = {customCode: ''}
+      } else {
+        this.newcustomer = {
+          customCode: this.newcustomer.customCode,
+          customId: 0
+        }
       }
-      this.newcustomer.customId = 0
       this.corps = []
     },
     // 查看或编辑
