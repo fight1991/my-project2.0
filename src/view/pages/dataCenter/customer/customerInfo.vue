@@ -293,7 +293,7 @@ export default {
       newRule: {
         customCode: [{required: true, message: '请输入客户代码', trigger: 'blur'}],
         customCorpName: [{required: true, message: '请选择客户名称', trigger: 'blur'}],
-        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'blur'}],
+        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
         customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}]
       },
       queryresult: [],
@@ -305,7 +305,7 @@ export default {
         'contactWay': '',
         'customCode': '',
         'customCorpId': '',
-        'customCountry': '',
+        'customCountry': '1',
         'customId': 0,
         'customName': '',
         'email': '',
@@ -435,11 +435,12 @@ export default {
     },
     newcustomerClosed () {
       if (this.ifedit) {
-        this.newcustomer = {customCode: ''}
+        this.newcustomer = {customCode: '', customCountry: '1'}
       } else {
         this.newcustomer = {
           customCode: this.newcustomer.customCode,
-          customId: 0
+          customId: 0,
+          customCountry: '1'
         }
       }
       this.corps = []
@@ -578,7 +579,7 @@ export default {
                 'contactWay': '',
                 'customCode': '',
                 'customCorpId': '',
-                'customCountry': '',
+                'customCountry': '1',
                 'customId': 0,
                 'customName': '',
                 'email': '',
