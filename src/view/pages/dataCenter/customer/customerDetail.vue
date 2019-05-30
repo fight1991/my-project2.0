@@ -505,10 +505,10 @@ export default {
     }
   },
   created () {
+    this.newCorp.customId = parseInt(this.$route.query.customId)
     this.getdetail()
     this.certTgetCorp()
     this.queryProxyList()
-    this.newCorp.customId = parseInt(this.$route.query.customId)
     this.amountQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
     this.certTQueryForm.dates = [util.getNdayDate(new Date(), -29), util.getNdayDate(new Date(), 0)]
   },
