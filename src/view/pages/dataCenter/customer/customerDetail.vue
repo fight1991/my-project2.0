@@ -865,6 +865,10 @@ export default {
           this.certACorps.push({
             proxyCorpId: res.result.customId,
             proxyCorpName: res.result.customName})
+          this.amountQueryForm.tradeCoScc = res.result.customId
+          this.certTQueryForm.tradeCoScc = res.result.customId
+          this.changecompany()
+          this.getGoods()
           this.getConnectUser()
         }
       })

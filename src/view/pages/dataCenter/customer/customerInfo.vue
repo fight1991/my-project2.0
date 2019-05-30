@@ -594,6 +594,7 @@ export default {
                 message: ' 保存成功',
                 type: 'success'
               })
+              this.queryList()
             }
           })
         }
