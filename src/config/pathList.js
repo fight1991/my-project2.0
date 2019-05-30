@@ -438,6 +438,6 @@ export default {
       permissions: 'CCBA20203060000'
     }
   ],
-  WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/control',
+  WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index',
   WWWCCBA: url.CCBA + '/control'
 }

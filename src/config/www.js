@@ -482,4 +482,16 @@ const partner = [
     url: 'http://www.hbcba.cn'
   }
 ]
-export {jobs, companys, partner, linkList}
+const introduce = {
+  longshine: `<h3 style="color:black;font-size:16px;font-weight:bold;margin:10px 0;">朗新科技集团</h3>
+  <p style="text-indent:2em;line-height: 26px;">朗新科技股份有限公司成立于2003年,2017年8月1日在深交所创业板挂牌上市，股票代码：300682。公司专注于产业互联网业务，是蚂蚁金服投资的阿里生态伙伴公司。公司是国家规划布局内重点软件企业，拥有信息系统集成及服务一级资质，通过了CMMI5级认证。公司在北京、杭州、苏州、无锡、武汉、厦门、广州、重庆和南宁设有研发中心。公司拥有2000多名员工。</p>
+  <p style="text-indent:2em;line-height: 26px;">朗新科技作为中国企业级海关事务行业领导者，是中国国际贸易“单一窗口”主要建设力量，“金关二期”参建方。在国际贸易”单一窗口“标准版建设中，工程组获得了海关总署2018年专项奖励集体一等功。是大外贸服务行业，专注为“智慧海关+智慧口岸+智慧外贸链路+智慧货主企业”提供一站式全流程方案的优秀国际贸易服务商。</p>`,
+  jinguan: `<h3 style="margin:20px 0 10px;color:black;font-size:16px;font-weight:bold;">朗新金关信息科技有限公司</h3>
+  <p style="text-indent:2em;line-height: 26px;">朗新金关信息科技有限公司是朗新科技专注于通关行业的产业互联网公司。公司秉承“科技让通关更便利”的使命，业务领域涵盖智慧海关、智慧口岸及智慧外贸链路服务等板块。公司参与了中国海关核心系统建设，是中国国际贸易“单一窗口”系统的主要承建方，是海关总署重要的科技合作伙伴。公司与中国报关协会共同打造行业最具广度和最具深度的线上关务服务生态平台——“中国报关协会智慧通关服务平台”。</p>`,
+  zbx: `<h3 style="color:black;font-size:16px;font-weight:bold;margin:10px 0;">中国报关协会</h3>
+  <p style="text-indent:2em;line-height: 26px;">中国报关协会（China Customs Brokers Association ，简称CCBA），于2002年12月11日成立，是经中华人民共和国民政部注册，由在海关注册的报关单位、依法成立的其他相关企事业单位、科研院所、社会团体等及有关人士自愿结成的全国性、行业性社会团体，是非营利性社会组织。</p>
+  <p style="text-indent:2em;line-height: 26px;">中国报关协会是中国唯一的全国性报关行业组织，协会成员包括报关企业、进出口货物收发货人及其报关员。中国报关协会是民政部授予的5A级全国行业协会(2015-2020)和2015年度全国先进社会组织。</p>
+  <p style="text-indent:2em;line-height: 26px;">中国报关协会的宗旨是配合政府部门加强对我国报关行业的管理，维护、改善报关市场的经营秩序，促进会员间的交流与合作，依法代表本行业利益，保护会员的合法权益，促进我国报关服务行业的健康发展。</p>`
+}
+
+export {jobs, companys, partner, linkList, introduce}
