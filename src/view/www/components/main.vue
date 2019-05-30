@@ -221,7 +221,7 @@ export default {
       })
     },
     goToLink (link) {
-      link += `?token=${decodeURIComponent(localStorage.getItem('token')) || ''}`
+      link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
       window.open(link, '_blank')
     }
   }
