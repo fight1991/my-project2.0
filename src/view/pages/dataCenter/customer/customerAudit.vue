@@ -204,13 +204,13 @@
         <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="recordresult">
         <el-table-column label="时间" min-width="130" >
           <template slot-scope="scope">
-            {{scope.row.auditTime || '-'}}
+            {{formateDate(scope.row.auditTime) || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="客户状态" min-width="100">
           <template slot-scope="scope">
             <div class="text-over-hid">
-            {{scope.row.auditStatus || '-'}}
+            {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -307,6 +307,10 @@ export default {
           this.queryresult = res.result
         }
       })
+    },
+    // 时间格式化
+    formateDate (d) {
+      return util.dateFormat(d)
     },
     oneconfirm (flag) {
       let url = '/custom-manage/customAuditRefuce'
