@@ -131,6 +131,7 @@
       :title="ifedit?'修改客户信息':'新增客户信息'"
       :visible.sync="newdiaview"
       :close-on-click-modal='false'
+      :modal-append-to-body="false"
       @closed='newcustomerClosed'
       width="50%"
       >
@@ -178,7 +179,7 @@
         <el-row >
           <el-col :span="8">
             <el-form-item label="所属国" prop='customCountry'>
-              <el-select v-model="newcustomer.customCountry" filterable style="width:100%">
+              <el-select v-model="newcustomer.customCountry" filterable style="width:100%" @change="newcustomer.customCountry!=='1'?$refs['newcustinput'].clearValidate():''">
                 <el-option
                   v-for="item in countrys"
                   :key="item.code"

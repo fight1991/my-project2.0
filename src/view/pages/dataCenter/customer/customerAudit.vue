@@ -45,7 +45,7 @@
         <el-button size="mini" @click="confirm(false)" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' >
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
         <el-table-column  type="selection" min-width="50">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
@@ -91,7 +91,7 @@
         </el-table-column>
         <el-table-column label="操作" min-width="40">
           <template slot-scope="scope">
-            <el-button type="text" v-if="scope.row.auditStatus === 'COMPLETE'" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
+            <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
             <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>
           </template>
         </el-table-column>
@@ -444,6 +444,9 @@ export default {
         this.$refs.reference.toggleRowSelection(row, false)
         return
       }
+      this.nowselect = selection
+    },
+    slectall (selection) {
       this.nowselect = selection
     },
     rowclick (row) {
