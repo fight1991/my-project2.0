@@ -320,6 +320,8 @@
                <el-select v-model="newCorp.proxyCorpName" maxlength="70" style="width:100%"
                 filterable remote clearable placeholder=" " @change="translatecorp()"
                 :remote-method="getcorps"
+                allow-create
+                @closed='newCorpClosed'
                 default-first-option >
                 <el-option
                   v-for="item in corps"
@@ -334,17 +336,17 @@
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="社会信用代码">
-               <el-input v-model="newCorp.sccCode"></el-input>
+               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="海关编码">
-                <el-input v-model="newCorp.tradeCode"></el-input>
+                <el-input v-model="newCorp.tradeCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="检验检疫编码">
-                <el-input v-model="newCorp.ciqCode"></el-input>
+                <el-input v-model="newCorp.ciqCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -512,11 +514,18 @@ export default {
   },
   methods: {
     translatecorp () {
-      this.newCorp.sccCode = this.newCorp.proxyCorpName.sccCode
-      this.newCorp.tradeCode = this.newCorp.proxyCorpName.tradeCode
-      this.newCorp.ciqCode = this.newCorp.proxyCorpName.ciqCode
-      this.newCorp.proxyCorpId = this.newCorp.proxyCorpName.corpId
-      this.newCorp.proxyCorpName = this.newCorp.proxyCorpName.corpName
+      if (typeof this.newCorp.proxyCorpName !== 'string') {
+        this.newCorp.sccCode = this.newCorp.proxyCorpName.sccCode
+        this.newCorp.tradeCode = this.newCorp.proxyCorpName.tradeCode
+        this.newCorp.ciqCode = this.newCorp.proxyCorpName.ciqCode
+        this.newCorp.proxyCorpId = this.newCorp.proxyCorpName.corpId
+        this.newCorp.proxyCorpName = this.newCorp.proxyCorpName.corpName
+      } else {
+        this.newCorp.proxyCorpId = ''
+      }
+    },
+    newCorpClosed () {
+      this.corps = []
     },
     delectProxy () {
     },
