@@ -182,7 +182,7 @@
         </el-row>
         <el-row>
           <el-form-item label="审核意见" maxlength="400">
-                <el-input type="textarea" v-model="confirmreason" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
+                <el-input type="textarea" v-model="confirmshow.auditRemark" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
             </el-form-item>
         </el-row>
         <div style="text-align:center">
