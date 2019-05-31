@@ -91,7 +91,7 @@
         </el-table-column>
         <el-table-column label="操作" min-width="40">
           <template slot-scope="scope">
-            <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
+            <el-button type="text" v-if="scope.row.auditStatus === 'COMPLETE'" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
             <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>
           </template>
         </el-table-column>
