@@ -336,6 +336,10 @@ export default {
   },
   methods: {
     queryList () {
+      this.queryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
@@ -374,6 +378,10 @@ export default {
       }
     },
     getcode () {
+      this.queryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
@@ -418,7 +426,6 @@ export default {
         data: {},
         router: this.$router,
         isLoad: false,
-        isPageList: true,
         success: (res) => {
           this.newcustomer.customCode = res.result
         }

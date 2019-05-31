@@ -574,6 +574,10 @@ export default {
         })
         return
       }
+      this.amountQueryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decMoneyCount',
         data: this.amountQueryForm,
@@ -631,9 +635,13 @@ export default {
       })
     },
     getConnectUser () {
+      let page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/getUserContactsPage',
-        data: {corpId: this.customerdetail.customCorpId},
+        data: {corpId: this.customerdetail.customCorpId, page: page},
         router: this.$router,
         isPageList: true,
         success: (res) => {
@@ -833,9 +841,13 @@ export default {
       })
     },
     queryProxyList () {
+      let page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getProxyCorpList',
-        data: {customId: this.newCorp.customId},
+        data: {customId: this.newCorp.customId, page: page},
         router: this.$router,
         isPageList: true,
         success: (res) => {
