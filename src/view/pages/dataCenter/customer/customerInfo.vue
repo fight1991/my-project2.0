@@ -160,7 +160,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="社会信用代码" prop='sccCode'>
+            <el-form-item label="社会信用代码" :prop="newcustomer.customCountry ==='1'?'sccCode':''">
               <el-input v-model="newcustomer.sccCode" :disabled="ifedit || !!newcustomer.customCorpId" maxlength="18"   @keyup.enter.native="getcode()"></el-input>
             </el-form-item>
           </el-col>

@@ -325,7 +325,7 @@ export default {
         url: 'API@/login' + url,
         data: {
           customId: this.confirmshow.customId,
-          auditRemark: this.confirmreason
+          auditRemark: this.confirmshow.auditRemark
         },
         router: this.$router,
         success: (res) => {
