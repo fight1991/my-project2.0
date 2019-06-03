@@ -130,8 +130,10 @@
     <el-dialog
       :title="ifedit?'修改客户信息':'新增客户信息'"
       :visible.sync="newdiaview"
+      :modal="false"
       :close-on-click-modal='false'
       :modal-append-to-body="false"
+      :append-to-body='true'
       @closed='newcustomerClosed'
       width="50%"
       >
@@ -246,7 +248,7 @@
       >
       <div  class="dec-div">
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="inputrecord"  :rules='newRule'>
-        <el-row >
+        <el-row>
           <el-col :span="8">
             <el-form-item label="导入时间" maxlength="400">
               {{inputrecord.importTime}}
@@ -295,7 +297,8 @@ export default {
         customCode: [{required: true, message: '请输入客户代码', trigger: 'blur'}],
         customCorpName: [{required: true, message: '请选择客户名称', trigger: 'blur'}],
         sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
-        customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}]
+        customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}],
+        customName: [{required: true, message: '请输入所属国', trigger: 'blur'}]
       },
       queryresult: [],
       selecttion: [],

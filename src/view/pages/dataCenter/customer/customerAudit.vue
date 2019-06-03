@@ -352,6 +352,7 @@ export default {
             message: '操作成功',
             type: 'success'
           })
+          this.queryList()
         }
       })
     },
