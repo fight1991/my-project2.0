@@ -474,7 +474,12 @@ export default {
       if (type === 'edit') {
         this.ifedit = true
         this.newdiaview = true
-        this.newcustomer = row
+        this.newcustomer = util.simpleClone(row)
+        this.$nextTick(() => {
+          if (this.newcustomer.customCountry !== '1') {
+            this.$refs['newcustinput'].clearValidate()
+          }
+        })
       } else {
         this.$router.push({
           path: '/dataCenter/customer/customerDetail',
