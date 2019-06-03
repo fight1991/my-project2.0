@@ -130,7 +130,6 @@
     <el-dialog
       :title="ifedit?'修改客户信息':'新增客户信息'"
       :visible.sync="newdiaview"
-      :modal="false"
       :close-on-click-modal='false'
       :modal-append-to-body="false"
       :append-to-body='true'
