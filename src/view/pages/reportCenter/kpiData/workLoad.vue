@@ -54,6 +54,9 @@
           <e-chart :datas='resultChartData' :height="'300px'" :reset='resetChartData'></e-chart>
         </div>
         <!-- 列表 list -->
+        <el-row>
+          <el-button size="mini" @click="outPut()" >导出</el-button>
+        </el-row>
         <el-row class='mg-b-30'>
           <div class='mg-lr-30 sys-main-table' style="margin-bottom:100px">
             <el-table class='sys-table-table' :data="tableData" border highlight-current-row>
@@ -174,6 +177,17 @@ export default {
     // 加载缓存数据
     loadData () {
       this.$store.commit('pageCacheInit', this.pagination)
+    },
+    // 导出
+    outPut () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec/decReport/exportStatisticsWork',
+        data: this.QueryForm,
+        router: this.$router,
+        success: (res) => {
+          window.open(res.result)
+        }
+      })
     },
     // 缓存数据
     cacheData () {
