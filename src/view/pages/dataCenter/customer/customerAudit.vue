@@ -1,7 +1,7 @@
 <template>
-  <section class='query-main'>
+  <section class='query-main sys-main'>
     <!-- 查询条件 -->
-    <div class = "query-condition" style="margin:20px">
+    <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
         <el-row :gutter="10">
@@ -38,9 +38,9 @@
       </el-form>
     </div>
     <!-- 主显示框 -->
-    <div class='query-table' style="margin:20px">
+    <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
-      <el-row class="op-btn" style="margin-top:20px;margin-bottom:10px;">
+      <el-row class="op-btn" style="margin-bottom:10px;">
         <el-button size="mini" @click="confirm(true)" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look" ></span>审核通过</el-button>
         <el-button size="mini" @click="confirm(false)" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
       </el-row>

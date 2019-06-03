@@ -1,7 +1,7 @@
 <template>
-  <section class='query-main' style="margin:20px">
+  <section class='query-main sys-main' style="margin:20px">
     <!-- 查询条件 -->
-    <div class = "query-condition" >
+    <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
         <el-row :gutter="10">
@@ -38,8 +38,9 @@
       </el-form>
     </div>
     <!-- 主显示框 -->
-    <div class='query-table' style="margin-top:25px">
+    <div class='query-table' style="margin-top:20px">
       <!-- 按钮 -->
+      <el-row style="background-color:white;padding:20px;">
       <el-row class="op-btn" style="margin-bottom:10px">
         <el-button size="mini" @click="opennewdia()" >新增</el-button>
         <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:unset;">删除</el-button>
@@ -67,6 +68,7 @@
           </el-dropdown>
         <el-button size="mini"  @click="exportcus()" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look"></span>导出</el-button>
       </el-row>
+
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
         <el-table-column  type="selection" min-width="50">
@@ -126,6 +128,7 @@
           <page-box @change="queryList()"></page-box>
         </el-col>
       </el-row>
+      </el-row>
     </div>
     <el-dialog
       :title="ifedit?'修改客户信息':'新增客户信息'"
@@ -147,7 +150,7 @@
           <el-col :span="16">
             <el-form-item label="客户名称" prop='customName'>
               <el-select v-model="newcustomer.customName" maxlength="70" style="width:100%"
-                filterable remote clearable placeholder=" " allow-create @change="translatecustom()"
+                filterable remote clearable placeholder=" " allow-create @change="translatecustom()" @clear='clearCorp()'
                 :remote-method="getcorps"
                 default-first-option >
                 <el-option
@@ -380,6 +383,14 @@ export default {
       } else {
         this.newcustomer.customCorpId = ''
       }
+    },
+    // 删除公司
+    clearCorp () {
+      this.newcustomer.sccCode = ''
+      this.newcustomer.tradeCode = ''
+      this.newcustomer.ciqCode = ''
+      this.newcustomer.customCorpId = ''
+      this.newcustomer.customName = ''
     },
     getcode () {
       this.queryForm.page = {
