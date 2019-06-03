@@ -300,7 +300,7 @@ export default {
         customCorpName: [{required: true, message: '请选择客户名称', trigger: 'blur'}],
         sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
         customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}],
-        customName: [{required: true, message: '请输入所属国', trigger: 'blur'}]
+        customName: [{required: true, message: '请输入客户名称', trigger: 'blur'}]
       },
       queryresult: [],
       selecttion: [],

@@ -449,7 +449,15 @@ export default {
       this.nowselect = selection
     },
     slectall (selection) {
-      this.nowselect = selection
+      this.nowselect = []
+      for (let a = 0; a < selection.length; a++) {
+        if (selection[a].auditStatus === 'WAITING') {
+          this.nowselect.push(selection[a])
+        } else {
+          this.$refs.reference.toggleRowSelection(selection[a], false)
+          a--
+        }
+      }
     },
     rowclick (row) {
       if (row.auditStatus !== 'WAITING') {

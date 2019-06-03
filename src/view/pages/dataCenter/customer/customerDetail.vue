@@ -644,6 +644,9 @@ export default {
       })
     },
     getConnectUser () {
+      if (this.customerdetail.customCorpId) {
+        return
+      }
       let page = {
         pageSize: this.$store.state.pagination.pageSize,
         pageIndex: this.$store.state.pagination.pageIndex
