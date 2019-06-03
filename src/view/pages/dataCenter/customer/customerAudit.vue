@@ -293,6 +293,7 @@ export default {
   },
   created () {
     this.getCountry()
+    this.queryList()
   },
   mounted () {
   },
