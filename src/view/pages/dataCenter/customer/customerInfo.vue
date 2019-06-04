@@ -41,10 +41,10 @@
     <div class='query-table' style="margin-top:20px">
       <!-- 按钮 -->
       <el-row style="background-color:white;padding:20px;">
-      <el-row class="op-btn" style="margin-bottom:10px">
+      <el-row class="op-btn" style="margin-bottom:12px">
         <el-button size="mini" @click="opennewdia()" >新增</el-button>
-        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:unset;">删除</el-button>
-        <el-dropdown @command='downloadFun'>
+        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:6px;">删除</el-button>
+        <el-dropdown @command='downloadFun' style="margin-left:6px;">
             <el-button size="mini">
               导入<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -66,7 +66,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        <el-button size="mini"  @click="exportcus()" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look"></span>导出</el-button>
+        <el-button size="mini"  @click="exportcus()" style="margin-left:6px;" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look"></span>导出</el-button>
       </el-row>
 
       <!-- 列表table开始 -->

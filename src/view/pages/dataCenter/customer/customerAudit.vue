@@ -40,9 +40,9 @@
     <!-- 主显示框 -->
     <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
-      <el-row class="op-btn" style="margin-bottom:10px;">
+      <el-row class="op-btn" style="margin-bottom:12px;">
         <el-button size="mini" @click="confirm(true)" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look" ></span>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(false)" style="margin-left：10px" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -89,7 +89,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="40">
+        <el-table-column label="操作" min-width="80" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
             <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>

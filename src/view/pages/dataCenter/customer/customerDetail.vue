@@ -571,7 +571,7 @@ export default {
       }
       if (this.amountQueryForm.hsCodes.length === 0) {
         this.$message({
-          message: '至少选择一个公司',
+          message: '至少选择一个商品',
           type: 'warning'
         })
         return
@@ -750,6 +750,10 @@ export default {
       })
     },
     doCertTquery () {
+      this.certTQueryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       if (this.certTQueryForm.dates === '' || this.certTQueryForm.dates === null) {
         this.certTQueryForm.startDate = ''
         this.certTQueryForm.endDate = ''
@@ -887,10 +891,10 @@ export default {
         success: (res) => {
           this.customerdetail = res.result
           this.certACorps.push({
-            proxyCorpId: res.result.customId,
+            proxyCorpId: res.result.sccCode,
             proxyCorpName: res.result.customName})
-          this.amountQueryForm.tradeCoScc = res.result.customId
-          this.certTQueryForm.tradeCoScc = res.result.customId
+          this.amountQueryForm.tradeCoScc = res.result.sccCode
+          this.certTQueryForm.tradeCoScc = res.result.sccCode
           this.changecompany()
           this.getGoods()
           this.getConnectUser()
