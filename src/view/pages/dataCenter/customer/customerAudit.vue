@@ -41,8 +41,8 @@
     <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
-        <el-button size="mini" @click="confirm(true)" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look" ></span>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" style="margin-left：10px" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -508,5 +508,12 @@ export default {
 <style lang="less" scoped>
 .customer-table-c{
   text-align: center
+}
+.cus-i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    background-color: #fff
 }
 </style>
