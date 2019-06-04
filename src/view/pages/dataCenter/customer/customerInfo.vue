@@ -29,7 +29,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="50">
-          <el-col :span="4" :offset="10" class='query-btn' style='margin-top:20px'>
+          <el-col :span="14" :offset="10" class='query-btn' style='margin-top:20px'>
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
             <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button>
           </el-col>
