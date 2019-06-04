@@ -644,7 +644,7 @@ export default {
       })
     },
     getConnectUser () {
-      if (this.customerdetail.customCorpId) {
+      if (!this.customerdetail.customCorpId) {
         return
       }
       let page = {
