@@ -304,6 +304,10 @@ router.afterEach(route => {
   let tabData = ''
   let title = route.meta.title
   let tabId = route.name
+  // 本系统跳转后自定义title
+  if (route.query.setTitle) {
+    title = route.query.setTitle
+  }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
     let datas = []

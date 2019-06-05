@@ -456,7 +456,10 @@ export default {
       } else {
         this.$router.push({
           path: '/dataCenter/customer/customerDetail',
-          query: {customId: row.customId}
+          query: {
+            customId: row.customId,
+            setTitle: '客户详情-' + row.customId
+          }
         })
       }
     },
