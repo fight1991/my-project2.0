@@ -1,5 +1,5 @@
 <template>
-  <section class='query-main sys-main' style="margin:20px">
+  <section class='query-main sys-main' style="margin:0px">
     <!-- 查询条件 -->
     <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->

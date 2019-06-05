@@ -1,5 +1,5 @@
 <template>
-    <section class='query-main sys-main' style="margin:20px">
+    <section class='query-main sys-main' style="margin:-20px">
         <div class = "query-condition">
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
