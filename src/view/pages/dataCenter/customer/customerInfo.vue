@@ -4,7 +4,7 @@
     <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
-        <el-row :gutter="10">
+        <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
               <el-input v-model="queryForm.customCode" maxlength="50"></el-input>

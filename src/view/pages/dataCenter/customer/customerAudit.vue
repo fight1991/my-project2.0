@@ -4,7 +4,7 @@
     <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
-        <el-row :gutter="10">
+        <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
               <el-input v-model="queryForm.customCode" maxlength="50"></el-input>
@@ -41,8 +41,8 @@
     <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
-        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:14px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px;font-size:14px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
