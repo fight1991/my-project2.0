@@ -1,10 +1,10 @@
 <template>
-  <section class='query-main' style="margin:20px">
+  <section class='query-main sys-main' style="margin:20px">
     <!-- 查询条件 -->
-    <div class = "query-condition" >
+    <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
-        <el-row :gutter="10">
+        <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
               <el-input v-model="queryForm.customCode" maxlength="50"></el-input>
@@ -29,7 +29,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="50">
-          <el-col :span="4" :offset="10" class='query-btn' style='margin-top:20px'>
+          <el-col :span="14" :offset="10" class='query-btn' style='margin-top:20px'>
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
             <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button>
           </el-col>
@@ -38,14 +38,15 @@
       </el-form>
     </div>
     <!-- 主显示框 -->
-    <div class='query-table' style="margin-top:25px">
+    <div class='query-table' style="margin-top:20px">
       <!-- 按钮 -->
-      <el-row class="op-btn" style="margin-bottom:10px">
-        <el-button size="mini" @click="opennewdia()" >新增</el-button>
-        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:unset;">删除</el-button>
-        <el-dropdown @command='downloadFun'>
-            <el-button size="mini">
-              导入<i class="el-icon-arrow-down el-icon--right"></i>
+      <el-row style="background-color:white;padding:20px;">
+      <el-row class="op-btn" style="margin-bottom:12px">
+        <el-button size="mini" @click="opennewdia()" ><i class="fa fa-plus-circle fa-lg"></i>新增</el-button>
+        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:6px;"><i class="el-icon-delete"></i>删除</el-button>
+        <el-dropdown @command='downloadFun' style="margin-left:6px;">
+            <el-button size="mini" >
+              <i class="el-icon-download"></i>导入
             </el-button>
             <el-dropdown-menu slot="dropdown" size='mini'>
               <el-dropdown-item command="nomal" >
@@ -65,10 +66,11 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        <el-button size="mini"  @click="exportcus()" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look"></span>导出</el-button>
+        <el-button size="mini"  @click="exportcus()" style="margin-left:6px;" :disabled="nowselect.length===0" ><i class="el-icon-upload2"></i>导出</el-button>
       </el-row>
+
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowselect'>
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
         <el-table-column  type="selection" min-width="50">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
@@ -126,11 +128,14 @@
           <page-box @change="queryList()"></page-box>
         </el-col>
       </el-row>
+      </el-row>
     </div>
     <el-dialog
       :title="ifedit?'修改客户信息':'新增客户信息'"
       :visible.sync="newdiaview"
       :close-on-click-modal='false'
+      :modal-append-to-body="false"
+      :append-to-body='true'
       @closed='newcustomerClosed'
       width="50%"
       >
@@ -145,7 +150,7 @@
           <el-col :span="16">
             <el-form-item label="客户名称" prop='customName'>
               <el-select v-model="newcustomer.customName" maxlength="70" style="width:100%"
-                filterable remote clearable placeholder=" " allow-create @change="translatecustom()"
+                filterable remote clearable placeholder=" " allow-create @change="translatecustom()" @clear='clearCorp()'
                 :remote-method="getcorps"
                 default-first-option >
                 <el-option
@@ -160,8 +165,8 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="社会信用代码" prop='sccCode'>
-              <el-input v-model="newcustomer.sccCode" :disabled="ifedit || newcustomer.customId" maxlength="18"   @keyup.enter.native="getcode()"></el-input>
+            <el-form-item label="社会信用代码" :prop="newcustomer.customCountry ==='1'?'sccCode':''">
+              <el-input v-model="newcustomer.sccCode" :disabled="!!newcustomer.customCorpId" maxlength="18"   @keyup.enter.native="getcode()"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -178,7 +183,7 @@
         <el-row >
           <el-col :span="8">
             <el-form-item label="所属国" prop='customCountry'>
-              <el-select v-model="newcustomer.customCountry" filterable style="width:100%">
+              <el-select v-model="newcustomer.customCountry" filterable style="width:100%" @change="newcustomer.customCountry!=='1'?$refs['newcustinput'].clearValidate():''">
                 <el-option
                   v-for="item in countrys"
                   :key="item.code"
@@ -245,7 +250,7 @@
       >
       <div  class="dec-div">
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="inputrecord"  :rules='newRule'>
-        <el-row >
+        <el-row>
           <el-col :span="8">
             <el-form-item label="导入时间" maxlength="400">
               {{inputrecord.importTime}}
@@ -294,7 +299,8 @@ export default {
         customCode: [{required: true, message: '请输入客户代码', trigger: 'blur'}],
         customCorpName: [{required: true, message: '请选择客户名称', trigger: 'blur'}],
         sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
-        customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}]
+        customCountry: [{required: true, message: '请输入所属国', trigger: 'blur'}],
+        customName: [{required: true, message: '请输入客户名称', trigger: 'blur'}]
       },
       queryresult: [],
       selecttion: [],
@@ -331,11 +337,16 @@ export default {
   },
   created () {
     this.getCountry()
+    this.queryList()
   },
   mounted () {
   },
   methods: {
     queryList () {
+      this.queryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
@@ -373,7 +384,19 @@ export default {
         this.newcustomer.customCorpId = ''
       }
     },
+    // 删除公司
+    clearCorp () {
+      this.newcustomer.sccCode = ''
+      this.newcustomer.tradeCode = ''
+      this.newcustomer.ciqCode = ''
+      this.newcustomer.customCorpId = ''
+      this.newcustomer.customName = ''
+    },
     getcode () {
+      this.queryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
@@ -418,7 +441,6 @@ export default {
         data: {},
         router: this.$router,
         isLoad: false,
-        isPageList: true,
         success: (res) => {
           this.newcustomer.customCode = res.result
         }
@@ -452,7 +474,12 @@ export default {
       if (type === 'edit') {
         this.ifedit = true
         this.newdiaview = true
-        this.newcustomer = row
+        this.newcustomer = util.simpleClone(row)
+        this.$nextTick(() => {
+          if (this.newcustomer.customCountry !== '1') {
+            this.$refs['newcustinput'].clearValidate()
+          }
+        })
       } else {
         this.$router.push({
           path: '/dataCenter/customer/customerDetail',
@@ -597,6 +624,7 @@ export default {
                 message: ' 保存成功',
                 type: 'success'
               })
+              this.queryList()
             }
           })
         }
@@ -609,5 +637,12 @@ export default {
 <style lang="less" scoped>
 .customer-table-c{
   text-align: center
+}
+.cus-i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    background-color: #fff
 }
 </style>

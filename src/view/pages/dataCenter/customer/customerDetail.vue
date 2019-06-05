@@ -1,5 +1,5 @@
 <template>
-    <section class='query-main' style="margin:20px">
+    <section class='query-main sys-main' style="margin:20px">
         <div class = "query-condition">
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
@@ -74,7 +74,7 @@
         </el-row>
       </el-form>
     </div>
-    <div style="margin:20px">
+    <div style="margin:20px;background-color:white;padding:20px;">
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane label="代理企业" name="first">
             <el-row>
@@ -222,7 +222,7 @@
                     </el-col>
                     <el-col :span="1">
                         <el-form-item size="mini">
-                        <el-button label="180" @click="doCertTquery()">统计</el-button>
+                        <el-button label="180" type="primary" @click="doCertTquery()">统计</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -300,7 +300,7 @@
                     </el-col>
                     <el-col :span="1">
                         <el-form-item size="mini">
-                        <el-button label="180" @click="certAmountList()">统计</el-button>
+                        <el-button label="180" type="primary" @click="certAmountList()">统计</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -320,6 +320,8 @@
                <el-select v-model="newCorp.proxyCorpName" maxlength="70" style="width:100%"
                 filterable remote clearable placeholder=" " @change="translatecorp()"
                 :remote-method="getcorps"
+                allow-create
+                @closed='newCorpClosed'
                 default-first-option >
                 <el-option
                   v-for="item in corps"
@@ -334,17 +336,17 @@
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="社会信用代码">
-               <el-input v-model="newCorp.sccCode"></el-input>
+               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="海关编码">
-                <el-input v-model="newCorp.tradeCode"></el-input>
+                <el-input v-model="newCorp.tradeCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="检验检疫编码">
-                <el-input v-model="newCorp.ciqCode"></el-input>
+                <el-input v-model="newCorp.ciqCode" :disabled="!!newCorp.proxyCorpId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -512,11 +514,18 @@ export default {
   },
   methods: {
     translatecorp () {
-      this.newCorp.sccCode = this.newCorp.proxyCorpName.sccCode
-      this.newCorp.tradeCode = this.newCorp.proxyCorpName.tradeCode
-      this.newCorp.ciqCode = this.newCorp.proxyCorpName.ciqCode
-      this.newCorp.proxyCorpId = this.newCorp.proxyCorpName.corpId
-      this.newCorp.proxyCorpName = this.newCorp.proxyCorpName.corpName
+      if (typeof this.newCorp.proxyCorpName !== 'string') {
+        this.newCorp.sccCode = this.newCorp.proxyCorpName.sccCode
+        this.newCorp.tradeCode = this.newCorp.proxyCorpName.tradeCode
+        this.newCorp.ciqCode = this.newCorp.proxyCorpName.ciqCode
+        this.newCorp.proxyCorpId = this.newCorp.proxyCorpName.corpId
+        this.newCorp.proxyCorpName = this.newCorp.proxyCorpName.corpName
+      } else {
+        this.newCorp.proxyCorpId = ''
+      }
+    },
+    newCorpClosed () {
+      this.corps = []
     },
     delectProxy () {
     },
@@ -562,7 +571,7 @@ export default {
       }
       if (this.amountQueryForm.hsCodes.length === 0) {
         this.$message({
-          message: '至少选择一个公司',
+          message: '至少选择一个商品',
           type: 'warning'
         })
         return
@@ -573,6 +582,10 @@ export default {
           type: 'warning'
         })
         return
+      }
+      this.amountQueryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
       }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decMoneyCount',
@@ -631,9 +644,16 @@ export default {
       })
     },
     getConnectUser () {
+      if (!this.customerdetail.customCorpId) {
+        return
+      }
+      let page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/getUserContactsPage',
-        data: {corpId: this.customerdetail.customCorpId},
+        data: {corpId: this.customerdetail.customCorpId, page: page},
         router: this.$router,
         isPageList: true,
         success: (res) => {
@@ -665,10 +685,6 @@ export default {
             this.selectGoodsName = [this.goods[0].value]
             this.certAmountList()
           } else {
-            this.$message({
-              message: '暂无商品',
-              type: 'warning'
-            })
           }
         }
       })
@@ -730,6 +746,10 @@ export default {
       })
     },
     doCertTquery () {
+      this.certTQueryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       if (this.certTQueryForm.dates === '' || this.certTQueryForm.dates === null) {
         this.certTQueryForm.startDate = ''
         this.certTQueryForm.endDate = ''
@@ -833,9 +853,13 @@ export default {
       })
     },
     queryProxyList () {
+      let page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getProxyCorpList',
-        data: {customId: this.newCorp.customId},
+        data: {customId: this.newCorp.customId, page: page},
         router: this.$router,
         isPageList: true,
         success: (res) => {
@@ -863,8 +887,12 @@ export default {
         success: (res) => {
           this.customerdetail = res.result
           this.certACorps.push({
-            proxyCorpId: res.result.customId,
+            proxyCorpId: res.result.sccCode,
             proxyCorpName: res.result.customName})
+          this.amountQueryForm.tradeCoScc = res.result.sccCode
+          this.certTQueryForm.tradeCoScc = res.result.sccCode
+          this.changecompany()
+          this.getGoods()
           this.getConnectUser()
         }
       })

@@ -1,10 +1,10 @@
 <template>
-  <section class='query-main'>
+  <section class='query-main sys-main'>
     <!-- 查询条件 -->
-    <div class = "query-condition" style="margin:20px">
+    <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
-        <el-row :gutter="10">
+        <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
               <el-input v-model="queryForm.customCode" maxlength="50"></el-input>
@@ -29,7 +29,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="50">
-          <el-col :span="4" :offset="10" class='query-btn' style="margin-top:20px">
+          <el-col :span="14" :offset="10" class='query-btn' style="margin-top:20px">
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
             <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button>
           </el-col>
@@ -38,14 +38,14 @@
       </el-form>
     </div>
     <!-- 主显示框 -->
-    <div class='query-table' style="margin:20px">
+    <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
-      <el-row class="op-btn" style="margin-top:20px;margin-bottom:10px;">
-        <el-button size="mini" @click="confirm(true)" :disabled="nowselect.length===0" ><span class="icon-btn icon-btn-look" ></span>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" :disabled="nowselect.length===0"><span class="icon-btn icon-btn-look"></span>审核驳回</el-button>
+      <el-row class="op-btn" style="margin-bottom:12px;">
+        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:14px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px;font-size:14px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' >
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
         <el-table-column  type="selection" min-width="50">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
@@ -89,7 +89,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="40">
+        <el-table-column label="操作" min-width="80" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
             <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>
@@ -182,7 +182,7 @@
         </el-row>
         <el-row>
           <el-form-item label="审核意见" maxlength="400">
-                <el-input type="textarea" v-model="confirmreason" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
+                <el-input type="textarea" v-model="confirmshow.auditRemark" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
             </el-form-item>
         </el-row>
         <div style="text-align:center">
@@ -204,13 +204,13 @@
         <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="recordresult">
         <el-table-column label="时间" min-width="130" >
           <template slot-scope="scope">
-            {{scope.row.auditTime || '-'}}
+            {{formateDate(scope.row.auditTime) || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="客户状态" min-width="100">
           <template slot-scope="scope">
             <div class="text-over-hid">
-            {{scope.row.auditStatus || '-'}}
+            {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -293,11 +293,16 @@ export default {
   },
   created () {
     this.getCountry()
+    this.queryList()
   },
   mounted () {
   },
   methods: {
     queryList () {
+      this.queryForm.page = {
+        pageSize: this.$store.state.pagination.pageSize,
+        pageIndex: this.$store.state.pagination.pageIndex
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
@@ -308,6 +313,10 @@ export default {
         }
       })
     },
+    // 时间格式化
+    formateDate (d) {
+      return util.dateFormat(d)
+    },
     oneconfirm (flag) {
       let url = '/custom-manage/customAuditRefuce'
       if (flag) {
@@ -317,7 +326,7 @@ export default {
         url: 'API@/login' + url,
         data: {
           customId: this.confirmshow.customId,
-          auditRemark: this.confirmreason
+          auditRemark: this.confirmshow.auditRemark
         },
         router: this.$router,
         success: (res) => {
@@ -325,6 +334,8 @@ export default {
             message: '操作成功',
             type: 'success'
           })
+          this.confirmview = false
+          this.queryList()
         }
       })
     },
@@ -342,6 +353,7 @@ export default {
             message: '操作成功',
             type: 'success'
           })
+          this.queryList()
         }
       })
     },
@@ -387,7 +399,6 @@ export default {
         url: 'API@/login/custom-manage/getCustomList',
         data: this.queryForm,
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.corpList = res.result
         }
@@ -404,7 +415,6 @@ export default {
         data: {},
         router: this.$router,
         isLoad: false,
-        isPageList: true,
         success: (res) => {
           this.newcustomer.customCode = res.result
         }
@@ -437,6 +447,17 @@ export default {
         return
       }
       this.nowselect = selection
+    },
+    slectall (selection) {
+      this.nowselect = []
+      for (let a = 0; a < selection.length; a++) {
+        if (selection[a].auditStatus === 'WAITING') {
+          this.nowselect.push(selection[a])
+        } else {
+          this.$refs.reference.toggleRowSelection(selection[a], false)
+          a--
+        }
+      }
     },
     rowclick (row) {
       if (row.auditStatus !== 'WAITING') {
@@ -487,5 +508,12 @@ export default {
 <style lang="less" scoped>
 .customer-table-c{
   text-align: center
+}
+.cus-i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    background-color: #fff
 }
 </style>
