@@ -318,10 +318,10 @@
     </div>
     <el-dialog title="新增企业"
       :visible.sync="newCorpView" @closed='newcorpclosed'>
-        <el-form :label-width="labelFormWidth.seven" size="mini" >
+        <el-form :label-width="labelFormWidth.seven" size="mini" :model="newCorp" ref='newcorpform' :rules='corpRule'>
         <el-row :gutter="30">
           <el-col :span="24">
-            <el-form-item label="企业名称">
+            <el-form-item label="企业名称" prop="proxyCorpName">
                <el-select v-model="newCorp.proxyCorpName" maxlength="70" style="width:100%"
                 filterable remote clearable placeholder=" " @change="translatecorp()"
                 :remote-method="getcorps"
@@ -340,18 +340,18 @@
         </el-row>
         <el-row :gutter="30">
           <el-col :span="8">
-            <el-form-item label="社会信用代码">
-               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+            <el-form-item label="社会信用代码" prop="sccCode">
+               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="海关编码">
-                <el-input v-model="newCorp.tradeCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+                <el-input v-model="newCorp.tradeCode" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="检验检疫编码">
-                <el-input v-model="newCorp.ciqCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+                <el-input v-model="newCorp.ciqCode" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -502,6 +502,10 @@ export default {
           text: '新外贸运营'
         }
       ],
+      corpRule: {
+        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
+        proxyCorpName: [{required: true, message: '请选择企业', trigger: 'change'}]
+      },
       certTQueryForm: {
         dates: [],
         dateFlag: 'DAY',
@@ -575,6 +579,7 @@ export default {
         this.expendTxt = '展开'
       }
     },
+
     // 金额统计
     certAmountList () {
       if (this.dates === '' || this.dates === null) {
@@ -849,17 +854,21 @@ export default {
     },
     // 保存代理企业
     saveProxy () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/custom-manage/saveCustomProxyCorp',
-        data: this.newCorp,
-        router: this.$router,
-        success: (res) => {
-          this.$message({
-            message: '保存成功',
-            type: 'success'
+      this.$refs['newcorpform'].validate(valid => {
+        if (valid) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/login/custom-manage/saveCustomProxyCorp',
+            data: this.newCorp,
+            router: this.$router,
+            success: (res) => {
+              this.$message({
+                message: '保存成功',
+                type: 'success'
+              })
+              this.newCorpView = false
+              this.queryProxyList()
+            }
           })
-          this.newCorpView = false
-          this.queryProxyList()
         }
       })
     },
