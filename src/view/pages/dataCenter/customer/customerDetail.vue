@@ -116,6 +116,11 @@
                 </template>
                 </el-table-column>
             </el-table>
+            <el-row class='sys-page-list mg-b-30'>
+                <el-col :span="24" align="right">
+                <page-box :pagination='propxpage' @change="queryProxyList()"></page-box>
+                </el-col>
+            </el-row>
             </el-tab-pane>
             <el-tab-pane label="相关联系人" name="second">
               <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="connectQueryResult" ref="reference"  >
@@ -163,7 +168,7 @@
               </el-table>
               <el-row class='sys-page-list mg-b-30'>
                 <el-col :span="24" align="right">
-                <page-box @change="queryProxyList()"></page-box>
+                <page-box :pagination='contpage' @change="getConnectUser()"></page-box>
                 </el-col>
             </el-row>
             </el-tab-pane>
@@ -413,6 +418,16 @@ export default {
       amountQueryForm: {
         dates: []
       }, // 金额统计查询条件
+      propxpage: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      },
+      contpage: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      },
       resultAChartData: {}, // 金额统计数据
       corpData: {},
       activeName: 'first',
@@ -647,17 +662,13 @@ export default {
       if (!this.customerdetail.customCorpId) {
         return
       }
-      let page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/getUserContactsPage',
-        data: {corpId: this.customerdetail.customCorpId, page: page},
+        data: {corpId: this.customerdetail.customCorpId, page: this.contpage},
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.connectQueryResult = res.result
+          this.contpage = res.page
         }
       })
     },
@@ -853,18 +864,15 @@ export default {
       })
     },
     queryProxyList () {
-      let page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getProxyCorpList',
-        data: {customId: this.newCorp.customId, page: page},
+        data: {customId: this.newCorp.customId, page: this.propxpage},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.proxtList = res.result
           this.certACorps = [...this.certACorps, ...this.proxtList]
+          this.propxpage = res.page
         }
       })
     },

@@ -98,7 +98,7 @@
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box @change="queryList()"></page-box>
+          <page-box :pagination='pagination' @change="queryList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -243,6 +243,11 @@ export default {
         'customCode': '',
         'customName': ''
       },
+      pagination: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      },
       confirmreason: '',
       ifedit: false, // 是否为编辑
       recordresult: [],
@@ -299,17 +304,14 @@ export default {
   },
   methods: {
     queryList () {
-      this.queryForm.page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
-        data: this.queryForm,
+        data: {...this.queryForm, page: this.pagination},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.queryresult = res.result
+          this.pagination = res.page
         }
       })
     },
