@@ -487,7 +487,7 @@ export default {
           path: '/dataCenter/customer/customerDetail',
           query: {
             customId: row.customId,
-            setTitle: '客户详情-' + row.customId,
+            setTitle: '客户详情-' + row.customCode,
             setId: row.customId + 'cus'
           }
         })
