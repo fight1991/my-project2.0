@@ -45,7 +45,7 @@
         <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px;font-size:14px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
         <el-table-column  type="selection" min-width="50">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >

@@ -70,7 +70,7 @@
       </el-row>
 
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
         <el-table-column  type="selection" min-width="50">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
@@ -114,7 +114,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="40">
+        <el-table-column label="操作" min-width="80">
           <template slot-scope="scope">
             <div class='customer-table-c'>
             <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看"><i class="fa fa-file-text-o fa-lg"></i></el-button>
