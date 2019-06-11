@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column label="审核状态" min-width="110">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.auditStatusValue">
+            <div class="text-over-hid customer-table-c" :title="scope.row.auditStatusValue">
             {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
