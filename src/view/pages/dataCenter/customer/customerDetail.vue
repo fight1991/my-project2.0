@@ -713,8 +713,6 @@ export default {
           if (this.goods.length > 0) {
             this.amountQueryForm.hsCodes.push(this.goods[0].code)
             this.selectGoodsName = [this.goods[0].value]
-            this.certAmountList()
-          } else {
           }
         }
       })
