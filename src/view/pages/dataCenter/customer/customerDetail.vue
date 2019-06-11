@@ -855,9 +855,9 @@ export default {
     // 商品改变
     changeGoods () {
       this.selectGoodsName = []
-      for (let a = 0; a < this.QueryForm.hsCodes.length; a++) {
+      for (let a = 0; a < this.amountQueryForm.hsCodes.length; a++) {
         for (let b = 0; b < this.goods.length; b++) {
-          if (this.QueryForm.hsCodes[a] === this.goods[b].code) {
+          if (this.amountQueryForm.hsCodes[a] === this.goods[b].code) {
             this.selectGoodsName.push(this.goods[b].value)
           }
         }
