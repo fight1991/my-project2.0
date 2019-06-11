@@ -437,6 +437,7 @@ export default {
       this.newdiaview = true
       this.ifedit = false
       if (this.newcustomer.customCode) {
+        this.$refs['newcustinput'].clearValidate()
         return
       }
       this.$store.dispatch('ajax', {
@@ -445,6 +446,7 @@ export default {
         router: this.$router,
         isLoad: false,
         success: (res) => {
+          this.$refs['newcustinput'].clearValidate()
           this.newcustomer.customCode = res.result
         }
       })
