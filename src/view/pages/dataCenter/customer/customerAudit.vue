@@ -488,7 +488,7 @@ export default {
     },
     resetFun () {
       this.queryForm = {}
-      this.queryresult = []
+      this.queryList()
     },
     // 保存新增客户
     savenew () {

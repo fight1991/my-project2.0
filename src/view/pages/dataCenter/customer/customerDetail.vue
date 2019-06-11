@@ -669,10 +669,10 @@ export default {
       })
     },
     gotoAmount () {
-      window.parent.postMessage({type: 'EMS', data: {tabId: 'look-amount', url: config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt?queryCond=' + JSON.stringify(this.amountQueryForm), id: '000', operationType: 'look', title: '金额统计'}}, '*')
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt?queryCond=' + encodeURIComponent(JSON.stringify(this.amountQueryForm)))
     },
     gotoCert () {
-      window.parent.postMessage({type: 'EMS', data: {tabId: 'look-cert', url: config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/certSt?queryCond=' + JSON.stringify(this.certTQueryForm), id: '000', operationType: 'look', title: '单量统计'}}, '*')
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/trendSt?queryCond=' + encodeURIComponent(JSON.stringify(this.certTQueryForm)))
     },
     getConnectUser () {
       if (!this.customerdetail.customCorpId) {
