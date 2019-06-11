@@ -183,7 +183,7 @@
                             v-for="(item,cindex) in certACorps"
                             :key="item.sccCode +'certACorps'+cindex"
                             :label="item.proxyCorpName"
-                            :value="item.sccCode">
+                            :value="item.sccCode" >
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -250,7 +250,8 @@
                             v-for="(item,index) in certACorps"
                             :key="item.sccCode +'feeOptions' + index"
                             :label="item.proxyCorpName"
-                            :value="item.sccCode">
+                            :value="item.sccCode"
+                            >
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -602,9 +603,16 @@ export default {
         })
         return
       }
+      if (!this.amountQueryForm.tradeCoScc) {
+        this.$message({
+          message: '查无数据',
+          type: 'warning'
+        })
+        return
+      }
       if (this.goods.length === 0) {
         this.$message({
-          message: '该公司 没有物料',
+          message: '该公司没有物料',
           type: 'warning'
         })
         return
@@ -774,6 +782,13 @@ export default {
       })
     },
     doCertTquery () {
+      if (!this.certTQueryForm.tradeCoScc) {
+        this.$message({
+          message: '查无数据',
+          type: 'warning'
+        })
+        return
+      }
       this.certTQueryForm.page = {
         pageSize: this.$store.state.pagination.pageSize,
         pageIndex: this.$store.state.pagination.pageIndex
