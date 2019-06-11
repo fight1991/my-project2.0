@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Errors from './view/error'
 import config from './config/config'
@@ -17,7 +16,6 @@ import Sea from './view/pages/sea/router'
 import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
-Vue.use(Router)
 
 const routes = [
   {

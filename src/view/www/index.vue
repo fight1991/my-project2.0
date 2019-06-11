@@ -47,10 +47,6 @@ export default {
     right: 20px;
     bottom: 18%;
     z-index: 999;
-    // animation: animate 2s infinite alternate linear;
-    // &:hover {
-    //   animation:none
-    // }
   }
 
 </style>

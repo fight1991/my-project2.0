@@ -17,10 +17,13 @@
 </template>
 
 <script>
+import headTop from '../common/header.vue'
+import sidebar from '../common/slider.vue'
+
 export default {
   components: {
-    'head-top': resolve => require(['../common/header.vue'], resolve),
-    'sidebar': resolve => require(['../common/slider.vue'], resolve)
+    headTop,
+    sidebar
   },
   data () {
     return {

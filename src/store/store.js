@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import util from '../common/util'
 import config from '../config/config'
-import {Message} from 'element-ui'
 import TabsStore from '../components/tabs/store'
 
 Vue.use(Vuex)
@@ -121,20 +120,20 @@ export default new Vuex.Store({
             other(_result)
           } else if (_result.code === '0001') {
             // 业务报错
-            Message({
+            Vue.prototype.$message({
               message: _result.message,
               type: 'error'
             })
           } else if (_result.code === '0002') {
             // token 失效
-            Message({
+            Vue.prototype.$message({
               message: '登录信息失效，请重新登录！',
               type: 'error'
             })
             router.push('/login')
           } else {
             // 系统报错
-            Message({
+            Vue.prototype.$message({
               message: _result.message,
               type: 'error'
             })
@@ -182,20 +181,20 @@ export default new Vuex.Store({
             other(_result)
           } else if (_result.code === '0001') {
             // 业务报错
-            Message({
+            Vue.prototype.$message({
               message: _result.message,
               type: 'error'
             })
           } else if (_result.code === '0002') {
             // token 失效
-            Message({
+            Vue.prototype.$message({
               message: '登录信息失效，请重新登录！',
               type: 'error'
             })
             router.push('/login')
           } else {
             // 系统报错
-            Message({
+            Vue.prototype.$message({
               message: _result.message,
               type: 'error'
             })

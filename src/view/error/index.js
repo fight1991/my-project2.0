@@ -1,8 +1,10 @@
+import abstractComponent from '../common/abstract.vue'
+
 const MENU = {
   path: '/error',
   name: '错误',
   hidden: true,
-  component: resolve => require(['../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '错误'
   },

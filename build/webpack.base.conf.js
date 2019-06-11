@@ -3,7 +3,6 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin')
 const entry = require('./entry')
 
 function resolve (dir) {
@@ -35,6 +34,11 @@ module.exports = {
     'AMap': 'AMap',
     'AMapUI': 'AMapUI',
     'echarts': 'echarts',
+    'vue': 'Vue',
+    'vuex': 'Vuex',
+    'vue-router': 'VueRouter',
+    'element-ui': 'ELEMENT',
+    'axios':'axios'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -83,12 +87,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CommonsChunkPlugin({
-      names: ['vendor4', 'vendor3', 'vendor2', 'vendor1'],
-      minChunks: Infinity
-    })
-  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
