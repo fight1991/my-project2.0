@@ -567,7 +567,7 @@ export default {
     },
     changecompany () {
       for (let a = 0; a < this.certACorps.length; a++) {
-        if (this.certACorps[a].proxyCorpId === this.certTQueryForm.tradeCoScc) {
+        if (this.certACorps[a].sccCode === this.certTQueryForm.tradeCoScc) {
           this.selectcorpName[0] = this.certACorps[a].proxyCorpName
         }
       }
@@ -694,7 +694,7 @@ export default {
     // 获取物料
     getGoods () {
       for (let a = 0; a < this.certACorps.length; a++) {
-        if (this.certACorps[a].proxyCorpId === this.amountQueryForm.tradeCoScc) {
+        if (this.certACorps[a].sccCode === this.amountQueryForm.tradeCoScc) {
           this.corpname = this.certACorps[a].proxyCorpName
         }
       }
