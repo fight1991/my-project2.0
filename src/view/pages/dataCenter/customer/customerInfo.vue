@@ -464,7 +464,7 @@ export default {
     },
     newcustomerClosed () {
       if (this.ifedit) {
-        this.newcustomer = {customCode: '', customCountry: '1'}
+        this.newcustomer = {customCode: '', customId: 0, customCountry: '1'}
       } else {
         this.newcustomer = {
           customCode: this.newcustomer.customCode,

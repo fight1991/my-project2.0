@@ -181,9 +181,9 @@
                         <el-select placeholder="公司名称" style="width:100%"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
                             <el-option
                             v-for="(item,cindex) in certACorps"
-                            :key="item.proxyCorpId +'certACorps'+cindex"
+                            :key="item.sccCode +'certACorps'+cindex"
                             :label="item.proxyCorpName"
-                            :value="item.proxyCorpId">
+                            :value="item.sccCode">
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -248,9 +248,9 @@
                         <el-select clearable placeholder="境内收发货人" style="width:100%" v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
                             <el-option
                             v-for="(item,index) in certACorps"
-                            :key="item.proxyCorpId +'feeOptions' + index"
+                            :key="item.sccCode +'feeOptions' + index"
                             :label="item.proxyCorpName"
-                            :value="item.proxyCorpId">
+                            :value="item.sccCode">
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -920,7 +920,7 @@ export default {
         success: (res) => {
           this.customerdetail = res.result
           this.certACorps.push({
-            proxyCorpId: res.result.sccCode,
+            sccCode: res.result.sccCode,
             proxyCorpName: res.result.customName})
           this.amountQueryForm.tradeCoScc = res.result.sccCode
           this.certTQueryForm.tradeCoScc = res.result.sccCode
