@@ -669,10 +669,12 @@ export default {
       })
     },
     gotoAmount () {
-      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt?queryCond=' + encodeURIComponent(JSON.stringify(this.amountQueryForm)))
+      window.localStorage.setItem('queryCond', JSON.stringify(this.amountQueryForm))
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt')
     },
     gotoCert () {
-      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/trendSt?queryCond=' + encodeURIComponent(JSON.stringify(this.certTQueryForm)))
+      window.localStorage.setItem('queryCond', JSON.stringify(this.certTQueryForm))
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/trendSt')
     },
     getConnectUser () {
       if (!this.customerdetail.customCorpId) {
