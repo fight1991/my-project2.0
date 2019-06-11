@@ -509,8 +509,8 @@ export default {
         }
       ],
       corpRule: {
-        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'change'}],
-        proxyCorpName: [{required: true, message: '请选择企业', trigger: 'change'}]
+        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'bulr'}],
+        proxyCorpName: [{required: true, message: '请选择企业', trigger: 'bulr'}]
       },
       certTQueryForm: {
         dates: [],
@@ -892,7 +892,11 @@ export default {
         isPageList: true,
         success: (res) => {
           this.proxtList = res.result
-          this.certACorps = [...this.certACorps, ...this.proxtList]
+          if (this.certACorps.length > 0) {
+            this.certACorps = [...[this.certACorps[0]], ...this.proxtList]
+          } else {
+            this.certACorps = [...this.certACorps, ...this.proxtList]
+          }
           this.propxpage = res.page
         }
       })
