@@ -3,7 +3,7 @@
     <!-- 查询条件 -->
     <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
-      <el-form :label-width="labelFormWidth.five" size="mini">
+      <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户状态">
+            <el-form-item label="审核状态">
               <el-select size="mini" filterable v-model="queryForm.auditStatus" default-first-option  clearable>
                 <el-option
                   v-for="item in cusstatusList"
@@ -82,7 +82,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="110">
+        <el-table-column label="审核状态" min-width="110">
           <template slot-scope="scope">
             <div class="text-over-hid" :title="scope.row.auditStatusValue">
             {{scope.row.auditStatusValue || '-'}}
@@ -91,8 +91,10 @@
         </el-table-column>
         <el-table-column label="操作" min-width="80" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
-            <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>
+            <div class="customer-table-c">
+            <el-button type="text" @click="confirmDetail(scope.row)" title="审核" class="list-icon-subimtCheck"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="list-icon-lookH2" title="操作记录"><i class="cus-i"></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -195,7 +197,7 @@
       </div>
     </el-dialog>
     <el-dialog
-      title="审核记录"
+      title="操作记录"
       :visible.sync="recordview"
       :close-on-click-modal='false'
       width="50%"
@@ -221,7 +223,7 @@
               </div>
             </template>
         </el-table-column>
-        <el-table-column label="更多信息" min-width="130">
+        <el-table-column label="审核意见" min-width="130">
           <template slot-scope="scope">
             <div class="text-over-hid" :title="scope.row.auditRemark">
             {{scope.row.auditRemark || '-'}}
@@ -239,7 +241,7 @@ export default {
   data () {
     return {
       queryForm: {
-        'auditStatus': 'WAITING',
+        'auditStatus': '',
         'customCode': '',
         'customName': ''
       },
@@ -312,6 +314,7 @@ export default {
         success: (res) => {
           this.queryresult = res.result
           this.pagination = res.page
+          this.nowselect = []
         }
       })
     },

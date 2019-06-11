@@ -176,9 +176,9 @@
                 <div>
                    <el-form label-width="0px">
                     <el-row class='sys-search mg-b-30' :gutter="20">
-                    <el-col :span="3">
+                    <el-col :span="5">
                         <el-form-item size="mini">
-                        <el-select placeholder="公司名称"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
+                        <el-select placeholder="公司名称" style="width:100%"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
                             <el-option
                             v-for="(item,cindex) in certACorps"
                             :key="item.proxyCorpId +'certACorps'+cindex"
@@ -225,9 +225,10 @@
                         </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="1">
+                    <el-col :span="4">
                         <el-form-item size="mini">
                         <el-button label="180" type="primary" @click="doCertTquery()">统计</el-button>
+                        <el-button label="180" @click="gotoCert()">查看更多</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -242,9 +243,9 @@
                 <el-form label-width="0px">
                     <el-row class='sys-search mg-b-30' :gutter="20">
                     <!-- 查询条件 -->
-                    <el-col :span="3">
+                    <el-col :span="5">
                         <el-form-item size="mini">
-                        <el-select clearable placeholder="境内收发货人"  v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
+                        <el-select clearable placeholder="境内收发货人" style="width:100%" v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
                             <el-option
                             v-for="(item,index) in certACorps"
                             :key="item.proxyCorpId +'feeOptions' + index"
@@ -254,9 +255,9 @@
                         </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="4">
                         <el-form-item size="mini">
-                        <el-select placeholder="商品名称" v-model="amountQueryForm.hsCodes"  multiple :multiple-limit='5' style="width:100%" collapse-tags @change="changeGoods()">
+                        <el-select placeholder="商品名称" v-model="amountQueryForm.hsCodes"  multiple :multiple-limit='4' style="width:100%" collapse-tags @change="changeGoods()">
                             <el-option
                             v-for="item in goods"
                             :key="item.code +'feeOptions'"
@@ -303,9 +304,10 @@
                         </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="1">
+                    <el-col :span="5">
                         <el-form-item size="mini">
                         <el-button label="180" type="primary" @click="certAmountList()">统计</el-button>
+                        <el-button label="180" @click="gotoAmount()">查看更多</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -408,6 +410,7 @@
 </template>
 <script>
 import util from '../../../../common/util'
+import config from '../../../../config/config'
 export default {
   name: 'index',
   data () {
@@ -416,7 +419,9 @@ export default {
       selectcorpName: [], // 已选择公司
       corpname: [], // 金额统计 已选公司
       amountQueryForm: {
-        dates: []
+        dates: [],
+        iEFlag: 'ALL',
+        graininess: 1
       }, // 金额统计查询条件
       propxpage: {
         pageIndex: 1, // 当前页
@@ -662,6 +667,12 @@ export default {
           }
         }
       })
+    },
+    gotoAmount () {
+      window.parent.postMessage({type: 'EMS', data: {tabId: 'look-amount', url: config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt?queryCond=' + JSON.stringify(this.amountQueryForm), id: '000', operationType: 'look', title: '金额统计'}}, '*')
+    },
+    gotoCert () {
+      window.parent.postMessage({type: 'EMS', data: {tabId: 'look-cert', url: config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/certSt?queryCond=' + JSON.stringify(this.certTQueryForm), id: '000', operationType: 'look', title: '单量统计'}}, '*')
     },
     getConnectUser () {
       if (!this.customerdetail.customCorpId) {
