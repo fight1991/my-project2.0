@@ -71,7 +71,7 @@
 
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
-        <el-table-column  type="selection" min-width="50">
+        <el-table-column  type="selection" width="35">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
           <template slot-scope="scope">

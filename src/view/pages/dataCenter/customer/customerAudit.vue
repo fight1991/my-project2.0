@@ -46,7 +46,7 @@
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
-        <el-table-column  type="selection" min-width="50">
+        <el-table-column  type="selection" width="35">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
           <template slot-scope="scope">
@@ -331,12 +331,17 @@ export default {
         url: 'API@/login' + url,
         data: {
           customId: this.confirmshow.customId,
-          auditRemark: this.confirmshow.auditRemark
+          auditRemark: this.confirmshow.auditRemark,
+          customCode: this.confirmshow.customCode
         },
         router: this.$router,
         success: (res) => {
+          let msg = '操作成功'
+          if (res.result) {
+            msg = res.result
+          }
           this.$message({
-            message: '操作成功',
+            message: msg,
             type: 'success'
           })
           this.confirmview = false
@@ -354,8 +359,12 @@ export default {
         data: this.nowselect,
         router: this.$router,
         success: (res) => {
+          let msg = '操作成功'
+          if (res.result) {
+            msg = res.result
+          }
           this.$message({
-            message: '操作成功',
+            message: msg,
             type: 'success'
           })
           this.queryList()

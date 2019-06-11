@@ -421,7 +421,8 @@ export default {
       amountQueryForm: {
         dates: [],
         iEFlag: 'ALL',
-        graininess: 1
+        graininess: 1,
+        hsCodes: []
       }, // 金额统计查询条件
       propxpage: {
         pageIndex: 1, // 当前页
