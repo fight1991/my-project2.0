@@ -1,5 +1,5 @@
 <template>
-    <section class='query-main sys-main' style="margin:20px">
+    <section class='query-main sys-main' style="margin:-20px">
         <div class = "query-condition">
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
@@ -116,6 +116,11 @@
                 </template>
                 </el-table-column>
             </el-table>
+            <el-row class='sys-page-list mg-b-30'>
+                <el-col :span="24" align="right">
+                <page-box :pagination='propxpage' @change="queryProxyList()"></page-box>
+                </el-col>
+            </el-row>
             </el-tab-pane>
             <el-tab-pane label="相关联系人" name="second">
               <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="connectQueryResult" ref="reference"  >
@@ -163,7 +168,7 @@
               </el-table>
               <el-row class='sys-page-list mg-b-30'>
                 <el-col :span="24" align="right">
-                <page-box @change="queryProxyList()"></page-box>
+                <page-box :pagination='contpage' @change="getConnectUser()"></page-box>
                 </el-col>
             </el-row>
             </el-tab-pane>
@@ -171,14 +176,14 @@
                 <div>
                    <el-form label-width="0px">
                     <el-row class='sys-search mg-b-30' :gutter="20">
-                    <el-col :span="3">
+                    <el-col :span="5">
                         <el-form-item size="mini">
-                        <el-select placeholder="公司名称"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
+                        <el-select placeholder="公司名称" style="width:100%"  v-model="certTQueryForm.tradeCoScc" @change="changecompany()">
                             <el-option
                             v-for="(item,cindex) in certACorps"
-                            :key="item.proxyCorpId +'certACorps'+cindex"
+                            :key="item.sccCode +'certACorps'+cindex"
                             :label="item.proxyCorpName"
-                            :value="item.proxyCorpId">
+                            :value="item.sccCode" >
                             </el-option>
                         </el-select>
                         </el-form-item>
@@ -220,9 +225,10 @@
                         </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="1">
+                    <el-col :span="4">
                         <el-form-item size="mini">
                         <el-button label="180" type="primary" @click="doCertTquery()">统计</el-button>
+                        <el-button label="180" @click="gotoCert()">查看更多</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -237,21 +243,22 @@
                 <el-form label-width="0px">
                     <el-row class='sys-search mg-b-30' :gutter="20">
                     <!-- 查询条件 -->
-                    <el-col :span="3">
+                    <el-col :span="5">
                         <el-form-item size="mini">
-                        <el-select clearable placeholder="境内收发货人"  v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
+                        <el-select clearable placeholder="境内收发货人" style="width:100%" v-model="amountQueryForm.tradeCoScc" @change="getGoods()">
                             <el-option
                             v-for="(item,index) in certACorps"
-                            :key="item.proxyCorpId +'feeOptions' + index"
+                            :key="item.sccCode +'feeOptions' + index"
                             :label="item.proxyCorpName"
-                            :value="item.proxyCorpId">
+                            :value="item.sccCode"
+                            >
                             </el-option>
                         </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="4">
                         <el-form-item size="mini">
-                        <el-select placeholder="商品名称" v-model="amountQueryForm.hsCodes"  multiple :multiple-limit='5' style="width:100%" collapse-tags @change="changeGoods()">
+                        <el-select placeholder="商品名称" v-model="amountQueryForm.hsCodes"  multiple :multiple-limit='4' style="width:100%" collapse-tags @change="changeGoods()">
                             <el-option
                             v-for="item in goods"
                             :key="item.code +'feeOptions'"
@@ -298,9 +305,10 @@
                         </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="1">
+                    <el-col :span="5">
                         <el-form-item size="mini">
                         <el-button label="180" type="primary" @click="certAmountList()">统计</el-button>
+                        <el-button label="180" @click="gotoAmount()">查看更多</el-button>
                         </el-form-item>
                     </el-col>
                     </el-row>
@@ -313,10 +321,10 @@
     </div>
     <el-dialog title="新增企业"
       :visible.sync="newCorpView" @closed='newcorpclosed'>
-        <el-form :label-width="labelFormWidth.seven" size="mini" >
+        <el-form :label-width="labelFormWidth.seven" size="mini" :model="newCorp" ref='newcorpform' :rules='corpRule'>
         <el-row :gutter="30">
           <el-col :span="24">
-            <el-form-item label="企业名称">
+            <el-form-item label="企业名称" prop="proxyCorpName">
                <el-select v-model="newCorp.proxyCorpName" maxlength="70" style="width:100%"
                 filterable remote clearable placeholder=" " @change="translatecorp()"
                 :remote-method="getcorps"
@@ -335,18 +343,18 @@
         </el-row>
         <el-row :gutter="30">
           <el-col :span="8">
-            <el-form-item label="社会信用代码">
-               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+            <el-form-item label="社会信用代码" prop="sccCode">
+               <el-input v-model="newCorp.sccCode" :disabled="!!newCorp.proxyCorpId" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="海关编码">
-                <el-input v-model="newCorp.tradeCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+                <el-input v-model="newCorp.tradeCode" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="检验检疫编码">
-                <el-input v-model="newCorp.ciqCode" :disabled="!!newCorp.proxyCorpId"></el-input>
+                <el-input v-model="newCorp.ciqCode" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -403,6 +411,7 @@
 </template>
 <script>
 import util from '../../../../common/util'
+import config from '../../../../config/config'
 export default {
   name: 'index',
   data () {
@@ -411,8 +420,21 @@ export default {
       selectcorpName: [], // 已选择公司
       corpname: [], // 金额统计 已选公司
       amountQueryForm: {
-        dates: []
+        dates: [],
+        iEFlag: 'ALL',
+        graininess: 1,
+        hsCodes: []
       }, // 金额统计查询条件
+      propxpage: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      },
+      contpage: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      },
       resultAChartData: {}, // 金额统计数据
       corpData: {},
       activeName: 'first',
@@ -487,6 +509,10 @@ export default {
           text: '新外贸运营'
         }
       ],
+      corpRule: {
+        sccCode: [{required: true, message: '请输入社会信用代码', trigger: 'bulr'}],
+        proxyCorpName: [{required: true, message: '请选择企业', trigger: 'bulr'}]
+      },
       certTQueryForm: {
         dates: [],
         dateFlag: 'DAY',
@@ -542,7 +568,7 @@ export default {
     },
     changecompany () {
       for (let a = 0; a < this.certACorps.length; a++) {
-        if (this.certACorps[a].proxyCorpId === this.certTQueryForm.tradeCoScc) {
+        if (this.certACorps[a].sccCode === this.certTQueryForm.tradeCoScc) {
           this.selectcorpName[0] = this.certACorps[a].proxyCorpName
         }
       }
@@ -560,6 +586,7 @@ export default {
         this.expendTxt = '展开'
       }
     },
+
     // 金额统计
     certAmountList () {
       if (this.dates === '' || this.dates === null) {
@@ -576,9 +603,16 @@ export default {
         })
         return
       }
+      if (!this.amountQueryForm.tradeCoScc) {
+        this.$message({
+          message: '查无数据',
+          type: 'warning'
+        })
+        return
+      }
       if (this.goods.length === 0) {
         this.$message({
-          message: '该公司 没有物料',
+          message: '该公司没有物料',
           type: 'warning'
         })
         return
@@ -643,28 +677,32 @@ export default {
         }
       })
     },
+    gotoAmount () {
+      window.localStorage.setItem('queryCond', JSON.stringify(this.amountQueryForm))
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/amountSt')
+    },
+    gotoCert () {
+      window.localStorage.setItem('queryCond', JSON.stringify(this.certTQueryForm))
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/reportCenter/business/trendSt')
+    },
     getConnectUser () {
       if (!this.customerdetail.customCorpId) {
         return
       }
-      let page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/user/getUserContactsPage',
-        data: {corpId: this.customerdetail.customCorpId, page: page},
+        data: {corpId: this.customerdetail.customCorpId, page: this.contpage},
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.connectQueryResult = res.result
+          this.contpage = res.page
         }
       })
     },
     // 获取物料
     getGoods () {
       for (let a = 0; a < this.certACorps.length; a++) {
-        if (this.certACorps[a].proxyCorpId === this.amountQueryForm.tradeCoScc) {
+        if (this.certACorps[a].sccCode === this.amountQueryForm.tradeCoScc) {
           this.corpname = this.certACorps[a].proxyCorpName
         }
       }
@@ -683,8 +721,6 @@ export default {
           if (this.goods.length > 0) {
             this.amountQueryForm.hsCodes.push(this.goods[0].code)
             this.selectGoodsName = [this.goods[0].value]
-            this.certAmountList()
-          } else {
           }
         }
       })
@@ -746,6 +782,13 @@ export default {
       })
     },
     doCertTquery () {
+      if (!this.certTQueryForm.tradeCoScc) {
+        this.$message({
+          message: '查无数据',
+          type: 'warning'
+        })
+        return
+      }
       this.certTQueryForm.page = {
         pageSize: this.$store.state.pagination.pageSize,
         pageIndex: this.$store.state.pagination.pageIndex
@@ -827,9 +870,9 @@ export default {
     // 商品改变
     changeGoods () {
       this.selectGoodsName = []
-      for (let a = 0; a < this.QueryForm.hsCodes.length; a++) {
+      for (let a = 0; a < this.amountQueryForm.hsCodes.length; a++) {
         for (let b = 0; b < this.goods.length; b++) {
-          if (this.QueryForm.hsCodes[a] === this.goods[b].code) {
+          if (this.amountQueryForm.hsCodes[a] === this.goods[b].code) {
             this.selectGoodsName.push(this.goods[b].value)
           }
         }
@@ -838,33 +881,38 @@ export default {
     },
     // 保存代理企业
     saveProxy () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/custom-manage/saveCustomProxyCorp',
-        data: this.newCorp,
-        router: this.$router,
-        success: (res) => {
-          this.$message({
-            message: '保存成功',
-            type: 'success'
+      this.$refs['newcorpform'].validate(valid => {
+        if (valid) {
+          this.$store.dispatch('ajax', {
+            url: 'API@/login/custom-manage/saveCustomProxyCorp',
+            data: this.newCorp,
+            router: this.$router,
+            success: (res) => {
+              this.$message({
+                message: '保存成功',
+                type: 'success'
+              })
+              this.newCorpView = false
+              this.queryProxyList()
+            }
           })
-          this.newCorpView = false
-          this.queryProxyList()
         }
       })
     },
     queryProxyList () {
-      let page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getProxyCorpList',
-        data: {customId: this.newCorp.customId, page: page},
+        data: {customId: this.newCorp.customId, page: this.propxpage},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.proxtList = res.result
-          this.certACorps = [...this.certACorps, ...this.proxtList]
+          if (this.certACorps.length > 0) {
+            this.certACorps = [...[this.certACorps[0]], ...this.proxtList]
+          } else {
+            this.certACorps = [...this.certACorps, ...this.proxtList]
+          }
+          this.propxpage = res.page
         }
       })
     },
@@ -887,7 +935,7 @@ export default {
         success: (res) => {
           this.customerdetail = res.result
           this.certACorps.push({
-            proxyCorpId: res.result.sccCode,
+            sccCode: res.result.sccCode,
             proxyCorpName: res.result.customName})
           this.amountQueryForm.tradeCoScc = res.result.sccCode
           this.certTQueryForm.tradeCoScc = res.result.sccCode

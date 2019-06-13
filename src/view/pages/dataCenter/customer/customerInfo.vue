@@ -1,9 +1,9 @@
 <template>
-  <section class='query-main sys-main' style="margin:20px">
+  <section class='query-main sys-main' style="margin:0px">
     <!-- 查询条件 -->
     <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
-      <el-form :label-width="labelFormWidth.five" size="mini">
+      <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户状态">
+            <el-form-item label="审核状态">
               <el-select size="mini" filterable v-model="queryForm.auditStatus" default-first-option clearable>
                 <el-option
                   v-for="item in cusstatusList"
@@ -42,11 +42,11 @@
       <!-- 按钮 -->
       <el-row style="background-color:white;padding:20px;">
       <el-row class="op-btn" style="margin-bottom:12px">
-        <el-button size="mini" @click="opennewdia()" ><i class="fa fa-plus-circle fa-lg"></i>新增</el-button>
-        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:6px;"><i class="el-icon-delete"></i>删除</el-button>
+        <el-button size="mini" @click="opennewdia()" class="list-icon-add" ><i class="cus-i"></i>新增</el-button>
+        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:6px;" class="list-icon-delete"><i class="cus-i"></i>删除</el-button>
         <el-dropdown @command='downloadFun' style="margin-left:6px;">
-            <el-button size="mini" >
-              <i class="el-icon-download"></i>导入
+            <el-button size="mini" class="list-icon-import">
+              <i class="cus-i"></i>导入
             </el-button>
             <el-dropdown-menu slot="dropdown" size='mini'>
               <el-dropdown-item command="nomal" >
@@ -66,12 +66,12 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        <el-button size="mini"  @click="exportcus()" style="margin-left:6px;" :disabled="nowselect.length===0" ><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button size="mini"  @click="exportcus()" style="margin-left:6px;" :disabled="nowselect.length===0" class="list-icon-export"><i class="cus-i"></i>导出</el-button>
       </el-row>
 
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
-        <el-table-column  type="selection" min-width="50">
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @select-all='selectionChange' @row-click='rowselect'>
+        <el-table-column  type="selection" width="35">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
           <template slot-scope="scope">
@@ -107,25 +107,25 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="110">
+        <el-table-column label="审核状态" min-width="110">
           <template slot-scope="scope">
             <div class="text-over-hid customer-table-c" :title="scope.row.auditStatusValue">
             {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="40">
+        <el-table-column label="操作" min-width="80">
           <template slot-scope="scope">
             <div class='customer-table-c'>
-            <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看"><i class="fa fa-file-text-o fa-lg"></i></el-button>
-            <el-button type="text" @click="gotoDetail(scope.row,'edit')" title="编辑"><i class="el-icon-edit"></i></el-button>
+            <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看" class="list-icon-scan"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="gotoDetail(scope.row,'edit')" title="编辑" class="list-icon-edit"><i class="cus-i"></i></el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box @change="queryList()"></page-box>
+          <page-box :pagination='pagination' @change="queryList()"></page-box>
         </el-col>
       </el-row>
       </el-row>
@@ -286,9 +286,14 @@ export default {
   data () {
     return {
       queryForm: {
-        'auditStatus': 'COMPLETE',
+        'auditStatus': '',
         'customCode': '',
         'customName': ''
+      },
+      pagination: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
       },
       ifedit: false, // 是否为编辑
       corps: [],
@@ -343,17 +348,15 @@ export default {
   },
   methods: {
     queryList () {
-      this.queryForm.page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
-        data: this.queryForm,
+        data: {...this.queryForm, page: this.pagination},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.queryresult = res.result
+          this.pagination = res.page
+          this.nowselect = []
         }
       })
     },
@@ -434,6 +437,7 @@ export default {
       this.newdiaview = true
       this.ifedit = false
       if (this.newcustomer.customCode) {
+        this.$refs['newcustinput'].clearValidate()
         return
       }
       this.$store.dispatch('ajax', {
@@ -442,6 +446,7 @@ export default {
         router: this.$router,
         isLoad: false,
         success: (res) => {
+          this.$refs['newcustinput'].clearValidate()
           this.newcustomer.customCode = res.result
         }
       })
@@ -459,12 +464,13 @@ export default {
     },
     newcustomerClosed () {
       if (this.ifedit) {
-        this.newcustomer = {customCode: '', customCountry: '1'}
+        this.newcustomer = {customCode: '', customId: 0, customCountry: '1'}
       } else {
         this.newcustomer = {
           customCode: this.newcustomer.customCode,
           customId: 0,
-          customCountry: '1'
+          customCountry: '1',
+          sccCode: ''
         }
       }
       this.corps = []
@@ -485,7 +491,8 @@ export default {
           path: '/dataCenter/customer/customerDetail',
           query: {
             customId: row.customId,
-            setTitle: '客户详情-' + row.customId
+            setTitle: '客户详情-' + row.customCode,
+            setId: row.customId + 'cus'
           }
         })
       }
@@ -589,7 +596,7 @@ export default {
     },
     resetFun () {
       this.queryForm = {}
-      this.queryresult = []
+      this.queryList()
     },
     // 保存新增客户
     savenew () {

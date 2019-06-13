@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Errors from './view/error'
 import config from './config/config'
@@ -17,7 +16,6 @@ import Sea from './view/pages/sea/router'
 import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
-Vue.use(Router)
 
 const routes = [
   {
@@ -307,6 +305,7 @@ router.afterEach(route => {
   // 本系统跳转后自定义title
   if (route.query.setTitle) {
     title = route.query.setTitle
+    tabId = route.query.setId
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {

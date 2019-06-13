@@ -3,7 +3,7 @@ const MENU = {
   path: '/dataCenter/customer',
   name: 'customer',
   icon: 'icons-menu-customer',
-  permissions: 'CCBA20302000000',
+  permissions: 'CCBA20305000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '客户管理'
@@ -23,7 +23,6 @@ const MENU = {
     {
       path: '/dataCenter/customer/customerDetail',
       name: 'customerDetail',
-      permissions: 'CCBA20305010000',
       hidden: true,
       meta: {
         component: resolve => require(['./customerDetail.vue'], resolve),

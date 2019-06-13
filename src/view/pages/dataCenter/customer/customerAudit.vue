@@ -1,9 +1,9 @@
 <template>
-  <section class='query-main sys-main'>
+  <section class='query-main sys-main' style="margin:-20px">
     <!-- 查询条件 -->
     <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
-      <el-form :label-width="labelFormWidth.five" size="mini">
+      <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row :gutter="66">
           <el-col :span="6">
             <el-form-item label="客户代码" class="select-Color">
@@ -16,7 +16,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户状态">
+            <el-form-item label="审核状态">
               <el-select size="mini" filterable v-model="queryForm.auditStatus" default-first-option  clearable>
                 <el-option
                   v-for="item in cusstatusList"
@@ -45,8 +45,8 @@
         <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px;font-size:14px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
-      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='550' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
-        <el-table-column  type="selection" min-width="50">
+      <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
+        <el-table-column  type="selection" width="35">
         </el-table-column>
         <el-table-column label="客户代码" min-width="130" >
           <template slot-scope="scope">
@@ -82,23 +82,25 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="110">
+        <el-table-column label="审核状态" min-width="110">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.auditStatusValue">
+            <div class="text-over-hid customer-table-c" :title="scope.row.auditStatusValue">
             {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="操作" min-width="80" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" @click="confirmDetail(scope.row)" title="审核详情"><i class="fa fa-file-text-o fa-lg"></i></el-button>
-            <el-button type="text" @click="getconfirmrecord(scope.row.customId)" title="审核记录"><i class="el-icon-edit"></i></el-button>
+            <div class="customer-table-c">
+            <el-button type="text" @click="confirmDetail(scope.row)" title="审核" class="list-icon-subimtCheck"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="list-icon-lookH2" title="操作记录"><i class="cus-i"></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box @change="queryList()"></page-box>
+          <page-box :pagination='pagination' @change="queryList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -195,7 +197,7 @@
       </div>
     </el-dialog>
     <el-dialog
-      title="审核记录"
+      title="操作记录"
       :visible.sync="recordview"
       :close-on-click-modal='false'
       width="50%"
@@ -221,7 +223,7 @@
               </div>
             </template>
         </el-table-column>
-        <el-table-column label="更多信息" min-width="130">
+        <el-table-column label="审核意见" min-width="130">
           <template slot-scope="scope">
             <div class="text-over-hid" :title="scope.row.auditRemark">
             {{scope.row.auditRemark || '-'}}
@@ -239,9 +241,14 @@ export default {
   data () {
     return {
       queryForm: {
-        'auditStatus': 'WAITING',
+        'auditStatus': '',
         'customCode': '',
         'customName': ''
+      },
+      pagination: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
       },
       confirmreason: '',
       ifedit: false, // 是否为编辑
@@ -299,17 +306,15 @@ export default {
   },
   methods: {
     queryList () {
-      this.queryForm.page = {
-        pageSize: this.$store.state.pagination.pageSize,
-        pageIndex: this.$store.state.pagination.pageIndex
-      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/custom-manage/getCustomList',
-        data: this.queryForm,
+        data: {...this.queryForm, page: this.pagination},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           this.queryresult = res.result
+          this.pagination = res.page
+          this.nowselect = []
         }
       })
     },
@@ -326,12 +331,17 @@ export default {
         url: 'API@/login' + url,
         data: {
           customId: this.confirmshow.customId,
-          auditRemark: this.confirmshow.auditRemark
+          auditRemark: this.confirmshow.auditRemark,
+          customCode: this.confirmshow.customCode
         },
         router: this.$router,
         success: (res) => {
+          let msg = '操作成功'
+          if (res.result) {
+            msg = res.result
+          }
           this.$message({
-            message: '操作成功',
+            message: msg,
             type: 'success'
           })
           this.confirmview = false
@@ -349,8 +359,12 @@ export default {
         data: this.nowselect,
         router: this.$router,
         success: (res) => {
+          let msg = '操作成功'
+          if (res.result) {
+            msg = res.result
+          }
           this.$message({
-            message: '操作成功',
+            message: msg,
             type: 'success'
           })
           this.queryList()
@@ -483,7 +497,7 @@ export default {
     },
     resetFun () {
       this.queryForm = {}
-      this.queryresult = []
+      this.queryList()
     },
     // 保存新增客户
     savenew () {

@@ -13,31 +13,36 @@
 </template>
 
 <script>
+import boardComponent from './middle/board.vue'
+import reportComponent from './middle/report.vue'
+import newsComponent from './middle/news.vue'
+import corpDisplayComponent from './middle/corpDisplay.vue'
+
 export default {
   data () {
     return {
       divList: [
         {
           id: 'div1',
-          component: () => import('./middle/board.vue'),
+          component: boardComponent,
           permissions: 'CCBA20101000000',
           isShadow: false
         },
         {
           id: 'div2',
-          component: () => import('./middle/report.vue'),
+          component: reportComponent,
           permissions: 'CCBA20102000000',
           isShadow: false
         },
         {
           id: 'div3',
-          component: () => import('./middle/news.vue'),
+          component: newsComponent,
           permissions: 'CCBA20103000000',
           isShadow: false
         },
         {
           id: 'div4',
-          component: () => import('./middle/corpDisplay.vue'),
+          component: corpDisplayComponent,
           permissions: 'CCBA20104000000',
           isShadow: false
         }

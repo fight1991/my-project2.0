@@ -6,7 +6,7 @@ const MENU = {
   permissions: 'CCBA20208000000',
   meta: {
     component: resolve => require(['./index.vue'], resolve),
-    title: '删改单登记'
+    title: '异常状态登记'
   }
 }
 export default {MENU}

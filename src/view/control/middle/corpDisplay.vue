@@ -42,6 +42,8 @@
 <script>
 import eventBus from './eventBus.js'
 import config from '@/config/config'
+import comDefaultIcon from '../../../assets/img/icon/com_default.png'
+
 export default {
   data () {
     return {
@@ -50,7 +52,7 @@ export default {
       iconList: [
         {
           pid: 'unique',
-          pic: require('../../../assets/img/icon/com_default.png'),
+          pic: comDefaultIcon,
           link: 'other',
           title: '自定义'
         }
@@ -90,7 +92,7 @@ export default {
             this.iconList = [
               {
                 pid: 'unique',
-                pic: require('../../../assets/img/icon/com_default.png'),
+                pic: comDefaultIcon,
                 link: 'other',
                 title: '自定义'
               }

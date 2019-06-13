@@ -32,9 +32,10 @@
 <script>
 import util from '@/common/util'
 import eventBus from './eventBus'
+import eChart from '../../../components/eChart/chart.vue'
 export default {
   components: {
-    'e-chart': resolve => require(['../../../components/eChart/chart.vue'], resolve)
+    eChart
   },
   data () {
     return {

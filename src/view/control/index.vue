@@ -18,12 +18,17 @@
     </el-container>
 </template>
 <script>
+import top from './components/header.vue'
+import sidebar from './components/sidebar.vue'
+import foot from './components/footer.vue'
+import middle from './middle.vue'
+
 export default {
   components: {
-    top: resolve => require(['./components/header.vue'], resolve),
-    sidebar: resolve => require(['./components/sidebar.vue'], resolve),
-    foot: resolve => require(['./components/footer.vue'], resolve),
-    middle: resolve => require(['./middle.vue'], resolve)
+    top,
+    sidebar,
+    foot,
+    middle
   },
   data () {
     return {
