@@ -125,6 +125,22 @@ export default {
               router.push('/login')
             }, 2000)
             break
+          // 子系统新窗口打开子系统,并生成页签
+          case 'window-open-sys' :
+            if (operationType === 'add' || operationType === 'edit' || operationType === 'look' || operationType === 'copy' || operationType === 'rewEdit' || operationType === 'rewLook') {
+              if (operationType === 'copy') {
+                sysData.tabId = new Date().getTime() + ''
+              }
+              sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
+              let routeData = router.resolve({
+                name: `${store.state.childSys.type}-new`,
+                params: {
+                  sysData: base64.encode(JSON.stringify(sysData))
+                }
+              })
+              window.open(routeData.href, '_blank')
+            }
+            break
           case 'declaration' :
           case 'EMS':
             // 报关单/金二菜单
