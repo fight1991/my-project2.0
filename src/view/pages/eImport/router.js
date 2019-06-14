@@ -1,7 +1,8 @@
 import Prosecution from './prosecution/index' // 逻辑检控设置
 import EiTemplate from './eiTemplate/index' // 进出口模板
 import Receipt from './receipt/index' // 接单
-import Declare from './declare/index' // 关检整合申报
+import ImportDec from './importDec/index' // 进口制单
+import ExportDec from './exportDec/index' // 出口制单
 import Reviewed from './reviewed/index' // 审单
 // import TaxReviewed from './taxReviewed/index' // 核注清单审核
 import DecRegister from './decRegister/index' // 删改单登记
@@ -31,7 +32,8 @@ const MENU = [
   Prosecution.MENU,
   EiTemplate.MENU,
   Receipt.MENU,
-  Declare.MENU,
+  ImportDec.MENU,
+  ExportDec.MENU,
   Reviewed.MENU,
   // TaxReviewed.MENU,
   DecRegister.MENU,

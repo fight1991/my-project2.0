@@ -54,7 +54,7 @@
           <e-chart :datas='resultChartData' :height="'300px'" :reset='resetChartData'></e-chart>
         </div>
         <!-- 列表 list -->
-        <el-row>
+        <el-row style="margin-bottom: 15px;">
           <el-button size="mini" @click="outPut()" >导出</el-button>
         </el-row>
         <el-row class='mg-b-30'>
@@ -181,7 +181,7 @@ export default {
     // 导出
     outPut () {
       this.$store.dispatch('ajax', {
-        url: 'API@/dec/decReport/exportStatisticsWork',
+        url: 'API@/dec-common/dec/decReport/exportStatisticsWork',
         data: this.QueryForm,
         router: this.$router,
         success: (res) => {
