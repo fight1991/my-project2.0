@@ -385,21 +385,21 @@ export default {
         }
       })
     },
-    getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/corp/getCorpByCond',
-        data: {
-          corpName: query
-        },
-        router: this.$router,
-        success: (res) => {
-          this.corps = res.result
-        }
-      })
-    },
+    // getcorps (query) {
+    //   if (query.length < 2) {
+    //     return
+    //   }
+    //   this.$store.dispatch('ajax', {
+    //     url: 'API@/login/corp/getCorpByCond',
+    //     data: {
+    //       corpName: query
+    //     },
+    //     router: this.$router,
+    //     success: (res) => {
+    //       this.corps = res.result
+    //     }
+    //   })
+    // },
     // 选择公司后
     translatecustom () {
       this.newcustomer.sccCode = this.newcustomer.customName.sccCode
