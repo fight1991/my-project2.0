@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/importDec',
   name: 'importDec',
   icon: 'icons-menu-importDec',
-  permissions: 'CCBA20203000000',
+  permissions: 'CCBA20209000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '进口制单'
@@ -13,7 +13,7 @@ const MENU = {
       path: '/eImport/importDec/import',
       name: 'importDec',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203010000',
+      permissions: 'CCBA20209010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -24,7 +24,7 @@ const MENU = {
       path: '/eImport/importDec/importRecord',
       name: 'importRecord',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203020000',
+      permissions: 'CCBA20209020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -35,7 +35,7 @@ const MENU = {
       path: '/eImport/importDec/importTaxList',
       name: 'importTaxList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203050000',
+      permissions: 'CCBA20209030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -46,7 +46,7 @@ const MENU = {
       path: '/eImport/importDec/importDecList',
       name: 'importDecList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20209040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -57,7 +57,7 @@ const MENU = {
       path: '/eImport/importDec/importRecList',
       name: 'importRecList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20209050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),

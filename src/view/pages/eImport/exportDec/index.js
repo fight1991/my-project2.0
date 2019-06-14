@@ -3,7 +3,7 @@ const MENU = {
   path: '/eImport/exportDec',
   name: 'exportDec',
   icon: 'icons-menu-exportDec',
-  permissions: 'CCBA20203000000',
+  permissions: 'CCBA20210000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
     title: '出口制单'
@@ -13,7 +13,7 @@ const MENU = {
       path: '/eImport/exportDec/export',
       name: 'exportDeclaration',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203030000',
+      permissions: 'CCBA20210010000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -24,7 +24,7 @@ const MENU = {
       path: '/eImport/exportDec/exportRecord',
       name: 'exportRecord',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203040000',
+      permissions: 'CCBA20210020000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -35,7 +35,7 @@ const MENU = {
       path: '/eImport/exportDec/exportTaxList',
       name: 'exportTaxList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20210030000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -46,7 +46,7 @@ const MENU = {
       path: '/eImport/exportDec/exportDecList',
       name: 'exportDecList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20210040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -57,7 +57,7 @@ const MENU = {
       path: '/eImport/exportDec/exportRecList',
       name: 'exportRecList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20210050000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -68,7 +68,7 @@ const MENU = {
       path: '/eImport/exportDec/exportSecList',
       name: 'exportSecList',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20203060000',
+      permissions: 'CCBA20210060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
