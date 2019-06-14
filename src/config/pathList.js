@@ -24,6 +24,16 @@ export default {
     importTaxList: url.JINER + '/dec/datainput/I/taxList',
     // 出口核注清单（新增）
     exportTaxList: url.JINER + '/dec/datainput/E/taxList',
+    // 进口转关提前报关（新增）
+    importDecList: url.DEC + '/transit/declaration/import/add/new',
+    // 进境转关提前备案清单（新增）
+    importRecList: url.DEC + '/transit/recordList/import/add/new',
+    // 出口转关提前报关（新增）
+    exportDecList: url.DEC + '/transit/declaration/export/add/new',
+    // 出口转关提前报关（新增）
+    exportRecList: url.DEC + '/transit/recordList/export/add/new',
+    // 出口转关提前报关（新增）
+    exportSecList: url.DEC + '/transit/secondDec/export/add/new',
     // 删改单登记
     decRegister: url.DEC + '/declaration/decRegister',
     // 报关单审核

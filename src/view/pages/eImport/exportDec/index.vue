@@ -11,18 +11,18 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.name === 'importDec') {
-      this.url = pathList.eImport['decImport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
-    } else if (this.$route.name === 'exportDec') {
+    if (this.$route.name === 'exportDeclaration') {
       this.url = pathList.eImport['decExport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
-    } else if (this.$route.name === 'importRecord') {
-      this.url = pathList.eImport['recordImport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'exportRecord') {
       this.url = pathList.eImport['recordExport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
-    } else if (this.$route.name === 'importTaxList') {
-      this.url = pathList.eImport['importTaxList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'exportTaxList') {
       this.url = pathList.eImport['exportTaxList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'exportDecList') {
+      this.url = pathList.eImport['exportDecList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'exportRecList') {
+      this.url = pathList.eImport['exportRecList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'exportSecList') {
+      this.url = pathList.eImport['exportSecList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }
