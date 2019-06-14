@@ -38,8 +38,8 @@
             </el-row>
         </el-form>
         <el-col :span="24" class="query-btn">
-          <el-button size="small" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
-          <el-button type="primary" size="small" @click="toDetail(ownerCodeScc)">确认</el-button>
+          <el-button size="mini" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
+          <el-button type="primary" size="mini" @click="toDetail(ownerCodeScc)">确认</el-button>
         </el-col>
     </el-row>
   </section>
@@ -206,8 +206,8 @@ export default {
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
   }
   .avatar-uploader {

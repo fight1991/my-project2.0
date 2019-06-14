@@ -16,6 +16,7 @@ import Sea from './view/pages/sea/router'
 import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
+import ContractManage from './view/pages/contract/router'
 
 const routes = [
   {
@@ -87,6 +88,7 @@ routes[1].children.push(...Sea.MENU)
 routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
+routes[1].children.push(...ContractManage.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -184,6 +186,13 @@ router.beforeEach((to, from, next) => {
           type: 'expressDeclare',
           title: '快件申报',
           permissions: 'CCBA21200000000'
+        }
+        break
+      case 'contract':
+        json = {
+          type: 'contract',
+          title: '合同管理',
+          permissions: 'CCBA20300000000'
         }
         break
     }

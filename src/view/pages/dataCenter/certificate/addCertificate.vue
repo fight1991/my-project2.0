@@ -9,7 +9,7 @@
       <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
-      <el-col :span="18" :offset="3">
+      <!-- <el-col> -->
         <el-form :label-width="labelFormWidth.five" :model="addForm" ref="addForm" :rules="rule" size="mini" label-position="right">
           <el-form-item label="委托企业" prop="corpName">
             <el-select v-model="addForm.corpName" filterable clearable
@@ -54,17 +54,17 @@
               <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-row>
-               <el-button size="small" type="primary">上传附件</el-button>
+               <el-button size="mini" type="primary">上传附件</el-button>
               </el-row>
             </el-upload>
               <!-- <img class="detail-img" v-if="!fileType" :src="addForm.certificateUrl"> -->
           </el-form-item>
           <el-row class="query-btn">
-            <el-button type="primary" size="small" @click="submit">确认</el-button>
-            <el-button size="small" @click="back">取消</el-button>
+            <el-button type="primary" size="mini" @click="submit">确认</el-button>
+            <el-button size="mini" @click="back">取消</el-button>
           </el-row>
         </el-form>
-      </el-col>
+      <!-- </el-col> -->
     </el-row>
   </section>
 </template>
@@ -401,65 +401,39 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.query-condition {
+  .query-condition {
     background-color: #fff;
     padding: 20px;
   }
   .query-table {
+    width: 680px;
+    margin: 0 auto;
     background-color: #fff;
-    padding: 20px;
+    padding: 32px 48px 20px;
     margin-top: 20px;
   }
   .query-btn {
     text-align: center;
-  }
-  .license-add{
-    cursor: pointer;
-    span{
-      margin-left: 5px;
-    }
-  }
-  .license-close-icon{
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
-      position: absolute;
-      right: 0;
-      top: 0;
-      cursor: pointer;
-    }
-  .license-card{
-    position: relative;
-    margin-bottom: 20px;
-    padding-right: 10px;
+    margin: 12px 0;
   }
   .detail-img,.no-pic{
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
-  }
-  .avatar-uploader-icon {
-    border: 1px solid #d9d9d9;
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
   }
 .sys-back-btn{
     display: inline-block;
     font-size: 13px;
     color: @font-color-main;
+    vertical-align: middle;
     cursor: pointer;
     .back-btn{
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         margin-right: 5px;
         background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;

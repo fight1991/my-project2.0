@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <el-row class = "query-condition">
       <el-row>
-        <el-button type="primary" icon="fa fa-upload" size="small" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
+        <el-button type="primary" icon="fa fa-upload" size="mini" style="margin: 10px 0px" @click="upload(decPid, ownerCodeScc)">&nbsp;导入</el-button>
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
@@ -28,7 +28,7 @@
                       <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
-                        <el-button size="small" type="primary">重新上传</el-button>
+                        <el-button size="mini" type="primary">重新上传</el-button>
                       </el-row>
                     </el-upload>
                   </el-col>
@@ -55,8 +55,8 @@
             </el-row>
         </el-form>
         <el-col :span="24" class="query-btn">
-          <el-button type="primary" size="small" @click="submit">确认</el-button>
-          <el-button size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
+          <el-button type="primary" size="mini" @click="submit">确认</el-button>
+          <el-button size="mini" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
   </section>
@@ -391,8 +391,8 @@ export default {
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
   }
   .avatar-uploader {

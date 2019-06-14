@@ -271,17 +271,18 @@ export default {
     display: inline-block;
     font-size: 13px;
     color: @font-color-main;
+    vertical-align: middle;
     cursor: pointer;
     .back-btn{
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         margin-right: 5px;
         background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }
-  }
+}
   .sys-fr{
     float: right;
   }

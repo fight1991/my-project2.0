@@ -12,11 +12,11 @@
     </el-row>
     <el-row class = "query-table">
         <el-form :label-width="labelFormWidth.seven" :model="addForm" ref="addForm" :rules="rules" size="mini" label-position="right">
-          <el-row style="padding-left:20px;">
-            <el-col :span="12" style="padding-right:40px;">
-              <el-form-item label="委托企业" prop="corpName">
+          <el-row>
+            <el-col :span="12" style="">
+              <el-form-item label="委托企业" label-width="79px" prop="corpName">
                 <el-select v-model="addForm.corpName" filterable clearable
-                  remote style="width:100%"
+                  remote style="width:96%"  size="mini"
                   placeholder="输入2个字后搜索"
                   :disabled="isDetailAdd"
                   :remote-method="companyListFun"
@@ -41,7 +41,7 @@
                 <el-col :span="12">
                 <el-form-item label="许可证类型" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
                   <el-select placeholder="请选择许可证类型" v-model="item.info.licenseType"
-                  filterable clearable
+                  filterable clearable  size="mini"
                   style="width:100%">
                     <el-option
                       v-for="(item,i) in saasLicType"
@@ -67,7 +67,7 @@
                       <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <el-button size="small" type="primary" v-if="item.info.fileType">上传附件</el-button>
+                      <el-button size="mini" type="primary" v-if="item.info.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
                 </el-col>
@@ -104,11 +104,11 @@
             </el-card>
           </el-row>
           <el-row>
-            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多许可证</span></span>
+            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多许可证</el-button>
           </el-row>
           <el-row class="query-btn">
-            <el-button type="primary"  size="small" @click="submit">确认</el-button>
-            <el-button size="small"  @click="back">取消</el-button>
+            <el-button type="primary"  size="mini" @click="submit">确认</el-button>
+            <el-button size="mini"  @click="back">取消</el-button>
           </el-row>
         </el-form>
     </el-row>
@@ -143,7 +143,7 @@
               </el-col>
             </el-row>
             <el-row>
-              <span class="license-add" @click="addGood"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>填写更多涉证商品</span></span>
+              <el-button size="mini" @click="addGood"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;填写更多涉证商品</el-button>
             </el-row>
           </el-col>
         </el-row>
@@ -628,12 +628,7 @@ export default {
   }
   .query-btn {
     text-align: center;
-  }
-  .license-add{
-    cursor: pointer;
-    span{
-      margin-left: 5px;
-    }
+    margin: 12px 0;
   }
   .license-close-icon{
       width: 20px;
@@ -645,37 +640,25 @@ export default {
       top: 0;
       cursor: pointer;
     }
-  .license-card{
-    position: relative;
-    margin-bottom: 20px;
-    padding-right: 10px;
-  }
+
   .detail-img,.no-pic{
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
-  }
-  .avatar-uploader-icon {
-    border: 1px solid #d9d9d9;
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
   }
 .sys-back-btn{
     display: inline-block;
     font-size: 13px;
     color: @font-color-main;
+    vertical-align: middle;
     cursor: pointer;
     .back-btn{
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         margin-right: 5px;
         background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
