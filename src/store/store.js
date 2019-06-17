@@ -20,6 +20,7 @@ export default new Vuex.Store({
     },
     // 登陆后的用户数据信息
     userLoginInfo: {
+      userId: '',
       token: '', // token数据
       userName: '', // 用户姓名
       companyType: '', // 公司类型
@@ -241,6 +242,7 @@ export default new Vuex.Store({
       state.userLoginInfo.userPhoto = data.userPhoto
       state.userLoginInfo.companyName = data.companyName
       state.userLoginInfo.adminFlag = data.adminFlag
+      state.userLoginInfo.userId = data.userId
     },
     // 用户切换公司信息变更
     userCompanyInfo: function (state, data) {

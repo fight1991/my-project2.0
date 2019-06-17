@@ -64,7 +64,7 @@
                     <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <el-button size="small" type="primary" v-if="item.fileType">上传附件</el-button>
+                    <el-button size="mini" type="primary" v-if="item.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
                 </el-row>
@@ -72,11 +72,11 @@
             </el-col>
           </el-row>
           <el-row>
-            <span class="license-add" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>上传更多业务单证</span></span>
+            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多业务单证</el-button>
           </el-row>
           <el-row class="query-btn">
-            <el-button type="primary" size="small" @click="submit">确认</el-button>
-            <el-button size="small" @click="toDetail(ownerCodeScc)">取消</el-button>
+            <el-button type="primary" size="mini" @click="submit">确认</el-button>
+            <el-button size="mini" @click="toDetail(ownerCodeScc)">取消</el-button>
           </el-row>
         </el-form>
     </div>
@@ -381,12 +381,6 @@ export default {
   .query-btn {
     text-align: center;
   }
-  .license-add{
-    cursor: pointer;
-    span{
-      margin-left: 5px;
-    }
-  }
   .license-close-icon{
       width: 20px;
       height: 20px;
@@ -406,8 +400,8 @@ export default {
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
   }
   .avatar-uploader-icon {

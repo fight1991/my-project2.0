@@ -216,5 +216,13 @@ export default {
         computFileType = ''
     }
     return computFileType
+  },
+  // 复制相同字段
+  copyObj (obj1, obj2) {
+    if (obj1 && obj2) {
+      for (let b in obj2) {
+        obj1[b] = obj2[b]
+      }
+    }
   }
 }

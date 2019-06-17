@@ -78,28 +78,28 @@
                   :data="subData.goods">
                   <el-table-column label="商品名称" min-width="100" :maxlength="10">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gName'  " :rules="rules.gName">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gName'  " :rules="rules.gName" class="form-item-mg0">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gName" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="商品编号" min-width="100" :maxlength="20">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.gNo'  " :rules="rules.gNo" class="form-item-mg0">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.gNo" :maxlength="20"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="申报数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity">
+                      <el-form-item label-width="0px" :prop="'goods.'+ subData.goods.indexOf(scope.row) + '.declaredQuantity'  " :rules="rules.declaredQuantity" class="form-item-mg0">
                         <el-input clearable size="mini" :disabled="isDetail" v-model="scope.row.declaredQuantity" :maxlength="10"></el-input>
                       </el-form-item>
                     </template>
                   </el-table-column>
                   <el-table-column label="剩余可用数量" min-width="100">
                     <template slot-scope="scope">
-                      <el-form-item label-width="0px">
+                      <el-form-item label-width="0px" class="form-item-mg0">
                         <el-input size="mini" disabled v-model="scope.row.declaredQuantity"></el-input>
                       </el-form-item>
                     </template>
@@ -112,7 +112,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <span class="license-add" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/><span>增加涉证商品</span></span>
+                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -128,15 +128,15 @@
               <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
-               <el-button size="small" type="primary" v-if="!isDetail">重新上传</el-button>
+               <el-button size="mini" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
             </el-upload>
             </el-form-item>
           </el-row>
           <el-row class="query-btn">
-            <el-button size="small" v-if="isDetail" @click="edit">编辑</el-button>
-            <el-button size="small" type="primary" @click="submit">确认</el-button>
-            <el-button size="small" v-if="!isDetail" @click="toDetail">取消</el-button>
+            <el-button size="mini" v-if="isDetail" @click="edit">编辑</el-button>
+            <el-button size="mini" type="primary" @click="submit">确认</el-button>
+            <el-button size="mini" v-if="!isDetail" @click="toDetail">取消</el-button>
           </el-row>
         </el-form>
     </el-row>
@@ -550,12 +550,7 @@ export default {
   }
   .query-btn {
     text-align: center;
-  }
-  .license-add{
-    cursor: pointer;
-    span{
-      margin-left: 5px;
-    }
+    margin: 12px 0;
   }
   .license-close-icon{
       width: 20px;
@@ -576,28 +571,20 @@ export default {
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 12px;
-    width: 178px;
-    height: 178px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
-  }
-  .avatar-uploader-icon {
-    border: 1px solid #d9d9d9;
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
   }
 .sys-back-btn{
     display: inline-block;
     font-size: 13px;
     color: @font-color-main;
+    vertical-align: middle;
     cursor: pointer;
     .back-btn{
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         margin-right: 5px;
         background: url('../../../../assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
