@@ -192,7 +192,7 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'contract',
           title: '合同管理',
-          permissions: 'CCBA20300000000'
+          permissions: 'CCBA21400000000'
         }
         break
     }

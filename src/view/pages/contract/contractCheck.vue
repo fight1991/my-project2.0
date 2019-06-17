@@ -54,9 +54,9 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <el-row class="mg-b-15">
-          <el-button size="mini" class="list-btns list-icon-subimtCheck" @click="creatContract('check')"><i></i>合同审核</el-button>
-          <el-button size="mini" class="list-btns list-icon-checkP" @click="verifyAll"><i></i>批量审核</el-button>
-          <el-button size="mini" class="list-btns list-icon-check" @click="rejectAll"><i></i>批量驳回</el-button>
+          <el-button size="mini" class="list-btns list-icon-subimtCheck" @click="creatContract('check')" v-permissions="'CCBA21402010000'"><i></i>合同审核</el-button>
+          <el-button size="mini" class="list-btns list-icon-checkP" @click="verifyAll" v-permissions="'CCBA21402010000'"><i></i>批量审核</el-button>
+          <el-button size="mini" class="list-btns list-icon-check" @click="rejectAll" v-permissions="'CCBA21402010000'"><i></i>批量驳回</el-button>
           <el-button size="mini" class="list-btns list-icon-look" @click="gotoDetail('view')"><i></i>查看详情</el-button>
       </el-row>
       <!-- 列表 list -->
@@ -131,7 +131,7 @@
 export default {
   data () {
     return {
-      menuCodes: [['SAASOM0501040000', 'SAASOM0501030000', 'SAASOM0501050000', 'SAASOM0501020000']], // 权限编码
+      menuCodes: [['CCBA21402010000']], // 权限编码
       permColumn: [true], // 表格操作栏列显示
       resultList: [], // 列表数据
       checkedData: [], // 选中得数据
@@ -242,7 +242,7 @@ export default {
           })
           return false
         } else {
-          if (this.checkedData[0].status !== '0') {
+          if (this.checkedData[0].status !== 0) {
             this.$message({
               message: '只有待审核状态才能进行审核操作',
               type: 'warning'
@@ -270,64 +270,80 @@ export default {
       let pkSeqNo = []
       for (let i of this.checkedData) {
         pkSeqNo.push(i.pkSeqNo)
-        if (i.status !== '0') {
+        if (i.status !== 0) {
           this.$message({
             message: '只有待审核状态才能进行审核操作',
             type: 'warning'
           })
           return
-        }
-      }
-      let data = {
-        'pkSeqNos': pkSeqNo,
-        'verifyMsg': ''
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/contract/verify',
-        data: data,
-        router: this.$router,
-        isLoad: false,
-        success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '审核通过',
-              type: 'success'
+        } else {
+          this.$confirm('是否确认审核通过所选全部合同', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            let data = {
+              'pkSeqNos': pkSeqNo,
+              'verifyMsg': ''
+            }
+            this.$store.dispatch('ajax', {
+              url: 'API@/saas-finance-expense/contract/verify',
+              data: data,
+              router: this.$router,
+              isLoad: false,
+              success: (res) => {
+                if (res.code === '0000') {
+                  this.$message({
+                    message: '审核通过',
+                    type: 'success'
+                  })
+                }
+                this.search()
+              }
             })
-          }
+          })
         }
-      })
+      }
     },
     // 审核驳回
     rejectAll () {
       let pkSeqNo = []
       for (let i of this.checkedData) {
         pkSeqNo.push(i.pkSeqNo)
-        if (i.status !== '0') {
+        if (i.status !== 0) {
           this.$message({
             message: '只有待审核状态才能进行审核操作',
             type: 'warning'
           })
           return
-        }
-      }
-      let data = {
-        'pkSeqNos': pkSeqNo,
-        'verifyMsg': ''
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/contract/reject',
-        data: data,
-        router: this.$router,
-        isLoad: false,
-        success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '审核驳回',
-              type: 'success'
+        } else {
+          this.$confirm('是否确认审核通过所选全部合同？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            let data = {
+              'pkSeqNos': pkSeqNo,
+              'verifyMsg': ''
+            }
+            this.$store.dispatch('ajax', {
+              url: 'API@/saas-finance-expense/contract/reject',
+              data: data,
+              router: this.$router,
+              isLoad: false,
+              success: (res) => {
+                if (res.code === '0000') {
+                  this.$message({
+                    message: '审核驳回',
+                    type: 'success'
+                  })
+                }
+                this.search()
+              }
             })
-          }
+          })
         }
-      })
+      }
     },
     // 详情
     gotoDetail (data) {

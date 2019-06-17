@@ -5,7 +5,7 @@ const MENU = [
     name: 'contract-index',
     hidden: false,
     icon: 'el-icon-menu1',
-    permissions: 'CCBA21400000000',
+    permissions: 'WF000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {
       title: '首页'
