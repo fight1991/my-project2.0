@@ -5,7 +5,7 @@ const MENU = [
     name: 'contract-index',
     hidden: false,
     icon: 'el-icon-menu1',
-    permissions: 'WF000000',
+    permissions: 'CCBA21400000000',
     component: resolve => require(['./index.vue'], resolve),
     meta: {
       title: '首页'
@@ -15,14 +15,14 @@ const MENU = [
     path: '/contract/list',
     name: 'contract-list',
     icon: 'icons-menu-contractList',
-    permissions: 'CCBA20302000000',
+    permissions: 'CCBA21401000000',
     meta: {
       component: resolve => require(['./contractList.vue'], resolve),
       title: '合同列表'
     }
   },
   {
-    path: '/contract/add',
+    path: '/contract/addContract/:flag/:pkSeqNo',
     name: 'contract-add',
     hidden: true,
     meta: {
@@ -31,7 +31,7 @@ const MENU = [
     }
   },
   {
-    path: '/contract/detail',
+    path: '/contract/detailContract/:pkSeqNo',
     name: 'contract-detail',
     hidden: true,
     meta: {
@@ -43,7 +43,7 @@ const MENU = [
     path: '/contract/check',
     name: 'contract-check',
     icon: 'icons-menu-contractCheck',
-    permissions: 'CCBA20302000000',
+    permissions: 'CCBA21402000000',
     meta: {
       component: resolve => require(['./contractCheck.vue'], resolve),
       title: '合同审核'

@@ -23,7 +23,11 @@
           </el-col>
           <el-col :span="4" :xs="12">
             <el-form-item class="form-item-mg0">
-              <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
+              <el-select size="mini"
+              filterable remote clearable
+              :remote-method="queryCompanyList"
+              :loading=' loading ' reserve-keyword loading-text="加载中"
+              v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
                 <el-option
                   v-for="item in companyList"
                   :key="item.corpId"
@@ -133,9 +137,9 @@
                 <el-button v-if="scope.row.createUserId ===$store.state.userLoginInfo.userId" v-permissions="'SAASOM0501050000'" type="text" @click="creatContract('conedit',scope.row.pkSeqNo)" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
                 <el-button v-if="scope.row.status=='1' && scope.row.createUserId == $store.state.userLoginInfo.userId" v-permissions="'SAASOM0501020000'" type="text" @click="deleteContract(scope.row)" title="删除" class="table-icon list-icon-delete"><i></i></el-button> -->
                 <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看" class="table-icon list-icon-look"><i></i></el-button>
-                <el-button v-if="scope.row.createUserId ===$store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '3')" type="text" @click="creatContract('edit',scope.row.pkSeqNo)" title="续签" class="table-icon list-icon-declare"><i></i></el-button>
-                <el-button v-if="scope.row.createUserId ===$store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="creatContract('conedit',scope.row.pkSeqNo)" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
-                <el-button v-if="scope.row.createUserId ===$store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="deleteContract(scope.row)" title="删除" class="table-icon list-icon-delete"><i></i></el-button>
+                <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '3')" type="text" @click="creatContract('edit',scope.row.pkSeqNo)" title="续签" class="table-icon list-icon-declare"><i></i></el-button>
+                 <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="creatContract('conedit',scope.row.pkSeqNo)" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
+                <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="deleteContract(scope.row)" title="删除" class="table-icon list-icon-delete"><i></i></el-button>
               </div>
             </template>
         </el-table-column>
@@ -185,6 +189,14 @@ export default {
     this.search()
   },
   mounted () {
+  },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path === '/contract/list') {
+        this.search()
+      }
+    }
   },
   methods: {
     // 查询

@@ -243,6 +243,7 @@ router.beforeEach((to, from, next) => {
           success: (res) => {
             let datas = {
               token: window.localStorage.getItem('token'), // token数据
+              userId: util.isEmpty(res.result.userId) ? '' : res.result.userId,
               userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
               mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
               userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,

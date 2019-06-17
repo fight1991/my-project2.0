@@ -2,10 +2,12 @@
   <section class='sys-main'>
     <el-row class='sys-header'>
       <!-- 返回按钮 end-->
-      <el-row class='mg-b-15'>
-        <span @click="$router.go(-1)" class="sys-back-btn"><i class="back-btn"></i>返回</span>
-      </el-row>
+      <el-col :span="18">
+        <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+      </el-col>
       <!-- 返回按钮 end-->
+      </el-row>
+      <el-row class = "query-table">
       <div style="width:95%;margin:0px auto;">
         <el-form :model="resultForm" label-width="100px">
           <el-row :gutter="10">
@@ -104,11 +106,11 @@
               {{scope.row.statusValue || '-'}}
             </template>
           </el-table-column>
-          <el-table-column label="操作" fixed="right" min-width="180">
+          <!-- <el-table-column label="操作" fixed="right" min-width="180">
             <template slot-scope="scope">
               <el-button type="text" v-if="!(scope.row.status=='5' && $store.state.userLoginInfo.companyCode === resultForm.companyId )" @click="gotoPriceDetail(scope.row)">查看</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
     </el-row>
@@ -130,7 +132,25 @@ export default {
     this.queryDetail()
   },
   mounted () {},
+  watch: {
+    '$route': function (to, from) {
+      if (to.path.indexOf('detailContract') === -1) {
+        return
+      }
+      this.resultForm = {}
+      this.resultList = []
+      this.pkSeqNo = this.$route.params.pkSeqNo
+      this.queryDetail()
+    }
+  },
   methods: {
+    // 返回按钮
+    back () {
+      this.$store.commit('CloseTab', this.$route.name)
+      this.$router.push({
+        name: 'contract-list'
+      })
+    },
     queryDetail () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance-expense/contract/getInfo',
@@ -154,16 +174,16 @@ export default {
     },
     dateFormat (val) {
       return util.dateFormat(val)
-    },
-    gotoPriceDetail (row) {
-      this.$router.push({
-        name: 'priceDetail',
-        params: {
-          'type': 'view',
-          'mNumber': row.quotationNo
-        }
-      })
     }
+    // gotoPriceDetail (row) {
+    //   this.$router.push({
+    //     name: 'priceDetail',
+    //     params: {
+    //       'type': 'view',
+    //       'mNumber': row.quotationNo
+    //     }
+    //   })
+    // }
   }
 }
 </script>
@@ -176,4 +196,25 @@ export default {
 .el-form-item {
     margin-bottom: 2px;
 }
+.sys-back-btn{
+    display: inline-block;
+    font-size: 13px;
+    color: @font-color-main;
+    vertical-align: middle;
+    cursor: pointer;
+    .back-btn{
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 5px;
+        background: url('../../../assets/img/icon/back.png') no-repeat center center;
+        background-size: 100%;
+        vertical-align: middle;
+    }
+}
+.query-table {
+    background-color: #fff;
+    padding: 20px 50px;
+    margin-top: 20px;
+  }
 </style>

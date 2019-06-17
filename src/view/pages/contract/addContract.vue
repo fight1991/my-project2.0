@@ -13,9 +13,13 @@
           <el-col>
             <el-form-item label="本企业:">
               <span>{{$store.state.userLoginInfo.companyName}}</span>
-            <el-form-item >
-              <el-radio v-model="mycorp" :label="true">合同甲方</el-radio>
-              <el-radio v-model="mycorp" :label="false">合同乙方</el-radio>
+            <el-form-item v-if="!isCheck">
+              <el-radio v-model="mycorp" :label="true" >合同甲方</el-radio>
+              <el-radio v-model="mycorp" :label="false" >合同乙方</el-radio>
+            </el-form-item>
+            <el-form-item v-if="isCheck">
+              <el-radio v-model="mycorp" :label="true" :disabled="true">合同甲方</el-radio>
+              <el-radio v-model="mycorp" :label="false" :disabled="true">合同乙方</el-radio>
             </el-form-item>
             </el-form-item>
           </el-col>
@@ -25,7 +29,7 @@
             <el-form-item label="合作企业:" prop="entrustCompanyId">
               <el-select size="mini" v-model="dateForm.entrustCompanyId" style="width:100%;"
                 filterable remote default-first-option clearable
-                :remote-method="checkParamsList" :disabled="typeFlag" placeholder="请输入两个字符后查询">
+                :remote-method="checkParamsList" :disabled="typeFlag || isCheck" placeholder="请输入两个字符后查询">
                 <el-option
                   v-for="(item, index) in companyList"
                   :key="'companyList'+index"
@@ -43,7 +47,7 @@
         <el-row>
           <el-col>
             <el-form-item label="合同号:" prop="contractNo">
-              <el-input clearable v-model="dateForm.contractNo" maxlength="30" size="mini"></el-input>
+              <el-input clearable v-model="dateForm.contractNo" maxlength="30" size="mini" :disabled="isCheck"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -51,7 +55,7 @@
           <el-col>
             <el-form-item label="合同有效期:" prop="dates">
               <el-date-picker size="mini"  v-model="dateForm.dates" @change="$forceUpdate()"
-              type="daterange"  style="width:100%;"
+              type="daterange"  style="width:100%;" :disabled="isCheck"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -64,20 +68,20 @@
             <el-form-item label="结算日:" prop="settlement">
               <el-row>
                 <el-col :span="7">
-                  <el-select  size="mini" v-model="dateForm.settlementType" placeholder="请选择">
+                  <el-select  size="mini" v-model="dateForm.settlementType" placeholder="请选择" :disabled="isCheck">
                     <el-option value="0" label="每月"></el-option>
                     <el-option value="1" label="每季"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="7" :offset="1">
-                  <el-select  size="mini" v-model="dateForm.settlementMonth" placeholder="请选择" v-if="dateForm.settlementType === '1'">
+                  <el-select  size="mini" v-model="dateForm.settlementMonth" placeholder="请选择" v-if="dateForm.settlementType === '1'" :disabled="isCheck">
                     <el-option value="1" label="第一个月"></el-option>
                     <el-option value="2" label="第二个月"></el-option>
                     <el-option value="3" label="第三个月"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="7" :offset="1">
-                  <el-select  size="mini" v-model="dateForm.settlementDay" placeholder="请选择">
+                  <el-select  size="mini" v-model="dateForm.settlementDay" placeholder="请选择" :disabled="isCheck">
                     <el-option
                       v-for="item in dayList"
                       :key="item.value"
@@ -103,7 +107,7 @@
         <el-row>
           <el-col>
             <el-form-item label="付款周期:" prop="paymentPeriod">
-              <el-input  size="mini" v-model="dateForm.paymentPeriod" style="width:90%;margin-right:10px" maxlength="3"></el-input>天
+              <el-input  size="mini" v-model="dateForm.paymentPeriod" style="width:90%;margin-right:10px" maxlength="3" :disabled="isCheck"></el-input>天
             </el-form-item>
           </el-col>
         </el-row>
@@ -111,24 +115,39 @@
           <el-col>
             <el-form-item label="附件:" prop="enclosureUrl">
               <el-upload
+                v-if="!isCheck"
                 class="sys-avatar-uploader"
                 action="http://127.0.0.1"
                 :before-upload="UploadFun"
                 :on-remove="handleRemove"
                 :file-list="fileList"
                 :limit="1">
-                <el-button size="mini" type="primary">上传</el-button>
+                <el-button size="mini" type="primary" :disabled="isCheck">上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传excel,word,pdf文件，且不超过10M</div>
               </el-upload>
+              <span v-if="isCheck" style="color:rgb(55, 134, 199);cursor:pointer" @click="enclosureFun">{{this.name}}</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="check-tip" v-if="isDisabledCheck"><i class="el-icon-warning fs-18"></i><span>&nbsp;&nbsp;请注意：当合同构建成功后，需要进行审核操作！</span></el-row>
-        <el-row>
+        <el-row class="check-tip" v-if="isDisabledCheck && !isCheck"><i class="el-icon-warning fs-18"></i><span>&nbsp;&nbsp;请注意：当合同构建成功后，需要进行审核操作！</span></el-row>
+        <el-row v-if="!isCheck">
           <el-col>
             <div style="text-align:center;margin: 12px 0;">
               <el-button type="primary" size="mini" @click="createContract()" >确定</el-button>
               <el-button size="mini" @click="back" >取消</el-button>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row v-if="isCheck">
+          <el-form-item label="审核意见" prop="verifyMsg">
+            <el-input type="textarea" :autosize="{minRows:3}" v-model="verifyMsg"></el-input>
+          </el-form-item>
+        </el-row>
+        <el-row v-if="isCheck">
+          <el-col>
+            <div style="text-align:center;margin: 12px 0;">
+              <el-button type="primary" size="mini" @click="verify()">审核通过</el-button>
+              <el-button size="mini" @click="reject" >审核驳回</el-button>
             </div>
           </el-col>
         </el-row>
@@ -154,6 +173,8 @@ export default {
       mycorp: true,
       typeFlag: false,
       isDisabledCheck: false, // 是否审核
+      isCheck: false, // 审核录入
+      verifyMsg: '',
       dateForm: {
         entrustCompanyId: '',
         contractNo: '',
@@ -163,13 +184,19 @@ export default {
         settlementPeriod: '0',
         paymentPeriod: ''
       },
+      name: '',
       companyList: [],
       dayList: [],
       fileList: []
     }
   },
   created () {
-    this.typeFlag = this.$route.params.flag === 'edit' || this.$route.params.flag === 'conedit'
+    this.typeFlag = this.$route.params.flag === 'edit' || this.$route.params.flag === 'conedit' || this.$route.params.flag === 'check'
+    if (this.$route.params.flag === 'check') {
+      this.isCheck = true
+    } else {
+      this.isCheck = false
+    }
     for (let i = 1; i <= 31; i++) {
       this.dayList.push(
         {
@@ -178,14 +205,49 @@ export default {
         }
       )
     }
-    this.contractTenantConf()
+    if (this.$route.params.flag === 'add') {
+      this.contractTenantConf()
+    }
   },
   mounted () {
     if (this.typeFlag) {
       this.getDetail(this.$route.params.pkSeqNo)
     }
   },
+  watch: {
+    '$route': function (to, from) {
+      // 初始化组件
+      if (to.path.indexOf('addContract') === -1) {
+        return
+      }
+      this.typeFlag = this.$route.params.flag === 'edit' || this.$route.params.flag === 'conedit' || this.$route.params.flag === 'check'
+      if (this.typeFlag) {
+        this.reset()
+        this.getDetail(to.params.pkSeqNo)
+      }
+      if (to.params.flag === 'check') {
+        this.isCheck = true
+      } else {
+        this.isCheck = false
+      }
+      for (let i = 1; i <= 31; i++) {
+        this.dayList.push(
+          {
+            label: i + '号',
+            value: i
+          }
+        )
+      }
+      if (to.params.flag === 'add') {
+        this.contractTenantConf()
+      }
+    }
+  },
   methods: {
+    // 查看附件
+    enclosureFun () {
+      util.fileView(this.fileList[0].url)
+    },
     // 获取是否开启审核
     contractTenantConf () {
       this.$store.dispatch('ajax', {
@@ -210,6 +272,29 @@ export default {
         name: 'contract-list'
       })
     },
+    reset () {
+      this.coopcomp = true
+      this.mycorp = true
+      this.typeFlag = false
+      this.isDisabledCheck = false // 是否审核
+      this.isCheck = false // 审核录入
+      this.companyList = []
+      this.dayList = []
+      this.fileList = []
+      this.verifyMsg = ''
+      this.dateForm = {
+        entrustCompanyId: '',
+        contractNo: '',
+        settlementType: '0',
+        settlementDay: 1,
+        dates: ['', ''],
+        settlementPeriod: '0',
+        paymentPeriod: ''
+      }
+      this.$nextTick(() => {
+        this.$refs['dateForm'].clearValidate()
+      })
+    },
     // 续签获得详情
     getDetail (val) {
       this.$store.dispatch('ajax', {
@@ -218,13 +303,14 @@ export default {
         router: this.$router,
         isLoad: false,
         success: (res) => {
-          if (this.$route.params.flag === 'conedit') {
+          if (this.$route.params.flag === 'conedit' || this.$route.params.flag === 'check') {
             util.copyObj(this.dateForm, res.result)
             this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
             this.fileList.push({
               name: res.result.enclosureName,
               url: res.result.enclosureUrl
             })
+            this.name = this.fileList[0].name
             this.$forceUpdate()
           }
           if (this.$store.state.userLoginInfo.companyCode === res.result.entrustCompanyId) {
@@ -241,6 +327,56 @@ export default {
           this.dateForm.settlementDay = res.result.settlementDay
           this.dateForm.settlementPeriod = res.result.settlementPeriod + ''
           this.dateForm.paymentPeriod = res.result.paymentPeriod
+        }
+      })
+    },
+    // 审核通过
+    verify () {
+      let data = {
+        'pkSeqNos': [this.$route.params.pkSeqNo],
+        'verifyMsg': this.verifyMsg
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance-expense/contract/verify',
+        data: data,
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message({
+              message: '审核通过',
+              type: 'success'
+            })
+          }
+          this.$store.commit('CloseTab', this.$route.name)
+          this.$router.push({
+            name: 'contract-list'
+          })
+        }
+      })
+    },
+    // 审核驳回
+    reject () {
+      let data = {
+        'pkSeqNos': [this.$route.params.pkSeqNo],
+        'verifyMsg': this.verifyMsg
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance-expense/contract/reject',
+        data: data,
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message({
+              message: '审核驳回',
+              type: 'success'
+            })
+          }
+          this.$store.commit('CloseTab', this.$route.name)
+          this.$router.push({
+            name: 'contract-list'
+          })
         }
       })
     },
@@ -336,7 +472,10 @@ export default {
                 message: '保存成功',
                 type: 'success'
               })
-              this.$router.go(-1)
+              this.$store.commit('CloseTab', this.$route.name)
+              this.$router.push({
+                name: 'contract-list'
+              })
             }
           })
         }
@@ -353,7 +492,6 @@ export default {
       }
     },
     uploadCheck (rule, value, callback) {
-      console.log(this.fileList)
       if (this.fileList.length === 0) {
         callback(new Error(rule.message))
       } else {

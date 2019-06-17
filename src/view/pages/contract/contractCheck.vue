@@ -7,21 +7,14 @@
         <el-row :gutter="50">
           <el-col :span="4" :xs="12">
             <el-form-item label="合同企业" class="form-item-mg0">
-              <el-autocomplete
-                size='mini' style="width:100%" clearable
-                v-model="QueryForm.entrustCompanyId  " placeholder='企业'
-                :maxlength="30"
-                :fetch-suggestions="querySearch"
-                :trigger-on-focus="false">
-              </el-autocomplete>
-              <!-- <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
+              <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
                 <el-option
                   v-for="item in companyList"
                   :key="item.corpId"
                   :label="item.corpName"
                   :value="item.corpId">
                 </el-option>
-              </el-select> -->
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4" :xs="12">
@@ -39,12 +32,12 @@
           </el-col>
           <el-col :span="4" :xs="12">
             <el-form-item label="创建人" class="form-item-mg0">
-              <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
+              <el-select size="mini" filterable remote :remote-method="getCreateUsers" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.createUserId  " placeholder=''  style="width:100%;">
                 <el-option
-                  v-for="item in companyList"
-                  :key="item.corpId"
-                  :label="item.corpName"
-                  :value="item.corpId">
+                  v-for="item in userList"
+                  :key="item.createUserId"
+                  :label="item.createUserName"
+                  :value="item.createUserId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -61,15 +54,14 @@
     <!-- 主显示框 -->
     <div class='query-table'>
       <el-row class="mg-b-15">
-          <el-button size="mini" class="list-btns list-icon-subimtCheck" @click="openFun('add', 'add')"><i></i>合同审核</el-button>
-          <el-button size="mini" class="list-btns list-icon-checkP" @click="deleteFun"><i></i>批量审核</el-button>
-          <el-button size="mini" class="list-btns list-icon-check" @click="deleteFun"><i></i>批量驳回</el-button>
-          <el-button size="mini" class="list-btns list-icon-look" @click="deleteFun"><i></i>查看详情</el-button>
+          <el-button size="mini" class="list-btns list-icon-subimtCheck" @click="creatContract('check')"><i></i>合同审核</el-button>
+          <el-button size="mini" class="list-btns list-icon-checkP" @click="verifyAll"><i></i>批量审核</el-button>
+          <el-button size="mini" class="list-btns list-icon-check" @click="rejectAll"><i></i>批量驳回</el-button>
+          <el-button size="mini" class="list-btns list-icon-look" @click="gotoDetail('view')"><i></i>查看详情</el-button>
       </el-row>
       <!-- 列表 list -->
-      <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px">
-        <el-table-column label="序号" type="index" width="50" align="center">
-        </el-table-column>
+      <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px" @selection-change="selectVal">
+        <el-table-column type="selection" width="36" align="center"></el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">
             <div class="text-over-hid" :title="scope.row.companyName">
@@ -135,19 +127,17 @@
   </section>
 </template>
 <script>
-import util from '../../../common/util'
+// import util from '../../../common/util'
 export default {
   data () {
     return {
       menuCodes: [['SAASOM0501040000', 'SAASOM0501030000', 'SAASOM0501050000', 'SAASOM0501020000']], // 权限编码
       permColumn: [true], // 表格操作栏列显示
       resultList: [], // 列表数据
-      QueryForm: {
-        entrustCompanyId: ''
-      }, // 查询条件
+      checkedData: [], // 选中得数据
+      QueryForm: {}, // 查询条件
       dates: ['', ''], // 日期
       loading: false,
-      corpListOptions: [], // 企业
       statusList: [
         {
           label: '待审核',
@@ -163,22 +153,21 @@ export default {
           value: '3'
         }
       ], // 状态
-      companyList: [] // 公司数据
+      companyList: [], // 公司数据
+      userList: [] // 创建人数据
     }
   },
   created () {
     this.resetQueryform()
     this.paginationInit = this.$store.state.pagination
     this.search()
-    this.corpList()
   },
   mounted () {
   },
   watch: {
     '$route': function (to, from) {
       // 初始化组件
-      if (to.path === '/contract/list') {
-        this.corpList()
+      if (to.path === '/contract/check') {
         this.search()
       }
     }
@@ -190,7 +179,6 @@ export default {
     },
     // 查询列表
     queryTablelist (pagination) {
-      this.QueryForm.status = parseInt(this.QueryForm.statuss)
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance-expense/contract/gets',
@@ -206,78 +194,70 @@ export default {
         }
       })
     },
-    // 查询列表
+    selectVal (val) {
+      this.checkedData = val
+    },
+    // 查询创建人
     getCreateUsers (query) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance-expense/contract/getCreateUsers',
-        data: { corpId: this.companyList.corpId },
+        data: { corpId: this.$store.state.companyCode },
         router: this.$router,
         isLoad: false,
         success: (res) => {
           this.loading = false
-          this.companyList = res.result
+          this.userList = res.result
         }
       })
     },
-    // 企业
-    corpList (val) {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/contract/getCooperationCompanys',
-        data: { companyName: val },
-        router: this.$router,
-        success: (res) => {
-          if (res.success) {
-            let json = JSON.stringify(res.result)
-            json = json.replace(/corpName/g, 'value')
-            this.corpListOptions = JSON.parse(json)
+    // 查询合作公司信息
+    queryCompanyList (query) {
+      if (query.length > 1) {
+        this.loading = true
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-finance-expense/contract/getCooperationCompanys',
+          data: { companyName: query },
+          router: this.$router,
+          isLoad: false,
+          success: (res) => {
+            this.loading = false
+            this.companyList = res.result
           }
-        }
-      })
-    },
-    // 输入2个字后搜索
-    querySearch (queryString, cb) {
-      if (this.QueryForm.entrustCompanyId.length < 2) {
-        return
+        })
       }
-      let restaurants = this.corpListOptions
-      let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
-    },
-    createFilter (queryString) {
-      return (restaurant) => {
-        if (util.isEmpty(restaurant.value)) {
-          return false
-        } else {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
-        }
-      }
-    },
-    // 删除
-    deleteContract (row) {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/contract/delete',
-        data: {pkSeqNo: row.pkSeqNo},
-        router: this.$router,
-        isLoad: false,
-        success: (res) => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.search()
-        }
-      })
     },
     // 创建合同
-    creatContract (type, value) {
-      this.$router.push({
-        name: 'contract-add',
-        params: {
-          flag: type,
-          pkSeqNo: value
+    creatContract (type) {
+      if (this.checkedData.length === 0) {
+        this.$message({
+          message: '选择一条数据',
+          type: 'error'
+        })
+        return false
+      } else {
+        if (this.checkedData.length > 1) {
+          this.$message({
+            message: '只能选择一条要审核的数据',
+            type: 'error'
+          })
+          return false
+        } else {
+          if (this.checkedData[0].status !== '0') {
+            this.$message({
+              message: '只有待审核状态才能进行审核操作',
+              type: 'warning'
+            })
+          } else {
+            this.$router.push({
+              name: 'contract-add',
+              params: {
+                flag: type,
+                pkSeqNo: this.checkedData[0].pkSeqNo
+              }
+            })
+          }
         }
-      })
+      }
     },
     // 重置
     resetQueryform () {
@@ -285,20 +265,99 @@ export default {
       this.dates = ['', '']
       this.search()
     },
+    // 审核通过
+    verifyAll () {
+      let pkSeqNo = []
+      for (let i of this.checkedData) {
+        pkSeqNo.push(i.pkSeqNo)
+        if (i.status !== '0') {
+          this.$message({
+            message: '只有待审核状态才能进行审核操作',
+            type: 'warning'
+          })
+          return
+        }
+      }
+      let data = {
+        'pkSeqNos': pkSeqNo,
+        'verifyMsg': ''
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance-expense/contract/verify',
+        data: data,
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message({
+              message: '审核通过',
+              type: 'success'
+            })
+          }
+        }
+      })
+    },
+    // 审核驳回
+    rejectAll () {
+      let pkSeqNo = []
+      for (let i of this.checkedData) {
+        pkSeqNo.push(i.pkSeqNo)
+        if (i.status !== '0') {
+          this.$message({
+            message: '只有待审核状态才能进行审核操作',
+            type: 'warning'
+          })
+          return
+        }
+      }
+      let data = {
+        'pkSeqNos': pkSeqNo,
+        'verifyMsg': ''
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance-expense/contract/reject',
+        data: data,
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.$message({
+              message: '审核驳回',
+              type: 'success'
+            })
+          }
+        }
+      })
+    },
     // 详情
     gotoDetail (data) {
+      if (this.checkedData.length === 0) {
+        this.$message({
+          message: '选择一条数据',
+          type: 'error'
+        })
+        return false
+      }
+      if (this.checkedData.length > 1) {
+        this.$message({
+          message: '只能选择一条要查看的数据',
+          type: 'error'
+        })
+        return false
+      }
       this.$router.push({
         name: 'contract-detail',
         params: {
-          pkSeqNo: data.pkSeqNo
+          pkSeqNo: this.checkedData[0].pkSeqNo
         }
       })
     },
     // 格式化状态
     formatStatus (val) {
+      let val2 = val + ''
       let value = ''
       for (let i = 0; i < this.statusList.length; i++) {
-        if (this.statusList[i].value === val) {
+        if (this.statusList[i].value === val2) {
           value = this.statusList[i].label
           break
         }
