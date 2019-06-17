@@ -205,9 +205,7 @@ export default {
         }
       )
     }
-    if (this.$route.params.flag === 'add') {
-      this.contractTenantConf()
-    }
+    this.contractTenantConf()
   },
   mounted () {
     if (this.typeFlag) {
@@ -238,9 +236,7 @@ export default {
           }
         )
       }
-      if (to.params.flag === 'add') {
-        this.contractTenantConf()
-      }
+      this.contractTenantConf()
     }
   },
   methods: {
