@@ -359,8 +359,8 @@
           </el-col>
         </el-row>
         <div style="text-align:center">
-          <el-button type="primary" size="small" @click="saveProxy">确定</el-button>
-          <el-button  size="small" @click="newCorpView = false">取消</el-button>
+          <el-button type="primary" size="mini" @click="saveProxy">确定</el-button>
+          <el-button  size="mini" @click="newCorpView = false">取消</el-button>
         </div>
       </el-form>
     </el-dialog>

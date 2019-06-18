@@ -92,8 +92,8 @@
         <el-table-column label="操作" min-width="80" fixed="right">
           <template slot-scope="scope">
             <div class="customer-table-c">
-            <el-button type="text" @click="confirmDetail(scope.row)" title="审核" class="list-icon-subimtCheck"><i class="cus-i"></i></el-button>
-            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="list-icon-lookH2" title="操作记录"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="confirmDetail(scope.row)" title="审核" class="table-icon list-icon-subimtCheck"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="table-icon list-icon-lookH2" title="操作记录"><i class="cus-i"></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -114,82 +114,82 @@
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="confirmshow" @closed='confirmreason = ""'>
         <el-row >
           <el-col :span="8">
-            <el-form-item label="客户代码">
+            <el-form-item label="客户代码：">
               {{confirmshow.customCode}}
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item label="客户名称">
+            <el-form-item label="客户名称：">
               {{confirmshow.customName}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
           <el-col :span="8">
-            <el-form-item label="社会信用代码">
+            <el-form-item label="社会信用代码：">
               {{confirmshow.sccCode}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="海关编码">
+            <el-form-item label="海关编码：">
               {{confirmshow.tradeCode}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="检验检疫编码">
+            <el-form-item label="检验检疫编码：">
               {{confirmshow.ciqCode}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
           <el-col :span="8">
-            <el-form-item label="联系人">
+            <el-form-item label="联系人：">
               {{confirmshow.contactUser}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系方式">
+            <el-form-item label="联系方式：">
               {{confirmshow.contactWay}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="公司地址">
+            <el-form-item label="公司地址：">
               {{confirmshow.address}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
           <el-col :span="8">
-            <el-form-item label="所属国">
+            <el-form-item label="所属国：">
               {{confirmshow.customCountryValue}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="邮政编码">
+            <el-form-item label="邮政编码：">
               {{confirmshow.postCode}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="E-MAIL">
+            <el-form-item label="E-MAIL：">
               {{confirmshow.email}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
           <el-col :span="24">
-            <el-form-item label="备注">
+            <el-form-item label="备注：">
               {{confirmshow.remark}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="审核意见" maxlength="400">
+          <el-form-item label="审核意见：" maxlength="400">
                 <el-input type="textarea" v-model="confirmshow.auditRemark" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
             </el-form-item>
         </el-row>
         <div style="text-align:center">
-          <el-button type="primary" size="small" @click="oneconfirm(true)" v-if="confirmshow.auditStatus === 'WAITING'">审核通过</el-button>
-          <el-button  size="small" @click="oneconfirm(false)"  v-if="confirmshow.auditStatus === 'WAITING'">审核驳回</el-button>
+          <el-button type="primary" size="mini" @click="oneconfirm(true)" v-if="confirmshow.auditStatus === 'WAITING'">审核通过</el-button>
+          <el-button  size="mini" @click="oneconfirm(false)"  v-if="confirmshow.auditStatus === 'WAITING'">审核驳回</el-button>
         </div>
         <el-row >
         </el-row>

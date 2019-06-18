@@ -236,8 +236,8 @@
           </el-col>
         </el-row>
         <div style="text-align:center">
-          <el-button type="primary" size="small" @click="savenew">确定</el-button>
-          <el-button  size="small" @click="newdiaview = false">取消</el-button>
+          <el-button type="primary" size="mini" @click="savenew">确定</el-button>
+          <el-button  size="mini" @click="newdiaview = false">取消</el-button>
         </div>
       </el-form>
       </div>
