@@ -75,7 +75,7 @@
       </el-form>
     </div>
     <div style="margin:20px;background-color:white;padding:20px;">
-        <el-tabs v-model="activeName" type="card">
+        <el-tabs v-model="activeName">
             <el-tab-pane label="代理企业" name="first">
             <el-row>
                 <el-button type="primary" style="margin-bottom:5px;" @click="newCorpView = true" size="mini">新增企业</el-button>
