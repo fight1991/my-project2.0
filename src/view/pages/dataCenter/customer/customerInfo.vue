@@ -117,8 +117,8 @@
         <el-table-column label="操作" min-width="80">
           <template slot-scope="scope">
             <div class='customer-table-c'>
-            <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看" class="list-icon-scan"><i class="cus-i"></i></el-button>
-            <el-button type="text" @click="gotoDetail(scope.row,'edit')" title="编辑" class="list-icon-edit"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看" class="table-icon list-icon-look"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="gotoDetail(scope.row,'edit')" title="编辑" class="table-icon list-icon-edit"><i class="cus-i"></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -139,9 +139,9 @@
       @closed='newcustomerClosed'
       width="50%"
       >
-      <div  class="dec-div">
-      <el-form size="mini" :label-width="labelFormWidth.seven" :model="newcustomer" ref='newcustinput' :rules='newRule'>
-        <el-row >
+      <div class="dec-div">
+      <el-form size="mini" :label-width=labelFormWidth.five label-position="left" class="order-label" :model="newcustomer" ref='newcustinput' :rules='newRule'>
+        <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="客户代码"  prop='customCode'>
               <el-input v-model="newcustomer.customCode" maxlength="50"></el-input>
@@ -163,9 +163,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter="30">
           <el-col :span="8">
-            <el-form-item label="社会信用代码" :prop="newcustomer.customCountry ==='1'?'sccCode':''">
+            <el-form-item label="社会信用代码" class="more-txt-lh" :prop="newcustomer.customCountry ==='1'?'sccCode':''">
               <el-input v-model="newcustomer.sccCode" :disabled="!!newcustomer.customCorpId" maxlength="18"   @keyup.enter.native="getcode()"></el-input>
             </el-form-item>
           </el-col>
@@ -175,12 +175,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="检验检疫编码">
+            <el-form-item label="检验检疫编码" class="more-txt-lh">
               <el-input v-model="newcustomer.ciqCode" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="所属国" prop='customCountry'>
               <el-select v-model="newcustomer.customCountry" filterable style="width:100%" @change="newcustomer.customCountry!=='1'?$refs['newcustinput'].clearValidate():''">
@@ -204,7 +204,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="公司地址">
               <el-input v-model="newcustomer.address" maxlength="100"></el-input>
@@ -221,7 +221,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row :gutter="30">
           <el-col :span="24">
             <el-form-item label="备注" maxlength="400">
               <el-input v-model="newcustomer.remark"></el-input>
@@ -252,23 +252,23 @@
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="inputrecord"  :rules='newRule'>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="导入时间" maxlength="400">
+            <el-form-item label="导入时间：" maxlength="400">
               {{inputrecord.importTime}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="导入成功条数" maxlength="400">
+            <el-form-item label="导入成功条数：" maxlength="400">
               {{inputrecord.successCount}}
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="导入失败条数" maxlength="400">
+            <el-form-item label="导入失败条数：" maxlength="400">
               {{inputrecord.failedCount}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="导入失败详情" maxlength="400">
+          <el-form-item label="导入失败详情：" maxlength="400">
                 <el-input type="textarea" v-model="inputrecord.failReasons" :rows="4" :disabled="true"></el-input>
             </el-form-item>
         </el-row>
