@@ -60,6 +60,8 @@ export default {
     .text {
       // text-indent: 2em;
       color: @font-color-main;
+      width: 100%;
+      overflow-x: auto;
       img {
         width: 100%;
       }
