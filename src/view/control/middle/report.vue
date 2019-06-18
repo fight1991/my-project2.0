@@ -46,6 +46,7 @@ export default {
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
+          type: 'scroll',
           orient: 'vertical',
           x: '64%',
           y: 'center',
