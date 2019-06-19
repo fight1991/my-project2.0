@@ -731,7 +731,10 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/login/corp/getCorpByCondAssignProp',
-        data: {corpName: query, returnProps: ['corpId', 'corpName']},
+        data: {
+          corpName: query,
+          returnProps: ['sccCode', 'tradeCode', 'ciqCode', 'corpId', 'corpName']
+        },
         router: this.$router,
         success: (res) => {
           this.corps = res.result
