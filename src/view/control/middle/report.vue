@@ -117,11 +117,7 @@ export default {
         data: {
           iEFlag: 'ALL',
           startDate: this.dates[0],
-          endDate: this.dates[1],
-          page: {
-            pageSize: 10,
-            pageIndex: 1
-          }
+          endDate: this.dates[1]
         },
         isLoad: false,
         router: this.$router,
