@@ -122,7 +122,7 @@
                 :on-remove="handleRemove"
                 :file-list="fileList"
                 :limit="1">
-                <el-button size="mini" type="primary" :disabled="isCheck">上传</el-button>
+                <el-button size="mini" type="primary" :disabled="isCheck" class="op-btn">上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传excel,word,pdf文件，且不超过10M</div>
               </el-upload>
               <span v-if="isCheck" style="color:rgb(55, 134, 199);cursor:pointer" @click="enclosureFun">{{this.name}}</span>

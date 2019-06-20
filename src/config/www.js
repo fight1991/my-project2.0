@@ -501,5 +501,16 @@ const jobIntroduce = {
   third: `<h3 style="color:#fff;font-size:18px;text-align:center;line-height:28px;height:28px;">与优秀的人一起做事</h3>
   <p style="color:#666;text-indent:2em;line-height: 24px;padding:20px 20px 0 20px;">朗新拥有一流的人才队伍，团队成员来自各大知名关务、互联网公司。在这里，你会遇到比自己优秀的人，一起从优秀走向卓越！</p>`
 }
-
-export {jobs, companys, partner, linkList, introduce, jobIntroduce}
+const jobTypeList = [
+  {
+    value: '1',
+    label: '销售经理'
+  }, {
+    value: '2',
+    label: '咨询顾问'
+  }, {
+    value: '3',
+    label: '需求分析师'
+  }
+] // 职位
+export {jobs, companys, partner, linkList, introduce, jobIntroduce, jobTypeList}
