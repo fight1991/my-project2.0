@@ -271,7 +271,7 @@ export default {
         if (!valId) {
           return false
         }
-        if (this.timerId === 0) {
+        if (!this.isLogin && this.timerId === 0) {
           this.$message({
             type: 'error',
             message: '请先获取验证码'
