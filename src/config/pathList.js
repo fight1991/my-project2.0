@@ -402,22 +402,22 @@ export default {
       id: 4,
       icon: require('../assets/img/icon-bottom/btm_im_cdf.png'),
       text: '进口报关单',
-      path: url.CCBA + '/eImport/declare/import',
-      permissions: 'CCBA20203010000'
+      path: url.CCBA + '/eImport/importDec/import',
+      permissions: 'CCBA20209010000'
     },
     {
       id: 5,
       icon: require('../assets/img/icon-bottom/btm_ex_cdf.png'),
       text: '出口报关单',
-      path: url.CCBA + '/eImport/declare/export',
-      permissions: 'CCBA20203030000'
+      path: url.CCBA + '/eImport/exportDec/export',
+      permissions: 'CCBA20210010000'
     },
     {
       id: 6,
       icon: require('../assets/img/icon-bottom/btm_declar_review.png'),
       text: '报关单审核',
-      path: url.CCBA + '/eImport/reviewed',
-      permissions: 'CCBA20204000000'
+      path: url.CCBA + '/eImport/reviewed/decReviewed',
+      permissions: 'CCBA20204010000'
     },
     {
       id: 7,
@@ -437,15 +437,15 @@ export default {
       id: 9,
       icon: require('../assets/img/icon-bottom/btm_im_annotation list.png'),
       text: '进口核注清单',
-      path: url.CCBA + '/eImport/declare/importTaxList',
-      permissions: 'CCBA20203050000'
+      path: url.CCBA + '/eImport/importDec/importTaxList',
+      permissions: 'CCBA20209030000'
     },
     {
       id: 10,
       icon: require('../assets/img/icon-bottom/btm_ex_annotation list.png'),
       text: '出口核注清单',
-      path: url.CCBA + '/eImport/declare/exportTaxList',
-      permissions: 'CCBA20203060000'
+      path: url.CCBA + '/eImport/exportDec/exportTaxList',
+      permissions: 'CCBA20210030000'
     }
   ],
   WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index',
