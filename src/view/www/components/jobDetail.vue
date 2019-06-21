@@ -258,7 +258,6 @@ export default {
           mobile: this.$store.state.userLoginInfo.mobile
         }
       } else {
-        this.rest()
         this.isLogin = false
       }
     },
@@ -305,6 +304,22 @@ export default {
         other: res => {
           if (res.code === '0003') { // 未注册
             this.sendResume('unResister')
+            this.$message({})
+          }
+          if (res.code === '0001') { // 验证码失效
+            this.dialogForm.code = ''
+            this.$message({
+              type: 'error',
+              message: res.message
+            })
+            // 移除表单校验结果
+            this.$refs['dialogForm'].clearValidate('code')
+            this.$refs['mobileCode'].focus()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.message + ',请稍后再试'
+            })
           }
         }
       })
@@ -352,14 +367,15 @@ export default {
               type: 'success',
               message: '发送成功'
             })
-            // 重置表单
-            this.$refs['dialogForm'].resetFields()
-            // 清空定时器和重置验证码按钮
-            clearInterval(this.timerId)
-            this.timerId = 0
-            this.totalTime = 60
-            this.content = '发送验证码'
+
             if (type === 'resister') {
+              // 重置表单
+              this.$refs['dialogForm'].resetFields()
+              // 清空定时器和重置验证码按钮
+              clearInterval(this.timerId)
+              this.timerId = 0
+              this.totalTime = 60
+              this.content = '发送验证码'
               this.getUserInfo()
               this.visableflag = false
             }
@@ -382,23 +398,6 @@ export default {
                 }
               })
             }
-          }
-        },
-        other: res => {
-          if (res.code === '0001') { // 验证码失效
-            this.dialogForm.code = ''
-            this.$message({
-              type: 'error',
-              message: res.message
-            })
-            // 移除表单校验结果
-            this.$refs['dialogForm'].clearValidate('code')
-            this.$refs['mobileCode'].focus()
-          } else {
-            this.$message({
-              type: 'error',
-              message: res.message + ',请稍后再试'
-            })
           }
         }
       })

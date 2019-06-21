@@ -109,7 +109,7 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
-    // this.getAreaList()
+    this.getAreaList()
     this.formatJobType()
     if (!util.isEmpty(this.$route.query)) {
       this.formatJobType(this.$route.query.jobType)
