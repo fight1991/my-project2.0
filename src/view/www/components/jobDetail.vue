@@ -63,36 +63,39 @@
         </div>
       </div>
     </div>
-    <el-dialog title="投递简历" :visible.sync="visableflag" v-if="visableflag" width="30%" :close-on-click-modal='false' class="dialog">
-      <el-row class="mg-b-15">
-        <el-form ref="dialogForm" label-width="65px" :model="dialogForm" :rules="rule">
+    <el-dialog title="投递简历" :visible.sync="visableflag" v-if="visableflag" width="20%" :close-on-click-modal='false' class="dialog">
+      <el-row>
+        <el-form ref="dialogForm" label-width="65px" :model="dialogForm" :rules="rules">
           <el-col :span="18" :offset="3">
             <el-form-item label="姓名" prop="userName">
-              <el-input v-model="dialogForm.userName" :maxlength="20"></el-input>
+              <el-input size="mini" v-model="dialogForm.userName" :maxlength="20"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="mobile">
-              <el-input v-model="dialogForm.mobile" :maxlength="11"></el-input>
+              <el-input size="mini" v-model="dialogForm.mobile" :maxlength="11" :disabled="isLogin"></el-input>
             </el-form-item>
-            <el-form-item label="验证码" prop="code">
-              <el-input v-model="dialogForm.code" ref="mobileCode" :maxlength="4"></el-input>
-              <el-button class="sendCode" @click="sendCode" :disabled="timerId>0? true:false">获取验证码</el-button>
+            <el-form-item label="验证码" prop="code" v-if="!isLogin">
+              <el-input size="mini" v-model="dialogForm.code" ref="mobileCode" :maxlength="4" :disabled="isLogin"></el-input>
+              <el-button class="sendCode" @click="sendCode" :disabled="timerId>0? true:false || isLogin">{{content}}</el-button>
             </el-form-item>
             <el-form-item label="简历" prop="url">
               <el-upload
                 action="http://127.0.0.1"
+                class="avatar-uploader"
                 :before-upload="UploadFun"
                 :on-remove="handleRemove"
+                :show-file-list="fileType"
+                :on-preview="showfileUrl"
                 :file-list="fileList"
                 :limit="1">
-                <el-button size="mini" type="primary">上传</el-button>
-                <div slot="tip" class="el-upload__tip">文件大小不超过10M</div>
+                <img v-if="dialogForm.url && !fileType" :src="dialogForm.url" class="dialog-img">
+                <el-button type="primary" size="mini" class="dialog-btn" v-if="fileType">上传</el-button>
               </el-upload>
             </el-form-item>
           </el-col>
         </el-form>
       </el-row>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="sendResume">确 定</el-button>
+        <el-button type="primary" class="dialog-btn" size="mini" @click="saveDialog">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -100,14 +103,25 @@
 
 <script>
 import util from '../../../common/util'
+import eventBus from '../../www/common/eventBus'
 export default {
   data () {
     return {
       rules: {
-        'userName': [{required: true, message: '请输入姓名', trigger: 'blur'}],
-        'mobile': [{required: true, message: '请输入手机号', trigger: 'change'}],
-        'code': [{required: true, message: '请输入验证码', trigger: 'blur'}],
-        'url': [{required: true, message: '请上传附件', trigger: 'change'}]
+        'userName': [
+          {required: true, message: '请输入姓名', trigger: 'blur'},
+          {pattern: /^[(\u4e00-\u9fa5)|(a-zA-Z0-9)]+$/, message: '姓名不能包含特殊字符', trigger: 'blur'},
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        'mobile': [
+          {required: true, message: '请输入手机号', trigger: 'blur'},
+          {pattern: /^(1)(3|4|5|6|7|8|9)\d{9}$/, message: '请输入正确的手机号', trigger: 'blur'}
+        ],
+        'code': [
+          {required: true, message: '请输入验证码', trigger: 'blur'},
+          {pattern: /^\d{4}$/, message: '请输入4位数字', trigger: 'blur'}
+        ],
+        'url': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}]
       },
       jobId: '',
       jobDetail: {
@@ -126,14 +140,18 @@ export default {
         contact: ''
       },
       visableflag: false,
+      isLogin: false,
+      fileType: true,
       dialogForm: {
-        name: '',
+        userName: '',
         mobile: '',
         code: '',
-        corpName: '',
-        email: ''
+        url: ''
       },
       fileList: [],
+      content: '获取验证码', // 按钮里显示的内容
+      totalTime: 60, // 记录具体倒计时时间
+      timerId: 0, // 存储定时器的值
       format: [
         {
           value: ' ',
@@ -209,11 +227,230 @@ export default {
         }
       })
     },
-    // 简历投递
-    sendResume () {},
+    // 重置
+    rest () {
+      this.dialogForm = {
+        userName: '',
+        mobile: '',
+        code: '',
+        url: ''
+      }
+      this.fileList = []
+      this.$nextTick(() => {
+        this.$refs['dialogForm'].clearValidate()
+      })
+    },
+    uploadCheck (rule, value, callback) {
+      if (util.isEmpty(this.dialogForm.url)) {
+        callback(new Error(rule.message))
+      } else {
+        callback()
+      }
+    },
     // 投递弹窗
     openDialog () {
       this.visableflag = true
+      this.rest()
+      if (window.localStorage.getItem('token')) {
+        this.isLogin = true
+        this.dialogForm = {
+          userName: this.$store.state.userLoginInfo.userName,
+          mobile: this.$store.state.userLoginInfo.mobile
+        }
+      } else {
+        this.rest()
+        this.isLogin = false
+      }
+    },
+    // 确认按钮
+    saveDialog () {
+      if (this.fileList.length > 0 && this.fileType) {
+        this.dialogForm.url = this.fileList[0].url
+      }
+      this.$refs['dialogForm'].validate((valId) => {
+        if (!valId) {
+          return false
+        }
+        if (this.timerId === 0) {
+          this.$message({
+            type: 'error',
+            message: '请先获取验证码'
+          })
+          return false
+        }
+        if (window.localStorage.getItem('token')) {
+          this.sendResume()
+        } else {
+          this.getLogin()
+        }
+      })
+    },
+    // 登录接口
+    getLogin () {
+      let data = {
+        code: this.dialogForm.code,
+        mobileCode: this.dialogForm.mobile,
+        password: ''
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/login/login',
+        data: data,
+        router: this.$router,
+        success: res => {
+          if (res.code === '0000') { // 注册未登录
+            window.localStorage.setItem('token', res.result.ssoToken)
+            this.sendResume('resister')
+          }
+        },
+        other: res => {
+          if (res.code === '0003') { // 未注册
+            this.sendResume('unResister')
+          }
+        }
+      })
+    },
+    // 获取用户信息
+    getUserInfo () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/login/getLoginUserInfo',
+        data: {
+          ssoToken: window.localStorage.getItem('token')
+        },
+        router: this.$router,
+        success: (res) => {
+          let datas = {
+            token: window.localStorage.getItem('token'), // token数据
+            userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
+            mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
+            userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
+            companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
+            adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
+            companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
+          }
+          this.$store.commit('userLoginInfo', datas)
+          eventBus.$emit('changeLogin')
+        }
+      })
+    },
+    // 发送简历
+    sendResume (type) {
+      let data = {
+        jobId: this.$route.query.jobId,
+        source: 'ccba',
+        userName: this.dialogForm.userName,
+        mobile: this.dialogForm.mobile,
+        code: this.dialogForm.code,
+        url: this.dialogForm.url
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/plat-manager/resumeManage/sendResumeByccba',
+        data: data,
+        router: this.$router,
+        success: res => {
+          if (res.code === '0000') { // 成功
+            this.$message({
+              type: 'success',
+              message: '发送成功'
+            })
+            // 重置表单
+            this.$refs['dialogForm'].resetFields()
+            // 清空定时器和重置验证码按钮
+            clearInterval(this.timerId)
+            this.timerId = 0
+            this.totalTime = 60
+            this.content = '发送验证码'
+            if (type === 'resister') {
+              this.getUserInfo()
+              this.visableflag = false
+            }
+            if (type === 'unResister') {
+              let data = {
+                code: this.dialogForm.code,
+                mobileCode: this.dialogForm.mobile,
+                password: ''
+              }
+              this.$store.dispatch('ajax', {
+                url: 'API@/login/login/login',
+                data: data,
+                router: this.$router,
+                success: res => {
+                  if (res.code === '0000') {
+                    window.localStorage.setItem('token', res.result.ssoToken)
+                    this.getUserInfo()
+                    this.visableflag = false
+                  }
+                }
+              })
+            }
+          }
+        },
+        other: res => {
+          if (res.code === '0001') { // 验证码失效
+            this.dialogForm.code = ''
+            this.$message({
+              type: 'error',
+              message: res.message
+            })
+            // 移除表单校验结果
+            this.$refs['dialogForm'].clearValidate('code')
+            this.$refs['mobileCode'].focus()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.message + ',请稍后再试'
+            })
+          }
+        }
+      })
+    },
+    sendCode () { // 获取验证码请求
+      let mobile = this.dialogForm.mobile
+      let reg = /^(1)(3|4|5|6|7|8|9)\d{9}$/
+      if (!mobile) {
+        this.$message({
+          type: 'error',
+          message: '请输入手机号'
+        })
+        return
+      }
+      if (!reg.test(mobile)) {
+        return
+      }
+      // 倒计时开启
+      this.countDown()
+      // 发送请求 获取验证码
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/login/getValidateCode',
+        data: {
+          mobile: this.dialogForm.mobile,
+          type: 'login'
+        },
+        router: this.$router,
+        success: res => {
+          if (res.code === '0000') {
+            this.$message({
+              type: 'success',
+              message: res.message
+            })
+          }
+        }
+      })
+    },
+    countDown () { // 倒计时功能
+    // 如果发现有定时器运行 return
+      if (this.timerId) return
+      this.content = this.totalTime + '秒'
+      this.timerId = setInterval(() => {
+        this.totalTime--
+        this.content = this.totalTime + '秒'
+        if (this.totalTime < 0) {
+          // 清除定时器
+          clearInterval(this.timerId)
+          this.timerId = 0
+          this.totalTime = 60
+          this.content = '重新发送'
+        }
+      }, 1000)
     },
     // 换行
     brContent (val) {
@@ -243,14 +480,33 @@ export default {
           router: this.$router,
           isLoad: false,
           success: (res) => {
-            this.fileList.push({
-              name: res.result.name,
-              url: res.result.url
-            })
+            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
+              this.dialogForm.url = res.result.url
+              this.fileType = false
+            } else {
+              this.fileList.push({
+                name: res.result.name,
+                url: res.result.url
+              })
+              this.fileType = true
+            }
           }
         })
       }
       return false
+    },
+    // 删除钩子
+    handleRemove (file, fileList) {
+      for (let i = 0; i < this.fileList.length; i++) {
+        if (file.name === this.fileList[i].name) {
+          this.fileList.splice(i, 1)
+          this.dialogForm.url = ''
+        }
+      }
+    },
+    // pdf 预览
+    showfileUrl (file) {
+      util.fileView(file.url)
     },
     // 格式化
     formatType (val) {
@@ -326,16 +582,23 @@ export default {
   .dialog {
     .sendCode {
       position: absolute;
-      right: 28px;
+      right: 6px;
       top: 8px;
       border: none;
       border-left: 1px solid #ccc;
       border-radius: 0;
       box-sizing: border-box;
-      padding: 5px 5px 5px 10px;
+      padding: 0;
       width:90px;
     }
-
+    .dialog-img {
+      display: inline-block;
+      padding-right: 10px;
+      margin-bottom: 12px;
+      width: 89px;
+      height: 89px;
+      cursor: pointer;
+    }
   }
 }
 </style>

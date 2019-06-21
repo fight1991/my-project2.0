@@ -1526,26 +1526,36 @@ body .el-table th.gutter{
 }
 .detail-css {
   .el-dialog {
+    .el-dialog__body {
+      padding-top: 20px;
+      .el-form-item {
+        margin-bottom: 18px;
+        .el-form-item__label {
+          height: 28px;
+          line-height: 28px;
+          text-align: left;
+        }
+        .el-form-item__error {
+          padding-top: 1px;
+        }
+        .el-form-item__content {
+          line-height: 28px;
+          height: 28px;
+        }
+      }
+    }
     .el-dialog__footer{
       text-align: center !important;
+      padding-top: 30px; 
     }
-    .el-button {
-      font-size: 12px;
-      border-radius: 2px;
-      padding: 5px;
-      margin-left:0;
-      height: 25px;
-      box-sizing: border-box;
-      &:hover {
-        background-color: transparent;
-      }
-      i {
-        display: inline-block;
-        font-size: 16px;
-        margin-top: -4px;
-        margin-right: 5px;
-        vertical-align: middle;
+    .dialog-btn {
+      background-color: #287fca;
+      border-color: #287fca;
+      &:hover,&:focus{
+        border-color: #287fca  !important;
+        background-color: #287fca  !important;
       }
     }
+    
   }
 }

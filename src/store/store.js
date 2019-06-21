@@ -26,6 +26,7 @@ export default new Vuex.Store({
       companyType: '', // 公司类型
       isAdmin: '',
       companyCode: '', // 公司id
+      mobile: '', // 手机号
       userPhoto: '', // 用户头像
       companyName: '',
       adminFlag: ''
@@ -71,9 +72,15 @@ export default new Vuex.Store({
       let urlArr = url.split('@')
       let baseURL = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'][urlArr[0]]
       axios.defaults.baseURL = baseURL
+      let ssoToken = ''
+      if (window.localStorage.getItem('token')) {
+        ssoToken = window.localStorage.getItem('token')
+      } else {
+        ssoToken = ''
+      }
       axios.defaults.headers.common = {
         'Content-Type': 'multipart/form-data',
-        'ssoToken': window.localStorage.getItem('token'),
+        'ssoToken': ssoToken,
         'appWebFlag': '1',
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
         'X-Requested-With': 'XMLHttpReques'
@@ -186,13 +193,13 @@ export default new Vuex.Store({
               message: _result.message,
               type: 'error'
             })
-          } else if (_result.code === '0002') {
-            // token 失效
-            Vue.prototype.$message({
-              message: '登录信息失效，请重新登录！',
-              type: 'error'
-            })
-            router.push('/login')
+          // } else if (_result.code === '0002') { //上传简历需取消拦截
+          //   // token 失效
+          //   Vue.prototype.$message({
+          //     message: '登录信息失效，请重新登录！',
+          //     type: 'error'
+          //   })
+          //   router.push('/login')
           } else {
             // 系统报错
             Vue.prototype.$message({
@@ -238,6 +245,7 @@ export default new Vuex.Store({
       state.userLoginInfo.userName = data.userName
       state.userLoginInfo.companyType = data.companyType
       state.userLoginInfo.companyCode = data.companyCode
+      state.userLoginInfo.mobile = data.mobile
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.userPhoto = data.userPhoto
       state.userLoginInfo.companyName = data.companyName
