@@ -69,14 +69,14 @@ export default {
           path: '/aboutUs',
           name: '关于我们',
           isLink: true
+        },
+        {
+          id: 5,
+          status: false,
+          path: '/talent',
+          name: '人才招聘',
+          isLink: true
         }
-        // {
-        //   id: 5,
-        //   status: false,
-        //   path: '/talent',
-        //   name: '人才招聘',
-        //   isLink: true
-        // }
       ],
       aboutUs: {
         status: false
@@ -94,8 +94,13 @@ export default {
   mounted () {
     eventBus.$on('changeStyle', this.changeStyle)
     eventBus.$on('custormAnchor', this.custormAnchor)
+    eventBus.$on('changeLogin', this.changeLogin)
   },
   methods: {
+    // 登录状态
+    changeLogin () {
+      this.isLogin = true
+    },
     // 路由跳转
     routeTo (path) {
       this.$router.push(path)
