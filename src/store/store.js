@@ -98,7 +98,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // post的请求
-    POST (state, {url, data, success, other, error, isPageList, isLoad, router}) {
+    POST (state, {url, data, success, other, error, isMessage = true, isLoad, router}) {
       let params = {
         'appWebFlag': '1', // 请求终端类型。1：PC端，其他设备待定
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
@@ -141,10 +141,12 @@ export default new Vuex.Store({
             router.push('/login')
           } else {
             // 系统报错
-            Vue.prototype.$message({
-              message: _result.message,
-              type: 'error'
-            })
+            if (isMessage) {
+              Vue.prototype.$message({
+                message: _result.message,
+                type: 'error'
+              })
+            }
           }
         }
       }).catch((err) => {

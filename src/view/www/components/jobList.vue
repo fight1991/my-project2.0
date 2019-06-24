@@ -48,26 +48,27 @@
           </el-menu>
         </el-col>
         <el-col :span="18" style="padding-right:0;">
+          <div style="padding-left:20px;font-size:16px;" v-if="isEmptyTip">没有找到与您的搜索条件相符的结果，请修改城市或职位进行查询。</div>
           <div v-for="(item,index) in jobList" :key="index">
             <div class="job-content" @click.prevent="toDetail(item.jobId)">
               <i class="icon" v-if="item.urgentYN === 'Y'"></i>
               <div class="content-title">{{item.jobName}}</div>
               <div class="content-list">
                 <div class="content-area" v-if="item.area">
-                  <img src="../../../assets/www-img/images/address.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/address.png" class="area-img" title="招聘地区">
                   <span>{{item.area}}</span>
                 </div>
                 <div class="content-info">
                   <span class="mr26" v-if="item.education">
-                    <img src="../../../assets/www-img/images/Education.png" class="area-img" alt="">
+                    <img src="../../../assets/www-img/images/Education.png" class="area-img" title="学历">
                     <span>{{item.education}}</span>
                   </span>
                   <span class="mr26" v-if="item.workYears">
-                    <img src="../../../assets/www-img/images/Years.png" class="area-img" alt="">
+                    <img src="../../../assets/www-img/images/Years.png" class="area-img" title="工作年限">
                     <span>{{item.workYears}}</span>
                   </span>
                   <span class="mr26" v-if="item.count">
-                    <img src="../../../assets/www-img/images/Number.png" class="area-img" alt="">
+                    <img src="../../../assets/www-img/images/Number.png" class="area-img" title="人数">
                     <span>{{item.count}}</span>
                   </span>
                 </div>
@@ -99,6 +100,7 @@ export default {
       isAreaIndeter: true,
       jobTypeList: jobTypeList,
       jobCheckAll: false,
+      isEmptyTip: false,
       jobChecked: [],
       jobType: [], // 职位
       isJobIndeter: true,
@@ -108,6 +110,7 @@ export default {
     }
   },
   created () {
+    this.isEmptyTip = false
     this.paginationInit = this.$store.state.pagination
     this.getAreaList()
     this.formatJobType()
@@ -167,8 +170,15 @@ export default {
         router: this.$router,
         isPageList: true,
         success: (res) => {
-          this.jobList = res.result
-          this.paginationInit = res.page
+          this.jobList = util.isEmpty(res.result) ? [] : res.result
+          console.log(this.jobList)
+          if (this.jobList.length === 0) {
+            this.isEmptyTip = true
+          } else {
+            this.jobList = res.result
+            this.paginationInit = res.page
+            this.isEmptyTip = false
+          }
         }
       })
     },

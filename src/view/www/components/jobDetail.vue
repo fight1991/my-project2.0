@@ -8,32 +8,32 @@
             <p class="detail-company">{{formatType(jobDetail.company)}}</p>
             <div class="content-list">
               <div class="content-area" v-if="jobDetail.area">
-                <img src="../../../assets/www-img/images/address.png" class="area-img" alt="">
+                <img src="../../../assets/www-img/images/address.png" class="area-img" title="招聘地区">
                 <span>{{jobDetail.area}}</span>
               </div>
               <div class="content-info">
                 <span class="mr26" v-if="jobDetail.sex">
-                  <img src="../../../assets/www-img/images/Gender.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/Gender.png" class="area-img" title="性别">
                   <span>{{formatType(jobDetail.sex)}}</span>
                 </span>
                 <span class="mr26" v-if="jobDetail.education">
-                  <img src="../../../assets/www-img/images/Education.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/Education.png" class="area-img" title="学历">
                   <span>{{jobDetail.education}}</span>
                 </span>
                 <span class="mr26" v-if="jobDetail.workYears">
-                  <img src="../../../assets/www-img/images/Years.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/Years.png" class="area-img" title="工作年限">
                   <span>{{jobDetail.workYears}}</span>
                 </span>
                 <span class="mr26" v-if="jobDetail.workNature">
-                  <img src="../../../assets/www-img/images/position.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/position.png" class="area-img" title="工作性质">
                   <span>{{formatType(jobDetail.workNature)}}</span>
                 </span>
                 <span class="mr26" v-if="jobDetail.salary">
-                  <img src="../../../assets/www-img/images/salary.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/salary.png" class="area-img" title="薪资">
                   <span>{{jobDetail.salary}}</span>
                 </span>
                 <span class="mr26" v-if="jobDetail.count">
-                  <img src="../../../assets/www-img/images/Number.png" class="area-img" alt="">
+                  <img src="../../../assets/www-img/images/Number.png" class="area-img" title="人数">
                   <span>{{jobDetail.count}}人</span>
                 </span>
               </div>
@@ -68,7 +68,7 @@
         <el-form ref="dialogForm" label-width="65px" :model="dialogForm" :rules="rules">
           <el-col :span="18" :offset="3">
             <el-form-item label="姓名" prop="userName">
-              <el-input size="mini" v-model="dialogForm.userName" :maxlength="20"></el-input>
+              <el-input size="mini" v-model="dialogForm.userName" :maxlength="20" :disabled="isLogin"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="mobile">
               <el-input size="mini" v-model="dialogForm.mobile" :maxlength="11" :disabled="isLogin"></el-input>
@@ -193,36 +193,22 @@ export default {
       let data = {
         company: 'longshine',
         source: ['ccba'],
-        jobId: this.jobId,
-        page: {
-          pageSize: 200,
-          pageIndex: 1
-        }
+        jobId: this.jobId
       }
       this.$store.dispatch('ajax', {
         url: 'API@/plat-manager/jobManage/getJobDetail',
         data: data,
         router: this.$router,
-        success: (res) => {
-          if (!util.isEmpty(res.result)) {
-            let jobDetail = res.result
-            jobDetail.duty = res.result.duty
-            jobDetail.requirement = res.result.requirement
-            jobDetail.contact = res.result.contact
-            jobDetail.area = res.result.area
-            if (jobDetail.duty.indexOf('$') !== -1) {
-              jobDetail.duty = this.brContent(jobDetail.duty)
+        success: ({ result }) => {
+          if (!util.isEmpty(result)) {
+            for (let i in result) {
+              if (result[i]) {
+                result[i] = this.brContent(result[i])
+              } else {
+                result[i] = ''
+              }
             }
-            if (jobDetail.requirement.indexOf('$') !== -1) {
-              jobDetail.requirement = this.brContent(jobDetail.requirement)
-            }
-            if (jobDetail.contact.indexOf('$') !== -1) {
-              jobDetail.contact = this.brContent(jobDetail.contact)
-            }
-            if (jobDetail.area.indexOf('+') !== -1) {
-              jobDetail.area = jobDetail.area.replace(/\+/g, '、')
-            }
-            this.jobDetail = jobDetail
+            this.jobDetail = result
           }
         }
       })
@@ -235,6 +221,7 @@ export default {
         code: '',
         url: ''
       }
+      this.fileType = true
       this.fileList = []
       this.$nextTick(() => {
         this.$refs['dialogForm'].clearValidate()
@@ -250,6 +237,10 @@ export default {
     // 投递弹窗
     openDialog () {
       this.visableflag = true
+      clearInterval(this.timerId)
+      this.timerId = 0
+      this.totalTime = 60
+      this.content = '发送验证码'
       this.rest()
       if (window.localStorage.getItem('token')) {
         this.isLogin = true
@@ -294,6 +285,7 @@ export default {
       this.$store.dispatch('ajax', {
         url: 'API@/login/login/login',
         data: data,
+        isMessage: false,
         router: this.$router,
         success: res => {
           if (res.code === '0000') { // 注册未登录
@@ -304,7 +296,6 @@ export default {
         other: res => {
           if (res.code === '0003') { // 未注册
             this.sendResume('unResister')
-            this.$message({})
           }
           if (res.code === '0001') { // 验证码失效
             this.dialogForm.code = ''
@@ -315,11 +306,6 @@ export default {
             // 移除表单校验结果
             this.$refs['dialogForm'].clearValidate('code')
             this.$refs['mobileCode'].focus()
-          } else {
-            this.$message({
-              type: 'error',
-              message: res.message + ',请稍后再试'
-            })
           }
         }
       })
@@ -454,11 +440,18 @@ export default {
     // 换行
     brContent (val) {
       let brContent = ''
-      if (val.indexOf('$') !== -1) {
-        brContent = val.replace(/\$/g, '<br>')
+      if (typeof val === 'string') {
+        if (val.indexOf('$') !== -1) {
+          brContent = val.replace(/\$/g, '<br>')
+        } else if (val.indexOf('+') !== -1) {
+          brContent = val.replace(/\+/g, '、')
+        } else {
+          brContent = val
+        }
       } else {
         brContent = val
       }
+
       return brContent
     },
     // 上传
