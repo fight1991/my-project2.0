@@ -7,32 +7,32 @@
             <h2 class="detail-title">{{jobDetail.jobName}}</h2>
             <p class="detail-company">{{formatType(jobDetail.company)}}</p>
             <div class="content-list">
-              <div class="content-area" v-if="jobDetail.area">
+              <div class="content-area" v-show="jobDetail.area">
                 <img src="../../../assets/www-img/images/address.png" class="area-img" title="招聘地区">
                 <span>{{jobDetail.area}}</span>
               </div>
               <div class="content-info">
-                <span class="mr26" v-if="jobDetail.sex">
+                <span class="mr26" v-show="jobDetail.sex">
                   <img src="../../../assets/www-img/images/Gender.png" class="area-img" title="性别">
                   <span>{{formatType(jobDetail.sex)}}</span>
                 </span>
-                <span class="mr26" v-if="jobDetail.education">
+                <span class="mr26" v-show="jobDetail.education">
                   <img src="../../../assets/www-img/images/Education.png" class="area-img" title="学历">
                   <span>{{jobDetail.education}}</span>
                 </span>
-                <span class="mr26" v-if="jobDetail.workYears">
+                <span class="mr26" v-show="jobDetail.workYears">
                   <img src="../../../assets/www-img/images/Years.png" class="area-img" title="工作年限">
                   <span>{{jobDetail.workYears}}</span>
                 </span>
-                <span class="mr26" v-if="jobDetail.workNature">
+                <span class="mr26" v-show="jobDetail.workNature">
                   <img src="../../../assets/www-img/images/position.png" class="area-img" title="工作性质">
                   <span>{{formatType(jobDetail.workNature)}}</span>
                 </span>
-                <span class="mr26" v-if="jobDetail.salary">
+                <span class="mr26" v-show="jobDetail.salary">
                   <img src="../../../assets/www-img/images/salary.png" class="area-img" title="薪资">
                   <span>{{jobDetail.salary}}</span>
                 </span>
-                <span class="mr26" v-if="jobDetail.count">
+                <span class="mr26" v-show="jobDetail.count">
                   <img src="../../../assets/www-img/images/Number.png" class="area-img" title="人数">
                   <span>{{jobDetail.count}}人</span>
                 </span>
@@ -45,19 +45,19 @@
         </el-col>
       </el-row>
       <div class="detail-content">
-        <div>
+        <div v-show="jobDetail.duty">
           <p>岗位职责：</p>
           <div v-html="jobDetail.duty">{{jobDetail.duty}}</div>
         </div>
-        <div class="mt26">
+        <div class="mt26" v-show="jobDetail.requirement">
           <p>任职要求：</p>
           <div v-html="jobDetail.requirement">{{jobDetail.requirement}}</div>
         </div>
-        <div class="mt26">
+        <div class="mt26" v-show="jobDetail.workAdd">
           <p>上班地址：</p>
           <div>{{jobDetail.workAdd}}</div>
         </div>
-        <div class="mt26">
+        <div class="mt26" v-show="jobDetail.contact">
           <p>联系方式：</p>
           <div v-html="jobDetail.contact">{{jobDetail.contact}}</div>
         </div>
@@ -353,7 +353,6 @@ export default {
               type: 'success',
               message: '发送成功'
             })
-
             if (type === 'resister') {
               // 重置表单
               this.$refs['dialogForm'].resetFields()
@@ -363,7 +362,6 @@ export default {
               this.totalTime = 60
               this.content = '发送验证码'
               this.getUserInfo()
-              this.visableflag = false
             }
             if (type === 'unResister') {
               let data = {
@@ -379,11 +377,11 @@ export default {
                   if (res.code === '0000') {
                     window.localStorage.setItem('token', res.result.ssoToken)
                     this.getUserInfo()
-                    this.visableflag = false
                   }
                 }
               })
             }
+            this.visableflag = false
           }
         }
       })
@@ -482,6 +480,7 @@ export default {
               })
               this.fileType = true
             }
+            this.$refs['dialogForm'].clearValidate('url')
           }
         })
       }

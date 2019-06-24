@@ -171,7 +171,6 @@ export default {
         isPageList: true,
         success: (res) => {
           this.jobList = util.isEmpty(res.result) ? [] : res.result
-          console.log(this.jobList)
           if (this.jobList.length === 0) {
             this.isEmptyTip = true
           } else {
