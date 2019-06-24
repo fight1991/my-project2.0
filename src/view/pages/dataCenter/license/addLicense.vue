@@ -568,6 +568,7 @@ export default {
                 row.info.isExcel = true
               }
             }
+            this.$refs['addForm'].clearValidate('row.info.licenseUrl')
           }
         })
       }

@@ -315,6 +315,7 @@ export default {
                 row.isExcel = true
               }
             }
+            // this.$refs['submitData'].clearValidate('row.documentUrl')
           }
         })
       }

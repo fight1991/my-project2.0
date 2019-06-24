@@ -15,7 +15,7 @@
               <el-card class="license-card">
                 <i class="license-close-icon" @click="delLicense(index)"></i>
                 <el-row>
-                  <el-col :span="10">
+                  <el-col :span="4">
                     <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item)}"
@@ -32,8 +32,8 @@
                       </el-row>
                     </el-upload>
                   </el-col>
-                  <el-col :span="11">
-                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
+                  <el-col :span="20" style="padding-top:16px;">
+                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType" class="mb18">
                       <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
                       filterable clearable
                       style="width:100%">
@@ -45,7 +45,7 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
-                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
+                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo" class="mb18">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
@@ -407,5 +407,8 @@ export default {
     height: 178px;
     line-height: 178px;
     text-align: center;
+  }
+  .mb18 {
+    margin-bottom: 18px;
   }
 </style>

@@ -317,6 +317,7 @@ export default {
                 this.isExcel = true
               }
             }
+            this.$refs['addForm'].clearValidate('certificateUrl')
           }
         })
       }
@@ -361,7 +362,6 @@ export default {
       this.addForm.ifWarning = this.addForm.ifWarning
       this.addForm.certificatePid = this.addForm.certificatePid
       this.saveForm(url)
-      console.log(this.addForm.ownerCodeScc)
     },
     // 保存接口请求
     saveForm (url) {

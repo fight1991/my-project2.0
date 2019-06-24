@@ -351,7 +351,7 @@ export default {
           if (res.code === '0000') { // 成功
             this.$message({
               type: 'success',
-              message: '发送成功'
+              message: '您的简历信息已提交成功，请等待短信或电话通知，谢谢！'
             })
             if (type === 'resister') {
               // 重置表单

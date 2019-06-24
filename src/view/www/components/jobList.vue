@@ -258,6 +258,7 @@ export default {
      color: #333;
    }
    .job-content {
+     position: relative;
      cursor:pointer;
      margin-bottom: 10px;
      padding: 20px;

@@ -1,12 +1,12 @@
 <template>
   <section class='sys-main'>
-    <el-row class = "query-condition">
+    <el-row class = "query-condition" v-if="isNull">
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <el-row>
-                  <el-col :span="10">
+                  <el-col :span="4" style="height:120px;line-height:120px;">
                     <el-upload
                     action="http://127.0.0.1"
                     :auto-upload="false"
@@ -18,19 +18,33 @@
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                     </el-upload>
                   </el-col>
-                  <el-col :span="11">
-                    <el-form-item label="单证类型：">
-                      {{ item.documentTypeValue }}
-                    </el-form-item>
-                    <el-form-item label="单证编号：" prop="licensePath">
-                      {{ item.documentNo }}
-                    </el-form-item>
-                    <el-form-item label="上传时间：">
-                      {{ item.updateTime|date() }}
-                    </el-form-item>
-                    <el-form-item label="上传人：">
-                      {{ item.updateUserName }}
-                    </el-form-item>
+                  <el-col :span="20">
+                    <el-row :gutter="30">
+                      <el-col :span="24">
+                        <el-form-item label="单证类型：" class="type-height">
+                          <span>
+                            {{ item.documentTypeValue }}
+                          </span>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="24">
+                        <el-form-item label="单证编号：" class="type-height" prop="licensePath">
+                          {{ item.documentNo }}
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row :gutter="30">
+                      <el-col :span="12">
+                        <el-form-item label="上传时间：" class="type-height">
+                          {{ item.updateTime|date() }}
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="上传人：" class="type-height">
+                          {{ item.updateUserName }}
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
                   </el-col>
                 </el-row>
               </el-card>
@@ -42,6 +56,9 @@
           <el-button type="primary" size="mini" @click="toDetail(ownerCodeScc)">确认</el-button>
         </el-col>
     </el-row>
+    <el-row v-else class="null-img">
+       <img src="../../../../assets/img/error/null.png" alt=""/>
+    </el-row>
   </section>
 </template>
 
@@ -50,9 +67,9 @@ import util from '../../../../common/util'
 export default {
   data () {
     return {
-      decPid: '',
       ownerCodeScc: '',
       fileLists: [], // 存放文件
+      isNull: true,
       submitData: {
         licenseList: [
           {
@@ -102,9 +119,12 @@ export default {
         isPageList: true,
         success: (res) => {
           let licenseList = util.isEmpty(res.result) ? [] : res.result
-          licenseList.forEach(item => {
-            let url = item.documentUrl
-            if (!util.isEmpty(url)) {
+          if (res.result.length === 0) {
+            this.isNull = false
+          } else {
+            licenseList.forEach(item => {
+              let url = item.documentUrl
+              this.isNull = true
               let suffix = util.getFileTypeByName(url)
               if (suffix === 'image/jpeg' || suffix === 'image/png' || suffix === 'image/gif' || suffix === 'image/bmp') {
                 item.fileType = false
@@ -133,9 +153,9 @@ export default {
                   item.isExcel = true
                 }
               }
-            }
-          })
-          this.submitData.licenseList = licenseList
+            })
+            this.submitData.licenseList = licenseList
+          }
         }
       })
     },
@@ -204,8 +224,7 @@ export default {
   }
   .detail-img,.no-pic{
     display: inline-block;
-    padding-right: 10px;
-    margin-bottom: 12px;
+    text-align: center;
     width: 88px;
     height: 88px;
     cursor: pointer;
