@@ -47,8 +47,12 @@
             </el-submenu>
           </el-menu>
         </el-col>
-        <el-col :span="18" style="padding-right:0;">
-          <div style="padding-left:20px;font-size:16px;" v-if="isEmptyTip">没有找到与您的搜索条件相符的结果，请修改城市或职位进行查询。</div>
+        <el-col :span="18" v-if="isEmptyTip">
+          <el-row class="search-null">
+            <img src="../../../assets/img/error/search-null.png" alt=""/>
+          </el-row>
+        </el-col>
+        <el-col :span="18" style="padding-right:0;" v-else>
           <div v-for="(item,index) in jobList" :key="index">
             <div class="job-content" @click.prevent="toDetail(item.jobId)">
               <i class="icon" v-if="item.urgentYN === 'Y'"></i>
@@ -256,6 +260,12 @@ export default {
    .menu-title {
      font-size: 16px;
      color: #333;
+   }
+   .search-null {
+      position: absolute;
+      left: 60%;
+      top: 50%;
+      transform: translate(0,-50%);
    }
    .job-content {
      position: relative;

@@ -112,7 +112,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
+                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail" style="margin-top:18px;"><img src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -499,6 +499,7 @@ export default {
                 this.isExcel = true
               }
             }
+            this.$refs['subData'].clearValidate('subData.info.licenseUrl')
           }
         })
       }
