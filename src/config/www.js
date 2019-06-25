@@ -379,6 +379,12 @@ const linkList = {
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://test.5itrade.cn/zquestion'
+    },
+    {
+      id: '7',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: '/contract/index'
     }
   ],
   prod: [
@@ -417,6 +423,12 @@ const linkList = {
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://www.5itrade.cn/zquestion'
+    },
+    {
+      id: '7',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: '/contract/index'
     }
   ]
 }
