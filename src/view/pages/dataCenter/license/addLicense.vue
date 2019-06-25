@@ -60,7 +60,7 @@
                       action="http://127.0.0.1"
                       :before-upload="(e)=>{beforeUpload(e,item,index)}"
                       :file-list="fileLists"
-                      :show-file-list="item.info.fileType"
+                      show-file-list=false
                       :on-preview="showfileUrl"
                       :on-remove="(e)=>{handleDelete(e,item)}">
                       <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
