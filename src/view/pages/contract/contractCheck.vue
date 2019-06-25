@@ -317,7 +317,7 @@ export default {
           })
           return
         } else {
-          this.$confirm('是否确认审核通过所选全部合同？', '提示', {
+          this.$confirm('是否确认审核驳回所选全部合同？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
