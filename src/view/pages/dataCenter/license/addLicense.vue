@@ -58,7 +58,7 @@
                   <el-form-item label="许可证文件" :prop="'submitDataList.'+index+'.info.licenseUrl'" :rules="rules.licenseUrl">
                     <el-upload
                       action="http://127.0.0.1"
-                      :before-upload="(e)=>{beforeUpload(e,item)}"
+                      :before-upload="(e)=>{beforeUpload(e,item,index)}"
                       :file-list="fileLists"
                       :show-file-list="item.info.fileType"
                       :on-preview="showfileUrl"
@@ -509,7 +509,7 @@ export default {
       })
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file, row) {
+    beforeUpload (file, row, index) {
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -568,7 +568,7 @@ export default {
                 row.info.isExcel = true
               }
             }
-            this.$refs['addForm'].clearValidate('row.info.licenseUrl')
+            this.$refs['addForm'].clearValidate('submitDataList.' + index + '.info.licenseUrl')
           }
         })
       }
