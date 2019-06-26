@@ -24,7 +24,7 @@
           </el-col>
           <el-col :span="4" :xs="24">
             <el-form-item label="创建时间" class="form-item-mg0">
-              <el-date-picker size="mini"  v-model="QueryForm.createDate"  style="width:100%;"
+              <el-date-picker size="mini"  v-model="date"  style="width:100%;"
                 type="date"
                 :editable='false'>
             </el-date-picker>
@@ -127,7 +127,7 @@
   </section>
 </template>
 <script>
-// import util from '../../../common/util'
+import util from '../../../common/util'
 export default {
   data () {
     return {
@@ -136,7 +136,7 @@ export default {
       resultList: [], // 列表数据
       checkedData: [], // 选中得数据
       QueryForm: {}, // 查询条件
-      dates: ['', ''], // 日期
+      date: '', // 日期
       loading: false,
       statusList: [
         {
@@ -180,6 +180,7 @@ export default {
     // 查询列表
     queryTablelist (pagination) {
       this.paginationInit = pagination
+      this.QueryForm.createDate = util.dateFormat(this.date, 'yyyy-MM-dd')
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance-expense/contract/gets',
         data: {
@@ -262,7 +263,7 @@ export default {
     // 重置
     resetQueryform () {
       this.QueryForm = {}
-      this.dates = ['', '']
+      this.date = ''
       this.search()
     },
     // 审核通过
