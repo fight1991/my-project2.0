@@ -436,7 +436,7 @@ export default {
         datas.corpName = value
       }
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/invitation/company',
+        url: 'API@/saas-finance-expense/invitation/queryCorpList',
         data: datas,
         isLoad: false,
         success: (res) => {
