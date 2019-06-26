@@ -176,6 +176,7 @@ export default {
       isCheck: false, // 审核录入
       verifyMsg: '',
       dateForm: {
+        status: '',
         entrustCompanyId: '',
         contractNo: '',
         settlementType: '0',
@@ -255,8 +256,10 @@ export default {
           this.contractAudit = res.result['contract_manual_audit'].value
           if (this.contractAudit === 'Y') {
             this.isDisabledCheck = true
+            this.dateForm.status = '0'
           } else {
             this.isDisabledCheck = false
+            this.dateForm.status = '1'
           }
         }
       })
@@ -279,6 +282,7 @@ export default {
       this.fileList = []
       this.verifyMsg = ''
       this.dateForm = {
+        status: '',
         entrustCompanyId: '',
         contractNo: '',
         settlementType: '0',
