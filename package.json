@@ -19,6 +19,7 @@
     "element-ui": "^2.4.3",
     "font-awesome": "^4.7.0",
     "mockjs": "^1.0.1-beta3",
+    "qrcodejs2": "0.0.2",
     "nprogress": "^0.2.0",
     "vue": "^2.5.2",
     "vue-baidu-map": "^0.21.20",
