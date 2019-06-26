@@ -5,7 +5,7 @@
       <el-form  :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
-          <el-col :span="4" :xs="12">
+          <el-col :span="6" :xs="12">
             <el-form-item label="合同企业" class="form-item-mg0">
               <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
                 <el-option
