@@ -42,6 +42,7 @@
         </el-col>
         <el-col :span="4">
           <button class="resumeBtn"  @click.prevent="openDialog">简历投递</button>
+          <button class="shareBtn"  @click.prevent="share">分享</button>
         </el-col>
       </el-row>
       <div class="detail-content">
@@ -98,12 +99,18 @@
         <el-button type="primary" class="dialog-btn" size="mini" @click="saveDialog">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="" :visible.sync="shareflag" v-if="shareflag" :close-on-click-modal="false" :append-to-body='true' width="25%">
+      <div class="card-qrcode">
+        <div id="qrcode"></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import util from '../../../common/util'
 import eventBus from '../../www/common/eventBus'
+import QRCode from 'qrcodejs2'
 export default {
   data () {
     return {
@@ -123,6 +130,7 @@ export default {
         ],
         'url': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}]
       },
+      shareflag: false,
       jobId: '',
       jobDetail: {
         jobName: '',
@@ -188,6 +196,22 @@ export default {
 
   },
   methods: {
+    // 二維碼
+    qrcode () {
+      let url = 'https://www.5itrade.cn/wx//' + this.jobId
+      let qrcode1 = new QRCode('qrcode', {
+        width: 200,
+        height: 200
+      })
+      qrcode1.makeCode(url)
+    },
+    // 分享
+    share () {
+      this.shareflag = true
+      this.$nextTick(() => {
+        this.qrcode()
+      })
+    },
     // 职位详情
     getJobDetail () {
       let data = {
@@ -548,13 +572,23 @@ export default {
      }
     }
     .resumeBtn {
-      width: 150px;
-      height: 46px;
-      font-size: 16px;
+      width: 110px;
+      height: 34px;
+      font-size: 14px;
       background-color: #0A5CA0;
       color: #fff;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .shareBtn {
+      margin-top: 10px;
+      background-color: #fff;
+      width: 110px;
+      height: 34px;
+      font-size: 14px;
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
       cursor: pointer;
     }
   }
@@ -590,6 +624,12 @@ export default {
       height: 89px;
       cursor: pointer;
     }
+  }
+}
+.card-qrcode{
+  text-align: center;
+    #qrcode{
+    display: inline-block;
   }
 }
 </style>
