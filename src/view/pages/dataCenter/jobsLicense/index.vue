@@ -75,7 +75,7 @@
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
               <div class='sys-td-c'>
-                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row)" title="查看"><i></i></el-button>
               </div>
             </template>
           </el-table-column>
@@ -194,11 +194,13 @@ export default {
       }
     },
     // 跳转到详情页面
-    toChild (ownerCodeScc) {
+    toChild (row) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc
+          ownerCodeScc: row.ownerCodeScc,
+          setTitle: '业务单证详情列表-' + row.ownerName,
+          setId: row.ownerCodeScc + 'job'
         }
       })
     }

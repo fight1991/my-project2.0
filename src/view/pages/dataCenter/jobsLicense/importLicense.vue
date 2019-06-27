@@ -234,13 +234,7 @@ export default {
               message: '导入成功',
               type: 'success'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/jobsLicense/jobDetailList',
-              query: {
-                ownerCodeScc: this.ownerCodeScc
-              }
-            })
+            this.toDetail()
           }
         })
       })
@@ -251,7 +245,9 @@ export default {
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc
+          ownerCodeScc: ownerCodeScc,
+          setTitle: '业务单证详情列表-' + this.resultTopData.decPid,
+          setId: this.ownerCodeScc + 'job'
         }
       })
     },

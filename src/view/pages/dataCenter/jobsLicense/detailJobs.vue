@@ -53,7 +53,7 @@
         </el-form>
         <el-col :span="24" class="query-btn">
           <el-button size="mini" @click="toEdit(decPid,ownerCodeScc)">编辑</el-button>
-          <el-button type="primary" size="mini" @click="toDetail(ownerCodeScc)">确认</el-button>
+          <el-button type="primary" size="mini" @click="toDetail(decPid,ownerCodeScc)">确认</el-button>
         </el-col>
     </el-row>
     <el-row v-else class="null-img">
@@ -176,17 +176,21 @@ export default {
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
           decPid: decPid,
-          ownerCodeScc: ownerCodeScc
+          ownerCodeScc: ownerCodeScc,
+          setTitle: '编辑业务单证-' + decPid,
+          setId: ownerCodeScc + 'jobedit'
         }
       })
     },
     // 跳转到详情页面
-    toDetail (ownerCodeScc) {
+    toDetail (decPid, ownerCodeScc) {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc
+          ownerCodeScc: ownerCodeScc,
+          setTitle: '业务单证详情-' + decPid,
+          setId: ownerCodeScc + 'job'
         }
       })
     }

@@ -201,7 +201,9 @@ export default {
         path: '/dataCenter/license/detailListLicense',
         query: {
           sccCode: corpSccCode,
-          corpName: encodeURIComponent(corpName)
+          corpName: encodeURIComponent(corpName),
+          setTitle: '许可证详情列表-' + corpName,
+          setId: corpSccCode + 'lic'
         }
       })
     }

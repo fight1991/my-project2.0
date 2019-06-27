@@ -335,25 +335,21 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/license/detailListLicense',
-              query: {
-                sccCode: this.subData.info.ownerCodeScc,
-                corpName: encodeURIComponent(this.subData.info.corpName)
-              }
-            })
+            this.toDetail()
           }
         })
       })
     },
+    // 跳转详情页
     toDetail () {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/license/detailListLicense',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
-          corpName: encodeURIComponent(this.subData.info.corpName)
+          corpName: encodeURIComponent(this.subData.info.corpName),
+          setTitle: '许可证详情列表-' + this.subData.info.licensePid,
+          setId: this.subData.info.ownerCodeScc + 'lic'
         }
       })
     },

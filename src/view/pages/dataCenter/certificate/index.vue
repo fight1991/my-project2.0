@@ -201,7 +201,9 @@ export default {
         path: '/dataCenter/certificate/detailListCertificate',
         query: {
           sccCode: corpSccCode,
-          corpName: encodeURIComponent(corpName)
+          corpName: encodeURIComponent(corpName),
+          setTitle: '业务单证详情列表-' + corpName,
+          setId: corpSccCode + 'cer'
         }
       })
     }

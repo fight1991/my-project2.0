@@ -54,7 +54,7 @@ export default {
         }
       }
       this.$store.dispatch('ajax', {
-        url: 'API@/plat-manager/jobManage/getJobTypeList',
+        url: 'API@/plat-manager/jobManage/getJobTypeListGW',
         data: data,
         router: this.$router,
         success: (res) => {
