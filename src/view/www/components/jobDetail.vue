@@ -572,24 +572,23 @@ export default {
      }
     }
     .resumeBtn {
-      width: 150px;
-      height: 46px;
-      font-size: 16px;
+      width: 110px;
+      height: 34px;
+      font-size: 14px;
       background-color: #0A5CA0;
       color: #fff;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
     }
     .shareBtn {
-      margin-top: 18px;
-      width: 150px;
-      height: 46px;
-      font-size: 16px;
-      background-color: #0A5CA0;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
+      margin-top: 10px;
+      background-color: #fff;
+      width: 110px;
+      height: 34px;
+      font-size: 14px;
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
       cursor: pointer;
     }
   }
