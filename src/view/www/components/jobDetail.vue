@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <el-dialog title="投递简历" :visible.sync="visableflag" v-if="visableflag" width="20%" :close-on-click-modal='false' class="dialog">
+    <el-dialog title="投递简历" :visible.sync="visableflag" v-if="visableflag" width="25%" :close-on-click-modal='false' class="dialog">
       <el-row>
         <el-form ref="dialogForm" label-width="65px" :model="dialogForm" :rules="rules">
           <el-col :span="18" :offset="3">
