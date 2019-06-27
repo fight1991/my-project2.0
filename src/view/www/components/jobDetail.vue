@@ -198,7 +198,7 @@ export default {
   methods: {
     // 二維碼
     qrcode () {
-      let url = 'https://www.5itrade.cn/wx//' + this.jobId
+      let url = 'https://www.5itrade.cn/wx/talent/' + this.jobId
       let qrcode1 = new QRCode('qrcode', {
         width: 200,
         height: 200

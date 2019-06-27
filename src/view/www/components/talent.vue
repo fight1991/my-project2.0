@@ -89,7 +89,7 @@ export default {
   color: #333;
   .header-img {
     height: 380px;
-    background: url('../../../assets/www-img/images/banner_img.png') no-repeat center;
+    background: url('../../../assets/www-img/images/banner_img.jpg') no-repeat center;
     background-size: cover;
     box-sizing: border-box;
   }
