@@ -195,9 +195,7 @@ export default {
         path: '/dataCenter/license/addLicense',
         query: {
           ownerCodeScc: this.detailForm.sccCode,
-          corpName: encodeURIComponent(this.detailForm.corpName),
-          setTitle: '许可证新增-' + this.detailForm.corpName,
-          setId: this.detailForm.sccCode + 'licadd'
+          corpName: encodeURIComponent(this.detailForm.corpName)
         }
       })
     },
@@ -265,9 +263,7 @@ export default {
         query: {
           type: type,
           id: licensePid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '许可证详情-' + licensePid,
-          setId: ownerCodeScc + 'licdetail'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
@@ -277,9 +273,7 @@ export default {
         query: {
           type: type,
           id: licensePid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '许可证编辑-' + this.detailForm.licensePid,
-          setId: ownerCodeScc + 'licdetail'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },

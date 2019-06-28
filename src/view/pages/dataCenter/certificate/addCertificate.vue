@@ -389,9 +389,7 @@ export default {
               path: '/dataCenter/certificate/detailListCertificate',
               query: {
                 sccCode: this.addForm.ownerCodeScc,
-                corpName: encodeURIComponent(this.addForm.corpName),
-                setTitle: '业务单证详情列表-' + this.addForm.corpName,
-                setId: this.addForm.ownerCodeScc + 'cer'
+                corpName: encodeURIComponent(this.addForm.corpName)
               }
             })
           }

@@ -347,9 +347,7 @@ export default {
         path: '/dataCenter/license/detailListLicense',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
-          corpName: encodeURIComponent(this.subData.info.corpName),
-          setTitle: '许可证详情列表-' + this.subData.info.licensePid,
-          setId: this.subData.info.ownerCodeScc + 'lic'
+          corpName: encodeURIComponent(this.subData.info.corpName)
         }
       })
     },

@@ -318,9 +318,7 @@ export default {
         path: '/dataCenter/certificate/addCertificate',
         query: {
           ownerCodeScc: this.certificateDetailForm.sccCode,
-          corpName: encodeURIComponent(this.certificateDetailForm.corpName),
-          setTitle: '业务单证新增-' + this.certificateDetailForm.corpName,
-          setId: this.certificateDetailForm.sccCode + 'ceradd'
+          corpName: encodeURIComponent(this.certificateDetailForm.corpName)
         }
       })
     },
@@ -331,9 +329,7 @@ export default {
         query: {
           type: type,
           certificatePid: row.certificatePid,
-          ownerCodeScc: row.ownerCodeScc,
-          setTitle: '业务单证修改-' + row.corpName,
-          setId: row.certificatePid + 'ceredit'
+          ownerCodeScc: row.ownerCodeScc
         }
       })
     },
