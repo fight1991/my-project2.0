@@ -5,7 +5,7 @@
         <a href="javascript:void(0);"></a>
         <div class="detail angle-right">51baoguan@chinacba.org</div>
       </div>
-      <div class="switchOld small"><a href="javascript:void(0);" @click.prevent="switchOld"></a></div>
+      <!-- <div class="switchOld small"><a href="javascript:void(0);" @click.prevent="switchOld"></a></div> -->
       <div class="backTop small"><a href="javascript:void(0);" @click="backTop"></a></div>
     </div>
   </div>
@@ -49,10 +49,10 @@ export default {
       &:nth-child(1) a {
         background:url("../../../../assets/www-img/images/email-2.png") no-repeat 100% center;
       }
+      // &:nth-child(2) a {
+      //   background:url("../../../../assets/www-img/images/qiehuan-.png") no-repeat 100% center;
+      // }
       &:nth-child(2) a {
-        background:url("../../../../assets/www-img/images/qiehuan-.png") no-repeat 100% center;
-      }
-      &:nth-child(3) a {
         background:url("../../../../assets/www-img/images/back-to-top.png") no-repeat 100% center;
       }
     }
@@ -60,10 +60,10 @@ export default {
         background:url("../../../../assets/www-img/images/email-1.png") no-repeat 100% center;
         transform: translateX(0px);
       }
+    // .small:nth-child(2):hover a {
+    //   background:url("../../../../assets/www-img/images/qiehuan.png") no-repeat 100% center;
+    // }
     .small:nth-child(2):hover a {
-      background:url("../../../../assets/www-img/images/qiehuan.png") no-repeat 100% center;
-    }
-    .small:nth-child(3):hover a {
       background:url("../../../../assets/www-img/images/back-to-top-xz.png") no-repeat 100% center;
     }
     a {

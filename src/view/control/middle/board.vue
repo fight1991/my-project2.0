@@ -1,6 +1,9 @@
 <template>
   <div class="board">
     <div class="title">跟踪看板</div>
+    <div :class="{'refreshDec':true,'now':(timerId > 0 || !dates) ? false:true}" @click="refreshData">
+      <img :src="currentImg" alt="">
+    </div>
     <el-tabs v-model="activeName">
       <el-tab-pane label="申报跟踪" name="first">
         <el-form class="dateSearch">
@@ -9,7 +12,7 @@
               v-model="dates"
               size="mini"
               type="daterange"
-              @change="getDecList"
+              @change="getDecList('date')"
               align="right"
               unlink-panels
               range-separator="至"
@@ -64,6 +67,12 @@ import eventBus from './eventBus'
 export default {
   data () {
     return {
+      currentImg: require('../../../assets/img/oper_refresh.png'),
+      refreshImg: {
+        allow: require('../../../assets/img/oper_refresh.png'),
+        forbidden: require('../../../assets/img/oper_refresh_unable.png')
+      },
+      timerId: 0,
       dates: '',
       activeName: 'first',
       isLoading: false,
@@ -104,10 +113,18 @@ export default {
   },
   methods: {
     // 获取报关单统计详情
-    getDecList () {
+    getDecList (flag) {
       if (!this.dates) {
         this.tableData = []
+        this.currentImg = this.refreshImg.forbidden
         return
+      }
+      if (flag === 'date') {
+        if (this.timerId > 0) { // 存在定时器
+          clearTimeout(this.timerId)
+          this.timerId = 0
+          this.currentImg = this.refreshImg.allow
+        }
       }
       this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
       this.$store.dispatch('ajax', {
@@ -115,7 +132,8 @@ export default {
         data: {
           'iEFlag': 'All',
           'endDate': this.dates[1],
-          'startDate': this.dates[0]
+          'startDate': this.dates[0],
+          'refreshFlag': flag === 'refresh' ? 'Y' : 'N'
         },
         isLoad: false,
         router: this.$router,
@@ -123,6 +141,18 @@ export default {
           this.tableData = res.result.decListHomePageVOs
         }
       })
+    },
+    refreshData () {
+      if (this.timerId > 0 || !this.dates) {
+        return
+      }
+      // 更换刷新图片
+      this.currentImg = this.refreshImg.forbidden
+      this.timerId = setTimeout(() => {
+        this.timerId = 0
+        this.currentImg = this.refreshImg.allow
+      }, 60000)
+      this.getDecList('refresh')
     },
     // 获取当前一周
     getWeek () {
@@ -164,6 +194,24 @@ export default {
 .board {
   position: relative;
   padding: 10px 20px;
+  .refreshDec {
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 66;
+    img {
+      width: 16px;
+      height: 16px;
+      transition: all 0.6s
+    }
+    &.now:hover {
+      img {
+        transform: rotateZ(180deg)
+      }
+    }
+  }
   .title {
     position:absolute;
     left: 20px;
@@ -173,8 +221,8 @@ export default {
     font-weight: bold;
   }
 
-    .el-form-item__label {
-      font-size: 12px;
+  .el-form-item__label {
+    font-size: 12px;
   }
   .default {
     img {

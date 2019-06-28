@@ -119,14 +119,14 @@ export default {
       }
       if (tabExsit && data.path !== tabExsit.path) {
         // 如果携带了参数
-        if(!util.objIsEmpty(data.query) || !util.objIsEmpty(data.params)) {
-          let index = state.tabsList.findIndex( item => {
+        if (!util.objIsEmpty(data.query) || !util.objIsEmpty(data.params)) {
+          let index = state.tabsList.findIndex(item => {
             return item === tabExsit
           })
-          data.query = {...data.route.query}
-          data.params = {...data.route.params}
-          state.tabsList.splice(index,1,data)
-        }else {
+          data.query = { ...data.route.query }
+          data.params = { ...data.route.params }
+          state.tabsList.splice(index, 1, data)
+        } else {
           data = tabExsit
         }
       }

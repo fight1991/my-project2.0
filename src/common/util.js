@@ -226,10 +226,10 @@ export default {
     }
   },
   // 判断是否是空对象
-  objIsEmpty(obj) {
+  objIsEmpty (obj) {
     let flag = false
-    for(let k in obj) {
-      if(!k) {
+    for (let k in obj) {
+      if (!k) {
         flag = true
       }
       break

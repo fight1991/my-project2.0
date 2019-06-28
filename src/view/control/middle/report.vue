@@ -1,6 +1,9 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
+    <div :class="{'refreshDec':true,'now':(timerId > 0 || !dates) ? false:true}" @click="refreshData">
+      <img :src="currentImg" alt="">
+    </div>
     <div class="compute-content">
       <h3>单量统计</h3>
       <!-- <div class="time">统计时间 :&nbsp;{{dates.startDate+' ~ '+dates.endDate}}</div> -->
@@ -11,7 +14,7 @@
               v-model="dates"
               size="mini"
               type="daterange"
-              @change="getEchart"
+              @change="getEchart('date')"
               align="right"
               unlink-panels
               range-separator="至"
@@ -39,6 +42,12 @@ export default {
   },
   data () {
     return {
+      currentImg: require('../../../assets/img/oper_refresh.png'),
+      refreshImg: {
+        allow: require('../../../assets/img/oper_refresh.png'),
+        forbidden: require('../../../assets/img/oper_refresh_unable.png')
+      },
+      timerId: 0,
       width: '',
       echartData: {
         tooltip: {
@@ -106,10 +115,19 @@ export default {
   },
   methods: {
     // 获取图表数据
-    getEchart () {
+    getEchart (flag) {
       if (!this.dates) {
         this.echartData.series[0].data = []
+        this.currentImg = this.refreshImg.forbidden
         return
+      }
+      // 通过时间控件点击刷新
+      if (flag === 'date') {
+        if (this.timerId > 0) { // 存在定时器
+          clearTimeout(this.timerId)
+          this.timerId = 0
+          this.currentImg = this.refreshImg.allow
+        }
       }
       this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
       this.$store.dispatch('ajax', {
@@ -117,7 +135,8 @@ export default {
         data: {
           iEFlag: 'ALL',
           startDate: this.dates[0],
-          endDate: this.dates[1]
+          endDate: this.dates[1],
+          refreshFlag: flag === 'refresh' ? 'Y' : 'N'
         },
         isLoad: false,
         router: this.$router,
@@ -145,6 +164,20 @@ export default {
           }
         }
       })
+    },
+    // 点击刷新按钮
+    refreshData () {
+      if (this.timerId > 0 || !this.dates) {
+        return
+      }
+      // 更换刷新图片
+      this.currentImg = this.refreshImg.forbidden
+      // 60s之后清除定时器
+      this.timerId = setTimeout(() => {
+        this.currentImg = this.refreshImg.allow
+        this.timerId = 0
+      }, 60000)
+      this.getEchart('refresh')
     },
     // 获取当前一个月
     getMonths () {
@@ -176,7 +209,26 @@ export default {
 
 <style lang="less" scoped>
 .report {
-  padding: 10px 20px
+  padding: 10px 20px;
+  position: relative;
+  .refreshDec {
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 66;
+    img {
+      width: 16px;
+      height: 16px;
+      transition: all 0.6s
+    }
+    &.now:hover {
+      img {
+        transform: rotateZ(180deg)
+      }
+    }
+  }
 }
 .title {
   line-height: 30px;
