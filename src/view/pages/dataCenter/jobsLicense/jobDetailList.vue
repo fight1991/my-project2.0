@@ -100,7 +100,7 @@
               <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-import" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i></i></el-button>
-              <el-button type="text" class="table-icon list-icon-export" @click="exportdec(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导出"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-export" @click="exportdec(scope.row.decPid)" title="导出"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -217,6 +217,17 @@ export default {
       this.decCount = ''
       this.edocCount = ''
     },
+    // 导出
+    exportdec (val) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/exportDocZip',
+        data: {decPid: val},
+        router: this.$router,
+        success: (res) => {
+          window.open(res.result)
+        }
+      })
+    },
     // 跳转到详情页面
     toDetail (decPid, ownerCodeScc) {
       this.$router.push({
@@ -239,15 +250,6 @@ export default {
           setTitle: '编辑业务单证-' + decPid,
           setId: ownerCodeScc + 'jobedit'
         }
-      })
-    },
-    // 导出
-    exportdec () {
-      this.$store.dispatch('ajax', {
-        url: '',
-        data: {},
-        router: this.$router,
-        success: (res) => {}
       })
     },
     // 导入
