@@ -224,5 +224,16 @@ export default {
         obj1[b] = obj2[b]
       }
     }
+  },
+  // 判断是否是空对象
+  objIsEmpty(obj) {
+    let flag = false
+    for(let k in obj) {
+      if(!k) {
+        flag = true
+      }
+      break
+    }
+    return flag
   }
 }

@@ -61,7 +61,6 @@ export default {
   mounted () {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
-      console.log(event)
       if (event.data.type === 'window-open-sys' || event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS') {
         let symbol = '&'
         // 判断子系统传递的URL是否已包含参数
@@ -168,7 +167,11 @@ export default {
       let data = this.openedTabs.filter(item => {
         return item.path === tab.name
       })
-      this.$router.push(data[0].path)
+      this.$router.push({
+        path: data[0].path,
+        query: data[0].query,
+        params: data[0].params
+      })
       this.$store.commit('SetCurrentTab', data[0])
     },
     // 移除页签
