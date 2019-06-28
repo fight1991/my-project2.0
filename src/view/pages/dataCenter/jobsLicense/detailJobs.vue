@@ -176,9 +176,7 @@ export default {
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
           decPid: decPid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '编辑业务单证-' + decPid,
-          setId: ownerCodeScc + 'jobedit'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
@@ -188,9 +186,7 @@ export default {
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '业务单证详情-' + decPid,
-          setId: ownerCodeScc + 'job'
+          ownerCodeScc: ownerCodeScc
         }
       })
     }

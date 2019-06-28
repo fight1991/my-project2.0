@@ -222,9 +222,7 @@ export default {
         path: '/dataCenter/jobsLicense/detailJobs',
         query: {
           decPid: decPid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '业务单证详情-' + decPid,
-          setId: ownerCodeScc + 'jobdetail'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
@@ -234,9 +232,7 @@ export default {
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
           decPid: decPid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '编辑业务单证-' + decPid,
-          setId: ownerCodeScc + 'jobedit'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
@@ -246,9 +242,7 @@ export default {
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
           ownerCodeScc: ownerCodeScc,
-          decPid: decPid,
-          setTitle: '导入业务单证-' + decPid,
-          setId: ownerCodeScc + 'jobimp'
+          decPid: decPid
         }
       })
     }

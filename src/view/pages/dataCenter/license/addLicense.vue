@@ -500,9 +500,7 @@ export default {
                 path: '/dataCenter/license/detailListLicense',
                 query: {
                   sccCode: this.addForm.ownerCodeScc,
-                  corpName: encodeURIComponent(this.addForm.corpName),
-                  setTitle: '许可证详情列表-' + this.addForm.corpName,
-                  setId: this.addForm.ownerCodeScc + 'lic'
+                  corpName: encodeURIComponent(this.addForm.corpName)
                 }
               })
             }

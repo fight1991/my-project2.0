@@ -56,7 +56,7 @@
         </el-form>
         <el-col :span="24" class="query-btn">
           <el-button type="primary" size="mini" @click="submit">确认</el-button>
-          <el-button size="mini" @click="toDetail(decPid, ownerCodeScc)">取消</el-button>
+          <el-button size="mini" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
   </section>
@@ -219,15 +219,7 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/jobsLicense/jobDetailList',
-              query: {
-                ownerCodeScc: this.ownerCodeScc,
-                setTitle: '业务单证详情列表-' + this.decPid,
-                setId: this.ownerCodeScc + 'job'
-              }
-            })
+            this.toDetail()
           }
         })
       })
@@ -344,21 +336,17 @@ export default {
         path: '/dataCenter/jobsLicense/importLicense',
         query: {
           decPid: decPid,
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '导入业务单证-' + decPid,
-          setId: ownerCodeScc + 'jobimp'
+          ownerCodeScc: ownerCodeScc
         }
       })
     },
     // 跳转到详情页面
-    toDetail (decPid, ownerCodeScc) {
+    toDetail (ownerCodeScc) {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc,
-          setTitle: '业务单证详情列表-' + decPid,
-          setId: ownerCodeScc + 'job'
+          ownerCodeScc: ownerCodeScc
         }
       })
     }
