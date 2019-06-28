@@ -224,5 +224,39 @@ export default {
         obj1[b] = obj2[b]
       }
     }
+  },
+  errorReport (err, vm, info, store) {
+    let {
+      message, // 异常信息
+      stack // 异常堆栈信息
+    } = err
+
+    // jobDetailList.vue:140:10
+    let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
+    let funIndex = tempStr.indexOf('(')
+    let srcIndex = tempStr.indexOf('./src')
+    let src = tempStr.slice(srcIndex, tempStr.length - 1)
+    // 得到函数名
+    let funName = tempStr.slice(4, funIndex)
+    let obj = {
+      reportTime: this.dateFormat(new Date()),
+      moduleName: vm.$route.meta.title,
+      location: vm.$route.fullPath, // 页面地址
+      url: src.split(':')[0], // 错误路径
+      line: src.split(':')[2],
+      row: src.split(':')[1],
+      msg: message,
+      stack: stack,
+      userAgent: window.navigator.userAgent,
+      ext: funName + '|' + info
+    }
+    // 发送ajax请求
+    store.dispatch('ajax', {
+      url: '',
+      data: obj,
+      success: res => {
+        console.log(res)
+      }
+    })
   }
 }
