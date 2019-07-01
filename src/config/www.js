@@ -358,21 +358,21 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: 'https://test.5itrade.cn/ccba2/contract/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://test.5itrade.cn/fin2'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://test.5itrade.cn/zvip'
-    },
-    {
-      id: '5',
-      icon: require('@/assets/www-img/images/Operate.png'),
-      text: '运营管理平台',
-      link: 'https://test.5itrade.cn/op'
     },
     {
       id: '6',
@@ -382,9 +382,9 @@ const linkList = {
     },
     {
       id: '7',
-      icon: require('@/assets/www-img/images/contract.png'),
-      text: '合同管理',
-      link: '/contract/index'
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://test.5itrade.cn/op'
     }
   ],
   prod: [
@@ -402,21 +402,21 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: 'https://www.5itrade.cn/ccba2/contract/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://www.5itrade.cn/fin2'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://www.5itrade.cn/zvip'
-    },
-    {
-      id: '5',
-      icon: require('@/assets/www-img/images/Operate.png'),
-      text: '运营管理平台',
-      link: 'https://www.5itrade.cn/op'
     },
     {
       id: '6',
@@ -426,9 +426,9 @@ const linkList = {
     },
     {
       id: '7',
-      icon: require('@/assets/www-img/images/contract.png'),
-      text: '合同管理',
-      link: '/contract/index'
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://www.5itrade.cn/op'
     }
   ]
 }
