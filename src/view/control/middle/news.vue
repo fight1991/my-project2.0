@@ -1,6 +1,9 @@
 <template>
   <div class="news">
     <div class="title">实时资讯</div>
+    <div class="moreIcon"  @click="goToNewsList(activeName)">
+      <img :src="moreIcon" alt="">
+    </div>
     <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
         <div class="default" v-if="item.newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
@@ -20,6 +23,7 @@ import eventBus from './eventBus'
 export default {
   data () {
     return {
+      moreIcon: require('../../../assets/img/oper_more.png'),
       dates: '',
       activeName: 'Announcement',
       newsInfo: [
@@ -37,12 +41,12 @@ export default {
           label: '行业资讯',
           name: 'IndustryNews',
           newsList: []
-        },
-        {
-          label: '通知公告',
-          name: 'Information',
-          newsList: []
         }
+        // {
+        //   label: '通知公告',
+        //   name: 'Information',
+        //   newsList: []
+        // }
       ]
     }
   },
@@ -99,6 +103,16 @@ export default {
         }
       })
       window.open(href, '_blank')
+    },
+    // 跳转到新闻列表页
+    goToNewsList (type) {
+      const {href} = this.$router.resolve({
+        path: 'news/newsList',
+        query: {
+          type: type
+        }
+      })
+      window.open(href, '_blank')
     }
   }
 }
@@ -108,6 +122,18 @@ export default {
 .news {
   position: relative;
   padding: 10px 20px;
+  .moreIcon {
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 66;
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
   .default {
     img {
       display: block;

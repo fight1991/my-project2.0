@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <div class="title">跟踪看板</div>
-    <div :class="{'refreshDec':true,'now':(timerId > 0 || !dates) ? false:true}" @click="refreshData">
+    <div :class="{'refreshDec':true}" @click="refreshData">
       <img :src="currentImg" alt="">
     </div>
     <el-tabs v-model="activeName">
@@ -68,10 +68,6 @@ export default {
   data () {
     return {
       currentImg: require('../../../assets/img/oper_refresh.png'),
-      refreshImg: {
-        allow: require('../../../assets/img/oper_refresh.png'),
-        forbidden: require('../../../assets/img/oper_refresh_unable.png')
-      },
       timerId: 0,
       dates: '',
       activeName: 'first',
@@ -116,14 +112,12 @@ export default {
     getDecList (flag) {
       if (!this.dates) {
         this.tableData = []
-        this.currentImg = this.refreshImg.forbidden
         return
       }
       if (flag === 'date') {
         if (this.timerId > 0) { // 存在定时器
           clearTimeout(this.timerId)
           this.timerId = 0
-          this.currentImg = this.refreshImg.allow
         }
       }
       this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
@@ -147,10 +141,8 @@ export default {
         return
       }
       // 更换刷新图片
-      this.currentImg = this.refreshImg.forbidden
       this.timerId = setTimeout(() => {
         this.timerId = 0
-        this.currentImg = this.refreshImg.allow
       }, 60000)
       this.getDecList('refresh')
     },
@@ -206,7 +198,7 @@ export default {
       height: 16px;
       transition: all 0.6s
     }
-    &.now:hover {
+    &:hover {
       img {
         transform: rotateZ(180deg)
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <div :class="{'refreshDec':true,'now':(timerId > 0 || !dates) ? false:true}" @click="refreshData">
+    <div :class="{'refreshDec':true}" @click="refreshData">
       <img :src="currentImg" alt="">
     </div>
     <div class="compute-content">
@@ -43,10 +43,6 @@ export default {
   data () {
     return {
       currentImg: require('../../../assets/img/oper_refresh.png'),
-      refreshImg: {
-        allow: require('../../../assets/img/oper_refresh.png'),
-        forbidden: require('../../../assets/img/oper_refresh_unable.png')
-      },
       timerId: 0,
       width: '',
       echartData: {
@@ -118,7 +114,6 @@ export default {
     getEchart (flag) {
       if (!this.dates) {
         this.echartData.series[0].data = []
-        this.currentImg = this.refreshImg.forbidden
         return
       }
       // 通过时间控件点击刷新
@@ -126,7 +121,6 @@ export default {
         if (this.timerId > 0) { // 存在定时器
           clearTimeout(this.timerId)
           this.timerId = 0
-          this.currentImg = this.refreshImg.allow
         }
       }
       this.dates = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
@@ -170,11 +164,8 @@ export default {
       if (this.timerId > 0 || !this.dates) {
         return
       }
-      // 更换刷新图片
-      this.currentImg = this.refreshImg.forbidden
       // 60s之后清除定时器
       this.timerId = setTimeout(() => {
-        this.currentImg = this.refreshImg.allow
         this.timerId = 0
       }, 60000)
       this.getEchart('refresh')
@@ -223,7 +214,7 @@ export default {
       height: 16px;
       transition: all 0.6s
     }
-    &.now:hover {
+    &:hover {
       img {
         transform: rotateZ(180deg)
       }

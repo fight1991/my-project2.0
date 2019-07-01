@@ -54,12 +54,21 @@ const routes = [
     }
   }, {
     path: '/news/detail',
-    name: '详情',
+    name: 'detail',
     hidden: true,
     permissions: 'WF000000',
     component: resolve => require(['./view/control/components/detail.vue'], resolve),
     meta: {
       title: '详情'
+    }
+  }, {
+    path: '/news/newsList',
+    name: 'newsList',
+    hidden: true,
+    permissions: 'WF000000',
+    component: resolve => require(['./view/control/components/newsList.vue'], resolve),
+    meta: {
+      title: '资讯列表'
     }
   },
   // {
