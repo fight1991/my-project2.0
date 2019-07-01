@@ -360,7 +360,7 @@ const linkList = {
       id: '3',
       icon: require('@/assets/www-img/images/contract.png'),
       text: '合同管理',
-      link: '/contract/index'
+      link: 'https://test.5itrade.cn/ccba2/contract/index'
     },
     {
       id: '4',
@@ -404,7 +404,7 @@ const linkList = {
       id: '3',
       icon: require('@/assets/www-img/images/contract.png'),
       text: '合同管理',
-      link: '/contract/index'
+      link: 'https://www.5itrade.cn/ccba2/contract/index'
     },
     {
       id: '4',
