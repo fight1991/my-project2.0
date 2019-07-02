@@ -230,7 +230,11 @@ export default {
       message, // 异常信息
       stack // 异常堆栈信息
     } = err
-
+    // 获取地址
+    let { href } = vm.$router.resolve({
+      path: vm.$route.path
+    })
+    let sysId = href.split('/')[1]
     // jobDetailList.vue:140:10
     let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
     let funIndex = tempStr.indexOf('(')
@@ -239,24 +243,24 @@ export default {
     // 得到函数名
     let funName = tempStr.slice(4, funIndex)
     let obj = {
-      reportTime: this.dateFormat(new Date()),
-      moduleName: vm.$route.meta.title,
-      location: vm.$route.fullPath, // 页面地址
-      url: src.split(':')[0], // 错误路径
-      line: src.split(':')[2],
-      row: src.split(':')[1],
-      msg: message,
+      logType: 'client',
+      logTime: this.dateFormat(new Date()),
+      moduleName: vm.$route.meta.title + '@' + src.split(':')[0], // 模块名称+错误路径
+      location: window.location.href,
+      url: vm.$route.fullPath, // 服务地址
+      indexNumber: src.split(':')[2],
+      lineNumber: src.split(':')[1],
+      message: message,
       stack: stack,
-      userAgent: window.navigator.userAgent,
-      ext: funName + '|' + info
+      containerType: window.navigator.userAgent,
+      remark: funName + '|' + info,
+      sysId: sysId
     }
     // 发送ajax请求
     store.dispatch('ajax', {
-      url: '',
+      url: 'API@plat-manager/errorLog/addErrorLog',
       data: obj,
-      success: res => {
-        console.log(res)
-      }
+      success: () => {}
     })
   }
 }
