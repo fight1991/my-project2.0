@@ -51,9 +51,9 @@
         <el-row>
           <el-button plain @click="current=!current">{{current==true?'查看静态地图':'查看动态地图'}}</el-button>
         </el-row>
-         <el-row>
+         <!-- <el-row>
           <el-button plain @click="reportError">错误日志测试</el-button>
-        </el-row>
+        </el-row> -->
       </div>
     </div>
   </div>
