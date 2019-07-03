@@ -176,6 +176,7 @@ export default {
     cursor ({row, column, rowIndex, columnIndex}) {
       if (columnIndex > 0) {
         return 'cursor'
+        console.log('1111')
       }
     }
   }
