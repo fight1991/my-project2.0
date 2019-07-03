@@ -377,7 +377,6 @@ export default {
               type: 'success',
               message: '您的简历信息已提交成功，请等待短信或电话通知，谢谢！'
             })
-            this.getRecord() // 統計
             if (type === 'resister') {
               // 重置表单
               this.$refs['dialogForm'].resetFields()
@@ -409,19 +408,6 @@ export default {
             this.visableflag = false
           }
         }
-      })
-    },
-    // 发送简历统计
-    getRecord () {
-      let data = {
-        logType: '3',
-        userId: this.$store.state.userLoginInfo.userId
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/plat-manager/drainageStatistics/addLogRecord',
-        data: data,
-        router: this.$router,
-        success: res => {}
       })
     },
     // 获取验证码请求
