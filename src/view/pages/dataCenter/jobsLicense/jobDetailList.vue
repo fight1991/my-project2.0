@@ -100,7 +100,7 @@
               <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="查看"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="编辑"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-import" @click="upload(scope.row.decPid,jobDetailForm.ownerCodeScc)" title="导入"><i></i></el-button>
-              <el-button type="text" class="table-icon list-icon-export" v-if="scope.row.count >0" @click="exportdec(scope.row.decPid)" title="导出"><i></i></el-button>
+              <!-- <el-button type="text" class="table-icon list-icon-export" v-if="scope.row.count >0" @click="exportdec(scope.row.decPid)" title="导出"><i></i></el-button> -->
             </div>
           </template>
         </el-table-column>
