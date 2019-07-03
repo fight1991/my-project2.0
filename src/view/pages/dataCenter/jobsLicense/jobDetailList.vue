@@ -224,7 +224,9 @@ export default {
         data: {decPid: val},
         router: this.$router,
         success: (res) => {
-          window.open(res.result)
+          if (res.result) {
+            window.open(res.result)
+          }
         }
       })
     },
