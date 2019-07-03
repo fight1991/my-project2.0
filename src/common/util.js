@@ -249,18 +249,32 @@ export default {
     // jobDetailList.vue:140:10
     let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
     let funIndex = tempStr.indexOf('(')
-    let srcIndex = tempStr.indexOf('./src')
-    let src = tempStr.slice(srcIndex, tempStr.length - 1)
+    let srcIndex = ''
+    let line = ''
+    let column = ''
+    let src = ''
+    if (process.env.NODE_ENV === 'production') {
+      srcIndex = tempStr.indexOf('static')
+      src = tempStr.slice(srcIndex, tempStr.length - 1)
+      let obj = this.sourceMap(src.split(':')[1], src.split(':')[2])
+      line = obj.line
+      column = obj.column
+    } else {
+      srcIndex = tempStr.indexOf('./src')
+      src = tempStr.slice(srcIndex, tempStr.length - 1)
+      line = src.split(':')[1]
+      column = src.split(':')[2]
+    }
     // 得到函数名
     let funName = tempStr.slice(4, funIndex)
     let obj = {
       logType: 'client',
       logTime: this.dateFormat(new Date()),
-      moduleName: vm.$route.meta.title + '@' + src.split(':')[0], // 模块名称+错误路径
+      moduleName: vm.$route.meta.title, // 模块名称
       location: window.location.href,
       url: vm.$route.fullPath, // 服务地址
-      indexNumber: src.split(':')[2],
-      lineNumber: src.split(':')[1],
+      indexNumber: column,
+      lineNumber: line,
       message: message,
       stack: stack,
       containerType: window.navigator.userAgent,
@@ -272,6 +286,21 @@ export default {
       url: 'API@plat-manager/errorLog/addErrorLog',
       data: obj,
       success: () => {}
+    })
+  },
+  // 映射map找到原始行
+  sourceMap (line, column) {
+    const fs = require('fs')
+    const SourceMap = require('source-map')
+    const { readFileSync } = fs
+    const { SourceMapConsumer } = SourceMap
+    const rawSourceMap = JSON.parse(readFileSync('path/to/js/map/file', 'utf8'))
+    SourceMapConsumer.with(rawSourceMap, null, consumer => {
+      const pos = consumer.originalPositionFor({
+        line: line,
+        column: column
+      })
+      return pos
     })
   }
 }
