@@ -107,6 +107,10 @@ export default {
     this.getDecList()
     eventBus.$on('getDecList', this.getDecList)
   },
+  beforeDestroy () {
+    clearTimeout(this.timerId)
+    this.timerId = 0
+  },
   methods: {
     // 获取报关单统计详情
     getDecList (flag) {

@@ -256,7 +256,8 @@ export default {
     if (process.env.NODE_ENV === 'production') {
       srcIndex = tempStr.indexOf('static')
       src = tempStr.slice(srcIndex, tempStr.length - 1)
-      let obj = this.sourceMap(src.split(':')[1], src.split(':')[2])
+      let rootPath = `/${sysId}/${src.split(':')[0]}.map`
+      let obj = this.sourceMap(src.split(':')[1], src.split(':')[2], rootPath)
       line = obj.line
       column = obj.column
     } else {
@@ -289,12 +290,10 @@ export default {
     })
   },
   // 映射map找到原始行
-  sourceMap (line, column) {
-    const fs = require('fs')
+  sourceMap (line, column, path) {
     const SourceMap = require('source-map')
-    const { readFileSync } = fs
     const { SourceMapConsumer } = SourceMap
-    const rawSourceMap = JSON.parse(readFileSync('path/to/js/map/file', 'utf8'))
+    let rawSourceMap = {}
     SourceMapConsumer.with(rawSourceMap, null, consumer => {
       const pos = consumer.originalPositionFor({
         line: line,

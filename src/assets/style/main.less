@@ -370,7 +370,8 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     padding: 0 6px;
     left: -6px;
   }
-  .news {
+
+  .news,.board {
     .el-tabs__active-bar {
       padding: 0 6px;
       left: -3px;
@@ -386,6 +387,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .el-tabs__item.is-active{
     border-bottom: 2px solid #409EFF;
+  }
+  .board .el-tabs__item.is-active {
+    border-bottom: 2px solid transparent;
   }
   .el-tabs__item {
     // float: right;
