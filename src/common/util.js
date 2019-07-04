@@ -225,17 +225,37 @@ export default {
       }
     }
   },
-  errorReport (err, vm, info, store) {
-    let {
-      message, // 异常信息
-      stack // 异常堆栈信息
-    } = err
+  errorReport (err, vm, info, store, syncError) {
+    if (syncError) { // 捕获异步错误
+      let { message, stack } = syncError
+      let params = {
+        logType: 'client',
+        logTime: this.dateFormat(new Date()),
+        moduleName: '',
+        location: location.host + location.pathname, // 去除参数的地址
+        url: '', // 服务地址
+        indexNumber: '',
+        lineNumber: '',
+        message: message,
+        stack: stack,
+        containerType: window.navigator.userAgent,
+        remark: '异步错误',
+        sysId: ''
+      }
+      // 发送ajax请求
+      store.dispatch('ajax', {
+        url: 'API@plat-manager/errorLog/addErrorLog',
+        data: params,
+        success: () => {}
+      })
+      return
+    }
+    let { message, stack } = err
     // 获取地址
     let { href } = vm.$router.resolve({
       path: vm.$route.path
     })
     let sysId = href.split('/')[1]
-    // jobDetailList.vue:140:10
     let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
     let funIndex = tempStr.indexOf('(')
     let srcIndex = ''
@@ -255,7 +275,7 @@ export default {
       logType: 'client',
       logTime: this.dateFormat(new Date()),
       moduleName: vm.$route.meta.title, // 模块名称
-      location: window.location.href,
+      location: location.host + location.pathname, // 去除参数的地址
       url: vm.$route.fullPath, // 服务地址
       indexNumber: column,
       lineNumber: line,
