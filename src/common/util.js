@@ -241,16 +241,12 @@ export default {
     let srcIndex = ''
     let line = ''
     let column = ''
-    let src = ''
     if (process.env.NODE_ENV === 'production') {
       srcIndex = tempStr.indexOf('static')
-      src = tempStr.slice(srcIndex, tempStr.length - 1)
-      // let rootPath = `/${sysId}/${src.split(':')[0]}.map`
-      // let obj = this.sourceMap(src.split(':')[1], src.split(':')[2], rootPath)
     } else {
       srcIndex = tempStr.indexOf('./src')
-      src = tempStr.slice(srcIndex, tempStr.length - 1)
     }
+    let src = tempStr.slice(srcIndex, tempStr.length - 1)
     line = src.split(':')[1]
     column = src.split(':')[2]
     // 得到函数名
@@ -274,21 +270,6 @@ export default {
       url: 'API@plat-manager/errorLog/addErrorLog',
       data: obj,
       success: () => {}
-    })
-  },
-  // 映射map找到原始行
-  sourceMap (line, column) {
-    const SourceMap = require('source-map')
-    const { SourceMapConsumer } = SourceMap
-    let rawSourceMap = {
-
-    }
-    SourceMapConsumer.with(rawSourceMap, null, consumer => {
-      const pos = consumer.originalPositionFor({
-        line: line,
-        column: column
-      })
-      return pos
     })
   }
 }
