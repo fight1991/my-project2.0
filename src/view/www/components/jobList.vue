@@ -215,7 +215,6 @@ export default {
         data: {},
         router: this.$router,
         success: (res) => {
-          this.aa = this.bb[0]
           this.area = util.isEmpty(res.result) ? [] : res.result
         }
       })
