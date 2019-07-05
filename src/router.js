@@ -17,6 +17,7 @@ import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
+import Entrust from './view/pages/entrust/router'
 
 const routes = [
   {
@@ -89,6 +90,7 @@ routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
+routes[1].children.push(...Entrust.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -192,6 +194,13 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'contract',
           title: '合同管理',
+          permissions: 'CCBA21400000000'
+        }
+        break
+      case 'entrust':
+        json = {
+          type: 'entrust',
+          title: '业务委托',
           permissions: 'CCBA21400000000'
         }
         break
