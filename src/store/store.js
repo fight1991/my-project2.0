@@ -195,13 +195,13 @@ export default new Vuex.Store({
               message: _result.message,
               type: 'error'
             })
-          // } else if (_result.code === '0002') { //上传简历需取消拦截
-          //   // token 失效
-          //   Vue.prototype.$message({
-          //     message: '登录信息失效，请重新登录！',
-          //     type: 'error'
-          //   })
-          //   router.push('/login')
+          } else if (_result.code === '0002') {
+            // token 失效
+            Vue.prototype.$message({
+              message: '登录信息失效，请重新登录！',
+              type: 'error'
+            })
+            router.push('/login')
           } else {
             // 系统报错
             Vue.prototype.$message({

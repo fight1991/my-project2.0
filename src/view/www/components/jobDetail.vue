@@ -361,6 +361,7 @@ export default {
     sendResume (type) {
       let data = {
         jobId: this.$route.query.jobId,
+        jobName: this.jobDetail.jobName,
         source: 'ccba',
         userName: this.dialogForm.userName,
         mobile: this.dialogForm.mobile,
