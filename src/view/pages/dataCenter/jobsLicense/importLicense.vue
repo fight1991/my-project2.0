@@ -109,6 +109,7 @@ export default {
             documentNo: '',
             documentType: '',
             documentUrl: '',
+            createUserName: '',
             fileLists: [], // 存放文件
             fileType: true,
             isImg: false,
@@ -278,6 +279,8 @@ export default {
           router: this.$router,
           success: (res) => {
             row.documentUrl = res.result.url
+            row.createUserName = res.result.name
+            console.log(res.result.name)
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
               row.fileType = false
               row.isImg = true
