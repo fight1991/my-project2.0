@@ -146,7 +146,7 @@ export default {
           router: this.$router,
           success: (res) => {}
         })
-        window.localStorage.clear()
+        util.clearLoginStorage()
         this.$store.commit('userLoginInfo', {
           token: '', // token数据
           userName: '', // 用户姓名

@@ -219,7 +219,7 @@ router.beforeEach((to, from, next) => {
     }
     next()
   } else if (to.path === '/login') {
-    window.localStorage.clear()
+    util.clearLoginStorage()
     window.sessionStorage.clear()
     let callbackUrl = util.delTokenUrl()
     let goLoginUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/login?callback=' + callbackUrl + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
