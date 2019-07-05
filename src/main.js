@@ -4,7 +4,7 @@ import router from './router'
 // import Mock from './mock'
 import store from './store/store'
 import filters from './store/filters'
-// import utils from './common/util'
+import utils from './common/util'
 import './assets/style/main.less'
 import './assets/style/media.css'
 import './assets/style/icon.less'
@@ -16,9 +16,9 @@ import BaiduMap from 'vue-baidu-map'
 Vue.use(BaiduMap, {
   ak: 'qFHHVG13nGc25bOu8bOw6mIyWsQo78q8'
 })
-// Vue.config.errorHandler = function (err, vm, info) {
-//   utils.errorReport(err, vm, info, store)
-// }
+Vue.config.errorHandler = function (err, vm, info) {
+  utils.errorReport(err, vm, info, store)
+}
 // Mock.bootstrap() // mock前端模拟数据
 Vue.filter('date', filters.date) // 自定义过滤器
 Vue.filter('money', filters.money) // 自定义过滤器

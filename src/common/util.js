@@ -236,43 +236,57 @@ export default {
     }
     return flag
   },
-  errorReport (err, vm, info, store) {
-    let {
-      message, // 异常信息
-      stack // 异常堆栈信息
-    } = err
+  errorReport (err, vm, info, store, syncError) {
+    if (syncError) { // 捕获异步错误
+      let { message, stack } = syncError
+      let params = {
+        logType: 'client',
+        logTime: this.dateFormat(new Date()),
+        moduleName: '',
+        location: location.host + location.pathname, // 去除参数的地址
+        url: '', // 服务地址
+        indexNumber: '',
+        lineNumber: '',
+        message: message,
+        stack: stack,
+        containerType: window.navigator.userAgent,
+        remark: '异步错误',
+        sysId: ''
+      }
+      // 发送ajax请求
+      store.dispatch('ajax', {
+        url: 'API@plat-manager/errorLog/addErrorLog',
+        data: params,
+        success: () => {}
+      })
+      return
+    }
+    let { message, stack } = err
     // 获取地址
     let { href } = vm.$router.resolve({
       path: vm.$route.path
     })
     let sysId = href.split('/')[1]
-    // jobDetailList.vue:140:10
     let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
     let funIndex = tempStr.indexOf('(')
     let srcIndex = ''
     let line = ''
     let column = ''
-    let src = ''
     if (process.env.NODE_ENV === 'production') {
       srcIndex = tempStr.indexOf('static')
-      src = tempStr.slice(srcIndex, tempStr.length - 1)
-      let rootPath = `/${sysId}/${src.split(':')[0]}.map`
-      let obj = this.sourceMap(src.split(':')[1], src.split(':')[2], rootPath)
-      line = obj.line
-      column = obj.column
     } else {
       srcIndex = tempStr.indexOf('./src')
-      src = tempStr.slice(srcIndex, tempStr.length - 1)
-      line = src.split(':')[1]
-      column = src.split(':')[2]
     }
+    let src = tempStr.slice(srcIndex, tempStr.length - 1)
+    line = src.split(':')[1]
+    column = src.split(':')[2]
     // 得到函数名
     let funName = tempStr.slice(4, funIndex)
     let obj = {
       logType: 'client',
       logTime: this.dateFormat(new Date()),
       moduleName: vm.$route.meta.title, // 模块名称
-      location: window.location.href,
+      location: location.host + location.pathname, // 去除参数的地址
       url: vm.$route.fullPath, // 服务地址
       indexNumber: column,
       lineNumber: line,
@@ -287,19 +301,6 @@ export default {
       url: 'API@plat-manager/errorLog/addErrorLog',
       data: obj,
       success: () => {}
-    })
-  },
-  // 映射map找到原始行
-  sourceMap (line, column, path) {
-    const SourceMap = require('source-map')
-    const { SourceMapConsumer } = SourceMap
-    let rawSourceMap = {}
-    SourceMapConsumer.with(rawSourceMap, null, consumer => {
-      const pos = consumer.originalPositionFor({
-        line: line,
-        column: column
-      })
-      return pos
     })
   }
 }

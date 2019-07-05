@@ -150,6 +150,7 @@ export default new Vuex.Store({
           }
         }
       }).catch((err) => {
+        util.errorReport('', '', '', this, err)
         setTimeout(() => {
           state.loading = false
         }, 500)
