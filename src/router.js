@@ -335,6 +335,10 @@ router.afterEach(route => {
     title = route.query.setTitle
     tabId = route.query.setId
   }
+  if (route.params.setTitle) {
+    title = route.params.setTitle
+    tabId = route.params.setId
+  }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
     let datas = []
