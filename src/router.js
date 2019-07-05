@@ -17,6 +17,7 @@ import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
+import Finance from './view/pages/finance/router'
 
 const routes = [
   {
@@ -98,6 +99,7 @@ routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
+routes[1].children.push(...Finance.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -204,6 +206,12 @@ router.beforeEach((to, from, next) => {
           permissions: 'CCBA21400000000'
         }
         break
+      case 'finance':
+        json = {
+          type: 'finance',
+          title: '物流费用管理系统',
+          permissions: 'CCBA21400000000'
+        }
     }
     router.app.$options.store.commit('setChildSys', json)
   }
