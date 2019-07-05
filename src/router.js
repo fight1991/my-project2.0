@@ -210,7 +210,7 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'entrust',
           title: '业务委托',
-          permissions: 'CCBA21400000000'
+          permissions: 'CCBA21500000000'
         }
         break
     }
