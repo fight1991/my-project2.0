@@ -23,25 +23,25 @@
                       <el-col :span="24">
                         <el-form-item label="单证类型：" class="type-height">
                           <span>
-                            {{ item.documentTypeValue }}
+                            {{ item.documentTypeValue || '-' }}
                           </span>
                         </el-form-item>
                       </el-col>
                       <el-col :span="24">
                         <el-form-item label="单证编号：" class="type-height" prop="licensePath">
-                          {{ item.documentNo }}
+                          {{ item.documentNo || '-' }}
                         </el-form-item>
                       </el-col>
                     </el-row>
                     <el-row :gutter="30">
                       <el-col :span="12">
                         <el-form-item label="上传时间：" class="type-height">
-                          {{ item.updateTime|date() }}
+                          {{ item.updateTime|date() || '-' }}
                         </el-form-item>
                       </el-col>
                       <el-col :span="12">
                         <el-form-item label="上传人：" class="type-height">
-                          {{ item.updateUserName }}
+                          {{ item.updateUserName || '-' }}
                         </el-form-item>
                       </el-col>
                     </el-row>
