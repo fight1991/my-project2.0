@@ -235,7 +235,7 @@ export default {
               message: '导入成功',
               type: 'success'
             })
-            this.toDetail()
+            this.toDetail(this.ownerCodeScc)
           }
         })
       })

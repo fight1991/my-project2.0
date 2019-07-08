@@ -222,7 +222,7 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
-              this.toDetail()
+              this.toDetail(this.ownerCodeScc)
             }
           })
         })
