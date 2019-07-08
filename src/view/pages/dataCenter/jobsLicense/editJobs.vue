@@ -188,45 +188,41 @@ export default {
     },
     // 保存
     submit () {
-      if (this.submitData.licenseList.length === 0) {
-        this.toDetail(this.ownerCodeScc)
-      } else {
-        this.$refs['submitData'].validate((valId) => {
-          if (!valId) {
-            return false
-          }
-          let list = []
-          list = this.submitData.licenseList
-          for (let i = 0; i < list.length; i++) {
-            for (let j = list.length - 1; j > i; j--) {
-              if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
-                this.$message({
-                  message: '此单证类型和单证编号已存在',
-                  type: 'error'
-                })
-                return
-              }
-            }
-          }
-          let data = {
-            ownerCodeScc: this.ownerCodeScc,
-            decPid: this.decPid,
-            attachs: this.submitData.licenseList
-          }
-          this.$store.dispatch('ajax', {
-            url: 'API@/saas-document-center/business/edit',
-            data: data,
-            router: this.$router,
-            success: (res) => {
+      this.$refs['submitData'].validate((valId) => {
+        if (!valId) {
+          return false
+        }
+        let list = []
+        list = this.submitData.licenseList
+        for (let i = 0; i < list.length; i++) {
+          for (let j = list.length - 1; j > i; j--) {
+            if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
               this.$message({
-                message: '编辑成功',
-                type: 'success'
+                message: '此单证类型和单证编号已存在',
+                type: 'error'
               })
-              this.toDetail(this.ownerCodeScc)
+              return
             }
-          })
+          }
+        }
+        let data = {
+          ownerCodeScc: this.ownerCodeScc,
+          decPid: this.decPid,
+          attachs: this.submitData.licenseList
+        }
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/business/edit',
+          data: data,
+          router: this.$router,
+          success: (res) => {
+            this.$message({
+              message: '编辑成功',
+              type: 'success'
+            })
+            this.toDetail(this.ownerCodeScc)
+          }
         })
-      }
+      })
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, row, index) {
