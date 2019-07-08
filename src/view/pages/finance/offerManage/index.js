@@ -18,6 +18,16 @@ const MENU = [
       component: resolve => require(['./offerDetail.vue'], resolve),
       title: '报价详情'
     }
+  },
+  {
+    path: '/finance/offerManage/offerAdd',
+    name: 'offerManage-offerAdd',
+    permissions: 'CCBA21003010000',
+    hidden: false,
+    meta: {
+      component: resolve => require(['./offerAdd.vue'], resolve),
+      title: '新建报价'
+    }
   }
 ]
 export default {MENU}

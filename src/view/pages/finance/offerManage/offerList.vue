@@ -6,7 +6,7 @@
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="报价名称" :label-width="labelFormWidth.six">
-              <el-input size="mini" clearable ></el-input>
+              <el-input v-model="QueryForm.itemName" size="mini" clearable ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -16,27 +16,27 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="报价含税" :label-width="labelFormWidth.six">
-              <el-select size="mini" clearable  style="width:100%;">
-                <el-option :key="'Y'" :label="'含税'" :value="'Y'"></el-option>
-                <el-option :key="'N'" :label="'不含税'" :value="'N'"></el-option>
+              <el-select v-model="QueryForm.rateFlag" size="mini" clearable  style="width:100%;">
+                <el-option key="1" :label="'含税'" :value="'Y'"></el-option>
+                <el-option key="0" :label="'不含税'" :value="'N'"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="进/出境关别" :label-width="labelFormWidth.six">
-              <el-input size="mini" clearable ></el-input>
+              <el-input v-model="QueryForm.impexpPortcdNames" size="mini" clearable maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="申报地海关" :label-width="labelFormWidth.five">
-              <el-input size="mini" clearable ></el-input>
+              <el-input v-model="QueryForm.dclPlcCuscdNames" size="mini" clearable maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="创建人" :label-width="labelFormWidth.five">
-              <el-input size="mini" clearable ></el-input>
+              <el-input v-model="QueryForm.createUserId" size="mini" clearable maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -94,14 +94,34 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-row class='sys-page-list mg-b-30'>
+        <el-col :span="24" align="right">
+          <page-box :pagination='paginationInit' @change="getsOfferList"></page-box>
+        </el-col>
+      </el-row>
     </div>
   </section>
 </template>
 
 <script>
+import util from '@/common/util'
 export default {
   data () {
     return {
+      dates: [],
+      QueryForm: {
+        rateFlag: '0',
+        itemName: '',
+        impexpPortcdNames: '',
+        impexpPortcd: '',
+        entrustCompanyName: '',
+        entrustCompanyId: '',
+        dclPlcCuscdNames: '',
+        dclPlcCuscd: '',
+        createUserId: '',
+        createDate: ''
+      },
+      paginationInit: '',
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -109,7 +129,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
+            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
           }
         }, {
           text: '最近一个月',
@@ -117,7 +137,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
+            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
           }
         }, {
           text: '最近三个月',
@@ -125,27 +145,43 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
+            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
           }
         }]
-      },
-      dates: ''
+      }
     }
   },
   created () {
-
+    this.paginationInit = this.$store.state.pagination
   },
   methods: {
-
+    // 报价列表查询
+    getsOfferList (pagination) {
+      if (this.dates.length > 0) {
+        this.QueryForm.createDate = [util.dateFormat(this.dates[0]), util.dateFormat(this.dates[1])]
+      }
+      this.paginationInit = pagination
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/gets',
+        data: {
+          ...this.QueryForm,
+          page: pagination || this.$store.state.pagination
+        },
+        router: this.$router,
+        success: res => {
+          this.paginationInit = res.page
+        }
+      })
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 .query-condition {
-    background-color: #fff;
-    padding: 20px;
-  }
+  background-color: #fff;
+  padding: 20px;
+}
 .query-table {
   background-color: #fff;
   padding: 20px;
@@ -155,6 +191,6 @@ export default {
   padding: 10px 0;
 }
 .table-btn {
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 </style>
