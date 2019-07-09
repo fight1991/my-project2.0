@@ -309,7 +309,7 @@ export default {
       this.$store.dispatch('ajax', {
         url: 'API@/login/login/login',
         data: data,
-        isMessage: false,
+        showErrorMessage: false,
         router: this.$router,
         success: res => {
           if (res.code === '0000') { // 注册未登录

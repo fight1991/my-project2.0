@@ -69,6 +69,7 @@ export default {
             pageIndex: 1
           }
         },
+        showErrorMessage: false,
         isLoad: false,
         router: this.$router,
         success: (res) => {
