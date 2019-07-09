@@ -75,6 +75,7 @@ export default {
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/getAllCorpDIY',
         data: {},
+        showErrorMessage: false,
         router: this.$router,
         success: (res) => {
           if (res.result.activities) {
