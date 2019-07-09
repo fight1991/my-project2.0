@@ -226,6 +226,11 @@ export default {
         success: (res) => {
           if (res.result) {
             window.open(res.result)
+          } else {
+            this.$message({
+              message: '没有可导出的数据',
+              type: 'warning'
+            })
           }
         }
       })
