@@ -112,7 +112,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
+                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail" style="margin-top:18px;"><img src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -335,18 +335,12 @@ export default {
               message: '编辑成功',
               type: 'success'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/license/detailListLicense',
-              query: {
-                sccCode: this.subData.info.ownerCodeScc,
-                corpName: encodeURIComponent(this.subData.info.corpName)
-              }
-            })
+            this.toDetail()
           }
         })
       })
     },
+    // 跳转详情页
     toDetail () {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
@@ -499,6 +493,7 @@ export default {
                 this.isExcel = true
               }
             }
+            this.$refs['subData'].clearValidate('subData.info.licenseUrl')
           }
         })
       }

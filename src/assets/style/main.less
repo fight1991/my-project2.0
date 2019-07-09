@@ -370,7 +370,8 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     padding: 0 6px;
     left: -6px;
   }
-  .news {
+
+  .news,.board {
     .el-tabs__active-bar {
       padding: 0 6px;
       left: -3px;
@@ -381,11 +382,14 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
     .el-tabs__item.is-top:last-child {
       padding-right: 10px!important;
-      margin-right: 10px!important;
+      margin-right: 45px!important;
     }
   }
   .el-tabs__item.is-active{
     border-bottom: 2px solid #409EFF;
+  }
+  .board .el-tabs__item.is-active {
+    border-bottom: 2px solid transparent;
   }
   .el-tabs__item {
     // float: right;
@@ -394,6 +398,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     line-height: 30px;
     color: @font-color-title;
     padding: 0 10px;
+    margin: 0 10px;
     &:hover {
       color: @font-color-main;
     }
@@ -405,7 +410,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .el-tabs--bottom .el-tabs__item.is-top:last-child, 
   .el-tabs--top .el-tabs__item.is-bottom:last-child, 
   .el-tabs--top .el-tabs__item.is-top:last-child {
-    margin-right: 20px;
+    margin-right: 45px;
   }
   .el-date-editor--daterange.el-input, 
   .el-date-editor--daterange.el-input__inner, 
@@ -448,6 +453,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     // }
     .el-table td, .el-table th {
       padding: 3px 0;
+    }
+    .el-table::before{
+      background-color: transparent;
     }
   }
   .banner .el-carousel__button {
@@ -793,6 +801,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
     &:hover,&:focus{
       border-color: #409EFF;
+      color: #409EFF;
       background-color: #fff;
     }
   }
@@ -1283,7 +1292,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-export i{
   background: url(../img/icon-export.png) no-repeat;
 }
-.list-icon-export:hover i,.list-icon-export:focus i{
+.list-icon-export:hover i,.list-icon-export:focus i,.sys-table-table .list-icon-export i{
   background: url(../img/icon-exportH.png) no-repeat;
 }
 .list-icon-copy i{
@@ -1500,4 +1509,82 @@ body .el-table th.gutter{
   .el-form-item__label{
     line-height: 16px;
   }
+}
+// 人才招聘 左侧边栏
+.el-menu-vertical {
+  border-right: none;
+  .el-submenu__title{
+    height: 28px;
+    line-height: 28px;
+  }
+  .el-submenu {
+    margin-bottom: 20px;
+  }
+  .el-submenu .el-menu-item {
+    height: 28px;
+    line-height: 28px;
+    .el-checkbox__label {
+      font-size: 12px;
+      color: #333;
+    }
+  }
+  .el-menu-item-group {
+    .el-menu-item-group__title {
+      padding: 0;
+    }
+  }
+}
+.detail-css {
+  .el-dialog {
+    .el-dialog__body {
+      padding-top: 20px;
+      .el-form-item {
+        margin-bottom: 18px;
+        .el-form-item__label {
+          height: 28px;
+          line-height: 28px;
+          text-align: left;
+        }
+        .el-form-item__error {
+          padding-top: 1px;
+        }
+        .el-form-item__content {
+          line-height: 28px;
+          height: 28px;
+        }
+      }
+    }
+    .el-dialog__footer{
+      text-align: center !important;
+      padding-top: 30px; 
+    }
+    .dialog-btn {
+      background-color: #287fca;
+      border-color: #287fca;
+      &:hover,&:focus{
+        border-color: #287fca  !important;
+        background-color: #287fca  !important;
+      }
+    }
+    
+  }
+}
+.el-button--default:hover{
+  border-color: #409EFF;
+  background-color: #fff;
+}
+.el-button--default:focus{
+  background: #FFF;
+  border: 1px solid #DCDFE6;
+  color: #606266;
+}
+.type-height {
+  margin-bottom: 0px;
+}
+// 暂无数据图片
+.null-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

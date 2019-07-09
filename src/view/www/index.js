@@ -46,6 +46,22 @@ const MENU = [
       title: '人才招聘'
     },
     component: resolve => require(['../www/components/talent.vue'], resolve)
+  },
+  {
+    path: '/talent/jobList',
+    name: 'jobList',
+    meta: {
+      title: '职位列表'
+    },
+    component: resolve => require(['../www/components/jobList.vue'], resolve)
+  },
+  {
+    path: '/talent/jobDetail',
+    name: 'jobDetail',
+    meta: {
+      title: '职位详情'
+    },
+    component: resolve => require(['../www/components/jobDetail.vue'], resolve)
   }
   // {
   //   path: '/productOrder',

@@ -79,6 +79,7 @@
 <script>
 import config from '../../../config/config'
 import commonPath from '../../../config/commonPath'
+import util from '../../../common/util'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -123,7 +124,7 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        window.localStorage.clear()
+        util.clearLoginStorage()
         this.$store.commit('userLoginInfo', {
           token: '', // token数据
           userName: '', // 用户姓名

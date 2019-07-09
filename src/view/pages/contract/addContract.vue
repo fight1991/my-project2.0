@@ -122,7 +122,7 @@
                 :on-remove="handleRemove"
                 :file-list="fileList"
                 :limit="1">
-                <el-button size="mini" type="primary" :disabled="isCheck">上传</el-button>
+                <el-button size="mini" type="primary" :disabled="isCheck" class="op-btn">上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传excel,word,pdf文件，且不超过10M</div>
               </el-upload>
               <span v-if="isCheck" style="color:rgb(55, 134, 199);cursor:pointer" @click="enclosureFun">{{this.name}}</span>
@@ -176,6 +176,7 @@ export default {
       isCheck: false, // 审核录入
       verifyMsg: '',
       dateForm: {
+        status: '',
         entrustCompanyId: '',
         contractNo: '',
         settlementType: '0',
@@ -255,8 +256,10 @@ export default {
           this.contractAudit = res.result['contract_manual_audit'].value
           if (this.contractAudit === 'Y') {
             this.isDisabledCheck = true
+            this.dateForm.status = '0'
           } else {
             this.isDisabledCheck = false
+            this.dateForm.status = '1'
           }
         }
       })
@@ -279,6 +282,7 @@ export default {
       this.fileList = []
       this.verifyMsg = ''
       this.dateForm = {
+        status: '',
         entrustCompanyId: '',
         contractNo: '',
         settlementType: '0',
@@ -432,7 +436,7 @@ export default {
         datas.corpName = value
       }
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance-expense/invitation/company',
+        url: 'API@/saas-finance-expense/invitation/queryCorpList',
         data: datas,
         isLoad: false,
         success: (res) => {

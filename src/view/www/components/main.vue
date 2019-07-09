@@ -250,12 +250,12 @@ export default {
   padding: 40px 0 20px;
   .link-items {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
   }
   .link-detail {
-    width: 33.3%;
+    width: 25%;
     margin: 20px 0 30px;
     cursor: pointer;
     img {

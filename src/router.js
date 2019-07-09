@@ -17,6 +17,7 @@ import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
+import Entrust from './view/pages/entrust/router'
 
 const routes = [
   {
@@ -54,12 +55,21 @@ const routes = [
     }
   }, {
     path: '/news/detail',
-    name: '详情',
+    name: 'detail',
     hidden: true,
     permissions: 'WF000000',
     component: resolve => require(['./view/control/components/detail.vue'], resolve),
     meta: {
       title: '详情'
+    }
+  }, {
+    path: '/news/newsList',
+    name: 'newsList',
+    hidden: true,
+    permissions: 'WF000000',
+    component: resolve => require(['./view/control/components/newsList.vue'], resolve),
+    meta: {
+      title: '资讯列表'
     }
   },
   // {
@@ -89,6 +99,7 @@ routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
+routes[1].children.push(...Entrust.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -195,13 +206,20 @@ router.beforeEach((to, from, next) => {
           permissions: 'CCBA21400000000'
         }
         break
+      case 'entrust':
+        json = {
+          type: 'entrust',
+          title: '业务委托',
+          permissions: 'CCBA21500000000'
+        }
+        break
     }
     router.app.$options.store.commit('setChildSys', json)
   }
   /* 登录校验：
      1、登录页面直接放行
   */
-  if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder' || to.path === '/talent') {
+  if (to.path === '/index' || to.path === '/production' || to.path === '/charge' || to.path === '/aboutUs' || to.path === '/contactUs' || to.path === '/productOrder' || to.path.includes('/talent')) {
     if (!util.isEmpty(to.query.token)) {
       router.app.$options.store.commit('setToken', to.query.token)
       window.localStorage.setItem('token', to.query.token)
@@ -210,7 +228,7 @@ router.beforeEach((to, from, next) => {
     }
     next()
   } else if (to.path === '/login') {
-    window.localStorage.clear()
+    util.clearLoginStorage()
     window.sessionStorage.clear()
     let callbackUrl = util.delTokenUrl()
     let goLoginUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/login?callback=' + callbackUrl + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
@@ -316,6 +334,10 @@ router.afterEach(route => {
   if (route.query.setTitle) {
     title = route.query.setTitle
     tabId = route.query.setId
+  }
+  if (route.params.setTitle) {
+    title = route.params.setTitle
+    tabId = route.params.setId
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {

@@ -26,6 +26,7 @@ export default new Vuex.Store({
       companyType: '', // 公司类型
       isAdmin: '',
       companyCode: '', // 公司id
+      mobile: '', // 手机号
       userPhoto: '', // 用户头像
       companyName: '',
       adminFlag: ''
@@ -44,7 +45,7 @@ export default new Vuex.Store({
     sysType: util.checkSys() // 登录平台
   },
   actions: {
-    ajax: function ({ commit }, {url, data, headers, success, other, error, isPageList = false, isLoad = true, router}) {
+    ajax: function ({ commit }, {url, data, headers, success, other, error, isPageList = false, isLoad = true, router, showErrorMessage = true}) {
       let urlArr = url.split('@')
       let baseURL = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'][urlArr[0]]
       axios.defaults.baseURL = baseURL
@@ -64,16 +65,23 @@ export default new Vuex.Store({
         error: error, // 系统错误回调方法
         isPageList: isPageList, // 是否是分页list
         isLoad: isLoad, // 是否显示loading
-        router: router // 操作路由
+        router: router, // 操作路由
+        showErrorMessage: showErrorMessage
       })
     },
     upload: function ({ commit }, {url, data, success, other, error, isLoad = true, router}) {
       let urlArr = url.split('@')
       let baseURL = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'][urlArr[0]]
       axios.defaults.baseURL = baseURL
+      let ssoToken = ''
+      if (window.localStorage.getItem('token')) {
+        ssoToken = window.localStorage.getItem('token')
+      } else {
+        ssoToken = ''
+      }
       axios.defaults.headers.common = {
         'Content-Type': 'multipart/form-data',
-        'ssoToken': window.localStorage.getItem('token'),
+        'ssoToken': ssoToken,
         'appWebFlag': '1',
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
         'X-Requested-With': 'XMLHttpReques'
@@ -91,7 +99,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // post的请求
-    POST (state, {url, data, success, other, error, isPageList, isLoad, router}) {
+    POST (state, {url, data, success, other, error, showErrorMessage = true, isLoad, router}) {
       let params = {
         'appWebFlag': '1', // 请求终端类型。1：PC端，其他设备待定
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
@@ -134,13 +142,16 @@ export default new Vuex.Store({
             router.push('/login')
           } else {
             // 系统报错
-            Vue.prototype.$message({
-              message: _result.message,
-              type: 'error'
-            })
+            if (showErrorMessage) {
+              Vue.prototype.$message({
+                message: _result.message,
+                type: 'error'
+              })
+            }
           }
         }
       }).catch((err) => {
+        util.errorReport('', '', '', this, err)
         setTimeout(() => {
           state.loading = false
         }, 500)
@@ -238,6 +249,7 @@ export default new Vuex.Store({
       state.userLoginInfo.userName = data.userName
       state.userLoginInfo.companyType = data.companyType
       state.userLoginInfo.companyCode = data.companyCode
+      state.userLoginInfo.mobile = data.mobile
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.userPhoto = data.userPhoto
       state.userLoginInfo.companyName = data.companyName

@@ -5,7 +5,7 @@
       <el-form  :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
-          <el-col :span="4" :xs="12">
+          <el-col :span="6" :xs="12">
             <el-form-item label="合同企业" class="form-item-mg0">
               <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
                 <el-option
@@ -24,7 +24,7 @@
           </el-col>
           <el-col :span="4" :xs="24">
             <el-form-item label="创建时间" class="form-item-mg0">
-              <el-date-picker size="mini"  v-model="QueryForm.createDate"  style="width:100%;"
+              <el-date-picker size="mini"  v-model="date"  style="width:100%;"
                 type="date"
                 :editable='false'>
             </el-date-picker>
@@ -127,7 +127,7 @@
   </section>
 </template>
 <script>
-// import util from '../../../common/util'
+import util from '../../../common/util'
 export default {
   data () {
     return {
@@ -136,7 +136,7 @@ export default {
       resultList: [], // 列表数据
       checkedData: [], // 选中得数据
       QueryForm: {}, // 查询条件
-      dates: ['', ''], // 日期
+      date: '', // 日期
       loading: false,
       statusList: [
         {
@@ -180,6 +180,7 @@ export default {
     // 查询列表
     queryTablelist (pagination) {
       this.paginationInit = pagination
+      this.QueryForm.createDate = util.dateFormat(this.date, 'yyyy-MM-dd')
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance-expense/contract/gets',
         data: {
@@ -252,7 +253,9 @@ export default {
               name: 'contract-add',
               params: {
                 flag: type,
-                pkSeqNo: this.checkedData[0].pkSeqNo
+                pkSeqNo: this.checkedData[0].pkSeqNo,
+                setTitle: '合同审核-' + this.checkedData[0].pkSeqNo,
+                setId: this.checkedData[0].pkSeqNo + 'check'
               }
             })
           }
@@ -262,7 +265,7 @@ export default {
     // 重置
     resetQueryform () {
       this.QueryForm = {}
-      this.dates = ['', '']
+      this.date = ''
       this.search()
     },
     // 审核通过
@@ -317,7 +320,7 @@ export default {
           })
           return
         } else {
-          this.$confirm('是否确认审核通过所选全部合同？', '提示', {
+          this.$confirm('是否确认审核驳回所选全部合同？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

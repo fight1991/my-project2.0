@@ -358,27 +358,33 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: 'https://test.5itrade.cn/ccba2/contract/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://test.5itrade.cn/fin2'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://test.5itrade.cn/zvip'
-    },
-    {
-      id: '5',
-      icon: require('@/assets/www-img/images/Operate.png'),
-      text: '运营管理平台',
-      link: 'https://test.5itrade.cn/op'
     },
     {
       id: '6',
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://test.5itrade.cn/zquestion'
+    },
+    {
+      id: '7',
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://test.5itrade.cn/op'
     }
   ],
   prod: [
@@ -396,27 +402,33 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/contract.png'),
+      text: '合同管理',
+      link: 'https://www.5itrade.cn/ccba2/contract/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://www.5itrade.cn/fin2'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://www.5itrade.cn/zvip'
-    },
-    {
-      id: '5',
-      icon: require('@/assets/www-img/images/Operate.png'),
-      text: '运营管理平台',
-      link: 'https://www.5itrade.cn/op'
     },
     {
       id: '6',
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://www.5itrade.cn/zquestion'
+    },
+    {
+      id: '7',
+      icon: require('@/assets/www-img/images/Operate.png'),
+      text: '运营管理平台',
+      link: 'https://www.5itrade.cn/op'
     }
   ]
 }
@@ -493,5 +505,24 @@ const introduce = {
   <p style="text-indent:2em;line-height: 26px;">中国报关协会是中国唯一的全国性报关行业组织，协会成员包括报关企业、进出口货物收发货人及其报关员。中国报关协会是民政部授予的5A级全国行业协会(2015-2020)和2015年度全国先进社会组织。</p>
   <p style="text-indent:2em;line-height: 26px;">中国报关协会的宗旨是配合政府部门加强对我国报关行业的管理，维护、改善报关市场的经营秩序，促进会员间的交流与合作，依法代表本行业利益，保护会员的合法权益，促进我国报关服务行业的健康发展。</p>`
 }
-
-export {jobs, companys, partner, linkList, introduce}
+const jobIntroduce = {
+  first: `<h3 style="color:#fff;font-size:18px;text-align:center;line-height:28px;height:28px;">在朗新工作大有不同</h3>
+  <p style="color:#666;text-indent:2em;line-height: 24px;padding:20px 20px 0 20px;">在朗新，工作的氛围让每个人都积极创新,为做出美好的事情而努力。在这里没有大公司的等级观念，每个人都可以随时提出自己的创意和想法。</p>`,
+  second: `<h3 style="color:#fff;font-size:18px;text-align:center;line-height:28px;height:28px;">一起推动关务行业快速进步</h3>
+  <p style="color:#666;text-indent:2em;line-height: 24px;padding:20px 20px 0 20px;">让每个人都能享受行业变革的乐趣，朗新公司应用互联网云模式开发关务平台产品，将智能关务云打造成全国最大的产品系统平台，整合了货主、货代、报关行、仓储、运输企业等相关产品角色。你现在就有机会参与这一切，让伟大的产品铭刻你的烙印！</p>`,
+  third: `<h3 style="color:#fff;font-size:18px;text-align:center;line-height:28px;height:28px;">与优秀的人一起做事</h3>
+  <p style="color:#666;text-indent:2em;line-height: 24px;padding:20px 20px 0 20px;">朗新拥有一流的人才队伍，团队成员来自各大知名关务、互联网公司。在这里，你会遇到比自己优秀的人，一起从优秀走向卓越！</p>`
+}
+const jobTypeList = [
+  {
+    value: '1',
+    label: '销售经理'
+  }, {
+    value: '2',
+    label: '咨询顾问'
+  }, {
+    value: '3',
+    label: '需求分析师'
+  }
+] // 职位
+export {jobs, companys, partner, linkList, introduce, jobIntroduce, jobTypeList}

@@ -84,7 +84,7 @@
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <div class='sys-td-c'>
-              <el-button type="text" class="table-icon list-icon-edit"  @click="toEdit('edit',scope.row.certificatePid,certificateDetailForm.sccCode)" title="编辑"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-edit"  @click="toEdit('edit',scope.row)" title="编辑"><i></i></el-button>
               <el-button type="text" class="table-icon list-icon-delete" @click="deleteBtn(scope.row.certificatePid)" title="删除"><i></i></el-button>
             </div>
           </template>
@@ -323,13 +323,13 @@ export default {
       })
     },
     // 编辑
-    toEdit (type, certificatePid, ownerCodeScc) {
+    toEdit (type, row) {
       this.$router.push({
         path: '/dataCenter/certificate/addCertificate',
         query: {
           type: type,
-          certificatePid: certificatePid,
-          ownerCodeScc: ownerCodeScc
+          certificatePid: row.certificatePid,
+          ownerCodeScc: row.ownerCodeScc
         }
       })
     },

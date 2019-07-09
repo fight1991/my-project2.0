@@ -1,6 +1,6 @@
 import store from '@/store/store'
 import router from '@/router'
-
+import util from '@/common/util'
 export default {
   state: {
     // 主页
@@ -118,7 +118,17 @@ export default {
         state.tabsList.push(data)
       }
       if (tabExsit && data.path !== tabExsit.path) {
-        data = tabExsit
+        // 如果携带了参数
+        if (!util.objIsEmpty(data.query) || !util.objIsEmpty(data.params)) {
+          let index = state.tabsList.findIndex(item => {
+            return item === tabExsit
+          })
+          data.query = { ...data.route.query }
+          data.params = { ...data.route.params }
+          state.tabsList.splice(index, 1, data)
+        } else {
+          data = tabExsit
+        }
       }
       state.currentTab = data
     },

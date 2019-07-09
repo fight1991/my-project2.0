@@ -99,7 +99,7 @@
                       <template slot-scope="scope">
                         <div class='sys-td-c'>
                           <el-button type="text" class="table-icon list-icon-look" @click="toDetailChild('detail',scope.row.licensePid,scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
-                          <el-button type="text" class="table-icon list-icon-edit" @click="toDetailChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i></i></el-button>
+                          <el-button type="text" class="table-icon list-icon-edit" @click="toEditChild('edit',scope.row.licensePid,scope.row.ownerCodeScc)" title="编辑"><i></i></el-button>
                           <el-button type="text" class="table-icon list-icon-scan" @click="previewPicture(scope.row)" title="附件"><i></i></el-button>
                           <el-button type="text" class="table-icon list-icon-delete" @click="deleteBtn(scope.row.licensePid,scope.row.lastCount)" title="删除"><i></i></el-button>
                         </div>
@@ -257,12 +257,22 @@ export default {
       this.dates = ['', '']
     },
     // 跳转到详情页面
-    toDetailChild (type, id, ownerCodeScc) {
+    toDetailChild (type, licensePid, ownerCodeScc) {
       this.$router.push({
         path: '/dataCenter/license/manageDetail',
         query: {
           type: type,
-          id: id,
+          id: licensePid,
+          ownerCodeScc: ownerCodeScc
+        }
+      })
+    },
+    toEditChild (type, licensePid, ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/license/manageDetail',
+        query: {
+          type: type,
+          id: licensePid,
           ownerCodeScc: ownerCodeScc
         }
       })

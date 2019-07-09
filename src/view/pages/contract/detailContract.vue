@@ -58,9 +58,14 @@
                 <span v-text="resultForm.createUserName"></span>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :xs="12">
+            <el-col :span="24">
               <el-form-item label="附件:">
                 <span style="color:rgb(55, 134, 199);cursor:pointer" @click="enclosureFun">{{resultForm.enclosureName}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="审核意见:" v-if="resultForm.verifyMsg">
+                <span v-text="resultForm.verifyMsg"></span>
               </el-form-item>
             </el-col>
           </el-row>

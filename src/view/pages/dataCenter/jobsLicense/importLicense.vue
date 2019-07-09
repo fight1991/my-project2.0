@@ -55,7 +55,7 @@
                    <el-form-item label="单证文件" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
                     <el-upload
                     action="http://127.0.0.1"
-                    :before-upload="(e)=>{beforeUpload(e,item)}"
+                    :before-upload="(e)=>{beforeUpload(e,item,index)}"
                     :file-list="fileLists"
                     :show-file-list="item.fileType"
                     :on-preview="showfileUrl"
@@ -109,6 +109,7 @@ export default {
             documentNo: '',
             documentType: '',
             documentUrl: '',
+            createUserName: '',
             fileLists: [], // 存放文件
             fileType: true,
             isImg: false,
@@ -234,13 +235,7 @@ export default {
               message: '导入成功',
               type: 'success'
             })
-            this.$store.commit('CloseTab', this.$route.name)
-            this.$router.push({
-              path: '/dataCenter/jobsLicense/jobDetailList',
-              query: {
-                ownerCodeScc: this.ownerCodeScc
-              }
-            })
+            this.toDetail(this.ownerCodeScc)
           }
         })
       })
@@ -256,7 +251,7 @@ export default {
       })
     },
     // 上传图片前的格式及大小判断
-    beforeUpload (file, row) {
+    beforeUpload (file, row, index) {
       if (!util.getFileTypeByName(file.name)) {
         this.$message({
           message: '上传文件暂时只支持图片/PDF/word/Excel格式',
@@ -284,6 +279,7 @@ export default {
           router: this.$router,
           success: (res) => {
             row.documentUrl = res.result.url
+            row.createUserName = res.result.name
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
               row.fileType = false
               row.isImg = true
@@ -315,6 +311,7 @@ export default {
                 row.isExcel = true
               }
             }
+            this.$refs['submitData'].clearValidate('licenseList.' + index + '.documentUrl')
           }
         })
       }

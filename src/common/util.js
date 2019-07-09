@@ -224,5 +224,87 @@ export default {
         obj1[b] = obj2[b]
       }
     }
+  },
+  // 判断是否是空对象
+  objIsEmpty (obj) {
+    let flag = false
+    for (let k in obj) {
+      if (!k) {
+        flag = true
+      }
+      break
+    }
+    return flag
+  },
+  clearLoginStorage () {
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('ccbaMenuCodes')
+  },
+  errorReport (err, vm, info, store, syncError) {
+    if (syncError) { // 捕获异步错误
+      let { message, stack } = syncError
+      let params = {
+        logType: 'client',
+        logTime: this.dateFormat(new Date()),
+        moduleName: '',
+        location: location.host + location.pathname, // 去除参数的地址
+        url: '', // 服务地址
+        indexNumber: '',
+        lineNumber: '',
+        message: message,
+        stack: stack,
+        containerType: window.navigator.userAgent,
+        remark: '异步错误',
+        sysId: ''
+      }
+      // 发送ajax请求
+      store.dispatch('ajax', {
+        url: 'API@plat-manager/errorLog/addErrorLog',
+        data: params,
+        success: () => {}
+      })
+      return
+    }
+    let { message, stack } = err
+    // 获取地址
+    let { href } = vm.$router.resolve({
+      path: vm.$route.path
+    })
+    let sysId = href.split('/')[1]
+    let tempStr = stack.split(/\n/)[1].replace(/\s+/g, '')
+    let funIndex = tempStr.indexOf('(')
+    let srcIndex = ''
+    let line = ''
+    let column = ''
+    if (process.env.NODE_ENV === 'production') {
+      srcIndex = tempStr.indexOf('static')
+    } else {
+      srcIndex = tempStr.indexOf('./src')
+    }
+    let src = tempStr.slice(srcIndex, tempStr.length - 1)
+    line = src.split(':')[1]
+    column = src.split(':')[2]
+    // 得到函数名
+    let funName = tempStr.slice(4, funIndex)
+    let obj = {
+      logType: 'client',
+      logTime: this.dateFormat(new Date()),
+      moduleName: vm.$route.meta.title, // 模块名称
+      location: location.host + location.pathname, // 去除参数的地址
+      url: vm.$route.fullPath, // 服务地址
+      indexNumber: column,
+      lineNumber: line,
+      message: message,
+      stack: stack,
+      containerType: window.navigator.userAgent,
+      remark: funName + '|' + info,
+      sysId: sysId
+    }
+    // 发送ajax请求
+    store.dispatch('ajax', {
+      url: 'API@plat-manager/errorLog/addErrorLog',
+      data: obj,
+      success: () => {}
+    })
   }
 }

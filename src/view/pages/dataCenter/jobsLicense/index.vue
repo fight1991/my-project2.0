@@ -75,7 +75,7 @@
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
               <div class='sys-td-c'>
-                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row.ownerCodeScc)" title="查看"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row)" title="查看"><i></i></el-button>
               </div>
             </template>
           </el-table-column>
@@ -182,7 +182,7 @@ export default {
       let restaurants = this.corpListOptions
       let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
       // 调用 callback 返回建议列表的数据
-      cb(results.slice(0, 10))
+      cb(results)
     },
     createFilter (queryString) {
       return (restaurant) => {
@@ -194,11 +194,11 @@ export default {
       }
     },
     // 跳转到详情页面
-    toChild (ownerCodeScc) {
+    toChild (row) {
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {
-          ownerCodeScc: ownerCodeScc
+          ownerCodeScc: row.ownerCodeScc
         }
       })
     }
