@@ -80,6 +80,11 @@
                   <div class='sys-td-r'>{{scope.row.inputCount}}</div>
                 </template>
               </el-table-column>
+              <el-table-column label="录入商品项数" min-width="100">
+                <template slot-scope="scope">
+                  <div class='sys-td-r'>{{scope.row.decListCount}}</div>
+                </template>
+              </el-table-column>
               <el-table-column label="单证审核数" min-width="100">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.verityCount}}</div>
