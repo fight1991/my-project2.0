@@ -1,4 +1,5 @@
 import offer from './offerManage/index'
+import expense from './expense/index'
 const MENU = [
   {
     path: '/finance/index',
@@ -10,6 +11,7 @@ const MENU = [
       title: '首页'
     }
   },
-  ...offer.MENU
+  ...offer.MENU,
+  ...expense.MENU
 ]
 export default {MENU}
