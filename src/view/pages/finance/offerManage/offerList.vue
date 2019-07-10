@@ -58,8 +58,8 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary">查询</el-button>
-        <el-button size="mini" >重置</el-button>
+        <el-button size="mini" type="primary" @click="getsOfferList">查询</el-button>
+        <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
@@ -68,7 +68,7 @@
         <el-button size="mini" class="list-btns list-icon-add"><i></i>新增</el-button>
         <el-button size="mini" class="list-btns list-icon-export"><i></i>导出</el-button>
       </el-row>
-      <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px">
+      <el-table class='sys-table-table' :data="offerTableList" border highlight-current-row height="530px">
         <el-table-column
           type="selection"
           width="55">
@@ -121,6 +121,7 @@ export default {
         createUserId: '',
         createDate: ''
       },
+      offerTableList: [],
       paginationInit: '',
       pickerOptions: {
         shortcuts: [{
@@ -170,8 +171,25 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
+          this.offerTableList = res.result
         }
       })
+    },
+    // 重置查询条件
+    resetForm () {
+      this.QueryForm = {
+        rateFlag: '0',
+        itemName: '',
+        impexpPortcdNames: '',
+        impexpPortcd: '',
+        entrustCompanyName: '',
+        entrustCompanyId: '',
+        dclPlcCuscdNames: '',
+        dclPlcCuscd: '',
+        createUserId: '',
+        createDate: ''
+      }
+      this.dates = []
     }
   }
 }
