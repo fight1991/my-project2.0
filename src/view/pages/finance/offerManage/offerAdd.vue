@@ -30,7 +30,18 @@
           <el-row :gutter="50">
             <el-col :span="8">
               <el-form-item label="委托企业" :label-width="labelFormWidth.five" prop="entrustCompanyName">
-                <el-input size="mini" clearable v-model="sumitData.entrustCompanyName"></el-input>
+                <el-select v-model="sumitData.entrustCompanyName" maxlength="30" style="width:100%"
+                  filterable remote clearable placeholder=" " @change="translatecorp"
+                  :remote-method="getcorps"
+                  allow-create
+                  default-first-option >
+                  <el-option
+                    v-for="item in corpList"
+                    :key="item.corpId"
+                    :label="item.corpName"
+                    :value="item">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -255,12 +266,24 @@
             <el-row :gutter="50" class="margin_0 base-line-one">
               <el-col :span="12" class="padding_0">
                 <el-form-item label="进/出境关别" label-width="85px">
-                  <el-input size="mini" clearable maxlength="80" v-model="item1.impexpPortcdNames"></el-input>
+                  <el-select  v-model="item1.impexpPortcdNames"
+                    filterable clearable remote default-first-option
+                    multiple allow-create autocomplete
+                    @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in impexpPortList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12" style="padding-right:0">
                 <el-form-item label="申报地海关" label-width="85px">
-                  <el-select v-model="item1.dclPlcCuscdNames"
+                  <el-select  v-model="item1.dclPlcCuscdNames"
                     filterable clearable remote default-first-option
                     multiple allow-create autocomplete
                     @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
@@ -292,30 +315,56 @@
           <!-- 进口 -->
           <el-row :gutter="50" class="margin_0 import">
             <el-row class="title-flag margin_0">进口</el-row>
-            <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.quotationFeeOptions.I" :key="'key_1_I' + index2">
+            <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.quotationFeeOptions.I" :key="'key_0_I' + index2">
               <el-col :span="8" style="padding-left:0">
                 <el-form-item label-width="0">
                   <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
-                <el-form-item label-width="0" :prop="'item2.' + index2 + '.feePrice'">
+                <el-form-item label-width="0" :prop="'quotationFeeOptions.I.' + index2 + '.feePrice'" :rules="{pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                   <el-input size="mini" v-model="item2.feePrice" clearable placeholder="单价"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item2.feeRate" clearable placeholder="税率"></el-input>
+                   <el-select size="mini" placeholder="税率" clearable  v-model="item2.feeRate" style="width:100%;">
+                    <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
+                    <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
+                    <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item2.curr" clearable placeholder="币制"></el-input>
+                  <el-select  v-model="item2.curr" placeholder="币制"
+                    filterable clearable remote default-first-option
+                    @focus="tipsFill('currList','SAAS_CURR')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in currList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item2.unit" clearable placeholder="计费单位"></el-input>
+                  <el-select  v-model="item2.unit" placeholder="计量单位"
+                    filterable clearable remote default-first-option
+                    @focus="tipsFill('unitList','SAAS_UNIT')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in unitList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <!-- 删除图标 -->
@@ -330,30 +379,56 @@
           <!-- 出口 -->
           <el-row :gutter="50" class="margin_0 export">
             <el-row class="title-flag margin_0">出口</el-row>
-            <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.quotationFeeOptions.E" :key="'key_1_E' + index3">
+            <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.quotationFeeOptions.E" :key="'key_0_E' + index3">
               <el-col :span="8" style="padding-left:0">
                 <el-form-item label-width="0">
                   <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
-                <el-form-item label-width="0" :prop="'item3.' + index3 + '.feePrice'">
+                <el-form-item label-width="0" :prop="'quotationFeeOptions.E.' + index3 + '.feePrice'" :rules="{pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                   <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item3.feeRate" clearable placeholder="税率"></el-input>
+                  <el-select size="mini" placeholder="税率" clearable  v-model="item3.feeRate" style="width:100%;">
+                    <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
+                    <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
+                    <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item3.curr" clearable placeholder="币制"></el-input>
+                  <el-select  v-model="item3.curr" placeholder="币制"
+                    filterable clearable remote default-first-option
+                    @focus="tipsFill('currList','SAAS_CURR')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in currList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item label-width="0">
-                  <el-input size="mini" v-model="item3.unit" clearable placeholder="计费单位"></el-input>
+                  <el-select  v-model="item3.unit" placeholder="计量单位"
+                    filterable clearable remote default-first-option
+                    @focus="tipsFill('unitList','SAAS_UNIT')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in unitList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <!-- 删除图标 -->
@@ -540,6 +615,8 @@ export default {
       dclPlcCusList: [], // 申报地海关
       currList: [], // 币制
       unitList: [], // 计量单位
+      corpList: [], // 企业列表
+      tempCorp: {}, // 绑定企业
       selectObj: {
         obj: '',
         params: ''
@@ -734,6 +811,37 @@ export default {
         })
       })
       return tempFlag
+    },
+    // 企业查询
+    getcorps (query) {
+      if (query.length < 2) {
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/corp/getCorpByCondAssignProp',
+        data: {
+          corpName: query,
+          returnProps: ['corpId', 'corpName']
+        },
+        router: this.$router,
+        success: (res) => {
+          this.corpList = res.result.splice(0, 20)
+        }
+      })
+    },
+    // 同时获取企业名称及id,绑定企业对象信息
+    translatecorp () {
+      if (this.sumitData.entrustCompanyName) { // 防止为null的情况
+        if (typeof this.sumitData.entrustCompanyName === 'object') {
+          this.sumitData.entrustCompanyId = this.sumitData.entrustCompanyName.corpId
+          this.sumitData.entrustCompanyName = this.sumitData.entrustCompanyName.corpName
+        } else { // 自己手动输入
+          this.sumitData.entrustCompanyId = ''
+        }
+      } else {
+        this.sumitData.entrustCompanyId = ''
+        this.sumitData.entrustCompanyName = ''
+      }
     }
   }
 }
