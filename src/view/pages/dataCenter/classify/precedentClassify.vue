@@ -15,10 +15,9 @@
               <el-input v-model="queryForm.querykey" maxlength="70" clearable></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :span="14" :offset="10" class='query-btn' style='margin-top:20px'>
+          <el-col :span="12"  class='query-btn'>
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
+             <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
@@ -39,20 +38,20 @@
         </el-table-column>
         <el-table-column label="品名关键词" min-width="100">
            <template slot-scope="scope">
-             <div class="text-over-hid customer-table-c" :title="scope.row.dataWord">
+             <div class="text-over-hid customer-table-l" :title="scope.row.dataWord">
               {{scope.row.dataWord || '-'}}
               </div>
             </template>
         </el-table-column>
         <el-table-column label="出现数量" min-width="130">
           <template slot-scope="scope">
-            <div class="text-over-hid customer-table-c" :title="scope.row.wordCount">
+            <div class="text-over-hid customer-table-r" :title="scope.row.wordCount">
             {{scope.row.wordCount || '-'}}
             </div>
           </template></el-table-column>
         <el-table-column label="同词占比" min-width="100">
           <template slot-scope="scope">
-            <div class="text-over-hid customer-table-c" :title="scope.row.occupationRatio">
+            <div class="text-over-hid customer-table-r" :title="scope.row.occupationRatio">
             {{scope.row.occupationRatio + '%' || '-'}}
             </div>
           </template>
@@ -78,6 +77,10 @@ export default {
   mounted () {
   },
   methods: {
+    resetFun () {
+      this.queryForm.hs = ''
+      this.queryForm.querykey = ''
+    },
     queryList () {
       if (this.queryForm.querykey.trim().length === 0) {
         this.$message({
@@ -102,6 +105,12 @@ export default {
 <style lang="less" scoped>
 .customer-table-c{
   text-align: center
+}
+.customer-table-r{
+  text-align: right
+}
+.customer-table-l{
+  text-align: left
 }
 .cus-i{
     display: inline-block;
