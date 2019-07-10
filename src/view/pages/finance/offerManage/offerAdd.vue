@@ -926,6 +926,7 @@ export default {
         margin: 15px 0!important;
         padding-left: 8px;
         border-left: 2px solid #287FCA;
+        line-height: 13px;
       }
     }
     // Add_more

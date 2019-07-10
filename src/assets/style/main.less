@@ -907,6 +907,32 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
   }
 }
+// 财务表格样式
+.sys-main.finance {
+  .el-table td,
+  .el-table th.is-leaf {
+    border-bottom: none;
+  }
+  .el-table td,
+  .el-table th {
+    padding: 4px 0;
+    font-size: 13px;
+  }
+  .el-table .cell,
+  .el-table th div,
+  .el-table--border td:first-child .cell,
+  .el-table--border th:first-child .cell {
+    padding-left:0;
+  }
+  .el-table--border::after,
+  .el-table--group::after,
+  .el-table::before {
+    background-color: transparent;
+  }
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: transparent;
+  }
+}
 // 历史商品弹框样式
 .sys-dec-class{
   body {

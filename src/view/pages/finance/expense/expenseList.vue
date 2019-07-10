@@ -214,8 +214,6 @@ export default {
         }
       })
     },
-    // 生成对账单
-    
     // 企业查询
     getcorps (query) {
       if (query.length < 2) {
