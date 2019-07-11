@@ -102,6 +102,7 @@
     <el-dialog title="" :visible.sync="shareflag" v-if="shareflag" :close-on-click-modal="false" :append-to-body='true' width="25%">
       <div class="card-qrcode">
         <div id="qrcode"></div>
+        <div style="padding:10px 0;">打开微信“扫一扫”</div>
       </div>
     </el-dialog>
   </div>
