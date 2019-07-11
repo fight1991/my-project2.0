@@ -31,7 +31,7 @@
             <el-row :gutter="50">
               <el-col :span="8">
                 <el-form-item label="委托企业" :label-width="labelFormWidth.five" prop="entrustCompanyName">
-                  <el-select v-model="submitData.entrustCompanyName" maxlength="30" style="width:100%"
+                  <el-select v-model="submitData.entrustCompanyName" :maxlength="30" style="width:100%"
                     filterable remote clearable @change="translatecorp"
                     :remote-method="getcorps"
                     allow-create
@@ -75,7 +75,7 @@
                     <el-form-item label="进/出境关别" label-width="85px">
                       <el-select  v-model="item1.impexpPortcdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete maxlength="80"
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -92,7 +92,7 @@
                     <el-form-item label="申报地海关" label-width="85px">
                       <el-select  v-model="item1.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete maxlength="80"
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -111,7 +111,7 @@
                     <el-form-item label="出发地/港" label-width="85px">
                       <el-select  v-model="item1.departure"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete maxlength="80"
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('portList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -128,7 +128,7 @@
                     <el-form-item label="目的地/港" label-width="85px">
                       <el-select  v-model="item1.destination"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete maxlength="80"
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('portList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -149,7 +149,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
+                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -213,7 +213,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
+                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -322,12 +322,12 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-input size="mini" clearable maxlength="80" v-model="item1.departure"></el-input>
+                      <el-input size="mini" clearable :maxlength="80" v-model="item1.departure"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-input size="mini" clearable maxlength="80" v-model="item1.destination"></el-input>
+                      <el-input size="mini" clearable :maxlength="80" v-model="item1.destination"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -338,7 +338,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_0_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
+                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -402,7 +402,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_0_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" maxlength="20"></el-input>
+                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">

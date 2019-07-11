@@ -6,17 +6,17 @@
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="接单编号" :label-width="labelFormWidth.four">
-              <el-input v-model="QueryForm.orderNo" size="mini" clearable maxlength="30"></el-input>
+              <el-input v-model="QueryForm.orderNo" size="mini" clearable :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="报关单号" :label-width="labelFormWidth.four">
-              <el-input size="mini" clearable v-model="QueryForm.decNo" maxlength="30"></el-input>
+              <el-input size="mini" clearable v-model="QueryForm.decNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="提单号" :label-width="labelFormWidth.four">
-              <el-input size="mini" clearable v-model="QueryForm.billNo" maxlength="30"></el-input>
+              <el-input size="mini" clearable v-model="QueryForm.billNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -31,7 +31,7 @@
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="受托企业" :label-width="labelFormWidth.four">
-              <el-select v-model="QueryForm.entrustCompanyName" maxlength="30" style="width:100%"
+              <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
                 filterable remote clearable
                 :remote-method="getcorps"
                 allow-create

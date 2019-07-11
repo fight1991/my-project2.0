@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="委托企业" :label-width="'85px'">
-              <el-select v-model="QueryForm.entrustCompanyName" maxlength="30" style="width:100%"
+              <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
                 filterable remote clearable
                 :remote-method="getcorps"
                 allow-create
@@ -37,7 +37,7 @@
             <el-form-item label="进/出境关别" :label-width="'85px'">
               <el-select  v-model="QueryForm.impexpPortcdNames"
                 filterable clearable remote default-first-option
-                allow-create maxlength="10"
+                allow-create :maxlength="10"
                 @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                 :remote-method="checkParamsList"
                 style="width:100%">
@@ -56,7 +56,7 @@
             <el-form-item label="申报地海关" :label-width="'85px'">
               <el-select  v-model="QueryForm.dclPlcCuscdNames"
                 filterable clearable remote default-first-option
-                allow-create maxlength="10"
+                allow-create :maxlength="10"
                 @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                 :remote-method="checkParamsList"
                 style="width:100%">
@@ -71,7 +71,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="创建人" :label-width="'85px'">
-              <el-input v-model="QueryForm.createUserId" size="mini" clearable maxlength="10"></el-input>
+              <el-input v-model="QueryForm.createUserId" size="mini" clearable :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
