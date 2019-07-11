@@ -57,6 +57,11 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-row class='sys-page-list mg-b-30'>
+        <el-col :span="24" align="right">
+          <page-box :pagination='pagination' @change="queryList()"></page-box>
+        </el-col>
+      </el-row>
     </div>
   </section>
 </template>
@@ -69,7 +74,12 @@ export default {
         'hs': '',
         'querykey': ''
       },
-      queryresult: []
+      queryresult: [],
+      pagination: {
+        pageIndex: 1, // 当前页
+        pageSize: 10, // 每页数据条数
+        total: 0 // 总条数
+      }
     }
   },
   created () {
@@ -91,10 +101,12 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-document-center/category/queryCategory',
-        data: {...this.queryForm},
+        data: {...this.queryForm, page: this.pagination},
+        isPageList: true,
         router: this.$router,
         success: (res) => {
           this.queryresult = res.result
+          this.pagination = res.page
         }
       })
     }
