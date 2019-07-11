@@ -112,6 +112,7 @@
 export default {
   data () {
     return {
+      quotationDetail: {}, // 报价详情
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -129,6 +130,24 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }]
+    }
+  },
+  created () {
+
+  },
+  methods: {
+    // 获取报价详情
+    getFeesDetail (id) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/get',
+        data: {
+          quotationId: id
+        },
+        router: this.$router,
+        success: res => {
+          this.quotationDetail = res.result
+        }
+      })
     }
   }
 }

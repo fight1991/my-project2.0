@@ -5,42 +5,77 @@
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="报价名称" :label-width="labelFormWidth.six">
+            <el-form-item label="报价名称" :label-width="'85px'">
               <el-input v-model="QueryForm.itemName" size="mini" clearable ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="委托企业" :label-width="labelFormWidth.six">
-              <el-input size="mini" clearable ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="报价含税" :label-width="labelFormWidth.six">
-              <el-select v-model="QueryForm.rateFlag" size="mini" clearable  style="width:100%;">
-                <el-option key="1" :label="'含税'" :value="'Y'"></el-option>
-                <el-option key="0" :label="'不含税'" :value="'N'"></el-option>
+            <el-form-item label="委托企业" :label-width="'85px'">
+              <el-select v-model="QueryForm.entrustCompanyName" maxlength="30" style="width:100%"
+                filterable remote clearable
+                :remote-method="getcorps"
+                allow-create
+                default-first-option >
+                <el-option
+                  v-for="item in corpList"
+                  :key="item.corpId"
+                  :label="item.corpName"
+                  :value="item.corpName">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="进/出境关别" :label-width="labelFormWidth.six">
-              <el-input v-model="QueryForm.impexpPortcdNames" size="mini" clearable maxlength="10"></el-input>
+            <el-form-item label="报价含税" :label-width="'85px'">
+              <el-select v-model="QueryForm.rateFlag" size="mini" clearable  style="width:100%;">
+                <el-option key="1" :label="'含税'" :value="'1'"></el-option>
+                <el-option key="0" :label="'不含税'" :value="'0'"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="进/出境关别" :label-width="'85px'">
+              <el-select  v-model="QueryForm.impexpPortcdNames"
+                filterable clearable remote default-first-option
+                allow-create maxlength="10"
+                @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
+                :remote-method="checkParamsList"
+                style="width:100%">
+                <el-option
+                  v-for="item in impexpPortList"
+                  :key="item.codeField"
+                  :label="item.codeField + '-' + item.nameField"
+                  :value="item.codeField">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="申报地海关" :label-width="labelFormWidth.five">
-              <el-input v-model="QueryForm.dclPlcCuscdNames" size="mini" clearable maxlength="10"></el-input>
+            <el-form-item label="申报地海关" :label-width="'85px'">
+              <el-select  v-model="QueryForm.dclPlcCuscdNames"
+                filterable clearable remote default-first-option
+                allow-create maxlength="10"
+                @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
+                :remote-method="checkParamsList"
+                style="width:100%">
+                <el-option
+                  v-for="item in dclPlcCusList"
+                  :key="item.codeField"
+                  :label="item.codeField + '-' + item.nameField"
+                  :value="item.codeField">
+                </el-option>
+                      </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="创建人" :label-width="labelFormWidth.five">
+            <el-form-item label="创建人" :label-width="'85px'">
               <el-input v-model="QueryForm.createUserId" size="mini" clearable maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="创建日期" :label-width="labelFormWidth.five">
+            <el-form-item label="创建日期" :label-width="'85px'">
                <el-date-picker
                 style="width:100%"
                 v-model="dates"
@@ -65,7 +100,7 @@
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add"><i></i>新增</el-button>
+        <el-button size="mini" class="list-btns list-icon-add" @click="newQuotation"><i></i>新增</el-button>
         <el-button size="mini" class="list-btns list-icon-export"><i></i>导出</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="offerTableList" border highlight-current-row height="530px">
@@ -105,6 +140,7 @@
 
 <script>
 import util from '@/common/util'
+import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
@@ -121,7 +157,21 @@ export default {
         createUserId: '',
         createDate: ''
       },
-      offerTableList: [],
+      // 查询的字典字段
+      tableNameList: {
+        tableNames: [
+          'SAAS_CUSTOMS_REL', // 海关关区
+          'SAAS_CURR', // 币制
+          'SAAS_UNIT' // 计量单位
+        ]
+      },
+      selectObj: {
+        obj: '',
+        params: ''
+      },
+      impexpPortList: [], // 进出境关别
+      dclPlcCusList: [], // 申报地海关
+      corpList: [], // 企业列表
       paginationInit: '',
       pickerOptions: {
         shortcuts: [{
@@ -190,6 +240,77 @@ export default {
         createDate: ''
       }
       this.dates = []
+    },
+    // 新增报价
+    newQuotation () {
+      this.$router.push({
+        name: 'offerManage-offerAdd'
+      })
+    },
+    // 判断缓存中是否有数据
+    getCommonParam () {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
+        this.getCommonParams(map)
+      }
+    },
+    // 获取公共字典list
+    getCommonParams (datas) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/dictionary/getParam',
+        data: datas,
+        router: this.$router,
+        success: (res) => {
+          commonParam.saveParams(res.result)
+          // this.impexpPortList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
+          // this.dclPlcCusList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
+        }
+      })
+    },
+    checkParamsList (query) {
+      if (query !== '') {
+        let keyValue = query.toString().trim()
+        let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        let filterList = []
+        if (util.isEmpty(keyValue)) {
+          this[this.selectObj.obj] = list.slice(0, 30)
+        } else {
+          filterList = list.filter(item => {
+            let str = item.codeField + '-' + item.nameField
+            return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+          })
+          this[this.selectObj.obj] = filterList.slice(0, 30)
+        }
+      } else {
+        if (!util.isEmpty(JSON.parse(window.localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(window.localStorage.getItem(this.selectObj.params)).slice(0, 30)
+        }
+      }
+    },
+    // 创建字典参数列表
+    tipsFill (obj, params) {
+      this.selectObj = {
+        obj: obj,
+        params: params
+      }
+    },
+    // 企业查询
+    getcorps (query) {
+      if (query.length < 2) {
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/corp/getCorpByCondAssignProp',
+        data: {
+          corpName: query,
+          returnProps: ['corpId', 'corpName']
+        },
+        router: this.$router,
+        success: (res) => {
+          this.corpList = res.result.splice(0, 20)
+        }
+      })
     }
   }
 }

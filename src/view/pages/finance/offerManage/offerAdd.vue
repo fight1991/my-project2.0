@@ -75,7 +75,7 @@
                     <el-form-item label="进/出境关别" label-width="85px">
                       <el-select  v-model="item1.impexpPortcdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete
+                        multiple allow-create autocomplete maxlength="80"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -92,7 +92,7 @@
                     <el-form-item label="申报地海关" label-width="85px">
                       <el-select  v-model="item1.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete
+                        multiple allow-create autocomplete maxlength="80"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -109,12 +109,36 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-input size="mini" clearable maxlength="80" v-model="item1.departure"></el-input>
+                      <el-select  v-model="item1.departure"
+                        filterable clearable remote default-first-option
+                        multiple allow-create autocomplete maxlength="80"
+                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        :remote-method="checkParamsList"
+                        style="width:100%">
+                        <el-option
+                          v-for="item in portList"
+                          :key="item.codeField"
+                          :label="item.codeField + '-' + item.nameField"
+                          :value="item.codeField">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-input size="mini" clearable maxlength="80" v-model="item1.destination"></el-input>
+                      <el-select  v-model="item1.destination"
+                        filterable clearable remote default-first-option
+                        multiple allow-create autocomplete maxlength="80"
+                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        :remote-method="checkParamsList"
+                        style="width:100%">
+                        <el-option
+                          v-for="item in portList"
+                          :key="item.codeField"
+                          :label="item.codeField + '-' + item.nameField"
+                          :value="item.codeField">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -603,17 +627,9 @@ export default {
       tableNameList: {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区
-          'SAAS_PORT', // 港口
-          'SAAS_TRANSPORT_TYPE', // 运输方式
           'SAAS_CURR', // 币制
-          'SAAS_TRADE', // 监管方式
-          'SAAS_COUNTRY', // 国家
-          'SAAS_DISTRICT_REL', // 地区代码
-          'SAAS_LEVYMODE', // 征免方式
-          'SAAS_TRANSAC', // 成交方式
-          'SAAS_WRAP', // 包装种类
           'SAAS_UNIT', // 计量单位
-          'SAAS_LICENSEDOCU' // 随附单证
+          'SAAS_TJ_PORT'
         ]
       },
       departureList: [], // 出发地
@@ -622,8 +638,8 @@ export default {
       dclPlcCusList: [], // 申报地海关
       currList: [], // 币制
       unitList: [], // 计量单位
+      portList: [], // 港口
       corpList: [], // 企业列表
-      tempCorp: {}, // 绑定企业
       selectObj: {
         obj: '',
         params: ''
