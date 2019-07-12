@@ -11,18 +11,25 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="委托企业" :label-width="'85px'">
-              <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
+              <el-autocomplete
+                class="inline-input" :maxlength="30" clearable
+                v-model="QueryForm.entrustCompanyName"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入"
+                :trigger-on-focus="false"
+              ></el-autocomplete>
+              <!-- <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
                 filterable remote clearable
                 :remote-method="getcorps"
                 allow-create
                 default-first-option >
                 <el-option
                   v-for="item in corpList"
-                  :key="item.corpId"
-                  :label="item.corpName"
-                  :value="item.corpName">
+                  :key="item.entrustCompanyId"
+                  :label="item.entrustCompanyName"
+                  :value="item.entrustCompanyName">
                 </el-option>
-              </el-select>
+              </el-select> -->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -66,7 +73,7 @@
                   :label="item.codeField + '-' + item.nameField"
                   :value="item.codeField">
                 </el-option>
-                      </el-select>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -203,6 +210,7 @@ export default {
     }
   },
   created () {
+    this.getcorps()
     this.paginationInit = this.$store.state.pagination
   },
   methods: {
@@ -271,7 +279,7 @@ export default {
     checkParamsList (query) {
       if (query !== '') {
         let keyValue = query.toString().trim()
-        let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        let list = JSON.parse(localStorage.getItem(this.selectObj.params))
         let filterList = []
         if (util.isEmpty(keyValue)) {
           this[this.selectObj.obj] = list.slice(0, 30)
@@ -283,8 +291,8 @@ export default {
           this[this.selectObj.obj] = filterList.slice(0, 30)
         }
       } else {
-        if (!util.isEmpty(JSON.parse(window.localStorage.getItem(this.selectObj.params)))) {
-          this[this.selectObj.obj] = JSON.parse(window.localStorage.getItem(this.selectObj.params)).slice(0, 30)
+        if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
         }
       }
     },
@@ -296,21 +304,28 @@ export default {
       }
     },
     // 企业查询
-    getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
+    getcorps () {
       this.$store.dispatch('ajax', {
-        url: 'API@/login/corp/getCorpByCondAssignProp',
-        data: {
-          corpName: query,
-          returnProps: ['corpId', 'corpName']
-        },
+        url: 'API@/saas-finance/quotation/getEntrusts',
+        data: {},
         router: this.$router,
         success: (res) => {
-          this.corpList = res.result.splice(0, 20)
+          this.corpList = res.result
         }
       })
+    },
+    querySearch (queryString, cb) {
+      let restaurants = this.corpList
+      let result = []
+      if (queryString && queryString.trim().length >= 2) {
+        result = restaurants.filter(v => {
+          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        })
+      } else {
+        result = restaurants
+      }
+      // 调用 callback 返回建议列表的数据
+      cb(result)
     }
   }
 }

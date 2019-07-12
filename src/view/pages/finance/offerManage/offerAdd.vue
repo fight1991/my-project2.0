@@ -30,7 +30,7 @@
             </el-row>
             <el-row :gutter="50">
               <el-col :span="8">
-                <el-form-item label="委托企业" :label-width="labelFormWidth.five" prop="entrustCompanyName">
+                <el-form-item label="受托企业" :label-width="labelFormWidth.five" prop="entrustCompanyName">
                   <el-select v-model="submitData.entrustCompanyName" :maxlength="30" style="width:100%"
                     filterable remote clearable @change="translatecorp"
                     :remote-method="getcorps"
@@ -83,7 +83,7 @@
                           v-for="item in impexpPortList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -100,7 +100,7 @@
                           v-for="item in dclPlcCusList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -148,7 +148,7 @@
                 <el-row class="title-flag margin_0">进口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label-width="0">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
                       <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
@@ -212,7 +212,7 @@
                 <el-row class="title-flag margin_0">出口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label-width="0">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
                       <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
                     </el-form-item>
                   </el-col>
@@ -644,6 +644,7 @@ export default {
         obj: '',
         params: ''
       },
+      optionsList: '',
       ruleForm: {
         itemName: [
           {required: true, message: '请输入报价名称', trigger: 'blur'}
@@ -762,7 +763,7 @@ export default {
     checkParamsList (query) {
       if (query !== '') {
         let keyValue = query.toString().trim()
-        let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        let list = JSON.parse(localStorage.getItem(this.selectObj.params))
         let filterList = []
         if (util.isEmpty(keyValue)) {
           this[this.selectObj.obj] = list.slice(0, 30)
@@ -774,8 +775,8 @@ export default {
           this[this.selectObj.obj] = filterList.slice(0, 30)
         }
       } else {
-        if (!util.isEmpty(JSON.parse(window.localStorage.getItem(this.selectObj.params)))) {
-          this[this.selectObj.obj] = JSON.parse(window.localStorage.getItem(this.selectObj.params)).slice(0, 30)
+        if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
         }
       }
     },
@@ -792,14 +793,17 @@ export default {
     createQuotation () {
       let flag1 = true
       this.$refs['submitData'].validate((valid) => {
-        if (!valid) {
-          flag1 = false
-        }
+        if (!valid) flag1 = false
       })
-      if (!flag1) {
-        return
-      }
+      if (!flag1) return
       let subData = JSON.parse(JSON.stringify(this.submitData))
+      let dateArray = JSON.parse(JSON.stringify(this.submitData.dates))
+      subData.dates = ''
+      subData.startDate = dateArray[0]
+      subData.endDate = dateArray[1]
+      // impexpPortcdNames dclPlcCuscdNames departure destination数组转换成字符串
+      this.arrayAndString(subData.quotationPayableBodyVOList, 'string')
+      this.arrayAndString(subData.quotationReceivableBodyVOList, 'string')
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/create',
         data: subData,
@@ -847,6 +851,38 @@ export default {
         this.submitData.entrustCompanyId = ''
         this.submitData.entrustCompanyName = ''
       }
+    },
+    // 将数组对象中,每个键值如果是数组,转换成字符串,或反之
+    arrayAndString (arr, type) {
+      arr.forEach(v => {
+        for (let k in v) {
+          // 转换成字符串
+          if (type === 'string') {
+            if (Array.isArray(v[k]) && !k.startsWith('feeOption')) {
+              v[k] = v[k].toString()
+            }
+          }
+          // 转换成数组
+          if (type === 'array') {
+            if (!k.startsWith('feeOption') && v[k].indexOf(',') > 0) {
+              v[k] = v[k].split(',')
+            }
+          }
+        }
+      })
+      return arr
+    },
+    // 获取费用名称下拉列表
+    // 获取费用项列表
+    getOptionList (pagination) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/option/getAll',
+        data: {},
+        router: this.$router,
+        success: ({result}) => {
+          this.optionsList = result || []
+        }
+      })
     }
   }
 }
@@ -974,7 +1010,7 @@ export default {
     .export {
       .el-form-item--mini.el-form-item,
       .el-form-item--small.el-form-item {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
       }
     }
   }

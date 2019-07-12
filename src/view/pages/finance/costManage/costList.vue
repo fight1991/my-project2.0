@@ -216,7 +216,7 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.costTableList = res.result
+          this.costTableList = res.result || []
         }
       })
     },
@@ -232,8 +232,8 @@ export default {
           returnProps: ['corpId', 'corpName']
         },
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result.splice(0, 20)
+        success: ({result}) => {
+          this.corpList = (result && result.splice(0, 20)) || []
         }
       })
     },
@@ -272,6 +272,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['addFees'].resetFields()
       })
+      this.resetFees()
       if (type === 'add') {
         this.getFeeOptionCode()
       } else {
@@ -291,14 +292,8 @@ export default {
       this.$refs['addFees'].validate(valid => {
         flag = valid
       })
-      if (!flag) {
-        return
-      }
-      if (this.type === 'add') {
-        this.creatOptions()
-      } else {
-        this.editOptions()
-      }
+      if (!flag) return
+      this.type === 'add' ? this.creatOptions() : this.editOptions()
     },
     // 编辑费用项
     editOptions () {
@@ -327,10 +322,19 @@ export default {
         url: 'API@/saas-finance/option/create',
         data: this.addFees,
         router: this.$router,
-        success: (res) => {
-          if (res.result) {
+        success: ({result}) => {
+          if (result) {
             this.addFeeIsShow = false
             this.getOptionList()
+          }
+        },
+        other: res => {
+          if (res.code === '0001') {
+            this.isDouble = true
+            this.$message({
+              type: 'error',
+              message: res.message
+            })
           }
         }
       })
@@ -352,13 +356,9 @@ export default {
     // 校验费用编号是否重复失焦事件
     checkCode () {
       let reg = /^[0-9a-zA-Z]{1,30}$/
-      if (!reg.test(this.addFees.feeOptionCode)) {
-        return
-      }
+      if (!reg.test(this.addFees.feeOptionCode)) return
       // 失焦时发送请求
-      if (this.addFees.feeOptionCode === this.tempOptionCode) {
-        return
-      }
+      if (this.addFees.feeOptionCode === this.tempOptionCode) return
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/option/checkFeeCode',
         data: {
@@ -369,20 +369,17 @@ export default {
         success: ({result}) => {
           if (result) { // 重复 输入框标红并提示重复
             this.$message({
-              type: 'warning',
+              type: 'error',
               message: '当前编号已经存在,不可重复'
             })
             this.isDouble = true
           } else {
             this.isDouble = false
             // 失焦事件和点击事件同时存在,失焦限制性,点击事件不执行了
-            // 如果是直接点击确认按钮
-            // this.confirmBtn()
           }
         }
       })
     },
-    // 费用编号标红
     checkValidCode (rule, value, callback) {
       callback()
     }

@@ -145,7 +145,7 @@ export default {
         },
         router: this.$router,
         success: res => {
-          this.quotationDetail = res.result
+          this.quotationDetail = res.result || {}
         }
       })
     }

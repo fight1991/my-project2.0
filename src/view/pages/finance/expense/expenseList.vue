@@ -210,7 +210,7 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.expenseTableList = res.result
+          this.expenseTableList = res.result || []
         }
       })
     },
