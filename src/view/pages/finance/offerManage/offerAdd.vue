@@ -709,28 +709,16 @@ export default {
     addMorePort (feeFlag) {
       let temp = {...this.templateFee}
       temp.feeFlag = feeFlag
-      if (feeFlag === '1') {
-        this.submitData.quotationReceivableBodyVOList.push(temp)
-      } else {
-        this.submitData.quotationPayableBodyVOList.push(temp)
-      }
+      feeFlag === '1' ? this.submitData.quotationReceivableBodyVOList.push(temp) : this.submitData.quotationPayableBodyVOList.push(temp)
     },
     // 删除行费用项
     delItems (index1, index2, iEFlag, feeFlag) {
       let props = iEFlag === 'I' ? 'feeOptionImportVOs' : 'feeOptionExportVOs'
-      if (feeFlag === '1') {
-        this.submitData.quotationReceivableBodyVOList[index1][props].splice(index2, 1)
-      } else {
-        this.submitData.quotationPayableBodyVOList[index1][props].splice(index2, 1)
-      }
+      feeFlag === '1' ? this.submitData.quotationReceivableBodyVOList[index1][props].splice(index2, 1) : this.submitData.quotationPayableBodyVOList[index1][props].splice(index2, 1)
     },
     // 删除应收应付模块
     delFeeBody (index, feeFlag) {
-      if (feeFlag === '1') {
-        this.fees_1.splice(index, 1)
-      } else {
-        this.fees_0.splice(index, 1)
-      }
+      feeFlag === '1' ? this.fees_1.splice(index, 1) : this.fees_0.splice(index, 1)
     },
     // 创建字典参数列表
     tipsFill (obj, params) {
@@ -782,7 +770,6 @@ export default {
     },
     // 日期校验
     validDate (rule, value, callback) {
-      console.log(value)
       if (!value || value.length === 0) {
         callback(new Error('请选择有效期'))
       } else {
@@ -833,8 +820,8 @@ export default {
           returnProps: ['corpId', 'corpName']
         },
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result.splice(0, 20)
+        success: ({result}) => {
+          this.corpList = (result && result.splice(0, 20)) || []
         }
       })
     },
