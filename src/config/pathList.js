@@ -456,5 +456,6 @@ export default {
     }
   ],
   WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index',
+  WWWREGISTBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index&tag=2', // ccba首页点注册
   WWWCCBA: url.CCBA + '/control'
 }
