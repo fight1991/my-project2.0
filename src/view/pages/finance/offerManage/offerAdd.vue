@@ -8,21 +8,21 @@
             <el-row class="title">基本信息</el-row>
             <el-row :gutter="50">
               <el-col :span="8">
-                <el-form-item label="报价名称" :label-width="labelFormWidth.five" prop="itemName">
-                  <el-input size="mini" clearable v-model="submitData.itemName"></el-input>
+                <el-form-item label="报价名称" :label-width="labelFormWidth.five" prop="quotationHeadVO.itemName">
+                  <el-input size="mini" clearable v-model="submitData.quotationHeadVO.itemName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="报价含税" :label-width="labelFormWidth.five" prop="rateFlag">
-                  <el-select size="mini" clearable  v-model="submitData.rateFlag" style="width:100%;">
+                <el-form-item label="报价含税" :label-width="labelFormWidth.five" prop="quotationHeadVO.rateFlag">
+                  <el-select size="mini" clearable  v-model="submitData.quotationHeadVO.rateFlag" style="width:100%;">
                     <el-option key="1" :label="'含税'" :value="true"></el-option>
                     <el-option key="0" :label="'不含税'" :value="false"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item  label-position="left" prop="singleFlag">
-                  <el-checkbox-group v-model="submitData.singleFlag">
+                <el-form-item  label-position="left">
+                  <el-checkbox-group v-model="submitData.quotationHeadVO.singleFlag">
                     <el-checkbox label="美食/餐厅线上活动" :true-label="true" :false-label="false" name="singleFlag"></el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
@@ -30,8 +30,8 @@
             </el-row>
             <el-row :gutter="50">
               <el-col :span="8">
-                <el-form-item label="受托企业" :label-width="labelFormWidth.five" prop="entrustCompanyName">
-                  <el-select v-model="submitData.entrustCompanyName" :maxlength="30" style="width:100%"
+                <el-form-item label="受托企业" :label-width="labelFormWidth.five" prop="quotationHeadVO.entrustCompanyName">
+                  <el-select v-model="submitData.quotationHeadVO.entrustCompanyName" :maxlength="30" style="width:100%"
                     filterable remote clearable @change="translatecorp"
                     :remote-method="getcorps"
                     allow-create
@@ -46,10 +46,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="有效期" :label-width="labelFormWidth.five" prop="dates">
+                <el-form-item label="有效期" :label-width="labelFormWidth.five" prop="quotationHeadVO.dates">
                   <el-date-picker
                     style="width:100%"
-                    v-model="submitData.dates"
+                    v-model="submitData.quotationHeadVO.dates"
                     type="daterange"
                     align="right"
                     format="yyyy-MM-dd"
@@ -73,7 +73,7 @@
                 <el-row :gutter="50" class="margin_0 base-line-one">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="进/出境关别" label-width="85px">
-                      <el-select  v-model="item1.impexpPortcdNames"
+                      <el-select  v-model="item1.quotationFeeVO.impexpPortcdNames"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
@@ -90,7 +90,7 @@
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="申报地海关" label-width="85px">
-                      <el-select  v-model="item1.dclPlcCuscdNames"
+                      <el-select  v-model="item1.quotationFeeVO.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
@@ -109,14 +109,14 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-select  v-model="item1.departure"
+                      <el-select  v-model="item1.quotationFeeVO.departure"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
-                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        @focus="tipsFill('departureList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
-                          v-for="item in portList"
+                          v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -126,14 +126,14 @@
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-select  v-model="item1.destination"
+                      <el-select  v-model="item1.quotationFeeVO.destination"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
-                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        @focus="tipsFill('destinationList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
-                          v-for="item in portList"
+                          v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -294,7 +294,7 @@
                 <el-row :gutter="50" class="margin_0 base-line-one">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="进/出境关别" label-width="85px">
-                      <el-select  v-model="item1.impexpPortcdNames"
+                      <el-select  v-model="item1.quotationFeeVO.impexpPortcdNames"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
@@ -311,7 +311,7 @@
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="申报地海关" label-width="85px">
-                      <el-select  v-model="item1.dclPlcCuscdNames"
+                      <el-select  v-model="item1.quotationFeeVO.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
@@ -330,14 +330,14 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-select  v-model="item1.departure"
+                      <el-select  v-model="item1.quotationFeeVO.departure"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
-                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        @focus="tipsFill('departureList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
-                          v-for="item in portList"
+                          v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -347,14 +347,14 @@
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-select  v-model="item1.destination"
+                      <el-select  v-model="item1.quotationFeeVO.destination"
                         filterable clearable remote default-first-option
                         multiple allow-create autocomplete :maxlength="80"
-                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        @focus="tipsFill('destinationList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
-                          v-for="item in portList"
+                          v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -526,23 +526,29 @@ export default {
       quotationId: '',
       // 总表单
       submitData: {
-        dates: '',
-        startDate: '', // 有效期开始
-        endDate: '', // 有效期结束
-        entrustCompanyId: '',
-        entrustCompanyName: '', // 委托企业名称
-        itemName: '', // 报价名称
+        quotationHeadVO: {
+          dates: '',
+          startDate: '', // 有效期开始
+          endDate: '', // 有效期结束
+          entrustCompanyId: '',
+          entrustCompanyName: '', // 委托企业名称
+          itemName: '', // 报价名称
+          rateFlag: true, // 报价是否含税true含税，false不含税
+          singleFlag: false // 是否项目独立报价1是0不是
+        },
         quotationReceivableBodyVOList: [ // 应收
           {
-            dclPlcCuscd: '', // 申报地海关代码
-            dclPlcCuscdNames: '',
-            departure: '', // 出发地
-            destination: '', // 目的地
-            feeFlag: true, // 应收1，应付0
-            impexpPortcd: '', // 进出境关别代码
-            impexpPortcdNames: '',
-            quotationFeeId: '', // 报价应收应付主键
-            quotationId: '', // 报价主键
+            quotationFeeVO: {
+              dclPlcCuscd: '', // 申报地海关代码
+              dclPlcCuscdNames: '',
+              departure: '', // 出发地
+              destination: '', // 目的地
+              feeFlag: true, // 应收1，应付0
+              impexpPortcd: '', // 进出境关别代码
+              impexpPortcdNames: '',
+              quotationFeeId: '', // 报价应收应付主键
+              quotationId: '' // 报价主键
+            },
             feeOptionImportVOs: [ // 进口
               {
                 curr: '',
@@ -573,15 +579,17 @@ export default {
         ],
         quotationPayableBodyVOList: [ // 应付
           {
-            dclPlcCuscd: '', // 申报地海关代码
-            dclPlcCuscdNames: '',
-            departure: '', // 出发地
-            destination: '', // 目的地
-            feeFlag: false, // 应收1，应付0
-            impexpPortcd: '', // 进出境关别代码
-            impexpPortcdNames: '',
-            quotationFeeId: '', // 报价应收应付主键
-            quotationId: '', // 报价主键
+            quotationFeeVO: {
+              dclPlcCuscd: '', // 申报地海关代码
+              dclPlcCuscdNames: '',
+              departure: '', // 出发地
+              destination: '', // 目的地
+              feeFlag: false, // 应收1，应付0
+              impexpPortcd: '', // 进出境关别代码
+              impexpPortcdNames: '',
+              quotationFeeId: '', // 报价应收应付主键
+              quotationId: '' // 报价主键
+            },
             feeOptionImportVOs: [ // 进口
               {
                 curr: '',
@@ -609,22 +617,22 @@ export default {
               }
             ]
           }
-        ],
-        rateFlag: true, // 报价是否含税true含税，false不含税
-        singleFlag: false // 是否项目独立报价1是0不是
+        ]
       },
       copysubmitData: {}, // 复制整个模板
       // 应收应付模板
       templateFee: {
-        dclPlcCuscd: '',
-        dclPlcCuscdNames: '',
-        departure: '',
-        destination: '',
-        feeFlag: '',
-        impexpPortcd: '',
-        impexpPortcdNames: '',
-        quotationFeeId: '',
-        quotationId: '',
+        quotationFeeVO: {
+          dclPlcCuscd: '',
+          dclPlcCuscdNames: '',
+          departure: '',
+          destination: '',
+          feeFlag: '',
+          impexpPortcd: '',
+          impexpPortcdNames: '',
+          quotationFeeId: '',
+          quotationId: ''
+        },
         feeOptionImportVOs: [ // 进口
           {
             curr: '',
@@ -673,13 +681,12 @@ export default {
           'SAAS_TJ_PORT'
         ]
       },
-      departureList: [], // 出发地
+      departureList: [], // 出发地/港口
       destinationList: [], // 目的地
       impexpPortList: [], // 进出境关别
       dclPlcCusList: [], // 申报地海关
       currList: [], // 币制
       unitList: [], // 计量单位
-      portList: [], // 港口
       corpList: [], // 企业列表
       selectObj: {
         obj: '',
@@ -687,18 +694,26 @@ export default {
       },
       optionsList: [],
       ruleForm: {
-        itemName: [
+        'quotationHeadVO.itemName': [
           {required: true, message: '请输入报价名称', trigger: 'blur'}
         ],
-        entrustCompanyName: [
+        'quotationHeadVO.entrustCompanyName': [
           {required: true, message: '请输入委托企业', trigger: 'blur'}
         ],
-        rateFlag: [
+        'quotationHeadVO.rateFlag': [
           {required: true, message: '请选择是否含税', trigger: 'blur'}
         ],
-        dates: [
+        'quotationHeadVO.dates': [
           {required: true, message: '请选择有效期', trigger: 'blur'}
         ]
+      },
+      selectDown: {
+        dclPlcCuscdNames: {downList: 'dclPlcCusList', params: 'SAAS_CUSTOMS_REL'},
+        impexpPortcdNames: {downList: 'impexpPortList', params: 'SAAS_CUSTOMS_REL'},
+        departure: {downList: 'departureList', params: 'SAAS_TJ_PORT'},
+        destination: {downList: 'destinationList', params: 'SAAS_TJ_PORT'},
+        curr: {downList: 'currList', params: 'SAAS_CURR'},
+        unit: {downList: 'unitList', params: 'SAAS_UNIT'}
       },
       pickerOptions: {
         shortcuts: [{
@@ -827,15 +842,15 @@ export default {
       })
       if (!flag1) return
       let subData = JSON.parse(JSON.stringify(this.submitData))
-      let dateArray = JSON.parse(JSON.stringify(this.submitData.dates))
-      subData.dates = ''
-      subData.startDate = dateArray[0]
-      subData.endDate = dateArray[1]
+      let dateArray = JSON.parse(JSON.stringify(this.submitData.quotationHeadVO.dates))
+      subData.quotationHeadVO.dates = ''
+      subData.quotationHeadVO.startDate = dateArray[0]
+      subData.quotationHeadVO.endDate = dateArray[1]
       // impexpPortcdNames dclPlcCuscdNames departure destination数组转换成字符串
       this.arrayAndString(subData.quotationPayableBodyVOList, 'string')
       this.arrayAndString(subData.quotationReceivableBodyVOList, 'string')
       if (this.quotationId) { // 编辑
-        subData.quotationId = this.quotationId
+        subData.quotationHeadVO.quotationId = this.quotationId
         this.editQuotation(subData)
         return
       }
@@ -880,9 +895,16 @@ export default {
         router: this.$router,
         success: ({result}) => {
           if (result) { // 数据处理
-            console.log(result)
-            // this.arrayAndString(result.quotationPayableBodyVOList, 'array')
-            // this.arrayAndString(result.quotationReceivableBodyVOList, 'array')
+            this.arrayAndString(result.quotationPayableBodyVOList, 'array')
+            this.arrayAndString(result.quotationReceivableBodyVOList, 'array')
+            let {quotationHeadVO: {startDate, endDate}} = result
+            result.quotationHeadVO.dates = [startDate, endDate]
+            this.submitData = result
+            // 初始化下拉框数据
+            this.initSelected(this.selectDown, 'origin')
+            // this.submitData.quotationReceivableBodyVOList.forEach(v => { // 低性能
+            //   this.initSelected(selectDown, v.quotationFeeVO)
+            // })
           }
         }
       })
@@ -914,32 +936,38 @@ export default {
     },
     // 同时获取企业名称及id,绑定企业对象信息
     translatecorp () {
-      if (this.submitData.entrustCompanyName) { // 防止为null的情况
-        if (typeof this.submitData.entrustCompanyName === 'object') {
-          this.submitData.entrustCompanyId = this.submitData.entrustCompanyName.corpId
-          this.submitData.entrustCompanyName = this.submitData.entrustCompanyName.corpName
+      let tempInput = this.submitData.quotationHeadVO
+      if (tempInput.entrustCompanyName) { // 防止为null的情况
+        if (typeof tempInput.entrustCompanyName === 'object') {
+          this.submitData.quotationHeadVO.entrustCompanyId = tempInput.entrustCompanyName.corpId
+          this.submitData.quotationHeadVO.entrustCompanyName = tempInput.entrustCompanyName.corpName
         } else { // 自己手动输入
-          this.submitData.entrustCompanyId = ''
+          this.submitData.quotationHeadVO.entrustCompanyId = ''
         }
       } else {
-        this.submitData.entrustCompanyId = ''
-        this.submitData.entrustCompanyName = ''
+        this.submitData.quotationHeadVO.entrustCompanyId = ''
+        this.submitData.quotationHeadVO.entrustCompanyName = ''
       }
     },
     // 将数组对象中,每个键值如果是数组,转换成字符串,或反之
     arrayAndString (arr, type) {
-      arr.forEach(v => {
+      arr.forEach(item => {
+        let v = item.quotationFeeVO
         for (let k in v) {
           // 转换成字符串
           if (type === 'string') {
-            if (Array.isArray(v[k]) && !k.startsWith('feeOption')) {
+            if (Array.isArray(v[k])) {
               v[k] = v[k].toString()
             }
           }
           // 转换成数组
           if (type === 'array') {
-            if (!k.startsWith('feeOption') && v[k].indexOf(',') > 0) {
-              v[k] = v[k].split(',')
+            if (typeof v[k] === 'string') {
+              if (v[k].indexOf(',') > 0) {
+                v[k] = v[k].split(',')
+              } else {
+                v[k].length > 0 && (v[k] = [v[k]])
+              }
             }
           }
         }
@@ -969,6 +997,31 @@ export default {
       item.feeRate = obj.feeRate
       item.feePid = obj.feePid
       item.rateIsDisabled = true
+    },
+    // 初始化下拉框数据
+    initSelected (selectData, list) {
+      if (list === 'origin') {
+        list = {
+          dclPlcCuscdNames: ' ',
+          impexpPortcdNames: ' ',
+          departure: ' ',
+          destination: ' ',
+          curr: ' ',
+          unit: ' '
+        }
+      }
+      Object.keys(list).forEach(v => {
+        if (list[v] && selectData[v]) { // 存在下拉选项
+          this.selectObj = {
+            obj: selectData[v]['downList'],
+            params: selectData[v]['params']
+          }
+          // this.checkParamsList(list[v])
+          if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
+            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+          }
+        }
+      })
     }
   }
 }

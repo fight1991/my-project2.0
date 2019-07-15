@@ -122,8 +122,8 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
-            <el-button title="编辑" type="text" @click="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
-            <el-button title="删除" type="text" @click="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
+            <el-button title="编辑" type="text" @click.stop="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
+            <el-button title="删除" type="text" @click.stop="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
