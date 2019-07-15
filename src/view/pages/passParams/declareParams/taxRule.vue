@@ -62,6 +62,9 @@ export default {
     }
   },
   created () {
+    if (!util.isEmpty(this.$route.query.keywords)) {
+      this.taxRuleForm.keywords = this.$route.query.keywords
+    }
     this.paginationInit = this.$store.state.pagination
     this.search()
   },
