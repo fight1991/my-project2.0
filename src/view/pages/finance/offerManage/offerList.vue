@@ -16,27 +16,14 @@
                 v-model="QueryForm.entrustCompanyName"
                 :fetch-suggestions="querySearch"
                 placeholder="请输入"
-                :trigger-on-focus="false"
               ></el-autocomplete>
-              <!-- <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
-                filterable remote clearable
-                :remote-method="getcorps"
-                allow-create
-                default-first-option >
-                <el-option
-                  v-for="item in corpList"
-                  :key="item.entrustCompanyId"
-                  :label="item.entrustCompanyName"
-                  :value="item.entrustCompanyName">
-                </el-option>
-              </el-select> -->
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="报价含税" :label-width="'85px'">
               <el-select v-model="QueryForm.rateFlag" size="mini" clearable  style="width:100%;">
-                <el-option key="1" :label="'含税'" :value="'1'"></el-option>
-                <el-option key="0" :label="'不含税'" :value="'0'"></el-option>
+                <el-option key="1" :label="'含税'" :value="true"></el-option>
+                <el-option key="0" :label="'不含税'" :value="false"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -108,31 +95,35 @@
     <div class='query-table'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="newQuotation"><i></i>新增</el-button>
-        <el-button size="mini" class="list-btns list-icon-export"><i></i>导出</el-button>
+        <el-button size="mini" class="list-btns list-icon-export" @click="exportQuotation"><i></i>导出</el-button>
       </el-row>
-      <el-table class='sys-table-table' :data="offerTableList" border highlight-current-row height="530px">
-        <el-table-column
-          type="selection"
-          width="55">
+      <el-table class='sys-table-table' align="left"
+        :data="offerTableList" border ref="offerTable"
+        highlight-current-row
+        @select="chooseSelectBox"
+        @row-click="chooseSelectRow"
+        @select-all="chooseSelectBoxAll"
+        height="530px">
+        <el-table-column type="selection" width="40">
         </el-table-column>
-        <el-table-column label="报价名称" min-width="80" align="center">
+        <el-table-column label="报价名称" min-width="120" prop="itemName">
         </el-table-column>
-        <el-table-column label="委托企业" min-width="80" align="center">
+        <el-table-column label="委托企业" min-width="160" prop="entrustCompanyName">
         </el-table-column>
-        <el-table-column label="有效期" min-width="80" align="center">
+        <el-table-column label="有效期" min-width="120" prop="dates" align="center">
         </el-table-column>
-        <el-table-column label="项目独立报价" min-width="120" align="center">
+        <el-table-column label="项目独立报价" min-width="90" prop="singleFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="报价含税" min-width="80" align="center">
+        <el-table-column label="报价含税" min-width="80" prop="rateFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="创建人" min-width="80" align="center">
+        <el-table-column label="创建人" min-width="80" prop="createUserName" align="center">
         </el-table-column>
-        <el-table-column label="创建时间" min-width="80" align="center">
+        <el-table-column label="创建时间" min-width="80" prop="createDate" align="center">
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
-            <el-button title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
-            <el-button title="删除" class="table-icon list-icon-delete"><i></i></el-button>
+            <el-button title="编辑" type="text" @click="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
+            <el-button title="删除" type="text" @click="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -152,8 +143,9 @@ export default {
   data () {
     return {
       dates: [],
+      quotationIds: [], // 存储报价id数组
       QueryForm: {
-        rateFlag: '0',
+        rateFlag: true,
         itemName: '',
         impexpPortcdNames: '',
         impexpPortcd: '',
@@ -176,6 +168,7 @@ export default {
         obj: '',
         params: ''
       },
+      offerTableList: [],
       impexpPortList: [], // 进出境关别
       dclPlcCusList: [], // 申报地海关
       corpList: [], // 企业列表
@@ -212,6 +205,7 @@ export default {
   created () {
     this.getcorps()
     this.paginationInit = this.$store.state.pagination
+    this.getsOfferList()
   },
   methods: {
     // 报价列表查询
@@ -219,7 +213,6 @@ export default {
       if (this.dates.length > 0) {
         this.QueryForm.createDate = [util.dateFormat(this.dates[0]), util.dateFormat(this.dates[1])]
       }
-      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/gets',
         data: {
@@ -229,14 +222,21 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.offerTableList = res.result
+          if (res.result && res.result.length > 0) {
+            res.result.forEach(v => {
+              v.dates = util.dateFormat(v.startDate) + '~' + util.dateFormat(v.endDate)
+            })
+            this.offerTableList = res.result
+          } else {
+            this.offerTableList = []
+          }
         }
       })
     },
     // 重置查询条件
     resetForm () {
       this.QueryForm = {
-        rateFlag: '0',
+        rateFlag: true,
         itemName: '',
         impexpPortcdNames: '',
         impexpPortcd: '',
@@ -316,16 +316,82 @@ export default {
     },
     querySearch (queryString, cb) {
       let restaurants = this.corpList
-      let result = []
-      if (queryString && queryString.trim().length >= 2) {
-        result = restaurants.filter(v => {
-          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+      let results = []
+      if (queryString.trim().length > 0) {
+        results = restaurants.filter(v => {
+          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         })
       } else {
-        result = restaurants
+        results = restaurants
       }
-      // 调用 callback 返回建议列表的数据
-      cb(result)
+      let tempArr = results.map(item => {
+        return {value: item.entrustCompanyName}
+      })
+      cb(tempArr)
+    },
+    // 删除报价
+    delQuotation (id) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/delete',
+        data: {quotationId: id},
+        router: this.$router,
+        success: () => {
+          this.getsOfferList()
+        }
+      })
+    },
+    // 编辑报价 跳转到创建报价页
+    editQuotation (id) {
+      this.$router.push({
+        name: 'offerManage-offerAdd',
+        query: {
+          quotationId: id,
+          setTitle: '编辑报价-' + id,
+          setId: id
+        }
+      })
+    },
+    // 导出报价
+    exportQuotation () {
+      if (this.quotationIds.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择一条或多条报价'
+        })
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/export',
+        data: {quotationIds: this.quotationIds},
+        router: this.$router,
+        success: ({result}) => {
+          result[0] && window.open(result[0], '_blank')
+        }
+      })
+    },
+    // 勾选选择框
+    chooseSelectBox (selection, row) {
+      this.quotationIds = selection.map(v => {
+        return v.quotationId
+      })
+    },
+    // 勾选选择框
+    chooseSelectBoxAll (selection) {
+      this.quotationIds = selection.map(v => {
+        return v.quotationId
+      })
+    },
+    // 点击表格行
+    chooseSelectRow (row, column, event) {
+      console.log(row)
+      let index = this.quotationIds.indexOf(row.quotationId)
+      if (index >= 0) { // 当前的行已经被选中了
+        this.$refs['offerTable'].toggleRowSelection(row, false)
+        this.quotationIds.splice(index, 1)
+      } else {
+        this.$refs['offerTable'].toggleRowSelection(row, true)
+        this.quotationIds.push(row.quotationId)
+      }
     }
   }
 }

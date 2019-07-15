@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main costList'>
     <el-row class='query-condition'>
-      <el-form :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
+      <el-form :label-width="labelFormWidth.four"  :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
@@ -64,21 +64,21 @@
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="showDialog('add')"><i></i>新增</el-button>
       </el-row>
-      <el-table class='sys-table-table' :data="costTableList" border highlight-current-row height="530px">
-        <el-table-column label="费用名称" min-width="100" align="center" prop="feeOptionName">
+      <el-table class='sys-table-table' align="left" :data="costTableList" border highlight-current-row height="530px">
+        <el-table-column label="费用名称" min-width="100" prop="feeOptionName">
         </el-table-column>
-        <el-table-column label="费用编号" min-width="100" align="center" prop="feeOptionCode">
+        <el-table-column label="费用编号" min-width="100" prop="feeOptionCode">
         </el-table-column>
-        <el-table-column label="税率" min-width="80" align="center" prop="feeRate">
+        <el-table-column label="税率" min-width="80" prop="feeRate" align="right">
           <template slot-scope="scope">
             {{scope.row.feeRate + '%'}}
           </template>
         </el-table-column>
-        <el-table-column label="金蝶系统会计科目" min-width="140" align="center" prop="feeSubjectName">
+        <el-table-column label="金蝶系统会计科目" min-width="140" prop="feeSubjectName">
         </el-table-column>
-        <el-table-column label="创建人" min-width="80" align="center" prop="createUserName">
+        <el-table-column label="创建人" min-width="80" prop="createUserName" align="center">
         </el-table-column>
-        <el-table-column label="创建时间" min-width="160" align="center" prop="createTime">
+        <el-table-column label="创建时间" min-width="160" prop="createTime" align="center">
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="80" align="center">
           <template slot-scope="scope">

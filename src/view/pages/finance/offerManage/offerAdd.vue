@@ -15,15 +15,15 @@
               <el-col :span="8">
                 <el-form-item label="报价含税" :label-width="labelFormWidth.five" prop="rateFlag">
                   <el-select size="mini" clearable  v-model="submitData.rateFlag" style="width:100%;">
-                    <el-option key="1" :label="'含税'" :value="'1'"></el-option>
-                    <el-option key="0" :label="'不含税'" :value="'0'"></el-option>
+                    <el-option key="1" :label="'含税'" :value="true"></el-option>
+                    <el-option key="0" :label="'不含税'" :value="false"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item  label-position="left" prop="singleFlag">
                   <el-checkbox-group v-model="submitData.singleFlag">
-                    <el-checkbox label="美食/餐厅线上活动" true-label="1" false-label="0" name="singleFlag"></el-checkbox>
+                    <el-checkbox label="美食/餐厅线上活动" :true-label="true" :false-label="false" name="singleFlag"></el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-col>
@@ -67,7 +67,7 @@
           <div class="acceptOffer">
             <el-row class="title">应收费用</el-row>
             <el-row class="accept-body" v-for="(item1, index1) in submitData.quotationReceivableBodyVOList" :key="'key_1' + index1">
-              <span class="deleteBody" @click="delFeeBody(index1,'1')"><img src="@/assets/img/delete_all.png" alt=""></span>
+              <span class="deleteBody" @click="delFeeBody(index1,true)"><img src="@/assets/img/delete_all.png" alt=""></span>
               <!-- 第一行 -->
               <el-row :gutter="50" class="base-line">
                 <el-row :gutter="50" class="margin_0 base-line-one">
@@ -149,7 +149,11 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
-                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
+                      <el-select size="mini" placeholder="费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                        <el-option v-for="item in optionsList"
+                          :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -159,10 +163,10 @@
                   </el-col>
                   <el-col :span="4">
                     <el-form-item label-width="0">
-                      <el-select size="mini" placeholder="税率" clearable  v-model="item2.feeRate" style="width:100%;">
-                        <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
-                        <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
-                        <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                      <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled"  v-model="item2.feeRate" style="width:100%;">
+                        <el-option key="0" :label="'0%'" :value="0"></el-option>
+                        <el-option key="6" :label="'6%'" :value="6"></el-option>
+                        <el-option key="11" :label="'11%'" :value="11"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -199,12 +203,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index2,'I','1')">
+                  <span class="delete-icon" @click="delItems(index1,index2,'0',true)">
                     <img src="@/assets/img/delete.png" alt="">
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'I','1')">添加更多</el-button>
+                  <el-button class="addMore" @click="addFeeMore(index1,'0',true)">添加更多</el-button>
                 </el-row>
               </el-row>
               <!-- 出口 -->
@@ -212,8 +216,12 @@
                 <el-row class="title-flag margin_0">出口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
-                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                      <el-select size="mini" placeholder="费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                        <el-option v-for="item in optionsList"
+                          :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -223,10 +231,10 @@
                   </el-col>
                   <el-col :span="4">
                     <el-form-item label-width="0">
-                      <el-select size="mini" placeholder="税率" clearable  v-model="item3.feeRate" style="width:100%;">
-                        <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
-                        <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
-                        <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                      <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled" v-model="item3.feeRate" style="width:100%;">
+                        <el-option key="0" :label="'0%'" :value="0"></el-option>
+                        <el-option key="6" :label="'6%'" :value="6"></el-option>
+                        <el-option key="11" :label="'11%'" :value="11"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -263,24 +271,24 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index3,'E','1')">
+                  <span class="delete-icon" @click="delItems(index1,index3,'1',true)">
                     <img src="@/assets/img/delete.png" alt="">
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'E','1')">添加更多</el-button>
+                  <el-button class="addMore" @click="addFeeMore(index1,'1',true)">添加更多</el-button>
                 </el-row>
               </el-row>
             </el-row>
             <el-row>
-              <span class="moreOport" @click="addMorePort('1')">设置更多口岸</span>
+              <span class="moreOport" @click="addMorePort(true)">设置更多口岸</span>
             </el-row>
           </div>
           <!-- 应付费用 -->
           <div class="payOffer acceptOffer">
             <el-row class="title">应付费用</el-row>
             <el-row class="accept-body" v-for="(item1, index1) in submitData.quotationPayableBodyVOList" :key="'key_0' + index1">
-              <span class="deleteBody" @click="delFeeBody(index1,'0')"><img src="@/assets/img/delete_all.png" alt=""></span>
+              <span class="deleteBody" @click="delFeeBody(index1,false)"><img src="@/assets/img/delete_all.png" alt=""></span>
               <!-- 第一行 -->
               <el-row :gutter="50" class="base-line">
                 <el-row :gutter="50" class="margin_0 base-line-one">
@@ -288,7 +296,7 @@
                     <el-form-item label="进/出境关别" label-width="85px">
                       <el-select  v-model="item1.impexpPortcdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -296,7 +304,7 @@
                           v-for="item in impexpPortList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -305,7 +313,7 @@
                     <el-form-item label="申报地海关" label-width="85px">
                       <el-select  v-model="item1.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
-                        multiple allow-create autocomplete
+                        multiple allow-create autocomplete :maxlength="80"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -313,7 +321,7 @@
                           v-for="item in dclPlcCusList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -322,12 +330,36 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-input size="mini" clearable :maxlength="80" v-model="item1.departure"></el-input>
+                      <el-select  v-model="item1.departure"
+                        filterable clearable remote default-first-option
+                        multiple allow-create autocomplete :maxlength="80"
+                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        :remote-method="checkParamsList"
+                        style="width:100%">
+                        <el-option
+                          v-for="item in portList"
+                          :key="item.codeField"
+                          :label="item.codeField + '-' + item.nameField"
+                          :value="item.codeField">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-input size="mini" clearable :maxlength="80" v-model="item1.destination"></el-input>
+                      <el-select  v-model="item1.destination"
+                        filterable clearable remote default-first-option
+                        multiple allow-create autocomplete :maxlength="80"
+                        @focus="tipsFill('portList','SAAS_TJ_PORT')"
+                        :remote-method="checkParamsList"
+                        style="width:100%">
+                        <el-option
+                          v-for="item in portList"
+                          :key="item.codeField"
+                          :label="item.codeField + '-' + item.nameField"
+                          :value="item.codeField">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -337,8 +369,12 @@
                 <el-row class="title-flag margin_0">进口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_0_I' + index2">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item2.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                      <el-select size="mini" placeholder="费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                        <el-option v-for="item in optionsList"
+                          :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
@@ -348,10 +384,10 @@
                   </el-col>
                   <el-col :span="4">
                     <el-form-item label-width="0">
-                      <el-select size="mini" placeholder="税率" clearable  v-model="item2.feeRate" style="width:100%;">
-                        <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
-                        <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
-                        <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                      <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled"  v-model="item2.feeRate" style="width:100%;">
+                        <el-option key="0" :label="'0%'" :value="0"></el-option>
+                        <el-option key="6" :label="'6%'" :value="6"></el-option>
+                        <el-option key="11" :label="'11%'" :value="11"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -388,12 +424,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index2,'I','0')">
+                  <span class="delete-icon" @click="delItems(index1,index2,'0',false)">
                     <img src="@/assets/img/delete.png" alt="">
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'I','0')">添加更多</el-button>
+                  <el-button class="addMore" @click="addFeeMore(index1,'0',false)">添加更多</el-button>
                 </el-row>
               </el-row>
               <!-- 出口 -->
@@ -401,21 +437,25 @@
                 <el-row class="title-flag margin_0">出口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_0_E' + index3">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label-width="0">
-                      <el-input size="mini" v-model="item3.feeOptionName" clearable placeholder="费用名称" :maxlength="20"></el-input>
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                      <el-select size="mini" placeholder="费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                        <el-option v-for="item in optionsList"
+                          :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index3 + '.feePrice'" :rules="{pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label-width="0">
                       <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="4">
                     <el-form-item label-width="0">
-                      <el-select size="mini" placeholder="税率" clearable  v-model="item3.feeRate" style="width:100%;">
-                        <el-option key="1" :label="'0%'" :value="'0%'"></el-option>
-                        <el-option key="0" :label="'6%'" :value="'6%'"></el-option>
-                        <el-option key="0" :label="'12%'" :value="'12%'"></el-option>
+                      <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled" v-model="item3.feeRate" style="width:100%;">
+                        <el-option key="0" :label="'0%'" :value="0"></el-option>
+                        <el-option key="6" :label="'6%'" :value="6"></el-option>
+                        <el-option key="11" :label="'11%'" :value="11"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -452,17 +492,17 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index3,'E','0')">
+                  <span class="delete-icon" @click="delItems(index1,index3,'1',false)">
                     <img src="@/assets/img/delete.png" alt="">
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'E','0')">添加更多</el-button>
+                  <el-button class="addMore" @click="addFeeMore(index1,'1',false)">添加更多</el-button>
                 </el-row>
               </el-row>
             </el-row>
             <el-row>
-              <span class="moreOport" @click="addMorePort('0')">设置更多口岸</span>
+              <span class="moreOport" @click="addMorePort(false)">设置更多口岸</span>
             </el-row>
           </div>
         </el-form>
@@ -470,7 +510,7 @@
     </div>
     <div class="submit">
       <el-row style="text-align:center">
-        <el-button size="mini" type="primary" @click="createQuotation">提交</el-button>
+        <el-button size="mini" type="primary" @click="submitBtn">提交</el-button>
         <el-button size="mini"  @click="cancelQuotation">取消</el-button>
       </el-row>
     </div>
@@ -483,6 +523,7 @@ import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
+      quotationId: '',
       // 总表单
       submitData: {
         dates: '',
@@ -497,7 +538,7 @@ export default {
             dclPlcCuscdNames: '',
             departure: '', // 出发地
             destination: '', // 目的地
-            feeFlag: '1', // 应收1，应付0
+            feeFlag: true, // 应收1，应付0
             impexpPortcd: '', // 进出境关别代码
             impexpPortcdNames: '',
             quotationFeeId: '', // 报价应收应付主键
@@ -508,7 +549,7 @@ export default {
                 feeOptionName: '',
                 feePrice: '',
                 feeRate: '',
-                iEFlag: 'I',
+                iEFlag: '0', // 0进口1出口2内贸
                 quotationFeeId: '',
                 quotationFeeOptionId: '',
                 quotationId: '',
@@ -521,7 +562,7 @@ export default {
                 feeOptionName: '',
                 feePrice: '',
                 feeRate: '',
-                iEFlag: 'E',
+                iEFlag: '1',
                 quotationFeeId: '',
                 quotationFeeOptionId: '',
                 quotationId: '',
@@ -536,7 +577,7 @@ export default {
             dclPlcCuscdNames: '',
             departure: '', // 出发地
             destination: '', // 目的地
-            feeFlag: '0', // 应收1，应付0
+            feeFlag: false, // 应收1，应付0
             impexpPortcd: '', // 进出境关别代码
             impexpPortcdNames: '',
             quotationFeeId: '', // 报价应收应付主键
@@ -547,7 +588,7 @@ export default {
                 feeOptionName: '',
                 feePrice: '',
                 feeRate: '',
-                iEFlag: 'I',
+                iEFlag: '0',
                 quotationFeeId: '',
                 quotationFeeOptionId: '',
                 quotationId: '',
@@ -560,7 +601,7 @@ export default {
                 feeOptionName: '',
                 feePrice: '',
                 feeRate: '',
-                iEFlag: 'E',
+                iEFlag: '1',
                 quotationFeeId: '',
                 quotationFeeOptionId: '',
                 quotationId: '',
@@ -569,8 +610,8 @@ export default {
             ]
           }
         ],
-        rateFlag: '1', // 报价是否含税1含税，0不含税
-        singleFlag: '0' // 是否项目独立报价1是0不是
+        rateFlag: true, // 报价是否含税true含税，false不含税
+        singleFlag: false // 是否项目独立报价1是0不是
       },
       copysubmitData: {}, // 复制整个模板
       // 应收应付模板
@@ -590,7 +631,7 @@ export default {
             feeOptionName: '',
             feePrice: '',
             feeRate: '',
-            iEFlag: 'I',
+            iEFlag: '0',
             quotationFeeId: '',
             quotationFeeOptionId: '',
             quotationId: '',
@@ -603,7 +644,7 @@ export default {
             feeOptionName: '',
             feePrice: '',
             feeRate: '',
-            iEFlag: 'E',
+            iEFlag: '1',
             quotationFeeId: '',
             quotationFeeOptionId: '',
             quotationId: '',
@@ -644,7 +685,7 @@ export default {
         obj: '',
         params: ''
       },
-      optionsList: '',
+      optionsList: [],
       ruleForm: {
         itemName: [
           {required: true, message: '请输入报价名称', trigger: 'blur'}
@@ -690,7 +731,13 @@ export default {
   },
   created () {
     this.copyData() // 深拷贝模板
+    this.getOptionList()
     this.getCommonParam()
+    let tempId = this.$route.query.quotationId
+    if (tempId) {
+      this.queryOptionsDetail(tempId)
+      this.quotationId = tempId
+    }
   },
   methods: {
     // 添加更多按钮
@@ -698,27 +745,23 @@ export default {
       // 深拷贝
       let temp = {...this.templateOp}
       temp.iEFlag = iEFlag
-      let props = iEFlag === 'I' ? 'feeOptionImportVOs' : 'feeOptionExportVOs'
-      if (feeFlag === '1') { // 应收
-        this.submitData.quotationReceivableBodyVOList[index][props].push(temp)
-      } else {
-        this.submitData.quotationPayableBodyVOList[index][props].push(temp)
-      }
+      let props = iEFlag === '0' ? 'feeOptionImportVOs' : 'feeOptionExportVOs'
+      feeFlag ? this.submitData.quotationReceivableBodyVOList[index][props].push(temp) : this.submitData.quotationPayableBodyVOList[index][props].push(temp)
     },
     // 添加更多口岸
     addMorePort (feeFlag) {
-      let temp = {...this.templateFee}
+      let temp = JSON.parse(JSON.stringify(this.templateFee))
       temp.feeFlag = feeFlag
-      feeFlag === '1' ? this.submitData.quotationReceivableBodyVOList.push(temp) : this.submitData.quotationPayableBodyVOList.push(temp)
+      feeFlag ? this.submitData.quotationReceivableBodyVOList.push(temp) : this.submitData.quotationPayableBodyVOList.push(temp)
     },
     // 删除行费用项
     delItems (index1, index2, iEFlag, feeFlag) {
-      let props = iEFlag === 'I' ? 'feeOptionImportVOs' : 'feeOptionExportVOs'
-      feeFlag === '1' ? this.submitData.quotationReceivableBodyVOList[index1][props].splice(index2, 1) : this.submitData.quotationPayableBodyVOList[index1][props].splice(index2, 1)
+      let props = iEFlag === '0' ? 'feeOptionImportVOs' : 'feeOptionExportVOs'
+      feeFlag ? this.submitData.quotationReceivableBodyVOList[index1][props].splice(index2, 1) : this.submitData.quotationPayableBodyVOList[index1][props].splice(index2, 1)
     },
     // 删除应收应付模块
     delFeeBody (index, feeFlag) {
-      feeFlag === '1' ? this.fees_1.splice(index, 1) : this.fees_0.splice(index, 1)
+      feeFlag ? this.submitData.quotationReceivableBodyVOList.splice(index, 1) : this.submitData.quotationPayableBodyVOList.splice(index, 1)
     },
     // 创建字典参数列表
     tipsFill (obj, params) {
@@ -776,8 +819,8 @@ export default {
         callback()
       }
     },
-    // 创建报价
-    createQuotation () {
+    // 提交按钮
+    submitBtn () {
       let flag1 = true
       this.$refs['submitData'].validate((valid) => {
         if (!valid) flag1 = false
@@ -791,18 +834,62 @@ export default {
       // impexpPortcdNames dclPlcCuscdNames departure destination数组转换成字符串
       this.arrayAndString(subData.quotationPayableBodyVOList, 'string')
       this.arrayAndString(subData.quotationReceivableBodyVOList, 'string')
+      if (this.quotationId) { // 编辑
+        subData.quotationId = this.quotationId
+        this.editQuotation(subData)
+        return
+      }
+      this.createQuotation(subData)
+    },
+    // 创建报价
+    createQuotation (subData) {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/create',
         data: subData,
         router: this.$router,
-        success: res => {
-          console.log(res.result)
+        success: ({result}) => {
+          this.quotationId = result
+          this.$message({
+            type: 'success',
+            message: '创建成功'
+          })
+        }
+      })
+    },
+    // 编辑报价
+    editQuotation (subData) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/edit',
+        data: subData,
+        router: this.$router,
+        success: ({result}) => {
+          this.$message({
+            type: 'success',
+            message: '编辑成功'
+          })
+        }
+      })
+    },
+    // 查询报价详情
+    queryOptionsDetail (id) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/quotation/get',
+        data: {
+          quotationId: id
+        },
+        router: this.$router,
+        success: ({result}) => {
+          if (result) { // 数据处理
+            console.log(result)
+            // this.arrayAndString(result.quotationPayableBodyVOList, 'array')
+            // this.arrayAndString(result.quotationReceivableBodyVOList, 'array')
+          }
         }
       })
     },
     // 取消按钮
     cancelQuotation () {
-      this.submitData = this.copysubmitData
+      this.submitData = JSON.parse(JSON.stringify(this.copysubmitData))
     },
     // 拷贝模板
     copyData () {
@@ -860,8 +947,7 @@ export default {
       return arr
     },
     // 获取费用名称下拉列表
-    // 获取费用项列表
-    getOptionList (pagination) {
+    getOptionList () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/getAll',
         data: {},
@@ -870,6 +956,19 @@ export default {
           this.optionsList = result || []
         }
       })
+    },
+    // 选择费用名称时获取对应的费率
+    getFeeRate (item) {
+      if (!item.feeOptionName) {
+        item.feeRate = ''
+        item.feePid = ''
+        item.rateIsDisabled = false
+        return
+      }
+      let obj = this.optionsList.find(v => v.feeOptionName === item.feeOptionName)
+      item.feeRate = obj.feeRate
+      item.feePid = obj.feePid
+      item.rateIsDisabled = true
     }
   }
 }
