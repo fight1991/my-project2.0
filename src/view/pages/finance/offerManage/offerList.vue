@@ -123,6 +123,7 @@
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
             <el-button title="编辑" type="text" @click.stop="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
+            <el-button title="查看" type="text" @click.stop="lookQuotation(scope.row.quotationId)" class="table-icon list-icon-look"><i></i></el-button>
             <el-button title="删除" type="text" @click.stop="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
           </template>
         </el-table-column>
@@ -348,6 +349,15 @@ export default {
           quotationId: id,
           setTitle: '编辑报价-' + id,
           setId: id
+        }
+      })
+    },
+    // 查看
+    lookQuotation (id) {
+      this.$router.push({
+        name: 'offerManage-detail',
+        query: {
+          quotationId: id
         }
       })
     },

@@ -2,7 +2,7 @@
   <section class="sys-main finance">
     <div class="originInfo">
       <!-- 最顶部独立报价标识 -->
-      <div class="topFlag flex" v-if="quotationDetail.singleFlag">
+      <div class="topFlag flex" v-if="quotationDetail.quotationHeadVO.singleFlag">
         <img src="@/assets/img/Tips.png" alt="">
         <div class="text">项目独立报价</div>
       </div>
@@ -10,10 +10,10 @@
       <div class="baseInfo">
         <el-row class="title">基本信息</el-row>
         <el-row>
-          <el-col :span="6">报价名称&nbsp;:&nbsp;{{quotationDetail.itemName}}</el-col>
-          <el-col :span="6">有效期&nbsp;:&nbsp;{{quotationDetail.dates}}</el-col>
-          <el-col :span="6">报价含税&nbsp;:&nbsp;{{quotationDetail.rateFlag ? '含税':'不含税'}}</el-col>
-          <el-col :span="6">委托企业&nbsp;:&nbsp;{{quotationDetail.entrustCompanyName}}</el-col>
+          <el-col :span="6">报价名称&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.itemName}}</el-col>
+          <el-col :span="6">有效期&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.startDate + ' 至 ' + quotationDetail.quotationHeadVO.endDate}}</el-col>
+          <el-col :span="6">报价含税&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.rateFlag ? '含税':'不含税'}}</el-col>
+          <el-col :span="6">委托企业&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.entrustCompanyName}}</el-col>
         </el-row>
       </div>
       <!-- 应收费用 -->
@@ -22,12 +22,32 @@
         <el-row class="accept-body" v-for="item1 in quotationDetail.quotationReceivableBodyVOList" :key="item1.quotationFeeId">
           <div class="head">
             <el-row>
-              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{item1.impexpPortcdNames}}</el-col>
-              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{item1.dclPlcCuscdNames}}</el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">进/出境关别&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.impexpPortcdNames}}</div>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">申报地海关&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.dclPlcCuscdNames}}</div>
+                </div>
+              </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{item1.departure}}</el-col>
-              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{item1.destination}}</el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">出发地/港&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.departure}}</div>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">目的地/港&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.destination}}</div>
+                </div>
+              </el-col>
             </el-row>
           </div>
           <div class="body">
@@ -68,12 +88,32 @@
         <el-row class="accept-body" v-for="item1 in quotationDetail.quotationPayableBodyVOList" :key="item1.quotationFeeId">
           <div class="head">
             <el-row>
-              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{item1.impexpPortcdNames}}</el-col>
-              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{item1.dclPlcCuscdNames}}</el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">进/出境关别&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.impexpPortcdNames}}</div>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">申报地海关&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.dclPlcCuscdNames}}</div>
+                </div>
+              </el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{item1.departure}}</el-col>
-              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{item1.destination}}</el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">出发地/港&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.departure}}</div>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="one-row">
+                  <div class="left">目的地/港&nbsp;:</div>
+                  <div class="right">{{item1.quotationFeeVO.destination}}</div>
+                </div>
+              </el-col>
             </el-row>
           </div>
           <div class="body">
@@ -116,7 +156,11 @@
 export default {
   data () {
     return {
-      quotationDetail: {}, // 报价详情
+      quotationDetail: { // 报价详情
+        quotationHeadVO: {},
+        quotationPayableBodyVOList: [],
+        quotationReceivableBodyVOList: []
+      },
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -137,7 +181,7 @@ export default {
     }
   },
   created () {
-
+    this.getFeesDetail(this.$route.query.quotationId)
   },
   methods: {
     // 获取报价详情
@@ -158,6 +202,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .el-col {
+    color: #4c4c4c;
+  }
+  .one-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .left {
+      width: 85px;
+    }
+  }
   .flex {
     display: flex;
     align-items: center;
