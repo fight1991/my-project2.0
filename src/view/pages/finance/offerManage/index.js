@@ -3,10 +3,11 @@ const MENU = [
     path: '/finance/offerManage/list',
     name: 'offerManage-list',
     permissions: 'CCBA21003010000',
+    icon: 'icons-finance-offerManage',
     hidden: false,
     meta: {
       component: resolve => require(['./offerList.vue'], resolve),
-      title: '报价列表'
+      title: '报价管理'
     }
   },
   {

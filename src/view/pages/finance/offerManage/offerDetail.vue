@@ -2,7 +2,7 @@
   <section class="sys-main finance">
     <div class="originInfo">
       <!-- 最顶部独立报价标识 -->
-      <div class="topFlag flex">
+      <div class="topFlag flex" v-if="quotationDetail.singleFlag">
         <img src="@/assets/img/Tips.png" alt="">
         <div class="text">项目独立报价</div>
       </div>
@@ -10,24 +10,24 @@
       <div class="baseInfo">
         <el-row class="title">基本信息</el-row>
         <el-row>
-          <el-col :span="6">报价名称&nbsp;:&nbsp;{{'鸟哈奥啊'}}</el-col>
-          <el-col :span="6">有效期&nbsp;:&nbsp;{{'啦啦'}}</el-col>
-          <el-col :span="6">报价含税&nbsp;:&nbsp;{{'年后'}}</el-col>
-          <el-col :span="6">委托企业&nbsp;:&nbsp;{{'哈哈'}}</el-col>
+          <el-col :span="6">报价名称&nbsp;:&nbsp;{{quotationDetail.itemName}}</el-col>
+          <el-col :span="6">有效期&nbsp;:&nbsp;{{quotationDetail.dates}}</el-col>
+          <el-col :span="6">报价含税&nbsp;:&nbsp;{{quotationDetail.rateFlag ? '含税':'不含税'}}</el-col>
+          <el-col :span="6">委托企业&nbsp;:&nbsp;{{quotationDetail.entrustCompanyName}}</el-col>
         </el-row>
       </div>
       <!-- 应收费用 -->
       <div class="acceptOffer">
         <el-row class="title">应收费用</el-row>
-        <el-row class="accept-body">
+        <el-row class="accept-body" v-for="item1 in quotationDetail.quotationReceivableBodyVOList" :key="item1.quotationFeeId">
           <div class="head">
             <el-row>
-              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{'鸟哈奥啊'}}</el-col>
-              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{'啦啦'}}</el-col>
+              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{item1.impexpPortcdNames}}</el-col>
+              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{item1.dclPlcCuscdNames}}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{'鸟哈奥啊'}}</el-col>
-              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{'啦啦'}}</el-col>
+              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{item1.departure}}</el-col>
+              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{item1.destination}}</el-col>
             </el-row>
           </div>
           <div class="body">
@@ -36,11 +36,12 @@
               <el-col :span="12">
                 <div class="eiFlag">进口</div>
                 <div class="table">
-                  <el-table :data="tableData" style="width: 100%" :show-header="false">
-                    <el-table-column prop="date" label="日期"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="right"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="name" label="日期"></el-table-column>
+                  <el-table :data="item1.feeOptionImportVOs" style="width: 100%" :show-header="false">
+                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feePrice" label="单价" align="right"></el-table-column>
+                    <el-table-column prop="feeRate" label="税率" align="center"></el-table-column>
+                    <el-table-column prop="curr" label="币制" align="center"></el-table-column>
+                    <el-table-column prop="unit" label="计费单位"></el-table-column>
                   </el-table>
                 </div>
               </el-col>
@@ -48,11 +49,12 @@
               <el-col :span="12">
                 <div class="eiFlag" style="margin-left:18px">出口</div>
                 <div class="table noborder">
-                  <el-table :data="tableData" style="width: 100%" :show-header="false">
-                    <el-table-column prop="date" label="日期"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="right"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="name" label="日期"></el-table-column>
+                  <el-table :data="item1.feeOptionExportVOs" style="width: 100%" :show-header="false">
+                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feePrice" label="单价" align="right"></el-table-column>
+                    <el-table-column prop="feeRate" label="税率" align="center"></el-table-column>
+                    <el-table-column prop="curr" label="币制" align="center"></el-table-column>
+                    <el-table-column prop="unit" label="计费单位"></el-table-column>
                   </el-table>
                 </div>
               </el-col>
@@ -62,16 +64,16 @@
       </div>
       <!-- 应付费用 -->
       <div class="acceptOffer">
-        <el-row class="title">应付费用</el-row>
-        <el-row class="accept-body">
+        <el-row class="title">应收费用</el-row>
+        <el-row class="accept-body" v-for="item1 in quotationDetail.quotationPayableBodyVOList" :key="item1.quotationFeeId">
           <div class="head">
             <el-row>
-              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{'鸟哈奥啊'}}</el-col>
-              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{'啦啦'}}</el-col>
+              <el-col :span="12">进/出境关别&nbsp;:&nbsp;{{item1.impexpPortcdNames}}</el-col>
+              <el-col :span="12">申报地海关&nbsp;:&nbsp;{{item1.dclPlcCuscdNames}}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{'鸟哈奥啊'}}</el-col>
-              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{'啦啦'}}</el-col>
+              <el-col :span="12">出发地/港&nbsp;:&nbsp;{{item1.departure}}</el-col>
+              <el-col :span="12">目的地/港&nbsp;:&nbsp;{{item1.destination}}</el-col>
             </el-row>
           </div>
           <div class="body">
@@ -80,11 +82,12 @@
               <el-col :span="12">
                 <div class="eiFlag">进口</div>
                 <div class="table">
-                  <el-table :data="tableData" style="width: 100%" :show-header="false">
-                    <el-table-column prop="date" label="日期"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="right"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="name" label="日期"></el-table-column>
+                  <el-table :data="item1.feeOptionImportVOs" style="width: 100%" :show-header="false">
+                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feePrice" label="单价" align="right"></el-table-column>
+                    <el-table-column prop="feeRate" label="税率" align="center"></el-table-column>
+                    <el-table-column prop="curr" label="币制" align="center"></el-table-column>
+                    <el-table-column prop="unit" label="计费单位"></el-table-column>
                   </el-table>
                 </div>
               </el-col>
@@ -92,11 +95,12 @@
               <el-col :span="12">
                 <div class="eiFlag" style="margin-left:18px">出口</div>
                 <div class="table noborder">
-                  <el-table :data="tableData" style="width: 100%" :show-header="false">
-                    <el-table-column prop="date" label="日期"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="right"></el-table-column>
-                    <el-table-column prop="name" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="name" label="日期"></el-table-column>
+                  <el-table :data="item1.feeOptionExportVOs" style="width: 100%" :show-header="false">
+                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feePrice" label="单价" align="right"></el-table-column>
+                    <el-table-column prop="feeRate" label="税率" align="center"></el-table-column>
+                    <el-table-column prop="curr" label="币制" align="center"></el-table-column>
+                    <el-table-column prop="unit" label="计费单位"></el-table-column>
                   </el-table>
                 </div>
               </el-col>

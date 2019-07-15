@@ -2,6 +2,7 @@ const MENU = [
   {
     path: '/finance/expense/list',
     name: 'expense-list',
+    icon: 'icons-finance-offerAccount',
     permissions: 'CCBA21003010000',
     hidden: false,
     meta: {
