@@ -17,31 +17,37 @@ import boardComponent from './middle/board.vue'
 import reportComponent from './middle/report.vue'
 import newsComponent from './middle/news.vue'
 import corpDisplayComponent from './middle/corpDisplay.vue'
-
+import taxRuleComponent from './middle/taxRule.vue'
 export default {
   data () {
     return {
       divList: [
         {
-          id: 'div1',
+          id: 'DEC_001',
           component: boardComponent,
           permissions: 'CCBA20101000000',
           isShadow: false
         },
         {
-          id: 'div2',
+          id: 'TAX_005',
+          component: taxRuleComponent,
+          permissions: 'CCBA20105000000',
+          isShadow: false
+        },
+        {
+          id: 'REPORT_002',
           component: reportComponent,
           permissions: 'CCBA20102000000',
           isShadow: false
         },
         {
-          id: 'div3',
+          id: 'INFO_003',
           component: newsComponent,
           permissions: 'CCBA20103000000',
           isShadow: false
         },
         {
-          id: 'div4',
+          id: 'CORP_004',
           component: corpDisplayComponent,
           permissions: 'CCBA20104000000',
           isShadow: false
