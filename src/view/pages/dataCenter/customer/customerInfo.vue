@@ -652,6 +652,5 @@ export default {
     width: 14px;
     height: 14px;
     vertical-align: middle;
-    
 }
 </style>
