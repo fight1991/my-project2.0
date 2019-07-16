@@ -15,7 +15,7 @@
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.entrustCompanyName"
                 :fetch-suggestions="querySearch"
-                placeholder="请输入"
+                placeholder="请选择"
               ></el-autocomplete>
             </el-form-item>
           </el-col>
