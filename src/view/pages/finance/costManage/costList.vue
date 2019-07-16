@@ -22,6 +22,7 @@
           <el-col :span="6">
             <el-form-item label="税率">
               <el-select v-model="QueryForm.feeRate" size="mini" clearable  style="width:100%;">
+                <el-option key="all" :label="'全部'" :value="''"></el-option>
                 <el-option key="1" :label="'0%'" :value="0"></el-option>
                 <el-option key="2" :label="'6%'" :value="6"></el-option>
                 <el-option key="3" :label="'11%'" :value="11"></el-option>
@@ -83,7 +84,7 @@
         <el-table-column label="操作" fixed="right" width="80" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button type="text" title="编辑" @click="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
+              <el-button type="text" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -153,7 +154,7 @@ export default {
         createUserName: '', // 创建人
         feeOptionCode: '', // 费用编号
         feeOptionName: '', // 费用项名称
-        feeRate: 0, // 税率
+        feeRate: '', // 税率
         feeSubjectName: '' // 科目名称
       },
       isDisabled: false,
@@ -262,7 +263,7 @@ export default {
     // 模态框关闭时数据初始化
     resetDialog () {
       this.isDisabled = false
-      this.resetFees()
+      // this.resetFees()
     },
     // 显示模态框
     showDialog (type, data) {
@@ -270,7 +271,7 @@ export default {
       this.addFeeIsShow = true
       this.type = type
       this.$nextTick(() => {
-        this.$refs['addFees'].resetFields()
+        this.$refs['addFees'].clearValidate()
       })
       this.resetFees()
       if (type === 'add') {
