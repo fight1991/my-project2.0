@@ -927,7 +927,7 @@ export default {
     },
     // 企业查询
     getcorps (query) {
-      if (query && query.length === 0) {
+      if (query && query.length < 2) {
         return
       }
       this.$store.dispatch('ajax', {

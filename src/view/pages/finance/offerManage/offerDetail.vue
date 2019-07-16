@@ -281,9 +281,12 @@ export default {
   .one-row {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     .left {
       width: 85px;
+    }
+    .right {
+      flex: 1;
     }
   }
   .flex {
