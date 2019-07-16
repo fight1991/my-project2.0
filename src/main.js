@@ -13,6 +13,13 @@ import Permissions from './directive/permissions'
 import {pagination} from './common/mixin/pagination'
 import {labelWidth} from './common/mixin/labelWidth'
 import BaiduMap from 'vue-baidu-map'
+
+let originSrc = ''
+if (utils.getQueryString('src')) {
+  originSrc = utils.getQueryString('src')
+  localStorage.setItem('originSrc', originSrc)
+}
+
 Vue.use(BaiduMap, {
   ak: 'qFHHVG13nGc25bOu8bOw6mIyWsQo78q8'
 })

@@ -1,6 +1,8 @@
 <template>
   <div class="top-header">
-    <div class="logo" @click="goToWWW" title="返回官网"></div>
+    <div class="logo" @click="goToWWW" title="返回官网">
+      <img :src="logImgUrl">
+    </div>
     <div class="header-right">
       <div class="little-icon hidden-xs-only">
         <!-- <span class="search"></span> -->
@@ -98,6 +100,9 @@ import reportComponent from '../middle/report.vue'
 import newsComponent from '../middle/news.vue'
 import corpDisplayComponent from '../middle/corpDisplay.vue'
 import taxRuleComponent from '../middle/taxRule.vue'
+
+import defaultImg from '../../../assets/img/icon/CCBA_logo.png'
+import hegsImg from '../../../assets/img/icon/HEGS_logo.png'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -111,7 +116,12 @@ export default {
       logoClick: false,
       setDialogVisible: false, // 工作台设置弹窗
       setModules: [],
-      checkedSet: []
+      checkedSet: [],
+      logoConfig: {
+        'default': defaultImg,
+        'hegs': hegsImg
+      },
+      logImgUrl: ''
     }
   },
   created () {
@@ -124,9 +134,13 @@ export default {
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
     }
+    this.logImgUrl = this.getLogo()
   },
   mounted () {},
   methods: {
+    getLogo () {
+      return localStorage.getItem('originSrc') ? this.logoConfig[localStorage.getItem('originSrc')] : this.logoConfig['default']
+    },
     // 用户头像下拉菜单点击处理
     userInfoLi (type) {
       switch (type) {
@@ -453,9 +467,6 @@ export default {
   display: inline-block;
   width: 380px;
   height: 62px;
-  background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
-  background-size: 280px 64px;
-  background-size: cover;
   vertical-align: middle;
   cursor: pointer;
 }
