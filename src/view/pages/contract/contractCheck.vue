@@ -253,7 +253,9 @@ export default {
               name: 'contract-add',
               params: {
                 flag: type,
-                pkSeqNo: this.checkedData[0].pkSeqNo
+                pkSeqNo: this.checkedData[0].pkSeqNo,
+                setTitle: '合同审核-' + this.checkedData[0].pkSeqNo,
+                setId: this.checkedData[0].pkSeqNo + 'check'
               }
             })
           }

@@ -133,6 +133,7 @@ export default {
           refreshFlag: flag === 'refresh' ? 'Y' : 'N'
         },
         isLoad: false,
+        showErrorMessage: false,
         router: this.$router,
         success: (res) => {
           let pieList = []

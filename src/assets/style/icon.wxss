@@ -175,3 +175,9 @@
 .sys-class .icons-finance-accountManage {
   background: url("../img/icon-aside/accountManage.png") no-repeat;
 }
+.sys-class .icons-menu-importEn {
+  background: url("../img/icon-aside/importEn.png") no-repeat;
+}
+.sys-class .icons-menu-exportEn {
+  background: url("../img/icon-aside/exportEn.png") no-repeat;
+}

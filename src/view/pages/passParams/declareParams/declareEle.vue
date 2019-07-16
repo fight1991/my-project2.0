@@ -3,6 +3,11 @@
     <!-- 查询条件 -->
     <div class="query-header">
       <el-row :gutter="20">
+        <el-col :span="3">
+          <el-select size="mini" v-model="declareForm.iEFlag">
+            <el-option v-for="item in iEFlagList" :value="item.value" :label="item.label" :key="item.value"></el-option>
+          </el-select>
+        </el-col>
         <el-col :span="6">
           <el-input size="mini" v-model="declareForm.keywords" placeholder="商品编码" maxlength="50" clearable @keyup.enter.native="search"></el-input>
         </el-col>
@@ -54,7 +59,15 @@ export default {
   name: 'declareEle',
   data () {
     return {
+      iEFlagList: [{
+        value: 'I',
+        label: '进口'
+      }, {
+        value: 'E',
+        label: '出口'
+      }],
       declareForm: {
+        iEFlag: 'I',
         keywords: ''
       },
       declareList: [],

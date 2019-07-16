@@ -3,8 +3,8 @@
    <div class="header">
      <div class="header-bottom">
        <div class="header-right" v-if="!isLogin">
-          <div class="login" @click="logIn"><span>登录</span></div>
-          <div class="register" @click="logIn"><span>注册</span></div>
+          <div class="login" @click="logIn('login')"><span>登录</span></div>
+          <div class="register" @click="logIn('register')"><span>注册</span></div>
         </div>
         <div class="header-right" v-else>
           <div class="hello"><span>{{$store.state.userLoginInfo.userName}}&nbsp;, 您好 !</span></div>
@@ -129,8 +129,13 @@ export default {
       let url = pathList.WWWCCBA + '?token=' + encodeURIComponent(localStorage.getItem('token'))
       window.open(url, '_blank')
     },
-    logIn () {
-      let LoginUrl = pathList.WWWLOGINBACK
+    logIn (type) {
+      let LoginUrl
+      if (type === 'register') {
+        LoginUrl = pathList.WWWREGISTBACK
+      } else {
+        LoginUrl = pathList.WWWLOGINBACK
+      }
       window.open(LoginUrl, '_self')
     },
     logOut () {
@@ -146,7 +151,7 @@ export default {
           router: this.$router,
           success: (res) => {}
         })
-        window.localStorage.clear()
+        util.clearLoginStorage()
         this.$store.commit('userLoginInfo', {
           token: '', // token数据
           userName: '', // 用户姓名

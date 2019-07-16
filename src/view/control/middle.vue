@@ -1,6 +1,6 @@
 <template>
   <transition-group tag="div" id="list" v-permissions="'CCBA20100000000'">
-    <div v-for="item in divList" :key="item.id" :id="item.id" :class="{'divItems':true,'shadow':item.isShadow}" v-permissions="item.permissions"
+    <div v-for="item in $store.state.controlPanelList" :key="item.id" :id="item.id" :class="{'divItems':true,'shadow':item.isShadow}"
       draggable="true"
       @dragstart="handleDragStart($event, item)"
       @dragover.prevent="handleDragOver($event, item)"
@@ -17,31 +17,38 @@ import boardComponent from './middle/board.vue'
 import reportComponent from './middle/report.vue'
 import newsComponent from './middle/news.vue'
 import corpDisplayComponent from './middle/corpDisplay.vue'
-
+import taxRuleComponent from './middle/taxRule.vue'
+import util from '../../common/util'
 export default {
   data () {
     return {
       divList: [
         {
-          id: 'div1',
+          id: 'DEC_001',
           component: boardComponent,
           permissions: 'CCBA20101000000',
           isShadow: false
         },
         {
-          id: 'div2',
+          id: 'TAX_005',
+          component: taxRuleComponent,
+          permissions: 'CCBA20105000000',
+          isShadow: false
+        },
+        {
+          id: 'REPORT_002',
           component: reportComponent,
           permissions: 'CCBA20102000000',
           isShadow: false
         },
         {
-          id: 'div3',
+          id: 'INFO_003',
           component: newsComponent,
           permissions: 'CCBA20103000000',
           isShadow: false
         },
         {
-          id: 'div4',
+          id: 'CORP_004',
           component: corpDisplayComponent,
           permissions: 'CCBA20104000000',
           isShadow: false
@@ -50,9 +57,10 @@ export default {
     }
   },
   created () {
+    this.getCheckPanel()
     // 如果本地有缓存信息,则根据缓存位置信息来排序
     if (this.indexSort().length > 0) {
-      this.divList = this.indexSort()
+      // this.$store.state.controlPanelList = this.indexSort()
     }
   },
   mounted () {
@@ -92,7 +100,7 @@ export default {
       if (item === this.dragging) {
         return
       }
-      let newItems = [...this.divList]
+      let newItems = [...this.$store.state.controlPanelList]
       // 拖动元素的位置
       let src = newItems.indexOf(this.dragging)
       // 目标元素的位置
@@ -105,7 +113,7 @@ export default {
         return v.id
       })
       localStorage.setItem('indexInfo', JSON.stringify(indexInfo))
-      this.divList = newItems
+      this.$store.state.controlPanelList = newItems
     },
     // 根据存储的位置信息排序
     indexSort () {
@@ -118,6 +126,39 @@ export default {
         })
       }
       return arr
+    },
+    // 获取已勾选的看板
+    getCheckPanel () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/queryUserWorkspaceItem',
+        data: {},
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          let list = util.isEmpty(res.result) ? [] : res.result
+          let arr = []
+          let component = ''
+          list.map((e) => {
+            if (e.itemCode === 'DEC_001') {
+              component = boardComponent
+            } else if (e.itemCode === 'REPORT_002') {
+              component = reportComponent
+            } else if (e.itemCode === 'INFO_003') {
+              component = newsComponent
+            } else if (e.itemCode === 'CORP_004') {
+              component = corpDisplayComponent
+            } else if (e.itemCode === 'TAX_005') {
+              component = taxRuleComponent
+            }
+            arr.push({
+              id: e.itemCode,
+              component: component,
+              isShadow: false
+            })
+          })
+          this.$store.commit('getPanel', arr)
+        }
+      })
     }
   }
 }

@@ -42,10 +42,11 @@ export default new Vuex.Store({
     menuShow: true, // 移动式菜单
     labelWidth: '100px', // form 表单 label 宽度
     tableHeight: '800', // table表格高度
+    controlPanelList: [], // 已勾选看板
     sysType: util.checkSys() // 登录平台
   },
   actions: {
-    ajax: function ({ commit }, {url, data, headers, success, other, error, isPageList = false, isLoad = true, router}) {
+    ajax: function ({ commit }, {url, data, headers, success, other, error, isPageList = false, isLoad = true, router, showErrorMessage = true}) {
       let urlArr = url.split('@')
       let baseURL = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'][urlArr[0]]
       axios.defaults.baseURL = baseURL
@@ -65,7 +66,8 @@ export default new Vuex.Store({
         error: error, // 系统错误回调方法
         isPageList: isPageList, // 是否是分页list
         isLoad: isLoad, // 是否显示loading
-        router: router // 操作路由
+        router: router, // 操作路由
+        showErrorMessage: showErrorMessage
       })
     },
     upload: function ({ commit }, {url, data, success, other, error, isLoad = true, router}) {
@@ -98,7 +100,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // post的请求
-    POST (state, {url, data, success, other, error, isMessage = true, isLoad, router}) {
+    POST (state, {url, data, success, other, error, showErrorMessage = true, isLoad, router}) {
       let params = {
         'appWebFlag': '1', // 请求终端类型。1：PC端，其他设备待定
         'sysId': config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID'],
@@ -141,7 +143,7 @@ export default new Vuex.Store({
             router.push('/login')
           } else {
             // 系统报错
-            if (isMessage) {
+            if (showErrorMessage) {
               Vue.prototype.$message({
                 message: _result.message,
                 type: 'error'
@@ -273,6 +275,10 @@ export default new Vuex.Store({
     },
     menuShow: function (state, value) {
       state.menuShow = value
+    },
+    // 获取已勾选看板
+    getPanel: function (state, value) {
+      state.controlPanelList = value
     }
   }
 })

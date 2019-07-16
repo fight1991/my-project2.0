@@ -308,6 +308,13 @@ export default {
     // 核注清单生成核放单查询
     taxReleseQuery_gra: url.JINER + '/graininess/dataQuery/taxReleseQuery'
   },
+  // 业务委托
+  entrust: {
+    // 进口委托
+    importEntrustList: url.DEC + '/entrust/businessEntrust/import',
+    // 出口委托
+    exportEntrustList: url.DEC + '/entrust/businessEntrust/export'
+  },
   // 通关参数
   passParams: {
     // 中英文对照
@@ -449,5 +456,6 @@ export default {
     }
   ],
   WWWLOGINBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index',
+  WWWREGISTBACK: url.COMMON + '/login?sysId=CCBA&callback=' + url.CCBA + '/index&tag=2', // ccba首页点注册
   WWWCCBA: url.CCBA + '/control'
 }

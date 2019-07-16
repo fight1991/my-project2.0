@@ -16,6 +16,9 @@
         </el-tooltip>
         <!-- <span class="date"></span> -->
         <!-- <span class="setting"></span> -->
+        <el-tooltip content="工作台设置" placement="top">
+          <span class="setting" @click="setPanel(true)"></span>
+        </el-tooltip>
       </div>
       <div class="user-info">
         <i class="sys-menu-move"  @click='menuShowClick()'></i>
@@ -74,11 +77,27 @@
         <el-button type="primary" @click="changeCorpName">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 工作台设置看板弹窗 -->
+    <el-dialog title="工作台设置" :visible.sync="setDialogVisible" width="520px">
+      <el-row class="set-dialog-content">
+        <el-checkbox-group class="checkboxSet" v-model="checkedSet" @change="handleCheck">
+          <el-checkbox v-for="item in setModules" :label="item.itemCode" :key="item.itemCode">{{item.itemDesc}}</el-checkbox>
+        </el-checkbox-group>
+      </el-row>
+      <el-row><el-col :span="24" align="center"><el-button type="primary" size="mini" class="primary-btns" @click="setConfirm">确定</el-button></el-col></el-row>
+    </el-dialog>
   </div>
 </template>
 <script>
 import config from '../../../config/config'
 import commonPath from '../../../config/commonPath'
+import util from '../../../common/util'
+
+import boardComponent from '../middle/board.vue'
+import reportComponent from '../middle/report.vue'
+import newsComponent from '../middle/news.vue'
+import corpDisplayComponent from '../middle/corpDisplay.vue'
+import taxRuleComponent from '../middle/taxRule.vue'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -89,7 +108,10 @@ export default {
       userTitleList: [], // 个人荣誉
       totalNum: '',
       newPersonNum: '',
-      logoClick: false
+      logoClick: false,
+      setDialogVisible: false, // 工作台设置弹窗
+      setModules: [],
+      checkedSet: []
     }
   },
   created () {
@@ -97,6 +119,7 @@ export default {
     this.queryNumber()
     this.queryPersonNum()
     this.getUserCorps()
+    this.getAllModules()
     // 获取个人荣誉列表
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
@@ -123,7 +146,7 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        window.localStorage.clear()
+        util.clearLoginStorage()
         this.$store.commit('userLoginInfo', {
           token: '', // token数据
           userName: '', // 用户姓名
@@ -257,6 +280,100 @@ export default {
         this.logoClick = false
       }, 300)
       window.open(commonPath['CCBA'] + '/index?token=' + encodeURIComponent(window.localStorage.getItem('token')), '_self')
+    },
+    // 获取已勾选工作台
+    setPanel (flag) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/queryUserWorkspaceItem',
+        data: {},
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          let list = util.isEmpty(res.result) ? [] : res.result
+          let arr = []
+          let component = ''
+          list.forEach((e) => {
+            if (e.itemCode === 'DEC_001') {
+              component = boardComponent
+            } else if (e.itemCode === 'REPORT_002') {
+              component = reportComponent
+            } else if (e.itemCode === 'INFO_003') {
+              component = newsComponent
+            } else if (e.itemCode === 'CORP_004') {
+              component = corpDisplayComponent
+            } else if (e.itemCode === 'TAX_005') {
+              component = taxRuleComponent
+            }
+            arr.push({
+              id: e.itemCode,
+              component: component,
+              isShadow: false
+            })
+          })
+          this.$store.commit('getPanel', arr)
+          if (flag) {
+            this.checkedSet = list.map(e => {
+              return e.itemCode
+            })
+            this.setDialogVisible = true
+          }
+        }
+      })
+    },
+    // 获取所有工作台选项
+    getAllModules () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/queryAllWorkspaceItem',
+        data: {},
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          this.setModules = util.isEmpty(res.result) ? [] : res.result
+        }
+      })
+    },
+    // 多选框改变
+    handleCheck () {
+      if (this.checkedSet.length > 4) {
+        this.$message({
+          type: 'error',
+          message: '最多设置4个看板'
+        })
+        this.checkedSet.pop()
+      }
+    },
+    // 设置工作台
+    setConfirm () {
+      let list = util.simpleClone(this.setModules)
+      let arr = []
+      this.checkedSet.map(item => {
+        return list.filter(e => {
+          if (item === e.itemCode) {
+            arr.push(e)
+          }
+        })
+      })
+      // if (arr.length < 4) {
+      //   this.$message({
+      //     type: 'error',
+      //     message: '需要设置4个看板'
+      //   })
+      //   return false
+      // }
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/workspace/setUserWorkspaceItem',
+        data: arr,
+        router: this.$router,
+        isLoad: false,
+        success: (res) => {
+          this.$message({
+            type: 'success',
+            message: '设置成功'
+          })
+          this.setDialogVisible = false
+          this.setPanel(false)
+        }
+      })
     }
   }
 }
@@ -433,6 +550,14 @@ export default {
       cursor: pointer;
     }
   }
+}
+.set-dialog-content{
+  padding-bottom: 80px;
+}
+.primary-btns{
+  border-color: @sys-color-main;
+  background-color: @sys-color-main;
+  padding: 8px 20px;
 }
 
 @media screen and (max-width:900px) {

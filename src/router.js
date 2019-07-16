@@ -18,6 +18,7 @@ import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
 import Finance from './view/pages/finance/router'
+import Entrust from './view/pages/entrust/router'
 
 const routes = [
   {
@@ -100,6 +101,7 @@ routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
 routes[1].children.push(...Finance.MENU)
+routes[1].children.push(...Entrust.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -212,6 +214,14 @@ router.beforeEach((to, from, next) => {
           title: '物流费用管理系统',
           permissions: 'CCBA21400000000'
         }
+        break
+      case 'entrust':
+        json = {
+          type: 'entrust',
+          title: '业务委托',
+          permissions: 'CCBA21500000000'
+        }
+        break
     }
     router.app.$options.store.commit('setChildSys', json)
   }
@@ -227,7 +237,7 @@ router.beforeEach((to, from, next) => {
     }
     next()
   } else if (to.path === '/login') {
-    window.localStorage.clear()
+    util.clearLoginStorage()
     window.sessionStorage.clear()
     let callbackUrl = util.delTokenUrl()
     let goLoginUrl = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['COMMON'] + '/login?callback=' + callbackUrl + '&sysId=' + config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
@@ -333,6 +343,10 @@ router.afterEach(route => {
   if (route.query.setTitle) {
     title = route.query.setTitle
     tabId = route.query.setId
+  }
+  if (route.params.setTitle) {
+    title = route.params.setTitle
+    tabId = route.params.setId
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {

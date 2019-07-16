@@ -224,7 +224,12 @@ export default {
         data: {decPid: val},
         router: this.$router,
         success: (res) => {
-          if (res.result) {
+          if (res.result === 'false') {
+            this.$message({
+              message: '没有可导出的数据',
+              type: 'warning'
+            })
+          } else {
             window.open(res.result)
           }
         }

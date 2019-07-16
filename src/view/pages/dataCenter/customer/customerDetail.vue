@@ -1,6 +1,6 @@
 <template>
     <section class='query-main sys-main' style="margin:-20px">
-        <div class = "query-condition">
+        <div class = "query-condition" style = 'padding:20px 20px 0px 20px'>
         <el-form :label-width="labelFormWidth.seven" size="mini" >
         <el-row :gutter="30">
           <el-col :span="8">

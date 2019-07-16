@@ -133,6 +133,7 @@ export default {
           'startDate': this.dates[0],
           'refreshFlag': flag === 'refresh' ? 'Y' : 'N'
         },
+        showErrorMessage: false,
         isLoad: false,
         router: this.$router,
         success: (res) => {

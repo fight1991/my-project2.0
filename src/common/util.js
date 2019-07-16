@@ -236,6 +236,10 @@ export default {
     }
     return flag
   },
+  clearLoginStorage () {
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('ccbaMenuCodes')
+  },
   errorReport (err, vm, info, store, syncError) {
     if (syncError) { // 捕获异步错误
       let { message, stack } = syncError
