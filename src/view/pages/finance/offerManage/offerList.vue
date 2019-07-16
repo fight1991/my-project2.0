@@ -122,9 +122,9 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
-            <el-button title="编辑" type="text" @click.stop="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
+            <el-button title="编辑" type="text" v-if="scope.row.createUserId === currentUser" @click.stop="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
             <el-button title="查看" type="text" @click.stop="lookQuotation(scope.row.quotationId)" class="table-icon list-icon-look"><i></i></el-button>
-            <el-button title="删除" type="text" @click.stop="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
+            <el-button title="删除" type="text" v-if="scope.row.createUserId === currentUser" @click.stop="delQuotation(scope.row.quotationId)" class="table-icon list-icon-delete"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -140,6 +140,7 @@
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -203,6 +204,11 @@ export default {
       }
     }
   },
+  computed: mapState({ // 查看vuex中当前登录的userId
+    currentUser (state) {
+      return state.userLoginInfo.userId
+    }
+  }),
   created () {
     this.getcorps()
     this.paginationInit = this.$store.state.pagination
