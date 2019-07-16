@@ -211,6 +211,7 @@ export default {
   }),
   created () {
     this.getcorps()
+    this.getCommonParam()
     this.paginationInit = this.$store.state.pagination
     this.getsOfferList()
   },
