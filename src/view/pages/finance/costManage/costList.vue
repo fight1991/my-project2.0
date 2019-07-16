@@ -308,7 +308,7 @@ export default {
         },
         other: res => {
           if (res.code === '0001') {
-            this.isDouble = true
+            res.result === '1' ? (this.isDouble = true) : (this.isDouble = false)
             this.$message({
               type: 'error',
               message: res.message
@@ -331,7 +331,7 @@ export default {
         },
         other: res => {
           if (res.code === '0001') {
-            this.isDouble = true
+            res.result === '1' ? (this.isDouble = true) : (this.isDouble = false)
             this.$message({
               type: 'error',
               message: res.message
@@ -373,7 +373,6 @@ export default {
               type: 'error',
               message: '当前编号已经存在,不可重复'
             })
-            this.isDouble = true
           } else {
             this.isDouble = false
             // 失焦事件和点击事件同时存在,失焦限制性,点击事件不执行了
