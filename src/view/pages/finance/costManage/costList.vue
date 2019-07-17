@@ -288,7 +288,7 @@ export default {
     },
     // 弹框确定按钮
     confirmBtn (event) {
-      event.preventDefault()
+      event && event.preventDefault()
       let flag = false
       this.$refs['addFees'].validate(valid => {
         flag = valid
