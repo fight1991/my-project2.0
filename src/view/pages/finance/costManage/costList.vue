@@ -308,10 +308,17 @@ export default {
         },
         other: res => {
           if (res.code === '0001') {
-            res.result === '1' ? (this.isDouble = true) : (this.isDouble = false)
+            let msg = ''
+            if (res.result === '1') {
+              this.isDouble = true
+              msg = '当前编号已经存在,不可重复'
+            } else {
+              this.isDouble = false
+              msg = '当前费用项已经存在,不可重复'
+            }
             this.$message({
               type: 'error',
-              message: res.message
+              message: msg
             })
           }
         }
@@ -331,10 +338,17 @@ export default {
         },
         other: res => {
           if (res.code === '0001') {
-            res.result === '1' ? (this.isDouble = true) : (this.isDouble = false)
+            let msg = ''
+            if (res.result === '1') {
+              this.isDouble = true
+              msg = '当前编号已经存在,不可重复'
+            } else {
+              this.isDouble = false
+              msg = '当前费用项已经存在,不可重复'
+            }
             this.$message({
               type: 'error',
-              message: res.message
+              message: msg
             })
           }
         }
@@ -373,6 +387,7 @@ export default {
               type: 'error',
               message: '当前编号已经存在,不可重复'
             })
+            this.isDouble = true
           } else {
             this.isDouble = false
             // 失焦事件和点击事件同时存在,失焦限制性,点击事件不执行了
