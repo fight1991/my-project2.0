@@ -131,7 +131,8 @@ export default {
         dclPlcCuscdNames: '',
         dclPlcCuscd: '',
         createUserId: '',
-        createDate: ''
+        createStartDate: '',
+        createEndDate: ''
       },
       // 查询的字典字段
       tableNameList: {
@@ -201,7 +202,8 @@ export default {
     // 报价列表查询
     getsOfferList (pagination) {
       if (this.dates && this.dates.length > 0) {
-        this.QueryForm.createDate = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
+        this.QueryForm.createStartDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.QueryForm.createEndDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/gets',
@@ -214,7 +216,7 @@ export default {
           this.paginationInit = res.page
           if (res.result && res.result.length > 0) {
             res.result.forEach(v => {
-              v.dates = util.dateFormat(v.startDate, 'yyyy-MM-dd') + '~' + util.dateFormat(v.endDate, 'yyyy-MM-dd')
+              v.dates = util.dateFormat(v.startTime, 'yyyy-MM-dd') + '~' + util.dateFormat(v.endTime, 'yyyy-MM-dd')
             })
             this.offerTableList = res.result
           } else {
@@ -236,7 +238,8 @@ export default {
         dclPlcCuscdNames: '',
         dclPlcCuscd: '',
         createUserId: '',
-        createDate: ''
+        createStartDate: '',
+        createEndDate: ''
       }
       this.dates = []
     },
@@ -383,7 +386,6 @@ export default {
     },
     // 点击表格行
     chooseSelectRow (row, column, event) {
-      console.log(row)
       let index = this.quotationIds.indexOf(row.quotationId)
       if (index >= 0) { // 当前的行已经被选中了
         this.$refs['offerTable'].toggleRowSelection(row, false)
