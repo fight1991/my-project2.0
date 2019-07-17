@@ -210,6 +210,9 @@ export default {
       if (this.dates && this.dates.length > 0) {
         this.QueryForm.createStartTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.QueryForm.createEndTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      } else {
+        this.QueryForm.createStartTime = ''
+        this.QueryForm.createEndTime = ''
       }
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/gets',
