@@ -74,7 +74,10 @@
             {{scope.row.feeRate + '%'}}
           </template>
         </el-table-column>
-        <el-table-column label="金蝶系统会计科目" min-width="140" prop="feeSubjectName">
+        <el-table-column label="金蝶系统会计科目" min-width="140" prop="feeSubjectName" align="center">
+          <template slot-scope="scope">
+            {{scope.row.feeSubjectName || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="创建人" min-width="80" prop="createUserName" align="center">
         </el-table-column>

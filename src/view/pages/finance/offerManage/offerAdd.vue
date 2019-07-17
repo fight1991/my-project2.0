@@ -769,7 +769,7 @@ export default {
     // 添加更多口岸
     addMorePort (feeFlag) {
       let temp = JSON.parse(JSON.stringify(this.templateFee))
-      temp.feeFlag = feeFlag
+      temp.quotationFeeVO.feeFlag = feeFlag
       feeFlag ? this.submitData.quotationReceivableBodyVOList.push(temp) : this.submitData.quotationPayableBodyVOList.push(temp)
     },
     // 删除行费用项
