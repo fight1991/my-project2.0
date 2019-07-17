@@ -10,10 +10,30 @@
       <div class="baseInfo">
         <el-row class="title">基本信息</el-row>
         <el-row v-if="quotationDetail.quotationHeadVO.itemName">
-          <el-col :span="6">报价名称&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.itemName}}</el-col>
-          <el-col :span="6">有效期&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.startDate + ' 至 ' + quotationDetail.quotationHeadVO.endDate}}</el-col>
-          <el-col :span="6">报价含税&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.rateFlag ? '含税':'不含税'}}</el-col>
-          <el-col :span="6">委托企业&nbsp;:&nbsp;{{quotationDetail.quotationHeadVO.entrustCompanyName}}</el-col>
+          <el-col :span="6">
+            <div class="one-row">
+              <div class="left">报价名称&nbsp;:</div>
+              <div class="right">{{quotationDetail.quotationHeadVO.itemName}}</div>
+            </div>
+          </el-col>
+          <el-col :span="7">
+            <div class="one-row">
+              <div class="left">有效期&nbsp;:</div>
+              <div class="right">{{quotationDetail.quotationHeadVO.startDate + ' 至 ' + quotationDetail.quotationHeadVO.endDate}}</div>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <div class="one-row">
+              <div class="left">报价含税&nbsp;:</div>
+              <div class="right">{{quotationDetail.quotationHeadVO.rateFlag ? '含税':'不含税'}}</div>
+            </div>
+          </el-col>
+          <el-col :span="7">
+            <div class="one-row">
+              <div class="left">委托企业&nbsp;:</div>
+              <div class="right">{{quotationDetail.quotationHeadVO.entrustCompanyName}}</div>
+            </div>
+          </el-col>
         </el-row>
         <el-row v-else><div class="nodata">暂无数据</div></el-row>
       </div>
@@ -40,13 +60,13 @@
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">出发地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.departure || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.departureName || '-'}}</div>
                 </div>
               </el-col>
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">目的地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.destination || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.destinationName || '-'}}</div>
                 </div>
               </el-col>
             </el-row>
@@ -64,19 +84,19 @@
                         {{scope.row.feePrice || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="feeRate" label="税率" align="center">
+                    <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
                         {{scope.row.feeRate + '%'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="curr" label="币制" align="center">
+                    <el-table-column prop="curr" width="60" label="币制" align="center">
                       <template slot-scope="scope">
                         {{scope.row.curr || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="unit" label="计费单位">
+                    <el-table-column prop="unit" width="60" label="计费单位">
                       <template slot-scope="scope">
-                        {{scope.row.unit || '-'}}
+                        {{scope.row.unitValue || '-'}}
                       </template>
                     </el-table-column>
                   </el-table>
@@ -93,19 +113,19 @@
                         {{scope.row.feePrice || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="feeRate" label="税率" align="center">
+                    <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
                         {{scope.row.feeRate + '%'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="curr" label="币制" align="center">
+                    <el-table-column prop="curr" width="60" label="币制" align="center">
                       <template slot-scope="scope">
                         {{scope.row.curr || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="unit" label="计费单位">
+                    <el-table-column prop="unit" width="60" label="计费单位">
                       <template slot-scope="scope">
-                        {{scope.row.unit || '-'}}
+                        {{scope.row.unitValue || '-'}}
                       </template>
                     </el-table-column>
                   </el-table>
@@ -139,13 +159,13 @@
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">出发地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.departure || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.departureName || '-'}}</div>
                 </div>
               </el-col>
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">目的地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.destination || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.destinationName || '-'}}</div>
                 </div>
               </el-col>
             </el-row>
@@ -163,19 +183,19 @@
                         {{scope.row.feePrice || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="feeRate" label="税率" align="center">
+                    <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
                         {{scope.row.feeRate + '%'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="curr" label="币制" align="center">
+                    <el-table-column prop="curr" width="60" label="币制" align="center">
                       <template slot-scope="scope">
                         {{scope.row.curr || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="unit" label="计费单位">
+                    <el-table-column prop="unit" width="60" label="计费单位">
                       <template slot-scope="scope">
-                        {{scope.row.unit || '-'}}
+                        {{scope.row.unitValue || '-'}}
                       </template>
                     </el-table-column>
                   </el-table>
@@ -192,19 +212,19 @@
                         {{scope.row.feePrice || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="feeRate" label="税率" align="center">
+                    <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
                         {{scope.row.feeRate + '%'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="curr" label="币制" align="center">
+                    <el-table-column prop="curr" width="60" label="币制" align="center">
                       <template slot-scope="scope">
                         {{scope.row.curr || '-'}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="unit" label="计费单位">
+                    <el-table-column prop="unit" width="60" label="计费单位">
                       <template slot-scope="scope">
-                        {{scope.row.unit || '-'}}
+                        {{scope.row.unitValue || '-'}}
                       </template>
                     </el-table-column>
                   </el-table>
@@ -227,29 +247,14 @@ export default {
         quotationHeadVO: {},
         quotationPayableBodyVOList: [],
         quotationReceivableBodyVOList: []
-      },
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }
     }
   },
   watch: {
-    '$route': function () {
-      this.getFeesDetail(this.$route.query.quotationId)
+    '$route': function (to, from) {
+      if (to.name === 'offerManage-detail') {
+        this.getFeesDetail(this.$route.query.quotationId)
+      }
     }
   },
   created () {
@@ -282,6 +287,13 @@ export default {
     text-align:center;
     height:50px;
     line-height:50px;
+  }
+  .baseInfo {
+    .one-row {
+      .left {
+        width: 65px;
+      }
+    }
   }
   .one-row {
     width: 100%;

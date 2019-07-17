@@ -23,14 +23,14 @@
               <el-col :span="8">
                 <el-form-item  label-position="left">
                   <el-checkbox-group v-model="submitData.quotationHeadVO.singleFlag">
-                    <el-checkbox label="美食/餐厅线上活动" :true-label="true" :false-label="false" name="singleFlag"></el-checkbox>
+                    <el-checkbox label="项目独立报价" :true-label="true" :false-label="false" name="singleFlag"></el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="50">
               <el-col :span="8">
-                <el-form-item label="受托企业" :label-width="labelFormWidth.five" prop="quotationHeadVO.entrustCompanyName">
+                <el-form-item label="委托企业" :label-width="labelFormWidth.five" prop="quotationHeadVO.entrustCompanyName">
                   <el-select v-model="submitData.quotationHeadVO.entrustCompanyName" :maxlength="30" style="width:100%"
                     filterable remote clearable @change="translatecorp"
                     :remote-method="getcorps"
@@ -148,7 +148,7 @@
                 <el-row class="title-flag margin_0">进口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                    <el-form-item>
                       <el-select size="mini" placeholder="费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -157,12 +157,12 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="{required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="item2.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item2.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeRate'" :rules="{required: true, message: '请选择税率', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeRate'" :rules="item2.feeOptionName && {required: true, message: '请选择税率', trigger: 'blur'}">
                       <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled || editOp"  v-model="item2.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -171,7 +171,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.curr'" :rules="{required: true, message: '请选择币制', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.curr'" :rules="item2.feeOptionName && {required: true, message: '请选择币制', trigger: 'blur'}">
                       <el-select  v-model="item2.curr" placeholder="币制"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('currList','SAAS_CURR')"
@@ -187,7 +187,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.unit'" :rules="{required: true, message: '请选择计量单位', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.unit'" :rules="item2.feeOptionName && {required: true, message: '请选择计量单位', trigger: 'blur'}">
                       <el-select  v-model="item2.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('unitList','SAAS_UNIT')"
@@ -216,7 +216,7 @@
                 <el-row class="title-flag margin_0">出口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                    <el-form-item>
                       <el-select size="mini" placeholder="费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -225,12 +225,13 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="{required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <!-- 费用项有值,其余4项做必填项校验 -->
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="item3.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeRate'" :rules="{required:true, message: '请选择税率', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeRate'" :rules="item3.feeOptionName && {required:true, message: '请选择税率', trigger: 'blur'}">
                       <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled || editOp" v-model="item3.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -239,7 +240,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.curr'" :rules="{required: true, message: '请选择币制', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.curr'" :rules="item3.feeOptionName && {required: true, message: '请选择币制', trigger: 'blur'}">
                       <el-select  v-model="item3.curr" placeholder="币制"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('currList','SAAS_CURR')"
@@ -255,7 +256,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.unit'" :rules="{required: true, message: '请选择计量单位', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.unit'" :rules="item3.feeOptionName && {required: true, message: '请选择计量单位', trigger: 'blur'}">
                       <el-select  v-model="item3.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('unitList','SAAS_UNIT')"
@@ -369,7 +370,7 @@
                 <el-row class="title-flag margin_0">进口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_0_I' + index2">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                    <el-form-item>
                       <el-select size="mini" placeholder="费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -378,12 +379,12 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="{required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="item2.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item2.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeRate'" :rules="{required: true, message: '请选择税率', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feeRate'" :rules="item2.feeOptionName && {required: true, message: '请选择税率', trigger: 'blur'}">
                       <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled || editOp"  v-model="item2.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -392,7 +393,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.curr'" :rules="{required: true, message: '请选择币制', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.curr'" :rules="item2.feeOptionName && {required: true, message: '请选择币制', trigger: 'blur'}">
                       <el-select  v-model="item2.curr" placeholder="币制"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('currList','SAAS_CURR')"
@@ -408,7 +409,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.unit'" :rules="{required: true, message: '请选择计量单位', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.unit'" :rules="item2.feeOptionName && {required: true, message: '请选择计量单位', trigger: 'blur'}">
                       <el-select  v-model="item2.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('unitList','SAAS_UNIT')"
@@ -437,7 +438,7 @@
                 <el-row class="title-flag margin_0">出口</el-row>
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_0_E' + index3">
                   <el-col :span="8" style="padding-left:0">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeOptionName'" :rules="{required: true, message: '请选择费用项', trigger: 'blur'}">
+                    <el-form-item>
                       <el-select size="mini" placeholder="费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -446,12 +447,12 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="{required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="item3.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeRate'" :rules="{required:true, message: '请选择税率', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feeRate'" :rules="item3.feeOptionName && {required:true, message: '请选择税率', trigger: 'blur'}">
                       <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled || editOp" v-model="item3.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -460,7 +461,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.curr'" :rules="{required:true, message: '请选择币制', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.curr'" :rules="item3.feeOptionName && {required:true, message: '请选择币制', trigger: 'blur'}">
                       <el-select  v-model="item3.curr" placeholder="币制"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('currList','SAAS_CURR')"
@@ -476,7 +477,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
-                    <el-form-item label-width="0" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.unit'" :rules="{required:true, message: '请选择计量单位', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.unit'" :rules="item3.feeOptionName && {required:true, message: '请选择计量单位', trigger: 'blur'}">
                       <el-select  v-model="item3.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         @focus="tipsFill('unitList','SAAS_UNIT')"
@@ -846,8 +847,8 @@ export default {
       let subData = JSON.parse(JSON.stringify(this.submitData))
       let dateArray = JSON.parse(JSON.stringify(this.submitData.quotationHeadVO.dates))
       subData.quotationHeadVO.dates = ''
-      subData.quotationHeadVO.startDate = dateArray[0]
-      subData.quotationHeadVO.endDate = dateArray[1]
+      subData.quotationHeadVO.startDate = util.dateFormat(dateArray[0], 'yyyy-MM-dd')
+      subData.quotationHeadVO.endDate = util.dateFormat(dateArray[1], 'yyyy-MM-dd')
       // impexpPortcdNames dclPlcCuscdNames departure destination数组转换成字符串
       this.arrayAndString(subData.quotationPayableBodyVOList, 'string')
       this.arrayAndString(subData.quotationReceivableBodyVOList, 'string')
@@ -885,7 +886,8 @@ export default {
             type: 'success',
             message: '编辑成功'
           })
-          this.closeCurrentTab('offerManage-list')
+          let tabId = this.$route.name + this.$route.query.quotationId
+          this.closeCurrentTab('offerManage-list', tabId)
         }
       })
     },
@@ -916,6 +918,7 @@ export default {
     // 取消按钮
     cancelQuotation () {
       this.submitData = JSON.parse(JSON.stringify(this.copysubmitData))
+      this.$refs['submitData'].clearValidate()
       // 编辑页跳转过来
       if (this.editOp) {
         this.submitData.quotationHeadVO.quotationId = this.quotationId
@@ -929,7 +932,7 @@ export default {
     },
     // 企业查询
     getcorps (query) {
-      if (query && query.length < 2) {
+      if (query.length < 2) {
         return
       }
       this.$store.dispatch('ajax', {
@@ -1007,6 +1010,7 @@ export default {
       item.feeRate = obj.feeRate
       item.feePid = obj.feePid
       item.rateIsDisabled = true
+      // 其余4项做必填项校验
     },
     // 初始化下拉框数据
     initSelected (selectData, list) {
@@ -1034,8 +1038,8 @@ export default {
       })
     },
     // 关闭当前页签并跳转
-    closeCurrentTab (name) {
-      this.$store.commit('CloseTab', this.$route.name)
+    closeCurrentTab (name, tabId) {
+      this.$store.commit('CloseTab', tabId || this.$route.name)
       this.$router.push({
         name: name,
         query: {

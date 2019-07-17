@@ -1,16 +1,16 @@
 <template>
   <section class='sys-main'>
     <el-row class='query-condition'>
-      <el-form label-width="0px" :model="QueryForm" size="mini" label-position="right">
+      <el-form :label-width="labelFormWidth.six" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="报价名称" :label-width="'85px'">
+            <el-form-item label="报价名称">
               <el-input v-model="QueryForm.itemName" size="mini" clearable ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="委托企业" :label-width="'85px'">
+            <el-form-item label="委托企业">
               <el-autocomplete
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.entrustCompanyName"
@@ -20,7 +20,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="报价含税" :label-width="'85px'">
+            <el-form-item label="报价含税">
               <el-select v-model="QueryForm.rateFlag" size="mini" clearable  style="width:100%;">
                 <el-option key="1" :label="'含税'" :value="true"></el-option>
                 <el-option key="0" :label="'不含税'" :value="false"></el-option>
@@ -28,48 +28,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="进/出境关别" :label-width="'85px'">
-              <el-select  v-model="QueryForm.impexpPortcdNames"
-                filterable clearable remote default-first-option
-                allow-create :maxlength="10"
-                @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
-                :remote-method="checkParamsList"
-                style="width:100%">
-                <el-option
-                  v-for="item in impexpPortList"
-                  :key="item.codeField"
-                  :label="item.codeField + '-' + item.nameField"
-                  :value="item.nameField">
-                </el-option>
+            <el-form-item label="项目独立报价">
+              <el-select v-model="QueryForm.singleFlag" size="mini" clearable  style="width:100%;">
+                <el-option key="1" :label="'是'" :value="true"></el-option>
+                <el-option key="0" :label="'否'" :value="false"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="申报地海关" :label-width="'85px'">
-              <el-select  v-model="QueryForm.dclPlcCuscdNames"
-                filterable clearable remote default-first-option
-                allow-create :maxlength="10"
-                @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
-                :remote-method="checkParamsList"
-                style="width:100%">
-                <el-option
-                  v-for="item in dclPlcCusList"
-                  :key="item.codeField"
-                  :label="item.codeField + '-' + item.nameField"
-                  :value="item.nameField">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="创建人" :label-width="'85px'">
+            <el-form-item label="创建人">
               <el-input v-model="QueryForm.createUserId" size="mini" clearable :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="创建日期" :label-width="'85px'">
+            <el-form-item label="创建日期">
                <el-date-picker
                 style="width:100%"
                 v-model="dates"
@@ -106,21 +80,21 @@
         height="530px">
         <el-table-column type="selection" width="40">
         </el-table-column>
-        <el-table-column label="报价名称" min-width="120" prop="itemName">
+        <el-table-column label="报价名称" min-width="160" prop="itemName">
         </el-table-column>
-        <el-table-column label="委托企业" min-width="160" prop="entrustCompanyName">
+        <el-table-column label="委托企业" min-width="220" prop="entrustCompanyName">
         </el-table-column>
-        <el-table-column label="有效期" min-width="120" prop="dates" align="center">
+        <el-table-column label="有效期" min-width="150" prop="dates" align="center">
         </el-table-column>
-        <el-table-column label="项目独立报价" min-width="90" prop="singleFlagValue" align="center">
+        <el-table-column label="项目独立报价" width="110" prop="singleFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="报价含税" min-width="80" prop="rateFlagValue" align="center">
+        <el-table-column label="报价含税" width="80" prop="rateFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="创建人" min-width="80" prop="createUserName" align="center">
+        <el-table-column label="创建人" width="80" prop="createUserName" align="center">
         </el-table-column>
-        <el-table-column label="创建时间" min-width="80" prop="createDate" align="center">
+        <el-table-column label="创建时间" min-width="130" prop="createDate" align="center">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" min-width="120" align="center">
+        <el-table-column label="操作" fixed="right" width="100" align="center">
           <template slot-scope="scope">
             <el-button title="编辑" type="text" v-if="scope.row.createUserId === currentUser" @click.stop="editQuotation(scope.row.quotationId)" class="table-icon list-icon-edit"><i></i></el-button>
             <el-button title="查看" type="text" @click.stop="lookQuotation(scope.row.quotationId)" class="table-icon list-icon-look"><i></i></el-button>
@@ -147,6 +121,7 @@ export default {
       dates: [],
       quotationIds: [], // 存储报价id数组
       QueryForm: {
+        singleFlag: '',
         rateFlag: true,
         itemName: '',
         impexpPortcdNames: '',
@@ -205,8 +180,10 @@ export default {
     }
   },
   watch: {
-    '$route': function () {
-      this.getsOfferList()
+    '$route': function (to, from) {
+      if (to.name === 'offerManage-list') {
+        this.getsOfferList()
+      }
     }
   },
   computed: mapState({ // 查看vuex中当前登录的userId
@@ -223,8 +200,8 @@ export default {
   methods: {
     // 报价列表查询
     getsOfferList (pagination) {
-      if (this.dates.length > 0) {
-        this.QueryForm.createDate = [util.dateFormat(this.dates[0]), util.dateFormat(this.dates[1])]
+      if (this.dates && this.dates.length > 0) {
+        this.QueryForm.createDate = [util.dateFormat(this.dates[0], 'yyyy-MM-dd'), util.dateFormat(this.dates[1], 'yyyy-MM-dd')]
       }
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/gets',
@@ -237,7 +214,7 @@ export default {
           this.paginationInit = res.page
           if (res.result && res.result.length > 0) {
             res.result.forEach(v => {
-              v.dates = util.dateFormat(v.startDate) + '~' + util.dateFormat(v.endDate)
+              v.dates = util.dateFormat(v.startDate, 'yyyy-MM-dd') + '~' + util.dateFormat(v.endDate, 'yyyy-MM-dd')
             })
             this.offerTableList = res.result
           } else {
@@ -249,6 +226,7 @@ export default {
     // 重置查询条件
     resetForm () {
       this.QueryForm = {
+        singleFlag: '',
         rateFlag: true,
         itemName: '',
         impexpPortcdNames: '',
@@ -359,7 +337,8 @@ export default {
         name: 'offerManage-offerAdd',
         query: {
           quotationId: id,
-          setTitle: '编辑报价'
+          setTitle: '编辑报价',
+          setId: 'offerManage-offerAdd' + id // 自定义tabId, 默认为route.name
         }
       })
     },
@@ -429,7 +408,7 @@ export default {
   margin-top: 20px;
 }
 .query-btn {
-  padding: 10px 0;
+  padding-top: 10px;
 }
 .table-btn {
   padding-bottom: 15px;
