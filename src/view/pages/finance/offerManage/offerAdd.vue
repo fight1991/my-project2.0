@@ -157,7 +157,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="item2.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="{required: item2.feeOptionName ? true : false, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item2.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
@@ -226,7 +226,7 @@
                   </el-col>
                   <el-col :span="5">
                     <!-- 费用项有值,其余4项做必填项校验 -->
-                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="item3.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="{required: item3.feeOptionName ? true : false, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
@@ -379,7 +379,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="item2.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice'" :rules="{required:item2.feeOptionName ? true : false, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item2.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
@@ -447,7 +447,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="5">
-                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="item3.feeOptionName && {required:true, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
+                    <el-form-item label=" " label-width="10px" :prop="'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice'" :rules="{required:item3.feeOptionName ? true : false, pattern: /^\d{1,10}(\.\d{1,3})?$|^$/, message: '小数点前10位以内,后3位以内', trigger: 'blur'}">
                       <el-input size="mini" v-model="item3.feePrice" clearable placeholder="单价"></el-input>
                     </el-form-item>
                   </el-col>
