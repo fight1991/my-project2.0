@@ -247,6 +247,11 @@ export default {
       }]
     }
   },
+  watch: {
+    '$route': function () {
+      this.getFeesDetail(this.$route.query.quotationId)
+    }
+  },
   created () {
     this.getFeesDetail(this.$route.query.quotationId)
   },

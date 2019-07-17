@@ -204,6 +204,11 @@ export default {
       }
     }
   },
+  watch: {
+    '$route': function () {
+      this.getsOfferList()
+    }
+  },
   computed: mapState({ // 查看vuex中当前登录的userId
     currentUser (state) {
       return state.userLoginInfo.userId
@@ -354,8 +359,7 @@ export default {
         name: 'offerManage-offerAdd',
         query: {
           quotationId: id,
-          setTitle: '编辑报价-' + id,
-          setId: id
+          setTitle: '编辑报价'
         }
       })
     },

@@ -91,7 +91,7 @@
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box :pagination='paginationInit' @change="getsExpenseList"></page-box>
+          <page-box :pagination='paginationInit' @change="getOptionList"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -151,7 +151,7 @@ export default {
       QueryForm: {
         createStartTime: '', // 起始创建时间
         createEndTime: '', // 结束创建时间
-        createUserName: '', // 创建人
+        createUser: '', // 创建人
         feeOptionCode: '', // 费用编号
         feeOptionName: '', // 费用项名称
         feeRate: '', // 税率
@@ -208,6 +208,10 @@ export default {
   methods: {
     // 获取费用项列表
     getOptionList (pagination) {
+      if (this.dates.length > 0) {
+        this.QueryForm.createStartTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.QueryForm.createEndTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/gets',
         data: {

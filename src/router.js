@@ -342,11 +342,11 @@ router.afterEach(route => {
   // 本系统跳转后自定义title
   if (route.query.setTitle) {
     title = route.query.setTitle
-    tabId = route.query.setId
+    tabId = route.query.setId || route.name
   }
   if (route.params.setTitle) {
     title = route.params.setTitle
-    tabId = route.params.setId
+    tabId = route.params.setId || route.name
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
