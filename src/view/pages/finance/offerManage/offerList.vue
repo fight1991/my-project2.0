@@ -39,7 +39,7 @@
                   v-for="item in impexpPortList"
                   :key="item.codeField"
                   :label="item.codeField + '-' + item.nameField"
-                  :value="item.codeField">
+                  :value="item.nameField">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -58,7 +58,7 @@
                   v-for="item in dclPlcCusList"
                   :key="item.codeField"
                   :label="item.codeField + '-' + item.nameField"
-                  :value="item.codeField">
+                  :value="item.nameField">
                 </el-option>
               </el-select>
             </el-form-item>
