@@ -194,10 +194,10 @@ export default {
   methods: {
     // 获取台账列表
     getsExpenseList (pagination) {
-      if (this.dates1.length > 0) {
+      if (this.dates1 && this.dates1.length > 0) {
         this.QueryForm.releaseDay = [util.dateFormat(this.dates1[0]), util.dateFormat(this.dates1[1])]
       }
-      if (this.dates2.length > 0) {
+      if (this.dates2 && this.dates2.length > 0) {
         this.QueryForm.sailDay = [util.dateFormat(this.dates2[0]), util.dateFormat(this.dates2[1])]
       }
       this.paginationInit = pagination
