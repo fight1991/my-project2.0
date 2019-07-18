@@ -89,7 +89,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getsExpenseList">查询</el-button>
+        <el-button size="mini" type="primary" @click="getsExpenseList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -205,7 +205,7 @@ export default {
         url: 'API@saas-finance/bill/gets',
         data: {
           ...this.QueryForm,
-          page: pagination || this.$store.state.pagination
+          page: pagination
         },
         router: this.$router,
         success: res => {

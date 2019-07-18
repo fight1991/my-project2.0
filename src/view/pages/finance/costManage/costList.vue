@@ -55,7 +55,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getOptionList">查询</el-button>
+        <el-button size="mini" type="primary" @click="getOptionList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -217,11 +217,12 @@ export default {
         this.QueryForm.createStartTime = ''
         this.QueryForm.createEndTime = ''
       }
+      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/gets',
         data: {
           ...this.QueryForm,
-          page: pagination || this.$store.state.pagination
+          page: pagination
         },
         router: this.$router,
         success: res => {
@@ -313,6 +314,10 @@ export default {
         router: this.$router,
         success: (res) => {
           this.addFeeIsShow = false
+          this.$message({
+            type: 'success',
+            message: '编辑成功'
+          })
           this.getOptionList()
         },
         other: res => {
@@ -342,6 +347,10 @@ export default {
         success: ({result}) => {
           if (result) {
             this.addFeeIsShow = false
+            this.$message({
+              type: 'success',
+              message: '创建成功'
+            })
             this.getOptionList()
           }
         },

@@ -39,7 +39,7 @@
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="创建人">
-              <el-input v-model="QueryForm.createUserId" size="mini" clearable :maxlength="10"></el-input>
+              <el-input v-model="QueryForm.createUserName" size="mini" clearable :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -61,7 +61,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getsOfferList">查询</el-button>
+        <el-button size="mini" type="primary" @click="getsOfferList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -122,7 +122,7 @@ export default {
       quotationIds: [], // 存储报价id数组
       QueryForm: {
         singleFlag: '',
-        rateFlag: true,
+        rateFlag: '',
         itemName: '',
         impexpPortcdNames: '',
         impexpPortcd: '',
@@ -130,7 +130,7 @@ export default {
         entrustCompanyId: '',
         dclPlcCuscdNames: '',
         dclPlcCuscd: '',
-        createUserId: '',
+        createUserName: '',
         createStartDate: '',
         createEndDate: ''
       },
@@ -208,11 +208,12 @@ export default {
         this.QueryForm.createStartDate = ''
         this.QueryForm.createEndDate = ''
       }
+      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/quotation/gets',
         data: {
           ...this.QueryForm,
-          page: pagination || this.$store.state.pagination
+          page: pagination
         },
         router: this.$router,
         success: res => {
@@ -232,7 +233,7 @@ export default {
     resetForm () {
       this.QueryForm = {
         singleFlag: '',
-        rateFlag: true,
+        rateFlag: '',
         itemName: '',
         impexpPortcdNames: '',
         impexpPortcd: '',
@@ -240,7 +241,7 @@ export default {
         entrustCompanyId: '',
         dclPlcCuscdNames: '',
         dclPlcCuscd: '',
-        createUserId: '',
+        createUserName: '',
         createStartDate: '',
         createEndDate: ''
       }
@@ -333,6 +334,10 @@ export default {
         data: {quotationId: id},
         router: this.$router,
         success: () => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
           this.getsOfferList()
         }
       })
