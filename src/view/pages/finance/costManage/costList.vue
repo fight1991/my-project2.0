@@ -127,7 +127,7 @@
           </el-row>
           <el-row>
             <el-col :span="14" :offset="5">
-              <el-form-item label="会计科目">
+              <el-form-item label="会计科目" prop="feeSubjectName">
                 <el-input size="mini" clearable v-model="addFees.feeSubjectName" :maxlength="10"></el-input>
               </el-form-item>
             </el-col>
@@ -171,7 +171,8 @@ export default {
       paginationInit: '',
       addFeesRule: {
         feeOptionCode: [{required: true, message: '请输入费用编号', pattern: /^[0-9a-zA-Z]{1,30}$/, trigger: 'blur'}],
-        feeOptionName: [{required: true, message: '请输入费用名称', trigger: 'blur'}]
+        feeOptionName: [{required: true, message: '请输入费用名称', trigger: 'blur'}],
+        feeSubjectName: [{pattern: /^\d+(\.\d+)?$|^$/, message: '10位或包含小数点以内的数字', trigger: 'blur'}]
       },
       tempOptionCode: '', // 临时存储费用编号
       pickerOptions: {

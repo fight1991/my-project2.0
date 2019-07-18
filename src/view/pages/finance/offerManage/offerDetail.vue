@@ -268,7 +268,7 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'offerManage-detail') {
+      if (to.name === 'offerManage-detail' && from) {
         this.getFeesDetail(this.$route.query.quotationId)
       }
     }

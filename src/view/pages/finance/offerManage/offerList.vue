@@ -182,7 +182,7 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'offerManage-list') {
+      if (to.name === 'offerManage-list' && to.query.from === 'other') {
         this.getsOfferList(this.$store.state.pagination)
       }
     }
