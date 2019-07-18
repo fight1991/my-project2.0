@@ -21,7 +21,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="税率">
-              <el-select v-model="QueryForm.feeRate" size="mini" clearable  style="width:100%;">
+              <el-select v-model="QueryForm.feeRate" size="mini" clearable style="width:100%;">
                 <el-option key="1" :label="'0%'" :value="0"></el-option>
                 <el-option key="2" :label="'6%'" :value="6"></el-option>
                 <el-option key="3" :label="'11%'" :value="11"></el-option>
@@ -117,7 +117,7 @@
           <el-row>
             <el-col :span="14" :offset="5">
               <el-form-item label="税率">
-                <el-select v-model="addFees.feeRate" size="mini" clearable  style="width:100%;">
+                <el-select v-model="addFees.feeRate" size="mini" style="width:100%;">
                   <el-option key="1" :label="'0%'" :value="0"></el-option>
                   <el-option key="2" :label="'6%'" :value="6"></el-option>
                   <el-option key="3" :label="'11%'" :value="11"></el-option>
