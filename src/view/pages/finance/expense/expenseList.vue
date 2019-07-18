@@ -48,8 +48,8 @@
           <el-col :span="6">
             <el-form-item label="进出口" :label-width="labelFormWidth.four">
               <el-select v-model="QueryForm.iEFlag" size="mini" clearable  style="width:100%;">
-                <el-option key="I" :label="'进口'" :value="'I'"></el-option>
-                <el-option key="E" :label="'出口'" :value="'E'"></el-option>
+                <el-option key="0" :label="'进口'" :value="'0'"></el-option>
+                <el-option key="1" :label="'出口'" :value="'1'"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -61,7 +61,7 @@
                 type="daterange"
                 align="right"
                 unlink-panels
-                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -77,7 +77,7 @@
                 type="daterange"
                 align="right"
                 unlink-panels
-                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -155,8 +155,10 @@ export default {
         expenseBillId: '',
         iEFlag: '', // 进出口0进口1出口2内贸
         orderNo: '', // 接单编号
-        releaseDay: '', // 放行日
-        sailDay: '' // 开航日
+        releaseDayStart: '', // 放行日
+        releaseDayEnd: '',
+        sailDayStart: '', // 开航日
+        sailDayEnd: ''
       },
       paginationInit: '',
       pickerOptions: {
@@ -196,10 +198,12 @@ export default {
     // 获取台账列表
     getsExpenseList (pagination) {
       if (this.dates1 && this.dates1.length > 0) {
-        this.QueryForm.releaseDay = [util.dateFormat(this.dates1[0]), util.dateFormat(this.dates1[1])]
+        this.QueryForm.releaseDayStart = this.dates1[0]
+        this.QueryForm.releaseDayEnd = this.dates1[1]
       }
       if (this.dates2 && this.dates2.length > 0) {
-        this.QueryForm.sailDay = [util.dateFormat(this.dates2[0]), util.dateFormat(this.dates2[1])]
+        this.QueryForm.sailDayStart = this.dates2[0]
+        this.QueryForm.sailDayEnd = this.dates2[1]
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
@@ -243,8 +247,10 @@ export default {
         expenseBillId: '',
         iEFlag: '',
         orderNo: '',
-        releaseDay: '',
-        sailDay: ''
+        releaseDayStart: '',
+        releaseDayEnd: '',
+        sailDayStart: '',
+        sailDayEnd: ''
       }
       this.dates1 = []
       this.dates2 = []

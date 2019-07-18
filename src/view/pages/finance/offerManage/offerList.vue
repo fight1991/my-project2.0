@@ -50,6 +50,7 @@
                 type="daterange"
                 align="right"
                 unlink-panels
+                value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -158,7 +159,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近一个月',
@@ -166,7 +167,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近三个月',
@@ -174,7 +175,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }]
       }
@@ -202,8 +203,8 @@ export default {
     // 报价列表查询
     getsOfferList (pagination) {
       if (this.dates && this.dates.length > 0) {
-        this.QueryForm.createStartDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.QueryForm.createEndDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.QueryForm.createStartDate = this.dates[0]
+        this.QueryForm.createEndDate = this.dates[1]
       } else {
         this.QueryForm.createStartDate = ''
         this.QueryForm.createEndDate = ''
@@ -220,7 +221,7 @@ export default {
           this.paginationInit = res.page
           if (res.result && res.result.length > 0) {
             res.result.forEach(v => {
-              v.dates = util.dateFormat(v.startTime, 'yyyy-MM-dd') + '~' + util.dateFormat(v.endTime, 'yyyy-MM-dd')
+              v.dates = v.startTime + '~' + v.endTime
             })
             this.offerTableList = res.result
           } else {

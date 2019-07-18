@@ -52,7 +52,7 @@
                     v-model="submitData.quotationHeadVO.dates"
                     type="daterange"
                     align="right"
-                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
                     unlink-panels
                     range-separator="至"
                     start-placeholder="开始日期"
@@ -740,7 +740,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近一个月',
@@ -748,7 +748,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近三个月',
@@ -756,7 +756,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }]
       }
@@ -863,8 +863,8 @@ export default {
       let subData = JSON.parse(JSON.stringify(this.submitData))
       let dateArray = JSON.parse(JSON.stringify(this.submitData.quotationHeadVO.dates))
       subData.quotationHeadVO.dates = ''
-      subData.quotationHeadVO.startDate = util.dateFormat(dateArray[0], 'yyyy-MM-dd')
-      subData.quotationHeadVO.endDate = util.dateFormat(dateArray[1], 'yyyy-MM-dd')
+      subData.quotationHeadVO.startDate = dateArray[0]
+      subData.quotationHeadVO.endDate = dateArray[1]
       // impexpPortcdNames dclPlcCuscdNames departure destination数组转换成字符串
       this.arrayAndString(subData.quotationPayableBodyVOList, 'string')
       this.arrayAndString(subData.quotationReceivableBodyVOList, 'string')

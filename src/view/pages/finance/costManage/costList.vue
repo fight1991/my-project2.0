@@ -43,7 +43,7 @@
                 type="daterange"
                 align="right"
                 unlink-panels
-                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -86,7 +86,7 @@
         <el-table-column label="操作" fixed="right" width="80" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button type="text" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
+              <el-button type="text"  v-if="scope.row.createUserId === createUser" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import util from '@/common/util'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -182,7 +182,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近一个月',
@@ -190,7 +190,7 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近三个月',
@@ -198,12 +198,17 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')])
+            picker.$emit('pick', [start, end])
           }
         }]
       }
     }
   },
+  computed: mapState({ // 查看vuex中当前登录的userId
+    currentUser (state) {
+      return state.userLoginInfo.userId
+    }
+  }),
   created () {
     this.paginationInit = this.$store.state.pagination
     this.getOptionList(this.$store.state.pagination)
@@ -212,8 +217,8 @@ export default {
     // 获取费用项列表
     getOptionList (pagination) {
       if (this.dates && this.dates.length > 0) {
-        this.QueryForm.createStartTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.QueryForm.createEndTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.QueryForm.createStartTime = this.dates[0]
+        this.QueryForm.createEndTime = this.dates[1]
       } else {
         this.QueryForm.createStartTime = ''
         this.QueryForm.createEndTime = ''
@@ -319,7 +324,7 @@ export default {
             type: 'success',
             message: '编辑成功'
           })
-          this.getOptionList()
+          this.getOptionList(this.$store.state.pagination)
         },
         other: res => {
           if (res.code === '0001') {
@@ -352,7 +357,7 @@ export default {
               type: 'success',
               message: '创建成功'
             })
-            this.getOptionList()
+            this.getOptionList(this.$store.state.pagination)
           }
         },
         other: res => {
