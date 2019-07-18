@@ -101,32 +101,61 @@
       <el-table class='sys-table-table' :data="expenseTableList" border highlight-current-row height="530px">
         <el-table-column
           type="selection"
-          width="55">
+          width="40">
         </el-table-column>
-        <el-table-column label="接单编号" min-width="80" align="center">
+        <el-table-column label="接单编号" min-width="120" align="center" prop="orderNo">
+          <template slot-scope="scope">
+            {{scope.row.orderNo || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="报关单号" min-width="80" align="center">
+        <el-table-column label="报关单号" min-width="120" align="center" prop="decNo">
+          <template slot-scope="scope">
+            {{scope.row.decNo || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="提单号" min-width="80" align="center">
+        <el-table-column label="提单号" min-width="120" align="center" prop="billNo">
+          <template slot-scope="scope">
+            {{scope.row.billNo || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="业务类型" min-width="120" align="center">
+        <el-table-column label="业务类型" min-width="80" align="center" prop="businessType">
+          <template slot-scope="scope">
+            {{scope.row.businessType === '1'? '报关':'货代'}}
+          </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="80" align="center">
+        <el-table-column label="委托企业" min-width="80" align="center" prop="entrustCompanyName">
+          <template slot-scope="scope">
+            {{scope.row.businessType || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="进出口" min-width="80" align="center">
+        <el-table-column label="进出口" min-width="80" align="center" prop="iEFlag">
+          <template slot-scope="scope">
+            {{scope.row.iEFlag === '0'? '进口': scope.row.iEFlag === '1' ? '出口':'内贸'}}
+          </template>
         </el-table-column>
-        <el-table-column label="开航日" min-width="80" align="center">
+        <el-table-column label="开航日" min-width="80" align="center" prop="sailDay">
+          <template slot-scope="scope">
+            {{scope.row.sailDay || '-' }}
+          </template>
         </el-table-column>
-        <el-table-column label="放行时间" min-width="80" align="center">
+        <el-table-column label="放行时间" min-width="80" align="center" prop="releaseDay">
+          <template slot-scope="scope">
+            {{scope.row.releaseDay || '-' }}
+          </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="80" align="center">
+        <el-table-column label="状态" min-width="80" align="center" prop="cFlag">
+          <template slot-scope="scope">
+            {{scope.row.cFlag ? '账单已生成':'账单未生成' }}
+          </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
-            <el-button title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
-            <el-button title="查看" class="table-icon list-icon-look"><i></i></el-button>
-            <el-button title="单条导出" class="table-icon list-icon-look"><i></i></el-button>
-            <el-button title="台账信息" class="table-icon list-icon-look"><i></i></el-button>
+            <div class="sys-td-c">
+              <el-button title="编辑" type="text" class="table-icon list-icon-edit"><i></i></el-button>
+              <el-button title="查看" type="text" class="table-icon list-icon-look"><i></i></el-button>
+              <el-button title="单条导出" type="text" class="table-icon list-icon-export"><i></i></el-button>
+              <el-button title="台账信息" type="text" class="table-icon list-icon-scan"><i></i></el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -149,7 +178,7 @@ export default {
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
-        cFlag: '', // 是否创建过账单0没有1已创建
+        cFlag: '', // 是否创建过账单false没有true已创建 bloou
         decNo: '', // 报关单号
         entrustCompanyName: '', // 委托企业名称
         expenseBillId: '',
