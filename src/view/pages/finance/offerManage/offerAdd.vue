@@ -75,7 +75,7 @@
                     <el-form-item label="进/出境关别" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.impexpPortcdNames"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -92,7 +92,7 @@
                     <el-form-item label="申报地海关" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -111,7 +111,7 @@
                     <el-form-item label="出发地/港" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.departure"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('departureList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -128,7 +128,7 @@
                     <el-form-item label="目的地/港" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.destination"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('destinationList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -297,7 +297,7 @@
                     <el-form-item label="进/出境关别" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.impexpPortcdNames"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('impexpPortList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -314,7 +314,7 @@
                     <el-form-item label="申报地海关" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -333,7 +333,7 @@
                     <el-form-item label="出发地/港" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.departure"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('departureList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -350,7 +350,7 @@
                     <el-form-item label="目的地/港" label-width="85px">
                       <el-select  v-model="item1.quotationFeeVO.destination"
                         filterable clearable remote default-first-option
-                        multiple autocomplete :multiple-limit="8"
+                        multiple autocomplete :multiple-limit="9"
                         @focus="tipsFill('destinationList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">

@@ -78,7 +78,11 @@
                 <div class="eiFlag">进口</div>
                 <div class="table">
                   <el-table :data="item1.feeOptionImportVOs" style="width: 100%" :show-header="false">
-                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feeOptionName" label="费用名称">
+                      <template slot-scope="scope">
+                        {{scope.row.feeOptionName || '-'}}
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="feePrice" label="单价" align="right">
                       <template slot-scope="scope">
                         {{scope.row.feePrice || '-'}}
@@ -86,7 +90,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate + '%'}}
+                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -107,7 +111,11 @@
                 <div class="eiFlag" style="margin-left:18px">出口</div>
                 <div class="table noborder">
                   <el-table :data="item1.feeOptionExportVOs" style="width: 100%" :show-header="false">
-                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feeOptionName" label="费用名称">
+                      <template slot-scope="scope">
+                        {{scope.row.feeOptionName || '-'}}
+                      </template>
+                    </el-table-column>
                      <el-table-column prop="feePrice" label="单价" align="right">
                       <template slot-scope="scope">
                         {{scope.row.feePrice || '-'}}
@@ -115,7 +123,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate + '%'}}
+                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -177,7 +185,11 @@
                 <div class="eiFlag">进口</div>
                 <div class="table">
                   <el-table :data="item1.feeOptionImportVOs" style="width: 100%" :show-header="false">
-                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feeOptionName" label="费用名称">
+                      <template slot-scope="scope">
+                        {{scope.row.feeOptionName || '-'}}
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="feePrice" label="单价" align="right">
                       <template slot-scope="scope">
                         {{scope.row.feePrice || '-'}}
@@ -185,7 +197,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate + '%'}}
+                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -206,7 +218,11 @@
                 <div class="eiFlag" style="margin-left:18px">出口</div>
                 <div class="table noborder">
                   <el-table :data="item1.feeOptionExportVOs" style="width: 100%" :show-header="false">
-                    <el-table-column prop="feeOptionName" label="费用名称"></el-table-column>
+                    <el-table-column prop="feeOptionName" label="费用名称">
+                      <template slot-scope="scope">
+                        {{scope.row.feeOptionName || '-'}}
+                      </template>
+                    </el-table-column>
                      <el-table-column prop="feePrice" label="单价" align="right">
                       <template slot-scope="scope">
                         {{scope.row.feePrice || '-'}}
@@ -214,7 +230,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate + '%'}}
+                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">

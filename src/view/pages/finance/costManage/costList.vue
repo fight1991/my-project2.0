@@ -205,7 +205,7 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
-    this.getOptionList()
+    this.getOptionList(this.$store.state.pagination)
   },
   methods: {
     // 获取费用项列表

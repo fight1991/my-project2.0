@@ -190,6 +190,7 @@ export default {
   },
   created () {
     this.paginationInit = this.$store.state.pagination
+    this.getsExpenseList(this.$store.state.pagination)
   },
   methods: {
     // 获取台账列表

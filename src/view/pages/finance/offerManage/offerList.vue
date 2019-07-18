@@ -183,7 +183,7 @@ export default {
   watch: {
     '$route': function (to, from) {
       if (to.name === 'offerManage-list') {
-        this.getsOfferList()
+        this.getsOfferList(this.$store.state.pagination)
       }
     }
   },
@@ -196,7 +196,7 @@ export default {
     this.getcorps()
     this.getCommonParam()
     this.paginationInit = this.$store.state.pagination
-    this.getsOfferList()
+    this.getsOfferList(this.$store.state.pagination)
   },
   methods: {
     // 报价列表查询
