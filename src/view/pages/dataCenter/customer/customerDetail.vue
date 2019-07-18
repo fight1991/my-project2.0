@@ -80,7 +80,7 @@
             <el-row>
                 <el-button type="primary" style="margin-bottom:5px;" @click="newCorpView = true" size="mini">新增企业</el-button>
             </el-row>
-                <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="proxtList" ref="proxtList">
+                <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="proxtList" ref="proxtList" style="margin-top:14px">
                 <el-table-column label="企业名称" min-width="100">
                 <template slot-scope="scope">
                     <div class="text-over-hid" :title="scope.row.proxyCorpName">
@@ -237,7 +237,6 @@
                 <div class='mg-b-30'>
                     <e-chart :datas='resultChartData' ></e-chart>
                 </div>
-
             </el-tab-pane>
             <el-tab-pane label="商品金额" name="fourth">
                 <el-form label-width="0px">
