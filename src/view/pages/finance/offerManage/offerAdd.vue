@@ -111,7 +111,7 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-select  v-model="item1.quotationFeeVO.departure"
+                      <el-select  v-model="item1.quotationFeeVO.departureNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
                          placeholder="请选择出发地/港,最多9条"
@@ -122,14 +122,14 @@
                           v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-select  v-model="item1.quotationFeeVO.destination"
+                      <el-select  v-model="item1.quotationFeeVO.destinationNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
                          placeholder="请选择目的地/港,最多9条"
@@ -140,7 +140,7 @@
                           v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -341,7 +341,7 @@
                 <el-row :gutter="50" class="margin_0">
                   <el-col :span="12" class="padding_0">
                     <el-form-item label="出发地/港" label-width="85px">
-                      <el-select  v-model="item1.quotationFeeVO.departure"
+                      <el-select  v-model="item1.quotationFeeVO.departureNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
                          placeholder="请选择出发地/港,最多9条"
@@ -352,14 +352,14 @@
                           v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" style="padding-right:0">
                     <el-form-item label="目的地/港" label-width="85px">
-                      <el-select  v-model="item1.quotationFeeVO.destination"
+                      <el-select  v-model="item1.quotationFeeVO.destinationNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
                          placeholder="请选择进目的地/港,最多9条"
@@ -370,7 +370,7 @@
                           v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -559,8 +559,8 @@ export default {
             quotationFeeVO: {
               dclPlcCuscd: '', // 申报地海关代码
               dclPlcCuscdNames: '',
-              departure: '', // 出发地
-              destination: '', // 目的地
+              departureNames: '', // 出发地
+              destinationNames: '', // 目的地
               feeFlag: true, // 应收1，应付0
               impexpPortcd: '', // 进出境关别代码
               impexpPortcdNames: '',
@@ -600,8 +600,8 @@ export default {
             quotationFeeVO: {
               dclPlcCuscd: '', // 申报地海关代码
               dclPlcCuscdNames: '',
-              departure: '', // 出发地
-              destination: '', // 目的地
+              departureNames: '', // 出发地
+              destinationNames: '', // 目的地
               feeFlag: false, // 应收1，应付0
               impexpPortcd: '', // 进出境关别代码
               impexpPortcdNames: '',
@@ -643,8 +643,8 @@ export default {
         quotationFeeVO: {
           dclPlcCuscd: '',
           dclPlcCuscdNames: '',
-          departure: '',
-          destination: '',
+          departureNames: '',
+          destinationNames: '',
           feeFlag: '',
           impexpPortcd: '',
           impexpPortcdNames: '',
@@ -728,8 +728,8 @@ export default {
       selectDown: {
         dclPlcCuscdNames: {downList: 'dclPlcCusList', params: 'SAAS_CUSTOMS_REL'},
         impexpPortcdNames: {downList: 'impexpPortList', params: 'SAAS_CUSTOMS_REL'},
-        departure: {downList: 'departureList', params: 'SAAS_TJ_PORT'},
-        destination: {downList: 'destinationList', params: 'SAAS_TJ_PORT'},
+        departureNames: {downList: 'departureList', params: 'SAAS_TJ_PORT'},
+        destinationNames: {downList: 'destinationList', params: 'SAAS_TJ_PORT'},
         curr: {downList: 'currList', params: 'SAAS_CURR'},
         unit: {downList: 'unitList', params: 'SAAS_UNIT'}
       },
@@ -1036,8 +1036,8 @@ export default {
         list = {
           dclPlcCuscdNames: ' ',
           impexpPortcdNames: ' ',
-          departure: ' ',
-          destination: ' ',
+          departureNames: ' ',
+          destinationNames: ' ',
           curr: ' ',
           unit: ' '
         }
