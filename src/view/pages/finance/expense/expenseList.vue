@@ -151,8 +151,8 @@
         <el-table-column label="操作" fixed="right" min-width="120" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" type="text" class="table-icon list-icon-edit"><i></i></el-button>
-              <el-button title="查看" type="text" class="table-icon list-icon-look"><i></i></el-button>
+              <el-button title="编辑" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit')"><i></i></el-button>
+              <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look')"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export"><i></i></el-button>
               <el-button title="台账信息" type="text" class="table-icon list-icon-scan"><i></i></el-button>
             </div>
@@ -283,7 +283,9 @@ export default {
       }
       this.dates1 = []
       this.dates2 = []
-    }
+    },
+    // 跳转到编辑或详情页
+    goToDeital (type) {}
   }
 }
 </script>

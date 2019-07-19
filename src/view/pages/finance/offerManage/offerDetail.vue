@@ -60,13 +60,13 @@
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">出发地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.departureName || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.departureNames || '-'}}</div>
                 </div>
               </el-col>
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">目的地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.destinationName || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.destinationNames || '-'}}</div>
                 </div>
               </el-col>
             </el-row>
@@ -167,13 +167,13 @@
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">出发地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.departureName || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.departureNames || '-'}}</div>
                 </div>
               </el-col>
               <el-col :span="12">
                 <div class="one-row">
                   <div class="left">目的地/港&nbsp;:</div>
-                  <div class="right">{{item1.quotationFeeVO.destinationName || '-'}}</div>
+                  <div class="right">{{item1.quotationFeeVO.destinationNames || '-'}}</div>
                 </div>
               </el-col>
             </el-row>
