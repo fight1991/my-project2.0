@@ -121,7 +121,7 @@
                         <el-option
                           v-for="item in departureList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
@@ -139,7 +139,7 @@
                         <el-option
                           v-for="item in destinationList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
@@ -351,7 +351,7 @@
                         <el-option
                           v-for="item in departureList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
@@ -369,7 +369,7 @@
                         <el-option
                           v-for="item in destinationList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
@@ -992,9 +992,7 @@ export default {
           // 转换成数组
           if (type === 'array') {
             if (typeof v[k] === 'string') {
-              if (v[k].indexOf(',') > 0) {
-                v[k] = v[k].split(',')
-              } else if (v[k].indexOf(';') > 0) {
+              if (v[k].indexOf(';') > 0) {
                 v[k] = v[k].split(';')
               } else {
                 v[k].length > 0 && (v[k] = [v[k]])
