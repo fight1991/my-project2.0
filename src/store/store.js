@@ -152,7 +152,6 @@ export default new Vuex.Store({
           }
         }
       }).catch((err) => {
-        util.errorReport('', '', '', this, err)
         setTimeout(() => {
           state.loading = false
         }, 500)
@@ -170,6 +169,7 @@ export default new Vuex.Store({
               router.push('/error/500')
               break
             default:
+              util.errorReport('', '', '', this, err)
               router.push('/error/wait')
           }
         }

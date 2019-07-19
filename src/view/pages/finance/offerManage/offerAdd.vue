@@ -344,7 +344,7 @@
                       <el-select  v-model="item1.quotationFeeVO.departureNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
-                         placeholder="请选择出发地/港,最多9条"
+                        placeholder="请选择出发地/港,最多9条"
                         @focus="tipsFill('departureList','SAAS_TJ_PORT')"
                         :remote-method="checkParamsList"
                         style="width:100%">

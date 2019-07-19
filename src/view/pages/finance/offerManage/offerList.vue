@@ -339,7 +339,7 @@ export default {
             type: 'success',
             message: '删除成功'
           })
-          this.getsOfferList()
+          this.getsOfferList(this.$store.state.pagination)
         }
       })
     },
