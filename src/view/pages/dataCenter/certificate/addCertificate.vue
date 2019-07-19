@@ -54,7 +54,7 @@
               <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-row>
-               <el-button size="mini" type="primary">上传附件</el-button>
+               <el-button size="mini" class="longButton" type="primary">上传附件</el-button>
               </el-row>
             </el-upload>
               <!-- <img class="detail-img" v-if="!fileType" :src="addForm.certificateUrl"> -->
