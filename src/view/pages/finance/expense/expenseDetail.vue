@@ -87,7 +87,7 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="cell-div" v-else>{{scope.row.curr || '-'}}</div>     
+              <div class="cell-div" v-else>{{scope.row.curr || '-'}}</div>
             </template>
           </el-table-column>
           <el-table-column prop="num" width="100" label="数量" align="center">
