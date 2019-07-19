@@ -285,8 +285,36 @@ export default {
           quotationId: id
         },
         router: this.$router,
-        success: res => {
-          this.quotationDetail = res.result || {}
+        success: ({result}) => {
+          if (result && JSON.stringify(result) !== '{}') {
+            if (Array.isArray(result.quotationPayableBodyVOList) && result.quotationPayableBodyVOList.length > 0) {
+              this.splitCodeNames(result.quotationPayableBodyVOList)
+            }
+            if (Array.isArray(result.quotationReceivableBodyVOList) && result.quotationReceivableBodyVOList.length > 0) {
+              this.splitCodeNames(result.quotationReceivableBodyVOList)
+            }
+            this.quotationDetail = result
+          } else {
+            this.quotationDetail = {}
+          }
+        }
+      })
+    },
+    // 处理应收应付中港数据,只需展示names
+    splitCodeNames (arr) {
+      // quotationPayableBodyVOList quotationReceivableBodyVOList
+      arr.forEach(v => {
+        for (let key in v['quotationFeeVO']) {
+          if (key === 'departureNames' || key === 'destinationNames') {
+            if (v['quotationFeeVO'][key] && v['quotationFeeVO'][key].length > 0) {
+              let tempArr = []
+              v['quotationFeeVO'][key].split(';').forEach(item => {
+                let temp = item.split('-')[item.split('-').length - 1]
+                tempArr.push(temp)
+              })
+              v['quotationFeeVO'][key] = tempArr.join(';')
+            }
+          }
         }
       })
     }
