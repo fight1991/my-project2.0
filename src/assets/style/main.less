@@ -746,17 +746,8 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     margin-top: 20px;
     padding: 20px;
   }
-  .query-condition{
-    .el-form{
-      .el-row{
-        .el-col.el-col-8{
-          .el-form-item.el-form-item--mini{
-            margin-bottom: 8px;
-          }
-        }
-      }
-    }
-  }
+
+
   .el-table.sys-table-table.el-table--fit.el-table--border.el-table--enable-row-hover.el-table--mini{
     box-sizing: border-box;
     height: 100%;
@@ -791,11 +782,13 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       text-align: center;
       color: @font-color-main;
       font-weight: normal;
+      font-size: 14px;
     }
     .el-table__body td .cell {
       // text-align: center;
       color: @font-color-main;
       font-weight: normal;
+      font-size: 14px;
       .sys-td-c{
         text-align: center;
       }
@@ -811,11 +804,15 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     padding: 7px 20px;
     font-size: 14px;
   }
-  .el-button--primary {
+  .el-button--primary{
     background-color:@sys-color-main;
     border:none;
     height: 30px;
+  
     color:#ffffff;
+  }
+  .el-button--primary:not(.longButton){
+    width:70px;
   }
   .op-btn .el-button {
     font-size: 12px;
@@ -1082,6 +1079,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     width: 70px;
     height: 30px;
     color:#ffffff;
+    border-color: rgba(255, 255, 255, 0);
   }
   .el-button--default{
     width: 70px;
@@ -1795,4 +1793,12 @@ body .el-table th.gutter{
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.query-mini .el-form .el-row{
+  .el-form-item.el-form-item--mini{
+    .el-form-item__content,.el-form-item__label{
+      line-height: 20px;
+    }
+  }
 }
