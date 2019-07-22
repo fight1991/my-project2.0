@@ -39,12 +39,12 @@
       </el-row>
       <div class='query-table'>
         <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
-          <el-table-column prop="serialNo" label="序号" width="50" align="center">
+          <el-table-column type="index" label="序号" width="50" align="center">
           </el-table-column>
           <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
-                <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;">
+                <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
                   <el-option v-for="item in optionsList"
                     :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                   </el-option>
@@ -56,7 +56,7 @@
           <el-table-column prop="feePrice" label="计费单价" align="right">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
-                <el-input v-model="scope.row.feePrice"></el-input>
+                <el-input v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
               </div>
               <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
             </template>
@@ -102,26 +102,26 @@
           <el-table-column prop="num" width="100" label="数量" align="center">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
-                <el-input v-model="scope.row.num"></el-input>
+                <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
               </div>
               <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="feeRate" width="100" label="税率" align="center">
+          <el-table-column prop="rate" width="100" label="税率" align="center">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
-                <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.feeRate">
+                <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                   <el-option key="0" :label="'0%'" :value="0"></el-option>
                   <el-option key="6" :label="'6%'" :value="6"></el-option>
                   <el-option key="11" :label="'11%'" :value="11"></el-option>
                 </el-select>
               </div>
-              <div class="cell-div" v-else>{{(scope.row.feeRate && scope.row.feeRate + '%') || '-'}}</div>
+              <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
             </template>
           </el-table-column>
           <el-table-column prop="taxPrice" width="80" label="含税总价" align="center">
             <template slot-scope="scope">
-              <div class="cell-div">{{scope.row.taxPrice && (scope.row.taxPrice + '%') || '-'}}</div>
+              <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
             </template>
           </el-table-column>
           <el-table-column prop="settleCompanyName" min-width="120" label="结算企业" align="center">
@@ -152,14 +152,14 @@
           <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
             <template slot-scope="scope">
               <div class="sys-td-c">
-                <el-button title="删除" type="text" class="table-icon list-icon-delete"><i></i></el-button>
+                <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
     </div>
-    <!-- 应付非同区域 -->
+    <!-- 应付费用区域 -->
     <div class="pay area">
       <div class="title">应付费用</div>
       <el-table class='sys-table-table' align="left" :data="billPayableBodyVO.billPayableBodyVOList"></el-table>
@@ -221,7 +221,7 @@ export default {
         unit: '',
         curr: '',
         num: '',
-        feeRate: '',
+        rate: 0,
         taxPrice: '',
         settleCompanyName: '',
         billType: '1',
@@ -341,8 +341,7 @@ export default {
       this.getQuotationDetail(false, this.iEFlag, item.quotationId)
     },
     getQuotationDetail (feeFlag, iEFlag, quotationId) {
-      let fee = ''
-      feeFlag ? fee = 'receivablefeeOptions' : fee = 'payablefeeOptions'
+      let fee = feeFlag ? 'receivablefeeOptions' : 'payablefeeOptions'
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/bill/getQuotationDetail',
         data: {
@@ -394,6 +393,20 @@ export default {
     cancelEdit () {
       this.billReceivableBodyVO.billReceivableBodyVOList = [...this.copyData.billOptionReceiveVOs]
       this.billPayableBodyVO.billPayableBodyVOList = [...this.copyData.billOptionPayVOs]
+    },
+    computeTaxPrice (row) {
+      row.taxPrice = row.num * row.feePrice * (1 + (+row.rate))
+    },
+    delItems (row, feeFlag) {
+      let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
+      let index = this[fee][fee + 'List'].findIndex(item => row === item)
+      this[fee][fee + 'List'].splice(index, 1)
+    },
+    getRate (row) {
+      if (row.feeOptionName) {
+        let temp = this.optionsList.find(item => item.feeOptionName === row.feeOptionName)
+        row.rate = temp.feeRate
+      }
     }
   }
 }
