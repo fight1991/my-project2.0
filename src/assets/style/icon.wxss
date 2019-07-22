@@ -1,0 +1,183 @@
+.sys-class .custom-icons-menu {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  margin-right: 15px;
+}
+.sys-class .icons-menu-contractList {
+  background: url("../img/icon-aside/contractList.png") no-repeat;
+}
+.sys-class .icons-menu-contractCheck {
+  background: url("../img/icon-aside/contractCheck.png") no-repeat;
+}
+.sys-class .icons-menu-setting {
+  background: url("../img/icon-aside/setting.png") no-repeat;
+}
+.sys-class .icons-menu-iEDefault {
+  background: url("../img/icon-aside/ie-default.png") no-repeat;
+}
+.sys-class .icons-menu-receipt {
+  background: url("../img/icon-aside/receipt.png") no-repeat;
+}
+.sys-class .icons-menu-decCheck {
+  background: url("../img/icon-aside/dec-check.png") no-repeat;
+}
+.sys-class .icons-menu-declare {
+  background: url("../img/icon-aside/declare.png") no-repeat;
+}
+.sys-class .icons-menu-taxReviewed {
+  background: url("../img/icon-aside/taxReviewed.png") no-repeat;
+}
+.sys-class .icons-menu-dataQuery {
+  background: url("../img/icon-aside/data-search.png") no-repeat;
+}
+.sys-class .icons-menu-allows {
+  background: url("../img/icon-aside/allows.png") no-repeat;
+}
+.sys-class .icons-menu-certificate {
+  background: url("../img/icon-aside/certificate.png") no-repeat;
+}
+.sys-class .icons-menu-jobsLicense {
+  background: url("../img/icon-aside/jobsLicense.png") no-repeat;
+}
+.sys-class .icons-menu-customer {
+  background: url("../img/icon-aside/customer.png") no-repeat;
+}
+.sys-class .icons-menu-license {
+  background: url("../img/icon-aside/license.png") no-repeat;
+}
+.sys-class .icons-menu-productInfo {
+  background: url("../img/icon-aside/productInfo.png") no-repeat;
+}
+.sys-class .icons-menu-passCode {
+  background: url("../img/icon-aside/passCode.png") no-repeat;
+}
+.sys-class .icons-menu-productParams {
+  background: url("../img/icon-aside/productParams.png") no-repeat;
+}
+.sys-class .icons-menu-carParams {
+  background: url("../img/icon-aside/carParams.png") no-repeat;
+}
+.sys-class .icons-menu-airQuery {
+  background: url("../img/icon-aside/airQuery.png") no-repeat;
+}
+.sys-class .icons-menu-decQuery {
+  background: url("../img/icon-aside/decQuery.png") no-repeat;
+}
+.sys-class .icons-menu-jobsList {
+  background: url("../img/icon-aside/jobsList.png") no-repeat;
+}
+.sys-class .icons-menu-kpiList {
+  background: url("../img/icon-aside/kpiList.png") no-repeat;
+}
+.sys-class .icons-menu-conManage {
+  background: url("../img/icon-aside/conManage.png") no-repeat;
+}
+.sys-class .icons-menu-proPrice {
+  background: url("../img/icon-aside/proPrice.png") no-repeat;
+}
+.sys-class .icons-menu-priceManage {
+  background: url("../img/icon-aside/priceManage.png") no-repeat;
+}
+.sys-class .icons-menu-priceConsider {
+  background: url("../img/icon-aside/priceConsider.png") no-repeat;
+}
+.sys-class .icons-menu-account {
+  background: url("../img/icon-aside/account.png") no-repeat;
+}
+.sys-class .icons-menu-accountManage {
+  background: url("../img/icon-aside/accountManage.png") no-repeat;
+}
+.sys-class .icons-menu-ticketManage {
+  background: url("../img/icon-aside/ticketManage.png") no-repeat;
+}
+.sys-class .icons-menu-beianManage {
+  background: url("../img/icon-aside/beianManage.png") no-repeat;
+}
+.sys-class .icons-menu-importLare {
+  background: url("../img/icon-aside/importLare.png") no-repeat;
+}
+.sys-class .icons-menu-inLare {
+  background: url("../img/icon-aside/inLare.png") no-repeat;
+}
+.sys-class .icons-menu-outLare {
+  background: url("../img/icon-aside/outLare.png") no-repeat;
+}
+.sys-class .icons-menu-ieport {
+  background: url("../img/icon-aside/ieport.png") no-repeat;
+}
+.sys-class .icons-menu-beianJobs {
+  background: url("../img/icon-aside/beianJobs.png") no-repeat;
+}
+.sys-class .icons-menu-lareJobs {
+  background: url("../img/icon-aside/lareJobs.png") no-repeat;
+}
+.sys-class .icons-menu-baoheJobs {
+  background: url("../img/icon-aside/baoheJobs.png") no-repeat;
+}
+.sys-class .icons-menu-czhanJobs {
+  background: url("../img/icon-aside/czhanJobs.png") no-repeat;
+}
+.sys-class .icons-menu-czjb {
+  background: url("../img/icon-aside/czjb.png") no-repeat;
+}
+.sys-class .icons-menu-czjbquery {
+  background: url("../img/icon-aside/czjbquery.png") no-repeat;
+}
+.sys-class .icons-menu-dataInfo {
+  background: url("../img/icon-aside/dataInput.png") no-repeat;
+}
+.sys-class .icons-menu-decForm {
+  background: url("../img/icon-aside/decForm.png") no-repeat;
+}
+.sys-class .icons-menu-goodsBill {
+  background: url("../img/icon-aside/goodsBill.png") no-repeat;
+}
+.sys-class .icons-menu-queryList {
+  background: url("../img/icon-aside/queryList.png") no-repeat;
+}
+.sys-class .icons-menu-synDecForm {
+  background: url("../img/icon-aside/synDecForm.png") no-repeat;
+}
+.sys-class .icons-menu-shipBill {
+  background: url("../img/icon-aside/expressShip.png") no-repeat;
+}
+.sys-class .icons-menu-declareBill {
+  background: url("../img/icon-aside/expressDec.png") no-repeat;
+}
+.sys-class .icons-menu-decRegister {
+  background: url("../img/icon-aside/decRegister.png") no-repeat;
+}
+.sys-class .icons-menu-importDec {
+  background: url("../img/icon-aside/importDec.png") no-repeat;
+}
+.sys-class .icons-menu-exportDec {
+  background: url("../img/icon-aside/exportDec.png") no-repeat;
+}
+.sys-class .icons-finance-offerManage {
+  background: url("../img/icon-aside/offerManage.png") no-repeat;
+}
+.sys-class .icons-finance-ticket {
+  background: url("../img/icon-aside/ticketManage.png") no-repeat;
+}
+.sys-class .icons-finance-offerAccount {
+  background: url("../img/icon-aside/account.png") no-repeat;
+}
+.sys-class .icons-finance-accountManage {
+  background: url("../img/icon-aside/account-finance-manage.png") no-repeat;
+}
+.sys-class .icons-finance-computeFinance {
+  background: url("../img/icon-aside/compute-finance.png") no-repeat;
+}
+.sys-class .icons-finance-receiveCost {
+  background: url("../img/icon-aside/receiveCost.png") no-repeat;
+}
+.sys-class .icons-finance-accountManage {
+  background: url("../img/icon-aside/accountManage.png") no-repeat;
+}
+.sys-class .icons-menu-importEn {
+  background: url("../img/icon-aside/importEn.png") no-repeat;
+}
+.sys-class .icons-menu-exportEn {
+  background: url("../img/icon-aside/exportEn.png") no-repeat;
+}

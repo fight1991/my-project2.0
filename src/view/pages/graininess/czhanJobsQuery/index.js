@@ -66,7 +66,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核放清单生成核放单查询'
+        title: '核注清单生成核放单查询'
       }
     },
     {

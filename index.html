@@ -23,5 +23,25 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+    (function() {
+        var getQueryString = function(name) {
+          var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+          var r = window.location.search.substr(1).match(reg)
+          if (r != null) {
+            return unescape(r[2])
+          }
+          return null
+        }
+        var src = getQueryString('src') || window.localStorage.getItem('originSrc')
+        if (src && src === 'hegs') {
+          var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = 'https://www.5itrade.cn/files/favicon/hegs_favicon.ico';
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    })();
+    </script>
   </body>
 </html>

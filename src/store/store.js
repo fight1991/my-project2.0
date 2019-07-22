@@ -42,6 +42,7 @@ export default new Vuex.Store({
     menuShow: true, // 移动式菜单
     labelWidth: '100px', // form 表单 label 宽度
     tableHeight: '800', // table表格高度
+    controlPanelList: [], // 已勾选看板
     sysType: util.checkSys() // 登录平台
   },
   actions: {
@@ -151,7 +152,6 @@ export default new Vuex.Store({
           }
         }
       }).catch((err) => {
-        util.errorReport('', '', '', this, err)
         setTimeout(() => {
           state.loading = false
         }, 500)
@@ -169,6 +169,7 @@ export default new Vuex.Store({
               router.push('/error/500')
               break
             default:
+              util.errorReport('', '', '', this, err)
               router.push('/error/wait')
           }
         }
@@ -274,6 +275,10 @@ export default new Vuex.Store({
     },
     menuShow: function (state, value) {
       state.menuShow = value
+    },
+    // 获取已勾选看板
+    getPanel: function (state, value) {
+      state.controlPanelList = value
     }
   }
 })

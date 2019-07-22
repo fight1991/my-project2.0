@@ -29,9 +29,9 @@
           </el-col>
         </el-row>
         <el-row :gutter="50">
-          <el-col :span="14" :offset="10" class='query-btn' style="margin-top:20px">
+          <el-col :span="14" :offset="10" class='query-btn' style="margin-top:2px">
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button>
+            <el-button size="mini" style="height:30px" @click="resetFun">重置</el-button>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
@@ -41,8 +41,8 @@
     <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
-        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:14px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left：10px;font-size:14px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -110,7 +110,7 @@
       :close-on-click-modal='false'
       width="50%"
       >
-      <div  class="dec-div">
+      <div class="dec-div query-mini">
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="confirmshow" @closed='confirmreason = ""'>
         <el-row >
           <el-col :span="8">
@@ -125,11 +125,13 @@
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="8">
+          <el-col :span="16">
             <el-form-item label="社会信用代码：">
               {{confirmshow.sccCode}}
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <el-form-item label="海关编码：">
               {{confirmshow.tradeCode}}
@@ -152,7 +154,9 @@
               {{confirmshow.contactWay}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+        </el-row>
+        <el-row>
+          <el-col :span="16">
             <el-form-item label="公司地址：">
               {{confirmshow.address}}
             </el-form-item>
@@ -176,20 +180,20 @@
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="24">
+          <el-col :span="24" style="padding-bottom:0px">
             <el-form-item label="备注：">
               {{confirmshow.remark}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="审核意见：" maxlength="400">
+          <el-form-item label="审核意见：" style="margin-bottom:0px" maxlength="400">
                 <el-input type="textarea" v-model="confirmshow.auditRemark" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
             </el-form-item>
         </el-row>
-        <div style="text-align:center">
+        <div style="text-align:center;margin-top:26px">
           <el-button type="primary" size="mini" @click="oneconfirm(true)" v-if="confirmshow.auditStatus === 'WAITING'">审核通过</el-button>
-          <el-button  size="mini" @click="oneconfirm(false)"  v-if="confirmshow.auditStatus === 'WAITING'">审核驳回</el-button>
+          <el-button  size="mini" style="margin-left:10px" @click="oneconfirm(false)"  v-if="confirmshow.auditStatus === 'WAITING'">审核驳回</el-button>
         </div>
         <el-row >
         </el-row>
@@ -206,19 +210,21 @@
         <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" size="mini" :data="recordresult">
         <el-table-column label="时间" min-width="130" >
           <template slot-scope="scope">
+            <div class ="customer-table-c">
             {{formateDate(scope.row.auditTime) || '-'}}
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="客户状态" min-width="100">
           <template slot-scope="scope">
-            <div class="text-over-hid">
+            <div class="text-over-hid customer-table-c">
             {{scope.row.auditStatusValue || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="操作人" min-width="100">
            <template slot-scope="scope">
-             <div class="text-over-hid" >
+             <div class="text-over-hid customer-table-c" >
               {{scope.row.auditUser || '-'}}
               </div>
             </template>
@@ -528,6 +534,5 @@ export default {
     width: 14px;
     height: 14px;
     vertical-align: middle;
-    background-color: #fff
 }
 </style>

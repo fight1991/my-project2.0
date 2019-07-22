@@ -67,7 +67,7 @@
                       <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <el-button size="mini" type="primary" v-if="item.info.fileType">上传附件</el-button>
+                      <el-button size="mini" class="longButton" type="primary" v-if="item.info.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
                 </el-col>
@@ -143,7 +143,7 @@
               </el-col>
             </el-row>
             <el-row>
-              <el-button size="mini" @click="addGood"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;填写更多涉证商品</el-button>
+              <el-button size="mini" class="list-icon-add ChangeHover" style="width:170px;border-radius:2px;" @click="addGood"><i class="cus-i"></i>填写更多涉证商品</el-button>
             </el-row>
           </el-col>
         </el-row>
@@ -692,4 +692,18 @@ export default {
     text-decoration: none;
     color: #333333;
   }
+  .cus-i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    padding-right:5px;
+    margin-top:-3px;
+    margin-left:-2px;
+}
+.ChangeHover:hover{
+  border-color:#287fca;
+  color:#287fca;
+
+}
 </style>

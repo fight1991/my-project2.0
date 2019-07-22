@@ -17,6 +17,7 @@ import PassParams from './view/pages/passParams/router'
 import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
+import Finance from './view/pages/finance/router'
 import Entrust from './view/pages/entrust/router'
 
 const routes = [
@@ -99,6 +100,7 @@ routes[1].children.push(...PassParams.MENU)
 routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
+routes[1].children.push(...Finance.MENU)
 routes[1].children.push(...Entrust.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
@@ -203,6 +205,13 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'contract',
           title: '合同管理',
+          permissions: 'CCBA21400000000'
+        }
+        break
+      case 'finance':
+        json = {
+          type: 'finance',
+          title: '物流费用管理系统',
           permissions: 'CCBA21400000000'
         }
         break
@@ -333,11 +342,11 @@ router.afterEach(route => {
   // 本系统跳转后自定义title
   if (route.query.setTitle) {
     title = route.query.setTitle
-    tabId = route.query.setId
+    tabId = route.query.setId || route.name
   }
   if (route.params.setTitle) {
     title = route.params.setTitle
-    tabId = route.params.setId
+    tabId = route.params.setId || route.name
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {

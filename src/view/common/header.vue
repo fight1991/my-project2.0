@@ -1,6 +1,8 @@
 <template>
   <div class="top-header">
-    <div class="logo fl" @click="goToControl" title="返回工作台"></div>
+    <div class="logo fl" @click="goToControl" title="返回工作台">
+      <img :src="logImgUrl">
+    </div>
     <div :class="{'split-line':$store.state.childSys.title!== '', 'fl':true}"></div>
     <div class="title fl">{{$store.state.childSys.title}}</div>
     <div class="user-info">
@@ -63,6 +65,9 @@
 import config from '../../config/config'
 import commonPath from '../../config/commonPath'
 import util from '../../common/util'
+import defaultImg from '../../assets/img/icon/CCBA_logo.png'
+import hegsImg from '../../assets/img/icon/HEGS_logo.png'
+
 export default {
   data () {
     return {
@@ -71,7 +76,12 @@ export default {
       corpList: [],
       userTitleList: [], // 个人荣誉
       totalNum: 0,
-      logoClick: false
+      logoClick: false,
+      logoConfig: {
+        'default': defaultImg,
+        'hegs': hegsImg
+      },
+      logImgUrl: ''
     }
   },
   created () {
@@ -80,9 +90,13 @@ export default {
     if (sessionStorage.getItem('userTitleList')) {
       this.userTitleList = JSON.parse(sessionStorage.getItem('userTitleList'))
     }
+    this.logImgUrl = this.getLogo()
   },
   mounted () {},
   methods: {
+    getLogo () {
+      return localStorage.getItem('originSrc') ? this.logoConfig[localStorage.getItem('originSrc')] : this.logoConfig['default']
+    },
     // 用户头像下拉菜单点击处理
     userInfoLi (type) {
       switch (type) {
@@ -269,9 +283,6 @@ export default {
 .logo {
   width: 380px;
   height: 62px;
-  background: url('../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
-  background-size: 280px 64px;
-  background-size: cover;
   vertical-align: middle;
   cursor: pointer;
 }
