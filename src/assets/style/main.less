@@ -1009,10 +1009,16 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .el-table td {
     padding: 0
   }
-  .el-input__inner {
+  .query-table .el-input__inner {
     height: auto;
     border: none;
     line-height: 30px;
+  }
+  .table-btn .el-input__inner {
+    height:27px;
+    .el-input__icon {
+      line-height: 27px!important;
+    }
   }
   .el-table .cell {
     padding: 0;
@@ -1649,6 +1655,12 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 .list-icon-add:hover i,.list-icon-add:focus i{
   background: url(../img/icon-addH.png) no-repeat;
+}
+.list-icon-useOffer .other{
+  background: url(../img/offer.png) no-repeat;
+}
+.list-icon-useOffer:hover .other,.list-icon-add:focus .other{
+  background: url(../img/offer_xz.png) no-repeat;
 }
 .list-icon-sync i{
   background: url(../img/icon-sync.png) no-repeat;

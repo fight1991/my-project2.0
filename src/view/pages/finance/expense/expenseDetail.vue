@@ -27,6 +27,15 @@
       <div class="title">应收费用</div>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add"><i></i>新增</el-button>
+        <!-- 使用报价选项 -->
+        <el-dropdown trigger="click" @command="getOfferItems" placement="bottom-start">
+          <el-button size="mini" class="list-btns list-icon-useOffer">
+            <i class="other"></i>使用报价<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="item in billReceivableBodyVO.billQuotationRespVOs" :command="item" :key="item.quotationId">{{item.itemName+'-'+item.entrustCompanyName}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-row>
       <div class='query-table'>
         <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
@@ -57,13 +66,13 @@
               <div class="table-select" v-if="optionsType === 'edit'">
                 <el-select  v-model="scope.row.unit" placeholder="计量单位"
                   filterable remote default-first-option
-                  @focus="tipsFill('unitList','SAAS_UNIT')"
+                  @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
                   :remote-method="checkParamsList"
                   style="width:100%">
                   <el-option
                     v-for="item in currList"
                     :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
+                    :label="item.nameField"
                     :value="item.codeField">
                   </el-option>
                 </el-select>
@@ -162,8 +171,8 @@ export default {
     return {
       optionsType: 'look', // 记录当前操作类型
       billPayableBodyVO: { // 应付
-        billPayableBodyVOList: [], // 下拉列表
-        billQuotationRespVOs: [] // 表格数据
+        billQuotationRespVOs: [],
+        billPayableBodyVOList: [] // 下拉列表
       },
       billReceivableBodyVO: { // 应收
         billQuotationRespVOs: [], // 下拉列表
@@ -178,7 +187,7 @@ export default {
       tableNameList: {
         tableNames: [
           'SAAS_CURR', // 币制
-          'SAAS_UNIT' // 计量单位
+          'SAAS_SEA_UNIT' // 计量单位
         ]
       }
     }
@@ -273,10 +282,29 @@ export default {
     },
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {
-      console.log(columnIndex)
       if (columnIndex === 7 || columnIndex >= 9) {
         return 'cell-disable'
       }
+    },
+    // 获取基础报价
+    getOfferItems (value) {
+      console.log(value)
+      // 查询报价应收/应付
+      // this.getQuotationDetail()
+    },
+    getQuotationDetail (feeFlag, iEFlag, quotationId) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance/bill/getQuotationDetail',
+        data: {
+          feeFlag, // 应收true，应付false
+          iEFlag,
+          quotationId
+        },
+        router: this.$router,
+        success: (res) => {
+          console.log(res)
+        }
+      })
     }
   }
 }

@@ -148,7 +148,7 @@
             {{scope.row.cFlag ? '账单已生成':'账单未生成' }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" min-width="120" align="center">
+        <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button title="编辑" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.expenseBillId)"><i></i></el-button>

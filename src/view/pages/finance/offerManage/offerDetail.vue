@@ -309,7 +309,7 @@ export default {
             if (v['quotationFeeVO'][key] && v['quotationFeeVO'][key].length > 0) {
               let tempArr = []
               v['quotationFeeVO'][key].split(';').forEach(item => {
-                let temp = item.split('-')[item.split('-').length - 1]
+                let temp = item.split('~')[item.split('~').length - 1]
                 tempArr.push(temp)
               })
               v['quotationFeeVO'][key] = tempArr.join(';')

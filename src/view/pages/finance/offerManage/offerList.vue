@@ -140,7 +140,7 @@ export default {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区
           'SAAS_CURR', // 币制
-          'SAAS_UNIT' // 计量单位
+          'SAAS_SEA_UNIT' // 计量单位
         ]
       },
       selectObj: {
@@ -418,9 +418,7 @@ export default {
   padding: 20px;
   margin-top: 20px;
 }
-.query-btn {
-  padding-top: 10px;
-}
+
 .table-btn {
   padding-bottom: 15px;
 }

@@ -436,9 +436,6 @@ export default {
   padding: 20px;
   margin-top: 20px;
 }
-.query-btn {
-  padding: 10px 0;
-}
 .table-btn {
   padding-bottom: 15px;
 }

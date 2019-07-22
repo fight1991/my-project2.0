@@ -122,7 +122,7 @@
                           v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.nameField"
-                          :value="item.codeField + '-' + item.nameField">
+                          :value="item.codeField + '~' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -140,7 +140,7 @@
                           v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.nameField"
-                          :value="item.codeField + '-' + item.nameField">
+                          :value="item.codeField + '~' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -196,13 +196,13 @@
                       <el-select  v-model="item2.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         :disabled="!item2.feeOptionName"
-                        @focus="tipsFill('unitList','SAAS_UNIT')"
+                        @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
                           v-for="item in unitList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField">
                         </el-option>
                       </el-select>
@@ -267,13 +267,13 @@
                       <el-select  v-model="item3.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         :disabled="!item3.feeOptionName"
-                        @focus="tipsFill('unitList','SAAS_UNIT')"
+                        @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
                           v-for="item in unitList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField">
                         </el-option>
                       </el-select>
@@ -352,7 +352,7 @@
                           v-for="item in departureList"
                           :key="item.codeField"
                           :label="item.nameField"
-                          :value="item.codeField + '-' + item.nameField">
+                          :value="item.codeField + '~' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -370,7 +370,7 @@
                           v-for="item in destinationList"
                           :key="item.codeField"
                           :label="item.nameField"
-                          :value="item.codeField + '-' + item.nameField">
+                          :value="item.codeField + '~' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -426,13 +426,13 @@
                       <el-select  v-model="item2.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         :disabled="!item2.feeOptionName"
-                        @focus="tipsFill('unitList','SAAS_UNIT')"
+                        @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
                           v-for="item in unitList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField">
                         </el-option>
                       </el-select>
@@ -496,13 +496,13 @@
                       <el-select  v-model="item3.unit" placeholder="计量单位"
                         filterable clearable remote default-first-option
                         :disabled="!item3.feeOptionName"
-                        @focus="tipsFill('unitList','SAAS_UNIT')"
+                        @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
                         :remote-method="checkParamsList"
                         style="width:100%">
                         <el-option
                           v-for="item in unitList"
                           :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
+                          :label="item.nameField"
                           :value="item.codeField">
                         </el-option>
                       </el-select>
@@ -695,7 +695,7 @@ export default {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区
           'SAAS_CURR', // 币制
-          'SAAS_UNIT', // 计量单位
+          'SAAS_SEA_UNIT', // 计量单位
           'SAAS_TJ_PORT'
         ]
       },
@@ -731,7 +731,7 @@ export default {
         departureNames: {downList: 'departureList', params: 'SAAS_TJ_PORT'},
         destinationNames: {downList: 'destinationList', params: 'SAAS_TJ_PORT'},
         curr: {downList: 'currList', params: 'SAAS_CURR'},
-        unit: {downList: 'unitList', params: 'SAAS_UNIT'}
+        unit: {downList: 'unitList', params: 'SAAS_SEA_UNIT'}
       },
       pickerOptions: {
         shortcuts: [{
@@ -1162,7 +1162,7 @@ export default {
     }
     // Add_more
     .addMore {
-      padding: 7px 10px 7px 28px;
+      padding: 6px 10px 6px 28px;
       background: url("../../../../assets/img/Add_more.png") no-repeat;
       background-position: 10px 7px;
       background-color: #F3F6F6;
@@ -1176,7 +1176,7 @@ export default {
       display: inline-block;
       color: #fff;
       border-radius: 4px;
-      padding: 5px 18px;
+      padding: 6px 18px;
       background-color: #2780CA;
       margin-bottom: 18px;
       cursor: pointer;
