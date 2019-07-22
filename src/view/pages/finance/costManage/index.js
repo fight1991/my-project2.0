@@ -3,7 +3,7 @@ const MENU = [
     path: '/finance/cost/list',
     name: 'cost-list',
     icon: 'icons-finance-accountManage',
-    permissions: 'CCBA21003010000',
+    permissions: 'CCBA21601000000',
     hidden: false,
     meta: {
       component: resolve => require(['./costList.vue'], resolve),

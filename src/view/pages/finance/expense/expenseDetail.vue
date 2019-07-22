@@ -26,9 +26,9 @@
     <div class="receive area">
       <div class="title">应收费用</div>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add"><i></i>新增</el-button>
+        <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(true)"><i></i>新增</el-button>
         <!-- 使用报价选项 -->
-        <el-dropdown trigger="click" @command="getOfferItems" placement="bottom-start">
+        <el-dropdown trigger="click" @command="getOfferReceive" placement="bottom-start">
           <el-button size="mini" class="list-btns list-icon-useOffer">
             <i class="other"></i>使用报价<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -41,7 +41,7 @@
         <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
           <el-table-column prop="serialNo" label="序号" width="50" align="center">
           </el-table-column>
-          <el-table-column prop="feeOptionName" label="费用名称">
+          <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
                 <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;">
@@ -70,7 +70,7 @@
                   :remote-method="checkParamsList"
                   style="width:100%">
                   <el-option
-                    v-for="item in currList"
+                    v-for="item in unitList"
                     :key="item.codeField"
                     :label="item.nameField"
                     :value="item.codeField">
@@ -110,7 +110,7 @@
           <el-table-column prop="feeRate" width="100" label="税率" align="center">
             <template slot-scope="scope">
               <div class="table-select" v-if="optionsType === 'edit'">
-                <el-select size="mini" placeholder="税率" style="width:100%;">
+                <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.feeRate">
                   <el-option key="0" :label="'0%'" :value="0"></el-option>
                   <el-option key="6" :label="'6%'" :value="6"></el-option>
                   <el-option key="11" :label="'11%'" :value="11"></el-option>
@@ -144,9 +144,16 @@
               <div class="cell-div">{{scope.row.itemName || '-'}}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="createUserId" width="80" label="操作人" align="center">
+          <el-table-column prop="createUserName" width="80" label="操作人" align="center">
             <template slot-scope="scope">
-              <div class="cell-div">{{scope.row.createUserId || '-'}}</div>
+              <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
+            <template slot-scope="scope">
+              <div class="sys-td-c">
+                <el-button title="删除" type="text" class="table-icon list-icon-delete"><i></i></el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -161,6 +168,12 @@
     <div class="all area">
       <div class="title">汇总</div>
     </div>
+    <div class="submit">
+      <el-row style="text-align:center">
+        <el-button size="mini" type="primary" @click="submitBtn">提交</el-button>
+        <el-button size="mini"  @click="cancelEdit">取消</el-button>
+      </el-row>
+    </div>
   </section>
 </template>
 <script>
@@ -169,7 +182,10 @@ import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
+      iEFlag: '',
       optionsType: 'look', // 记录当前操作类型
+      payablefeeOptions: {},
+      receivablefeeOptions: {},
       billPayableBodyVO: { // 应付
         billQuotationRespVOs: [],
         billPayableBodyVOList: [] // 下拉列表
@@ -189,13 +205,36 @@ export default {
           'SAAS_CURR', // 币制
           'SAAS_SEA_UNIT' // 计量单位
         ]
+      },
+      selectObj: {
+        obj: '',
+        params: ''
+      },
+      copyData: {
+        billOptionPayVOs: [],
+        billOptionReceiveVOs: []
+      },
+      template: {
+        serialNo: '',
+        feeOptionName: '',
+        feePrice: '',
+        unit: '',
+        curr: '',
+        num: '',
+        feeRate: '',
+        taxPrice: '',
+        settleCompanyName: '',
+        billType: '1',
+        itemName: '',
+        createUserName: ''
       }
     }
   },
   created () {
-    let {type, expenseBillId} = this.$route.query
+    let {type, iEFlag, expenseBillId} = this.$route.query
     expenseBillId && this.getBillDetail(expenseBillId)
     this.optionsType = type
+    this.iEFlag = iEFlag
     this.getOptionList()
     this.getCommonParam()
   },
@@ -217,6 +256,9 @@ export default {
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
             this.decDetail = resultMap || {}
             this.summarys = summarys || []
+            // 复制数据
+            this.copyData.billOptionPayVOs = [...billPayableBodyVO.billPayableBodyVOList]
+            this.copyData.billOptionReceiveVOs = [...billReceivableBodyVO.billReceivableBodyVOList]
           }
         }
       })
@@ -282,17 +324,25 @@ export default {
     },
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {
-      if (columnIndex === 7 || columnIndex >= 9) {
+      if (columnIndex === 7 || (columnIndex >= 9 && columnIndex < 12)) {
         return 'cell-disable'
       }
     },
-    // 获取基础报价
-    getOfferItems (value) {
-      console.log(value)
+    // 获取应收基础报价
+    getOfferReceive (item) {
       // 查询报价应收/应付
-      // this.getQuotationDetail()
+      this.receivablefeeOptions = item
+      this.getQuotationDetail(true, this.iEFlag, item.quotationId)
+    },
+    // 获取应付基础报价
+    getOfferPay (item) {
+      // 查询报价应收/应付
+      this.payablefeeOptions = item
+      this.getQuotationDetail(false, this.iEFlag, item.quotationId)
     },
     getQuotationDetail (feeFlag, iEFlag, quotationId) {
+      let fee = ''
+      feeFlag ? fee = 'receivablefeeOptions' : fee = 'payablefeeOptions'
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/bill/getQuotationDetail',
         data: {
@@ -301,10 +351,49 @@ export default {
           quotationId
         },
         router: this.$router,
-        success: (res) => {
-          console.log(res)
+        success: ({result}) => {
+          if (result && result[fee] && result[fee].length > 0) {
+            result[fee].forEach(v => {
+              v.settleCompanyName = this[fee].entrustCompanyName
+              v.billType = '1'
+              v.itemName = this[fee].itemName
+              v.num = 0
+              v.taxPrice = ''
+              v.feeFlag = feeFlag
+            })
+            feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(...result[fee]) : this.billPayableBodyVO.billPayableBodyVOList.push(...result[fee])
+          }
         }
       })
+    },
+    // 新增单条
+    quotationAdd (feeFlag) {
+      this.template.feeFlag = feeFlag
+      feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(this.template) : this.billPayableBodyVO.billPayableBodyVOList.push(this.template)
+    },
+    // 提交编辑
+    submitBtn () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance/bill/edit',
+        data: {
+          expenseBillId: this.$route.query.expenseBillId,
+          billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],
+          billOptionReceiveVOs: [...this.billReceivableBodyVO.billReceivableBodyVOList]
+        },
+        router: this.$router,
+        success: res => {
+          this.$message({
+            type: 'success',
+            message: '编辑成功'
+          })
+          this.getBillDetail(this.$route.query.expenseBillId)
+        }
+      })
+    },
+    // 取消编辑
+    cancelEdit () {
+      this.billReceivableBodyVO.billReceivableBodyVOList = [...this.copyData.billOptionReceiveVOs]
+      this.billPayableBodyVO.billPayableBodyVOList = [...this.copyData.billOptionPayVOs]
     }
   }
 }
@@ -339,5 +428,15 @@ export default {
   .cell-div {
     padding: 5px 12px;
     line-height: 30px;
+  }
+  .cell-div.last-column {
+    position: relative;
+    .del-icon {
+      cursor: pointer;
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+    }
   }
 </style>
