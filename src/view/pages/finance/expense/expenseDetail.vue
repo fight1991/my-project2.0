@@ -4,21 +4,31 @@
     <div class="decDetail area">
       <div class="title">报关单/订单详情</div>
       <div class="content">
-        <el-row class="line">
-          <el-col :span="6">
+        <el-row class="line up">
+          <el-col :span="8">
             <div class="one-row">
               <div class="left">接单编号&nbsp;:</div>
               <div class="right">201965952522256</div>
             </div>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <div class="one-row">
               <div class="left">报关单号&nbsp;:</div>
               <div class="right">201965952522256</div>
             </div>
           </el-col>
-          <el-col :span="6"></el-col>
-          <el-col :span="6"></el-col>
+          <el-col :span="8">
+            <div class="one-row">
+              <div class="left">提单号&nbsp;:</div>
+              <div class="right">201965952522256</div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="down flex-wrap">
+          <div class="block flex" v-for="(value, key) in decDetail" :key="key">
+            <div class="left">{{value.keyName || '-'}}&nbsp;:&nbsp;</div>
+            <div class="right">{{value.keyValue || '-'}}</div>
+          </div>
         </el-row>
       </div>
     </div>
@@ -55,7 +65,7 @@
           </el-table-column>
           <el-table-column prop="feePrice" label="计费单价" align="right">
             <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
+              <div class="table-select align-r" v-if="optionsType === 'edit'">
                 <el-input v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
               </div>
               <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
@@ -63,7 +73,7 @@
           </el-table-column>
           <el-table-column prop="unit" width="120" label="计量单位">
             <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
+              <div class="table-select align-c" v-if="optionsType === 'edit'">
                 <el-select  v-model="scope.row.unit" placeholder="计量单位"
                   filterable remote default-first-option
                   @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
@@ -82,7 +92,7 @@
           </el-table-column>
           <el-table-column prop="curr" width="120" label="币制" align="center">
             <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
+              <div class="table-select align-c" v-if="optionsType === 'edit'">
                 <el-select  v-model="scope.row.curr" placeholder="币制"
                   filterable remote default-first-option
                   @focus="tipsFill('currList','SAAS_CURR')"
@@ -101,7 +111,7 @@
           </el-table-column>
           <el-table-column prop="num" width="100" label="数量" align="center">
             <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
+              <div class="table-select align-r" v-if="optionsType === 'edit'">
                 <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
               </div>
               <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
@@ -109,17 +119,18 @@
           </el-table-column>
           <el-table-column prop="rate" width="100" label="税率" align="center">
             <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
+              <div class="table-select align-c" v-if="optionsType === 'edit'">
                 <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                   <el-option key="0" :label="'0%'" :value="0"></el-option>
                   <el-option key="6" :label="'6%'" :value="6"></el-option>
-                  <el-option key="11" :label="'11%'" :value="11"></el-option>
+                  <el-option key="9" :label="'9%'" :value="9"></el-option>
+                  <el-option key="13" :label="'13%'" :value="13"></el-option>
                 </el-select>
               </div>
               <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="taxPrice" width="80" label="含税总价" align="center">
+          <el-table-column prop="taxPrice" width="80" label="含税总价" align="right">
             <template slot-scope="scope">
               <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
             </template>
@@ -135,7 +146,7 @@
           <el-table-column prop="billType" width="100" label="类型" align="center">
             <template slot-scope="scope">
               <div class="cell-div">
-                {{scope.row.billType === '0' ? '自动登账' : scope.row.billType === '1' ? '手动登账' : '-'}}
+                {{scope.row.billType === 0 ? '自动登账' : scope.row.billType === 1 ? '手动登账' : '-'}}
               </div>
             </template>
           </el-table-column>
@@ -167,6 +178,23 @@
     <!-- 汇总区域 -->
     <div class="all area">
       <div class="title">汇总</div>
+      <el-row class="companyItems" v-for="(item, index) in summarysSum" :key="'index' + index">
+        <el-col class="company" :span="8">{{item.companyName || '-'}}</el-col>
+        <el-col :span="item.pay.length>0?8:16" class="pull-right" v-if="item.receive.length>0">
+          <div class="right">
+            <!-- <span>应收&nbsp;:&nbsp;</span> -->
+            <span class="receive" v-for="(item2, index2) in item.receive" :key="'item'+index2">{{(item2.currName || '-') +' '+ item2.sum}}</span>
+          </div>
+          <div class="left">应收&nbsp;:&nbsp;</div>
+        </el-col>
+        <el-col :span="item.receive.length>0?8:16" class="pull-right" v-if="item.pay.length>0">
+          <div class="right">
+            <!-- <span>应付&nbsp;:&nbsp;</span> -->
+            <span class="pay" v-for="(item3, index3) in item.pay" :key="'evy'+index3">{{(item3.currName || '-') +' '+ item3.sum}}</span>
+          </div>
+          <div class="left">应付&nbsp;:&nbsp;</div>
+        </el-col>
+      </el-row>
     </div>
     <div class="submit">
       <el-row style="text-align:center">
@@ -224,7 +252,7 @@ export default {
         rate: 0,
         taxPrice: '',
         settleCompanyName: '',
-        billType: '1',
+        billType: 1,
         itemName: '',
         createUserName: ''
       }
@@ -237,6 +265,33 @@ export default {
     this.iEFlag = iEFlag
     this.getOptionList()
     this.getCommonParam()
+    console.log(this.summarysSum)
+  },
+  computed: {
+    summarysSum: function () {
+      // 根据企业分类汇总
+      let arrAll = [...this.billPayableBodyVO.billPayableBodyVOList, ...this.billReceivableBodyVO.billReceivableBodyVOList]
+      let allCompany = arrAll.map(v => v.settleCompanyName)
+      let uniqueCompany = [...new Set(allCompany)] // 企业去重
+      let newArr = []
+      // 根据公司名称分类
+      uniqueCompany.forEach(v => {
+        let temp1 = arrAll.filter(item => (item.settleCompanyName === v && item.feeFlag)) // 应收
+        let temp2 = arrAll.filter(item => (item.settleCompanyName === v && !item.feeFlag)) // 应付
+        // 根据币制分类汇总
+        let currReceiveAll = [...new Set(temp1.map(v => v.curr))]
+        let currPayAll = [...new Set(temp2.map(v => v.curr))]
+        let tempArr1 = this.getCategory(currReceiveAll, temp1)
+        let tempArr2 = this.getCategory(currPayAll, temp2)
+        let obj = {
+          companyName: v,
+          receive: tempArr1,
+          pay: tempArr2
+        }
+        newArr.push(obj)
+      })
+      return newArr
+    }
   },
   methods: {
     // 获取台账明细
@@ -354,7 +409,7 @@ export default {
           if (result && result[fee] && result[fee].length > 0) {
             result[fee].forEach(v => {
               v.settleCompanyName = this[fee].entrustCompanyName
-              v.billType = '1'
+              v.billType = 1
               v.itemName = this[fee].itemName
               v.num = 0
               v.taxPrice = ''
@@ -367,8 +422,9 @@ export default {
     },
     // 新增单条
     quotationAdd (feeFlag) {
-      this.template.feeFlag = feeFlag
-      feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(this.template) : this.billPayableBodyVO.billPayableBodyVOList.push(this.template)
+      let obj = {...this.template}
+      obj.feeFlag = feeFlag
+      feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(obj) : this.billPayableBodyVO.billPayableBodyVOList.push(obj)
     },
     // 提交编辑
     submitBtn () {
@@ -395,7 +451,7 @@ export default {
       this.billPayableBodyVO.billPayableBodyVOList = [...this.copyData.billOptionPayVOs]
     },
     computeTaxPrice (row) {
-      row.taxPrice = row.num * row.feePrice * (1 + (+row.rate))
+      row.taxPrice = Math.round(row.num * row.feePrice * (1 + (+row.rate)))
     },
     delItems (row, feeFlag) {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
@@ -406,12 +462,106 @@ export default {
       if (row.feeOptionName) {
         let temp = this.optionsList.find(item => item.feeOptionName === row.feeOptionName)
         row.rate = temp.feeRate
+        // 新增一条时,添加feePid
+        !row.feePid && (row.feePid = temp.feePid)
       }
+    },
+    // 数组求和
+    getSum (arr) {
+      if (arr.length === 0) {
+        return '0.00'
+      }
+      if (arr.length === 1) {
+        return (+arr[0]).toFixed(2)
+      }
+      return arr.reduce((prev, curr, idx, arr) => {
+        return (+prev + (+curr)).toFixed(2)
+      })
+    },
+    // 以货币分类汇总
+    getCategory (uniqueArr, allArr) {
+      let tempArr1 = []
+      uniqueArr.forEach(i => {
+        let temp3 = allArr.filter(q => q.curr === i && typeof q.taxPrice === 'number')
+        let obj1 = {
+          currName: i,
+          sum: this.getSum(temp3.map(s => s.taxPrice))
+        }
+        tempArr1.push(obj1)
+      })
+      return tempArr1
     }
   }
 }
 </script>
 <style lang="less" scoped>
+  .content {
+    color: #4c4c4c;
+    .down {
+      padding-top: 16px;
+    }
+  }
+  .flex {
+    display: flex;
+  }
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .block {
+    width: 25%;
+    .left {
+      width: 85px;
+    }
+  }
+  .companyItems {
+    padding: 5px 18px;
+    background-color: #F4F8FC;
+    margin-bottom: 8px;
+    .pull-right {
+      text-align: right;
+      // display: flex;
+      justify-content: flex-end;
+      .right {
+        float: right;
+        // flex:1;
+        word-break:break-all;
+        max-width: calc(~"(100% - 60px)")
+      }
+      .left {
+        float: right;
+        width: 60px;
+        line-height: 38px;
+      }
+    }
+    .el-col {
+      height: 100%;
+      line-height: 36px;
+    }
+    .company {
+      color: #4c4c4c;
+      font-weight: bold;
+    }
+    .receive,.pay {
+      font-weight: bold;
+      font-size: 20px;
+      &:after {
+        content:'+';
+      }
+    }
+    .receive {
+      color: #53B246;
+      &:last-child:after{
+        content:'';
+      }
+    }
+    .pay {
+      color:#FE4400;
+      &:last-child:after{
+        content:'';
+      }
+    }
+  }
   .area {
     background-color: #fff;
     margin-bottom: 20px;
@@ -422,6 +572,7 @@ export default {
   }
   .line {
     padding-bottom: 18px;
+    border-bottom: 1px solid #eee;
   }
   .one-row {
     width: 100%;

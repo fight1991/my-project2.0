@@ -170,7 +170,8 @@
                       <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled || editOp || !item2.feeOptionName"  v-model="item2.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
-                        <el-option key="11" :label="'11%'" :value="11"></el-option>
+                        <el-option key="9" :label="'9%'" :value="9"></el-option>
+                        <el-option key="13" :label="'13%'" :value="13"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -241,7 +242,8 @@
                       <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled || editOp || item3.feeOptionName" v-model="item3.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
-                        <el-option key="11" :label="'11%'" :value="11"></el-option>
+                        <el-option key="9" :label="'9%'" :value="9"></el-option>
+                        <el-option key="13" :label="'13%'" :value="13"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -400,7 +402,8 @@
                       <el-select size="mini" placeholder="税率" clearable :disabled="item2.rateIsDisabled || editOp || !item2.feeOptionName"  v-model="item2.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
-                        <el-option key="11" :label="'11%'" :value="11"></el-option>
+                        <el-option key="9" :label="'9%'" :value="9"></el-option>
+                        <el-option key="13" :label="'13%'" :value="13"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -470,7 +473,8 @@
                       <el-select size="mini" placeholder="税率" clearable :disabled="item3.rateIsDisabled || editOp || !item3.feeOptionName" v-model="item3.feeRate" style="width:100%;">
                         <el-option key="0" :label="'0%'" :value="0"></el-option>
                         <el-option key="6" :label="'6%'" :value="6"></el-option>
-                        <el-option key="11" :label="'11%'" :value="11"></el-option>
+                        <el-option key="9" :label="'9%'" :value="9"></el-option>
+                        <el-option key="13" :label="'13%'" :value="13"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>

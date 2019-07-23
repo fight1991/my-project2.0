@@ -1000,8 +1000,21 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       color: #A5A5A5!important;
     }
   }
+  .el-table th {
+    padding: 7px 0;
+  }
   .table-select {
     padding: 5px 0;
+    &.align-r {
+      .el-input__inner {
+        text-align: right
+      }
+    }
+    &.align-c {
+      .el-input__inner {
+        text-align: center
+      }
+    }
   }
   // .el-table--enable-row-hover .el-table__body tr:hover>td {
   //   background-color: #fff;
