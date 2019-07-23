@@ -48,132 +48,277 @@
         </el-dropdown>
       </el-row>
       <div class='query-table'>
-        <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
-          <el-table-column type="index" label="序号" width="50" align="center">
-          </el-table-column>
-          <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
-            <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
-                <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
-                  <el-option v-for="item in optionsList"
-                    :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.feeOptionName || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="feePrice" label="计费单价" align="right">
-            <template slot-scope="scope">
-              <div class="table-select align-r" v-if="optionsType === 'edit'">
-                <el-input v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="unit" width="120" label="计量单位">
-            <template slot-scope="scope">
-              <div class="table-select align-c" v-if="optionsType === 'edit'">
-                <el-select  v-model="scope.row.unit" placeholder="计量单位"
-                  filterable remote default-first-option
-                  @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
-                  :remote-method="checkParamsList"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in unitList"
-                    :key="item.codeField"
-                    :label="item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="curr" width="120" label="币制" align="center">
-            <template slot-scope="scope">
-              <div class="table-select align-c" v-if="optionsType === 'edit'">
-                <el-select  v-model="scope.row.curr" placeholder="币制"
-                  filterable remote default-first-option
-                  @focus="tipsFill('currList','SAAS_CURR')"
-                  :remote-method="checkParamsList"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in currList"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.curr || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="num" width="100" label="数量" align="center">
-            <template slot-scope="scope">
-              <div class="table-select align-r" v-if="optionsType === 'edit'">
-                <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="rate" width="100" label="税率" align="center">
-            <template slot-scope="scope">
-              <div class="table-select align-c" v-if="optionsType === 'edit'">
-                <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
-                  <el-option key="0" :label="'0%'" :value="0"></el-option>
-                  <el-option key="6" :label="'6%'" :value="6"></el-option>
-                  <el-option key="9" :label="'9%'" :value="9"></el-option>
-                  <el-option key="13" :label="'13%'" :value="13"></el-option>
-                </el-select>
-              </div>
-              <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="taxPrice" width="80" label="含税总价" align="right">
-            <template slot-scope="scope">
-              <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="settleCompanyName" min-width="120" label="结算企业" align="center">
-            <template slot-scope="scope">
-              <div class="table-select" v-if="optionsType === 'edit'">
-                <el-input v-model="scope.row.settleCompanyName"></el-input>
-              </div>
-              <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="billType" width="100" label="类型" align="center">
-            <template slot-scope="scope">
-              <div class="cell-div">
-                {{scope.row.billType === 0 ? '自动登账' : scope.row.billType === 1 ? '手动登账' : '-'}}
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="itemName" min-width="120" label="使用报价" align="center">
-            <template slot-scope="scope">
-              <div class="cell-div">{{scope.row.itemName || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="createUserName" width="80" label="操作人" align="center">
-            <template slot-scope="scope">
-              <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
-            <template slot-scope="scope">
-              <div class="sys-td-c">
-                <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
+          <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+            <el-table-column type="index" label="序号" width="50" align="center">
+            </el-table-column>
+            <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
+              <template slot-scope="scope">
+                <div class="table-select" v-if="optionsType === 'edit'">
+                  <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
+                    <el-option v-for="item in optionsList"
+                      :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.feeOptionName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="feePrice" label="计费单价" align="right" min-width="140">
+              <template slot-scope="scope">
+                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                  <el-form-item
+                    :prop="'billReceivableBodyVOList.'+ scope.$index + '.feePrice'"
+                    :rules="{pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,message:'小数点支持前9位,后3位',trigger:'blur'}">
+                    <el-input clearable v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="unit" width="100" label="计量单位" align="center">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select  v-model="scope.row.unit" placeholder="计量单位"
+                    filterable remote default-first-option
+                    @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in unitList"
+                      :key="item.codeField"
+                      :label="item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="curr" width="80" label="币制" align="center">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select  v-model="scope.row.curr" placeholder="币制"
+                    filterable remote default-first-option
+                    @focus="tipsFill('currList','SAAS_CURR')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in currList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.curr || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="num" width="100" label="数量" align="right">
+              <template slot-scope="scope">
+                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                  <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="rate" width="80" label="税率" align="right">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
+                    <el-option key="0" :label="'0%'" :value="0"></el-option>
+                    <el-option key="6" :label="'6%'" :value="6"></el-option>
+                    <el-option key="9" :label="'9%'" :value="9"></el-option>
+                    <el-option key="13" :label="'13%'" :value="13"></el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
+              <template slot-scope="scope">
+                <div class="table-select" v-if="optionsType === 'edit'">
+                  <el-input v-model="scope.row.settleCompanyName"></el-input>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="billType" width="100" label="类型" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">
+                  {{scope.row.billType === 0 ? '自动登账' : scope.row.billType === 1 ? '手动登账' : '-'}}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="itemName" min-width="120" label="使用报价" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.itemName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="createUserName" width="80" label="操作人" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
+              <template slot-scope="scope">
+                <div class="sys-td-c">
+                  <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form>
       </div>
     </div>
     <!-- 应付费用区域 -->
     <div class="pay area">
       <div class="title">应付费用</div>
-      <el-table class='sys-table-table' align="left" :data="billPayableBodyVO.billPayableBodyVOList"></el-table>
+      <el-row class="table-btn">
+        <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(false)"><i></i>新增</el-button>
+        <!-- 使用报价选项 -->
+        <el-dropdown trigger="click" @command="getOfferPay" placement="bottom-start">
+          <el-button size="mini" class="list-btns list-icon-useOffer">
+            <i class="other"></i>使用报价<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="item in billPayableBodyVO.billQuotationRespVOs" :command="item" :key="item.quotationId">{{item.itemName+'-'+item.entrustCompanyName}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-row>
+      <div class='query-table'>
+        <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
+          <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+            <el-table-column type="index" label="序号" width="50" align="center">
+            </el-table-column>
+            <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
+              <template slot-scope="scope">
+                <div class="table-select" v-if="optionsType === 'edit'">
+                  <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
+                    <el-option v-for="item in optionsList"
+                      :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.feeOptionName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="feePrice" label="计费单价" align="right" min-width="140">
+              <template slot-scope="scope">
+                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                  <el-form-item
+                    :prop="'billPayableBodyVOList.'+ scope.$index + '.feePrice'"
+                    :rules="{pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,message:'小数点支持前9位,后3位',trigger:'blur'}">
+                    <el-input clearable v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="unit" width="100" label="计量单位" align="center">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select  v-model="scope.row.unit" placeholder="计量单位"
+                    filterable remote default-first-option
+                    @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in unitList"
+                      :key="item.codeField"
+                      :label="item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="curr" width="80" label="币制" align="center">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select  v-model="scope.row.curr" placeholder="币制"
+                    filterable remote default-first-option
+                    @focus="tipsFill('currList','SAAS_CURR')"
+                    :remote-method="checkParamsList"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in currList"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.curr || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="num" width="100" label="数量" align="right">
+              <template slot-scope="scope">
+                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                  <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="rate" width="80" label="税率" align="right">
+              <template slot-scope="scope">
+                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                  <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
+                    <el-option key="0" :label="'0%'" :value="0"></el-option>
+                    <el-option key="6" :label="'6%'" :value="6"></el-option>
+                    <el-option key="9" :label="'9%'" :value="9"></el-option>
+                    <el-option key="13" :label="'13%'" :value="13"></el-option>
+                  </el-select>
+                </div>
+                <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
+              <template slot-scope="scope">
+                <div class="table-select" v-if="optionsType === 'edit'">
+                  <el-input v-model="scope.row.settleCompanyName"></el-input>
+                </div>
+                <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="billType" width="100" label="类型" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">
+                  {{scope.row.billType === 0 ? '自动登账' : scope.row.billType === 1 ? '手动登账' : '-'}}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="itemName" min-width="120" label="使用报价" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.itemName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="createUserName" width="80" label="操作人" align="center">
+              <template slot-scope="scope">
+                <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
+              <template slot-scope="scope">
+                <div class="sys-td-c">
+                  <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form>
+      </div>
     </div>
     <!-- 汇总区域 -->
     <div class="all area">
@@ -196,7 +341,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="submit">
+    <div class="submit" v-if="optionsType === 'edit'">
       <el-row style="text-align:center">
         <el-button size="mini" type="primary" @click="submitBtn">提交</el-button>
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
@@ -265,7 +410,11 @@ export default {
     this.iEFlag = iEFlag
     this.getOptionList()
     this.getCommonParam()
-    console.log(this.summarysSum)
+  },
+  watch: {
+    '$route.query.type': function () {
+      this.optionsType = this.$route.query.type
+    }
   },
   computed: {
     summarysSum: function () {
@@ -428,6 +577,28 @@ export default {
     },
     // 提交编辑
     submitBtn () {
+      // 表单验证
+      let pass1 = false
+      let pass2 = false
+      this.$refs['receiveTableForm'].validate(valid => {
+        if (!valid) {
+          this.$message({
+            type: 'error',
+            message: '应收费用单价格式输入有误,支持小数点后3位,前9位'
+          })
+          pass1 = true
+        }
+      })
+      this.$refs['payTableForm'].validate(valid => {
+        if (!valid) {
+          this.$message({
+            type: 'error',
+            message: '应付费用单价格式输入有误,支持小数点后3位,前9位'
+          })
+          pass2 = true
+        }
+      })
+      if (pass1 || pass2) return
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/bill/edit',
         data: {

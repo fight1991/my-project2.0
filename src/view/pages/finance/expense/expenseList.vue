@@ -291,7 +291,8 @@ export default {
         query: {
           type,
           iEFlag,
-          expenseBillId: id
+          expenseBillId: id,
+          setTitle: type === 'edit' ? '台账编辑' : '台账详情'
         }
       })
     }

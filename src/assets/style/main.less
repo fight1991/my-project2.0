@@ -1005,6 +1005,12 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .table-select {
     padding: 5px 0;
+    .el-form-item {
+      margin: 0;
+    }
+    .el-form-item__content {
+      line-height: 30px;
+    }
     &.align-r {
       .el-input__inner {
         text-align: right
@@ -1026,6 +1032,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     height: auto;
     border: none;
     line-height: 30px;
+  }
+  .query-table .el-form-item.is-error .el-input__inner {
+    border:1px solid #f56c6c;
   }
   .table-btn .el-input__inner {
     height:27px;
