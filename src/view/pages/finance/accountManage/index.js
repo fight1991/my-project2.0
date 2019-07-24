@@ -14,7 +14,7 @@ const MENU = [
     path: '/finance/accountManage/detail',
     name: 'accountManage-detail',
     permissions: 'CCBA21003010000',
-    hidden: false,
+    hidden: true,
     meta: {
       component: resolve => require(['./accountDetail.vue'], resolve),
       title: '对账单详情'

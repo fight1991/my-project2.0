@@ -31,7 +31,10 @@
           </el-table-column>
           <el-table-column prop="feePrice" label="计费单价" align="right" min-width="140">
           </el-table-column>
-          <el-table-column prop="unit" width="80" label="计量单位" align="center">
+          <el-table-column prop="unitValue" width="80" label="计量单位" align="center">
+            <template slot-scope="scope">
+              {{scope.row.unitValue || '-'}}
+            </template>
           </el-table-column>
           <el-table-column prop="curr" width="80" label="币制" align="center">
           </el-table-column>
@@ -52,7 +55,7 @@
               {{scope.row.billType === 1 ? '手动登账' : '自动登账'}}
             </template>
           </el-table-column>
-          <el-table-column prop="itemName" min-width="120" label="使用报价" align="center">
+          <el-table-column prop="itemName" min-width="120" label="使用报价" align="left">
             <template slot-scope="scope">
               {{scope.row.itemName || '-'}}
             </template>
@@ -69,31 +72,31 @@
         <div class="one-row all">
           <div class="left">含税总金额&nbsp;:</div>
           <div class="right" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price}}</span></div>
-          <div class="right align-l" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
+          <div class="right" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
         </div>
         <div class="one-row all">
           <div class="left">已平账金额&nbsp;:</div>
           <div class="right" v-if="tableData.flatVOs.length>0"><span class="money" v-for="(item3, index3) in tableData.flatVOs" :key="'item_3'+index3">{{(item3.curr || '-') +' '+ item3.price}}</span></div>
-          <div class="right align-l" v-if="tableData.flatVOs.length===0">{{'-'}}</div>
+          <div class="right" v-if="tableData.flatVOs.length===0">{{'-'}}</div>
         </div>
         <div class="one-row all">
           <div class="left">已开票金额&nbsp;:</div>
           <div class="right" v-if="tableData.flatVOs.length>0"><span class="money" v-for="(item4, index4) in tableData.invoiceVos" :key="'item_4'+index4">{{(item4.curr || '-') +' '+ item4.price}}</span></div>
-          <div class="right align-l" v-if="tableData.invoiceVos.length===0">{{'-'}}</div>
+          <div class="right" v-if="tableData.invoiceVos.length===0">{{'-'}}</div>
         </div>
       </div>
       <div class="check" v-else>
-        <div class="one-row all">
+        <div class="one-row check">
           <div class="left">含税总金额&nbsp;:</div>
-          <div class="right" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price}}</span></div>
-          <div class="right align-l" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
+          <div class="taxPrice" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price}}</span></div>
+          <div class="taxPrice" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
         </div>
       </div>
     </div>
-    <div class="submit" v-if="optionsType === 'edit'">
+    <div class="submit" v-if="type === 'check'">
       <el-row style="text-align:center">
-        <el-button size="mini" type="primary" @click="accountCheck('rejects')">审核驳回</el-button>
-        <el-button size="mini"  @click="accountCheck('verifys')">审核通过</el-button>
+        <el-button size="mini"  @click="accountCheck('rejects')">审核驳回</el-button>
+        <el-button size="mini" type="primary" class="longButton"  @click="accountCheck('verifys')">审核通过</el-button>
       </el-row>
     </div>
   </section>
@@ -168,13 +171,24 @@ export default {
   .one-row {
     width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     color: #4c4c4c;
+    &.check {
+      justify-content: flex-end;
+    }
     .left {
       width: 85px;
     }
     .right {
       flex: 1;
+    }
+    .taxPrice {
+      max-width: calc(~"(100% - 85px)");
+      span {
+        color: #FF4300;
+        font-weight: bold;
+        font-size: 16px;
+      }
     }
   }
   .one-row.all {
