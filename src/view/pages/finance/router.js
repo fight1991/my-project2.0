@@ -1,6 +1,7 @@
 import offer from './offerManage/index'
 import expense from './expense/index'
 import cost from './costManage/index'
+import account from './accountManage/index'
 const MENU = [
   {
     path: '/finance/index',
@@ -14,6 +15,7 @@ const MENU = [
   },
   ...offer.MENU,
   ...expense.MENU,
-  ...cost.MENU
+  ...cost.MENU,
+  ...account.MENU
 ]
 export default {MENU}
