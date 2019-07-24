@@ -9,16 +9,16 @@ const MENU = [
       component: resolve => require(['./accountList.vue'], resolve),
       title: '账单管理'
     }
+  },
+  {
+    path: '/finance/accountManage/detail',
+    name: 'accountManage-detail',
+    permissions: 'CCBA21003010000',
+    hidden: false,
+    meta: {
+      component: resolve => require(['./accountDetail.vue'], resolve),
+      title: '对账单详情'
+    }
   }
-  // {
-  //   path: '/finance/expense/detail',
-  //   name: 'expense-detail',
-  //   permissions: 'CCBA21003010000',
-  //   hidden: false,
-  //   meta: {
-  //     component: resolve => require(['./offerDetail.vue'], resolve),
-  //     title: '台账详情'
-  //   }
-  // }
 ]
 export default {MENU}

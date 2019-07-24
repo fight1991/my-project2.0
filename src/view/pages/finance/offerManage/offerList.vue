@@ -270,8 +270,6 @@ export default {
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
-          // this.impexpPortList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
-          // this.dclPlcCusList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
         }
       })
     },

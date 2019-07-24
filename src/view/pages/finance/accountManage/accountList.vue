@@ -1,207 +1,213 @@
 <template>
   <section class='sys-main costList'>
     <el-row class='query-condition'>
-      <el-form :label-width="labelFormWidth.four"  :model="QueryForm" size="mini" label-position="right">
+      <el-form :label-width="labelFormWidth.six"  :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="费用名称">
-              <el-input v-model="QueryForm.feeOptionName" size="mini" clearable :maxlength="20"></el-input>
+            <el-form-item label="账单企业">
+              <el-autocomplete
+                class="inline-input" :maxlength="30" clearable
+                v-model="QueryForm.settleCompanyName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="false"
+                placeholder="请选择">
+              </el-autocomplete>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="费用编号">
-              <el-input size="mini" clearable v-model="QueryForm.feeOptionCode" :maxlength="20"></el-input>
+            <el-form-item label="收付类型">
+              <el-select v-model="QueryForm.feeFlag" size="mini" clearable  style="width:100%;">
+                <el-option key="0" :label="'应收'" :value="true"></el-option>
+                <el-option key="1" :label="'应付'" :value="false"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="会计科目">
-              <el-input size="mini" clearable v-model="QueryForm.feeSubjectName" :maxlength="10"></el-input>
+            <el-form-item label="币制">
+              <el-select  v-model="QueryForm.curr" placeholder="币制"
+                filterable clearable remote default-first-option
+                @focus="tipsFill('currList','SAAS_CURR')"
+                :remote-method="checkParamsList"
+                style="width:100%">
+                <el-option
+                  v-for="item in currList"
+                  :key="item.codeField"
+                  :label="item.codeField + '-' + item.nameField"
+                  :value="item.codeField">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="税率">
-              <el-select v-model="QueryForm.feeRate" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'0%'" :value="0"></el-option>
-                <el-option key="6" :label="'6%'" :value="6"></el-option>
-                <el-option key="9" :label="'9%'" :value="9"></el-option>
-                <el-option key="13" :label="'13%'" :value="13"></el-option>
+            <el-form-item label="对账状态">
+              <el-select v-model="QueryForm.reconStatus" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
+                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
+                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
+                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
+                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="创建人">
-              <el-input size="mini" clearable v-model="QueryForm.createUser" :maxlength="15"></el-input>
+            <el-form-item label="开票状态">
+              <el-select v-model="QueryForm.invoiceStatus" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'未开票'" :value="'0'"></el-option>
+                <el-option key="6" :label="'已开票'" :value="'1'"></el-option>
+                <el-option key="9" :label="'部分开票'" :value="'2'"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="创建日期">
-               <el-date-picker
+          <el-col :span="6">
+            <el-form-item label="平账状态">
+              <el-select v-model="QueryForm.flatStatus" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'未平账'" :value="'0'"></el-option>
+                <el-option key="6" :label="'已平账'" :value="'1'"></el-option>
+                <el-option key="9" :label="'部分平账'" :value="'2'"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="账单生成时间">
+              <el-date-picker
                 style="width:100%"
                 v-model="dates"
-                type="daterange"
+                type="datetime"
                 align="right"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 :picker-options="pickerOptions">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="操作人">
+              <el-input v-model="QueryForm.createUserId" size="mini" clearable :maxlength="15"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getOptionList($store.state.pagination)">查询</el-button>
+        <el-button size="mini" type="primary" @click="getAccountList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add" @click="showDialog('add')"><i></i>新增</el-button>
+        <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
+        <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
+        <!-- 对账单导出选项 -->
+        <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
+          <el-button size="mini" class="list-btns list-icon-exportO">
+            <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="1" :key="1">普通Excel样式导出</el-dropdown-item>
+            <el-dropdown-item :command="2" :key="2">金蝶样式导出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-row>
-      <el-table class='sys-table-table' align="left" :data="costTableList" border highlight-current-row height="530px">
-        <el-table-column label="费用名称" min-width="100" prop="feeOptionName">
+      <el-table class='sys-table-table' align="left"
+        :data="accountTableList" border highlight-current-row height="530px"  ref="accountTable"
+        @select="chooseSelectBox"
+        @row-click="chooseSelectRow"
+        @select-all="chooseSelectBoxAll">
+        <el-table-column
+          type="selection"
+          width="40">
         </el-table-column>
-        <el-table-column label="费用编号" min-width="100" prop="feeOptionCode">
+        <el-table-column label="账单企业" min-width="100" prop="settleCompanyName">
         </el-table-column>
-        <el-table-column label="税率" min-width="80" prop="feeRate" align="right">
+        <el-table-column label="收付类型" min-width="100" prop="feeFlagValue" align="center">
+        </el-table-column>
+        <el-table-column label="含税总额" min-width="100" prop="feeRateAmount" align="right">
           <template slot-scope="scope">
-            {{scope.row.feeRate + '%'}}
+            {{jsonToString(scope.row.feeRateAmount)}}
           </template>
         </el-table-column>
-        <el-table-column label="金蝶系统会计科目" min-width="140" prop="feeSubjectName" align="center">
-          <template slot-scope="scope">
-            {{scope.row.feeSubjectName || '-'}}
-          </template>
+        <el-table-column label="操作人" min-width="80" prop="createUserName" align="center">
         </el-table-column>
-        <el-table-column label="创建人" min-width="80" prop="createUserName" align="center">
+        <el-table-column label="账单生成时间" min-width="140" prop="createDate" align="center">
         </el-table-column>
-        <el-table-column label="创建时间" min-width="160" prop="createTime" align="center">
+        <el-table-column label="对账状态" min-width="100" prop="reconStatusValue" align="center">
+        </el-table-column>
+        <el-table-column label="开票状态" min-width="100" prop="invoiceStatusValue" align="center">
+        </el-table-column>
+        <el-table-column label="平账状态" min-width="100" prop="flatStatusValue" align="center">
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="80" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button type="text"  v-if="scope.row.createUserId === createUser" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
+              <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box :pagination='paginationInit' @change="getOptionList"></page-box>
+          <page-box :pagination='paginationInit' @change="getAccountList"></page-box>
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="新建费用" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="40%">
-      <div  class="dec-div">
-        <el-form size="mini" :label-width="'75px'" ref="addFees" :model="addFees" :rules="addFeesRule">
-          <el-row>
-            <el-col :span="14" :offset="5">
-              <el-form-item label="费用编号" prop="feeOptionCode">
-                <el-input size="mini" :class="{'finaceCode': isDouble}" clearable v-model="addFees.feeOptionCode" :maxlength="30" @blur="checkCode"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="14" :offset="5">
-              <el-form-item label="费用名称" prop="feeOptionName">
-                <el-input size="mini" :disabled="isDisabled" clearable v-model="addFees.feeOptionName" :maxlength="20"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="14" :offset="5">
-              <el-form-item label="税率">
-                <el-select v-model="addFees.feeRate" size="mini" style="width:100%;">
-                  <el-option key="0" :label="'0%'" :value="0"></el-option>
-                  <el-option key="6" :label="'6%'" :value="6"></el-option>
-                  <el-option key="9" :label="'9%'" :value="9"></el-option>
-                  <el-option key="13" :label="'13%'" :value="13"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="14" :offset="5">
-              <el-form-item label="会计科目" prop="feeSubjectName">
-                <el-input size="mini" clearable v-model="addFees.feeSubjectName" :maxlength="10"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <el-row class="query-btn" style="text-align:center">
-          <el-button size="mini" @click="cancelBtn">取消</el-button>
-          <el-button size="mini" type="primary" @mousedown.native="confirmBtn($event)">确认</el-button>
-        </el-row>
-      </div>
-    </el-dialog>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import util from '@/common/util'
+import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
-      dates: [],
+      dates: '',
+      accountBillIds: [],
+      selectionRow: [],
       settleCompanyList: [],
-      addFeeIsShow: false,
-      type: '', // 记录操作类型
       QueryForm: {
         createDate: '', // 生成时间
         createUserId: '', // 输入姓名
         curr: '', // 币制传英文缩写如CNY、USD
-        feeFlag: false,
-        flatStatus: 0, // 平账状态0未平账1已平账2部分平账
-        invoiceStatus: 0, // 对账状态1待审核，2审核退回，3待对账，4对账驳回，5对账确认
-        settleCompanyId: '' // 账单企业id
+        feeFlag: '',
+        flatStatus: '', // 平账状态0未平账1已平账2部分平账
+        invoiceStatus: '', // 对账状态1待审核，2审核退回，3待对账，4对账驳回，5对账确认
+        settleCompanyName: '' // 账单企业
       },
-      isDisabled: false,
-      isDouble: false,
-      addFees: {
-        feeOptionCode: '',
-        feeOptionName: '',
-        feeRate: 0,
-        feeSubjectName: ''
+      // 查询的字典字段
+      tableNameList: {
+        tableNames: [
+          'SAAS_CURR' // 币制
+        ]
       },
-      costTableList: [],
+      currList: [],
+      selectObj: {
+        obj: '',
+        params: ''
+      },
       paginationInit: '',
-      addFeesRule: {
-        feeOptionCode: [{required: true, message: '请输入费用编号', pattern: /^[0-9a-zA-Z]{1,30}$/, trigger: 'blur'}],
-        feeOptionName: [{required: true, message: '请输入费用名称', trigger: 'blur'}],
-        feeSubjectName: [{pattern: /^\d+(\.\d+)?$|^$/, message: '10位或包含小数点以内的数字', trigger: 'blur'}]
-      },
-      tempOptionCode: '', // 临时存储费用编号
       pickerOptions: {
         shortcuts: [{
-          text: '最近一周',
+          text: '今天',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
+            picker.$emit('pick', new Date())
           }
         }, {
-          text: '最近一个月',
+          text: '昨天',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
           }
         }, {
-          text: '最近三个月',
+          text: '一周前',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
           }
         }]
       }
@@ -213,32 +219,87 @@ export default {
     }
   }),
   created () {
+    this.getCommonParam()
     this.paginationInit = this.$store.state.pagination
-    this.getOptionList(this.$store.state.pagination)
+    this.getAccountList(this.$store.state.pagination)
   },
   methods: {
     // 获取账单企业列表
     getSettleCompanyInfo () {
       this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/option/gets',
+        url: 'API@saas-finance/account/getSettleCompanyInfo',
         data: {},
         router: this.$router,
-        success: res => {
+        success: ({result}) => {
+          this.settleCompanyList = result || []
         }
       })
     },
-    // 获取费用项列表
-    getOptionList (pagination) {
-      if (this.dates && this.dates.length > 0) {
-        this.QueryForm.createStartTime = this.dates[0]
-        this.QueryForm.createEndTime = this.dates[1]
-      } else {
-        this.QueryForm.createStartTime = ''
-        this.QueryForm.createEndTime = ''
+    querySearch (queryString, cb) {
+      let restaurants = this.settleCompanyList
+      let results = []
+      if (queryString.trim().length > 1) {
+        results = restaurants.filter(v => {
+          return v.settleCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+        })
       }
+      let tempArr = results.map(item => {
+        return {value: item.settleCompanyName}
+      })
+      cb(tempArr)
+    },
+    // 判断缓存中是否有数据
+    getCommonParam () {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
+        this.getCommonParams(map)
+      }
+    },
+    // 获取公共字典list
+    getCommonParams (datas) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/dictionary/getParam',
+        data: datas,
+        router: this.$router,
+        success: (res) => {
+          commonParam.saveParams(res.result)
+        }
+      })
+    },
+    checkParamsList (query) {
+      if (query !== '') {
+        let keyValue = query.toString().trim()
+        let list = JSON.parse(localStorage.getItem(this.selectObj.params))
+        let filterList = []
+        if (util.isEmpty(keyValue)) {
+          this[this.selectObj.obj] = list.slice(0, 30)
+        } else {
+          filterList = list.filter(item => {
+            let str = item.codeField + '-' + item.nameField
+            return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+          })
+          this[this.selectObj.obj] = filterList.slice(0, 30)
+        }
+      } else {
+        if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+        }
+      }
+    },
+    // 创建字典参数列表
+    tipsFill (obj, params) {
+      this.selectObj = {
+        obj: obj,
+        params: params
+      }
+    },
+    // 获取账单列表
+    getAccountList (pagination) {
+      this.QueryForm.createDate = this.dates || ''
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/option/gets',
+        url: 'API@saas-finance/account/gets',
         data: {
           ...this.QueryForm,
           page: pagination
@@ -246,194 +307,98 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.costTableList = res.result || []
-        }
-      })
-    },
-    // 企业查询
-    getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/login/corp/getCorpByCondAssignProp',
-        data: {
-          corpName: query,
-          returnProps: ['corpId', 'corpName']
-        },
-        router: this.$router,
-        success: ({result}) => {
-          this.corpList = (result && result.splice(0, 20)) || []
+          this.accountTableList = res.result || []
         }
       })
     },
     // 重置查询条件
     resetForm () {
       this.QueryForm = {
-        createStartTime: '',
-        createEndTime: '',
-        createUserName: '',
-        feeOptionCode: '',
-        feeOptionName: '',
-        feeRate: '',
-        feeSubjectName: ''
+        createDate: '',
+        createUserId: '',
+        curr: '',
+        feeFlag: '',
+        flatStatus: '',
+        invoiceStatus: '',
+        settleCompanyName: ''
       }
-      this.dates = []
+      this.dates = ''
     },
-    // 重置创建费用项
-    resetFees () {
-      this.addFees = {
-        feeOptionCode: '',
-        feeOptionName: '',
-        feeRate: 0,
-        feeSubjectName: ''
+    // 将json字符串转换成字符串
+    jsonToString (json) {
+      let obj = JSON.parse(json)
+      let arr = []
+      for (let k in obj) {
+        arr.push(k + ':' + obj[k])
       }
+      return arr.toString()
     },
-    // 模态框关闭时数据初始化
-    resetDialog () {
-      this.isDisabled = false
-      // this.resetFees()
-    },
-    // 显示模态框
-    showDialog (type, data) {
-      this.isDouble = false
-      this.addFeeIsShow = true
-      this.type = type
-      this.$nextTick(() => {
-        this.$refs['addFees'].clearValidate()
+    // 勾选选择框
+    chooseSelectBox (selection, row) {
+      this.accountBillIds = selection.map(v => {
+        return v.accountBillId
       })
-      this.resetFees()
-      if (type === 'add') {
-        this.getFeeOptionCode()
-      } else {
-        this.addFees = JSON.parse(JSON.stringify(data))
-        this.isDisabled = true
-        this.tempOptionCode = this.addFees.feeOptionCode
-      }
+      this.selectionRow = selection
     },
-    // 弹框取消按钮
-    cancelBtn () {
-      this.addFeeIsShow = false
-    },
-    // 弹框确定按钮
-    confirmBtn (event) {
-      event && event.preventDefault()
-      let flag = false
-      this.$refs['addFees'].validate(valid => {
-        flag = valid
+    // 勾选选择框
+    chooseSelectBoxAll (selection) {
+      this.accountBillIds = selection.map(v => {
+        return v.accountBillId
       })
-      if (!flag) return
-      this.type === 'add' ? this.creatOptions() : this.editOptions()
+      this.selectionRow = selection
     },
-    // 编辑费用项
-    editOptions () {
+    // 点击表格行 单选
+    chooseSelectRow (row, column, event) {
+      this.$refs['accountTable'].clearSelection()
+      this.$refs['accountTable'].toggleRowSelection(row, true)
+      this.accountBillIds = [row.accountBillId]
+      this.selectionRow = [row]
+    },
+    // 批量审核驳回/确认
+    accountCheck (type, verifyMsg = '') {
+      let url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/option/edit',
-        data: this.addFees,
-        router: this.$router,
-        success: (res) => {
-          this.addFeeIsShow = false
-          this.$message({
-            type: 'success',
-            message: '编辑成功'
-          })
-          this.getOptionList(this.$store.state.pagination)
-        },
-        other: res => {
-          if (res.code === '0001') {
-            let msg = ''
-            if (res.result === '1') {
-              this.isDouble = true
-              msg = '当前编号已经存在,不可重复'
-            } else {
-              this.isDouble = false
-              msg = '当前费用项已经存在,不可重复'
-            }
-            this.$message({
-              type: 'error',
-              message: msg
-            })
-          }
-        }
-      })
-    },
-    // 创建费用项
-    creatOptions () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/option/create',
-        data: this.addFees,
-        router: this.$router,
-        success: ({result}) => {
-          if (result) {
-            this.addFeeIsShow = false
-            this.$message({
-              type: 'success',
-              message: '创建成功'
-            })
-            this.getOptionList(this.$store.state.pagination)
-          }
-        },
-        other: res => {
-          if (res.code === '0001') {
-            let msg = ''
-            if (res.result === '1') {
-              this.isDouble = true
-              msg = '当前编号已经存在,不可重复'
-            } else {
-              this.isDouble = false
-              msg = '当前费用项已经存在,不可重复'
-            }
-            this.$message({
-              type: 'error',
-              message: msg
-            })
-          }
-        }
-      })
-    },
-    // 生成费用编号
-    getFeeOptionCode () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/option/getFeeOptionCode',
-        data: {},
-        router: this.$router,
-        success: ({result}) => {
-          if (result) {
-            this.tempOptionCode = result
-            this.addFees.feeOptionCode = result
-          }
-        }
-      })
-    },
-    // 校验费用编号是否重复失焦事件
-    checkCode () {
-      let reg = /^[0-9a-zA-Z]{1,30}$/
-      if (!reg.test(this.addFees.feeOptionCode)) return
-      // 失焦时发送请求
-      if (this.addFees.feeOptionCode === this.tempOptionCode) return
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/option/checkFeeCode',
+        url: `API@saas-finance/${url}`,
         data: {
-          feeOptionCode: this.addFees.feeOptionCode,
-          feePid: this.addFees.feePid || ''
+          accountBillIds: this.accountBillIds,
+          verifyMsg
         },
         router: this.$router,
-        success: ({result}) => {
-          if (result) { // 重复 输入框标红并提示重复
-            this.$message({
-              type: 'error',
-              message: '当前编号已经存在,不可重复'
-            })
-            this.isDouble = true
-          } else {
-            this.isDouble = false
-            // 失焦事件和点击事件同时存在,失焦限制性,点击事件不执行了
-          }
+        success: res => {
         }
       })
     },
-    checkValidCode (rule, value, callback) {
-      callback()
+    // 导出
+    getAccountItem (type) {
+      if (this.accountBillIds.length > 1 || this.accountBillIds.length === 0) {
+        this.$message({
+          type: 'error',
+          message: '请选择一条对账单导出'
+        })
+        return
+      }
+      let url = type === 1 ? 'account/exportExcel' : 'account/exportJin'
+      this.$store.dispatch('ajax', {
+        url: `API@saas-finance/${url}`,
+        data: {
+          accountBillId: this.accountBillIds[0]
+        },
+        router: this.$router,
+        success: ({result}) => {
+          result && window.open(result, '_blank')
+        }
+      })
+    },
+    // 跳转详情/审核
+    goToAccountDetail (type, id) {
+      this.$router.push({
+        name: 'accountManage-detail',
+        query: {
+          accountBillId: id,
+          type,
+          setTitle: type === 'look' ? '对账单详情' : '对账单审核'
+        }
+      })
     }
   }
 }
