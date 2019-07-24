@@ -117,7 +117,7 @@
             <el-table-column prop="num" width="100" label="数量" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
-                  <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                  <el-input type="number" v-model.number="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
               </template>
@@ -624,6 +624,7 @@ export default {
       this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
     },
     computeTaxPrice (row) {
+      if (isNaN(+(row.feePrice)) || isNaN(+(row.num))) return // 避免为NaN的情况
       row.taxPrice = Math.round(row.num * row.feePrice * (1 + (+row.rate)))
     },
     delItems (row, feeFlag) {
