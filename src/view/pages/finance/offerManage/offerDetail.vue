@@ -90,7 +90,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate >= 0 && (scope.row.feeRate + '%') || '-'}}
+                        {{typeof scope.row.feeRate === 'number' ? (scope.row.feeRate + '%') : '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -123,7 +123,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
+                        {{typeof scope.row.feeRate === 'number' ? (scope.row.feeRate + '%') : '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -197,7 +197,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
+                        {{typeof scope.row.feeRate === 'number' ? (scope.row.feeRate + '%') : '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">
@@ -230,7 +230,7 @@
                     </el-table-column>
                     <el-table-column prop="feeRate" width="60" label="税率" align="center">
                       <template slot-scope="scope">
-                        {{scope.row.feeRate && (scope.row.feeRate + '%') || '-'}}
+                        {{typeof scope.row.feeRate === 'number' ? (scope.row.feeRate + '%') : '-'}}
                       </template>
                     </el-table-column>
                     <el-table-column prop="curr" width="60" label="币制" align="center">

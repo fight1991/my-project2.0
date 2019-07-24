@@ -132,7 +132,7 @@
               <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="billType" width="60" label="类型" align="center">
+          <el-table-column prop="billType" width="100" label="类型" align="center">
             <template slot-scope="scope">
               <div class="cell-div">
                 {{scope.row.billType === '0' ? '自动登账' : scope.row.billType === '1' ? '手动登账' : '-'}}
