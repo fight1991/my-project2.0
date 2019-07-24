@@ -342,17 +342,23 @@ export default {
         })
         return
       }
-      this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/account/create',
-        data: {expenseBillIds: this.expenseBillIds},
-        router: this.$router,
-        success: () => {
-          this.$message({
-            type: 'success',
-            message: '生成对账单成功'
-          })
-        }
-      })
+      this.$confirm('是否确认生成对账单 ? 生成的对账单需要先进行内容审核确认', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: 'API@saas-finance/account/create',
+          data: {expenseBillIds: this.expenseBillIds},
+          router: this.$router,
+          success: () => {
+            this.$message({
+              type: 'success',
+              message: '生成对账单成功'
+            })
+          }
+        })
+      }).catch(() => {})
     },
     // 勾选选择框
     chooseSelectBox (selection, row) {
