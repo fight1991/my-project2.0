@@ -49,7 +49,7 @@
       </el-row>
       <div class='query-table'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -95,7 +95,7 @@
                 <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="curr" width="80" label="币制" align="center">
+            <el-table-column prop="curr" width="100" label="币制" align="center">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
@@ -193,7 +193,7 @@
       </el-row>
       <div class='query-table'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -312,7 +312,7 @@
             <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
               <template slot-scope="scope">
                 <div class="sys-td-c">
-                  <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
+                  <el-button title="删除" type="text" @click="delItems(scope.row, false)" class="table-icon list-icon-delete"><i></i></el-button>
                 </div>
               </template>
             </el-table-column>
@@ -461,8 +461,8 @@ export default {
             this.decDetail = resultMap || {}
             this.summarys = summarys || []
             // 复制数据
-            this.copyData.billOptionPayVOs = [...billPayableBodyVO.billPayableBodyVOList]
-            this.copyData.billOptionReceiveVOs = [...billReceivableBodyVO.billReceivableBodyVOList]
+            this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
+            this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
           }
         }
       })
@@ -618,8 +618,10 @@ export default {
     },
     // 取消编辑
     cancelEdit () {
-      this.billReceivableBodyVO.billReceivableBodyVOList = [...this.copyData.billOptionReceiveVOs]
-      this.billPayableBodyVO.billPayableBodyVOList = [...this.copyData.billOptionPayVOs]
+      this.$refs['receiveTableForm'].clearValidate()
+      this.$refs['payTableForm'].clearValidate()
+      this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
+      this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
     },
     computeTaxPrice (row) {
       row.taxPrice = Math.round(row.num * row.feePrice * (1 + (+row.rate)))
