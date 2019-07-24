@@ -17,7 +17,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./precedentClassify.vue'], resolve),
-        title: '先例归类'
+        title: '智能归类'
       }
     }
   ]

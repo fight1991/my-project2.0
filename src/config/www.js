@@ -348,7 +348,7 @@ const linkList = {
       id: '1',
       icon: require('@/assets/www-img/images/star.png'),
       text: '<div style="text-align:center">金关之星</div><div style="text-align:center">(GS-CMS)</div>',
-      link: 'https://www.51aeo.com/Login/AuthCallBack'
+      link: 'https://test.51aeo.com/Login/AuthCallBack'
     },
     {
       id: '2',
@@ -358,33 +358,51 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/decDelegate.png'),
+      text: '通关委托',
+      link: 'https://test.5itrade.cn/ccba2/entrust/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/contract.png'),
       text: '合同管理',
       link: 'https://test.5itrade.cn/ccba2/contract/index'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://test.5itrade.cn/fin2'
     },
     {
-      id: '5',
+      id: '6',
+      icon: require('@/assets/www-img/images/expert.png'),
+      text: '专家答疑',
+      link: ''
+    },
+    {
+      id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://test.5itrade.cn/zvip'
     },
     {
-      id: '6',
+      id: '8',
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://test.5itrade.cn/zquestion'
     },
     {
-      id: '7',
+      id: '9',
       icon: require('@/assets/www-img/images/Operate.png'),
       text: '运营管理平台',
       link: 'https://test.5itrade.cn/op'
+    },
+    {
+      id: '10',
+      icon: require('@/assets/www-img/images/passParams.png'),
+      text: '通关参数',
+      link: 'https://test.5itrade.cn/ccba2/passParams/index'
     }
   ],
   prod: [
@@ -402,33 +420,51 @@ const linkList = {
     },
     {
       id: '3',
+      icon: require('@/assets/www-img/images/decDelegate.png'),
+      text: '通关委托',
+      link: 'https://www.5itrade.cn/ccba2/entrust/index'
+    },
+    {
+      id: '4',
       icon: require('@/assets/www-img/images/contract.png'),
       text: '合同管理',
       link: 'https://www.5itrade.cn/ccba2/contract/index'
     },
     {
-      id: '4',
+      id: '5',
       icon: require('@/assets/www-img/images/logistics.png'),
       text: '物流费用管理系统',
       link: 'https://www.5itrade.cn/fin2'
     },
     {
-      id: '5',
+      id: '6',
+      icon: require('@/assets/www-img/images/expert.png'),
+      text: '专家答疑',
+      link: ''
+    },
+    {
+      id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
       text: '会员管理系统',
       link: 'https://www.5itrade.cn/zvip'
     },
     {
-      id: '6',
+      id: '8',
       icon: require('@/assets/www-img/images/Rating.png'),
       text: '双优评比系统',
       link: 'https://www.5itrade.cn/zquestion'
     },
     {
-      id: '7',
+      id: '9',
       icon: require('@/assets/www-img/images/Operate.png'),
       text: '运营管理平台',
       link: 'https://www.5itrade.cn/op'
+    },
+    {
+      id: '10',
+      icon: require('@/assets/www-img/images/passParams.png'),
+      text: '通关参数',
+      link: 'https://www.5itrade.cn/ccba2/passParams/index'
     }
   ]
 }
