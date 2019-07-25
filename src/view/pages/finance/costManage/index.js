@@ -2,7 +2,7 @@ const MENU = [
   {
     path: '/finance/cost/list',
     name: 'cost-list',
-    icon: 'icons-finance-accountManage',
+    icon: 'icons-finance-costManage',
     permissions: 'CCBA21601000000',
     hidden: false,
     meta: {

@@ -1,26 +1,26 @@
 <template>
   <section class='sys-main'>
     <el-row class='query-condition'>
-      <el-form label-width="0px" :model="QueryForm" size="mini" label-position="right">
+      <el-form :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="接单编号" :label-width="labelFormWidth.four">
+            <el-form-item label="接单编号">
               <el-input v-model="QueryForm.orderNo" size="mini" clearable :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="报关单号" :label-width="labelFormWidth.four">
+            <el-form-item label="报关单号">
               <el-input size="mini" clearable v-model="QueryForm.decNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="提单号" :label-width="labelFormWidth.four">
+            <el-form-item label="提单号">
               <el-input size="mini" clearable v-model="QueryForm.billNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="业务类型" :label-width="labelFormWidth.four">
+            <el-form-item label="业务类型">
               <el-select v-model="QueryForm.businessType" size="mini" clearable  style="width:100%;">
                 <el-option key="1" :label="'报关'" :value="'1'"></el-option>
                 <el-option key="2" :label="'货代'" :value="'2'"></el-option>
@@ -30,31 +30,27 @@
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="受托企业" :label-width="labelFormWidth.four">
-              <el-select v-model="QueryForm.entrustCompanyName" :maxlength="30" style="width:100%"
-                filterable remote clearable
-                :remote-method="getcorps"
-                allow-create
-                default-first-option >
-                <el-option
-                  v-for="item in corpList"
-                  :key="item.corpId"
-                  :label="item.corpName"
-                  :value="item.corpName">
-                </el-option>
+            <el-form-item label="委托企业">
+              <el-autocomplete style="width:100%;"
+                class="inline-input" :maxlength="30" clearable
+                v-model="QueryForm.entrustCompanyName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="false"
+                placeholder="请选择">
+              </el-autocomplete>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="进出口">
+              <el-select v-model="QueryForm.iEFlag" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'进口'" :value="0"></el-option>
+                <el-option key="1" :label="'出口'" :value="1"></el-option>
+                <el-option key="2" :label="'内贸'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="进出口" :label-width="labelFormWidth.four">
-              <el-select v-model="QueryForm.iEFlag" size="mini" clearable  style="width:100%;">
-                <el-option key="0" :label="'进口'" :value="'0'"></el-option>
-                <el-option key="1" :label="'出口'" :value="'1'"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="开行日" :label-width="labelFormWidth.four">
+            <el-form-item label="开航日">
                <el-date-picker
                 style="width:100%"
                 v-model="dates1"
@@ -70,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="放行时间" :label-width="labelFormWidth.four">
+            <el-form-item label="放行时间">
                <el-date-picker
                 style="width:100%"
                 v-model="dates2"
@@ -96,9 +92,13 @@
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add"><i></i>生成对账单</el-button>
+        <el-button size="mini" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
       </el-row>
-      <el-table class='sys-table-table' :data="expenseTableList" border highlight-current-row height="530px">
+      <el-table class='sys-table-table' :data="expenseTableList" border
+        highlight-current-row height="530px" ref="expenseTable"
+        @select="chooseSelectBox"
+        @row-click="chooseSelectRow"
+        @select-all="chooseSelectBoxAll">
         <el-table-column
           type="selection"
           width="40">
@@ -130,7 +130,7 @@
         </el-table-column>
         <el-table-column label="进出口" min-width="80" align="center" prop="iEFlag">
           <template slot-scope="scope">
-            {{scope.row.iEFlag === '0'? '进口': scope.row.iEFlag === '1' ? '出口':'内贸'}}
+            {{scope.row.iEFlag === 0 ? '进口': scope.row.iEFlag === 1 ? '出口' : '内贸'}}
           </template>
         </el-table-column>
         <el-table-column label="开航日" min-width="80" align="center" prop="sailDay">
@@ -153,8 +153,7 @@
             <div class="sys-td-c">
               <el-button title="编辑" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
               <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
-              <el-button title="单条导出" type="text" class="table-icon list-icon-export"><i></i></el-button>
-              <el-button title="台账信息" type="text" class="table-icon list-icon-scan"><i></i></el-button>
+              <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -175,6 +174,8 @@ export default {
     return {
       dates1: [],
       dates2: [],
+      corpList: [],
+      expenseBillIds: [], // 存储报价id数组
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
@@ -222,6 +223,7 @@ export default {
   created () {
     this.paginationInit = this.$store.state.pagination
     this.getsExpenseList(this.$store.state.pagination)
+    this.getcorps()
   },
   methods: {
     // 获取台账列表
@@ -229,10 +231,16 @@ export default {
       if (this.dates1 && this.dates1.length > 0) {
         this.QueryForm.releaseDayStart = this.dates1[0]
         this.QueryForm.releaseDayEnd = this.dates1[1]
+      } else {
+        this.QueryForm.releaseDayStart = ''
+        this.QueryForm.releaseDayEnd = ''
       }
       if (this.dates2 && this.dates2.length > 0) {
         this.QueryForm.sailDayStart = this.dates2[0]
         this.QueryForm.sailDayEnd = this.dates2[1]
+      } else {
+        this.QueryForm.sailDayStart = ''
+        this.QueryForm.sailDayEnd = ''
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
@@ -249,21 +257,45 @@ export default {
       })
     },
     // 企业查询
-    getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
+    // getcorps (query) {
+    //   if (query.length < 2) {
+    //     return
+    //   }
+    //   this.$store.dispatch('ajax', {
+    //     url: 'API@/login/corp/getCorpByCondAssignProp',
+    //     data: {
+    //       corpName: query,
+    //       returnProps: ['corpId', 'corpName']
+    //     },
+    //     router: this.$router,
+    //     success: (res) => {
+    //       this.corpList = res.result.splice(0, 20)
+    //     }
+    //   })
+    // },
+    // 委托企业查询
+    getcorps () {
       this.$store.dispatch('ajax', {
-        url: 'API@/login/corp/getCorpByCondAssignProp',
-        data: {
-          corpName: query,
-          returnProps: ['corpId', 'corpName']
-        },
+        url: 'API@/saas-finance/quotation/getEntrusts',
+        data: {},
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result.splice(0, 20)
+        success: ({result}) => {
+          this.corpList = result || []
         }
       })
+    },
+    querySearch (queryString, cb) {
+      let results = []
+      if (this.corpList.length === 0) return cb(results)
+      let restaurants = this.corpList
+      if (queryString.trim().length > 1) {
+        results = restaurants.filter(v => {
+          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+        })
+      }
+      if (results.length === 0) return cb(results)
+      let tempArr = results.map(item => ({value: item.entrustCompanyName}))
+      cb(tempArr)
     },
     // 重置查询条件
     resetForm () {
@@ -291,9 +323,72 @@ export default {
         query: {
           type,
           iEFlag,
-          expenseBillId: id
+          expenseBillId: id,
+          setTitle: type === 'edit' ? '台账编辑' : '台账详情',
+          setId: 'expense-detail' + id
         }
       })
+    },
+    // 单条导出台账信息
+    exportBill (id) {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/bill/export',
+        data: {expenseBillId: id},
+        router: this.$router,
+        success: ({result}) => {
+          result && window.open(result, '_blank')
+        }
+      })
+    },
+    // 生成对账单
+    createAccount () {
+      if (this.expenseBillIds.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择一条或多条台账'
+        })
+        return
+      }
+      this.$confirm('是否确认生成对账单 ? 生成的对账单需要先进行内容审核确认', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: 'API@saas-finance/account/create',
+          data: {expenseBillIds: this.expenseBillIds},
+          router: this.$router,
+          success: () => {
+            this.$message({
+              type: 'success',
+              message: '生成对账单成功'
+            })
+          }
+        })
+      }).catch(() => {})
+    },
+    // 勾选选择框
+    chooseSelectBox (selection, row) {
+      this.expenseBillIds = selection.map(v => {
+        return v.expenseBillId
+      })
+    },
+    // 勾选选择框
+    chooseSelectBoxAll (selection) {
+      this.expenseBillIds = selection.map(v => {
+        return v.expenseBillId
+      })
+    },
+    // 点击表格行
+    chooseSelectRow (row, column, event) {
+      let index = this.expenseBillIds.indexOf(row.expenseBillId)
+      if (index >= 0) { // 当前的行已经被选中了
+        this.$refs['expenseTable'].toggleRowSelection(row, false)
+        this.expenseBillIds.splice(index, 1)
+      } else {
+        this.$refs['expenseTable'].toggleRowSelection(row, true)
+        this.expenseBillIds.push(row.expenseBillId)
+      }
     }
   }
 }

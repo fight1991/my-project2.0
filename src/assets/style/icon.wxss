@@ -163,7 +163,7 @@
 .sys-class .icons-finance-offerAccount {
   background: url("../img/icon-aside/account.png") no-repeat;
 }
-.sys-class .icons-finance-accountManage {
+.sys-class .icons-finance-costManage {
   background: url("../img/icon-aside/account-finance-manage.png") no-repeat;
 }
 .sys-class .icons-finance-computeFinance {

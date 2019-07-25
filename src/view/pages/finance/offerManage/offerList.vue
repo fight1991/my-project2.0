@@ -42,7 +42,7 @@
               <el-input v-model="QueryForm.createUserName" size="mini" clearable :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form-item label="创建日期">
                <el-date-picker
                 style="width:100%"
@@ -270,8 +270,6 @@ export default {
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
-          // this.impexpPortList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
-          // this.dclPlcCusList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
         }
       })
     },
@@ -308,21 +306,21 @@ export default {
         url: 'API@/saas-finance/quotation/getEntrusts',
         data: {},
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result
+        success: ({result}) => {
+          this.corpList = result || []
         }
       })
     },
     querySearch (queryString, cb) {
-      let restaurants = this.corpList
       let results = []
-      if (queryString.trim().length > 0) {
+      if (this.corpList.length === 0) return cb(results)
+      let restaurants = this.corpList
+      if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         })
-      } else {
-        results = restaurants
       }
+      if (results.length === 0) return cb(results)
       let tempArr = results.map(item => {
         return {value: item.entrustCompanyName}
       })
