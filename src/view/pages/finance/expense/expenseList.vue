@@ -363,6 +363,7 @@ export default {
               type: 'success',
               message: '生成对账单成功'
             })
+            this.getsExpenseList(this.$store.state.pagination)
           }
         })
       }).catch(() => {})

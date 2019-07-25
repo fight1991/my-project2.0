@@ -357,6 +357,13 @@ export default {
     },
     // 批量审核驳回/确认
     accountCheck (type, verifyMsg = '') {
+      if (this.accountBillIds.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择一条或多条对账单'
+        })
+        return
+      }
       let url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
       this.$store.dispatch('ajax', {
         url: `API@saas-finance/${url}`,
@@ -366,6 +373,7 @@ export default {
         },
         router: this.$router,
         success: res => {
+          this.getAccountList(this.$store.state.pagination)
         }
       })
     },

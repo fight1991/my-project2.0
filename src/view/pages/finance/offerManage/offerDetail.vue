@@ -146,7 +146,7 @@
       </div>
       <!-- 应付费用 -->
       <div class="acceptOffer">
-        <el-row class="title">应收费用</el-row>
+        <el-row class="title">应付费用</el-row>
         <el-row class="accept-body" v-if="quotationDetail.quotationPayableBodyVOList.length>0" v-for="item1 in quotationDetail.quotationPayableBodyVOList" :key="item1.quotationFeeId">
           <div class="head">
             <el-row>
