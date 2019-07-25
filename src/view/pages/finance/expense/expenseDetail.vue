@@ -69,7 +69,7 @@
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
                   <el-form-item
                     :prop="'billReceivableBodyVOList.'+ scope.$index + '.feePrice'"
-                    :rules="{pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,message:'小数点支持前9位,后3位',trigger:'blur'}">
+                    :rules="valid.price">
                     <el-input clearable v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
                   </el-form-item>
                 </div>
@@ -213,7 +213,7 @@
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
                   <el-form-item
                     :prop="'billPayableBodyVOList.'+ scope.$index + '.feePrice'"
-                    :rules="{pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,message:'小数点支持前9位,后3位',trigger:'blur'}">
+                    :rules="valid.price">
                     <el-input clearable v-model="scope.row.feePrice" @change="computeTaxPrice(scope.row)"></el-input>
                   </el-form-item>
                 </div>
@@ -400,6 +400,10 @@ export default {
         billType: 1,
         itemName: '',
         createUserName: ''
+      },
+      // {pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,validator: priceValid,message:'小数点支持前9位,后3位',trigger:'blur'}
+      valid: {
+        price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
       }
     }
   },
@@ -664,6 +668,19 @@ export default {
         tempArr1.push(obj1)
       })
       return tempArr1
+    },
+    // 单价校验
+    priceValid (rule, value, callback) {
+      let reg = /^\d{1,9}(\.\d{1,3})?$|^$/
+      if (!reg.test(value)) {
+        this.$message({
+          type: 'error',
+          message: '单价格式输入有误,支持小数点后3位,前9位'
+        })
+        callback(new Error('单价格式输入有误,支持小数点后3位,前9位'))
+      } else {
+        callback()
+      }
     }
   }
 }
