@@ -397,7 +397,8 @@ export default {
         query: {
           accountBillId: id,
           type,
-          setTitle: type === 'look' ? '对账单详情' : '对账单审核'
+          setTitle: type === 'look' ? '对账单详情' : '对账单审核',
+          setId: 'accountManage-detail' + id
         }
       })
     }

@@ -8,19 +8,19 @@
           <el-col :span="8">
             <div class="one-row">
               <div class="left">接单编号&nbsp;:</div>
-              <div class="right">201965952522256</div>
+              <div class="right">{{decCommon.billNo || '-'}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="one-row">
               <div class="left">报关单号&nbsp;:</div>
-              <div class="right">201965952522256</div>
+              <div class="right">{{decCommon.cusCiqNo || '-'}}</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="one-row">
               <div class="left">提单号&nbsp;:</div>
-              <div class="right">201965952522256</div>
+              <div class="right">{{decCommon.innerNo || '-'}}</div>
             </div>
           </el-col>
         </el-row>
@@ -28,6 +28,13 @@
           <div class="block flex" v-for="(value, key) in decDetail" :key="key">
             <div class="left">{{value.keyName || '-'}}&nbsp;:&nbsp;</div>
             <div class="right">{{value.keyValue || '-'}}</div>
+          </div>
+        </el-row>
+        <!-- 申报异常 -->
+        <el-row v-if="decCommon.msg">
+          <div class="one-row normal">
+            <div class="left">申报异常&nbsp;:</div>
+            <div class="right red">{{decCommon.msg}}</div>
           </div>
         </el-row>
       </div>
@@ -95,7 +102,7 @@
                 <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="curr" width="100" label="币制" align="center">
+            <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
@@ -239,7 +246,7 @@
                 <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="curr" width="80" label="币制" align="center">
+            <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
@@ -368,6 +375,7 @@ export default {
         billReceivableBodyVOList: [] // 表格数据
       },
       decDetail: {}, // 报关单详情
+      decCommon: {}, // 报关单详情固定字段
       summarys: [], // 费用汇总
       optionsList: [], // 费用项列表
       currList: [], // 币制
@@ -457,12 +465,13 @@ export default {
         router: this.$router,
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
-            let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys} = result
+            let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg} = result
             this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
             this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
             this.decDetail = resultMap || {}
+            this.decCommon = {billNo, cusCiqNo, innerNo, msg}
             this.summarys = summarys || []
             // 复制数据
             this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
@@ -688,8 +697,9 @@ export default {
 <style lang="less" scoped>
   .content {
     color: #4c4c4c;
+    padding: 0 18px;
     .down {
-      padding-top: 16px;
+      padding-top: 18px;
     }
   }
   .flex {
@@ -701,8 +711,17 @@ export default {
   }
   .block {
     width: 25%;
+    padding-bottom: 18px;
     .left {
-      width: 85px;
+      width: 100px;
+    }
+    .right {
+      padding-right: 20px;
+      flex: 1;
+      word-break:break-all;
+    }
+    &:nth-child(4n) .right {
+      padding-right: 0;
     }
   }
   .companyItems {
@@ -758,6 +777,9 @@ export default {
     margin-bottom: 20px;
     padding: 18px;
   }
+  .decDetail {
+    padding-bottom: 0;
+  }
   .title {
     padding-bottom: 18px;
   }
@@ -777,6 +799,18 @@ export default {
       flex: 1;
     }
   }
+  .normal {
+    padding-bottom: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #eee;
+    .left {
+      width: 100px;
+    }
+    .red {
+      color:#FE4400;
+      font-size: 14px;
+    }
+  }
   .table-btn {
     padding-bottom: 15px;
   }
@@ -793,5 +827,8 @@ export default {
         margin: 0 auto;
       }
     }
+  }
+  .table-btn,.query-table {
+    padding-left: 4px;
   }
 </style>

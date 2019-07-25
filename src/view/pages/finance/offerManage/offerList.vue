@@ -42,7 +42,7 @@
               <el-input v-model="QueryForm.createUserName" size="mini" clearable :maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <el-form-item label="创建日期">
                <el-date-picker
                 style="width:100%"

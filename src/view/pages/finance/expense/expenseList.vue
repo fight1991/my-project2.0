@@ -324,7 +324,8 @@ export default {
           type,
           iEFlag,
           expenseBillId: id,
-          setTitle: type === 'edit' ? '台账编辑' : '台账详情'
+          setTitle: type === 'edit' ? '台账编辑' : '台账详情',
+          setId: 'expense-detail' + id
         }
       })
     },
