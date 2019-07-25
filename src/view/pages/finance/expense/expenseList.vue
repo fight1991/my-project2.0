@@ -22,8 +22,8 @@
           <el-col :span="6">
             <el-form-item label="业务类型">
               <el-select v-model="QueryForm.businessType" size="mini" clearable  style="width:100%;">
-                <el-option key="1" :label="'报关'" :value="'1'"></el-option>
-                <el-option key="2" :label="'货代'" :value="'2'"></el-option>
+                <el-option key="1" :label="'报关'" :value="1"></el-option>
+                <el-option key="2" :label="'货代'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -120,12 +120,12 @@
         </el-table-column>
         <el-table-column label="业务类型" min-width="80" align="center" prop="businessType">
           <template slot-scope="scope">
-            {{scope.row.businessType === '1'? '报关':'货代'}}
+            {{scope.row.businessType === 1 ? '报关':'货代'}}
           </template>
         </el-table-column>
         <el-table-column label="委托企业" min-width="80" align="center" prop="entrustCompanyName">
           <template slot-scope="scope">
-            {{scope.row.businessType || '-'}}
+            {{scope.row.entrustCompanyName || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="进出口" min-width="80" align="center" prop="iEFlag">
