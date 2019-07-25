@@ -255,7 +255,7 @@ export default {
     flex-wrap: wrap;
   }
   .link-detail {
-    width: 25%;
+    width: 20%;
     margin: 20px 0 30px;
     cursor: pointer;
     img {
