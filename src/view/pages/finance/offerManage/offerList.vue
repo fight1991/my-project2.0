@@ -306,21 +306,21 @@ export default {
         url: 'API@/saas-finance/quotation/getEntrusts',
         data: {},
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result
+        success: ({result}) => {
+          this.corpList = result || []
         }
       })
     },
     querySearch (queryString, cb) {
-      let restaurants = this.corpList
       let results = []
-      if (queryString.trim().length > 0) {
+      if (this.corpList.length === 0) return cb(results)
+      let restaurants = this.corpList
+      if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         })
-      } else {
-        results = restaurants
       }
+      if (results.length === 0) return cb(results)
       let tempArr = results.map(item => {
         return {value: item.entrustCompanyName}
       })

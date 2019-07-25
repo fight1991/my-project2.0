@@ -6,7 +6,7 @@
         <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="账单企业">
-              <el-autocomplete
+              <el-autocomplete style="width:100%;"
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.settleCompanyName"
                 :fetch-suggestions="querySearch"
@@ -220,6 +220,7 @@ export default {
   }),
   created () {
     this.getCommonParam()
+    this.getSettleCompanyInfo()
     this.paginationInit = this.$store.state.pagination
     this.getAccountList(this.$store.state.pagination)
   },
@@ -236,16 +237,16 @@ export default {
       })
     },
     querySearch (queryString, cb) {
-      let restaurants = this.settleCompanyList
       let results = []
+      if (this.settleCompanyList.length === 0) return cb(results)
+      let restaurants = this.settleCompanyList
       if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.settleCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return (v && v.toLowerCase().indexOf(queryString.toLowerCase()) >= 0)
         })
       }
-      let tempArr = results.map(item => {
-        return {value: item.settleCompanyName}
-      })
+      if (results.length === 0) return cb(results)
+      let tempArr = results.map(item => ({value: item}))
       cb(tempArr)
     },
     // 判断缓存中是否有数据

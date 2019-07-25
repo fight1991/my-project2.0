@@ -1,26 +1,26 @@
 <template>
   <section class='sys-main'>
     <el-row class='query-condition'>
-      <el-form label-width="0px" :model="QueryForm" size="mini" label-position="right">
+      <el-form :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="接单编号" :label-width="labelFormWidth.four">
+            <el-form-item label="接单编号">
               <el-input v-model="QueryForm.orderNo" size="mini" clearable :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="报关单号" :label-width="labelFormWidth.four">
+            <el-form-item label="报关单号">
               <el-input size="mini" clearable v-model="QueryForm.decNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="提单号" :label-width="labelFormWidth.four">
+            <el-form-item label="提单号">
               <el-input size="mini" clearable v-model="QueryForm.billNo" :maxlength="30"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="业务类型" :label-width="labelFormWidth.four">
+            <el-form-item label="业务类型">
               <el-select v-model="QueryForm.businessType" size="mini" clearable  style="width:100%;">
                 <el-option key="1" :label="'报关'" :value="'1'"></el-option>
                 <el-option key="2" :label="'货代'" :value="'2'"></el-option>
@@ -30,8 +30,8 @@
         </el-row>
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="委托企业" :label-width="labelFormWidth.four">
-              <el-autocomplete
+            <el-form-item label="委托企业">
+              <el-autocomplete style="width:100%;"
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.entrustCompanyName"
                 :fetch-suggestions="querySearch"
@@ -41,8 +41,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="进出口" :label-width="labelFormWidth.four">
-              <el-select v-model="QueryForm.iEFlag" size="mini" clearable  style="width:100%;">
+            <el-form-item label="进出口">
+              <el-select v-model="QueryForm.iEFlag" size="mini" clearable style="width:100%;">
                 <el-option key="0" :label="'进口'" :value="'0'"></el-option>
                 <el-option key="1" :label="'出口'" :value="'1'"></el-option>
                 <el-option key="2" :label="'内贸'" :value="'2'"></el-option>
@@ -50,7 +50,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开行日" :label-width="labelFormWidth.four">
+            <el-form-item label="开航日">
                <el-date-picker
                 style="width:100%"
                 v-model="dates1"
@@ -66,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="放行时间" :label-width="labelFormWidth.four">
+            <el-form-item label="放行时间">
                <el-date-picker
                 style="width:100%"
                 v-model="dates2"
@@ -231,10 +231,16 @@ export default {
       if (this.dates1 && this.dates1.length > 0) {
         this.QueryForm.releaseDayStart = this.dates1[0]
         this.QueryForm.releaseDayEnd = this.dates1[1]
+      } else {
+        this.QueryForm.releaseDayStart = ''
+        this.QueryForm.releaseDayEnd = ''
       }
       if (this.dates2 && this.dates2.length > 0) {
         this.QueryForm.sailDayStart = this.dates2[0]
         this.QueryForm.sailDayEnd = this.dates2[1]
+      } else {
+        this.QueryForm.sailDayStart = ''
+        this.QueryForm.sailDayEnd = ''
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
@@ -273,22 +279,22 @@ export default {
         url: 'API@/saas-finance/quotation/getEntrusts',
         data: {},
         router: this.$router,
-        success: (res) => {
-          this.corpList = res.result
+        success: ({result}) => {
+          this.corpList = result || []
         }
       })
     },
     querySearch (queryString, cb) {
-      let restaurants = this.corpList
       let results = []
+      if (this.corpList.length === 0) return cb(results)
+      let restaurants = this.corpList
       if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         })
       }
-      let tempArr = results.map(item => {
-        return {value: item.entrustCompanyName}
-      })
+      if (results.length === 0) return cb(results)
+      let tempArr = results.map(item => ({value: item.entrustCompanyName}))
       cb(tempArr)
     },
     // 重置查询条件
