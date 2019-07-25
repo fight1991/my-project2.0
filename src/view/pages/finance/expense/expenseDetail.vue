@@ -42,7 +42,7 @@
     <!-- 应收费用区域 -->
     <div class="receive area">
       <div class="title">应收费用</div>
-      <el-row class="table-btn">
+      <el-row class="table-btn" v-if="optionsType === 'edit'">
         <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(true)"><i></i>新增</el-button>
         <!-- 使用报价选项 -->
         <el-dropdown trigger="click" @command="getOfferReceive" placement="bottom-start">
@@ -186,7 +186,7 @@
     <!-- 应付费用区域 -->
     <div class="pay area">
       <div class="title">应付费用</div>
-      <el-row class="table-btn">
+      <el-row class="table-btn" v-if="optionsType === 'edit'">
         <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(false)"><i></i>新增</el-button>
         <!-- 使用报价选项 -->
         <el-dropdown trigger="click" @command="getOfferPay" placement="bottom-start">

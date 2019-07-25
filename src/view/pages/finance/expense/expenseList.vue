@@ -43,9 +43,9 @@
           <el-col :span="6">
             <el-form-item label="进出口">
               <el-select v-model="QueryForm.iEFlag" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'进口'" :value="'0'"></el-option>
-                <el-option key="1" :label="'出口'" :value="'1'"></el-option>
-                <el-option key="2" :label="'内贸'" :value="'2'"></el-option>
+                <el-option key="0" :label="'进口'" :value="0"></el-option>
+                <el-option key="1" :label="'出口'" :value="1"></el-option>
+                <el-option key="2" :label="'内贸'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -130,7 +130,7 @@
         </el-table-column>
         <el-table-column label="进出口" min-width="80" align="center" prop="iEFlag">
           <template slot-scope="scope">
-            {{scope.row.iEFlag === '0'? '进口': scope.row.iEFlag === '1' ? '出口':'内贸'}}
+            {{scope.row.iEFlag === 0 ? '进口': scope.row.iEFlag === 1 ? '出口' : '内贸'}}
           </template>
         </el-table-column>
         <el-table-column label="开航日" min-width="80" align="center" prop="sailDay">
