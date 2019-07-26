@@ -5,7 +5,7 @@
         <el-col :span="8">
           <div class="one-row">
             <div class="left">接单编号&nbsp;:</div>
-            <div class="right">{{item.billNo || '-'}}</div>
+            <div class="right">{{item.orderNo || '-'}}</div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -17,7 +17,7 @@
         <el-col :span="8">
           <div class="one-row">
             <div class="left">提单号&nbsp;:</div>
-            <div class="right">{{item.orderNo || '-'}}</div>
+            <div class="right">{{item.billNo || '-'}}</div>
           </div>
         </el-col>
       </el-row>
