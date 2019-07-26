@@ -92,7 +92,7 @@
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
+        <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="expenseTableList" border
         highlight-current-row height="530px" ref="expenseTable"
@@ -151,7 +151,7 @@
         <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
+              <el-button title="编辑" v-if="!scope.row.cFlag" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
               <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
             </div>
@@ -176,6 +176,8 @@ export default {
       dates2: [],
       corpList: [],
       expenseBillIds: [], // 存储报价id数组
+      isCreateBill: true,
+      selectedRow: [],
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
@@ -229,15 +231,15 @@ export default {
     // 获取台账列表
     getsExpenseList (pagination) {
       if (this.dates1 && this.dates1.length > 0) {
-        this.QueryForm.releaseDayStart = this.dates1[0]
-        this.QueryForm.releaseDayEnd = this.dates1[1]
+        this.QueryForm.releaseDayStart = this.dates2[0]
+        this.QueryForm.releaseDayEnd = this.dates2[1]
       } else {
         this.QueryForm.releaseDayStart = ''
         this.QueryForm.releaseDayEnd = ''
       }
       if (this.dates2 && this.dates2.length > 0) {
-        this.QueryForm.sailDayStart = this.dates2[0]
-        this.QueryForm.sailDayEnd = this.dates2[1]
+        this.QueryForm.sailDayStart = this.dates1[0]
+        this.QueryForm.sailDayEnd = this.dates1[1]
       } else {
         this.QueryForm.sailDayStart = ''
         this.QueryForm.sailDayEnd = ''
@@ -363,6 +365,7 @@ export default {
               type: 'success',
               message: '生成对账单成功'
             })
+            this.getsExpenseList(this.$store.state.pagination)
           }
         })
       }).catch(() => {})
@@ -372,12 +375,16 @@ export default {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
+      this.isCreateBill = selection.some(v => v.cFlag)
+      this.selectedRow = [...selection]
     },
     // 勾选选择框
     chooseSelectBoxAll (selection) {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
+      this.isCreateBill = selection.some(v => v.cFlag)
+      this.selectedRow = [...selection]
     },
     // 点击表格行
     chooseSelectRow (row, column, event) {
@@ -385,10 +392,13 @@ export default {
       if (index >= 0) { // 当前的行已经被选中了
         this.$refs['expenseTable'].toggleRowSelection(row, false)
         this.expenseBillIds.splice(index, 1)
+        this.selectedRow.splice(index, 1)
       } else {
         this.$refs['expenseTable'].toggleRowSelection(row, true)
         this.expenseBillIds.push(row.expenseBillId)
+        this.selectedRow.push({...row})
       }
+      this.isCreateBill = this.selectedRow.some(v => v.cFlag)
     }
   }
 }
