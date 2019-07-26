@@ -27,7 +27,7 @@
     <div class='query-table' style="margin-top:20px;background-color:white;padding:20px;">
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" >
-        <el-table-column label="序号" min-width="130"  type="index">
+        <el-table-column width="60" label="序号"  min-width="160" type="index">
         </el-table-column>
         <el-table-column label="HS编码" min-width="100">
           <template slot-scope="scope">
