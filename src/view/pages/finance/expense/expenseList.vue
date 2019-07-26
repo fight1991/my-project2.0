@@ -230,14 +230,14 @@ export default {
   methods: {
     // 获取台账列表
     getsExpenseList (pagination) {
-      if (this.dates1 && this.dates1.length > 0) {
+      if (this.dates2 && this.dates2.length > 0) {
         this.QueryForm.releaseDayStart = this.dates2[0]
         this.QueryForm.releaseDayEnd = this.dates2[1]
       } else {
         this.QueryForm.releaseDayStart = ''
         this.QueryForm.releaseDayEnd = ''
       }
-      if (this.dates2 && this.dates2.length > 0) {
+      if (this.dates1 && this.dates1.length > 0) {
         this.QueryForm.sailDayStart = this.dates1[0]
         this.QueryForm.sailDayEnd = this.dates1[1]
       } else {
