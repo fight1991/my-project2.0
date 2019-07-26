@@ -225,7 +225,7 @@
                         </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="6">
                         <el-form-item size="mini">
                         <el-button label="180" type="primary" @click="doCertTquery()">统计</el-button>
                         <el-button label="180" @click="gotoCert()">查看更多</el-button>
