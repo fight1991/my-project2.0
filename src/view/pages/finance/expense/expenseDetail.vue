@@ -487,8 +487,8 @@ export default {
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
             this.summarys = summarys || []
             // 翻译
-            this.initSelected(billPayableBodyVO.billPayableBodyVOList, 'P')
-            this.initSelected(billReceivableBodyVO.billReceivableBodyVOList, 'R')
+            this.initSelected(billPayableBodyVO.billPayableBodyVOList, 'P', 0)
+            this.initSelected(billReceivableBodyVO.billReceivableBodyVOList, 'R', 0)
             // 复制数据
             this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
             this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
@@ -604,7 +604,9 @@ export default {
               v.taxPrice = ''
               v.feeFlag = feeFlag
             })
-            this.initSelected(result[fee], fee.substring(0, 1).toUpperCase())
+            // 计算追加后数组的长度,处理下拉列表属性值能够有序的增加 eg: curr0,curr1 ...
+            let preLength = feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.length : this.billPayableBodyVO.billPayableBodyVOList.length
+            this.initSelected(result[fee], fee.substring(0, 1).toUpperCase(), preLength)
             feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(...result[fee]) : this.billPayableBodyVO.billPayableBodyVOList.push(...result[fee])
           }
         }
@@ -737,7 +739,7 @@ export default {
       }
     },
     // 数据返填时,翻译计量单位和币制
-    initSelected (arr, type) {
+    initSelected (arr, type, length) {
       if (!Array.isArray(arr)) return
       if (arr.length === 0) return
       arr.forEach((v, i) => {
@@ -745,7 +747,7 @@ export default {
           this.selectObj = {
             obj: this.selectDown['unit']['downList'],
             params: this.selectDown['unit']['params'],
-            index: 'unit' + type + i
+            index: 'unit' + type + (i + length)
           }
           this.checkParamsList(v.unit)
         }
@@ -753,7 +755,7 @@ export default {
           this.selectObj = {
             obj: this.selectDown['curr']['downList'],
             params: this.selectDown['curr']['params'],
-            index: 'curr' + type + i
+            index: 'curr' + type + (i + length)
           }
           this.checkParamsList(v.curr)
         }
