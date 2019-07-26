@@ -87,31 +87,31 @@
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.unit" placeholder="计量单位"
-                    filterable remote default-first-option
-                    @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
+                    filterable remote default-first-option clearable
+                    @focus="tipsFill('unitList','SAAS_SEA_UNIT', 'unitR'+ scope.$index)"
                     :remote-method="checkParamsList"
                     style="width:100%">
                     <el-option
-                      v-for="item in unitList"
+                      v-for="item in unitList['unitR'+ scope.$index]"
                       :key="item.codeField"
                       :label="item.nameField"
                       :value="item.codeField">
                     </el-option>
                   </el-select>
                 </div>
-                <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
+                <div class="cell-div" v-else>{{scope.row.unitValue || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
-                    filterable remote default-first-option
-                    @focus="tipsFill('currList','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    @focus="tipsFill('currList', 'SAAS_CURR', 'currR' + scope.$index)"
                     :remote-method="checkParamsList"
                     style="width:100%">
                     <el-option
-                      v-for="item in currList"
+                      v-for="item in currList['currR' + scope.$index]"
                       :key="item.codeField"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
@@ -235,31 +235,31 @@
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.unit" placeholder="计量单位"
-                    filterable remote default-first-option
-                    @focus="tipsFill('unitList','SAAS_SEA_UNIT')"
+                    filterable remote default-first-option clearable
+                    @focus="tipsFill('unitList','SAAS_SEA_UNIT', 'unitP' + scope.$index)"
                     :remote-method="checkParamsList"
                     style="width:100%">
                     <el-option
-                      v-for="item in unitList"
+                      v-for="item in unitList['unitP' + scope.$index]"
                       :key="item.codeField"
                       :label="item.nameField"
                       :value="item.codeField">
                     </el-option>
                   </el-select>
                 </div>
-                <div class="cell-div" v-else>{{scope.row.unit || '-'}}</div>
+                <div class="cell-div" v-else>{{scope.row.unitValue || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
-                    filterable remote default-first-option
-                    @focus="tipsFill('currList','SAAS_CURR')"
+                    filterable remote default-first-option clearable
+                    @focus="tipsFill('currList','SAAS_CURR', 'currP' + scope.$index)"
                     :remote-method="checkParamsList"
                     style="width:100%">
                     <el-option
-                      v-for="item in currList"
+                      v-for="item in currList['currP' + scope.$index]"
                       :key="item.codeField"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
@@ -382,8 +382,12 @@ export default {
       decCommon: {}, // 报关单详情固定字段
       summarys: [], // 费用汇总
       optionsList: [], // 费用项列表
-      currList: [], // 币制
-      unitList: [], // 计量单位
+      currList: {
+        curr0: []
+      }, // 币制
+      unitList: { // 计量单位
+        unit0: []
+      },
       // 查询的字典字段
       tableNameList: {
         tableNames: [
@@ -417,6 +421,10 @@ export default {
       valid: {
         price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'},
         num: {validator: this.numValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
+      },
+      selectDown: {
+        curr: {downList: 'currList', params: 'SAAS_CURR'},
+        unit: {downList: 'unitList', params: 'SAAS_SEA_UNIT'}
       }
     }
   },
@@ -478,6 +486,9 @@ export default {
             this.decDetail = resultMap || {}
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
             this.summarys = summarys || []
+            // 翻译
+            this.initSelected(billPayableBodyVO.billPayableBodyVOList, 'P')
+            this.initSelected(billReceivableBodyVO.billReceivableBodyVOList, 'R')
             // 复制数据
             this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
             this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
@@ -518,30 +529,41 @@ export default {
       })
     },
     checkParamsList (query) {
+      let {obj, params, index} = this.selectObj
+      let temp = []
       if (query !== '') {
         let keyValue = query.toString().trim()
-        let list = JSON.parse(localStorage.getItem(this.selectObj.params))
+        let list = JSON.parse(localStorage.getItem(params))
         let filterList = []
         if (util.isEmpty(keyValue)) {
-          this[this.selectObj.obj] = list.slice(0, 30)
+          temp = list.slice(0, 30)
         } else {
           filterList = list.filter(item => {
             let str = item.codeField + '-' + item.nameField
             return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
           })
-          this[this.selectObj.obj] = filterList.slice(0, 30)
+          temp = filterList.slice(0, 30)
         }
       } else {
-        if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+        if (!util.isEmpty(JSON.parse(localStorage.getItem(params)))) {
+          temp = JSON.parse(localStorage.getItem(params)).slice(0, 30)
         }
+      }
+      // 添加响应式
+      if (index) {
+        this[obj][index] = temp
+        this.$delete(this[obj], index)
+        this.$set(this[obj], index, temp)
+      } else {
+        this[obj] = temp
       }
     },
     // 创建字典参数列表
-    tipsFill (obj, params) {
+    tipsFill (obj, params, index) {
       this.selectObj = {
-        obj: obj,
-        params: params
+        obj,
+        params,
+        index
       }
     },
     // 获取单元格样式
@@ -582,6 +604,7 @@ export default {
               v.taxPrice = ''
               v.feeFlag = feeFlag
             })
+            this.initSelected(result[fee], fee.substring(0, 1).toUpperCase())
             feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(...result[fee]) : this.billPayableBodyVO.billPayableBodyVOList.push(...result[fee])
           }
         }
@@ -712,6 +735,29 @@ export default {
       } else {
         callback()
       }
+    },
+    // 数据返填时,翻译计量单位和币制
+    initSelected (arr, type) {
+      if (!Array.isArray(arr)) return
+      if (arr.length === 0) return
+      arr.forEach((v, i) => {
+        if (v.unit) {
+          this.selectObj = {
+            obj: this.selectDown['unit']['downList'],
+            params: this.selectDown['unit']['params'],
+            index: 'unit' + type + i
+          }
+          this.checkParamsList(v.unit)
+        }
+        if (v.curr) {
+          this.selectObj = {
+            obj: this.selectDown['curr']['downList'],
+            params: this.selectDown['curr']['params'],
+            index: 'curr' + type + i
+          }
+          this.checkParamsList(v.curr)
+        }
+      })
     }
   }
 }
