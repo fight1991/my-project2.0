@@ -71,13 +71,16 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="账单生成时间">
+            <el-form-item label="账单生成日期">
               <el-date-picker
                 style="width:100%"
                 v-model="dates"
-                type="datetime"
+                type="daterange"
                 align="right"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyy-MM-dd"
+                range-separator="至"
+                start-placeholder="开始日期"
+                 end-placeholder="结束日期"
                 :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
@@ -98,8 +101,8 @@
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
-        <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
+        <!-- <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button> -->
+        <!-- <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button> -->
         <!-- 对账单导出选项 -->
         <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
           <el-button size="mini" class="list-btns list-icon-exportO">
@@ -143,7 +146,7 @@
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
-              <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <!-- <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button> -->
             </div>
           </template>
         </el-table-column>
@@ -169,7 +172,8 @@ export default {
       selectionRow: [],
       settleCompanyList: [],
       QueryForm: {
-        createDate: '', // 生成时间
+        createStartDate: '', // 生成时间
+        createEndDate: '',
         createUserId: '', // 输入姓名
         curr: '', // 币制传英文缩写如CNY、USD
         feeFlag: '',
@@ -191,23 +195,28 @@ export default {
       paginationInit: '',
       pickerOptions: {
         shortcuts: [{
-          text: '今天',
+          text: '最近一周',
           onClick (picker) {
-            picker.$emit('pick', new Date())
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
           }
         }, {
-          text: '昨天',
+          text: '最近一个月',
           onClick (picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            picker.$emit('pick', date)
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
           }
         }, {
-          text: '一周前',
+          text: '最近三个月',
           onClick (picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', date)
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
           }
         }]
       }
@@ -297,7 +306,13 @@ export default {
     },
     // 获取账单列表
     getAccountList (pagination) {
-      this.QueryForm.createDate = this.dates || ''
+      if (this.dates && this.dates.length > 0) {
+        this.QueryForm.createStartDate = this.dates[0]
+        this.QueryForm.createEndDate = this.dates[1]
+      } else {
+        this.QueryForm.createStartDate = ''
+        this.QueryForm.createEndDate = ''
+      }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/account/gets',
@@ -315,7 +330,8 @@ export default {
     // 重置查询条件
     resetForm () {
       this.QueryForm = {
-        createDate: '',
+        createStartDate: '',
+        createEndDate: '',
         createUserId: '',
         curr: '',
         feeFlag: '',
@@ -381,7 +397,7 @@ export default {
     getAccountItem (type) {
       if (this.accountBillIds.length > 1 || this.accountBillIds.length === 0) {
         this.$message({
-          type: 'error',
+          type: 'warning',
           message: '请选择一条对账单导出'
         })
         return

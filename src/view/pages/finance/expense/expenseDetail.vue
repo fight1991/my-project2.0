@@ -8,7 +8,7 @@
           <el-col :span="8">
             <div class="one-row">
               <div class="left">接单编号&nbsp;:</div>
-              <div class="right">{{decCommon.billNo || '-'}}</div>
+              <div class="right">{{decCommon.innerNo || '-'}}</div>
             </div>
           </el-col>
           <el-col :span="8">
@@ -20,7 +20,7 @@
           <el-col :span="8">
             <div class="one-row">
               <div class="left">提单号&nbsp;:</div>
-              <div class="right">{{decCommon.innerNo || '-'}}</div>
+              <div class="right">{{decCommon.billNo || '-'}}</div>
             </div>
           </el-col>
         </el-row>
@@ -124,7 +124,11 @@
             <el-table-column prop="num" width="100" label="数量" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
-                  <el-input type="number" v-model.number="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                  <el-form-item
+                    :prop="'billReceivableBodyVOList.'+ scope.$index + '.num'"
+                    :rules="valid.num">
+                    <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                  </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
               </template>
@@ -411,7 +415,8 @@ export default {
       },
       // {pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,validator: priceValid,message:'小数点支持前9位,后3位',trigger:'blur'}
       valid: {
-        price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
+        price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'},
+        num: {validator: this.numValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
       }
     }
   },
@@ -594,22 +599,10 @@ export default {
       let pass1 = false
       let pass2 = false
       this.$refs['receiveTableForm'].validate(valid => {
-        if (!valid) {
-          this.$message({
-            type: 'error',
-            message: '应收费用单价格式输入有误,支持小数点后3位,前9位'
-          })
-          pass1 = true
-        }
+        if (!valid) pass1 = true
       })
       this.$refs['payTableForm'].validate(valid => {
-        if (!valid) {
-          this.$message({
-            type: 'error',
-            message: '应付费用单价格式输入有误,支持小数点后3位,前9位'
-          })
-          pass2 = true
-        }
+        if (!valid) pass2 = true
       })
       if (pass1 || pass2) return
       this.$store.dispatch('ajax', {
@@ -636,9 +629,25 @@ export default {
       this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
       this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
     },
+    // 处理toFixed 4舍5不入的问题 eg: 5.22556 => 5.226
+    changeFixed (temp) {
+      let reg = /\d+(\.\d{3}5){1}/
+      if (reg.test(temp)) { // 小数点第四位为5的话自动+1
+        let arr = temp.toString().split('.')
+        let tempLeft = arr[0]
+        let tempRight = +arr[1].substring(0, 4) + 1
+        temp = tempLeft + '.' + tempRight
+      }
+      return +temp || 0
+    },
     computeTaxPrice (row) {
-      if (isNaN(+(row.feePrice)) || isNaN(+(row.num))) return // 避免为NaN的情况
-      row.taxPrice = Math.round(row.num * row.feePrice * (1 + (+row.rate)))
+      let priceReg = /^\d{1,10}(\.\d{1,3})?$|^$/ // 小数点前10后3
+      let numFeg = /^\d{1,9}(\.\d{1,3})?$|^$/ // 小数点前9后3
+      if (!priceReg.test(+row.feePrice) || !numFeg.test(+row.num)) return // 避免为NaN的情况
+      let temp = row.num * row.feePrice * (1 + (+row.rate) / 100)
+      // 处理toFixed 四舍六入的问题
+      let result = this.changeFixed(temp)
+      row.taxPrice = result.toFixed(3)
     },
     delItems (row, feeFlag) {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
@@ -656,20 +665,20 @@ export default {
     // 数组求和
     getSum (arr) {
       if (arr.length === 0) {
-        return '0.00'
+        return '0.000'
       }
       if (arr.length === 1) {
-        return (+arr[0]).toFixed(2)
+        return (+arr[0]).toFixed(3)
       }
       return arr.reduce((prev, curr, idx, arr) => {
-        return (+prev + (+curr)).toFixed(2)
+        return (+prev + (+curr)).toFixed(3)
       })
     },
     // 以货币分类汇总
     getCategory (uniqueArr, allArr) {
       let tempArr1 = []
       uniqueArr.forEach(i => {
-        let temp3 = allArr.filter(q => q.curr === i && typeof q.taxPrice === 'number')
+        let temp3 = allArr.filter(q => q.curr === i && typeof (q.taxPrice === 'number' || typeof q.taxPrice === 'string'))
         let obj1 = {
           currName: i,
           sum: this.getSum(temp3.map(s => s.taxPrice))
@@ -680,13 +689,26 @@ export default {
     },
     // 单价校验
     priceValid (rule, value, callback) {
+      let reg = /^\d{1,10}(\.\d{1,3})?$|^$/
+      if (!reg.test(value)) {
+        this.$message({
+          type: 'error',
+          message: '单价格式输入有误,支持小数点后3位,前10位'
+        })
+        callback(new Error('单价格式输入有误,支持小数点后3位,前10位'))
+      } else {
+        callback()
+      }
+    },
+    // 数量校验
+    numValid (rule, value, callback) {
       let reg = /^\d{1,9}(\.\d{1,3})?$|^$/
       if (!reg.test(value)) {
         this.$message({
           type: 'error',
-          message: '单价格式输入有误,支持小数点后3位,前9位'
+          message: '数量格式输入有误,支持小数点后3位,前9位'
         })
-        callback(new Error('单价格式输入有误,支持小数点后3位,前9位'))
+        callback(new Error('数量格式输入有误,支持小数点后3位,前9位'))
       } else {
         callback()
       }
