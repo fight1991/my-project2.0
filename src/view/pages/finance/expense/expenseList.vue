@@ -92,7 +92,7 @@
     <!-- 列表表格开始 -->
     <div class='query-table'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
+        <el-button size="mini" :disabled="isCreateBill" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="expenseTableList" border
         highlight-current-row height="530px" ref="expenseTable"
@@ -176,6 +176,8 @@ export default {
       dates2: [],
       corpList: [],
       expenseBillIds: [], // 存储报价id数组
+      isCreateBill: true,
+      selectedRow: [],
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
@@ -373,12 +375,16 @@ export default {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
+      this.isCreateBill = selection.some(v => v.cFlag)
+      this.selectedRow = [...selection]
     },
     // 勾选选择框
     chooseSelectBoxAll (selection) {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
+      this.isCreateBill = selection.some(v => v.cFlag)
+      this.selectedRow = [...selection]
     },
     // 点击表格行
     chooseSelectRow (row, column, event) {
@@ -386,10 +392,13 @@ export default {
       if (index >= 0) { // 当前的行已经被选中了
         this.$refs['expenseTable'].toggleRowSelection(row, false)
         this.expenseBillIds.splice(index, 1)
+        this.selectedRow.splice(index, 1)
       } else {
         this.$refs['expenseTable'].toggleRowSelection(row, true)
         this.expenseBillIds.push(row.expenseBillId)
+        this.selectedRow.push({...row})
       }
+      this.isCreateBill = this.selectedRow.some(v => v.cFlag)
     }
   }
 }

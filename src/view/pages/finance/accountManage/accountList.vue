@@ -339,14 +339,14 @@ export default {
       this.accountBillIds = selection.map(v => {
         return v.accountBillId
       })
-      this.selectionRow = selection
+      this.selectionRow = [...selection]
     },
     // 勾选选择框
     chooseSelectBoxAll (selection) {
       this.accountBillIds = selection.map(v => {
         return v.accountBillId
       })
-      this.selectionRow = selection
+      this.selectionRow = [...selection]
     },
     // 点击表格行 单选
     chooseSelectRow (row, column, event) {
