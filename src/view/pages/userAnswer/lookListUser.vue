@@ -32,6 +32,9 @@
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="序号" type="index" width="50" align="center">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
+            </template>
           </el-table-column>
           <el-table-column label="问题" min-width="180">
             <template slot-scope="scope">

@@ -6,7 +6,7 @@
       :pager-count= "5"
       @current-change="currentChange"
       @size-change="sizeChange"
-      :current-page="pagination.currentPage"
+      :current-page.sync="pagination.pageIndex"
       :page-sizes="[10, 20, 50, 100, 200]"
       :page-size="pagination.pageSize"
       :total="pagination.total"
@@ -18,7 +18,7 @@
       :pager-count= "5"
       @current-change="currentChange"
       @size-change="sizeChange"
-      :current-page="pagination.currentPage"
+      :current-page.sync="pagination.pageIndex"
       :page-size="pagination.pageSize"
       :total="pagination.total"
       layout="prev, pager, next">
@@ -61,7 +61,9 @@ export default {
     },
     sizeChange (size) {
       this.pagination.pageSize = size
-      this.pagination.pageIndex = 1
+      if ((this.pagination.pageIndex - 1) * size > this.pagination.total) {
+        this.pagination.pageIndex = 1
+      }
       this.$emit('change', this.pagination)
     },
     windowsWidth () {
