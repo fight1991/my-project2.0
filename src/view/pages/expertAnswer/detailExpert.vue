@@ -44,15 +44,18 @@
                 <span v-if="titleData.iAnsweredFlag === 'true' && titleData.solvedFlag === 'false' &&  item.userId === $store.state.userLoginInfo.userId">
                  <el-button size="mini" type="primary" @click="openDialog('edit', item.answerId)">编辑</el-button>
                 </span>
-                <span class="create-time">
-                  <span class="small-title">
-                    <img src="../../../assets/img/answer-bq.png" class='small-img'>
-                    {{item.categoryName}}
+                <div class="slo-right">
+                  <span class="create-time">
+                    <span class="small-title">
+                      <img src="../../../assets/img/answer-bq.png" class='small-img'>
+                      {{item.categoryName}}
+                    </span>
+                    <span class="mg-l-10">
+                      {{item.createTime}}
+                    </span>
                   </span>
-                  <span class="mg-l-10">
-                    {{item.createTime}}
-                  </span>
-                </span>
+                  <img v-if="item.acceptFlag === 'true'" src="../../../assets/img/answer-sol.png" class="sol-img">
+                </div>
               </div>
             </el-col>
           </el-row>
@@ -466,6 +469,14 @@ export default {
       color: #999;
     }
 }
+.sol-img {
+  position: absolute;
+  right: 0;
+  bottom: 36px;
+}
+.slo-right {
+    height: 60px;
+  }
 .left-cls {
     margin-left: 20px;
   }
