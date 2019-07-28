@@ -152,7 +152,9 @@ export default {
         name: 'expertAnswer-detail',
         params: {
           questionId: questionId,
-          userId: userId
+          userId: userId,
+          setTitle: '查看详情-' + questionId,
+          setId: questionId + 'expert'
         }
       })
     }

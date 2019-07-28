@@ -341,7 +341,9 @@ export default {
         name: 'userAnswer-detail',
         params: {
           questionId: questionId,
-          userId: userId
+          userId: userId,
+          setTitle: '查看详情-' + questionId,
+          setId: questionId + 'user'
         }
       })
     }

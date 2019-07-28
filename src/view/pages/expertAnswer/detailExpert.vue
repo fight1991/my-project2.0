@@ -19,7 +19,7 @@
             </div>
             <div>
               <el-button size="mini" type="primary" @click="openDialog('new', 'new')" v-if="titleData.iAnsweredFlag === 'false' && titleData.solvedFlag === 'false'">我要解答</el-button>
-              <el-button size="mini" type="primary" @click="openDialog('new', 'new')" v-if="titleData.iAnsweredFlag === 'true' && titleData.solvedFlag === 'false'">追加解答</el-button>
+              <el-button size="mini" type="primary" @click="openDialog('newadd', 'new')" v-if="titleData.iAnsweredFlag === 'true' && titleData.solvedFlag === 'false'">追加解答</el-button>
             </div>
             <div class="create-time">
               {{titleData.createTime}}
@@ -66,7 +66,7 @@
           </el-col>
         </el-row>
      </el-row>
-     <el-dialog title="解答编辑" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
+     <el-dialog :title="dialogTitle" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
         <el-form label-width="65px" :model="dialogForm" ref="dialogForm" size="mini" label-position="right" class="order-label">
           <el-form-item label="答案描述">
             <el-input size="mini" type="textarea" :autosize="{minRows:5}" :maxlength="500" v-model="dialogForm.answerText"></el-input>
@@ -143,6 +143,7 @@ import util from '../../../common/util'
 export default {
   data () {
     return {
+      dialogTitle: '',
       titleData: {
         questionId: '',
         userId: '',
@@ -239,10 +240,16 @@ export default {
       this.imageUrl3 = ''
       this.setDialogVisible = true
       if (type === 'edit') {
+        this.dialogTitle = '编辑'
         this.isEdit = true
         this.getAnswerDetail(answerId)
       } else {
         this.isEdit = false
+        if (type === 'newadd') {
+          this.dialogTitle = '追加解答'
+        } else {
+          this.dialogTitle = '我要解答'
+        }
       }
     },
     // 精选提问
@@ -333,7 +340,7 @@ export default {
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, info) {
-      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') && (Math.ceil(file.size / 1024) <= 4096)) {
+      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') && (Math.ceil(file.size / 1024) > 4096)) {
         this.$message({
           message: '上传图片大小不超过4M的jpg、png、tif格式',
           type: 'error'
