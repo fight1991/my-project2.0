@@ -19,6 +19,8 @@ import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
 import Finance from './view/pages/finance/router'
 import Entrust from './view/pages/entrust/router'
+import ExpertAnswer from './view/pages/expertAnswer/router'
+import UserAnswer from './view/pages/userAnswer/router'
 
 const routes = [
   {
@@ -102,6 +104,8 @@ routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
 routes[1].children.push(...Finance.MENU)
 routes[1].children.push(...Entrust.MENU)
+routes[1].children.push(...ExpertAnswer.MENU)
+routes[1].children.push(...UserAnswer.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -220,6 +224,20 @@ router.beforeEach((to, from, next) => {
           type: 'entrust',
           title: '业务委托',
           permissions: 'CCBA21500000000'
+        }
+        break
+      case 'expertAnswer':
+        json = {
+          type: 'expertAnswer',
+          title: '专家答疑',
+          permissions: 'CCBA20100000000'
+        }
+        break
+      case 'userAnswer':
+        json = {
+          type: 'userAnswer',
+          title: '专家答疑',
+          permissions: 'CCBA20100000000'
         }
         break
     }
