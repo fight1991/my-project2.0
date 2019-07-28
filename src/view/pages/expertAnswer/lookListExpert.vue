@@ -34,7 +34,7 @@
               <div class='sys-td-l text-over-hid' :title="scope.row.questionTitle"><i class="jing-img" v-if="scope.row.recommendFlag === 'true'"></i>{{scope.row.questionTitle}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="提问时间" min-width="100">
+          <el-table-column label="答复时间" min-width="100">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.createTime || '-'}}</div>
             </template>
