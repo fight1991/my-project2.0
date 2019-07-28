@@ -101,20 +101,6 @@ export default {
   },
   mounted () {
   },
-  watch: {
-    '$route': function (to, from) {
-      // 初始化组件
-      if (to.path === '/userAnswer/userList') {
-        this.queryForm = {
-          searchText: '',
-          status: ''
-        }
-        this.getCategory()
-        this.paginationInit = this.$store.state.pagination
-        this.search()
-      }
-    }
-  },
   methods: {
     // 查询
     search () {

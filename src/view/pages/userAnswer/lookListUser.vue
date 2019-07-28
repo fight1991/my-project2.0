@@ -155,18 +155,6 @@ export default {
   },
   mounted () {
   },
-  watch: {
-    '$route': function (to, from) {
-      // 初始化组件
-      if (to.path === '/userAnswer/lookListUser') {
-        this.queryForm = {
-          searchText: ''
-        }
-        this.paginationInit = this.$store.state.pagination
-        this.search()
-      }
-    }
-  },
   methods: {
     // 查询
     search () {
