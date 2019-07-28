@@ -322,9 +322,9 @@ router.beforeEach((to, from, next) => {
                     success: res => {
                       this.expert = res.result.expert
                       if (this.expert && currentModule === 'userAnswer') {
-                        next('/expertAnswer/index')
+                        next('/expertAnswer/expertList')
                       } else if (!this.expert && currentModule === 'expertAnswer') {
-                        next('/userAnswer/index')
+                        next('/userAnswer/usertList')
                       } else {
                         next()
                       }

@@ -378,8 +378,8 @@ const linkList = {
       id: '6',
       icon: require('@/assets/www-img/images/expert.png'),
       text: '专家答疑',
-      link1: 'https://test.5itrade.cn/ccba2/expertAnswer/index',
-      link2: 'https://test.5itrade.cn/ccba2/userAnswer/index'
+      link1: 'https://test.5itrade.cn/ccba2/expertAnswer/expertList',
+      link2: 'https://test.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',
@@ -441,8 +441,8 @@ const linkList = {
       id: '6',
       icon: require('@/assets/www-img/images/expert.png'),
       text: '专家答疑',
-      link1: 'https://www.5itrade.cn/ccba2/expertAnswer/index',
-      link2: 'https://www.5itrade.cn/ccba2/userAnswer/index'
+      link1: 'https://www.5itrade.cn/ccba2/expertAnswer/expertList',
+      link2: 'https://www.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',
