@@ -40,8 +40,8 @@
               <div class="content-img">
                 <img v-for="(item1,index1) in item.urlList" :key="index1+'img'" :src="item1" @click.stop="showfile(item1)" class="detail-img">
               </div>
-              <div v-if="item.acceptFlag === 'false' && titleData.userId === $store.state.userLoginInfo.userId">
-                <span v-if="titleData.solvedFlag === 'false'" class="slo-right">
+              <div v-if="item.acceptFlag === 'false'">
+                <span v-if="titleData.solvedFlag === 'false' && titleData.userId === $store.state.userLoginInfo.userId" class="slo-right">
                  <el-button size="mini" type="primary" @click="acceptAnswer(item.answerId)">已解决</el-button>
                 </span>
                 <span class="create-time">
