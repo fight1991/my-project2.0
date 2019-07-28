@@ -256,7 +256,9 @@ export default {
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, info) {
-      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') && (Math.ceil(file.size / 1024) <= 4096)) {
+      console.log(Math.ceil(file.size / 1024) <= 4096)
+      debugger
+      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') || !(Math.ceil(file.size / 1024) <= 4096)) {
         this.$message({
           message: '上传图片大小不超过4M的jpg、png、tif格式',
           type: 'error'
@@ -272,6 +274,7 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
+            console.log(file.type, file.size)
             if (info === '1') {
               this.imageUrl1 = res.result.url
               this.urlList.push(this.imageUrl1)

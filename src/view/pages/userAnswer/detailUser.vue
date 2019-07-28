@@ -12,7 +12,7 @@
           <el-col :span='22' class="left-cls">
             <div class="answer-title">
               <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === true">
-              <span>{{titleData.questionTitle}}</span>
+              <span class="word-break">{{titleData.questionTitle}}</span>
               <span class="small-title" v-if="titleData.categoryName">
                 <img src="../../../assets/img/answer-bq.png" class='small-img'>
                 {{titleData.categoryName}}
@@ -225,6 +225,7 @@ export default {
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
     .answer-content {
+      word-break: break-all;
       margin-top: 16px;
       font-size: 14px;
     }

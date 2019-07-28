@@ -12,7 +12,7 @@
           <el-col :span='22' class="left-cls">
             <div class="answer-title">
               <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === 'true'">
-              <span>{{titleData.questionTitle}}</span>
+              <span class="word-break">{{titleData.questionTitle}}</span>
             </div>
             <div>
               <img v-for="(item,index) in titleData.urlList" :key="index+'title'" :src="item" @click.stop="showfile(item)" class="detail-img">
@@ -340,7 +340,7 @@ export default {
     },
     // 上传图片前的格式及大小判断
     beforeUpload (file, info) {
-      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') && (Math.ceil(file.size / 1024) > 4096)) {
+      if (!(file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/tif') || !(Math.ceil(file.size / 1024) <= 4096)) {
         this.$message({
           message: '上传图片大小不超过4M的jpg、png、tif格式',
           type: 'error'
@@ -456,6 +456,7 @@ export default {
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
     .answer-content {
+      word-break: break-all;
       margin-top: 16px;
       font-size: 14px;
     }
