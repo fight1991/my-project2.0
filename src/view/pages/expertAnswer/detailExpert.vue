@@ -106,7 +106,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="提问分类">
-                <el-select v-model="dialogForm.categoryId" size="mini" clearable>
+                <el-select v-model="dialogForm.categoryId" size="mini">
                   <el-option
                     v-for="item in categoryList"
                     :key="item.categoryId+'type'"
