@@ -118,7 +118,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="解答时间">
-                <el-date-picker size="mini"  v-model="dialogForm.createTime" type="datetime"></el-date-picker>
+                <el-date-picker size="mini"  v-model="dialogForm.createTime" type="datetime" :clearable="false"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>

@@ -15,7 +15,7 @@ const MENU = [
     path: '/userAnswer/userList',
     icon: 'icons-menu-index',
     name: 'userAnswer-list',
-    permissions: 'CCBA20100000000',
+    permissions: 'ccba2010',
     meta: {
       component: resolve => require(['./userList.vue'], resolve),
       title: '首页(用户)'
@@ -25,7 +25,7 @@ const MENU = [
     path: '/userAnswer/lookListUser',
     icon: 'icons-menu-problem',
     name: 'userAnswer-look',
-    permissions: 'CCBA20100000000',
+    permissions: 'ccba2010',
     meta: {
       component: resolve => require(['./lookListUser.vue'], resolve),
       title: '我的提问'

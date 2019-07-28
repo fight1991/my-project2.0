@@ -14,7 +14,7 @@ const MENU = [
   {
     path: '/expertAnswer/expertList',
     name: 'expertAnswer-list',
-    permissions: 'CCBA20100000000',
+    permissions: 'ccba2010',
     icon: 'icons-menu-index',
     meta: {
       component: resolve => require(['./expertList.vue'], resolve),
@@ -24,7 +24,7 @@ const MENU = [
   {
     path: '/expertAnswer/lookListExpert',
     name: 'expertAnswer-look',
-    permissions: 'CCBA20100000000',
+    permissions: 'ccba2010',
     icon: 'icons-menu-solute',
     meta: {
       component: resolve => require(['./lookListExpert.vue'], resolve),

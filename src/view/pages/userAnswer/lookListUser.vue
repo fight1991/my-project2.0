@@ -70,7 +70,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="提问时间">
-                <el-date-picker size="mini"  v-model="dialogForm.createTime" type="datetime"></el-date-picker>
+                <el-date-picker size="mini"  v-model="dialogForm.createTime" type="datetime" :clearable="false"></el-date-picker>
               </el-form-item>
               <el-form-item label="问题描述">
                 <el-input size="mini" type="textarea" :autosize="{minRows:5}" :maxlength="500" v-model="dialogForm.questionTitle"></el-input>

@@ -230,14 +230,14 @@ router.beforeEach((to, from, next) => {
         json = {
           type: 'expertAnswer',
           title: '专家答疑',
-          permissions: 'CCBA20100000000'
+          permissions: 'ccba2010'
         }
         break
       case 'userAnswer':
         json = {
           type: 'userAnswer',
           title: '专家答疑',
-          permissions: 'CCBA20100000000'
+          permissions: 'ccba2010'
         }
         break
     }
@@ -311,18 +311,22 @@ router.beforeEach((to, from, next) => {
                 for (let x = 0, len = datas.length; x < len; x++) {
                   json[datas[x].objectId] = datas[x].auth
                 }
+                json.ccba2010 = 'true'
                 window.localStorage.setItem('ccbaMenuCodes', JSON.stringify(json))
-                if (to.path.split('/')[1] === 'userAnswer' || to.path.split('/')[1] === 'userAnswer') {
+                let currentModule = to.path.split('/')[1]
+                if (currentModule === 'userAnswer' || currentModule === 'expertAnswer') {
                   router.app.$options.store.dispatch('ajax', {
                     url: 'API@/saas-activity/expertQA/getUserIdentity',
                     data: {},
                     router: router,
                     success: res => {
                       this.expert = res.result.expert
-                      if (this.expert) {
+                      if (this.expert && currentModule === 'userAnswer') {
                         next('/expertAnswer/index')
-                      } else {
+                      } else if (!this.expert && currentModule === 'expertAnswer') {
                         next('/userAnswer/index')
+                      } else {
+                        next()
                       }
                     }
                   })
