@@ -312,7 +312,23 @@ router.beforeEach((to, from, next) => {
                   json[datas[x].objectId] = datas[x].auth
                 }
                 window.localStorage.setItem('ccbaMenuCodes', JSON.stringify(json))
-                next()
+                if (to.path.split('/')[1] === 'userAnswer' || to.path.split('/')[1] === 'userAnswer') {
+                  router.app.$options.store.dispatch('ajax', {
+                    url: 'API@/saas-activity/expertQA/getUserIdentity',
+                    data: {},
+                    router: router,
+                    success: res => {
+                      this.expert = res.result.expert
+                      if (this.expert) {
+                        next('/expertAnswer/index')
+                      } else {
+                        next('/userAnswer/index')
+                      }
+                    }
+                  })
+                } else {
+                  next()
+                }
               }
             })
           }

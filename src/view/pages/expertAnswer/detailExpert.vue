@@ -274,6 +274,7 @@ export default {
           this.dialogForm.answerId = answerId
           this.dialogForm.categoryId = res.result.categoryId
           this.dialogForm.answerPic = res.result.answerPic
+          this.dialogForm.createTime = res.result.createTime
           if (res.result.answerPic) {
             this.urlList = this.skipEmptyArray(res.result.answerPic.split(','))
             for (let i = 0; i < this.urlList.length; i++) {

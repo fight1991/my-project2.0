@@ -211,6 +211,7 @@ export default {
           this.dialogForm.questionTitle = res.result.questionTitle
           this.dialogForm.questionId = questionId
           this.dialogForm.questionPic = res.result.questionPic
+          this.dialogForm.createTime = res.result.createTime
           if (res.result.questionPic) {
             this.urlList = res.result.questionPic.split(',')
             for (let i = 0; i < this.urlList.length; i++) {
