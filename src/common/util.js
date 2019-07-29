@@ -206,6 +206,9 @@ export default {
       case 'gif':
         computFileType = 'image/gif'
         break
+      case 'tif':
+        computFileType = 'image/tif'
+        break
       case 'bmp':
         computFileType = 'image/bmp'
         break

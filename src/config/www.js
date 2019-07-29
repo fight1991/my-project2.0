@@ -378,7 +378,7 @@ const linkList = {
       id: '6',
       icon: require('@/assets/www-img/images/expert.png'),
       text: '专家答疑',
-      link: ''
+      link: 'https://test.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',
@@ -440,7 +440,7 @@ const linkList = {
       id: '6',
       icon: require('@/assets/www-img/images/expert.png'),
       text: '专家答疑',
-      link: ''
+      link: 'https://www.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',

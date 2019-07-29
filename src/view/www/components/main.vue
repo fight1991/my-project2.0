@@ -17,7 +17,7 @@
         <p class="light">ECOLOGY、COLLABORATION</p>
       </div>
       <div class="link-items mainer">
-        <div class="link-detail" v-for="item in linkList" :key="item.id" @click="goToLink(item.link)">
+        <div class="link-detail" v-for="item in linkList" :key="item.id" @click="goToLink(item)">
           <img :src="item.icon" alt="">
           <p v-html="item.text"></p>
         </div>
@@ -117,6 +117,7 @@ export default {
       bannerHeight: 380,
       imgBL: 380 / 1440,
       isShow: true,
+      expert: true,
       pro: [
         {
           imgURL: require('@/assets/www-img/images/pro01.png'),
@@ -220,9 +221,9 @@ export default {
         }
       })
     },
-    goToLink (link) {
-      link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-      window.open(link, '_blank')
+    goToLink (item) {
+      item.link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
+      window.open(item.link, '_blank')
     }
   }
 }

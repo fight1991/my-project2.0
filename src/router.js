@@ -19,6 +19,8 @@ import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
 import Finance from './view/pages/finance/router'
 import Entrust from './view/pages/entrust/router'
+import ExpertAnswer from './view/pages/expertAnswer/router'
+import UserAnswer from './view/pages/userAnswer/router'
 
 const routes = [
   {
@@ -102,6 +104,8 @@ routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
 routes[1].children.push(...Finance.MENU)
 routes[1].children.push(...Entrust.MENU)
+routes[1].children.push(...ExpertAnswer.MENU)
+routes[1].children.push(...UserAnswer.MENU)
 routes[2].children.push(...WWW.MENU)
 const router = new Router({
   mode: 'history',
@@ -222,6 +226,20 @@ router.beforeEach((to, from, next) => {
           permissions: 'CCBA21500000000'
         }
         break
+      case 'expertAnswer':
+        json = {
+          type: 'expertAnswer',
+          title: '专家答疑',
+          permissions: 'ccba2010'
+        }
+        break
+      case 'userAnswer':
+        json = {
+          type: 'userAnswer',
+          title: '专家答疑',
+          permissions: 'ccba2010'
+        }
+        break
     }
     router.app.$options.store.commit('setChildSys', json)
   }
@@ -293,8 +311,28 @@ router.beforeEach((to, from, next) => {
                 for (let x = 0, len = datas.length; x < len; x++) {
                   json[datas[x].objectId] = datas[x].auth
                 }
+                json.ccba2010 = 'true'
                 window.localStorage.setItem('ccbaMenuCodes', JSON.stringify(json))
-                next()
+                let currentModule = to.path.split('/')[1]
+                if (currentModule === 'userAnswer' || currentModule === 'expertAnswer') {
+                  router.app.$options.store.dispatch('ajax', {
+                    url: 'API@/saas-activity/expertQA/getUserIdentity',
+                    data: {},
+                    router: router,
+                    success: res => {
+                      this.expert = res.result.expert
+                      if (this.expert && currentModule === 'userAnswer') {
+                        next('/expertAnswer/expertList')
+                      } else if (!this.expert && currentModule === 'expertAnswer') {
+                        next('/userAnswer/usertList')
+                      } else {
+                        next()
+                      }
+                    }
+                  })
+                } else {
+                  next()
+                }
               }
             })
           }
