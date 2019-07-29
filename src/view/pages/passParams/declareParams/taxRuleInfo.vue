@@ -141,19 +141,22 @@ export default {
   data () {
     return {
       taxForm: {},
-      code: ''
+      code: '',
+      hsCode: ''
     }
   },
   watch: {
     '$route' (newVal, oldVal) {
       if (newVal.name === 'taxRuleInfo') {
-        this.code = newVal.params.id
+        this.code = newVal.query.id
+        this.hsCode = newVal.query.hsCode
         this.getDetail()
       }
     }
   },
   created () {
-    this.code = this.$route.params.id
+    this.code = this.$route.query.id
+    this.hsCode = this.$route.query.hsCode
     this.getDetail()
   },
   mounted () {
@@ -163,7 +166,7 @@ export default {
     getDetail () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-dictionary/decParam/getComplexDetail',
-        data: {code: this.code},
+        data: {code: this.code, hsCode: this.hsCode},
         router: this.$router,
         success: (res) => {
           this.taxForm = util.isEmpty(res.result) ? {} : res.result
