@@ -222,6 +222,13 @@ export default {
       }
     }
   },
+  watch: {
+    '$route': function (to, from) {
+      if (to.name === 'expense-list' && to.query.from === 'other') {
+        this.getsExpenseList(this.$store.state.pagination)
+      }
+    }
+  },
   created () {
     this.paginationInit = this.$store.state.pagination
     this.getsExpenseList(this.$store.state.pagination)

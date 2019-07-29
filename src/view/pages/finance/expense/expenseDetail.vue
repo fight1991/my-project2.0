@@ -643,7 +643,14 @@ export default {
             type: 'success',
             message: '编辑成功'
           })
-          this.getBillDetail(this.$route.query.expenseBillId)
+          // this.getBillDetail(this.$route.query.expenseBillId)
+          this.$store.commit('CloseTab', this.$route.query.setId)
+          this.$router.push({
+            name: 'expense-list',
+            query: {
+              from: 'other'
+            }
+          })
         }
       })
     },
