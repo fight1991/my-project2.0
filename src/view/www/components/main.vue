@@ -193,7 +193,6 @@ export default {
         this.$router.push('/talent')
         eventBus.$emit('changeStyle', null)
       } else if (index >= 0 && (this.bannerList[index].linkUrl.indexOf('expertAnswer') > -1 || this.bannerList[index].linkUrl.indexOf('userAnswer') > -1)) {
-        console.log(this.bannerList[index].linkUrl)
         this.getUserIdentity(this.bannerList[index].linkUrl)
       } else { // 其他链接地址
         window.open(this.bannerList[index].linkUrl, '_blank')
@@ -241,7 +240,6 @@ export default {
           this.expert = res.result.expert
           if (this.expert) {
             if (linkurl === 'item') {
-              console.log(linkurl)
               linkurl.link1 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
               window.open(linkurl.link1, '_blank')
             } else {
@@ -249,7 +247,6 @@ export default {
             }
           } else {
             if (linkurl === 'item') {
-              console.log(linkurl)
               linkurl.link2 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
               window.open(linkurl.link2, '_blank')
             } else {
