@@ -20,7 +20,7 @@ const MENU = {
       }
     },
     {
-      path: '/passParams/taxRule/detail/:id',
+      path: '/passParams/taxRule/detail',
       name: 'taxRuleInfo',
       hidden: true,
       meta: {
