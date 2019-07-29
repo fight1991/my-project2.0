@@ -3,7 +3,7 @@ const MENU = [
     path: '/finance/accountManage/list',
     name: 'accountManage-list',
     icon: 'icons-finance-accountManage',
-    permissions: 'CCBA21601000000',
+    permissions: 'CCBA21603000000',
     hidden: false,
     meta: {
       component: resolve => require(['./accountList.vue'], resolve),
@@ -13,7 +13,7 @@ const MENU = [
   {
     path: '/finance/accountManage/detail',
     name: 'accountManage-detail',
-    permissions: 'CCBA21003010000',
+    permissions: 'CCBA21603000000',
     hidden: true,
     meta: {
       component: resolve => require(['./accountDetail.vue'], resolve),
