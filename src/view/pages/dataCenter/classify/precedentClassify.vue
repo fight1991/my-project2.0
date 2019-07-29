@@ -125,28 +125,34 @@ export default {
         })
         return false
       } else {
+        let url = ''
         if (this.queryForm.classType === '1') {
-          this.$store.dispatch('ajax', {
-            url: 'API@/saas-document-center/category/queryCategory',
-            data: {...this.queryForm, page: this.pagination},
-            isPageList: true,
-            router: this.$router,
-            success: (res) => {
-              if (!util.isEmpty(res.result)) {
-                this.queryresult = res.result.categoryList
-                if (res.result.hsList.length !== 0) {
-                  res.result.hsList.forEach(item => {
-                    var object = {}
-                    object.value = item.hsCodePre
-                    object.text = item.name
-                    this.hsCodeList.push(object)
-                  })
-                }
-                this.pagination = res.page
-              }
-            }
-          })
+          url = 'API@/saas-document-center/category/queryCategory'
+        } else if (this.queryForm.classType === '2') {
+          url = 'API@/saas-document-center/category/queryCategorySecond'
+        } else {
+
         }
+        this.$store.dispatch('ajax', {
+          url: url,
+          data: {...this.queryForm, page: this.pagination},
+          isPageList: true,
+          router: this.$router,
+          success: (res) => {
+            if (!util.isEmpty(res.result)) {
+              this.queryresult = res.result.categoryList
+              if (res.result.hsList.length !== 0) {
+                res.result.hsList.forEach(item => {
+                  var object = {}
+                  object.value = item.hsCodePre
+                  object.text = item.name
+                  this.hsCodeList.push(object)
+                })
+              }
+              this.pagination = res.page
+            }
+          }
+        })
       }
     },
     filterHandler (value) {
