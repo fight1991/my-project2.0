@@ -261,7 +261,7 @@ export default {
       this.QueryForm = {
         createStartTime: '',
         createEndTime: '',
-        createUserName: '',
+        createUser: '',
         feeOptionCode: '',
         feeOptionName: '',
         feeRate: '',
