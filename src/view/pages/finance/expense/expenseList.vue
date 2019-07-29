@@ -178,6 +178,7 @@ export default {
       expenseBillIds: [], // 存储报价id数组
       isCreateBill: true,
       selectedRow: [],
+      expenseTableList: [],
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代

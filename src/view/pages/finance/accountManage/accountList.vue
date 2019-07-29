@@ -181,6 +181,7 @@ export default {
         invoiceStatus: '', // 对账状态1待审核，2审核退回，3待对账，4对账驳回，5对账确认
         settleCompanyName: '' // 账单企业
       },
+      accountTableList: [],
       // 查询的字典字段
       tableNameList: {
         tableNames: [

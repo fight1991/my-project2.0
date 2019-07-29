@@ -87,7 +87,7 @@
         <el-table-column label="操作" fixed="right" width="80" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button type="text"  v-if="scope.row.createUserId === createUser" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
+              <el-button type="text"  v-if="scope.row.createUserId === currentUser" title="编辑" @click.prevent="showDialog('edit',scope.row)" class="table-icon list-icon-edit"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -261,7 +261,7 @@ export default {
       this.QueryForm = {
         createStartTime: '',
         createEndTime: '',
-        createUserName: '',
+        createUser: '',
         feeOptionCode: '',
         feeOptionName: '',
         feeRate: '',
