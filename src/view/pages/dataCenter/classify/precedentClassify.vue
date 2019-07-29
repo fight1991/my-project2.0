@@ -165,9 +165,9 @@ export default {
     // 详情
     toDetail (hsCode) {
       this.$router.push({
-        path: `/passParams/taxRule/detail/${hsCode}`,
+        name: 'taxRuleInfo',
         params: {
-          'id': hsCode
+          'hsCode': hsCode
         }
       })
     }
