@@ -192,8 +192,6 @@ export default {
       } else if (index >= 0 && this.bannerList[index].linkUrl.indexOf('talent') > -1) {
         this.$router.push('/talent')
         eventBus.$emit('changeStyle', null)
-      } else if (index >= 0 && (this.bannerList[index].linkUrl.indexOf('expertAnswer') > -1 || this.bannerList[index].linkUrl.indexOf('userAnswer') > -1)) {
-        this.getUserIdentity(this.bannerList[index].linkUrl)
       } else { // 其他链接地址
         window.open(this.bannerList[index].linkUrl, '_blank')
       }
@@ -224,37 +222,8 @@ export default {
       })
     },
     goToLink (item) {
-      if (item.link1 || item.link2) {
-        this.getUserIdentity(item)
-      } else {
-        item.link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-        window.open(item.link, '_blank')
-      }
-    },
-    getUserIdentity (linkurl) {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-activity/expertQA/getUserIdentity',
-        data: {},
-        router: this.$router,
-        success: res => {
-          this.expert = res.result.expert
-          if (this.expert) {
-            if (linkurl === 'item') {
-              linkurl.link1 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-              window.open(linkurl.link1, '_blank')
-            } else {
-              window.open(linkurl, '_blank')
-            }
-          } else {
-            if (linkurl === 'item') {
-              linkurl.link2 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-              window.open(linkurl.link2, '_blank')
-            } else {
-              window.open(linkurl, '_blank')
-            }
-          }
-        }
-      })
+      item.link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
+      window.open(item.link, '_blank')
     }
   }
 }
