@@ -84,7 +84,7 @@
                           v-for="item in impexpPortList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.nameField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -102,7 +102,7 @@
                           v-for="item in dclPlcCusList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.nameField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -316,7 +316,7 @@
                           v-for="item in impexpPortList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.nameField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -326,7 +326,7 @@
                       <el-select  v-model="item1.quotationFeeVO.dclPlcCuscdNames"
                         filterable clearable remote default-first-option
                         multiple autocomplete :multiple-limit="9"
-                         placeholder="请选择进申报地海关,最多9条"
+                         placeholder="请选择申报地海关,最多9条"
                         @focus="tipsFill('dclPlcCusList','SAAS_CUSTOMS_REL')"
                         :remote-method="checkParamsList"
                         style="width:100%">
@@ -334,7 +334,7 @@
                           v-for="item in dclPlcCusList"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
-                          :value="item.nameField">
+                          :value="item.codeField + '-' + item.nameField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -1005,7 +1005,7 @@ export default {
             if (typeof v[k] === 'string') {
               if (v[k].indexOf(';') > 0) {
                 v[k] = v[k].split(';')
-              } else {
+              } else { // 为字符串
                 v[k].length > 0 && (v[k] = [v[k]])
               }
             }

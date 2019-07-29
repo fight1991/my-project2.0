@@ -315,6 +315,13 @@ export default {
               v['quotationFeeVO'][key] = tempArr.join(';')
             }
           }
+          // impexpPortcdNames dclPlcCuscdNames
+          if (key === 'impexpPortcdNames' || key === 'dclPlcCuscdNames') {
+            if (v['quotationFeeVO'][key] && v['quotationFeeVO'][key].length > 0) {
+              let temp = v['quotationFeeVO'][key].split(';').map(item => item.split('-')[1])
+              v['quotationFeeVO'][key] = temp.join(';')
+            }
+          }
         }
       })
     }
