@@ -222,8 +222,8 @@ export default {
       })
     },
     goToLink (item) {
-      item.link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-      window.open(item.link, '_blank')
+      let token = `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
+      window.open(item.link + token, '_blank')
     }
   }
 }
