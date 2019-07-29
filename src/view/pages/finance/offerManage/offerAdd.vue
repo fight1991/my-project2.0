@@ -22,9 +22,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item  label-position="left">
-                  <el-checkbox-group v-model="submitData.quotationHeadVO.singleFlag">
-                    <el-checkbox label="项目独立报价" :true-label="true" :false-label="false" name="singleFlag"></el-checkbox>
-                  </el-checkbox-group>
+                  <el-checkbox v-model="submitData.quotationHeadVO.singleFlag" name="singleFlag">项目独立报价</el-checkbox>
                 </el-form-item>
               </el-col>
             </el-row>
