@@ -97,8 +97,8 @@ export default {
     // 跳转详情
     toDetail (codeTs) {
       this.$router.push({
-        name: 'taxRuleInfo',
-        params: {
+        path: '/passParams/taxRule/detail',
+        query: {
           'id': codeTs
         }
       })

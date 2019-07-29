@@ -55,7 +55,7 @@
         <el-table-column label="申报次数" min-width="130">
           <template slot-scope="scope">
             <div class="customer-table-r" :title="scope.row.wordCount">
-            {{scope.row.wordCount || '-'}}
+            {{scope.row.wordCount+'' || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -97,10 +97,6 @@ export default {
         {
           value: '2',
           label: '线路二'
-        },
-        {
-          value: '3',
-          label: '线路三'
         }
       ],
       queryresult: [],
@@ -130,8 +126,6 @@ export default {
           url = 'API@/saas-document-center/category/queryCategory'
         } else if (this.queryForm.classType === '2') {
           url = 'API@/saas-document-center/category/queryCategorySecond'
-        } else {
-
         }
         this.$store.dispatch('ajax', {
           url: url,
@@ -141,6 +135,7 @@ export default {
           success: (res) => {
             if (!util.isEmpty(res.result)) {
               this.queryresult = res.result.categoryList
+              this.hsCodeList = []
               if (res.result.hsList.length !== 0) {
                 res.result.hsList.forEach(item => {
                   var object = {}
@@ -171,8 +166,8 @@ export default {
     // 详情
     toDetail (hsCode) {
       this.$router.push({
-        name: 'taxRuleInfo',
-        params: {
+        path: '/passParams/taxRule/detail',
+        query: {
           'hsCode': hsCode
         }
       })

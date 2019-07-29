@@ -148,15 +148,15 @@ export default {
   watch: {
     '$route' (newVal, oldVal) {
       if (newVal.name === 'taxRuleInfo') {
-        this.code = newVal.params.id
-        this.hsCode = this.$route.params.hsCode
+        this.code = newVal.query.id
+        this.hsCode = newVal.query.hsCode
         this.getDetail()
       }
     }
   },
   created () {
-    this.code = this.$route.params.id
-    this.hsCode = this.$route.params.hsCode
+    this.code = this.$route.query.id
+    this.hsCode = this.$route.query.hsCode
     this.getDetail()
   },
   mounted () {
