@@ -176,7 +176,6 @@ export default {
   },
   created () {
     this.getBanner()
-    this.getUserIdentity()
     let path = linkList[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']
     this.linkList = path
   },
@@ -224,25 +223,26 @@ export default {
     },
     goToLink (item) {
       if (item.link1 || item.link2) {
-        if (this.expert) {
-          item.link1 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-          window.open(item.link1, '_blank')
-        } else {
-          item.link2 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
-          window.open(item.link2, '_blank')
-        }
+        this.getUserIdentity(item)
       } else {
         item.link += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
         window.open(item.link, '_blank')
       }
     },
-    getUserIdentity () {
+    getUserIdentity (item) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-activity/expertQA/getUserIdentity',
         data: {},
         router: this.$router,
         success: res => {
           this.expert = res.result.expert
+          if (this.expert) {
+            item.link1 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
+            window.open(item.link1, '_blank')
+          } else {
+            item.link2 += `?token=${encodeURIComponent(localStorage.getItem('token')) || ''}`
+            window.open(item.link2, '_blank')
+          }
         }
       })
     }
