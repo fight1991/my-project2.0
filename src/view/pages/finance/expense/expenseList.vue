@@ -90,7 +90,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table'>
+    <div class='query-table-finance'>
       <el-row class="table-btn">
         <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
       </el-row>
@@ -417,7 +417,7 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table {
+.query-table-finance {
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;
