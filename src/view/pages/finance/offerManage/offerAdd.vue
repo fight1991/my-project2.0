@@ -119,8 +119,8 @@
                         <el-option
                           v-for="item in departureList"
                           :key="item.codeField"
-                          :label="item.nameField"
-                          :value="item.codeField + '~' + item.nameField">
+                          :label="item.nameField + '-' + item.otherField"
+                          :value="item.codeField + '~' + item.nameField + item.otherField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -137,8 +137,8 @@
                         <el-option
                           v-for="item in destinationList"
                           :key="item.codeField"
-                          :label="item.nameField"
-                          :value="item.codeField + '~' + item.nameField">
+                          :label="item.nameField + '-' + item.otherField"
+                          :value="item.codeField + '~' + item.nameField + item.otherField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -351,8 +351,8 @@
                         <el-option
                           v-for="item in departureList"
                           :key="item.codeField"
-                          :label="item.nameField"
-                          :value="item.codeField + '~' + item.nameField">
+                          :label="item.nameField + '-' + item.otherField"
+                          :value="item.codeField + '~' + item.nameField + item.otherField">
                         </el-option>
                       </el-select>
                     </el-form-item>
@@ -369,8 +369,8 @@
                         <el-option
                           v-for="item in destinationList"
                           :key="item.codeField"
-                          :label="item.nameField"
-                          :value="item.codeField + '~' + item.nameField">
+                          :label="item.nameField + '-' + item.otherField"
+                          :value="item.codeField + '~' + item.nameField + item.otherField">
                         </el-option>
                       </el-select>
                     </el-form-item>
