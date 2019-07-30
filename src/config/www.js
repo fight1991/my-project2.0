@@ -475,14 +475,14 @@ const partner = [
     url: 'https://www.singlewindow.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/yatai.png'),
-    name: '亚太示范电子口岸网络运营中心',
-    url: 'javascript:;'
-  },
-  {
     icon: require('@/assets/www-img/images/partner/ruikumaoyi.png'),
     name: '北京睿库贸易安全及便利化研究中心',
     url: 'https://www.re-code.org/'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/yatai.png'),
+    name: '亚太示范电子口岸网络运营中心',
+    url: 'javascript:;'
   },
   {
     icon: require('@/assets/www-img/images/partner/beijing.png'),
