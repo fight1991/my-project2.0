@@ -114,7 +114,6 @@ export default {
   },
   methods: {
     queryList () {
-      this.queryForm.hs = ''
       if (this.queryForm.querykey.trim().length === 0) {
         this.$message({
           message: '请输入商品描述',
@@ -159,6 +158,7 @@ export default {
     },
     // 重置
     resetFun () {
+      this.queryForm.hs = ''
       this.queryForm = {
         'querykey': '',
         'classType': '1'
