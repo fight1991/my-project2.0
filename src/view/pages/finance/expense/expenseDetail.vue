@@ -54,7 +54,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
-      <div class='query-table'>
+      <div class='query-table-finance'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
@@ -171,7 +171,7 @@
                 <div class="cell-div">{{scope.row.itemName || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="createUserName" width="80" label="操作人" align="center">
+            <el-table-column prop="createUserName" width="100" label="操作人" align="center">
               <template slot-scope="scope">
                 <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
               </template>
@@ -202,7 +202,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
-      <div class='query-table'>
+      <div class='query-table-finance'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
@@ -315,7 +315,7 @@
                 <div class="cell-div">{{scope.row.itemName || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="createUserName" width="80" label="操作人" align="center">
+            <el-table-column prop="createUserName" width="100" label="操作人" align="center">
               <template slot-scope="scope">
                 <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
               </template>
@@ -600,7 +600,21 @@ export default {
               v.settleCompanyName = this[fee].entrustCompanyName
               v.billType = 1
               v.itemName = this[fee].itemName
-              v.num = 0
+              // 报关单有且单位为票 数量默认为1
+              ;(v.unit === '35' && this.decCommon.innerNo && (v.num = 1)) || (v.num = '')
+              // 单位为次
+              v.unit === '38' && (v.num = 1)
+              // 单位为页
+              if (v.unit === '36' && this.decDetail.goodNum) {
+                let val = this.decDetail.goodNum.keyValue
+                if (val < 6) { // 0 或小数
+                  v.num = 1
+                } else if (val % 6 === 0) { // 整除
+                  v.num = parseInt(val / 6)
+                } else { // 向上取整
+                  v.num = Math.ceil(val / 6)
+                }
+              }
               v.taxPrice = ''
               v.feeFlag = feeFlag
             })
@@ -905,7 +919,7 @@ export default {
       }
     }
   }
-  .table-btn,.query-table {
+  .table-btn,.query-table-finance {
     padding-left: 4px;
   }
 </style>

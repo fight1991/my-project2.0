@@ -61,7 +61,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table'>
+    <div class='query-table-finance'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="showDialog('add')"><i></i>新增</el-button>
       </el-row>
@@ -433,7 +433,7 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table {
+.query-table-finance {
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;

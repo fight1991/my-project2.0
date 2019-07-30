@@ -99,7 +99,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table'>
+    <div class='query-table-finance'>
       <el-row class="table-btn">
         <!-- <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button> -->
         <!-- <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button> -->
@@ -436,7 +436,7 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table {
+.query-table-finance {
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;
