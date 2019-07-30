@@ -435,6 +435,8 @@ export default {
 </script>
 <style scoped lang="less">
 .query-condition {
+  background-color: #fff;
+  padding: 20px;
   color: #4c4c4c;
   .content-title {
     position: relative;
