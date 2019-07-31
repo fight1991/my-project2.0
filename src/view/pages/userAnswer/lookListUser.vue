@@ -381,4 +381,15 @@ export default {
   top: 0;
   cursor: pointer;
 }
+.query-condition {
+  background-color: #fff;
+  padding: 20px;
+}
+.query-table {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 14px;
+  color: @font-color-main;
+}
 </style>
