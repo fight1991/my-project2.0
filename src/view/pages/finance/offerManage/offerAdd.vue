@@ -1061,7 +1061,7 @@ export default {
           }
           // this.checkParamsList(list[v])
           if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
           }
         }
       })

@@ -606,7 +606,7 @@ export default {
               v.unit === '38' && (v.num = 1)
               // 单位为页
               if (v.unit === '36' && this.decDetail.goodNum) {
-                let val = this.decDetail.goodNum.keyValue
+                let val = this.decDetail.goodNum.keyValue || ''
                 if (val < 6) { // 0 或小数
                   v.num = 1
                 } else if (val % 6 === 0) { // 整除
