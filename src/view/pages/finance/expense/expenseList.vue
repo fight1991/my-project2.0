@@ -359,7 +359,7 @@ export default {
         })
         return
       }
-      this.$confirm('是否确认生成对账单 ? 生成的对账单需要先进行内容审核确认', '提示', {
+      this.$confirm('是否确认生成对账单 ? 请注意,当前情况下,生成的对账单需要先进行内容审核确认', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
