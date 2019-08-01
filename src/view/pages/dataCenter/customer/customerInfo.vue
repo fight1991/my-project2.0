@@ -379,7 +379,7 @@ export default {
     },
     // 选择公司后
     translatecustom () {
-      if (typeof this.newcustomer.customName !== 'string') {
+      if (this.newcustomer.customName && typeof this.newcustomer.customName !== 'string') {
         this.newcustomer.sccCode = this.newcustomer.customName.sccCode
         this.newcustomer.tradeCode = this.newcustomer.customName.tradeCode
         this.newcustomer.ciqCode = this.newcustomer.customName.ciqCode
