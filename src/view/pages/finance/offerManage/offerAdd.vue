@@ -854,6 +854,32 @@ export default {
         }
       }
     },
+    // 收集所有出发地港货目的地港的下拉参数
+    collectPort (arr) {
+      let tempArr1 = []
+      let tempArr2 = []
+      arr.forEach(v => {
+        let temp = v.quotationFeeVO
+        tempArr1.push(...temp['departure'])
+        tempArr2.push(...temp['destination'])
+      })
+      let obj = {
+        dep: [...new Set(tempArr1)],
+        des: [...new Set(tempArr2)]
+      }
+      return obj
+    },
+    // 专门处理初始化港口的下拉列表
+    checkParamsListByArray (arr, flag) {
+      let obj = this.collectPort(arr)
+      let list = JSON.parse(localStorage.getItem('SAAS_TJ_PORT'))
+      let newArr = []
+      obj[flag].forEach(v => {
+        let temp = list.filter(item => item.codeField === v)
+        newArr.push(...temp)
+      })
+      return newArr
+    },
     // 日期校验
     validDate (rule, value, callback) {
       if (!value || value.length === 0) {
@@ -928,14 +954,15 @@ export default {
           if (result) { // 数据处理
             this.arrayAndString(result.quotationPayableBodyVOList, 'array')
             this.arrayAndString(result.quotationReceivableBodyVOList, 'array')
+            let tempPay = JSON.parse(JSON.stringify(result.quotationPayableBodyVOList))
+            let tempReceive = JSON.parse(JSON.stringify(result.quotationReceivableBodyVOList))
+            this.departureList = this.checkParamsListByArray([...tempPay, ...tempReceive], 'dep')
+            this.destinationList = this.checkParamsListByArray([...tempPay, ...tempReceive], 'des')
             let {quotationHeadVO: {startDate, endDate}} = result
             result.quotationHeadVO.dates = [startDate, endDate]
             this.submitData = result
-            // 初始化下拉框数据
+            // 初始化其他下拉框数据
             this.initSelected(this.selectDown, 'origin')
-            // this.submitData.quotationReceivableBodyVOList.forEach(v => { // 低性能
-            //   this.initSelected(selectDown, v.quotationFeeVO)
-            // })
           }
         }
       })
@@ -1041,14 +1068,12 @@ export default {
       item.rateIsDisabled = true
       // 其余4项做必填项校验
     },
-    // 初始化下拉框数据
+    // 初始化下拉框数据除港口之外
     initSelected (selectData, list) {
       if (list === 'origin') {
         list = {
           dclPlcCuscdNames: ' ',
           impexpPortcdNames: ' ',
-          departureNames: ' ',
-          destinationNames: ' ',
           curr: ' ',
           unit: ' '
         }
