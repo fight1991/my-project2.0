@@ -425,12 +425,13 @@ export default {
       selectDown: {
         curr: {downList: 'currList', params: 'SAAS_CURR'},
         unit: {downList: 'unitList', params: 'SAAS_SEA_UNIT'}
-      }
+      },
+      expenseBillId: '' // 接单查看详情返回的
     }
   },
   created () {
-    let {type, iEFlag, expenseBillId} = this.$route.query
-    expenseBillId && this.getBillDetail(expenseBillId)
+    let {type, iEFlag, expenseBillId, innerNo} = this.$route.query
+    expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
     this.optionsType = type
     this.iEFlag = iEFlag
     this.getOptionList()
@@ -469,12 +470,20 @@ export default {
   },
   methods: {
     // 获取台账明细
-    getBillDetail (id) {
+    getBillDetail (id, No) {
+      let params = {}
+      let url = ''
+      if (id) {
+        params.expenseBillId = id
+        url = 'bill/get'
+      }
+      if (No) {
+        params.billNo = No
+        url = 'bill/getByDec'
+      }
       this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/bill/get',
-        data: {
-          expenseBillId: id
-        },
+        url: 'API@saas-finance/' + url,
+        data: params,
         router: this.$router,
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
@@ -492,20 +501,9 @@ export default {
             // 复制数据
             this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
             this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
+            // 根据接单编号查询的详情
+            result.expenseBillId && (this.expenseBillId = result.expenseBillId)
           }
-        }
-      })
-    },
-    // 从接单或报关单跳转过来
-    getBillDetailByDec () {
-      this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/bill/getByDec',
-        data: {
-          billNo: ''
-        },
-        router: this.$router,
-        success: ({result}) => {
-          console.log(result)
         }
       })
     },
