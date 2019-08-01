@@ -56,7 +56,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -204,7 +204,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -606,7 +606,7 @@ export default {
               v.unit === '38' && (v.num = 1)
               // 单位为页
               if (v.unit === '36' && this.decDetail.goodNum) {
-                let val = this.decDetail.goodNum.keyValue
+                let val = this.decDetail.goodNum.keyValue || ''
                 if (val < 6) { // 0 或小数
                   v.num = 1
                 } else if (val % 6 === 0) { // 整除
@@ -699,6 +699,8 @@ export default {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
       let index = this[fee][fee + 'List'].findIndex(item => row === item)
       this[fee][fee + 'List'].splice(index, 1)
+      // 动态创建的属性值发生变化,重新翻译
+      feeFlag ? this.initSelected(this[fee][fee + 'List'], 'R', 0) : this.initSelected(this[fee][fee + 'List'], 'P', 0)
     },
     getRate (row) {
       if (row.feeOptionName) {

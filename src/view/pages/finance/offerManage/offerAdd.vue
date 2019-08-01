@@ -151,7 +151,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -222,7 +222,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -383,7 +383,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_0_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -454,7 +454,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_0_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3, 'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -840,17 +840,17 @@ export default {
         let list = JSON.parse(localStorage.getItem(this.selectObj.params))
         let filterList = []
         if (util.isEmpty(keyValue)) {
-          this[this.selectObj.obj] = list.slice(0, 30)
+          this[this.selectObj.obj] = list.slice(0, 40)
         } else {
           filterList = list.filter(item => {
             let str = item.codeField + '-' + item.nameField
             return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
           })
-          this[this.selectObj.obj] = filterList.slice(0, 30)
+          this[this.selectObj.obj] = filterList.slice(0, 40)
         }
       } else {
         if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
         }
       }
     },
@@ -1024,11 +1024,15 @@ export default {
       })
     },
     // 选择费用名称时获取对应的费率
-    getFeeRate (item) {
+    getFeeRate (item, prop) {
       if (!item.feeOptionName) {
         item.feeRate = ''
         item.feePid = ''
+        item.feePrice = ''
+        item.curr = ''
+        item.unit = ''
         item.rateIsDisabled = false
+        this.$refs['submitData'].clearValidate(prop)
         return
       }
       let obj = this.optionsList.find(v => v.feeOptionName === item.feeOptionName)
@@ -1057,7 +1061,7 @@ export default {
           }
           // this.checkParamsList(list[v])
           if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
           }
         }
       })

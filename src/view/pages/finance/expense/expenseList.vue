@@ -123,7 +123,7 @@
             {{scope.row.businessType === 1 ? '报关':'货代'}}
           </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="80" align="center" prop="entrustCompanyName">
+        <el-table-column label="委托企业" min-width="120" align="center" prop="entrustCompanyName">
           <template slot-scope="scope">
             {{scope.row.entrustCompanyName || '-'}}
           </template>
@@ -133,17 +133,17 @@
             {{scope.row.iEFlag === 0 ? '进口': scope.row.iEFlag === 1 ? '出口' : '内贸'}}
           </template>
         </el-table-column>
-        <el-table-column label="开航日" min-width="80" align="center" prop="sailDay">
+        <el-table-column label="开航日" min-width="100" align="center" prop="sailDay">
           <template slot-scope="scope">
             {{scope.row.sailDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="放行时间" min-width="80" align="center" prop="releaseDay">
+        <el-table-column label="放行时间" min-width="100" align="center" prop="releaseDay">
           <template slot-scope="scope">
             {{scope.row.releaseDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="80" align="center" prop="cFlag">
+        <el-table-column label="状态" min-width="100" align="center" prop="cFlag">
           <template slot-scope="scope">
             {{scope.row.cFlag ? '账单已生成':'账单未生成' }}
           </template>
@@ -359,7 +359,7 @@ export default {
         })
         return
       }
-      this.$confirm('是否确认生成对账单 ? 生成的对账单需要先进行内容审核确认', '提示', {
+      this.$confirm('是否确认生成对账单 ? 请注意,当前情况下,生成的对账单需要先进行内容审核确认', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
