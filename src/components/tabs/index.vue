@@ -69,6 +69,7 @@ export default {
         }
         let eventData = event.data.data
         let sysData
+        let operationType
         if (eventData) {
           sysData = {
             id:  eventData && util.isEmpty(eventData.id) ? '' : eventData.id, // 业务的id或标记
@@ -78,8 +79,8 @@ export default {
             index: null, // 页签的数组位置下标
             params: eventData.params // 其他参数
           }
+          operationType = eventData.operationType
         }
-        let operationType = event.data.data.operationType
         switch (event.data.type) {
           case 'window-open':
           // window-open ：由于在iframe中window.open被限制所以提到父级页面执行
