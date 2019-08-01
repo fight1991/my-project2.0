@@ -496,6 +496,19 @@ export default {
         }
       })
     },
+    // 从接单或报关单跳转过来
+    getBillDetailByDec () {
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/bill/getByDec',
+        data: {
+          billNo: ''
+        },
+        router: this.$router,
+        success: ({result}) => {
+          console.log(result)
+        }
+      })
+    },
     // 获取费用名称下拉列表
     getOptionList () {
       this.$store.dispatch('ajax', {
