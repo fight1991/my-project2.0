@@ -72,7 +72,7 @@ export default {
         let operationType
         if (eventData) {
           sysData = {
-            id:  eventData && util.isEmpty(eventData.id) ? '' : eventData.id, // 业务的id或标记
+            id: eventData && util.isEmpty(eventData.id) ? '' : eventData.id, // 业务的id或标记
             title: eventData.title, // 页签的展示名称
             url: eventData.url, // 要打开的外部URL
             tabId: eventData.tabId + '', // 页签的id
