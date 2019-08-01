@@ -67,13 +67,17 @@ export default {
         if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
           symbol = '?'
         }
-        let sysData = {
-          id: util.isEmpty(event.data.data.id) ? '' : event.data.data.id, // 业务的id或标记
-          title: event.data.data.title, // 页签的展示名称
-          url: event.data.data.url, // 要打开的外部URL
-          tabId: event.data.data.tabId + '', // 页签的id
-          index: null, // 页签的数组位置下标
-          params: event.data.data.params // 其他参数
+        let eventData = event.data.data
+        let sysData
+        if (eventData) {
+          sysData = {
+            id:  eventData && util.isEmpty(eventData.id) ? '' : eventData.id, // 业务的id或标记
+            title: eventData.title, // 页签的展示名称
+            url: eventData.url, // 要打开的外部URL
+            tabId: eventData.tabId + '', // 页签的id
+            index: null, // 页签的数组位置下标
+            params: eventData.params // 其他参数
+          }
         }
         let operationType = event.data.data.operationType
         switch (event.data.type) {
