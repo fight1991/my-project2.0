@@ -488,9 +488,9 @@ export default {
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
             let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg} = result
-            this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
+            this.billPayableBodyVO.billPayableBodyVOList = this.numberToMull(billPayableBodyVO.billPayableBodyVOList, 'mul')
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
-            this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
+            this.billReceivableBodyVO.billReceivableBodyVOList = this.numberToMull(billReceivableBodyVO.billReceivableBodyVOList, 'mul')
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
             this.decDetail = resultMap || {}
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
@@ -660,8 +660,8 @@ export default {
         url: 'API@/saas-finance/bill/edit',
         data: {
           expenseBillId: this.$route.query.expenseBillId,
-          billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],
-          billOptionReceiveVOs: [...this.billReceivableBodyVO.billReceivableBodyVOList]
+          billOptionPayVOs: [...this.numberToMull(this.billPayableBodyVO.billPayableBodyVOList, 'num')],
+          billOptionReceiveVOs: [...this.numberToMull(this.billReceivableBodyVO.billReceivableBodyVOList, 'num')]
         },
         router: this.$router,
         success: res => {
@@ -687,6 +687,41 @@ export default {
       this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
       this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
     },
+    // 数字转为千分符
+    numberToMull (arr, type) {
+      if (Array.isArray(arr) && arr.length === 0) return []
+      if (!arr) return []
+      if (type === 'mul') {
+        arr.forEach(v => {
+          if (typeof v.taxPrice === 'number') {
+            v.taxPrice = v.taxPrice.toLocaleString()
+          }
+        })
+      }
+      if (type === 'num') {
+        arr.forEach(v => {
+          if (typeof v.taxPrice === 'string') {
+            if (v.taxPrice.indexOf(',') > -1) {
+              v.taxPrice = v.taxPrice.replace(/,/g, '')
+            }
+          }
+        })
+      }
+      return arr
+    },
+    // 千分符转换成数字
+    dealMullimeter (num) {
+      if (typeof num === 'string') {
+        if (num.indexOf(',') > -1) {
+          return +(num.replace(/,/g, ''))
+        } else {
+          return +num || 0
+        }
+      }
+      if (typeof num === 'number') {
+        return num
+      }
+    },
     // 处理toFixed 4舍5不入的问题 eg: 5.22556 => 5.226
     changeFixed (temp) {
       let reg = /\d+(\.\d{3}5){1}/
@@ -703,9 +738,7 @@ export default {
       let numFeg = /^\d{1,9}(\.\d{1,3})?$|^$/ // 小数点前9后3
       if (!priceReg.test(+row.feePrice) || !numFeg.test(+row.num)) return // 避免为NaN的情况
       let temp = row.num * row.feePrice * (1 + (+row.rate) / 100)
-      // 处理toFixed 四舍六入的问题
-      let result = this.changeFixed(temp)
-      row.taxPrice = result.toFixed(3)
+      row.taxPrice = this.dealMullimeter(temp).toLocaleString()
     },
     delItems (row, feeFlag) {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
@@ -720,18 +753,20 @@ export default {
         row.rate = temp.feeRate
         // 新增一条时,添加feePid
         !row.feePid && (row.feePid = temp.feePid)
+        // 总价发生变化
+        this.computeTaxPrice(row)
       }
     },
     // 数组求和
     getSum (arr) {
       if (arr.length === 0) {
-        return '0.000'
+        return '0'
       }
       if (arr.length === 1) {
-        return (+arr[0]).toFixed(3)
+        return this.dealMullimeter(arr[0]).toLocaleString()
       }
       return arr.reduce((prev, curr, idx, arr) => {
-        return (+prev + (+curr)).toFixed(3)
+        return (this.dealMullimeter(prev) + this.dealMullimeter(curr)).toLocaleString()
       })
     },
     // 以货币分类汇总

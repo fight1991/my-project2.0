@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column label="收付类型" min-width="100" prop="feeFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="含税总额" min-width="100" prop="feeRateAmount" align="right">
+        <el-table-column label="含税总额" min-width="100" prop="feeRateAmount" align="left">
           <template slot-scope="scope">
             {{jsonToString(scope.row.feeRateAmount)}}
           </template>

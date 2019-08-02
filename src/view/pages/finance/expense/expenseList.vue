@@ -284,11 +284,11 @@ export default {
       let restaurants = this.corpList
       if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return v && v.indexOf(queryString) >= 0
         })
       }
       if (results.length === 0) return cb(results)
-      let tempArr = results.map(item => ({value: item.entrustCompanyName}))
+      let tempArr = results.map(item => ({value: item}))
       cb(tempArr)
     },
     // 重置查询条件
