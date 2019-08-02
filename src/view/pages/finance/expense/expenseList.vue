@@ -123,7 +123,7 @@
             {{scope.row.businessType === 1 ? '报关':'货代'}}
           </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="120" align="center" prop="entrustCompanyName">
+        <el-table-column label="委托企业" min-width="120" align="left" prop="entrustCompanyName">
           <template slot-scope="scope">
             {{scope.row.entrustCompanyName || '-'}}
           </template>
@@ -270,7 +270,7 @@ export default {
     // 委托企业查询
     getcorps () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/quotation/getEntrusts',
+        url: 'API@/saas-finance/bill/getEntrustCompanyNames',
         data: {},
         router: this.$router,
         success: ({result}) => {
@@ -376,6 +376,7 @@ export default {
                 message: '生成对账单成功'
               })
               this.getsExpenseList(this.$store.state.pagination)
+              this.isCreateBill = true
             }
           })
         }).catch(() => {})

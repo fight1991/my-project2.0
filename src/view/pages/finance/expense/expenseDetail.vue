@@ -496,11 +496,11 @@ export default {
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
             this.summarys = summarys || []
             // 翻译
-            this.initSelected(billPayableBodyVO.billPayableBodyVOList, 'P', 0)
-            this.initSelected(billReceivableBodyVO.billReceivableBodyVOList, 'R', 0)
+            this.initSelected(this.billPayableBodyVO.billPayableBodyVOList, 'P', 0)
+            this.initSelected(this.billReceivableBodyVO.billReceivableBodyVOList, 'R', 0)
             // 复制数据
-            this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
-            this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
+            this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(this.billPayableBodyVO.billPayableBodyVOList))
+            this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(this.billReceivableBodyVO.billReceivableBodyVOList))
             // 根据接单编号查询的详情
             result.expenseBillId && (this.expenseBillId = result.expenseBillId)
           }
@@ -626,7 +626,8 @@ export default {
                   v.num = Math.ceil(val / 6)
                 }
               }
-              v.taxPrice = ''
+              // 计算总价
+              this.computeTaxPrice(v)
               v.feeFlag = feeFlag
             })
             // 计算追加后数组的长度,处理下拉列表属性值能够有序的增加 eg: curr0,curr1 ...
@@ -785,14 +786,14 @@ export default {
           }
           this.checkParamsList(v.unit)
         }
-        if (v.curr) {
-          this.selectObj = {
-            obj: this.selectDown['curr']['downList'],
-            params: this.selectDown['curr']['params'],
-            index: 'curr' + type + (i + length)
-          }
-          this.checkParamsList(v.curr)
-        }
+        // if (v.curr) { 币制翻译取消
+        //   this.selectObj = {
+        //     obj: this.selectDown['curr']['downList'],
+        //     params: this.selectDown['curr']['params'],
+        //     index: 'curr' + type + (i + length)
+        //   }
+        //   this.checkParamsList(v.curr)
+        // }
       })
     }
   }
