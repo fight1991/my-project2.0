@@ -660,8 +660,8 @@ export default {
         url: 'API@/saas-finance/bill/edit',
         data: {
           expenseBillId: this.$route.query.expenseBillId,
-          billOptionPayVOs: [...this.numberToMull(this.billPayableBodyVO.billPayableBodyVOList, 'num')],
-          billOptionReceiveVOs: [...this.numberToMull(this.billReceivableBodyVO.billReceivableBodyVOList, 'num')]
+          billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],
+          billOptionReceiveVOs: [...this.billReceivableBodyVO.billReceivableBodyVOList]
         },
         router: this.$router,
         success: res => {
@@ -686,28 +686,6 @@ export default {
       this.$refs['payTableForm'].clearValidate()
       this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
       this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
-    },
-    // 数字转为千分符
-    numberToMull (arr, type) {
-      if (Array.isArray(arr) && arr.length === 0) return []
-      if (!arr) return []
-      if (type === 'mul') {
-        arr.forEach(v => {
-          if (typeof v.taxPrice === 'number') {
-            v.taxPrice = v.taxPrice.toLocaleString()
-          }
-        })
-      }
-      if (type === 'num') {
-        arr.forEach(v => {
-          if (typeof v.taxPrice === 'string') {
-            if (v.taxPrice.indexOf(',') > -1) {
-              v.taxPrice = v.taxPrice.replace(/,/g, '')
-            }
-          }
-        })
-      }
-      return arr
     },
     // 千分符转换成数字
     dealMullimeter (num) {
