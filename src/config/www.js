@@ -383,7 +383,7 @@ const linkList = {
     {
       id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
-      text: '会员管理系统',
+      text: '会员服务系统',
       link: 'https://test.5itrade.cn/zvip'
     },
     {
@@ -445,7 +445,7 @@ const linkList = {
     {
       id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
-      text: '会员管理系统',
+      text: '会员服务系统',
       link: 'https://www.5itrade.cn/zvip'
     },
     {
