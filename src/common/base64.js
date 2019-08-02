@@ -1,4 +1,4 @@
-var _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+var _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_='
 
 export default {
   encode: function (e) {
@@ -28,7 +28,7 @@ export default {
     var n, r, i
     var s, o, u, a
     var f = 0
-    e = e.replace(/[^A-Za-z0-9+/=]/g, '')
+    e = e.replace(/[^A-Za-z0-9+_=]/g, '')
     while (f < e.length) {
       s = _keyStr.indexOf(e.charAt(f++))
       o = _keyStr.indexOf(e.charAt(f++))
