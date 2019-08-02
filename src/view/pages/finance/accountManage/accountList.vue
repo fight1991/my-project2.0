@@ -347,9 +347,9 @@ export default {
       let obj = JSON.parse(json)
       let arr = []
       for (let k in obj) {
-        arr.push(k + ':' + obj[k])
+        arr.push(k + ':' + obj[k].toLocaleString())
       }
-      return arr.toString()
+      return arr.join(' + ')
     },
     // 勾选选择框
     chooseSelectBox (selection, row) {
