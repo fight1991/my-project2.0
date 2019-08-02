@@ -738,7 +738,7 @@ export default {
       let numFeg = /^\d{1,9}(\.\d{1,3})?$|^$/ // 小数点前9后3
       if (!priceReg.test(+row.feePrice) || !numFeg.test(+row.num)) return // 避免为NaN的情况
       let temp = row.num * row.feePrice * (1 + (+row.rate) / 100)
-      row.taxPrice = this.dealMullimeter(temp).toLocaleString()
+      row.taxPrice = temp
     },
     delItems (row, feeFlag) {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
