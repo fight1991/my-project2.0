@@ -873,6 +873,7 @@ export default {
     checkParamsListByArray (arr, flag) {
       let obj = this.collectPort(arr)
       let list = JSON.parse(localStorage.getItem('SAAS_TJ_PORT'))
+      if (!list) return
       let newArr = []
       obj[flag].forEach(v => {
         let temp = list.filter(item => item.codeField === v)
