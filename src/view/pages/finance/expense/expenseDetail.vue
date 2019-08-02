@@ -148,7 +148,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -292,7 +292,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -488,9 +488,9 @@ export default {
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
             let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg} = result
-            this.billPayableBodyVO.billPayableBodyVOList = this.numberToMull(billPayableBodyVO.billPayableBodyVOList, 'mul')
+            this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
-            this.billReceivableBodyVO.billReceivableBodyVOList = this.numberToMull(billReceivableBodyVO.billReceivableBodyVOList, 'mul')
+            this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
             this.decDetail = resultMap || {}
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
