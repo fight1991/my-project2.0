@@ -774,13 +774,14 @@ export default {
   created () {
     this.copyData() // 深拷贝模板
     this.getOptionList()
-    this.getCommonParam()
-    let tempId = this.$route.query.quotationId
-    if (tempId) {
-      this.queryOptionsDetail(tempId)
-      this.quotationId = tempId
-      this.editOp = true
-    }
+    this.getCommonParam(() => {
+      let tempId = this.$route.query.quotationId
+      if (tempId) {
+        this.queryOptionsDetail(tempId)
+        this.quotationId = tempId
+        this.editOp = true
+      }
+    })
   },
   methods: {
     // 添加更多按钮
@@ -814,23 +815,24 @@ export default {
       }
     },
     // 判断缓存中是否有数据
-    getCommonParam () {
+    getCommonParam (callback) {
       let map = {tableNames: []}
       map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
       if (map.tableNames.length > 0) {
-        this.getCommonParams(map)
+        this.getCommonParams(map, callback)
+      } else {
+        callback && callback()
       }
     },
     // 获取公共字典list
-    getCommonParams (datas) {
+    getCommonParams (datas, callback) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: datas,
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
-          // this.impexpPortList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
-          // this.dclPlcCusList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
+          callback && callback()
         }
       })
     },
