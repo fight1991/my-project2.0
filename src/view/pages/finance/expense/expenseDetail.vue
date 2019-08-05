@@ -148,7 +148,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -292,7 +292,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -695,9 +695,10 @@ export default {
         } else {
           return +num || 0
         }
-      }
-      if (typeof num === 'number') {
+      } else if (typeof num === 'number') {
         return num
+      } else {
+        return 0
       }
     },
     // 处理toFixed 4舍5不入的问题 eg: 5.22556 => 5.226
