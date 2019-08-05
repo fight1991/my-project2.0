@@ -56,7 +56,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -148,7 +148,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -204,7 +204,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="optionsType==='edit' && getCellStyle" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -292,7 +292,7 @@
             </el-table-column>
             <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
               <template slot-scope="scope">
-                <div class="cell-div">{{scope.row.taxPrice || '-'}}</div>
+                <div class="cell-div">{{scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
@@ -425,12 +425,13 @@ export default {
       selectDown: {
         curr: {downList: 'currList', params: 'SAAS_CURR'},
         unit: {downList: 'unitList', params: 'SAAS_SEA_UNIT'}
-      }
+      },
+      expenseBillId: '' // 接单查看详情返回的
     }
   },
   created () {
-    let {type, iEFlag, expenseBillId} = this.$route.query
-    expenseBillId && this.getBillDetail(expenseBillId)
+    let {type, iEFlag, expenseBillId, innerNo} = this.$route.query
+    expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
     this.optionsType = type
     this.iEFlag = iEFlag
     this.getOptionList()
@@ -469,12 +470,20 @@ export default {
   },
   methods: {
     // 获取台账明细
-    getBillDetail (id) {
+    getBillDetail (id, No) {
+      let params = {}
+      let url = ''
+      if (id) {
+        params.expenseBillId = id
+        url = 'bill/get'
+      }
+      if (No) {
+        params.billNo = No
+        url = 'bill/getByDec'
+      }
       this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/bill/get',
-        data: {
-          expenseBillId: id
-        },
+        url: 'API@saas-finance/' + url,
+        data: params,
         router: this.$router,
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
@@ -487,11 +496,13 @@ export default {
             this.decCommon = {billNo, cusCiqNo, innerNo, msg}
             this.summarys = summarys || []
             // 翻译
-            this.initSelected(billPayableBodyVO.billPayableBodyVOList, 'P', 0)
-            this.initSelected(billReceivableBodyVO.billReceivableBodyVOList, 'R', 0)
+            this.initSelected(this.billPayableBodyVO.billPayableBodyVOList, 'P', 0)
+            this.initSelected(this.billReceivableBodyVO.billReceivableBodyVOList, 'R', 0)
             // 复制数据
-            this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(billPayableBodyVO.billPayableBodyVOList))
-            this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(billReceivableBodyVO.billReceivableBodyVOList))
+            this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(this.billPayableBodyVO.billPayableBodyVOList))
+            this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(this.billReceivableBodyVO.billReceivableBodyVOList))
+            // 根据接单编号查询的详情
+            result.expenseBillId && (this.expenseBillId = result.expenseBillId)
           }
         }
       })
@@ -606,7 +617,7 @@ export default {
               v.unit === '38' && (v.num = 1)
               // 单位为页
               if (v.unit === '36' && this.decDetail.goodNum) {
-                let val = this.decDetail.goodNum.keyValue
+                let val = this.decDetail.goodNum.keyValue || ''
                 if (val < 6) { // 0 或小数
                   v.num = 1
                 } else if (val % 6 === 0) { // 整除
@@ -615,7 +626,8 @@ export default {
                   v.num = Math.ceil(val / 6)
                 }
               }
-              v.taxPrice = ''
+              // 计算总价
+              this.computeTaxPrice(v)
               v.feeFlag = feeFlag
             })
             // 计算追加后数组的长度,处理下拉列表属性值能够有序的增加 eg: curr0,curr1 ...
@@ -675,6 +687,19 @@ export default {
       this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
       this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
     },
+    // 千分符转换成数字
+    dealMullimeter (num) {
+      if (typeof num === 'string') {
+        if (num.indexOf(',') > -1) {
+          return +(num.replace(/,/g, ''))
+        } else {
+          return +num || 0
+        }
+      }
+      if (typeof num === 'number') {
+        return num
+      }
+    },
     // 处理toFixed 4舍5不入的问题 eg: 5.22556 => 5.226
     changeFixed (temp) {
       let reg = /\d+(\.\d{3}5){1}/
@@ -691,14 +716,14 @@ export default {
       let numFeg = /^\d{1,9}(\.\d{1,3})?$|^$/ // 小数点前9后3
       if (!priceReg.test(+row.feePrice) || !numFeg.test(+row.num)) return // 避免为NaN的情况
       let temp = row.num * row.feePrice * (1 + (+row.rate) / 100)
-      // 处理toFixed 四舍六入的问题
-      let result = this.changeFixed(temp)
-      row.taxPrice = result.toFixed(3)
+      row.taxPrice = temp
     },
     delItems (row, feeFlag) {
       let fee = feeFlag ? 'billReceivableBodyVO' : 'billPayableBodyVO'
       let index = this[fee][fee + 'List'].findIndex(item => row === item)
       this[fee][fee + 'List'].splice(index, 1)
+      // 动态创建的属性值发生变化,重新翻译
+      feeFlag ? this.initSelected(this[fee][fee + 'List'], 'R', 0) : this.initSelected(this[fee][fee + 'List'], 'P', 0)
     },
     getRate (row) {
       if (row.feeOptionName) {
@@ -706,18 +731,20 @@ export default {
         row.rate = temp.feeRate
         // 新增一条时,添加feePid
         !row.feePid && (row.feePid = temp.feePid)
+        // 总价发生变化
+        this.computeTaxPrice(row)
       }
     },
     // 数组求和
     getSum (arr) {
       if (arr.length === 0) {
-        return '0.000'
+        return '0'
       }
       if (arr.length === 1) {
-        return (+arr[0]).toFixed(3)
+        return this.dealMullimeter(arr[0]).toLocaleString()
       }
       return arr.reduce((prev, curr, idx, arr) => {
-        return (+prev + (+curr)).toFixed(3)
+        return (this.dealMullimeter(prev) + this.dealMullimeter(curr)).toLocaleString()
       })
     },
     // 以货币分类汇总
@@ -772,14 +799,14 @@ export default {
           }
           this.checkParamsList(v.unit)
         }
-        if (v.curr) {
-          this.selectObj = {
-            obj: this.selectDown['curr']['downList'],
-            params: this.selectDown['curr']['params'],
-            index: 'curr' + type + (i + length)
-          }
-          this.checkParamsList(v.curr)
-        }
+        // if (v.curr) { 币制翻译取消
+        //   this.selectObj = {
+        //     obj: this.selectDown['curr']['downList'],
+        //     params: this.selectDown['curr']['params'],
+        //     index: 'curr' + type + (i + length)
+        //   }
+        //   this.checkParamsList(v.curr)
+        // }
       })
     }
   }

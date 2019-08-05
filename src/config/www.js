@@ -383,7 +383,7 @@ const linkList = {
     {
       id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
-      text: '会员管理系统',
+      text: '会员服务系统',
       link: 'https://test.5itrade.cn/zvip'
     },
     {
@@ -445,7 +445,7 @@ const linkList = {
     {
       id: '7',
       icon: require('@/assets/www-img/images/vip.png'),
-      text: '会员管理系统',
+      text: '会员服务系统',
       link: 'https://www.5itrade.cn/zvip'
     },
     {
@@ -475,14 +475,14 @@ const partner = [
     url: 'https://www.singlewindow.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/yatai.png'),
-    name: '亚太示范电子口岸网络运营中心',
-    url: 'javascript:;'
-  },
-  {
     icon: require('@/assets/www-img/images/partner/ruikumaoyi.png'),
     name: '北京睿库贸易安全及便利化研究中心',
     url: 'https://www.re-code.org/'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/yatai.png'),
+    name: '亚太示范电子口岸网络运营中心',
+    url: 'javascript:;'
   },
   {
     icon: require('@/assets/www-img/images/partner/beijing.png'),
@@ -496,7 +496,7 @@ const partner = [
   },
   {
     icon: require('@/assets/www-img/images/partner/shanghai.png'),
-    name: '上海报关协会',
+    name: '上海市报关协会',
     url: 'http://www.scba.com.cn/'
   },
   {
@@ -506,7 +506,7 @@ const partner = [
   },
   {
     icon: require('@/assets/www-img/images/partner/zhejiang.png'),
-    name: '浙江报关协会',
+    name: '浙江省报关协会',
     url: 'javascript:;'
   },
   {
@@ -516,8 +516,13 @@ const partner = [
   },
   {
     icon: require('@/assets/www-img/images/partner/hunan.png'),
-    name: '湖南报关协会',
+    name: '湖南省报关协会',
     url: 'http://www.hncba.org/'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/hubei.png'),
+    name: '湖北省报关协会',
+    url: 'http://www.hbcba.cn'
   },
   {
     icon: require('@/assets/www-img/images/partner/guangxi.png'),
@@ -525,9 +530,34 @@ const partner = [
     url: 'http://www.gxcba.org.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/hubei.png'),
-    name: '湖北报关协会',
-    url: 'http://www.hbcba.cn'
+    icon: require('@/assets/www-img/images/partner/ningbo.png'),
+    name: '宁波报关协会',
+    url: 'javascript:;'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/dalian.png'),
+    name: '大连报关协会',
+    url: 'javascript:;'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/shandong.png'),
+    name: '山东报关协会',
+    url: 'http://www.sdcba.org.cn/'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/guangdongshenzhen.png'),
+    name: '广东深圳报关协会',
+    url: 'http://www.gscba.org/'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/guangdonghuangpu.png'),
+    name: '广东黄埔报关协会',
+    url: 'http://www.hpcba.org.cn'
+  },
+  {
+    icon: require('@/assets/www-img/images/partner/guangdongguangzhou.png'),
+    name: '广东广州报关协会',
+    url: 'javascript:;'
   }
 ]
 const introduce = {

@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column label="收付类型" min-width="100" prop="feeFlagValue" align="center">
         </el-table-column>
-        <el-table-column label="含税总额" min-width="100" prop="feeRateAmount" align="right">
+        <el-table-column label="含税总额" min-width="100" prop="feeRateAmount" align="left">
           <template slot-scope="scope">
             {{jsonToString(scope.row.feeRateAmount)}}
           </template>
@@ -347,9 +347,9 @@ export default {
       let obj = JSON.parse(json)
       let arr = []
       for (let k in obj) {
-        arr.push(k + ':' + obj[k])
+        arr.push(k + ':' + obj[k].toLocaleString())
       }
-      return arr.toString()
+      return arr.join(' + ')
     },
     // 勾选选择框
     chooseSelectBox (selection, row) {

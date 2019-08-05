@@ -151,7 +151,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_1_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionImportVOs.' + index2 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -222,7 +222,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_1_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -383,7 +383,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item2, index2) in item1.feeOptionImportVOs" :key="'key_0_I' + index2">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item2.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item2, 'quotationReceivableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -454,7 +454,7 @@
                 <el-row class="margin_0 ei-line" :gutter="8" v-for="(item3, index3) in item1.feeOptionExportVOs" :key="'key_0_E' + index3">
                   <el-col :span="8" style="padding-left:0">
                     <el-form-item>
-                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3)">
+                      <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="item3.feeOptionName" :maxlength="20" style="width:100%;" @change="getFeeRate(item3, 'quotationPayableBodyVOList.' + index1 + '.feeOptionExportVOs.' + index3 + '.feePrice')">
                         <el-option v-for="item in optionsList"
                           :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                         </el-option>
@@ -774,13 +774,14 @@ export default {
   created () {
     this.copyData() // 深拷贝模板
     this.getOptionList()
-    this.getCommonParam()
-    let tempId = this.$route.query.quotationId
-    if (tempId) {
-      this.queryOptionsDetail(tempId)
-      this.quotationId = tempId
-      this.editOp = true
-    }
+    this.getCommonParam(() => {
+      let tempId = this.$route.query.quotationId
+      if (tempId) {
+        this.queryOptionsDetail(tempId)
+        this.quotationId = tempId
+        this.editOp = true
+      }
+    })
   },
   methods: {
     // 添加更多按钮
@@ -814,23 +815,24 @@ export default {
       }
     },
     // 判断缓存中是否有数据
-    getCommonParam () {
+    getCommonParam (callback) {
       let map = {tableNames: []}
       map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
       if (map.tableNames.length > 0) {
-        this.getCommonParams(map)
+        this.getCommonParams(map, callback)
+      } else {
+        callback && callback()
       }
     },
     // 获取公共字典list
-    getCommonParams (datas) {
+    getCommonParams (datas, callback) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: datas,
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
-          // this.impexpPortList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
-          // this.dclPlcCusList = JSON.parse(localStorage.getItem('SAAS_CUSTOMS_REL'))
+          callback && callback()
         }
       })
     },
@@ -840,19 +842,46 @@ export default {
         let list = JSON.parse(localStorage.getItem(this.selectObj.params))
         let filterList = []
         if (util.isEmpty(keyValue)) {
-          this[this.selectObj.obj] = list.slice(0, 30)
+          this[this.selectObj.obj] = list.slice(0, 40)
         } else {
           filterList = list.filter(item => {
             let str = item.codeField + '-' + item.nameField
             return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
           })
-          this[this.selectObj.obj] = filterList.slice(0, 30)
+          this[this.selectObj.obj] = filterList.slice(0, 40)
         }
       } else {
         if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
         }
       }
+    },
+    // 收集所有出发地港货目的地港的下拉参数
+    collectPort (arr) {
+      let tempArr1 = []
+      let tempArr2 = []
+      arr.forEach(v => {
+        let temp = v.quotationFeeVO
+        tempArr1.push(...temp['departure'])
+        tempArr2.push(...temp['destination'])
+      })
+      let obj = {
+        dep: [...new Set(tempArr1)],
+        des: [...new Set(tempArr2)]
+      }
+      return obj
+    },
+    // 专门处理初始化港口的下拉列表
+    checkParamsListByArray (arr, flag) {
+      let obj = this.collectPort(arr)
+      let list = JSON.parse(localStorage.getItem('SAAS_TJ_PORT'))
+      if (!list) return
+      let newArr = []
+      obj[flag].forEach(v => {
+        let temp = list.filter(item => item.codeField === v)
+        newArr.push(...temp)
+      })
+      return newArr
     },
     // 日期校验
     validDate (rule, value, callback) {
@@ -928,14 +957,15 @@ export default {
           if (result) { // 数据处理
             this.arrayAndString(result.quotationPayableBodyVOList, 'array')
             this.arrayAndString(result.quotationReceivableBodyVOList, 'array')
+            let tempPay = JSON.parse(JSON.stringify(result.quotationPayableBodyVOList))
+            let tempReceive = JSON.parse(JSON.stringify(result.quotationReceivableBodyVOList))
+            this.departureList = this.checkParamsListByArray([...tempPay, ...tempReceive], 'dep')
+            this.destinationList = this.checkParamsListByArray([...tempPay, ...tempReceive], 'des')
             let {quotationHeadVO: {startDate, endDate}} = result
             result.quotationHeadVO.dates = [startDate, endDate]
             this.submitData = result
-            // 初始化下拉框数据
+            // 初始化其他下拉框数据
             this.initSelected(this.selectDown, 'origin')
-            // this.submitData.quotationReceivableBodyVOList.forEach(v => { // 低性能
-            //   this.initSelected(selectDown, v.quotationFeeVO)
-            // })
           }
         }
       })
@@ -1024,11 +1054,15 @@ export default {
       })
     },
     // 选择费用名称时获取对应的费率
-    getFeeRate (item) {
+    getFeeRate (item, prop) {
       if (!item.feeOptionName) {
         item.feeRate = ''
         item.feePid = ''
+        item.feePrice = ''
+        item.curr = ''
+        item.unit = ''
         item.rateIsDisabled = false
+        this.$refs['submitData'].clearValidate(prop)
         return
       }
       let obj = this.optionsList.find(v => v.feeOptionName === item.feeOptionName)
@@ -1037,14 +1071,12 @@ export default {
       item.rateIsDisabled = true
       // 其余4项做必填项校验
     },
-    // 初始化下拉框数据
+    // 初始化下拉框数据除港口之外
     initSelected (selectData, list) {
       if (list === 'origin') {
         list = {
           dclPlcCuscdNames: ' ',
           impexpPortcdNames: ' ',
-          departureNames: ' ',
-          destinationNames: ' ',
           curr: ' ',
           unit: ' '
         }
@@ -1057,7 +1089,7 @@ export default {
           }
           // this.checkParamsList(list[v])
           if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
-            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 30)
+            this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
           }
         }
       })

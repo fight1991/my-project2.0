@@ -123,7 +123,7 @@
             {{scope.row.businessType === 1 ? '报关':'货代'}}
           </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="80" align="center" prop="entrustCompanyName">
+        <el-table-column label="委托企业" min-width="120" align="left" prop="entrustCompanyName">
           <template slot-scope="scope">
             {{scope.row.entrustCompanyName || '-'}}
           </template>
@@ -133,17 +133,17 @@
             {{scope.row.iEFlag === 0 ? '进口': scope.row.iEFlag === 1 ? '出口' : '内贸'}}
           </template>
         </el-table-column>
-        <el-table-column label="开航日" min-width="80" align="center" prop="sailDay">
+        <el-table-column label="开航日" min-width="100" align="center" prop="sailDay">
           <template slot-scope="scope">
             {{scope.row.sailDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="放行时间" min-width="80" align="center" prop="releaseDay">
+        <el-table-column label="放行时间" min-width="100" align="center" prop="releaseDay">
           <template slot-scope="scope">
             {{scope.row.releaseDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="80" align="center" prop="cFlag">
+        <el-table-column label="状态" min-width="100" align="center" prop="cFlag">
           <template slot-scope="scope">
             {{scope.row.cFlag ? '账单已生成':'账单未生成' }}
           </template>
@@ -231,6 +231,7 @@ export default {
     }
   },
   created () {
+    this.justyIsOpen()
     this.paginationInit = this.$store.state.pagination
     this.getsExpenseList(this.$store.state.pagination)
     this.getcorps()
@@ -266,27 +267,10 @@ export default {
         }
       })
     },
-    // 企业查询
-    // getcorps (query) {
-    //   if (query.length < 2) {
-    //     return
-    //   }
-    //   this.$store.dispatch('ajax', {
-    //     url: 'API@/login/corp/getCorpByCondAssignProp',
-    //     data: {
-    //       corpName: query,
-    //       returnProps: ['corpId', 'corpName']
-    //     },
-    //     router: this.$router,
-    //     success: (res) => {
-    //       this.corpList = res.result.splice(0, 20)
-    //     }
-    //   })
-    // },
     // 委托企业查询
     getcorps () {
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/quotation/getEntrusts',
+        url: 'API@/saas-finance/bill/getEntrustCompanyNames',
         data: {},
         router: this.$router,
         success: ({result}) => {
@@ -300,11 +284,11 @@ export default {
       let restaurants = this.corpList
       if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
-          return v.entrustCompanyName && v.entrustCompanyName.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+          return v && v.indexOf(queryString) >= 0
         })
       }
       if (results.length === 0) return cb(results)
-      let tempArr = results.map(item => ({value: item.entrustCompanyName}))
+      let tempArr = results.map(item => ({value: item}))
       cb(tempArr)
     },
     // 重置查询条件
@@ -350,6 +334,18 @@ export default {
         }
       })
     },
+    // 判断开关是否开启
+    justyIsOpen (callback) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/ccba/review/isReview',
+        data: ['bill_corp_audit'],
+        router: this.$router,
+        success: ({result}) => {
+          let swtichCheck = result['bill_corp_audit'].value
+          callback && callback(swtichCheck)
+        }
+      })
+    },
     // 生成对账单
     createAccount () {
       if (this.expenseBillIds.length === 0) {
@@ -359,24 +355,32 @@ export default {
         })
         return
       }
-      this.$confirm('是否确认生成对账单 ? 生成的对账单需要先进行内容审核确认', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$store.dispatch('ajax', {
-          url: 'API@saas-finance/account/create',
-          data: {expenseBillIds: this.expenseBillIds},
-          router: this.$router,
-          success: () => {
-            this.$message({
-              type: 'success',
-              message: '生成对账单成功'
-            })
-            this.getsExpenseList(this.$store.state.pagination)
-          }
-        })
-      }).catch(() => {})
+      // 没开审核开关的时候，提示内容不需要提示需要内部审核
+      this.justyIsOpen((flag) => {
+        let content = '是否确认生成对账单 ?'
+        if (flag === 'Y') {
+          content = '是否确认生成对账单 ? 请注意,当前情况下,生成的对账单需要先进行内容审核确认'
+        }
+        this.$confirm(content, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('ajax', {
+            url: 'API@saas-finance/account/create',
+            data: {expenseBillIds: this.expenseBillIds},
+            router: this.$router,
+            success: () => {
+              this.$message({
+                type: 'success',
+                message: '生成对账单成功'
+              })
+              this.getsExpenseList(this.$store.state.pagination)
+              this.isCreateBill = true
+            }
+          })
+        }).catch(() => {})
+      })
     },
     // 勾选选择框
     chooseSelectBox (selection, row) {
