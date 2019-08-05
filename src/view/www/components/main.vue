@@ -5,7 +5,7 @@
       <el-carousel :interval="3000" :autoplay="true" :height="bannerHeight + 'px'">
         <el-carousel-item v-for="(item,index) in bannerList" :key="item.imageUrl">
           <div class="imgBox" ref="imgBox"  @click.prevent="order('anchor',index)">
-            <img :src="item.imageUrl" alt="" ref="image">
+            <img :src="item.imageUrl" alt="" ref="image" :class="bannerList[index].linkUrl ? {'pointer-cls': true} : {'pointer-cls': false}">
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -195,6 +195,7 @@ export default {
       } else { // 其他链接地址
         window.open(this.bannerList[index].linkUrl, '_blank')
       }
+      console.log(this.requiredPointer)
     },
     register () {
       let registerUrl = pathList.WWWLOGINBACK
