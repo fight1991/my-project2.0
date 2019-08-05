@@ -69,7 +69,7 @@ export default {
     toDetail (pid) {
       let host = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['HOST']
       let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
-      window.open(host + `/passParams/taxRule/detail/${pid}?token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+      window.open(host + `/passParams/taxRule/detail?id=${pid}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
     },
     // 跳转列表
     toList () {
