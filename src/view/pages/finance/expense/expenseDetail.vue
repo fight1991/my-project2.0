@@ -272,7 +272,11 @@
             <el-table-column prop="num" width="100" label="数量" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
-                  <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                  <el-form-item
+                    :prop="'billPayableBodyVOList.'+ scope.$index + '.num'"
+                    :rules="valid.num">
+                    <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
+                  </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
               </template>
