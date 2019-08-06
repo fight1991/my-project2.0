@@ -43,12 +43,7 @@
                   </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" :xs="8">
-                <el-form-item class="form-item-mg0" label="提单号" label-width="50px">
-                  <el-input size="mini" clearable v-model="jobDetailForm.billNo"></el-input>
-                </el-form-item>
-                </el-col>
-              <el-col :span="4" :xs="12">
+              <el-col :span="10" :xs="12">
                 <el-button size="mini" type="primary" @click="search()">查询</el-button>
                 <el-button size="mini" @click="resetQuery">重置</el-button>
               </el-col>
@@ -64,7 +59,7 @@
       <el-table class='sys-table-table' height="422px"
         border highlight-current-row size="mini"
         :data="resultJobList">
-        <el-table-column label="报关单系统编号" min-width="120">
+        <el-table-column label="报关单系统编号" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-l'>{{scope.row.decPid || '-'}}</div>
           </template>
@@ -82,11 +77,6 @@
         <el-table-column label="报关单号" min-width="150">
           <template slot-scope="scope">
             <div class='sys-td-l'>{{scope.row.entryId || '-'}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="提单号" min-width="150">
-          <template slot-scope="scope">
-            <div class='sys-td-l'>{{scope.row.billNo || '-'}}</div>
           </template>
         </el-table-column>
         <el-table-column label="业务状态" min-width="100">
@@ -133,7 +123,6 @@ export default {
       jobDetailForm: {
         ownerCodeScc: '',
         keywords: '',
-        billNo: '',
         updateTimeStart: '',
         updateTimeEnd: ''
       },
@@ -179,7 +168,6 @@ export default {
       this.jobDetailForm = {
         ownerCodeScc: this.$route.query.ownerCodeScc,
         keywords: '',
-        billNo: '',
         updateTimeStart: '',
         updateTimeEnd: ''
       }
@@ -222,7 +210,6 @@ export default {
       this.jobDetailForm = {
         ownerCodeScc: '',
         keywords: '',
-        billNo: '',
         updateTimeStart: '',
         updateTimeEnd: ''
       }
