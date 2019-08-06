@@ -9,7 +9,7 @@
               <el-autocomplete style="width:100%;"
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.settleCompanyNames"
-                :fetch-suggestions="querySearch"
+                :fetch-suggestions="querySearchA"
                 :trigger-on-focus="false"
                 placeholder="请选择">
               </el-autocomplete>
@@ -17,10 +17,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="委托企业">
-              <el-select v-model="QueryForm.entrustCompanyNames" size="mini" clearable  style="width:100%;">
-                <el-option key="0" :label="'应收'" :value="true"></el-option>
-                <el-option key="1" :label="'应付'" :value="false"></el-option>
-              </el-select>
+              <el-autocomplete
+                class="inline-input" :maxlength="30" clearable
+                v-model="QueryForm.entrustCompanyName"
+                :fetch-suggestions="querySearchE"
+                placeholder="请选择"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -80,7 +82,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getAccountList($store.state.pagination)">查询</el-button>
+        <el-button size="mini" type="primary" @click="getInvoiceList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -150,6 +152,8 @@ export default {
         settleCompanyNames: '' // 开票企业
       },
       invoiceTableList: [],
+      settleCompanyList: [], // 开票企业列表
+      corpList: [], // 委托企业列表
       // 查询的字典字段
       tableNameList: {
         tableNames: [
@@ -200,7 +204,7 @@ export default {
     this.getCommonParam()
     this.getSettleCompanyInfo()
     this.paginationInit = this.$store.state.pagination
-    this.getAccountList(this.$store.state.pagination)
+    this.getInvoiceList(this.$store.state.pagination)
   },
   methods: {
     // 获取账单企业列表
@@ -214,13 +218,37 @@ export default {
         }
       })
     },
-    querySearch (queryString, cb) {
+    querySearchA (queryString, cb) {
       let results = []
       if (this.settleCompanyList.length === 0) return cb(results)
       let restaurants = this.settleCompanyList
       if (queryString.trim().length > 1) {
         results = restaurants.filter(v => {
           return (v && v.toLowerCase().indexOf(queryString.toLowerCase()) >= 0)
+        })
+      }
+      if (results.length === 0) return cb(results)
+      let tempArr = results.map(item => ({value: item}))
+      cb(tempArr)
+    },
+    // 委托企业查询
+    getcorps () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance/bill/getEntrustCompanyNames',
+        data: {},
+        router: this.$router,
+        success: ({result}) => {
+          this.corpList = result || []
+        }
+      })
+    },
+    querySearchE (queryString, cb) {
+      let results = []
+      if (this.corpList.length === 0) return cb(results)
+      let restaurants = this.corpList
+      if (queryString.trim().length > 1) {
+        results = restaurants.filter(v => {
+          return v && v.indexOf(queryString) >= 0
         })
       }
       if (results.length === 0) return cb(results)
@@ -273,7 +301,7 @@ export default {
         params: params
       }
     },
-    // 获取账单列表
+    // 获取发票列表
     getInvoiceList (pagination) {
       if (this.dates && this.dates.length > 0) {
         this.QueryForm.createStartDate = this.dates[0]
@@ -356,7 +384,7 @@ export default {
         },
         router: this.$router,
         success: res => {
-          this.getAccountList(this.$store.state.pagination)
+          this.getInvoiceList(this.$store.state.pagination)
         }
       })
     },

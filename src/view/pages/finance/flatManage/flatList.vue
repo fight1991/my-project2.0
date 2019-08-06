@@ -1,5 +1,5 @@
 <template>
-  <section class='sys-main costList'>
+  <section class='sys-main flatList'>
     <el-row class='query-condition'>
       <el-form :label-width="labelFormWidth.six"  :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
@@ -80,37 +80,63 @@
         <el-button size="mini" class="list-btns list-icon-paR"><i></i>平账记录</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
-        :data="billList" border highlight-current-row height="530px"  ref="billTable"
-        @select="chooseSelectBox"
-        @row-click="chooseSelectRow"
-        @select-all="chooseSelectBoxAll">
-        <el-table-column
-          type="selection"
-          width="40">
+        :data="billTableList" border highlight-current-row height="530px"  ref="billTable"
+        @select="selectParentRow"
+        @select-all="selectParentRowAll"
+        @expand-change="expandChange">
+        <el-table-column type="selection" width="40">
         </el-table-column>
-        <el-table-column label="发票号" min-width="100" prop="invoiceNum">
+        <el-table-column type="expand" width="50" label="展开">
+          <!-- 展开项 -->
+          <template slot-scope="scope">
+            <el-table class='sys-table-table'
+              :ref="'childrenTable' + scope.$index"
+              v-if="scope.row.options && scope.row.options.length > 0" align="left"
+              :data="scope.row.options" border
+              @select="selectChildrenRow"
+              @select-all="selectChildrenRowAll">
+              <el-table-column type="selection" width="45">
+              </el-table-column>
+              <el-table-column label="接单编号" min-width="140" prop="orderNo">
+              </el-table-column>
+              <el-table-column label="报关单号" min-width="140" prop="decNo">
+              </el-table-column>
+              <el-table-column label="提单号" min-width="140" prop="billNo">
+              </el-table-column>
+              <el-table-column label="费用项" min-width="100" prop="feeOptionName">
+              </el-table-column>
+              <el-table-column label="金额" min-width="100" prop="taxPrice" align="right">
+              </el-table-column>
+              <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
+              </el-table-column>
+              <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="right">
+              </el-table-column>
+              <el-table-column label="平账状态" min-width="80" prop="flatStatusValue" align="right">
+              </el-table-column>
+              <el-table-column label="平账时间" min-width="100" prop="flatDate" align="center">
+              </el-table-column>
+              <el-table-column label="入账时间" min-width="100" prop="entryDate" align="center">
+              </el-table-column>
+              <el-table-column label="操作人" min-width="100" prop="flatUserName" align="center">
+              </el-table-column>
+            </el-table>
+          </template>
         </el-table-column>
-        <el-table-column label="发票企业" min-width="100" prop="settleCompanyNames" align="left">
+        <el-table-column label="账单企业" min-width="150" prop="settleCompanyName">
         </el-table-column>
-        <el-table-column label="委托企业" min-width="100" prop="entrustCompanyNames" align="left">
-        </el-table-column>
-        <el-table-column label="发票类别" min-width="80" prop="invoiceTypeValue" align="center">
+        <el-table-column label="收付类型" min-width="80" prop="feeFlagValue" align="center">
         </el-table-column>
         <el-table-column label="币制" min-width="80" prop="curr" align="center">
         </el-table-column>
-        <el-table-column label="发票金额" min-width="100" prop="amount" align="center">
+        <el-table-column label="含税总额" min-width="80" prop="taxPrice" align="right">
         </el-table-column>
-        <el-table-column label="操作人" min-width="100" prop="createUserName" align="center">
+        <el-table-column label="已平账金额" min-width="100" prop="isTaxPrice" align="right">
         </el-table-column>
-        <el-table-column label="开票日期" min-width="100" prop="createDate" align="center">
+        <el-table-column label="待平账金额" min-width="100" prop="waitTaxPrice" align="right">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="80" align="center">
-          <template slot-scope="scope">
-            <div class="sys-td-c">
-              <el-button type="text" title="查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
-              <!-- <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button> -->
-            </div>
-          </template>
+        <el-table-column label="账单生成时间" min-width="160" prop="createDate" align="center">
+        </el-table-column>
+        <el-table-column label="平账状态" min-width="100" prop="flatStatusValue" align="center">
         </el-table-column>
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
@@ -139,7 +165,8 @@ export default {
         curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
-      billList: [],
+      billTableList: [],
+      accountBillOptionIds: [], // 费用项id
       // 查询的字典字段
       tableNameList: {
         tableNames: [
@@ -308,81 +335,41 @@ export default {
       }
       return arr.join(' + ')
     },
-    // 勾选选择框
-    chooseSelectBox (selection, row) {
-      this.accountBillIds = selection.map(v => {
-        return v.accountBillId
-      })
-      this.selectionRow = [...selection]
-    },
-    // 勾选选择框
-    chooseSelectBoxAll (selection) {
-      this.accountBillIds = selection.map(v => {
-        return v.accountBillId
-      })
-      this.selectionRow = [...selection]
-    },
-    // 点击表格行 单选
-    chooseSelectRow (row, column, event) {
-      this.$refs['accountTable'].clearSelection()
-      this.$refs['accountTable'].toggleRowSelection(row, true)
-      this.accountBillIds = [row.accountBillId]
-      this.selectionRow = [row]
-    },
-    // 批量审核驳回/确认
-    accountCheck (type, verifyMsg = '') {
-      if (this.accountBillIds.length === 0) {
-        this.$message({
-          type: 'warning',
-          message: '请选择一条或多条对账单'
-        })
+    // 勾选父表单 单行
+    selectParentRow (parent) {
+      if (parent && parent.length === 0) {
+        this.accountBillOptionIds = []
         return
       }
-      let url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
-      this.$store.dispatch('ajax', {
-        url: `API@saas-finance/${url}`,
-        data: {
-          accountBillIds: this.accountBillIds,
-          verifyMsg
-        },
-        router: this.$router,
-        success: res => {
-          this.getAccountList(this.$store.state.pagination)
-        }
+      this.accountBillOptionIds = []
+      parent.forEach(item => {
+        let temp = item.options.map(v => v.accountBillOptionId)
+        this.accountBillOptionIds.push(...temp)
       })
     },
-    // 导出
-    getAccountItem (type) {
-      if (this.accountBillIds.length > 1 || this.accountBillIds.length === 0) {
-        this.$message({
-          type: 'warning',
-          message: '请选择一条对账单导出'
-        })
+    // 勾选父表单 全选
+    selectParentRowAll (parentAll) {
+      if (parentAll && parentAll.length === 0) {
+        this.accountBillOptionIds = []
         return
       }
-      let url = type === 1 ? 'account/exportExcel' : 'account/exportJin'
-      this.$store.dispatch('ajax', {
-        url: `API@saas-finance/${url}`,
-        data: {
-          accountBillId: this.accountBillIds[0]
-        },
-        router: this.$router,
-        success: ({result}) => {
-          result && window.open(result, '_blank')
-        }
+      this.accountBillOptionIds = []
+      parentAll.forEach(item => {
+        let temp = item.options.map(v => v.accountBillOptionId)
+        this.accountBillOptionIds.push(...temp)
       })
     },
-    // 跳转详情/审核
-    goToAccountDetail (type, id) {
-      this.$router.push({
-        name: 'accountManage-detail',
-        query: {
-          accountBillId: id,
-          type,
-          setTitle: type === 'look' ? '对账单详情' : '对账单审核',
-          setId: 'accountManage-detail' + id
-        }
-      })
+    // 勾选子表单 单行
+    selectChildrenRow (child) {
+      console.log(child)
+    },
+    // 勾选子表单 全选
+    selectChildrenRowAll (children) {
+      console.log(children)
+    },
+    // 展开行发生变化
+    expandChange (row) {
+      console.log(row)
     }
   }
 }
