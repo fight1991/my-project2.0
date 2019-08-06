@@ -12,7 +12,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="归类线路" class="select-Color">
-              <el-select v-model="queryForm.classType">
+              <el-select v-model="queryForm.classType" style="width:100%;">
                 <el-option v-for="item in classList" :key="item.value+'class'" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
