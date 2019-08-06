@@ -90,7 +90,7 @@
           <!-- 展开项 -->
           <template slot-scope="scope">
             <el-table class='sys-table-table'
-              :ref="'childrenTable' + scope.$index"
+              :ref="'childrenTable' + scope.row.curr + scope.row.accountBillId"
               v-if="scope.row.options && scope.row.options.length > 0" align="left"
               :data="scope.row.options" border
               @select="selectChildrenRow"
@@ -165,6 +165,7 @@ export default {
         curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
+      expandRow: {},
       billTableList: [],
       accountBillOptionIds: [], // 费用项id
       // 查询的字典字段
@@ -309,7 +310,17 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.billTableList = res.result || []
+          if (res.result && res.result.length > 0) {
+            res.result.forEach(v => {
+              v.unique = v.curr + v.accountBillId
+              v.options.forEach(item => {
+                item.unique = v.curr + v.accountBillId
+              })
+            })
+            this.billTableList = res.result
+          } else {
+            this.billTableList = []
+          }
         }
       })
     },
@@ -336,14 +347,20 @@ export default {
       return arr.join(' + ')
     },
     // 勾选父表单 单行
-    selectParentRow (parent) {
+    selectParentRow (parent, row) {
       if (parent && parent.length === 0) {
         this.accountBillOptionIds = []
+        this.$refs['childrenTable' + row.curr + row.accountBillId] && this.$refs['childrenTable' + row.curr + row.accountBillId].clearSelection()
         return
       }
       this.accountBillOptionIds = []
+      this.$refs['childrenTable' + row.curr + row.accountBillId] && this.$refs['childrenTable' + row.curr + row.accountBillId].clearSelection()
       parent.forEach(item => {
-        let temp = item.options.map(v => v.accountBillOptionId)
+        this.$refs['childrenTable' + item.curr + item.accountBillId] && this.$refs['childrenTable' + item.curr + item.accountBillId].clearSelection()
+        let temp = item.options.map(v => {
+          this.$refs['childrenTable' + item.curr + item.accountBillId] && this.$refs['childrenTable' + item.curr + item.accountBillId].toggleRowSelection(v, true)
+          return v.accountBillOptionId
+        })
         this.accountBillOptionIds.push(...temp)
       })
     },
@@ -360,16 +377,45 @@ export default {
       })
     },
     // 勾选子表单 单行
-    selectChildrenRow (child) {
-      console.log(child)
+    selectChildrenRow (child, row) {
+      let tempThis = [...this.accountBillOptionIds]
+      let temp = child.map(v => v.accountBillOptionId)
+      // 去重处理
+      this.accountBillOptionIds = [...new Set([...tempThis, ...temp])]
+      // 如果child的长度===父options的长度 说明全选了
+      if (child.length === this.expandRow[row.unique].options) {
+        let row = this.billTableList.find(v => v.unique === row.unique)
+        this.$refs['billTable'].toggleRowSelection(row, true)
+      } else {
+        this.$refs['billTable'].toggleRowSelection(this.expandRow[row.unique], false)
+      }
     },
     // 勾选子表单 全选
     selectChildrenRowAll (children) {
-      console.log(children)
+      let tempThis = [...this.accountBillOptionIds]
+      let temp = children.map(v => v.accountBillOptionId)
+      // 去重处理
+      this.accountBillOptionIds = [...new Set([...tempThis, ...temp])]
+      // 找到父行
+      if (children.length > 0) { // 全选
+        let flag = children[0].unique
+        let row = this.billTableList.find(v => v.unique === flag)
+        this.$refs['billTable'].toggleRowSelection(row, true)
+      }
     },
     // 展开行发生变化
     expandChange (row) {
       console.log(row)
+      this.expandRow[row.unique] = row
+      let id = row.options[0].accountBillOptionId
+      // 如果父行已经勾选了,则子表全选
+      if (this.accountBillOptionIds.indexOf(id) > -1) {
+        row.options.forEach(v => {
+          this.$nextTick(() => {
+            this.$refs['childrenTable' + row.curr + row.accountBillId].toggleRowSelection(v, true)
+          })
+        })
+      }
     }
   }
 }
