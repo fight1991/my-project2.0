@@ -5,7 +5,7 @@
         <!-- 查询条件-->
         <el-row :gutter="50">
           <el-col :span="6">
-            <el-form-item label="账单">
+            <el-form-item label="账单企业">
               <el-autocomplete style="width:100%;"
                 class="inline-input" :maxlength="30" clearable
                 v-model="QueryForm.settleCompanyName"
@@ -40,7 +40,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="发票类型">
+            <el-form-item label="平账状态">
               <el-select v-model="QueryForm.invoiceType" size="mini" clearable style="width:100%;">
                 <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
                 <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
@@ -52,15 +52,6 @@
           </el-col>
         </el-row>
         <el-row :gutter="50">
-          <el-col :span="6">
-            <el-form-item label="操作人">
-              <el-select v-model="QueryForm.createUserName" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'未开票'" :value="'0'"></el-option>
-                <el-option key="6" :label="'已开票'" :value="'1'"></el-option>
-                <el-option key="9" :label="'部分开票'" :value="'2'"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item label="账单生成日期">
               <el-date-picker
@@ -152,12 +143,12 @@ export default {
     return {
       dates: '',
       QueryForm: {
-        createStartDate: '', // 开票日期
-        createEndDate: '',
+        flatDateStart: '', // 平账开始时间
+        flatDateEnd: '',
         createUserName: '', // 操作人
         entrustCompanyNames: '', // 委托企业
         invoiceType: '', // 发票类型
-        settleCompanyNames: '' // 开票企业
+        settleCompanyName: '' // 账单企业
       },
       invoiceTableList: [],
       // 查询的字典字段
