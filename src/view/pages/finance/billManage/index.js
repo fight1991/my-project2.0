@@ -2,7 +2,7 @@ const MENU = [
   {
     path: '/finance/billManage/list',
     name: 'billManage-list',
-    icon: 'icons-finance-accountManage',
+    icon: 'icons-finance-billManage',
     permissions: 'CCBA21603000000',
     hidden: false,
     meta: {

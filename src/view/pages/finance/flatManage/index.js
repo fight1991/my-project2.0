@@ -2,7 +2,7 @@ const MENU = [
   {
     path: '/finance/flatManage/list',
     name: 'flatManage-list',
-    icon: 'icons-finance-accountManage',
+    icon: 'icons-finance-flatManage',
     permissions: 'CCBA21603000000',
     hidden: false,
     meta: {

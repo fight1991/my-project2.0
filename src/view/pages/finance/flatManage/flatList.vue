@@ -17,7 +17,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="收付类型">
-              <el-select v-model="QueryForm.entrustCompanyNames" size="mini" clearable  style="width:100%;">
+              <el-select v-model="QueryForm.feeFlag" size="mini" clearable  style="width:100%;">
                 <el-option key="0" :label="'应收'" :value="true"></el-option>
                 <el-option key="1" :label="'应付'" :value="false"></el-option>
               </el-select>
@@ -41,12 +41,10 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="平账状态">
-              <el-select v-model="QueryForm.invoiceType" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
-                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
-                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
-                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
-                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
+              <el-select v-model="QueryForm.flatStatus" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'未平账'" :value="0"></el-option>
+                <el-option key="1" :label="'已平账'" :value="1"></el-option>
+                <el-option key="2" :label="'部分平账'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -71,28 +69,18 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getAccountList($store.state.pagination)">查询</el-button>
+        <el-button size="mini" type="primary" @click="getBillList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
     <div class='query-table-finance'>
       <el-row class="table-btn">
-        <!-- <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button> -->
-        <!-- <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button> -->
-        <!-- 对账单导出选项 -->
-        <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
-          <el-button size="mini" class="list-btns list-icon-exportO">
-            <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="1" :key="1">普通Excel样式导出</el-dropdown-item>
-            <el-dropdown-item :command="2" :key="2">金蝶样式导出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button size="mini" class="list-btns list-icon-pa"><i></i>平账</el-button>
+        <el-button size="mini" class="list-btns list-icon-paR"><i></i>平账记录</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
-        :data="invoiceTableList" border highlight-current-row height="530px"  ref="invoiceTable"
+        :data="billList" border highlight-current-row height="530px"  ref="billTable"
         @select="chooseSelectBox"
         @row-click="chooseSelectRow"
         @select-all="chooseSelectBoxAll">
@@ -127,7 +115,7 @@
       </el-table>
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box :pagination='paginationInit' @change="getInvoiceList"></page-box>
+          <page-box :pagination='paginationInit' @change="getBillList"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -143,14 +131,15 @@ export default {
     return {
       dates: '',
       QueryForm: {
-        flatDateStart: '', // 平账开始时间
-        flatDateEnd: '',
-        createUserName: '', // 操作人
-        entrustCompanyNames: '', // 委托企业
-        invoiceType: '', // 发票类型
+        startDate: '', // 平账开始时间
+        endDate: '',
+        flatUserName: '', // 平账人
+        flatStatus: '', // 0未平账1已平账2部分平账
+        feeFlag: '', // 应收true，应付false
+        curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
-      invoiceTableList: [],
+      billList: [],
       // 查询的字典字段
       tableNameList: {
         tableNames: [
@@ -201,7 +190,7 @@ export default {
     this.getCommonParam()
     this.getSettleCompanyInfo()
     this.paginationInit = this.$store.state.pagination
-    this.getAccountList(this.$store.state.pagination)
+    this.getBillList(this.$store.state.pagination)
   },
   methods: {
     // 获取账单企业列表
@@ -274,18 +263,18 @@ export default {
         params: params
       }
     },
-    // 获取账单列表
-    getInvoiceList (pagination) {
+    // 获取平账对账单列表
+    getBillList (pagination) {
       if (this.dates && this.dates.length > 0) {
-        this.QueryForm.createStartDate = this.dates[0]
-        this.QueryForm.createEndDate = this.dates[1]
+        this.QueryForm.startDate = this.dates[0]
+        this.QueryForm.endDate = this.dates[1]
       } else {
-        this.QueryForm.createStartDate = ''
-        this.QueryForm.createEndDate = ''
+        this.QueryForm.startDate = ''
+        this.QueryForm.endDate = ''
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
-        url: 'API@saas-finance/invoice/gets',
+        url: 'API@saas-finance/balance/getAccountBills',
         data: {
           ...this.QueryForm,
           page: pagination
@@ -293,19 +282,20 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.invoiceTableList = res.result || []
+          this.billTableList = res.result || []
         }
       })
     },
     // 重置查询条件
     resetForm () {
       this.QueryForm = {
-        createStartDate: '',
-        createEndDate: '',
-        createUserName: '',
-        entrustCompanyNames: '',
-        invoiceType: '',
-        settleCompanyNames: ''
+        startDate: '',
+        endDate: '',
+        flatUserName: '',
+        flatStatus: '',
+        feeFlag: '',
+        curr: '',
+        settleCompanyName: ''
       }
       this.dates = ''
     },

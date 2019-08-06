@@ -87,18 +87,8 @@
     <!-- 列表表格开始 -->
     <div class='query-table-finance'>
       <el-row class="table-btn">
-        <!-- <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button> -->
-        <!-- <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button> -->
-        <!-- 对账单导出选项 -->
-        <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
-          <el-button size="mini" class="list-btns list-icon-exportO">
-            <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="1" :key="1">普通Excel样式导出</el-dropdown-item>
-            <el-dropdown-item :command="2" :key="2">金蝶样式导出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button size="mini" class="list-btns list-icon-rollback"><i></i>撤销开票</el-button>
+        <el-button size="mini" class="list-btns list-icon-exportBill"><i></i>导出发票</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
         :data="invoiceTableList" border highlight-current-row height="530px"  ref="invoiceTable"
