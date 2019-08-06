@@ -98,7 +98,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="新建费用" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="40%">
+    <el-dialog title="新建费用" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="560px">
       <div  class="dec-div">
         <el-form size="mini" :label-width="'75px'" ref="addFees" :model="addFees" :rules="addFeesRule">
           <el-row>
@@ -136,8 +136,8 @@
           </el-row>
         </el-form>
         <el-row class="query-btn" style="text-align:center">
-          <el-button size="mini" @click="cancelBtn">取消</el-button>
           <el-button size="mini" type="primary" @mousedown.native="confirmBtn($event)">确认</el-button>
+          <el-button size="mini" @click="cancelBtn">取消</el-button>
         </el-row>
       </div>
     </el-dialog>
