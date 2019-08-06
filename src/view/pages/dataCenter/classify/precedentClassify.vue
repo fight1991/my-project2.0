@@ -10,7 +10,7 @@
               <el-input v-model="queryForm.querykey" maxlength="70" clearable placeholder="请输入商品描述(必填)"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="归类线路" class="select-Color">
               <el-select v-model="queryForm.classType">
                 <el-option v-for="item in classList" :key="item.value+'class'" :value="item.value" :label="item.label"></el-option>
