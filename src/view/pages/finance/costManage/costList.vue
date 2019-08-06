@@ -98,7 +98,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="新建费用" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="560px">
+    <el-dialog :title="type === 'add' ? '新建费用':'编辑费用'" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="560px">
       <div  class="dec-div">
         <el-form size="mini" :label-width="'75px'" ref="addFees" :model="addFees" :rules="addFeesRule">
           <el-row>
