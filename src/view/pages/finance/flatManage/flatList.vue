@@ -129,10 +129,19 @@
         <el-table-column label="币制" min-width="80" prop="curr" align="center">
         </el-table-column>
         <el-table-column label="含税总额" min-width="80" prop="taxPrice" align="right">
+          <template slot-scope="scope">
+            {{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="已平账金额" min-width="100" prop="isTaxPrice" align="right">
+          <template slot-scope="scope">
+            {{scope.row.isTaxPrice && scope.row.isTaxPrice.toLocaleString() || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="待平账金额" min-width="100" prop="waitTaxPrice" align="right">
+          <template slot-scope="scope">
+            {{scope.row.waitTaxPrice && scope.row.waitTaxPrice.toLocaleString() || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="账单生成时间" min-width="160" prop="createDate" align="center">
         </el-table-column>

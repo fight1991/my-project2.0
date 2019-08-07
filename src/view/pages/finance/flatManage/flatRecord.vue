@@ -80,6 +80,9 @@
         <el-table-column label="费用项" min-width="100" prop="feeOptionName">
         </el-table-column>
         <el-table-column label="金额" min-width="100" prop="taxPrice" align="right">
+          <template slot-scope="scope">
+            {{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
         </el-table-column>
