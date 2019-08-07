@@ -93,8 +93,8 @@
               :ref="'childrenTable' + scope.row.curr + scope.row.accountBillId"
               v-if="scope.row.options && scope.row.options.length > 0" align="left"
               :data="scope.row.options" border
-              @select="selectChildrenRow"
-              @select-all="selectChildrenRowAll">
+              @select="((select, row) => {selectChildrenRow(select, row, scope.row)})"
+              @select-all="((select) => {selectChildrenRowAll(select, scope.row)})">
               <el-table-column type="selection" width="45">
               </el-table-column>
               <el-table-column label="接单编号" min-width="140" prop="orderNo">
@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
 export default {
@@ -165,8 +165,6 @@ export default {
         curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
-      expandRow: {}, // 记录当前展开行数据
-      currentParentRow: '', // 记录当前行标记
       billTableList: [],
       accountBillOptionIds: {}, // 费用项id 实现不同table之间联动
       // 查询的字典字段
@@ -210,11 +208,21 @@ export default {
       }
     }
   },
-  computed: mapState({ // 查看vuex中当前登录的userId
-    currentUser (state) {
-      return state.userLoginInfo.userId
+  computed: {
+    optionIds () {
+      let tempArr = []
+      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
+        for (let k in this.accountBillOptionIds) {
+          this.accountBillOptionIds[k].forEach(v => {
+            if (v.flatStatus === 0) {
+              tempArr.push(v.accountBillOptionId)
+            }
+          })
+        }
+      }
+      return tempArr
     }
-  }),
+  },
   created () {
     this.getCommonParam()
     this.getSettleCompanyInfo()
@@ -347,7 +355,7 @@ export default {
       }
       return arr.join(' + ')
     },
-    // 勾选父表单 单行
+    // 勾选父表格 单行
     selectParentRow (parent, row) {
       if (parent && parent.length === 0) {
         this.accountBillOptionIds = {}
@@ -355,7 +363,14 @@ export default {
         return
       }
       this.$refs['childrenTable' + row.unique] && this.$refs['childrenTable' + row.unique].clearSelection()
-      this.accountBillOptionIds = {}
+      let tempObj = {}
+      // 如果有 是通过子类表格选择的 则保留不置为{}
+      for (let k in this.accountBillOptionIds) {
+        if (this.accountBillOptionIds[k][0] && this.accountBillOptionIds[k][0].mySon) {
+          tempObj[k] = this.accountBillOptionIds[k]
+        }
+      }
+      this.accountBillOptionIds = tempObj
       parent.forEach(item => {
         // 存储费用项id数据
         this.accountBillOptionIds[item.unique] = item.options
@@ -365,43 +380,45 @@ export default {
         })
       })
     },
-    // 勾选父表单 全选
+    // 勾选父表格 全选
     selectParentRowAll (parentAll) {
       if (parentAll && parentAll.length === 0) {
         this.accountBillOptionIds = {}
         return
       }
-      this.accountBillOptionIds = []
+      this.accountBillOptionIds = {}
       parentAll.forEach(item => {
         this.accountBillOptionIds[item.unique] = item.options
       })
     },
     // 勾选子表单 单行
-    selectChildrenRow (child, row) {
-      this.accountBillOptionIds[row.unique] = child
+    selectChildrenRow (child, row, parent) {
       // 如果child的长度===父options的长度 说明全选了
-      if (child.length === this.expandRow[row.unique].options.length) {
-        this.$refs['billTable'].toggleRowSelection(this.expandRow[row.unique], true)
+      if (child.length === parent.options.length) {
+        this.$refs['billTable'].toggleRowSelection(parent, true)
       } else {
-        this.$refs['billTable'].toggleRowSelection(this.expandRow[row.unique], false)
+        this.$refs['billTable'].toggleRowSelection(parent, false)
+        // 添加子类标识
+        if (child.length > 0) {
+          child[0]['mySon'] = true
+        }
       }
+      this.accountBillOptionIds[row.unique] = child
+      this.$delete(this.accountBillOptionIds, row.unique)
+      this.$set(this.accountBillOptionIds, row.unique, child)
     },
     // 勾选子表单 全选
-    selectChildrenRowAll (children) {
+    selectChildrenRowAll (children, parent) {
       if (children.length > 0) { // 全选 找到父行
-        let flag = children[0].unique
-        this.accountBillOptionIds[flag] = children
-        let row = this.billTableList.find(v => v.unique === flag)
-        this.$refs['billTable'].toggleRowSelection(row, true)
+        this.accountBillOptionIds[parent.unique] = children
+        this.$refs['billTable'].toggleRowSelection(parent, true)
       } else { // 取消全选 找到父行?
-        this.$refs['billTable'].toggleRowSelection(this.currentParentRow, false)
-        this.accountBillOptionIds[this.currentParentRow.unique] = []
+        this.$refs['billTable'].toggleRowSelection(parent, false)
+        this.accountBillOptionIds[parent.unique] = []
       }
     },
     // 展开行发生变化
     expandChange (row) {
-      this.expandRow[row.unique] = row
-      this.currentParentRow = row
       // 如果父行已经勾选了,则子表全选
       if (this.accountBillOptionIds[row.unique] && this.accountBillOptionIds[row.unique].length > 0) {
         row.options.forEach(v => {
