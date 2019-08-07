@@ -165,7 +165,8 @@ export default {
         curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
-      expandRow: {},
+      expandRow: {}, // 记录当前展开行数据
+      currentParentRow: '', // 记录当前行标记
       billTableList: [],
       accountBillOptionIds: [], // 费用项id
       // 查询的字典字段
@@ -383,12 +384,12 @@ export default {
       // 去重处理
       this.accountBillOptionIds = [...new Set([...tempThis, ...temp])]
       // 如果child的长度===父options的长度 说明全选了
-      if (child.length === this.expandRow[row.unique].options) {
-        let row = this.billTableList.find(v => v.unique === row.unique)
-        this.$refs['billTable'].toggleRowSelection(row, true)
+      if (child.length === this.expandRow[row.unique].options.length) {
+        this.$refs['billTable'].toggleRowSelection(this.expandRow[row.unique], true)
       } else {
         this.$refs['billTable'].toggleRowSelection(this.expandRow[row.unique], false)
       }
+      console.log(this.accountBillOptionIds)
     },
     // 勾选子表单 全选
     selectChildrenRowAll (children) {
@@ -396,23 +397,31 @@ export default {
       let temp = children.map(v => v.accountBillOptionId)
       // 去重处理
       this.accountBillOptionIds = [...new Set([...tempThis, ...temp])]
-      // 找到父行
-      if (children.length > 0) { // 全选
+      if (children.length > 0) { // 全选 找到父行
         let flag = children[0].unique
         let row = this.billTableList.find(v => v.unique === flag)
         this.$refs['billTable'].toggleRowSelection(row, true)
+      } else { // 取消全选 找到父行?
+        this.$refs['billTable'].toggleRowSelection(this.currentParentRow, false)
+        // 删除子表单数据
+        this.currentParentRow.options.forEach(v => {
+          let index = this.accountBillOptionIds.indexOf(v.accountBillOptionId)
+          index > -1 && this.accountBillOptionIds.splice(index, 1)
+        })
       }
+      console.log(this.accountBillOptionIds)
     },
     // 展开行发生变化
     expandChange (row) {
       console.log(row)
       this.expandRow[row.unique] = row
+      this.currentParentRow = row
       let id = row.options[0].accountBillOptionId
       // 如果父行已经勾选了,则子表全选
       if (this.accountBillOptionIds.indexOf(id) > -1) {
         row.options.forEach(v => {
           this.$nextTick(() => {
-            this.$refs['childrenTable' + row.curr + row.accountBillId].toggleRowSelection(v, true)
+            this.$refs['childrenTable' + row.unique] && this.$refs['childrenTable' + row.unique].toggleRowSelection(v, true)
           })
         })
       }
