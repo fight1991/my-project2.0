@@ -77,7 +77,7 @@
     <div class='query-table-finance'>
       <el-row class="table-btn">
         <el-button size="mini" :disabled="optionIds.data.length === 0 || !optionIds.isHas" class="list-btns list-icon-pa" @click="entryDateIsShow = true"><i></i>平账</el-button>
-        <el-button size="mini" class="list-btns list-icon-paR"><i></i>平账记录</el-button>
+        <el-button size="mini" class="list-btns list-icon-paR" @click="goToRecord"><i></i>平账记录</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
         :data="billTableList" border highlight-current-row height="530px"  ref="billTable"
@@ -440,11 +440,18 @@ export default {
     selectParentRowAll (parentAll) {
       if (parentAll && parentAll.length === 0) {
         this.accountBillOptionIds = {}
+        // 子表格清空选中状态
+        this.billTableList.forEach(v => {
+          this.$refs['childrenTable' + v.unique] && this.$refs['childrenTable' + v.unique].clearSelection()
+        })
         return
       }
       this.accountBillOptionIds = {}
       parentAll.forEach(item => {
         this.accountBillOptionIds[item.unique] = item.options
+        item.options.forEach(v => {
+          this.$refs['childrenTable' + v.unique] && this.$refs['childrenTable' + v.unique].toggleRowSelection(v, true)
+        })
       })
     },
     // 勾选子表单 单行
@@ -475,13 +482,21 @@ export default {
     },
     // 展开行发生变化
     expandChange (row) {
-      // 如果父行已经勾选了,则子表全选
+      // 先点击展开项, 字表不全选, 关闭展开按钮再打开
       if (this.accountBillOptionIds[row.unique] && this.accountBillOptionIds[row.unique].length > 0) {
-        row.options.forEach(v => {
-          this.$nextTick(() => {
-            this.$refs['childrenTable' + row.unique] && this.$refs['childrenTable' + row.unique].toggleRowSelection(v, true)
+        if (this.accountBillOptionIds[row.unique][0].mySon) {
+          this.accountBillOptionIds[row.unique].forEach(v => {
+            this.$nextTick(() => {
+              this.$refs['childrenTable' + row.unique] && this.$refs['childrenTable' + row.unique].toggleRowSelection(v, true)
+            })
           })
-        })
+        } else { // 如果父行已经勾选了,则子表全选,不存在mySon
+          row.options.forEach(v => {
+            this.$nextTick(() => {
+              this.$refs['childrenTable' + row.unique] && this.$refs['childrenTable' + row.unique].toggleRowSelection(v, true)
+            })
+          })
+        }
       }
     },
     // 生成平账
@@ -517,6 +532,12 @@ export default {
     cancelBtn () {
       this.entryDate = ''
       this.entryDateIsShow = false
+    },
+    // 路由到平账记录
+    goToRecord () {
+      this.$router.push({
+        name: 'flatManage-recordList'
+      })
     }
   }
 }
