@@ -67,7 +67,7 @@
       </el-row>
       <el-table class='sys-table-table' align="left"
         :data="recordTableList" border highlight-current-row height="530px">
-        <el-table-column type="index" width="50" label="序号">
+        <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
         <el-table-column label="账单企业" min-width="140" prop="settleCompanyName">
         </el-table-column>
@@ -85,7 +85,7 @@
         </el-table-column>
         <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="right">
         </el-table-column>
-        <el-table-column label="平账时间" min-width="100" prop="flatDate" align="center">
+        <el-table-column label="平账时间" min-width="160" prop="flatDate" align="center">
         </el-table-column>
         <el-table-column label="入账时间" min-width="100" prop="entryDate" align="center">
         </el-table-column>
@@ -115,6 +115,7 @@ export default {
         createUserName: '', // 操作人
         settleCompanyName: '' // 账单企业
       },
+      recordTableList: [],
       paginationInit: '',
       pickerOptions: {
         shortcuts: [{
@@ -225,11 +226,18 @@ export default {
     exportFlat () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/balance/export',
-        data: {},
+        data: {
+          ...this.QueryForm,
+          page: {
+            pageSize: 10,
+            pageIndex: 1,
+            total: 0
+          }
+        },
         router: this.$router,
         success: ({result}) => {
-          if (result) {
-            window.open(result, '_blank')
+          if (result && result.url) {
+            window.open(result.url, '_blank')
           }
         }
       })
