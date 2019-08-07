@@ -2,6 +2,12 @@ import url from './commonPath'
 export default {
   // 进出口管理
   eImport: {
+    // 保税核注清单(进口)
+    tax_I_Template: url.JINER + '/templates/datainput/I/taxList',
+    // 保税核注清单(出口)
+    tax_E_Template: url.JINER + '/templates/datainput/E/taxList',
+    // 保税核注清单查询
+    taxTemplateList: url.JINER + '/templates/dataQuery/taxListTemplateQuery',
     // 模板列表
     decTemplateList: url.DEC + '/decTemplate/list',
     // 进口模板

@@ -52,6 +52,39 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '出口导入模板'
       }
+    },
+    {
+      path: '/eImport/templates/dataQuery/taxListTemplateQuery',
+      name: 'taxTemplateList',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '核注清单模板'
+      }
+    },
+    {
+      path: '/eImport/templates/datainput/I/taxList',
+      name: 'tax_I_Template',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '进口核注清单模板'
+      }
+    },
+    {
+      path: '/eImport/templates/datainput/E/taxList',
+      name: 'tax_E_Template',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '出口核注清单模板'
+      }
     }
   ]
 }
