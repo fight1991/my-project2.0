@@ -76,7 +76,7 @@
     <!-- 列表表格开始 -->
     <div class='query-table-finance'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-pa"><i></i>平账</el-button>
+        <el-button size="mini" :disabled="optionIds.data.length === 0 || !optionIds.isHas" class="list-btns list-icon-pa" @click="entryDateIsShow = true"><i></i>平账</el-button>
         <el-button size="mini" class="list-btns list-icon-paR"><i></i>平账记录</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
@@ -145,6 +145,32 @@
         </el-col>
       </el-row>
     </div>
+    <!-- 日期弹框 -->
+    <el-dialog title="提示" @close="resetDialog" :visible.sync="entryDateIsShow" :close-on-click-modal='false' width="500px">
+      <div  class="dec-div">
+        <el-form size="mini" :label-width="labelFormWidth.four">
+          <el-row>
+            <el-col :span="8" :offset="4">
+              <el-form-item label="入账日期">
+                 <el-date-picker
+                    style="100%"
+                    v-model="entryDate"
+                    align="center"
+                    value-format="yyyy-MM-dd"
+                    type="date"
+                    placeholder="请填写对应的入账日期"
+                    :picker-options="pickerOptions2">
+                  </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-row class="query-btn" style="text-align:center">
+          <el-button size="mini" @click="cancelBtn">取消</el-button>
+          <el-button size="mini" type="primary" @click="createBanlance">确认</el-button>
+        </el-row>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -165,6 +191,8 @@ export default {
         curr: '', // 币制
         settleCompanyName: '' // 账单企业
       },
+      entryDateIsShow: false,
+      entryDate: '',
       billTableList: [],
       accountBillOptionIds: {}, // 费用项id 实现不同table之间联动
       // 查询的字典字段
@@ -178,6 +206,7 @@ export default {
         obj: '',
         params: ''
       },
+      flatIsDisabled: true,
       paginationInit: '',
       pickerOptions: {
         shortcuts: [{
@@ -205,17 +234,44 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
+      },
+      pickerOptions2: {
+        shortcuts: [{
+          text: '今天',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: '昨天',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '一周前',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }]
       }
     }
   },
   computed: {
     optionIds () {
-      let tempArr = []
+      let tempArr = {
+        isHas: true,
+        data: []
+      }
       if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
         for (let k in this.accountBillOptionIds) {
           this.accountBillOptionIds[k].forEach(v => {
             if (v.flatStatus === 0) {
-              tempArr.push(v.accountBillOptionId)
+              tempArr.data.push(v.accountBillOptionId)
+            } else {
+              tempArr.isHas = false
             }
           })
         }
@@ -427,6 +483,40 @@ export default {
           })
         })
       }
+    },
+    // 生成平账
+    createBanlance () {
+      if (!this.entryDate) {
+        this.$message({
+          type: 'warning',
+          message: '请填写入账日期'
+        })
+        return
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/balance/create',
+        data: {
+          accountBillOptionIds: this.optionIds.data,
+          entryDate: this.entryDate
+        },
+        router: this.$router,
+        success: () => {
+          this.getBillList(this.$store.state.pagination)
+          this.entryDateIsShow = false
+          this.accountBillOptionIds = {}
+          this.$message({
+            type: 'success',
+            message: '平账成功'
+          })
+        }
+      })
+    },
+    resetDialog () {
+      this.entryDate = ''
+    },
+    cancelBtn () {
+      this.entryDate = ''
+      this.entryDateIsShow = false
     }
   }
 }
