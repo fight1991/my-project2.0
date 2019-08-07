@@ -92,7 +92,7 @@
     <!-- 列表表格开始 -->
     <div class='query-table-finance'>
       <el-row class="table-btn">
-        <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
+        <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-createAccount" @click="createAccount"><i></i>生成对账单</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="expenseTableList" border
         highlight-current-row height="530px" ref="expenseTable"
