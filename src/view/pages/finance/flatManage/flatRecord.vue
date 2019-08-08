@@ -69,13 +69,22 @@
         :data="recordTableList" border highlight-current-row height="530px">
         <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
-        <el-table-column label="账单企业" min-width="140" prop="settleCompanyName">
+        <el-table-column label="账单企业" min-width="160" prop="settleCompanyName">
         </el-table-column>
         <el-table-column label="接单编号" min-width="140" prop="orderNo">
+          <template slot-scope="scope">
+            {{scope.row.orderNo || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="报关单号" min-width="140" prop="decNo">
+        <el-table-column label="报关单号" min-width="180" prop="decNo">
+          <template slot-scope="scope">
+            {{scope.row.decNo || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="提单号" min-width="140" prop="billNo">
+        <el-table-column label="提单号" min-width="150" prop="billNo">
+          <template slot-scope="scope">
+            {{scope.row.billNo || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="费用项" min-width="100" prop="feeOptionName">
         </el-table-column>
@@ -85,8 +94,14 @@
           </template>
         </el-table-column>
         <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
+          <template slot-scope="scope">
+            {{scope.row.entrustCompanyName || '-'}}
+          </template>
         </el-table-column>
-        <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="right">
+        <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="center">
+          <template slot-scope="scope">
+            {{scope.row.entrustCompanyName || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="平账时间" min-width="160" prop="flatDate" align="center">
         </el-table-column>
