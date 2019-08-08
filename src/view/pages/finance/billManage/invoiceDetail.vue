@@ -1,5 +1,9 @@
 <template>
   <section class='sys-main invoiceDetail'>
+    <div class="topFlag flex">
+      <img src="@/assets/img/Tips.png" alt="">
+      <div class="text">当前开票金额已超过100000元,系统将自动进行拆分开票操作</div>
+    </div>
     <!-- 发票类型区域 -->
     <div class="area">
       <div class="title">发票类型&nbsp;:&nbsp;{{invoiceTypeValue || '-'}}</div>
@@ -49,8 +53,7 @@
       </div>
     </div>
     <!-- 发票拆分区域 -->
-    <div class="receive area">
-      <div class="title">请注意:当前开票金二已超过100000元,系统将自动进行拆分开票操作</div>
+    <div class="area">
       <el-row class="table-btn" v-if="optionsType === 'edit'">
         <el-button size="mini" class="list-btns list-icon-add"><i></i>新增</el-button>
       </el-row>
@@ -178,7 +181,7 @@ export default {
     cancelEdit () {},
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {
-      if (columnIndex === 7 || (columnIndex >= 9 && columnIndex < 12)) {
+      if (columnIndex === 4) {
         return 'cell-disable'
       }
     }
@@ -199,10 +202,7 @@ export default {
   }
   .flex {
     display: flex;
-  }
-  .flex-wrap {
-    display: flex;
-    flex-wrap: wrap;
+    align-items: center;
   }
   .area {
     background-color: #fff;
@@ -226,11 +226,9 @@ export default {
   .total {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: center;
     padding: 20px 0 5px;
     .compute {
-      font-size: 16px;
-      font-weight: bold;
       color: #4c4c4c;
       margin-right: 10px;
     }
@@ -244,6 +242,19 @@ export default {
     }
     &:last-child:after{
       content:'';
+    }
+  }
+  .topFlag {
+    padding-left: 18px;
+    margin-bottom: 20px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid #ffc56b;
+    background-color: #ffe9c7;
+    border-radius: 2px;
+    img {
+      display:block;
+      margin-right: 8px;
     }
   }
 </style>
