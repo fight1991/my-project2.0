@@ -99,7 +99,11 @@
       </el-row>
     </div>
     <el-dialog :title="type === 'add' ? '新建费用':'编辑费用'" @close="resetDialog" :visible.sync="addFeeIsShow" :close-on-click-modal='false' width="560px">
-      <div  class="dec-div">
+      <div class="dec-div">
+        <div class="topFlag flex">
+          <img src="@/assets/img/warning.png" alt="">
+          <div class="text">若需要使用账单的金蝶导出功能实现与金蝶系统的数据比对，请一定填写“会计科目”字段。</div>
+        </div>
         <el-form size="mini" :label-width="'75px'" ref="addFees" :model="addFees" :rules="addFeesRule">
           <el-row>
             <el-col :span="14" :offset="5">
@@ -429,6 +433,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.flex {
+  display: flex;
+  align-items: flex-start;
+}
+.topFlag {
+    padding-left: 18px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    img {
+      display:block;
+      margin-right: 8px;
+    }
+  }
 .query-condition {
   background-color: #fff;
   padding: 20px;
