@@ -391,21 +391,27 @@ export default {
     },
     // 撤销开票
     cancelBill () {
-      this.$store.dispatch('ajax', {
-        url: `API@saas-finance/invoice/revoke`,
-        data: {
-          invoiceIds: this.invoiceIds
-        },
-        router: this.$router,
-        success: () => {
-          this.$message({
-            type: 'success',
-            message: '撤销成功'
-          })
-          this.getInvoiceList(this.$store.state.pagination)
-          this.invoiceIds = []
-        }
-      })
+      this.$confirm('若撤销此发票,发票将从发票列表消失,账单中对应数据状态将发生改变,是否确认要撤销开票?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: `API@saas-finance/invoice/revoke`,
+          data: {
+            invoiceIds: this.invoiceIds
+          },
+          router: this.$router,
+          success: () => {
+            this.$message({
+              type: 'success',
+              message: '撤销成功'
+            })
+            this.getInvoiceList(this.$store.state.pagination)
+            this.invoiceIds = []
+          }
+        })
+      }).catch(() => {})
     },
     // 查看详情
     goToInvoiceDetail (type, id) {

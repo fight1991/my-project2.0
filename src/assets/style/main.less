@@ -1127,6 +1127,64 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   
 }
+.sys-main.invoiceDetail {
+  .el-table th {
+    padding: 7px 0;
+  }
+  .el-table td {
+    padding: 7px;
+  }
+  .query-table-finance {
+    .cell-disable {
+      background-color: #f5f5f5;
+      .cell {
+        color: #A5A5A5!important;
+      }
+    }
+    .table-select {
+      padding: 5px 0;
+      .el-form-item {
+        margin: 0;
+      }
+      .el-input__icon {
+        line-height: 32px;
+      }
+      .el-form-item__content {
+        line-height: 30px;
+      }
+      &.align-r {
+        .el-input__inner {
+          text-align: right
+        }
+      }
+      &.align-c {
+        .el-input__inner {
+          text-align: center
+        }
+      }
+    }
+    .el-table td {
+      padding: 0
+    }
+    .el-input__inner {
+      height: auto;
+      border-color: transparent;
+      line-height: 30px;
+    }
+    .el-form-item.is-error .el-input__inner {
+      border:1px solid #f56c6c;
+    }
+    .table-btn .el-input__inner {
+      height:27px;
+      .el-input__icon {
+        line-height: 27px!important;
+      }
+    }
+    .el-table .cell {
+      padding: 0;
+    }
+  }
+}
 .sys-main.finance {
   .el-table td,
   .el-table th.is-leaf {

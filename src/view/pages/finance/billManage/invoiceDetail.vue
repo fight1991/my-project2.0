@@ -1,39 +1,39 @@
 <template>
-  <section class='sys-main expenseDetail'>
+  <section class='sys-main invoiceDetail'>
     <!-- 发票类型区域 -->
     <div class="area">
-      <div class="title">发票类型:增值税普通发票</div>
+      <div class="title">发票类型&nbsp;:&nbsp;{{invoiceTypeValue || '-'}}</div>
       <el-table class='sys-table-table' align="left"
         :data="accountBillTableList" border highlight-current-row>
         <el-table-column type="index" width="50" label="序号" align="center">
         </el-table-column>
         <el-table-column label="账单企业" min-width="160" prop="settleCompanyName">
         </el-table-column>
-        <el-table-column label="接单编号" min-width="140" prop="orderNo">
+        <el-table-column label="接单编号" width="160" prop="orderNo">
           <template slot-scope="scope">
             {{scope.row.orderNo || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="报关单号" min-width="180" prop="decNo">
+        <el-table-column label="报关单号" width="190" prop="decNo">
           <template slot-scope="scope">
             {{scope.row.decNo || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="提单号" min-width="150" prop="billNo">
+        <el-table-column label="提单号" width="160" prop="billNo">
           <template slot-scope="scope">
             {{scope.row.billNo || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="费用项" min-width="100" prop="feeOptionName">
         </el-table-column>
-        <el-table-column label="币制" min-width="100" prop="curr" align="right">
+        <el-table-column label="币制" min-width="100" prop="curr" align="center">
         </el-table-column>
         <el-table-column label="金额" min-width="100" prop="taxPrice" align="right">
           <template slot-scope="scope">
             {{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
+        <el-table-column label="委托企业" min-width="140" prop="entrustCompanyName">
           <template slot-scope="scope">
             {{scope.row.entrustCompanyName || '-'}}
           </template>
@@ -44,6 +44,9 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="total">
+        <span class="compute">总计&nbsp;:&nbsp;</span><span class="totalNum" v-for="item in amount" :key="item.curr">{{item.curr +' '+ (item.price && item.price.toLocaleString() || '-' )}}</span>
+      </div>
     </div>
     <!-- 发票拆分区域 -->
     <div class="receive area">
@@ -56,7 +59,7 @@
           <el-table class='sys-table-table' :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="invoiceOptionTableList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
-            <el-table-column prop="feeType" label="费用分类" min-width="120">
+            <el-table-column prop="feeType" label="费用分类" min-width="80" align="center">
               <template slot-scope="scope">
                 <div class="table-select" v-if="optionsType === 'edit'">
                   <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeType" style="width:100%;" @change="getRate(scope.row)">
@@ -74,7 +77,7 @@
                     <el-input clearable v-model="scope.row.feePrice"></el-input>
                   </el-form-item>
                 </div>
-                <div class="cell-div" v-else>{{scope.row.feePrice || '-'}}</div>
+                <div class="cell-div" v-else>{{scope.row.feePrice && scope.row.feePrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
             <el-table-column prop="rate" width="80" label="税率" align="right">
@@ -92,10 +95,10 @@
             </el-table-column>
             <el-table-column prop="taxPrice" label="含税总额" align="right" min-width="100">
               <template slot-scope="scope">
-                <div class="cell-div" >{{scope.row.taxPrice || '-'}}</div>
+                <div class="cell-div" >{{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="invoiceNum" label="发票号" align="right" min-width="100">
+            <el-table-column prop="invoiceNum" label="发票号" align="center" min-width="100">
               <template slot-scope="scope">
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
                   <el-form-item>
@@ -129,6 +132,7 @@ export default {
   data () {
     return {
       optionsType: '',
+      amount: [],
       accountBillTableList: [],
       invoiceOptionTableList: [],
       invoiceTypeValue: '',
@@ -159,11 +163,12 @@ export default {
         },
         router: this.$router,
         success: ({result}) => {
-          let {accountBillVOs, invoiceOptionVOs, invoiceType, invoiceTypeValue} = result
+          let {accountBillVOs, invoiceOptionVOs, invoiceType, invoiceTypeValue, amountVOs} = result
           this.accountBillTableList = accountBillVOs || []
           this.invoiceOptionTableList = invoiceOptionVOs || []
           this.invoiceTypeValue = invoiceTypeValue
           this.invoiceType = invoiceType
+          this.amount = amountVOs
         }
       })
     },
@@ -181,6 +186,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .title {
+    color: #4c4c4c;
+    padding-bottom: 18px;
+  }
   .content {
     color: #4c4c4c;
     padding: 0 18px;
@@ -195,107 +204,14 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
-  .block {
-    width: 25%;
-    padding-bottom: 18px;
-    .left {
-      width: 100px;
-    }
-    .right {
-      padding-right: 20px;
-      flex: 1;
-      word-break:break-all;
-    }
-    &:nth-child(4n) .right {
-      padding-right: 0;
-    }
-  }
-  .companyItems {
-    padding: 5px 18px;
-    background-color: #F4F8FC;
-    margin-bottom: 8px;
-    .pull-right {
-      text-align: right;
-      // display: flex;
-      justify-content: flex-end;
-      .right {
-        float: right;
-        // flex:1;
-        word-break:break-all;
-        max-width: calc(~"(100% - 60px)")
-      }
-      .left {
-        float: right;
-        width: 60px;
-        line-height: 38px;
-      }
-    }
-    .el-col {
-      height: 100%;
-      line-height: 36px;
-    }
-    .company {
-      color: #4c4c4c;
-      font-weight: bold;
-    }
-    .receive,.pay {
-      font-weight: bold;
-      font-size: 20px;
-      &:after {
-        content:'+';
-      }
-    }
-    .receive {
-      color: #53B246;
-      &:last-child:after{
-        content:'';
-      }
-    }
-    .pay {
-      color:#FE4400;
-      &:last-child:after{
-        content:'';
-      }
-    }
-  }
   .area {
     background-color: #fff;
     margin-bottom: 20px;
     padding: 18px;
   }
-  .decDetail {
-    padding-bottom: 0;
-  }
-  .title {
-    padding-bottom: 18px;
-  }
   .line {
     padding-bottom: 18px;
     border-bottom: 1px solid #eee;
-  }
-  .one-row {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    color: #4c4c4c;
-    .left {
-      width: 85px;
-    }
-    .right {
-      flex: 1;
-    }
-  }
-  .normal {
-    padding-bottom: 18px;
-    padding-top: 18px;
-    border-top: 1px solid #eee;
-    .left {
-      width: 100px;
-    }
-    .red {
-      color:#FE4400;
-      font-size: 14px;
-    }
   }
   .table-btn {
     padding-bottom: 15px;
@@ -304,17 +220,30 @@ export default {
     padding: 5px 12px;
     line-height: 30px;
   }
-  .cell-div.last-column {
-    position: relative;
-    .del-icon {
-      cursor: pointer;
-      img {
-        display: block;
-        margin: 0 auto;
-      }
+  .table-btn {
+    padding-left: 4px;
+  }
+  .total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 20px 0 5px;
+    .compute {
+      font-size: 16px;
+      font-weight: bold;
+      color: #4c4c4c;
+      margin-right: 10px;
     }
   }
-  .table-btn,.query-table-finance {
-    padding-left: 4px;
+  .totalNum {
+    font-weight: bold;
+    font-size: 20px;
+    color: #FE4400;
+    &:after {
+      content:'+';
+    }
+    &:last-child:after{
+      content:'';
+    }
   }
 </style>
