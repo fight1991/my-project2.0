@@ -155,8 +155,12 @@
       </el-row>
     </div>
     <!-- 日期弹框 -->
-    <el-dialog title="提示" @close="resetDialog" :visible.sync="entryDateIsShow" :close-on-click-modal='false' width="500px">
+    <el-dialog title="平账" @close="resetDialog" :visible.sync="entryDateIsShow" :close-on-click-modal='false' width="460px">
       <div  class="dec-div">
+        <div class="topFlag flex">
+          <img src="@/assets/img/warning.png" alt="">
+          <div class="text">请填写对应的入账日期</div>
+        </div>
         <el-form size="mini" :label-width="labelFormWidth.four">
           <el-row>
             <el-col :span="8" :offset="4">
@@ -167,16 +171,16 @@
                     align="center"
                     value-format="yyyy-MM-dd"
                     type="date"
-                    placeholder="请填写对应的入账日期"
+                    placeholder=""
                     :picker-options="pickerOptions2">
                   </el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-        <el-row class="query-btn" style="text-align:center">
-          <el-button size="mini" @click="cancelBtn">取消</el-button>
+        <el-row class="query-btn dialog-btn" style="text-align:center">
           <el-button size="mini" type="primary" @click="createBanlance">确认</el-button>
+          <el-button size="mini" @click="cancelBtn">取消</el-button>
         </el-row>
       </div>
     </el-dialog>
@@ -564,5 +568,21 @@ export default {
 }
 .table-btn {
   padding-bottom: 15px;
+}
+.dialog-btn {
+  padding-top: 20px;
+}
+.flex {
+  display: flex;
+  align-items: flex-start;
+}
+.topFlag {
+  padding-left: 18px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  img {
+    display:block;
+    margin-right: 8px;
+  }
 }
 </style>
