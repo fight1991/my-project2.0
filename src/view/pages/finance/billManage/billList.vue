@@ -1,5 +1,5 @@
 <template>
-  <section class='sys-main costList'>
+  <section class='sys-main billList'>
     <el-row class='query-condition'>
       <el-form :label-width="labelFormWidth.four"  :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
