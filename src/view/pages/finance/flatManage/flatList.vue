@@ -108,12 +108,18 @@
               <el-table-column label="金额" min-width="100" prop="taxPrice" align="right">
               </el-table-column>
               <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
+                <template slot-scope="scope">
+                  {{scope.row.entrustCompanyName || '-'}}
+                </template>
               </el-table-column>
-              <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="right">
+              <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.sailDay || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="平账状态" min-width="80" prop="flatStatusValue" align="right">
               </el-table-column>
-              <el-table-column label="平账时间" min-width="100" prop="flatDate" align="center">
+              <el-table-column label="平账时间" min-width="160" prop="flatDate" align="center">
               </el-table-column>
               <el-table-column label="入账时间" min-width="100" prop="entryDate" align="center">
               </el-table-column>
