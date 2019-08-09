@@ -86,6 +86,7 @@
       </el-row>
       <el-table class='sys-table-table' align="left"
         :data="invoiceTableList" border highlight-current-row height="530px"  ref="invoiceTable"
+        :cell-class-name="breakWordStyle"
         @select="chooseSelectBox"
         @row-click="chooseSelectRow"
         @select-all="chooseSelectBoxAll">
@@ -93,7 +94,13 @@
           type="selection"
           width="40">
         </el-table-column>
-        <el-table-column label="发票号" min-width="180" prop="invoiceNum" align="center">
+        <el-table-column label="发票号" min-width="180" prop="invoiceNumVO" align="left">
+          <template slot-scope="scope">
+            <div class="invoiceNumVO">
+              <span class="invoiceNumAgency" v-for="(item, index) in scope.row.invoiceNumVO.invoiceNumAgency" :key="'item'+index">{{item}}</span>
+              <span class="invoiceNumTransport" v-for="(v, index) in scope.row.invoiceNumVO.invoiceNumTransport" :key="'v'+index">{{v}}</span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="发票企业" min-width="100" prop="settleCompanyNames" align="left">
           <template slot-scope="scope">
@@ -423,6 +430,11 @@ export default {
           setId: 'billManage-invoiceDetail' + id
         }
       })
+    },
+    breakWordStyle ({row, column, rowIndex, columnIndex}) {
+      if (columnIndex === 1) {
+        return 'noBreakWord'
+      }
     }
   }
 }
@@ -440,5 +452,21 @@ export default {
 }
 .table-btn {
   padding-bottom: 15px;
+}
+.invoiceNumVO {
+  .invoiceNumAgency {
+    background-color: #54b047;
+    color: #fff;
+    margin: 0 5px;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+  .invoiceNumTransport {
+    background-color: #f8a227;
+    color: #fff;
+    margin: 0 5px;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
 }
 </style>
