@@ -304,7 +304,7 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'accountManage-list' && to.query.from === 'other') {
+      if (to.name === 'accountManage-list' && to.query.from === 'other' && from.name === 'accountManage-detail') {
         this.getAccountList(this.$store.state.pagination)
       }
     }

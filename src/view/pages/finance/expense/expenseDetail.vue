@@ -85,7 +85,7 @@
                     v-for="item in corpList"
                     :key="item.corpId"
                     :label="item.corpName"
-                    :value="item">
+                    :value="item.corpName">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -153,12 +153,12 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
               <template slot-scope="scope">
-                <div class="table-select" v-if="optionsType === 'edit'">
+                <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
                     <el-option v-for="item in optionsList"
                       :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -170,7 +170,7 @@
             </el-table-column>
             <el-table-column prop="feePrice" label="计费单价" align="right" min-width="140">
               <template slot-scope="scope">
-                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                <div class="table-select align-r" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-form-item
                     :prop="'billReceivableBodyVOList.'+ scope.$index + '.feePrice'"
                     :rules="valid.price">
@@ -182,7 +182,7 @@
             </el-table-column>
             <el-table-column prop="unit" width="100" label="计量单位" align="center">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select  v-model="scope.row.unit" placeholder="计量单位"
                     filterable remote default-first-option clearable
                     @focus="tipsFill('unitList','SAAS_SEA_UNIT', 'unitR'+ scope.$index)"
@@ -201,7 +201,7 @@
             </el-table-column>
             <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
                     filterable remote default-first-option clearable
                     @focus="tipsFill('currList', 'SAAS_CURR', 'currR' + scope.$index)"
@@ -220,7 +220,7 @@
             </el-table-column>
             <el-table-column prop="num" width="100" label="数量" align="right">
               <template slot-scope="scope">
-                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                <div class="table-select align-r" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-form-item
                     :prop="'billReceivableBodyVOList.'+ scope.$index + '.num'"
                     :rules="valid.num">
@@ -232,7 +232,7 @@
             </el-table-column>
             <el-table-column prop="rate" width="80" label="税率" align="right">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                     <el-option key="0" :label="'0%'" :value="0"></el-option>
                     <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -250,7 +250,7 @@
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
               <template slot-scope="scope">
-                <div class="table-select" v-if="optionsType === 'edit'">
+                <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-input v-model="scope.row.settleCompanyName"></el-input>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
@@ -273,7 +273,7 @@
                 <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
+            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit' || optionsType === 'add'">
               <template slot-scope="scope">
                 <div class="sys-td-c">
                   <el-button title="删除" type="text" @click="delItems(scope.row, true)" class="table-icon list-icon-delete"><i></i></el-button>
@@ -301,12 +301,12 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
               <template slot-scope="scope">
-                <div class="table-select" v-if="optionsType === 'edit'">
+                <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
                     <el-option v-for="item in optionsList"
                       :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
@@ -318,7 +318,7 @@
             </el-table-column>
             <el-table-column prop="feePrice" label="计费单价" align="right" min-width="140">
               <template slot-scope="scope">
-                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                <div class="table-select align-r" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-form-item
                     :prop="'billPayableBodyVOList.'+ scope.$index + '.feePrice'"
                     :rules="valid.price">
@@ -330,7 +330,7 @@
             </el-table-column>
             <el-table-column prop="unit" width="100" label="计量单位" align="center">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select  v-model="scope.row.unit" placeholder="计量单位"
                     filterable remote default-first-option clearable
                     @focus="tipsFill('unitList','SAAS_SEA_UNIT', 'unitP' + scope.$index)"
@@ -349,7 +349,7 @@
             </el-table-column>
             <el-table-column prop="curr" width="120" label="币制" align="center">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select  v-model="scope.row.curr" placeholder="币制"
                     filterable remote default-first-option clearable
                     @focus="tipsFill('currList','SAAS_CURR', 'currP' + scope.$index)"
@@ -368,7 +368,7 @@
             </el-table-column>
             <el-table-column prop="num" width="100" label="数量" align="right">
               <template slot-scope="scope">
-                <div class="table-select align-r" v-if="optionsType === 'edit'">
+                <div class="table-select align-r" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-input v-model="scope.row.num" @change="computeTaxPrice(scope.row)"></el-input>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.num || '-'}}</div>
@@ -376,7 +376,7 @@
             </el-table-column>
             <el-table-column prop="rate" width="80" label="税率" align="right">
               <template slot-scope="scope">
-                <div class="table-select align-c" v-if="optionsType === 'edit'">
+                <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                     <el-option key="0" :label="'0%'" :value="0"></el-option>
                     <el-option key="6" :label="'6%'" :value="6"></el-option>
@@ -394,7 +394,7 @@
             </el-table-column>
             <el-table-column prop="settleCompanyName" min-width="160" label="结算企业" align="left">
               <template slot-scope="scope">
-                <div class="table-select" v-if="optionsType === 'edit'">
+                <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
                   <el-input v-model="scope.row.settleCompanyName"></el-input>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.settleCompanyName || '-'}}</div>
@@ -417,7 +417,7 @@
                 <div class="cell-div">{{scope.row.createUserName || '-'}}</div>
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit'">
+            <el-table-column label="操作" fixed="right" min-width="60" align="center" v-if="optionsType === 'edit' || optionsType === 'add'">
               <template slot-scope="scope">
                 <div class="sys-td-c">
                   <el-button title="删除" type="text" @click="delItems(scope.row, false)" class="table-icon list-icon-delete"><i></i></el-button>
@@ -467,6 +467,13 @@
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
       </el-row>
     </div>
+    <div class="submit" v-if="optionsType === 'add'">
+      <el-row style="text-align:center">
+        <el-button size="mini" type="primary" @click="sandCheck('1')">提交</el-button>
+        <el-button size="mini"  @click="cancelEdit">取消</el-button>
+        <el-button size="mini" v-if="swtichCheck === 'Y' || status === 4" @click="sandCheck('2')">发送审核</el-button>
+      </el-row>
+    </div>
   </section>
 </template>
 <script>
@@ -478,7 +485,9 @@ export default {
       iEFlag: '',
       optionsType: 'look', // 记录当前操作类型
       payablefeeOptions: {},
-      verifys: '',
+      verifys: '', // 审核意见
+      swtichCheck: '', // 台账后台开关是否开启
+      status: '', // 审核退回的台账
       receivablefeeOptions: {},
       billPayableBodyVO: { // 应付
         billQuotationRespVOs: [],
@@ -491,7 +500,6 @@ export default {
       addForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
-        cFlag: '', // 是否创建过账单false没有true已创建 bloou
         decNo: '', // 报关单号
         entrustCompanyName: '', // 委托企业名称
         expenseBillId: '',
@@ -587,12 +595,16 @@ export default {
     }
   },
   created () {
-    let {type, iEFlag, expenseBillId, innerNo} = this.$route.query
+    let {type, iEFlag, expenseBillId, innerNo, status} = this.$route.query
     if (type === 'edit') {
       expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
-    } else {
-      type === 'look' && this.getBillDetail(expenseBillId)
+      this.status = status
     }
+    if (type === 'add') {
+      this.getQuotationsByAdd()
+      this.justyIsOpen()
+    }
+    type === 'look' && this.getBillDetail(expenseBillId)
     this.optionsType = type
     this.iEFlag = iEFlag
     this.getOptionList()
@@ -845,8 +857,26 @@ export default {
     cancelEdit () {
       this.$refs['receiveTableForm'].clearValidate()
       this.$refs['payTableForm'].clearValidate()
-      this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
-      this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
+      if (this.optionsType === 'edit') {
+        this.billReceivableBodyVO.billReceivableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionReceiveVOs))
+        this.billPayableBodyVO.billPayableBodyVOList = JSON.parse(JSON.stringify(this.copyData.billOptionPayVOs))
+      } else {
+        this.billReceivableBodyVO.billReceivableBodyVOList = []
+        this.billPayableBodyVO.billPayableBodyVOList = []
+        this.addForm = {
+          billNo: '',
+          businessType: '',
+          decNo: '',
+          entrustCompanyName: '',
+          expenseBillId: '',
+          iEFlag: '',
+          orderNo: '',
+          releaseDayStart: '',
+          releaseDayEnd: '',
+          sailDayStart: '',
+          sailDayEnd: ''
+        }
+      }
     },
     // 千分符转换成数字
     dealMullimeter (num) {
@@ -923,26 +953,26 @@ export default {
     },
     // 单价校验
     priceValid (rule, value, callback) {
-      let reg = /^\d{1,10}(\.\d{1,3})?$|^$/
+      let reg = /^\d{1,10}(\.\d{1,3})?$/
       if (!reg.test(value)) {
         this.$message({
           type: 'error',
-          message: '单价格式输入有误,支持小数点后3位,前10位'
+          message: '单价为空或格式输入有误,支持小数点后3位,前10位'
         })
-        callback(new Error('单价格式输入有误,支持小数点后3位,前10位'))
+        callback(new Error('数量为空或格式输入有误,支持小数点后3位,前10位'))
       } else {
         callback()
       }
     },
     // 数量校验
     numValid (rule, value, callback) {
-      let reg = /^\d{1,9}(\.\d{1,3})?$|^$/
+      let reg = /^\d{1,9}(\.\d{1,3})?$/
       if (!reg.test(value)) {
         this.$message({
           type: 'error',
-          message: '数量格式输入有误,支持小数点后3位,前9位'
+          message: '数量为空或格式输入有误,支持小数点后3位,前9位'
         })
-        callback(new Error('数量格式输入有误,支持小数点后3位,前9位'))
+        callback(new Error('数量为空或格式输入有误,支持小数点后3位,前9位'))
       } else {
         callback()
       }
@@ -988,7 +1018,6 @@ export default {
     // 台账审核驳回/确认
     expenseCheck (type) {
       let {expenseBillId, setId} = this.$route.query
-      console.log(setId)
       this.$store.dispatch('ajax', {
         url: `API@saas-finance/bill/verify`,
         data: {
@@ -999,6 +1028,84 @@ export default {
         router: this.$router,
         success: res => {
           this.$store.commit('CloseTab', setId)
+          this.$router.push({
+            name: 'expense-list',
+            query: {
+              from: 'other'
+            }
+          })
+        }
+      })
+    },
+    // 台账手动新增时,获取本企业报价列表
+    getQuotationsByAdd () {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance/bill/getQuotations',
+        data: {},
+        router: this.$router,
+        success: ({result}) => {
+          this.billPayableBodyVO.billQuotationRespVOs = result || []
+          this.billReceivableBodyVO.billQuotationRespVOs = result || []
+        }
+      })
+    },
+    // 判断台账审核按钮是否开启,开启显示发送审核按钮
+    justyIsOpen (callback) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/ccba/review/isReview',
+        data: ['account_manual_audit'],
+        router: this.$router,
+        success: ({result}) => {
+          let swtichCheck = result['account_manual_audit'].value
+          callback && callback(swtichCheck)
+        }
+      })
+    },
+    // 发送审核
+    sandCheck (type) {
+      // 表单验证
+      let pass1 = false
+      let pass2 = false
+      let pass3 = false
+      this.$refs['addForm'].validate(valid => {
+        if (!valid) pass3 = true
+      })
+      this.$refs['receiveTableForm'].validate(valid => {
+        if (!valid) pass1 = true
+      })
+      this.$refs['payTableForm'].validate(valid => {
+        if (!valid) pass2 = true
+      })
+      if (pass1 || pass2 || pass3) return
+      if (this.dates2 && this.dates2.length > 0) {
+        this.addForm.releaseDayStart = this.dates2[0]
+        this.addForm.releaseDayEnd = this.dates2[1]
+      } else {
+        this.addForm.releaseDayStart = ''
+        this.addForm.releaseDayEnd = ''
+      }
+      if (this.dates1 && this.dates1.length > 0) {
+        this.addForm.sailDayStart = this.dates1[0]
+        this.addForm.sailDayEnd = this.dates1[1]
+      } else {
+        this.addForm.sailDayStart = ''
+        this.addForm.sailDayEnd = ''
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-finance/copyBill/manualCreateExpenseBill',
+        data: {
+          ...this.addForm,
+          status: type,
+          billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],
+          billOptionReceiveVOs: [...this.billReceivableBodyVO.billReceivableBodyVOList]
+        },
+        router: this.$router,
+        success: res => {
+          this.$message({
+            type: 'success',
+            message: type === '1' ? '提交成功' : '发送成功'
+          })
+          this.$store.commit('CloseTab', this.$route.name)
           this.$router.push({
             name: 'expense-list',
             query: {

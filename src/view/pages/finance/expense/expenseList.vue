@@ -82,6 +82,21 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="50">
+          <el-col :span="6">
+            <el-form-item label="状态">
+              <el-select v-model="QueryForm.status" size="mini" clearable style="width:100%;">
+                <el-option key="0" :label="'台账已提交'" :value="1"></el-option>
+                <el-option key="1" :label="'台账待审核'" :value="2"></el-option>
+                <el-option key="2" :label="'台账已审核'" :value="3"></el-option>
+                <el-option key="3" :label="'台账已退回'" :value="4"></el-option>
+                <el-option key="4" :label="'账单已生成'" :value="5"></el-option>
+                <el-option key="5" :label="'账单审核退回'" :value="6"></el-option>
+                <el-option key="6" :label="'账单对账退回'" :value="7"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
@@ -144,15 +159,12 @@
             {{scope.row.releaseDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="100" align="center" prop="cFlag">
-          <template slot-scope="scope">
-            {{scope.row.cFlag ? '账单已生成':'账单未生成' }}
-          </template>
+        <el-table-column label="状态" min-width="100" align="center" prop="statusValue">
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" v-if="!scope.row.cFlag" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
+              <el-button title="编辑" v-if="scope.row.status === 4" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
               <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.iEFlag, scope.row.expenseBillId)"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
             </div>
@@ -183,7 +195,7 @@ export default {
       QueryForm: {
         billNo: '', // 提单号
         businessType: '', // 业务类型 1报关，2货代
-        cFlag: '', // 是否创建过账单false没有true已创建 bloou
+        status: '', // 1台账已提交2台账待审核3台账已审核4台账已退回5账单已生成6账单审核退回7账单对账退回
         decNo: '', // 报关单号
         entrustCompanyName: '', // 委托企业名称
         expenseBillId: '',
@@ -226,7 +238,7 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'expense-list' && to.query.from === 'other') {
+      if (to.name === 'expense-list' && to.query.from === 'other' && from.name === 'expense-detail') {
         this.getsExpenseList(this.$store.state.pagination)
       }
     }
@@ -297,7 +309,7 @@ export default {
       this.QueryForm = {
         billNo: '',
         businessType: '',
-        cFlag: '',
+        status: '',
         decNo: '',
         entrustCompanyName: '',
         expenseBillId: '',
@@ -312,13 +324,14 @@ export default {
       this.dates2 = []
     },
     // 跳转到编辑或详情页
-    goToDeital (type, iEFlag = '', id = '') {
+    goToDeital (type, iEFlag = '', id = '', status = '') {
       this.$router.push({
         name: 'expense-detail',
         query: {
           type,
           iEFlag,
           expenseBillId: id,
+          status,
           setTitle: type === 'edit' ? '台账编辑' : type === 'add' ? '台账新增' : '台账详情',
           setId: 'expense-detail' + id
         }
@@ -388,7 +401,7 @@ export default {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
-      this.isCreateBill = selection.some(v => v.cFlag)
+      this.isCreateBill = !selection.every(v => v.status === 1 || v.status === 3)
       this.selectedRow = [...selection]
     },
     // 勾选选择框
@@ -396,7 +409,7 @@ export default {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
-      this.isCreateBill = selection.some(v => v.cFlag)
+      this.isCreateBill = !selection.every(v => v.status === 1 || v.status === 3)
       this.selectedRow = [...selection]
     },
     // 点击表格行
@@ -411,7 +424,7 @@ export default {
         this.expenseBillIds.push(row.expenseBillId)
         this.selectedRow.push({...row})
       }
-      this.isCreateBill = this.selectedRow.some(v => v.cFlag)
+      this.isCreateBill = !this.selectedRow.every(v => v.status === 1 || v.status === 3)
     }
   }
 }
