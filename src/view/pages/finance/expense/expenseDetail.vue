@@ -1,9 +1,16 @@
 <template>
   <section class='sys-main expenseDetail'>
-    <!-- 报关单详情区域 -->
+    <div class="topFlag flex" v-if="optionsType === 'look' && decCommon.verifyMsg">
+      <img src="@/assets/img/Tips.png" alt="">
+      <div class="one-row">
+        <div class="left">审核意见&nbsp;:</div>
+        <div class="right">{{decCommon.verifyMsg}}</div>
+      </div>
+    </div>
     <div class="decDetail area">
       <div class="title">报关单/订单详情</div>
-      <div class="content">
+      <!-- 台账查看时报关单详情区域 -->
+      <div class="content" v-if="optionsType === 'look'">
         <el-row class="line up">
           <el-col :span="8">
             <div class="one-row">
@@ -38,11 +45,101 @@
           </div>
         </el-row>
       </div>
+      <!-- 台账新增时表单录入 -->
+      <el-row class='query-condition' v-if="optionsType === 'add'">
+        <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right">
+          <el-row :gutter="50">
+            <el-col :span="6">
+              <el-form-item label="接单编号">
+                <el-input v-model="addForm.orderNo" size="mini" clearable :maxlength="30"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="报关单号">
+                <el-input size="mini" clearable v-model="addForm.decNo" :maxlength="30"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="提单号">
+                <el-input size="mini" clearable v-model="addForm.billNo" :maxlength="30"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="业务类型">
+                <el-select v-model="addForm.businessType" size="mini" clearable  style="width:100%;">
+                  <el-option key="1" :label="'报关'" :value="1"></el-option>
+                  <el-option key="2" :label="'货代'" :value="2"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :span="6">
+              <el-form-item label="委托企业" prop="entrustCompanyName">
+                <el-select v-model="addForm.entrustCompanyName" style="width:100%"
+                  filterable remote clearable
+                  :remote-method="getcorps"
+                  allow-create
+                  default-first-option >
+                  <el-option
+                    v-for="item in corpList"
+                    :key="item.corpId"
+                    :label="item.corpName"
+                    :value="item">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="进出口">
+                <el-select v-model="addForm.iEFlag" size="mini" clearable style="width:100%;">
+                  <el-option key="0" :label="'进口'" :value="0"></el-option>
+                  <el-option key="1" :label="'出口'" :value="1"></el-option>
+                  <el-option key="2" :label="'内贸'" :value="2"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="开航日">
+                <el-date-picker
+                  style="width:100%"
+                  v-model="dates1"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  value-format="yyyy-MM-dd"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="放行时间">
+                <el-date-picker
+                  style="width:100%"
+                  v-model="dates2"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  value-format="yyyy-MM-dd"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <!-- 查询条件 end-->
+        </el-form>
+      </el-row>
     </div>
     <!-- 应收费用区域 -->
     <div class="receive area">
       <div class="title">应收费用</div>
-      <el-row class="table-btn" v-if="optionsType === 'edit'">
+      <el-row class="table-btn" v-if="optionsType === 'edit' || optionsType === 'add'">
         <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(true)"><i></i>新增</el-button>
         <!-- 使用报价选项 -->
         <el-dropdown trigger="click" @command="getOfferReceive" placement="bottom-start">
@@ -190,7 +287,7 @@
     <!-- 应付费用区域 -->
     <div class="pay area">
       <div class="title">应付费用</div>
-      <el-row class="table-btn" v-if="optionsType === 'edit'">
+      <el-row class="table-btn" v-if="optionsType === 'edit' || optionsType === 'add'">
         <el-button size="mini" class="list-btns list-icon-add" @click="quotationAdd(false)"><i></i>新增</el-button>
         <!-- 使用报价选项 -->
         <el-dropdown trigger="click" @command="getOfferPay" placement="bottom-start">
@@ -352,6 +449,18 @@
         </el-col>
       </el-row>
     </div>
+    <div class="area" v-if="optionsType === 'look'">
+      <div class="title">审核意见</div>
+      <el-row>
+        <el-input type="textarea" :rows="4" v-model="verifys" :maxlength="200" show-word-limit></el-input>
+      </el-row>
+    </div>
+    <div class="submit" v-if="optionsType === 'look'">
+      <el-row style="text-align:center">
+        <el-button size="mini"  @click="expenseCheck('rejects')">审核驳回</el-button>
+        <el-button size="mini" type="primary" class="longButton"  @click="expenseCheck('verifys')">审核通过</el-button>
+      </el-row>
+    </div>
     <div class="submit" v-if="optionsType === 'edit'">
       <el-row style="text-align:center">
         <el-button size="mini" type="primary" @click="submitBtn">提交</el-button>
@@ -369,6 +478,7 @@ export default {
       iEFlag: '',
       optionsType: 'look', // 记录当前操作类型
       payablefeeOptions: {},
+      verifys: '',
       receivablefeeOptions: {},
       billPayableBodyVO: { // 应付
         billQuotationRespVOs: [],
@@ -378,6 +488,23 @@ export default {
         billQuotationRespVOs: [], // 下拉列表
         billReceivableBodyVOList: [] // 表格数据
       },
+      addForm: {
+        billNo: '', // 提单号
+        businessType: '', // 业务类型 1报关，2货代
+        cFlag: '', // 是否创建过账单false没有true已创建 bloou
+        decNo: '', // 报关单号
+        entrustCompanyName: '', // 委托企业名称
+        expenseBillId: '',
+        iEFlag: '', // 进出口0进口1出口2内贸
+        orderNo: '', // 接单编号
+        releaseDayStart: '', // 放行日
+        releaseDayEnd: '',
+        sailDayStart: '', // 开航日
+        sailDayEnd: ''
+      },
+      dates1: '', // 开航日
+      dates2: '', // 放行日
+      corpList: [], // 存储委托企业列表
       decDetail: {}, // 报关单详情
       decCommon: {}, // 报关单详情固定字段
       summarys: [], // 费用汇总
@@ -422,16 +549,50 @@ export default {
         price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'},
         num: {validator: this.numValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
       },
+      ruleForm: { // 新建台账表格校验
+        entrustCompanyName: [{required: true, message: '请输入委托企业', trigger: 'change'}]
+      },
       selectDown: {
         curr: {downList: 'currList', params: 'SAAS_CURR'},
         unit: {downList: 'unitList', params: 'SAAS_SEA_UNIT'}
       },
-      expenseBillId: '' // 接单查看详情返回的
+      expenseBillId: '', // 接单查看详情返回的
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      }
     }
   },
   created () {
     let {type, iEFlag, expenseBillId, innerNo} = this.$route.query
-    expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
+    if (type === 'edit') {
+      expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
+    } else {
+      type === 'look' && this.getBillDetail(expenseBillId)
+    }
     this.optionsType = type
     this.iEFlag = iEFlag
     this.getOptionList()
@@ -487,13 +648,13 @@ export default {
         router: this.$router,
         success: ({result}) => {
           if (result && JSON.stringify(result) !== '{}') {
-            let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg} = result
+            let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg, verifyMsg} = result
             this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
             this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
             this.decDetail = resultMap || {}
-            this.decCommon = {billNo, cusCiqNo, innerNo, msg}
+            this.decCommon = {billNo, cusCiqNo, innerNo, msg, verifyMsg}
             this.summarys = summarys || []
             // 翻译
             this.initSelected(this.billPayableBodyVO.billPayableBodyVOList, 'P', 0)
@@ -808,6 +969,44 @@ export default {
         //   this.checkParamsList(v.curr)
         // }
       })
+    },
+    // 委托企业
+    getcorps (query) {
+      if (query.length < 2 || query.length > 30) return
+      this.$store.dispatch('ajax', {
+        url: 'API@/login/corp/getCorpByCondAssignProp',
+        data: {
+          corpName: query,
+          returnProps: ['corpId', 'corpName']
+        },
+        router: this.$router,
+        success: ({result}) => {
+          this.corpList = (result && result.splice(0, 20)) || []
+        }
+      })
+    },
+    // 台账审核驳回/确认
+    expenseCheck (type) {
+      let {expenseBillId, setId} = this.$route.query
+      console.log(setId)
+      this.$store.dispatch('ajax', {
+        url: `API@saas-finance/bill/verify`,
+        data: {
+          expenseBillId: expenseBillId,
+          verify: type === 'verifys',
+          verifyMsg: this.verifys || ''
+        },
+        router: this.$router,
+        success: res => {
+          this.$store.commit('CloseTab', setId)
+          this.$router.push({
+            name: 'expense-list',
+            query: {
+              from: 'other'
+            }
+          })
+        }
+      })
     }
   }
 }
@@ -948,5 +1147,22 @@ export default {
   }
   .table-btn,.query-table-finance {
     padding-left: 4px;
+  }
+  .topFlag {
+    padding-left: 18px;
+    margin-bottom: 20px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid #ffc56b;
+    background-color: #ffe9c7;
+    border-radius: 2px;
+    img {
+      display:block;
+      margin-right: 8px;
+    }
+  }
+  .flex {
+    display: flex;
+    align-items: center;
   }
 </style>

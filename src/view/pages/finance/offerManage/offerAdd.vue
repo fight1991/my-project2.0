@@ -987,9 +987,7 @@ export default {
     },
     // 企业查询
     getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
+      if (query.length < 2 || query.length > 30) return
       this.$store.dispatch('ajax', {
         url: 'API@/login/corp/getCorpByCondAssignProp',
         data: {

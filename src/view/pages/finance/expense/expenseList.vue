@@ -93,6 +93,7 @@
     <div class='query-table-finance'>
       <el-row class="table-btn">
         <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-add" @click="createAccount"><i></i>生成对账单</el-button>
+        <el-button size="mini" class="list-btns list-icon-add" @click="goToDeital('add')"><i></i>台账新增</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="expenseTableList" border
         highlight-current-row height="530px" ref="expenseTable"
@@ -311,14 +312,14 @@ export default {
       this.dates2 = []
     },
     // 跳转到编辑或详情页
-    goToDeital (type, iEFlag, id) {
+    goToDeital (type, iEFlag = '', id = '') {
       this.$router.push({
         name: 'expense-detail',
         query: {
           type,
           iEFlag,
           expenseBillId: id,
-          setTitle: type === 'edit' ? '台账编辑' : '台账详情',
+          setTitle: type === 'edit' ? '台账编辑' : type === 'add' ? '台账新增' : '台账详情',
           setId: 'expense-detail' + id
         }
       })

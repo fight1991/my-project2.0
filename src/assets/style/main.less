@@ -1079,6 +1079,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .el-table th {
     padding: 7px 0;
   }
+  .el-textarea__inner:focus {
+    border-color: @line-color-input;
+  }
 }
 .sys-main.expenseDetail {
   .cell-disable {
@@ -1086,6 +1089,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     .cell {
       color: #A5A5A5!important;
     }
+  }
+  .el-textarea__inner:focus {
+    border-color: @line-color-input;
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

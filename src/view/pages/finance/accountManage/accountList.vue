@@ -302,6 +302,13 @@ export default {
       return tempArr
     }
   },
+  watch: {
+    '$route': function (to, from) {
+      if (to.name === 'accountManage-list' && to.query.from === 'other') {
+        this.getAccountList(this.$store.state.pagination)
+      }
+    }
+  },
   created () {
     this.getCommonParam()
     this.getSettleCompanyInfo()

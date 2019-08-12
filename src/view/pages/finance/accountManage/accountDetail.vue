@@ -93,6 +93,12 @@
         </div>
       </div>
     </div>
+    <div class="area">
+      <div class="title">审核意见</div>
+      <el-row>
+        <el-input type="textarea" :rows="4" v-model="verifys" :maxlength="200" show-word-limit></el-input>
+      </el-row>
+    </div>
     <div class="submit" v-if="type === 'check'">
       <el-row style="text-align:center">
         <el-button size="mini"  @click="accountCheck('rejects')">审核驳回</el-button>
@@ -112,6 +118,7 @@ export default {
         flatVOs: [],
         invoiceVos: []
       },
+      verifys: '',
       type: '' // 记录操作类型
     }
   },
@@ -140,16 +147,24 @@ export default {
       })
     },
     // 批量审核驳回/确认
-    accountCheck (type, verifyMsg = '') {
+    accountCheck (type) {
       let url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
       this.$store.dispatch('ajax', {
         url: `API@saas-finance/${url}`,
         data: {
           accountBillIds: [this.$route.query.accountBillId],
-          verifyMsg
+          verifyMsg: this.verifys || ''
         },
         router: this.$router,
-        success: res => {}
+        success: res => {
+          this.$store.commit('CloseTab', this.$route.query.setId)
+          this.$router.push({
+            name: 'accountManage-list',
+            query: {
+              from: 'other'
+            }
+          })
+        }
       })
     }
   }
@@ -164,6 +179,7 @@ export default {
   }
   .title {
     padding-bottom: 18px;
+    color: #4c4c4c;
   }
   .line {
     margin-bottom: 18px;
