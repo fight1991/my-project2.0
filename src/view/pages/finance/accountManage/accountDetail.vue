@@ -22,7 +22,7 @@
         </el-col>
       </el-row>
       <!-- 列表表格开始 -->
-      <div class='query-table-financeCommon'>
+      <div class='query-table-inside'>
         <el-table class='sys-table-table' align="left"
           :data="item.billOptionsVOs" border ref="accountTable">
           <el-table-column label="序号" type="index" width="50" align="center">
@@ -49,6 +49,9 @@
             </template>
           </el-table-column>
           <el-table-column prop="taxPrice" width="100" label="含税总价" align="right">
+            <template slot-scope="scope">
+              {{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}
+            </template>
           </el-table-column>
           <el-table-column prop="billType" width="100" label="类型" align="center">
             <template slot-scope="scope">
@@ -71,29 +74,29 @@
       <div class="look" v-if="type === 'look'">
         <div class="one-row all">
           <div class="left">含税总金额&nbsp;:</div>
-          <div class="right" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price}}</span></div>
+          <div class="right" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price.toLocaleString()}}</span></div>
           <div class="right" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
         </div>
         <div class="one-row all">
           <div class="left">已平账金额&nbsp;:</div>
-          <div class="right" v-if="tableData.flatVOs.length>0"><span class="money" v-for="(item3, index3) in tableData.flatVOs" :key="'item_3'+index3">{{(item3.curr || '-') +' '+ item3.price}}</span></div>
+          <div class="right" v-if="tableData.flatVOs.length>0"><span class="money" v-for="(item3, index3) in tableData.flatVOs" :key="'item_3'+index3">{{(item3.curr || '-') +' '+ item3.price.toLocaleString()}}</span></div>
           <div class="right" v-if="tableData.flatVOs.length===0">{{'-'}}</div>
         </div>
         <div class="one-row all">
           <div class="left">已开票金额&nbsp;:</div>
-          <div class="right" v-if="tableData.flatVOs.length>0"><span class="money" v-for="(item4, index4) in tableData.invoiceVos" :key="'item_4'+index4">{{(item4.curr || '-') +' '+ item4.price}}</span></div>
+          <div class="right" v-if="tableData.invoiceVos.length>0"><span class="money" v-for="(item4, index4) in tableData.invoiceVos" :key="'item_4'+index4">{{(item4.curr || '-') +' '+ item4.price.toLocaleString()}}</span></div>
           <div class="right" v-if="tableData.invoiceVos.length===0">{{'-'}}</div>
         </div>
       </div>
       <div class="check" v-else>
         <div class="one-row check">
           <div class="left">含税总金额&nbsp;:</div>
-          <div class="taxPrice" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price}}</span></div>
+          <div class="taxPrice" v-if="tableData.amountVOs.length>0"><span class="money" v-for="(item2, index2) in tableData.amountVOs" :key="'item_2'+index2">{{(item2.curr || '-') +' '+ item2.price.toLocaleString()}}</span></div>
           <div class="taxPrice" v-if="tableData.amountVOs.length===0">{{'-'}}</div>
         </div>
       </div>
     </div>
-    <div class="area">
+    <div class="area" v-if="type === 'check'">
       <div class="title">审核意见</div>
       <el-row>
         <el-input type="textarea" :rows="4" v-model="verifys" :maxlength="200" show-word-limit></el-input>
@@ -176,6 +179,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.query-table-inside {
+  background-color: #fff;
+  // padding: 20px;
+  // margin-top: 20px;
+}
   .area {
     background-color: #fff;
     margin-bottom: 20px;

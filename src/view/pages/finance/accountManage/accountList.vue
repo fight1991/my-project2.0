@@ -200,7 +200,7 @@
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
               <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
-              <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountCheck(scope.row.accountBillId, scope.row.feeFlag)"><i></i></el-button>
               <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.invoiceStatus === 0" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
             </div>
           </template>
@@ -338,7 +338,7 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'accountManage-list' && to.query.from === 'other' && from.name === 'accountManage-detail') {
+      if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
         this.getAccountList(this.$store.state.pagination)
       }
     }
@@ -532,6 +532,16 @@ export default {
           type,
           setTitle: type === 'look' ? '对账单详情' : '对账单审核',
           setId: 'accountManage-detail' + id
+        }
+      })
+    },
+    // 跳转到驳回编辑
+    goToAccountCheck (id, flag) {
+      this.$router.push({
+        name: 'accountManage-check',
+        query: {
+          accountBillId: id,
+          feeFlag: flag
         }
       })
     },
