@@ -65,10 +65,14 @@
             <el-table-column prop="feeType" label="费用分类" min-width="80" align="center">
               <template slot-scope="scope">
                 <div class="table-select" v-if="optionsType === 'edit'">
-                  <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeType" style="width:100%;">
-                    <el-option key='1' label="代理费用" :value="'1'"></el-option>
-                    <el-option key='2' label="运输费用" :value="'2'"></el-option>
-                  </el-select>
+                  <el-form-item
+                    :prop="'invoiceOptionTableList.'+ scope.$index + '.feeType'"
+                    :rules="valid.feeTypeAndRate">
+                    <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeType" style="width:100%;">
+                      <el-option key='1' label="代理费用" :value="'1'"></el-option>
+                      <el-option key='2' label="运输费用" :value="'2'"></el-option>
+                    </el-select>
+                  </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.feeTypeValue || '-'}}</div>
               </template>
@@ -88,12 +92,16 @@
             <el-table-column prop="rate" width="80" label="税率" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit'">
-                  <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
-                    <el-option key="0" :label="'0%'" :value="0"></el-option>
-                    <el-option key="6" :label="'6%'" :value="6"></el-option>
-                    <el-option key="9" :label="'9%'" :value="9"></el-option>
-                    <el-option key="13" :label="'13%'" :value="13"></el-option>
-                  </el-select>
+                  <el-form-item
+                    :prop="'invoiceOptionTableList.'+ scope.$index + '.rate'"
+                    :rules="valid.feeTypeAndRate">
+                    <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
+                      <el-option key="0" :label="'0%'" :value="0"></el-option>
+                      <el-option key="6" :label="'6%'" :value="6"></el-option>
+                      <el-option key="9" :label="'9%'" :value="9"></el-option>
+                      <el-option key="13" :label="'13%'" :value="13"></el-option>
+                    </el-select>
+                  </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{typeof scope.row.rate === 'number' ? (scope.row.rate + '%') : '-'}}</div>
               </template>
@@ -106,7 +114,9 @@
             <el-table-column prop="invoiceNum" label="发票号" align="center" min-width="100">
               <template slot-scope="scope">
                 <div class="table-select align-r" v-if="optionsType === 'edit'">
-                  <el-form-item>
+                  <el-form-item
+                    :prop="'invoiceOptionTableList.'+ scope.$index + '.invoiceNum'"
+                    :rules="valid.invoiceNum">
                     <el-input clearable v-model="scope.row.invoiceNum"></el-input>
                   </el-form-item>
                 </div>
@@ -163,7 +173,9 @@ export default {
         taxPrice: ''
       },
       valid: {
-        price: {validator: this.priceValid, message: '不含税金额不超过8800', trigger: 'blur'}
+        price: {validator: this.priceValid, message: '不含税金额不超过8800', trigger: 'blur'},
+        feeTypeAndRate: {validator: this.feeTypeAndRateValid, trigger: 'change'},
+        invoiceNum: {validator: this.invoiceNumValid, message: '请输入发票号', trigger: 'blur'}
       }
     }
   },
@@ -246,7 +258,10 @@ export default {
           sum += v.price
         }
       })
-      if (sum < 100000) return
+      if (sum < 100000) {
+        this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
+        return
+      }
       let maxLength = Math.floor(sum / 1.13 / base)
       let remain = sum / 1.13 - base * maxLength
       this.invoiceOptionData.invoiceOptionTableList = []
@@ -278,7 +293,7 @@ export default {
         if (row.feePrice.indexOf(',') > -1) {
           row.feePrice = +(row.feePrice.replace(/,/g, ''))
         } else {
-          row.feePrice = +row.feePrice || 0
+          row.feePrice = +row.feePrice || ''
         }
       }
       if (typeof row.feePrice === 'number') {
@@ -291,19 +306,49 @@ export default {
     },
     // 不含税金额校验
     priceValid (rule, value, callback) {
+      let temp = (value && value.replace(/,/g, '')) || ''
       let reg = /^\d+(,\d+)?(\.\d+)?$|^$/
-      if (!reg.test(value)) {
+      if (!reg.test(temp)) {
         this.$message({
           type: 'error',
           message: '单价格式输入有误'
         })
         callback(new Error('单价格式输入有误'))
-      } else if (value - 88000 > 0) {
+      } else if (temp - 88000 > 0) {
         this.$message({
           type: 'error',
           message: '不含税金额不超过88000'
         })
         callback(new Error('不含税金额不超过88000'))
+      } else {
+        callback()
+      }
+    },
+    // 不含税金额校验
+    feeTypeAndRateValid (rule, value, callback) {
+      let message = '请选择税率'
+      if (rule.field.endsWith('feeType')) {
+        message = '请选择费用名称'
+      }
+      if (!value) {
+        this.$message({
+          type: 'error',
+          message: message
+        })
+        callback(new Error(message))
+      } else {
+        callback()
+      }
+    },
+    // 发票号校验
+    invoiceNumValid (rule, value, callback) {
+      let reg = /^[0-9A-Za-z]+$/
+      if (!reg.test(value)) {
+        this.$message({
+          type: 'error',
+          message: '请输入正确的发票号'
+        })
+        callback(new Error('请输入正确的发票号'))
       } else {
         callback()
       }
@@ -339,8 +384,8 @@ export default {
     },
     // 取消
     cancelEdit () {
-      this.invoiceOptionData.invoiceOptionTableList = []
       this.$refs['invoiceOptionData'].clearValidate()
+      this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
     },
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {

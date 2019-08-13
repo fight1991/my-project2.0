@@ -1044,7 +1044,7 @@ export default {
     getOptionList () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/getAll',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           this.optionsList = result || []

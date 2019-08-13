@@ -79,7 +79,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table-finance'>
+    <div class='query-table-financeCommon'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-rollback" :disabled="invoiceIds.length === 0" @click="cancelBill"><i></i>撤销开票</el-button>
         <el-button size="mini" class="list-btns list-icon-exportBill" @click="exportAllBill"><i></i>导出发票</el-button>
@@ -219,7 +219,7 @@ export default {
     getSettleCompanyInfo () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/account/getSettleCompanyInfo',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           this.settleCompanyList = result || []
@@ -444,11 +444,6 @@ export default {
 .query-condition {
   background-color: #fff;
   padding: 20px;
-}
-.query-table-finance {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
 }
 .table-btn {
   padding-bottom: 15px;

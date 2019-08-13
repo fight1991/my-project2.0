@@ -22,7 +22,7 @@
         </el-col>
       </el-row>
       <!-- 列表表格开始 -->
-      <div class='query-table-finance'>
+      <div class='query-table-financeCommon'>
         <el-table class='sys-table-table' align="left"
           :data="item.billOptionsVOs" border ref="accountTable">
           <el-table-column label="序号" type="index" width="50" align="center">
@@ -157,6 +157,10 @@ export default {
         },
         router: this.$router,
         success: res => {
+          this.$message({
+            type: 'success',
+            message: type === 'rejects' ? '驳回成功' : '审核成功'
+          })
           this.$store.commit('CloseTab', this.$route.query.setId)
           this.$router.push({
             name: 'accountManage-list',

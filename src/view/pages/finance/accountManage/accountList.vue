@@ -99,7 +99,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table-finance'>
+    <div class='query-table-financeCommon'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
         <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
@@ -195,11 +195,13 @@
         </el-table-column>
         <el-table-column label="平账状态" min-width="100" prop="flatStatusValue" align="center">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="80" align="center">
+        <el-table-column label="操作" fixed="right" width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
               <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.invoiceStatus === 0" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -210,6 +212,28 @@
         </el-col>
       </el-row>
     </div>
+    <!-- 发票选择 -->
+    <el-dialog title="请选择开票类型" @close="resetDialog" :visible.sync="ticketIsShow" :close-on-click-modal='false' width="360px">
+      <div  class="dec-div">
+        <!-- <div class="topFlag flex">
+          <img src="@/assets/img/warning.png" alt="">
+          <div class="text">请选择开票类型</div>
+        </div> -->
+        <el-form size="mini" :label-width="labelFormWidth.four">
+          <el-row class="selectTicket">
+           <el-radio-group v-model="ticketValue">
+             <el-row class="selectTicket-p"><el-radio :label="1">增值税普通发票</el-radio></el-row>
+             <el-row class="selectTicket-p"><el-radio :label="2">增值税专用发票</el-radio></el-row>
+             <el-row class="selectTicket-p"><el-radio :label="3">形式发票</el-radio></el-row>
+            </el-radio-group>
+          </el-row>
+        </el-form>
+        <el-row class="query-btn dialog-btn" style="text-align:center">
+          <el-button size="mini" type="primary" @click="confirmDialog">确认</el-button>
+          <el-button size="mini" @click="resetDialog">取消</el-button>
+        </el-row>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -221,8 +245,9 @@ export default {
   data () {
     return {
       dates: '',
-      accountBillIds: [],
-      selectionRow: [],
+      ticketIsShow: false,
+      ticketValue: '',
+      ticketIds: [],
       accountBillOptionIds: {},
       settleCompanyList: [],
       QueryForm: {
@@ -300,6 +325,15 @@ export default {
         }
       }
       return tempArr
+    },
+    accountBillIds () {
+      let temp = []
+      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
+        for (let k in this.accountBillOptionIds) {
+          temp.push(this.accountBillOptionIds[k]['accountBillId'])
+        }
+      }
+      return temp
     }
   },
   watch: {
@@ -320,7 +354,7 @@ export default {
     getSettleCompanyInfo () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/account/getSettleCompanyInfo',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           this.settleCompanyList = result || []
@@ -477,12 +511,12 @@ export default {
     },
     // 开票
     getInvoiceItem (select) {
-      let opId = encodeURIComponent(JSON.stringify(this.optionIds.data))
+      let opId = select === 'dialog' ? encodeURIComponent(JSON.stringify(this.ticketIds)) : encodeURIComponent(JSON.stringify(this.optionIds.data))
       this.$router.push({
         name: 'billManage-invoiceDetail',
         query: {
           type: 'edit',
-          invoiceType: select,
+          invoiceType: select === 'dialog' ? this.ticketValue : select,
           optionId: opId,
           setId: 'billManage-invoiceDetail' + opId,
           setTitle: '创建发票'
@@ -500,6 +534,27 @@ export default {
           setId: 'accountManage-detail' + id
         }
       })
+    },
+    // 关闭弹框
+    resetDialog () {
+      this.ticketIsShow = false
+      this.ticketValue = ''
+    },
+    showDialog (item) {
+      this.ticketIsShow = true
+      this.ticketIds = item.map(v => v.accountBillOptionId)
+    },
+    // 弹框确认按钮
+    confirmDialog () {
+      if (!this.ticketValue) {
+        this.$message({
+          type: 'warning',
+          message: '请选择发票类型'
+        })
+        return
+      }
+      this.ticketIsShow = false
+      this.getInvoiceItem('dialog')
     },
     // 勾选父表格 单行
     selectParentRow (parent, row) {
@@ -598,12 +653,26 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table-finance {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-}
 .table-btn {
   padding-bottom: 15px;
+}
+.selectTicket {
+  padding-bottom: 18px;
+  .selectTicket-p {
+    padding-bottom: 15px;
+  }
+}
+.flex {
+  display: flex;
+  align-items: flex-start;
+}
+.topFlag {
+  padding-left: 18px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  img {
+    display:block;
+    margin-right: 8px;
+  }
 }
 </style>
