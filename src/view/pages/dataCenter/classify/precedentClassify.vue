@@ -97,6 +97,10 @@ export default {
         {
           value: '2',
           label: '线路二'
+        },
+        {
+          value: '3',
+          label: '线路三'
         }
       ],
       queryresult: [],
@@ -126,6 +130,8 @@ export default {
           url = 'API@/saas-document-center/category/queryCategory'
         } else if (this.queryForm.classType === '2') {
           url = 'API@/saas-document-center/category/queryCategorySecond'
+        } else {
+          url = 'API@/saas-document-center/category/queryCategoryThird'
         }
         this.$store.dispatch('ajax', {
           url: url,
