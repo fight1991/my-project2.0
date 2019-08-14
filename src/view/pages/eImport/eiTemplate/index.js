@@ -10,17 +10,6 @@ const MENU = {
   },
   children: [
     {
-      path: '/eImport/eiTemplate/list',
-      name: 'templateList',
-      icon: 'icons-menu-price',
-      permissions: 'CCBA20201010000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '模板列表'
-      }
-    },
-    {
       path: '/eImport/eiTemplate/import',
       name: 'iTemplate',
       icon: 'icons-menu-price',
@@ -28,7 +17,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '进口模板'
+        title: '进口报关单模版'
       }
     },
     {
@@ -39,29 +28,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出口模板'
-      }
-    },
-    {
-      path: '/eImport/eiTemplate/shipping',
-      name: 'shipping',
-      icon: 'icons-menu-price',
-      permissions: 'CCBA20201030000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '出口导入模板'
-      }
-    },
-    {
-      path: '/eImport/templates/dataQuery/taxListTemplateQuery',
-      name: 'taxTemplateList',
-      icon: 'icons-menu-price',
-      permissions: 'CCBA20201030000',
-      hidden: false,
-      meta: {
-        component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单模板'
+        title: '出口报关单模版'
       }
     },
     {
@@ -84,6 +51,39 @@ const MENU = {
       meta: {
         component: resolve => require(['./index.vue'], resolve),
         title: '出口核注清单模板'
+      }
+    },
+    {
+      path: '/eImport/eiTemplate/list',
+      name: 'templateList',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201010000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '报关单模版查询'
+      }
+    },
+    {
+      path: '/eImport/templates/dataQuery/taxListTemplateQuery',
+      name: 'taxTemplateList',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '核注清单模版查询'
+      }
+    },
+    {
+      path: '/eImport/eiTemplate/shipping',
+      name: 'shipping',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201030000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '出口导入模板'
       }
     }
   ]
