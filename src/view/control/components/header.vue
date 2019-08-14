@@ -225,13 +225,15 @@ export default {
       let temp = this.corpList.find(v => {
         return v.corpName === this.corpName
       })
-      this.selectUserCorp(temp.corpId)
-      this.$store.commit('userCompanyInfo', {
-        companyType: temp.corpType, // 公司类型
-        companyCode: temp.corpId, // 公司id
-        companyName: temp.corpName,
-        adminFlag: temp.adminFlag
-      })
+      if (temp) {
+        this.selectUserCorp(temp.corpId)
+        this.$store.commit('userCompanyInfo', {
+          companyType: temp.corpType, // 公司类型
+          companyCode: temp.corpId, // 公司id
+          companyName: temp.corpName,
+          adminFlag: temp.adminFlag
+        })
+      }
       this.corpDialogVisible = false
     },
     // 跳转消息中心
