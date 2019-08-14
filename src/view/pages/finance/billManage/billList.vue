@@ -113,6 +113,9 @@
           </template>
         </el-table-column>
         <el-table-column label="发票类别" min-width="120" prop="invoiceTypeValue" align="center">
+          <template slot-scope="scope">
+            {{scope.row.invoiceTypeValue || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="币制" min-width="80" prop="curr" align="center">
         </el-table-column>
@@ -122,6 +125,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作人" min-width="100" prop="createUserName" align="center">
+          <template slot-scope="scope">
+            {{scope.row.createUserName || '-'}}
+          </template>
         </el-table-column>
         <el-table-column label="开票日期" min-width="140" prop="createDate" align="center">
         </el-table-column>

@@ -48,7 +48,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="total">
+      <div class="total" v-if="amount.length > 0">
         <span class="compute">总计&nbsp;:&nbsp;</span><span class="totalNum" v-for="item in amount" :key="item.curr">{{item.curr +' '+ (item.price && item.price.toLocaleString() || '-' )}}</span>
       </div>
     </div>
@@ -117,7 +117,7 @@
                   <el-form-item
                     :prop="'invoiceOptionTableList.'+ scope.$index + '.invoiceNum'"
                     :rules="valid.invoiceNum">
-                    <el-input clearable v-model="scope.row.invoiceNum"></el-input>
+                    <el-input clearable v-model="scope.row.invoiceNum" :maxlength="10"></el-input>
                   </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.invoiceNum || '-'}}</div>
@@ -342,13 +342,13 @@ export default {
     },
     // 发票号校验
     invoiceNumValid (rule, value, callback) {
-      let reg = /^[0-9A-Za-z]+$/
+      let reg = /^\d{10}$/
       if (!reg.test(value)) {
         this.$message({
           type: 'error',
-          message: '请输入正确的发票号'
+          message: '请输入10位发票号'
         })
-        callback(new Error('请输入正确的发票号'))
+        callback(new Error('请输入10位发票号'))
       } else {
         callback()
       }

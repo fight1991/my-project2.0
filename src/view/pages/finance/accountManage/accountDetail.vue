@@ -104,8 +104,8 @@
     </div>
     <div class="submit" v-if="type === 'check' || type === 'pass'">
       <el-row style="text-align:center">
-        <el-button size="mini"  @click="accountCheck('rejects')"></el-button>
-        <el-button size="mini" type="primary" class="longButton"  @click="accountCheck('verifys')">{{type === 'check' ? '审核通过' :'账单无误'}}</el-button>
+        <el-button size="mini"  @click="accountCheck('rejects')">{{type === 'check' ? '审核驳回' :'账单驳回'}}</el-button>
+        <el-button size="mini" type="primary" class="longButton" @click="accountCheck('verifys')">{{type === 'check' ? '审核通过' :'账单无误'}}</el-button>
       </el-row>
     </div>
   </section>
