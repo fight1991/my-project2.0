@@ -22,22 +22,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="币制">
-              <el-select  v-model="QueryForm.curr" placeholder="币制"
-                filterable clearable remote default-first-option
-                @focus="tipsFill('currList','SAAS_CURR')"
-                :remote-method="checkParamsList"
-                style="width:100%">
-                <el-option
-                  v-for="item in currList"
-                  :key="item.codeField"
-                  :label="item.codeField + '-' + item.nameField"
-                  :value="item.codeField">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item label="发票类型">
               <el-select v-model="QueryForm.invoiceType" size="mini" clearable style="width:100%;">
                 <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
@@ -48,13 +32,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="50">
           <el-col :span="6">
             <el-form-item label="操作人">
               <el-input v-model="QueryForm.createUserName" size="mini" clearable :maxlength="20"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="50">
           <el-col :span="12">
             <el-form-item label="开票日期">
               <el-date-picker
