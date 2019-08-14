@@ -307,13 +307,13 @@ export default {
     // 不含税金额校验
     priceValid (rule, value, callback) {
       let temp = (value && value.replace(/,/g, '')) || ''
-      let reg = /^\d+(,\d+)?(\.\d+)?$|^$/
+      let reg = /^\d{1,9}(\.\d{1,3})?$/
       if (!reg.test(temp)) {
         this.$message({
           type: 'error',
-          message: '单价格式输入有误'
+          message: '单价为空或格式输入有误'
         })
-        callback(new Error('单价格式输入有误'))
+        callback(new Error('单价为空或格式输入有误'))
       } else if (temp - 88000 > 0) {
         this.$message({
           type: 'error',
