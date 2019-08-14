@@ -141,7 +141,7 @@
               :data="scope.row.accountBillOptionPageVOs" border
               @select="((select, row) => {selectChildrenRow(select, row, scope.row)})"
               @select-all="((select) => {selectChildrenRowAll(select, scope.row)})">
-              <el-table-column type="selection" width="45">
+              <el-table-column type="selection" width="40">
               </el-table-column>
               <el-table-column label="接单编号" min-width="140" prop="orderNo">
               </el-table-column>
@@ -594,8 +594,14 @@ export default {
         this.accountBillOptionIds[item.accountBillId] = item.accountBillOptionPageVOs
         this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].clearSelection()
         item.accountBillOptionPageVOs.forEach(v => {
-          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(v, true)
+          console.log(this.$refs['childrenTable' + item.accountBillId])
+          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(item.accountBillOptionPageVOs.find(d => {
+            if (d.accountBillOptionId === v.accountBillOptionId) {
+              return true
+            }
+          }), true)
         })
+        this.$forceUpdate()
       })
     },
     // 勾选父表格 全选

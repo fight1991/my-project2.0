@@ -120,10 +120,19 @@
               <el-table-column label="平账状态" min-width="80" prop="flatStatusValue" align="right">
               </el-table-column>
               <el-table-column label="平账时间" min-width="160" prop="flatDate" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.sailflatDateDay || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="入账时间" min-width="100" prop="entryDate" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.entryDate || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="操作人" min-width="100" prop="flatUserName" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.flatUserName || '-'}}
+                </template>
               </el-table-column>
             </el-table>
           </template>
