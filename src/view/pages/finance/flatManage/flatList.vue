@@ -450,6 +450,7 @@ export default {
       let tempObj = {}
       // 如果有 是通过子类表格选择的 则保留不置为{}
       for (let k in this.accountBillOptionIds) {
+        if (!k) break
         if (this.accountBillOptionIds[k][0] && this.accountBillOptionIds[k][0].mySon) {
           tempObj[k] = this.accountBillOptionIds[k]
         }

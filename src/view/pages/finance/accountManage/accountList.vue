@@ -144,10 +144,19 @@
               <el-table-column type="selection" width="40">
               </el-table-column>
               <el-table-column label="接单编号" min-width="140" prop="orderNo">
+                <template slot-scope="scope">
+                  {{scope.row.orderNo || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="报关单号" min-width="140" prop="decNo">
+                <template slot-scope="scope">
+                  {{scope.row.decNo || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="提单号" min-width="140" prop="billNo">
+                <template slot-scope="scope">
+                  {{scope.row.billNo || '-'}}
+                </template>
               </el-table-column>
               <el-table-column label="费用项" min-width="100" prop="feeOptionName">
               </el-table-column>
@@ -594,14 +603,8 @@ export default {
         this.accountBillOptionIds[item.accountBillId] = item.accountBillOptionPageVOs
         this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].clearSelection()
         item.accountBillOptionPageVOs.forEach(v => {
-          console.log(this.$refs['childrenTable' + item.accountBillId])
-          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(item.accountBillOptionPageVOs.find(d => {
-            if (d.accountBillOptionId === v.accountBillOptionId) {
-              return true
-            }
-          }), true)
+          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(v, true)
         })
-        this.$forceUpdate()
       })
     },
     // 勾选父表格 全选
