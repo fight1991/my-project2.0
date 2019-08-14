@@ -96,16 +96,16 @@
         </div>
       </div>
     </div>
-    <div class="area" v-if="type === 'check'">
-      <div class="title">审核意见</div>
+    <div class="area" v-if="type === 'check' || type === 'pass'">
+      <div class="title">{{type === 'check' ? '审核意见' : '驳回意见'}}</div>
       <el-row>
         <el-input type="textarea" :rows="4" v-model="verifys" :maxlength="200" show-word-limit></el-input>
       </el-row>
     </div>
-    <div class="submit" v-if="type === 'check'">
+    <div class="submit" v-if="type === 'check' || type === 'pass'">
       <el-row style="text-align:center">
-        <el-button size="mini"  @click="accountCheck('rejects')">审核驳回</el-button>
-        <el-button size="mini" type="primary" class="longButton"  @click="accountCheck('verifys')">审核通过</el-button>
+        <el-button size="mini"  @click="accountCheck('rejects')"></el-button>
+        <el-button size="mini" type="primary" class="longButton"  @click="accountCheck('verifys')">{{type === 'check' ? '审核通过' :'账单无误'}}</el-button>
       </el-row>
     </div>
   </section>
@@ -151,7 +151,13 @@ export default {
     },
     // 批量审核驳回/确认
     accountCheck (type) {
-      let url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
+      let url = ''
+      if (this.type === 'check') { // 待审核
+        url = type === 'rejects' ? 'account/rejects' : 'account/verifys'
+      }
+      if (this.type === 'pass') { // 待对账
+        url = type === 'rejects' ? 'account/reviewReject' : 'account/reviewPass'
+      }
       this.$store.dispatch('ajax', {
         url: `API@saas-finance/${url}`,
         data: {
@@ -162,7 +168,7 @@ export default {
         success: res => {
           this.$message({
             type: 'success',
-            message: type === 'rejects' ? '驳回成功' : '审核成功'
+            message: type === 'rejects' ? '驳回成功' : '通过成功'
           })
           this.$store.commit('CloseTab', this.$route.query.setId)
           this.$router.push({

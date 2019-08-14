@@ -42,11 +42,11 @@
           <el-col :span="6">
             <el-form-item label="对账状态">
               <el-select v-model="QueryForm.reconStatus" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
-                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
-                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
-                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
-                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
+                <el-option key="0" :label="'待审核'" :value="1"></el-option>
+                <el-option key="6" :label="'审核退回'" :value="2"></el-option>
+                <el-option key="9" :label="'待对账'" :value="3"></el-option>
+                <el-option key="13" :label="'对账驳回'" :value="4"></el-option>
+                <el-option key="14" :label="'对账确认'" :value="5"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -105,7 +105,7 @@
         <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
         <!-- 对账单导出选项 -->
         <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
-          <el-button size="mini" class="list-btns list-icon-exportO">
+          <el-button size="mini" :disabled="accountBillIds.length > 1 || accountBillIds.length === 0" class="list-btns list-icon-exportO">
             <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -136,8 +136,8 @@
           <!-- 展开项 -->
           <template slot-scope="scope">
             <el-table class='sys-table-table'
-              v-if="scope.row.accountBillOptionPageVOs && scope.row.accountBillOptionPageVOs.length > 0" align="left"
               :ref="'childrenTable' + scope.row.accountBillId"
+              v-if="scope.row.accountBillOptionPageVOs && scope.row.accountBillOptionPageVOs.length > 0" align="left"
               :data="scope.row.accountBillOptionPageVOs" border
               @select="((select, row) => {selectChildrenRow(select, row, scope.row)})"
               @select-all="((select) => {selectChildrenRowAll(select, scope.row)})">
@@ -199,9 +199,10 @@
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
-              <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.reconStatus === 1" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
               <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountCheck(scope.row.accountBillId, scope.row.feeFlag)"><i></i></el-button>
-              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.invoiceStatus === 0" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
+              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.reconStatus === 5" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
+              <el-button type="text" title="对账" class="table-icon list-icon-accountPass" v-if="scope.row.reconStatus === 3" @click.stop="goToAccountDetail('pass', scope.row.accountBillId)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -308,7 +309,7 @@ export default {
         return state.userLoginInfo.userId
       }
     }),
-    optionIds () {
+    optionIds () { // 开票
       let tempArr = {
         isHas: true,
         data: []
@@ -330,7 +331,7 @@ export default {
       let temp = []
       if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
         for (let k in this.accountBillOptionIds) {
-          temp.push(this.accountBillOptionIds[k]['accountBillId'])
+          this.accountBillOptionIds[k] && this.accountBillOptionIds[k].length > 0 && temp.push(this.accountBillOptionIds[k][0]['accountBillId'])
         }
       }
       return temp
@@ -484,6 +485,11 @@ export default {
         },
         router: this.$router,
         success: res => {
+          this.$message({
+            type: 'success',
+            message: type === 'rejects' ? '批量驳回成功' : '批量审核成功'
+          })
+          this.accountBillOptionIds = {}
           this.getAccountList(this.$store.state.pagination)
         }
       })
@@ -530,7 +536,7 @@ export default {
         query: {
           accountBillId: id,
           type,
-          setTitle: type === 'look' ? '对账单详情' : '对账单审核',
+          setTitle: type === 'look' ? '对账单详情' : type === 'check' ? '对账单审核' : '对账',
           setId: 'accountManage-detail' + id
         }
       })
@@ -577,7 +583,8 @@ export default {
       let tempObj = {}
       // 如果有 是通过子类表格选择的 则保留不置为{}
       for (let k in this.accountBillOptionIds) {
-        if (k && this.accountBillOptionIds[k][0] && this.accountBillOptionIds[k][0].mySon) {
+        if (!k) break
+        if (this.accountBillOptionIds[k][0] && this.accountBillOptionIds[k][0].mySon) {
           tempObj[k] = this.accountBillOptionIds[k]
         }
       }
@@ -605,7 +612,7 @@ export default {
       parentAll.forEach(item => {
         this.accountBillOptionIds[item.accountBillId] = item.accountBillOptionPageVOs
         item.accountBillOptionPageVOs.forEach(v => {
-          this.$refs['childrenTable' + v.accountBillId] && this.$refs['childrenTable' + v.accountBillId].toggleRowSelection(v, true)
+          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(v, true)
         })
       })
     },

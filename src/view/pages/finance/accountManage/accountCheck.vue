@@ -1,16 +1,16 @@
 <template>
   <section class='sys-main expenseDetail'>
-    <div class="topFlag flex">
+    <div class="topFlag flex" v-if="reconMsg">
       <img src="@/assets/img/Tips.png" alt="">
       <div class="one-row">
         <div class="left">对账意见&nbsp;:</div>
         <div class="right">{{reconMsg || '-'}}</div>
       </div>
     </div>
-    <el-row class="topBtn">
+    <!-- <el-row class="topBtn">
       <el-button size="mini" type="primary">添加台账</el-button>
-    </el-row>
-    <!-- 应收费用区域 -->
+    </el-row> -->
+    <!-- 新增和使用报价区域 -->
     <el-form ref="receiveTableForm" :model="formData" :show-message="false">
       <div class="receive area" v-for="(item1, index) in formData.accountBillOptionVOs" :key="item1.expenseBillId">
         <el-row class="line up">
@@ -174,15 +174,12 @@
     </el-form>
     <!-- 汇总区域 -->
     <div class="all area">
-      <el-row class="companyItems" v-for="(item, index) in summarysSum" :key="'index' + index">
-        <el-col class="company" :span="8">{{item.companyName || '-'}}</el-col>
-        <el-col :span="item.pay.length>0?8:16" class="pull-right" v-if="item.receive.length>0">
-          <div class="right">
-            <!-- <span>应收&nbsp;:&nbsp;</span> -->
-            <span class="receive" v-for="(item2, index2) in item.receive" :key="'item'+index2">{{(item2.currName || '-') +' '+ item2.sum}}</span>
-          </div>
-          <div class="left">含税总金额&nbsp;:&nbsp;</div>
-        </el-col>
+      <el-row class="companyItems">
+        <div class="left">含税总金额&nbsp;:&nbsp;</div>
+        <div class="right">
+          <!-- <span>应收&nbsp;:&nbsp;</span> -->
+          <span class="receive"  v-for="(item, index) in summarysSum" :key="'index' + index">{{(item.currName || '-') +' '+ item.sum}}</span>
+        </div>
       </el-row>
     </div>
     <div class="submit">
@@ -202,6 +199,7 @@ export default {
     return {
       feeFlag: '',
       receivablefeeOptions: {},
+      payablefeeOptions: {},
       accountBillOptionIds: [], // 点击删除时存储id
       formData: {
         accountBillOptionVOs: []
@@ -265,6 +263,7 @@ export default {
   watch: {},
   computed: {
     summarysSum: function () {
+      if (!Array.isArray(this.formData.accountBillOptionVOs) || !this.formData.accountBillOptionVOs.length > 0) return []
       let newArr = []
       let allArr = []
       // 根据币制汇总
@@ -291,6 +290,12 @@ export default {
           this.reconMsg = result.reconMsg || ''
           // 复制数据
           if (result.accountBillOptionVOs && result.accountBillOptionVOs.length > 0) {
+            // 翻译
+            result.accountBillOptionVOs.forEach((v, i) => {
+              if (v.billOptionsVOs && v.billOptionsVOs.length > 0) {
+                this.initSelected(v.billOptionsVOs, 0, i)
+              }
+            })
             this.copyData.accountBillOptionVOs = JSON.parse(JSON.stringify(result.accountBillOptionVOs))
           }
         }
@@ -375,7 +380,7 @@ export default {
     // 获取应收基础报价
     getOfferReceive (item, index) {
       // 查询报价应收/应付
-      this.receivablefeeOptions = item
+      this.feeFlag ? (this.receivablefeeOptions = item) : (this.payablefeeOptions = item)
       this.getQuotationDetail(this.feeFlag, item.quotationId, index)
     },
     getQuotationDetail (feeFlag, quotationId, index) {
@@ -438,7 +443,7 @@ export default {
       })
       if (pass1) return
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/bill/edit',
+        url: 'API@/saas-finance/account/edit',
         data: {
           accountBillId: this.$route.query.accountBillId,
           accountBillOptionIds: [...new Set(this.accountBillOptionIds)],
@@ -628,34 +633,22 @@ export default {
     }
   }
   .companyItems {
-    padding: 5px 18px;
-    background-color: #F4F8FC;
-    margin-bottom: 8px;
-    .pull-right {
-      text-align: right;
-      // display: flex;
-      justify-content: flex-end;
-      .right {
-        float: right;
-        // flex:1;
-        word-break:break-all;
-        max-width: calc(~"(100% - 60px)")
-      }
-      .left {
-        float: right;
-        width: 60px;
-        line-height: 38px;
-      }
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    .right {
+      float: right;
+      line-height: 38px;
+      // flex:1;
+      word-break:break-all;
+      max-width: calc(~"(100% - 60px)")
     }
-    .el-col {
-      height: 100%;
-      line-height: 36px;
+    .left {
+      float: right;
+      width: 80px;
+      line-height: 38px;
     }
-    .company {
-      color: #4c4c4c;
-      font-weight: bold;
-    }
-    .receive,.pay {
+    .receive {
       font-weight: bold;
       font-size: 20px;
       &:after {
@@ -663,12 +656,6 @@ export default {
       }
     }
     .receive {
-      color: #53B246;
-      &:last-child:after{
-        content:'';
-      }
-    }
-    .pay {
       color:#FE4400;
       &:last-child:after{
         content:'';
@@ -679,6 +666,9 @@ export default {
     background-color: #fff;
     margin-bottom: 20px;
     padding: 18px;
+  }
+  .all.area {
+    padding: 10px 18px;
   }
   .decDetail {
     padding-bottom: 0;

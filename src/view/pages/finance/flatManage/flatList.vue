@@ -90,7 +90,7 @@
           <!-- 展开项 -->
           <template slot-scope="scope">
             <el-table class='sys-table-table'
-              :ref="'childrenTable' + scope.row.curr + scope.row.accountBillId"
+              :ref="'childrenTable' + scope.row.unique"
               v-if="scope.row.options && scope.row.options.length > 0" align="left"
               :data="scope.row.options" border
               @select="((select, row) => {selectChildrenRow(select, row, scope.row)})"
