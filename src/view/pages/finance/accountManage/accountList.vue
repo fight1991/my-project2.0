@@ -101,8 +101,8 @@
     <!-- 列表表格开始 -->
     <div class='query-table-financeCommon'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
-        <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
+        <el-button size="mini" class="list-btns list-icon-checkP" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
+        <el-button size="mini" class="list-btns list-icon-check" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
         <!-- 对账单导出选项 -->
         <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
           <el-button size="mini" :disabled="accountBillIds.length > 1 || accountBillIds.length === 0" class="list-btns list-icon-exportO">
@@ -204,7 +204,7 @@
         </el-table-column>
         <el-table-column label="平账状态" min-width="100" prop="flatStatusValue" align="center">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="130" align="center">
+        <el-table-column label="操作" width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
@@ -344,11 +344,22 @@ export default {
         }
       }
       return temp
+    },
+    accountBillIdsStatus () { // 批量审核驳回
+      let temp = []
+      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
+        for (let k in this.accountBillOptionIds) {
+          if (this.accountBillOptionIds[k] && this.accountBillOptionIds[k].length > 0 && !this.accountBillOptionIds[k][0].mySon) {
+            this.accountBillOptionIds[k][0]['reconStatus'] === 1 && temp.push(this.accountBillOptionIds[k][0]['accountBillId'])
+          }
+        }
+      }
+      return temp
     }
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
+      if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'billManage-invoiceDetail' || from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
         this.getAccountList(this.$store.state.pagination)
       }
     }
@@ -449,7 +460,14 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.accountTableList = res.result || []
+          if (res.result && res.result.length > 0) {
+            res.result.forEach(v => {
+              v.accountBillOptionPageVOs && v.accountBillOptionPageVOs[0] && (v.accountBillOptionPageVOs[0]['reconStatus'] = v.reconStatus)
+            })
+            this.accountTableList = res.result
+          } else {
+            this.accountTableList = []
+          }
         }
       })
     },
@@ -650,6 +668,8 @@ export default {
         this.$refs['accountTable'].toggleRowSelection(parent, false)
         this.accountBillOptionIds[parent.accountBillId] = []
       }
+      this.$delete(this.accountBillOptionIds, parent.accountBillId)
+      this.$set(this.accountBillOptionIds, parent.accountBillId, children)
     },
     // 展开行发生变化
     expandChange (row) {

@@ -379,6 +379,14 @@ export default {
             type: 'success',
             message: '创建成功'
           })
+          let {setId} = this.$route.query
+          this.$store.commit('CloseTab', setId)
+          this.$router.push({
+            name: 'accountManage-list',
+            query: {
+              from: 'other'
+            }
+          })
         }
       })
     },

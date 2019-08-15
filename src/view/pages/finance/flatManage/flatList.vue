@@ -80,7 +80,7 @@
         <el-button size="mini" class="list-btns list-icon-paR" @click="goToRecord"><i></i>平账记录</el-button>
       </el-row>
       <el-table class='sys-table-table' align="left"
-        :data="billTableList" border highlight-current-row height="530px"  ref="billTable"
+        :data="billTableList" border highlight-current-row height="530px" ref="billTable"
         @select="selectParentRow"
         @select-all="selectParentRowAll"
         @expand-change="expandChange">
@@ -508,6 +508,8 @@ export default {
         this.$refs['billTable'].toggleRowSelection(parent, false)
         this.accountBillOptionIds[parent.unique] = []
       }
+      this.$delete(this.accountBillOptionIds, parent.unique)
+      this.$set(this.accountBillOptionIds, parent.unique, children)
     },
     // 展开行发生变化
     expandChange (row) {
