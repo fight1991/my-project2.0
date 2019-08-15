@@ -129,6 +129,7 @@
         :data="accountTableList" border highlight-current-row height="530px" ref="accountTable"
         @select="selectParentRow"
         @select-all="selectParentRowAll"
+        @selection-change="getParentSelect"
         @expand-change="expandChange">
         <el-table-column type="selection" width="40">
         </el-table-column>
@@ -259,6 +260,7 @@ export default {
       ticketValue: '',
       ticketIds: [],
       accountBillOptionIds: {},
+      accountBillIdSelect: [],
       settleCompanyList: [],
       QueryForm: {
         createStartDate: '', // 生成时间
@@ -336,25 +338,11 @@ export default {
       }
       return tempArr
     },
-    accountBillIds () {
-      let temp = []
-      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
-        for (let k in this.accountBillOptionIds) {
-          this.accountBillOptionIds[k] && this.accountBillOptionIds[k].length > 0 && temp.push(this.accountBillOptionIds[k][0]['accountBillId'])
-        }
-      }
-      return temp
+    accountBillIds () { // 导出对账单
+      return this.accountBillIdSelect.map(v => v.accountBillId)
     },
     accountBillIdsStatus () { // 批量审核驳回
-      let temp = []
-      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
-        for (let k in this.accountBillOptionIds) {
-          if (this.accountBillOptionIds[k] && this.accountBillOptionIds[k].length > 0 && !this.accountBillOptionIds[k][0].mySon) {
-            this.accountBillOptionIds[k][0]['reconStatus'] === 1 && temp.push(this.accountBillOptionIds[k][0]['accountBillId'])
-          }
-        }
-      }
-      return temp
+      return this.accountBillIdSelect.filter(v => v.reconStatus === 1)
     }
   },
   watch: {
@@ -462,7 +450,11 @@ export default {
           this.paginationInit = res.page
           if (res.result && res.result.length > 0) {
             res.result.forEach(v => {
-              v.accountBillOptionPageVOs && v.accountBillOptionPageVOs[0] && (v.accountBillOptionPageVOs[0]['reconStatus'] = v.reconStatus)
+              if (v.accountBillOptionPageVOs && v.accountBillOptionPageVOs.length > 0) {
+                v.accountBillOptionPageVOs.forEach(item => {
+                  item.reconStatus = v.reconStatus
+                })
+              }
             })
             this.accountTableList = res.result
           } else {
@@ -598,6 +590,10 @@ export default {
       }
       this.ticketIsShow = false
       this.getInvoiceItem('dialog')
+    },
+    // 通过字表改变或自身选怎改变
+    getParentSelect (selection) {
+      this.accountBillIdSelect = selection
     },
     // 勾选父表格 单行
     selectParentRow (parent, row) {
