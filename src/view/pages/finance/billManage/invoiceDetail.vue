@@ -259,7 +259,7 @@ export default {
         }
       })
       if (sum < 100000) {
-        this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
+        this.invoiceOptionData.invoiceOptionTableList = [{...this.invoiceTemplate}]
         return
       }
       let maxLength = Math.floor(sum / 1.13 / base)
@@ -393,7 +393,7 @@ export default {
     // 取消
     cancelEdit () {
       this.$refs['invoiceOptionData'].clearValidate()
-      this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
+      this.invoiceOptionData.invoiceOptionTableList = [{...this.invoiceTemplate}]
     },
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {
