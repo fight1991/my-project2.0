@@ -378,12 +378,12 @@ router.afterEach(route => {
   let title = route.meta.title
   let tabId = route.name
   // 本系统跳转后自定义title
-  if (route.query.setTitle) {
-    title = route.query.setTitle
+  if (route.query.setTitle || route.query.setId) {
+    title = route.query.setTitle || route.meta.title
     tabId = route.query.setId || route.name
   }
-  if (route.params.setTitle) {
-    title = route.params.setTitle
+  if (route.params.setTitle || route.params.setId) {
+    title = route.params.setTitle || route.meta.title
     tabId = route.params.setId || route.name
   }
   // sysData 交互特有字段 不等于空  则使用自定义的title

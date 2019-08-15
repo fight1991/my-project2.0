@@ -1093,7 +1093,7 @@ export default {
       this.addForm.releaseDay = this.dates2 || ''
       this.addForm.sailDay = this.dates1 || ''
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/copyBill/manualCreateExpenseBill',
+        url: 'API@/saas-finance/bill/handCreate',
         data: {
           ...this.addForm,
           status: type,

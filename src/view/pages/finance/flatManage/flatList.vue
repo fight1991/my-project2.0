@@ -539,6 +539,7 @@ export default {
         })
         return
       }
+      this.entryDateIsShow = false
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/balance/create',
         data: {
@@ -548,7 +549,6 @@ export default {
         router: this.$router,
         success: () => {
           this.getBillList(this.$store.state.pagination)
-          this.entryDateIsShow = false
           this.accountBillOptionIds = {}
           this.$message({
             type: 'success',
