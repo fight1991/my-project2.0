@@ -485,6 +485,7 @@ export default {
       iEFlag: '',
       optionsType: 'look', // 记录当前操作类型
       payablefeeOptions: {},
+      businessType: '', // 类型
       verifys: '', // 审核意见
       swtichCheck: '', // 台账后台开关是否开启
       status: '', // 审核退回的台账
@@ -595,7 +596,8 @@ export default {
     }
   },
   created () {
-    let {type, iEFlag, expenseBillId, innerNo, status} = this.$route.query
+    let {type, iEFlag, expenseBillId, innerNo, status, businessType} = this.$route.query
+    this.businessType = +businessType || 2
     if (type === 'edit') {
       expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
       this.status = status
@@ -646,11 +648,12 @@ export default {
     getBillDetail (id, No) {
       let params = {}
       let url = ''
-      if (id) {
+      if (id) { // 台账列表跳转
         params.expenseBillId = id
+        params.businessType = this.businessType
         url = 'bill/get'
       }
-      if (No) {
+      if (No) { // 货代跳转
         params.billNo = No
         url = 'bill/getByDec'
       }
@@ -658,14 +661,30 @@ export default {
         url: 'API@saas-finance/' + url,
         data: params,
         router: this.$router,
-        success: ({result}) => {
-          if (result && JSON.stringify(result) !== '{}') {
-            let {billPayableBodyVO, billReceivableBodyVO, resultMap, summarys, billNo, cusCiqNo, innerNo, msg, verifyMsg} = result
+        success: (res) => {
+          if (res.result && JSON.stringify(res.result) !== '{}') {
+            let {billPayableBodyVO, billReceivableBodyVO, result, summarys, billNo, cusCiqNo, innerNo, msg, verifyMsg} = res.result
             this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
             this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
-            this.decDetail = resultMap || {}
+            if (Array.isArray(result) && result.length > 0) {
+              this.businessType === 1 && (this.decDetail = result[0])
+              if (this.businessType === 2) { // 解构
+                let tempObj = {}
+                result.forEach(v => {
+                  for (let k in v) {
+                    if (v[k]) {
+                      tempObj[k] = v[k]
+                    }
+                  }
+                })
+                this.decDetail = tempObj
+                console.log(tempObj)
+              }
+            } else {
+              this.decDetail = {}
+            }
             this.decCommon = {billNo, cusCiqNo, innerNo, msg, verifyMsg}
             this.summarys = summarys || []
             // 翻译
@@ -675,7 +694,7 @@ export default {
             this.copyData.billOptionPayVOs = JSON.parse(JSON.stringify(this.billPayableBodyVO.billPayableBodyVOList))
             this.copyData.billOptionReceiveVOs = JSON.parse(JSON.stringify(this.billReceivableBodyVO.billReceivableBodyVOList))
             // 根据接单编号查询的详情
-            result.expenseBillId && (this.expenseBillId = result.expenseBillId)
+            res.result.expenseBillId && (this.expenseBillId = res.result.expenseBillId)
           }
         }
       })
