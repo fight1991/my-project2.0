@@ -104,13 +104,10 @@
                 <el-date-picker
                   style="width:100%"
                   v-model="dates1"
-                  type="daterange"
+                  type="date"
                   align="right"
                   unlink-panels
                   value-format="yyyy-MM-dd"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
                   :picker-options="pickerOptions">
                 </el-date-picker>
               </el-form-item>
@@ -120,13 +117,10 @@
                 <el-date-picker
                   style="width:100%"
                   v-model="dates2"
-                  type="daterange"
+                  type="date"
                   align="right"
                   unlink-panels
                   value-format="yyyy-MM-dd"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
                   :picker-options="pickerOptions">
                 </el-date-picker>
               </el-form-item>
@@ -506,10 +500,8 @@ export default {
         expenseBillId: '',
         iEFlag: '', // 进出口0进口1出口2内贸
         orderNo: '', // 接单编号
-        releaseDayStart: '', // 放行日
-        releaseDayEnd: '',
-        sailDayStart: '', // 开航日
-        sailDayEnd: ''
+        releaseDay: '', // 放行日
+        sailDay: '' // 开航日
       },
       dates1: '', // 开航日
       dates2: '', // 放行日
@@ -568,28 +560,23 @@ export default {
       expenseBillId: '', // 接单查看详情返回的
       pickerOptions: {
         shortcuts: [{
-          text: '最近一周',
+          text: '今天',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
+            picker.$emit('pick', new Date())
           }
         }, {
-          text: '最近一个月',
+          text: '昨天',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
           }
         }, {
-          text: '最近三个月',
+          text: '一周前',
           onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
           }
         }]
       }
@@ -890,10 +877,8 @@ export default {
           expenseBillId: '',
           iEFlag: '',
           orderNo: '',
-          releaseDayStart: '',
-          releaseDayEnd: '',
-          sailDayStart: '',
-          sailDayEnd: ''
+          releaseDay: '',
+          sailDay: ''
         }
       }
     },
@@ -1100,20 +1085,8 @@ export default {
         if (!valid) pass2 = true
       })
       if (pass1 || pass2 || pass3) return
-      if (this.dates2 && this.dates2.length > 0) {
-        this.addForm.releaseDayStart = this.dates2[0]
-        this.addForm.releaseDayEnd = this.dates2[1]
-      } else {
-        this.addForm.releaseDayStart = ''
-        this.addForm.releaseDayEnd = ''
-      }
-      if (this.dates1 && this.dates1.length > 0) {
-        this.addForm.sailDayStart = this.dates1[0]
-        this.addForm.sailDayEnd = this.dates1[1]
-      } else {
-        this.addForm.sailDayStart = ''
-        this.addForm.sailDayEnd = ''
-      }
+      this.addForm.releaseDay = this.dates2 || ''
+      this.addForm.sailDay = this.dates1 || ''
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/copyBill/manualCreateExpenseBill',
         data: {
