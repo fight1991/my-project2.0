@@ -164,8 +164,8 @@
         <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" v-if="scope.row.status === 4" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
-              <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
+              <el-button title="编辑" v-if="scope.row.status === 4" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
+              <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
             </div>
           </template>
@@ -324,13 +324,14 @@ export default {
       this.dates2 = []
     },
     // 跳转到编辑或详情页
-    goToDeital (type, iEFlag = '', id = '', status = '', businessType) {
+    goToDeital (type, businessType, iEFlag = '', id = '', status = '') {
+      console.log(businessType)
       this.$router.push({
         name: 'expense-detail',
         query: {
           type,
-          iEFlag,
           businessType,
+          iEFlag,
           expenseBillId: id,
           status,
           setTitle: type === 'edit' ? '台账编辑' : type === 'add' ? '台账新增' : '台账详情',

@@ -349,6 +349,8 @@ export default {
     '$route': function (to, from) {
       if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'billManage-invoiceDetail' || from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
         this.getAccountList(this.$store.state.pagination)
+        this.accountBillIdSelect = []
+        this.accountBillOptionIds = {}
       }
     }
   },
