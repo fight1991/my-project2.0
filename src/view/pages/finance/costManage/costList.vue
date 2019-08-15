@@ -61,7 +61,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table-finance'>
+    <div class='query-table-financeCommon'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="showDialog('add')"><i></i>新增</el-button>
       </el-row>
@@ -388,7 +388,7 @@ export default {
     getFeeOptionCode () {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-finance/option/getFeeOptionCode',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           if (result) {
@@ -449,11 +449,6 @@ export default {
 .query-condition {
   background-color: #fff;
   padding: 20px;
-}
-.query-table-finance {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
 }
 .table-btn {
   padding-bottom: 15px;

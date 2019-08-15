@@ -67,7 +67,7 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table-finance'>
+    <div class='query-table-financeCommon'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="newQuotation"><i></i>新增</el-button>
         <el-button size="mini" class="list-btns list-icon-export" @click="exportQuotation"><i></i>导出</el-button>
@@ -411,12 +411,6 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table-finance {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-}
-
 .table-btn {
   padding-bottom: 15px;
 }

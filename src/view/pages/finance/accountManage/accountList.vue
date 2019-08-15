@@ -1,5 +1,5 @@
 <template>
-  <section class='sys-main costList'>
+  <section class='sys-main flatList'>
     <el-row class='query-condition'>
       <el-form :label-width="labelFormWidth.six"  :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
@@ -42,11 +42,11 @@
           <el-col :span="6">
             <el-form-item label="对账状态">
               <el-select v-model="QueryForm.reconStatus" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
-                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
-                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
-                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
-                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
+                <el-option key="0" :label="'待审核'" :value="1"></el-option>
+                <el-option key="6" :label="'审核退回'" :value="2"></el-option>
+                <el-option key="9" :label="'待对账'" :value="3"></el-option>
+                <el-option key="13" :label="'对账驳回'" :value="4"></el-option>
+                <el-option key="14" :label="'对账确认'" :value="5"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -99,13 +99,13 @@
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
-    <div class='query-table-finance'>
+    <div class='query-table-financeCommon'>
       <el-row class="table-btn">
-        <!-- <el-button size="mini" class="list-btns list-icon-checkP" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button> -->
-        <!-- <el-button size="mini" class="list-btns list-icon-check" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button> -->
+        <el-button size="mini" class="list-btns list-icon-checkP" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
+        <el-button size="mini" class="list-btns list-icon-check" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
         <!-- 对账单导出选项 -->
         <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
-          <el-button size="mini" class="list-btns list-icon-exportO">
+          <el-button size="mini" :disabled="accountBillIds.length > 1 || accountBillIds.length === 0" class="list-btns list-icon-exportO">
             <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -113,15 +113,78 @@
             <el-dropdown-item :command="2" :key="2">金蝶样式导出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <!-- 开票选项 -->
+        <el-dropdown trigger="click" @command="getInvoiceItem" placement="bottom-start">
+          <el-button size="mini" class="list-btns list-icon-invoice" :disabled="optionIds.data.length === 0 || !optionIds.isHas">
+            <i class="other"></i>开票<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="1" :key="'1'">增值税普通发票</el-dropdown-item>
+            <el-dropdown-item :command="2" :key="'2'">增值税专用发票</el-dropdown-item>
+            <el-dropdown-item :command="3" :key="'3'">形式发票</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-row>
       <el-table class='sys-table-table' align="left"
-        :data="accountTableList" border highlight-current-row height="530px"  ref="accountTable"
-        @select="chooseSelectBox"
-        @row-click="chooseSelectRow"
-        @select-all="chooseSelectBoxAll">
-        <el-table-column
-          type="selection"
-          width="40">
+        :data="accountTableList" border highlight-current-row height="530px" ref="accountTable"
+        @select="selectParentRow"
+        @select-all="selectParentRowAll"
+        @selection-change="getParentSelect"
+        @expand-change="expandChange">
+        <el-table-column type="selection" width="40">
+        </el-table-column>
+        <el-table-column type="expand" width="50" label="展开">
+          <!-- 展开项 -->
+          <template slot-scope="scope">
+            <el-table class='sys-table-table'
+              :ref="'childrenTable' + scope.row.accountBillId"
+              v-if="scope.row.accountBillOptionPageVOs && scope.row.accountBillOptionPageVOs.length > 0" align="left"
+              :data="scope.row.accountBillOptionPageVOs" border
+              @select="((select, row) => {selectChildrenRow(select, row, scope.row)})"
+              @select-all="((select) => {selectChildrenRowAll(select, scope.row)})">
+              <el-table-column type="selection" width="40">
+              </el-table-column>
+              <el-table-column label="接单编号" min-width="140" prop="orderNo">
+                <template slot-scope="scope">
+                  {{scope.row.orderNo || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="报关单号" min-width="140" prop="decNo">
+                <template slot-scope="scope">
+                  {{scope.row.decNo || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="提单号" min-width="140" prop="billNo">
+                <template slot-scope="scope">
+                  {{scope.row.billNo || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="费用项" min-width="100" prop="feeOptionName">
+              </el-table-column>
+              <el-table-column label="币制" min-width="100" prop="curr" align="center">
+              </el-table-column>
+              <el-table-column label="金额" min-width="100" prop="taxPrice" align="right">
+                <template slot-scope="scope">
+                  {{scope.row.taxPrice && scope.row.taxPrice.toLocaleString() || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="委托企业" min-width="100" prop="entrustCompanyName">
+                <template slot-scope="scope">
+                  {{scope.row.entrustCompanyName || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.sailDay || '-'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="开票状态" min-width="80" prop="invoiceStatusValue" align="center">
+                <template slot-scope="scope">
+                  {{scope.row.invoiceStatusValue || '-'}}
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
         </el-table-column>
         <el-table-column label="账单企业" min-width="100" prop="settleCompanyName">
         </el-table-column>
@@ -134,7 +197,7 @@
         </el-table-column>
         <el-table-column label="操作人" min-width="80" prop="createUserName" align="center">
         </el-table-column>
-        <el-table-column label="账单生成时间" min-width="140" prop="createDate" align="center">
+        <el-table-column label="账单生成时间" min-width="160" prop="createDate" align="center">
         </el-table-column>
         <el-table-column label="对账状态" min-width="100" prop="reconStatusValue" align="center">
         </el-table-column>
@@ -142,11 +205,14 @@
         </el-table-column>
         <el-table-column label="平账状态" min-width="100" prop="flatStatusValue" align="center">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="80" align="center">
+        <el-table-column label="操作" width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
-              <!-- <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button> -->
+              <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.reconStatus === 1" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
+              <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountCheck(scope.row.accountBillId, scope.row.feeFlag)"><i></i></el-button>
+              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.reconStatus === 5" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
+              <el-button type="text" title="对账" class="table-icon list-icon-accountPass" v-if="scope.row.reconStatus === 3" @click.stop="goToAccountDetail('pass', scope.row.accountBillId)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -157,6 +223,28 @@
         </el-col>
       </el-row>
     </div>
+    <!-- 发票选择 -->
+    <el-dialog title="请选择开票类型" @close="resetDialog" :visible.sync="ticketIsShow" :close-on-click-modal='false' width="360px">
+      <div  class="dec-div">
+        <!-- <div class="topFlag flex">
+          <img src="@/assets/img/warning.png" alt="">
+          <div class="text">请选择开票类型</div>
+        </div> -->
+        <el-form size="mini" :label-width="labelFormWidth.four">
+          <el-row class="selectTicket">
+           <el-radio-group v-model="ticketValue">
+             <el-row class="selectTicket-p"><el-radio :label="1">增值税普通发票</el-radio></el-row>
+             <el-row class="selectTicket-p"><el-radio :label="2">增值税专用发票</el-radio></el-row>
+             <el-row class="selectTicket-p"><el-radio :label="3">形式发票</el-radio></el-row>
+            </el-radio-group>
+          </el-row>
+        </el-form>
+        <el-row class="query-btn dialog-btn" style="text-align:center">
+          <el-button size="mini" type="primary" @click="confirmDialog">确认</el-button>
+          <el-button size="mini" @click="resetDialog">取消</el-button>
+        </el-row>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -168,8 +256,11 @@ export default {
   data () {
     return {
       dates: '',
-      accountBillIds: [],
-      selectionRow: [],
+      ticketIsShow: false,
+      ticketValue: '',
+      ticketIds: [],
+      accountBillOptionIds: {},
+      accountBillIdSelect: [],
       settleCompanyList: [],
       QueryForm: {
         createStartDate: '', // 生成时间
@@ -223,11 +314,44 @@ export default {
       }
     }
   },
-  computed: mapState({ // 查看vuex中当前登录的userId
-    currentUser (state) {
-      return state.userLoginInfo.userId
+  computed: {
+    ...mapState({ // 查看vuex中当前登录的userId
+      currentUser (state) {
+        return state.userLoginInfo.userId
+      }
+    }),
+    optionIds () { // 开票
+      let tempArr = {
+        isHas: true,
+        data: []
+      }
+      if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
+        for (let k in this.accountBillOptionIds) {
+          this.accountBillOptionIds[k].forEach(v => {
+            if (v.invoiceStatus === 0) {
+              tempArr.data.push(v.accountBillOptionId)
+            } else {
+              tempArr.isHas = false
+            }
+          })
+        }
+      }
+      return tempArr
+    },
+    accountBillIds () { // 导出对账单
+      return this.accountBillIdSelect.map(v => v.accountBillId)
+    },
+    accountBillIdsStatus () { // 批量审核驳回
+      return this.accountBillIdSelect.filter(v => v.reconStatus === 1)
     }
-  }),
+  },
+  watch: {
+    '$route': function (to, from) {
+      if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'billManage-invoiceDetail' || from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
+        this.getAccountList(this.$store.state.pagination)
+      }
+    }
+  },
   created () {
     this.getCommonParam()
     this.getSettleCompanyInfo()
@@ -239,7 +363,7 @@ export default {
     getSettleCompanyInfo () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/account/getSettleCompanyInfo',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           this.settleCompanyList = result || []
@@ -324,7 +448,18 @@ export default {
         router: this.$router,
         success: res => {
           this.paginationInit = res.page
-          this.accountTableList = res.result || []
+          if (res.result && res.result.length > 0) {
+            res.result.forEach(v => {
+              if (v.accountBillOptionPageVOs && v.accountBillOptionPageVOs.length > 0) {
+                v.accountBillOptionPageVOs.forEach(item => {
+                  item.reconStatus = v.reconStatus
+                })
+              }
+            })
+            this.accountTableList = res.result
+          } else {
+            this.accountTableList = []
+          }
         }
       })
     },
@@ -351,27 +486,6 @@ export default {
       }
       return arr.join(' + ')
     },
-    // 勾选选择框
-    chooseSelectBox (selection, row) {
-      this.accountBillIds = selection.map(v => {
-        return v.accountBillId
-      })
-      this.selectionRow = [...selection]
-    },
-    // 勾选选择框
-    chooseSelectBoxAll (selection) {
-      this.accountBillIds = selection.map(v => {
-        return v.accountBillId
-      })
-      this.selectionRow = [...selection]
-    },
-    // 点击表格行 单选
-    chooseSelectRow (row, column, event) {
-      this.$refs['accountTable'].clearSelection()
-      this.$refs['accountTable'].toggleRowSelection(row, true)
-      this.accountBillIds = [row.accountBillId]
-      this.selectionRow = [row]
-    },
     // 批量审核驳回/确认
     accountCheck (type, verifyMsg = '') {
       if (this.accountBillIds.length === 0) {
@@ -390,6 +504,11 @@ export default {
         },
         router: this.$router,
         success: res => {
+          this.$message({
+            type: 'success',
+            message: type === 'rejects' ? '批量驳回成功' : '批量审核成功'
+          })
+          this.accountBillOptionIds = {}
           this.getAccountList(this.$store.state.pagination)
         }
       })
@@ -415,6 +534,20 @@ export default {
         }
       })
     },
+    // 开票
+    getInvoiceItem (select) {
+      let opId = select === 'dialog' ? encodeURIComponent(JSON.stringify(this.ticketIds)) : encodeURIComponent(JSON.stringify(this.optionIds.data))
+      this.$router.push({
+        name: 'billManage-invoiceDetail',
+        query: {
+          type: 'edit',
+          invoiceType: select === 'dialog' ? this.ticketValue : select,
+          optionId: opId,
+          setId: 'billManage-invoiceDetail' + opId,
+          setTitle: '创建发票'
+        }
+      })
+    },
     // 跳转详情/审核
     goToAccountDetail (type, id) {
       this.$router.push({
@@ -422,10 +555,136 @@ export default {
         query: {
           accountBillId: id,
           type,
-          setTitle: type === 'look' ? '对账单详情' : '对账单审核',
+          setTitle: type === 'look' ? '对账单详情' : type === 'check' ? '对账单审核' : '对账',
           setId: 'accountManage-detail' + id
         }
       })
+    },
+    // 跳转到驳回编辑
+    goToAccountCheck (id, flag) {
+      this.$router.push({
+        name: 'accountManage-check',
+        query: {
+          accountBillId: id,
+          feeFlag: flag
+        }
+      })
+    },
+    // 关闭弹框
+    resetDialog () {
+      this.ticketIsShow = false
+      this.ticketValue = ''
+    },
+    showDialog (item) {
+      this.ticketIsShow = true
+      this.ticketIds = item.map(v => v.accountBillOptionId)
+    },
+    // 弹框确认按钮
+    confirmDialog () {
+      if (!this.ticketValue) {
+        this.$message({
+          type: 'warning',
+          message: '请选择发票类型'
+        })
+        return
+      }
+      this.ticketIsShow = false
+      this.getInvoiceItem('dialog')
+    },
+    // 通过字表改变或自身选怎改变
+    getParentSelect (selection) {
+      this.accountBillIdSelect = selection
+    },
+    // 勾选父表格 单行
+    selectParentRow (parent, row) {
+      if (parent && parent.length === 0) {
+        this.accountBillOptionIds = {}
+        this.$refs['childrenTable' + row.accountBillId] && this.$refs['childrenTable' + row.accountBillId].clearSelection()
+        return
+      }
+      this.$refs['childrenTable' + row.accountBillId] && this.$refs['childrenTable' + row.accountBillId].clearSelection()
+      let tempObj = {}
+      // 如果有 是通过子类表格选择的 则保留不置为{}
+      for (let k in this.accountBillOptionIds) {
+        if (!k) break
+        if (this.accountBillOptionIds[k][0] && this.accountBillOptionIds[k][0].mySon) {
+          tempObj[k] = this.accountBillOptionIds[k]
+        }
+      }
+      this.accountBillOptionIds = tempObj
+      parent.forEach(item => {
+        // 存储费用项id数据
+        this.accountBillOptionIds[item.accountBillId] = item.accountBillOptionPageVOs
+        this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].clearSelection()
+        item.accountBillOptionPageVOs.forEach(v => {
+          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(v, true)
+        })
+      })
+    },
+    // 勾选父表格 全选
+    selectParentRowAll (parentAll) {
+      if (parentAll && parentAll.length === 0) {
+        this.accountBillOptionIds = {}
+        // 子表格清空选中状态
+        this.accountTableList.forEach(v => {
+          this.$refs['childrenTable' + v.accountBillId] && this.$refs['childrenTable' + v.accountBillId].clearSelection()
+        })
+        return
+      }
+      this.accountBillOptionIds = {}
+      parentAll.forEach(item => {
+        this.accountBillOptionIds[item.accountBillId] = item.accountBillOptionPageVOs
+        item.accountBillOptionPageVOs.forEach(v => {
+          this.$refs['childrenTable' + item.accountBillId] && this.$refs['childrenTable' + item.accountBillId].toggleRowSelection(v, true)
+        })
+      })
+    },
+    // 勾选子表单 单行
+    selectChildrenRow (child, row, parent) {
+      // 如果child的长度===父accountBillOptionPageVOs的长度 说明全选了
+      if (child.length === parent.accountBillOptionPageVOs.length) {
+        this.$refs['accountTable'].toggleRowSelection(parent, true)
+      } else {
+        this.$refs['accountTable'].toggleRowSelection(parent, false)
+        // 添加子类标识
+        if (child.length > 0) {
+          child[0]['mySon'] = true
+        }
+      }
+      this.accountBillOptionIds[row.accountBillId] = child
+      this.$delete(this.accountBillOptionIds, row.accountBillId)
+      this.$set(this.accountBillOptionIds, row.accountBillId, child)
+    },
+    // 勾选子表单 全选
+    selectChildrenRowAll (children, parent) {
+      if (children.length > 0) { // 全选 找到父行
+        this.accountBillOptionIds[parent.accountBillId] = children
+        this.$refs['accountTable'].toggleRowSelection(parent, true)
+      } else { // 取消全选 找到父行?
+        this.$refs['accountTable'].toggleRowSelection(parent, false)
+        this.accountBillOptionIds[parent.accountBillId] = []
+      }
+      this.$delete(this.accountBillOptionIds, parent.accountBillId)
+      this.$set(this.accountBillOptionIds, parent.accountBillId, children)
+    },
+    // 展开行发生变化
+    expandChange (row) {
+      // 先点击展开项, 字表不全选, 关闭展开按钮再打开
+      if (this.accountBillOptionIds[row.accountBillId] && this.accountBillOptionIds[row.accountBillId].length > 0) {
+        if (this.accountBillOptionIds[row.accountBillId][0].mySon) {
+          this.accountBillOptionIds[row.accountBillId].forEach(v => {
+            this.$nextTick(() => {
+              this.$refs['childrenTable' + row.accountBillId] && this.$refs['childrenTable' + row.accountBillId].toggleRowSelection(v, true)
+            })
+          })
+        } else { // 如果父行已经勾选了,则子表全选,不存在mySon
+          row.accountBillOptionPageVOs.forEach(v => {
+            this.$nextTick(() => {
+              this.$refs['childrenTable' + row.accountBillId] && this.$refs['childrenTable' + row.accountBillId].toggleRowSelection(v, true)
+            })
+          })
+        }
+      }
     }
   }
 }
@@ -436,12 +695,26 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-table-finance {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-}
 .table-btn {
   padding-bottom: 15px;
+}
+.selectTicket {
+  padding-bottom: 18px;
+  .selectTicket-p {
+    padding-bottom: 15px;
+  }
+}
+.flex {
+  display: flex;
+  align-items: flex-start;
+}
+.topFlag {
+  padding-left: 18px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  img {
+    display:block;
+    margin-right: 8px;
+  }
 }
 </style>

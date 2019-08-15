@@ -40,6 +40,15 @@
 .sys-class .icons-menu-jobsLicense {
   background: url("../img/icon-aside/jobsLicense.png") no-repeat;
 }
+.sys-class .icons-menu-index {
+  background: url("../img/icon-aside/index.png") no-repeat;
+}
+.sys-class .icons-menu-problem {
+  background: url("../img/icon-aside/problem.png") no-repeat;
+}
+.sys-class .icons-menu-solute {
+  background: url("../img/icon-aside/solute.png") no-repeat;
+}
 .sys-class .icons-menu-customer {
   background: url("../img/icon-aside/customer.png") no-repeat;
 }
@@ -180,4 +189,10 @@
 }
 .sys-class .icons-menu-exportEn {
   background: url("../img/icon-aside/exportEn.png") no-repeat;
+}
+.sys-class .icons-finance-billManage {
+  background: url("../img/icon-aside/billManage.png") no-repeat;
+}
+.sys-class .icons-finance-flatManage {
+  background: url("../img/icon-aside/flatManage.png") no-repeat;
 }

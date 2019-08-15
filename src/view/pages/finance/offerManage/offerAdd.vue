@@ -987,9 +987,7 @@ export default {
     },
     // 企业查询
     getcorps (query) {
-      if (query.length < 2) {
-        return
-      }
+      if (query.length < 2 || query.length > 30) return
       this.$store.dispatch('ajax', {
         url: 'API@/login/corp/getCorpByCondAssignProp',
         data: {
@@ -1046,7 +1044,7 @@ export default {
     getOptionList () {
       this.$store.dispatch('ajax', {
         url: 'API@saas-finance/option/getAll',
-        data: {},
+        data: '',
         router: this.$router,
         success: ({result}) => {
           this.optionsList = result || []

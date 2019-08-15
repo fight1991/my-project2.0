@@ -899,6 +899,56 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-createAccount.is-disabled:hover i {
     background: url('../../assets/img/icon/createA-disabled.png') no-repeat;
   }
+  // 平账
+  .list-icon-pa i{
+    background: url('../../assets/img/icon/icon-paN.png') no-repeat;
+  }
+  .list-icon-pa:hover i,.list-icon-pa:focus i,.sys-table-table .list-icon-pa i{
+    background: url('../../assets/img/icon/icon-paF.png') no-repeat;
+  }
+  .list-icon-pa.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-paD.png') no-repeat;
+  }
+  // 平账记录
+  .list-icon-paR i{
+    background: url('../../assets/img/icon/icon-paRN.png') no-repeat;
+  }
+  .list-icon-paR:hover i,.list-icon-paR:focus i,.sys-table-table .list-icon-paR i{
+    background: url('../../assets/img/icon/icon-paRF.png') no-repeat;
+  }
+  .list-icon-paR.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-paRD.png') no-repeat;
+  }
+  // 开票
+  .list-icon-invoice .other{
+    background: url('../../assets/img/icon/icon-billN.png') no-repeat;
+  }
+  .list-icon-invoice:hover .other,.list-icon-invoice:focus .other,.sys-table-table .list-icon-invoice .other{
+    background: url('../../assets/img/icon/icon-billF.png') no-repeat;
+  }
+  .list-icon-invoice.is-disabled:hover .other {
+    background: url('../../assets/img/icon/icon-billD.png') no-repeat;
+  }
+  // 撤销开票
+  .list-icon-paR i{
+    background: url('../../assets/img/icon/icon-paRN.png') no-repeat;
+  }
+  .list-icon-paR:hover i,.list-icon-paR:focus i,.sys-table-table .list-icon-paR i{
+    background: url('../../assets/img/icon/icon-paRF.png') no-repeat;
+  }
+  .list-icon-paR.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-paRD.png') no-repeat;
+  }
+  // 导出发票
+  .list-icon-exportBill i{
+    background: url('../../assets/img/icon/icon-exportBillN.png') no-repeat;
+  }
+  .list-icon-exportBill:hover i,.list-icon-exportBill:focus i,.sys-table-table .list-icon-exportBill i{
+    background: url('../../assets/img/icon/icon-exportBillF.png') no-repeat;
+  }
+  .list-icon-exportBill.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-exportBillD.png') no-repeat;
+  }
   .list-icon-subimtCheck i{
     background: url('../../assets/img/icon/icon-subimtCheck.png') no-repeat;
   }
@@ -910,6 +960,15 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .list-icon-look:hover i,.list-icon-look:focus i,.sys-table-table .list-icon-look i{
     background: url('../../assets/img/icon/icon-lookH.png') no-repeat;
+  }
+  .list-icon-exportBill.is-disabled i, .list-icon-exportBill.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-accountPassD.png') no-repeat;
+  }
+  .list-icon-accountPass i{
+    background: url('../../assets/img/icon/icon-accountPassN.png') no-repeat;
+  }
+  .list-icon-accountPass:hover i,.list-icon-accountPass:focus i,.sys-table-table .list-icon-accountPass i{
+    background: url('../../assets/img/icon/icon-accountPassF.png') no-repeat;
   }
   .list-icon-import i{
     background: url('../../assets/img/icon/icon-import.png') no-repeat;
@@ -994,46 +1053,33 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       }
     }
   }
-
 }
 // 财务表格样式
-.el-message-box__btns {
-  .el-button--primary {
-    background-color:#287FCA;
-    border-color:#287FCA
+.query-table-financeCommon {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  // .el-table td {
+  //   padding: 7px 0;
+  // }
+  .el-table-column--selection {
+    text-align: center;
   }
 }
-.el-autocomplete-suggestion {
-  width: auto!important;
-}
-.sys-main.costList {
-  .finaceCode { // 个别输入框标红
-    .el-input__inner {
-      border-color: #F56C6C!important;
-    }
+.query-table-finance {
+  .el-input__inner {
+    height: auto;
+    border-color: transparent!important;
+    line-height: 30px;
   }
-}
-.sys-main.accountDetail {
-  .el-table th {
-    padding: 7px 0;
+  .el-form-item.is-error .el-input__inner {
+    border: 1px solid #f56c6c!important;
   }
-}
-.sys-main.expenseDetail {
   .cell-disable {
     background-color: #f5f5f5;
     .cell {
       color: #A5A5A5!important;
     }
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"]{
-    -moz-appearance: textfield;
-  }
-  .el-table th {
-    padding: 7px 0;
   }
   .table-select {
     padding: 5px 0;
@@ -1057,19 +1103,8 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       }
     }
   }
-  // .el-table--enable-row-hover .el-table__body tr:hover>td {
-  //   background-color: #fff;
-  // }
   .el-table td {
     padding: 0
-  }
-  .query-table-finance .el-input__inner {
-    height: auto;
-    border-color: transparent;
-    line-height: 30px;
-  }
-  .query-table-finance .el-form-item.is-error .el-input__inner {
-    border:1px solid #f56c6c;
   }
   .table-btn .el-input__inner {
     height:27px;
@@ -1079,8 +1114,74 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .el-table .cell {
     padding: 0;
+    overflow: visible;
   }
+  .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+    padding-left: 0;
+  }
+}
+.el-message-box__btns {
+  .el-button--primary {
+    background-color:#287FCA;
+    border-color:#287FCA
+  }
+}
+.el-autocomplete-suggestion {
+  width: auto!important;
+}
+.el-date-picker {
+  z-index: 4000!important;
+}
+.sys-main.costList {
+  .finaceCode { // 个别输入框标红
+    .el-input__inner {
+      border-color: #F56C6C!important;
+    }
+  }
+}
+.sys-main.billList {
+  .noBreakWord {
+    .cell {
+      word-break: normal!important;
+    }
+  }
+}
+.sys-main.flatList {
+  .sys-table-table .el-table__expanded-cell[class*=cell] {
+    padding: 5px;
+    .el-table-column--selection {
+      text-align: center;
+    }
+    .el-table td, .el-table th {
+      padding: 6px 0;
+    }
+  }
+}
+.sys-main.accountDetail {
+  .el-table th {
+    padding: 7px 0;
+  }
+  .el-textarea__inner:focus {
+    border-color: @line-color-input;
+  }
+}
+.sys-main.expenseDetail {
+  .el-textarea__inner:focus {
+    border-color: @line-color-input;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"]{
+    -moz-appearance: textfield;
+  }
+}
+.sys-main.invoiceDetail,.sys-main.expenseDetail {
   
+  .el-table th {
+    padding: 7px 0;
+  }
 }
 .sys-main.finance {
   .el-table td,
