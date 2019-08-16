@@ -10,7 +10,7 @@
     <div class="decDetail area">
       <div class="title">报关单/订单详情</div>
       <!-- 台账查看时报关单详情区域 -->
-      <div class="content" v-if="optionsType === 'look'">
+      <div class="content" v-if="optionsType === 'look' || optionsType === 'edit'">
         <el-row class="line up">
           <el-col :span="8">
             <div class="one-row">
@@ -31,7 +31,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="down flex-wrap">
+        <el-row class="down flex-wrap" v-if="JSON.stringify(decDetail) !== '{}'">
           <div class="block flex" v-for="(value, key) in decDetail" :key="key">
             <div class="left">{{value.keyName || '-'}}&nbsp;:&nbsp;</div>
             <div class="right">{{value.keyValue || '-'}}</div>
@@ -461,15 +461,16 @@
     </div>
     <div class="submit" v-if="optionsType === 'edit'">
       <el-row style="text-align:center">
-        <el-button size="mini" type="primary" @click="submitBtn">提交</el-button>
+        <el-button size="mini" type="primary" @click="submitBtn('1')">提交</el-button>
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
+        <el-button size="mini" type="primary" v-if="status === 4 || status === 6"  @click="submitBtn('2')">发送审核</el-button>
       </el-row>
     </div>
     <div class="submit" v-if="optionsType === 'add'">
       <el-row style="text-align:center">
         <el-button size="mini" type="primary" @click="sandCheck('1')">提交</el-button>
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
-        <el-button size="mini" v-if="swtichCheck === 'Y' || status === 4" @click="sandCheck('2')">发送审核</el-button>
+        <el-button size="mini" type="primary" v-if="swtichCheck === 'Y'" @click="sandCheck('2')">发送审核</el-button>
       </el-row>
     </div>
   </section>
@@ -828,7 +829,7 @@ export default {
       feeFlag ? this.billReceivableBodyVO.billReceivableBodyVOList.push(obj) : this.billPayableBodyVO.billPayableBodyVOList.push(obj)
     },
     // 提交编辑
-    submitBtn () {
+    submitBtn (flag) {
       // 表单验证
       let pass1 = false
       let pass2 = false
@@ -839,8 +840,9 @@ export default {
         if (!valid) pass2 = true
       })
       if (pass1 || pass2) return
+      let url = flag === '1' ? 'bill/edit' : 'bill/send'
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-finance/bill/edit',
+        url: 'API@/saas-finance/' + url,
         data: {
           expenseBillId: this.$route.query.expenseBillId,
           billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],

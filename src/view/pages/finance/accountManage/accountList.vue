@@ -320,7 +320,7 @@ export default {
         return state.userLoginInfo.userId
       }
     }),
-    optionIds () { // 开票
+    optionIds () { // 必须是对账确认状态,已开票的可以重复开票
       let tempArr = {
         isHas: true,
         data: []
@@ -328,7 +328,7 @@ export default {
       if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
         for (let k in this.accountBillOptionIds) {
           this.accountBillOptionIds[k].forEach(v => {
-            if (v.invoiceStatus === 0) {
+            if (v.reconStatus === 5) {
               tempArr.data.push(v.accountBillOptionId)
             } else {
               tempArr.isHas = false
