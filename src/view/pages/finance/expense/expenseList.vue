@@ -327,7 +327,6 @@ export default {
     },
     // 跳转到编辑或详情页
     goToDeital (type, businessType, iEFlag = '', id = '', status = '') {
-      console.log(businessType)
       this.$router.push({
         name: 'expense-detail',
         query: {

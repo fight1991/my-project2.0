@@ -1,5 +1,5 @@
 <template>
-  <section class='sys-main expenseDetail'>
+  <section class='sys-main expenseDetail' ref="container">
     <div class="topFlag flex" v-if="optionsType === 'look' && decCommon.verifyMsg">
       <img src="@/assets/img/Tips.png" alt="">
       <div class="one-row">
@@ -47,7 +47,7 @@
       </div>
       <!-- 台账新增时表单录入 -->
       <el-row class='query-condition' v-if="optionsType === 'add'">
-        <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right">
+        <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right" @keyup.enter.native="nextInput">
           <el-row :gutter="50">
             <el-col :span="6">
               <el-form-item label="接单编号">
@@ -66,7 +66,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="业务类型">
-                <el-select v-model="addForm.businessType" size="mini" clearable  style="width:100%;">
+                <el-select v-model="addForm.businessType" size="mini" clearable filterable default-first-option style="width:100%;">
                   <el-option key="1" :label="'报关'" :value="1"></el-option>
                   <el-option key="2" :label="'货代'" :value="2"></el-option>
                 </el-select>
@@ -92,7 +92,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="进出口">
-                <el-select v-model="addForm.iEFlag" size="mini" clearable style="width:100%;">
+                <el-select v-model="addForm.iEFlag" size="mini" clearable filterable default-first-option style="width:100%;">
                   <el-option key="0" :label="'进口'" :value="0"></el-option>
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
                   <el-option key="2" :label="'内贸'" :value="2"></el-option>
@@ -104,6 +104,7 @@
                 <el-date-picker
                   style="width:100%"
                   v-model="dates1"
+                  default-value
                   type="date"
                   align="right"
                   unlink-panels
@@ -118,6 +119,7 @@
                   style="width:100%"
                   v-model="dates2"
                   type="date"
+                  default-value
                   align="right"
                   unlink-panels
                   value-format="yyyy-MM-dd"
@@ -146,14 +148,14 @@
         </el-dropdown>
       </el-row>
       <div class='query-table-finance'>
-        <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false">
+        <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false" @keyup.enter.native="nextInput">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
               <template slot-scope="scope">
                 <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
-                  <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
+                  <el-select size="mini" placeholder="请选择费用名称" clearable filterable default-first-option v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
                     <el-option v-for="item in optionsList"
                       :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                     </el-option>
@@ -227,7 +229,7 @@
             <el-table-column prop="rate" width="80" label="税率" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
-                  <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
+                  <el-select size="mini" placeholder="税率" style="width:100%;" filterable default-first-option v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                     <el-option key="0" :label="'0%'" :value="0"></el-option>
                     <el-option key="6" :label="'6%'" :value="6"></el-option>
                     <el-option key="9" :label="'9%'" :value="9"></el-option>
@@ -294,14 +296,14 @@
         </el-dropdown>
       </el-row>
       <div class='query-table-finance'>
-        <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false">
+        <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false" @keyup.enter.native="nextInput">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
               <template slot-scope="scope">
                 <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
-                  <el-select size="mini" placeholder="请选择费用名称" clearable  v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
+                  <el-select size="mini" placeholder="请选择费用名称" clearable filterable default-first-option v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
                     <el-option v-for="item in optionsList"
                       :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
                     </el-option>
@@ -375,7 +377,7 @@
             <el-table-column prop="rate" width="80" label="税率" align="right">
               <template slot-scope="scope">
                 <div class="table-select align-c" v-if="optionsType === 'edit' || optionsType === 'add'">
-                  <el-select size="mini" placeholder="税率" style="width:100%;" v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
+                  <el-select size="mini" placeholder="税率" style="width:100%;" filterable default-first-option v-model="scope.row.rate" @change="computeTaxPrice(scope.row)">
                     <el-option key="0" :label="'0%'" :value="0"></el-option>
                     <el-option key="6" :label="'6%'" :value="6"></el-option>
                     <el-option key="9" :label="'9%'" :value="9"></el-option>
@@ -499,11 +501,11 @@ export default {
       },
       addForm: {
         billNo: '', // 提单号
-        businessType: '', // 业务类型 1报关，2货代
+        businessType: 1, // 业务类型 1报关，2货代
         decNo: '', // 报关单号
         entrustCompanyName: '', // 委托企业名称
         expenseBillId: '',
-        iEFlag: '', // 进出口0进口1出口2内贸
+        iEFlag: 0, // 进出口0进口1出口2内贸
         orderNo: '', // 接单编号
         releaseDay: '', // 放行日
         sailDay: '' // 开航日
@@ -584,8 +586,15 @@ export default {
             picker.$emit('pick', date)
           }
         }]
-      }
+      },
+      allInput: []
     }
+  },
+  mounted () {
+    console.log(this.$refs.container)
+    let inputAll = this.$refs.container.querySelectorAll('input')
+    console.log(inputAll)
+    this.allInput = Array.from(inputAll)
   },
   created () {
     let {type, iEFlag, expenseBillId, innerNo, status, businessType} = this.$route.query
@@ -607,6 +616,18 @@ export default {
   watch: {
     '$route.query.type': function () {
       this.optionsType = this.$route.query.type
+    },
+    'billPayableBodyVO.billPayableBodyVOList.length': function () { // 更新dom节点
+      this.$nextTick(() => {
+        let inputAll = this.$refs.container.querySelectorAll('input')
+        this.allInput = Array.from(inputAll)
+      })
+    },
+    'billReceivableBodyVO.billReceivableBodyVOList.length': function () { // 更新dom节点
+      this.$nextTick(() => {
+        let inputAll = this.$refs.container.querySelectorAll('input')
+        this.allInput = Array.from(inputAll)
+      })
     }
   },
   computed: {
@@ -636,6 +657,16 @@ export default {
     }
   },
   methods: {
+    // 下一个
+    nextInput (e) {
+      console.log(e)
+      let temp = e.target
+      let index = this.allInput.indexOf(temp)
+      if (index > -1 && index < this.allInput.length - 1) {
+        this.allInput[index + 1].focus()
+        this.allInput[index + 1].select()
+      }
+    },
     // 获取台账明细
     getBillDetail (id, No) {
       let params = {}
@@ -877,11 +908,11 @@ export default {
         this.billPayableBodyVO.billPayableBodyVOList = []
         this.addForm = {
           billNo: '',
-          businessType: '',
+          businessType: 1,
           decNo: '',
           entrustCompanyName: '',
           expenseBillId: '',
-          iEFlag: '',
+          iEFlag: 0,
           orderNo: '',
           releaseDay: '',
           sailDay: ''
