@@ -21,6 +21,17 @@ const MENU = {
       }
     },
     {
+      path: '/eImport/dataQuery/summaryDecInfo',
+      name: 'summaryDecInfo',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20205010000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '概要申报数据查询'
+      }
+    },
+    {
       path: '/eImport/dataQuery/taxInfo',
       name: 'taxInfo',
       icon: 'icons-menu-price',
