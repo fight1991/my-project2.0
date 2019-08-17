@@ -26,6 +26,10 @@ export default {
     recordImport: url.DEC + '/declaration/recordList/import/add/new',
     // 出境备案清单（新增）
     recordExport: url.DEC + '/declaration/recordList/export/add/new',
+    // 进口报关单(概要申报)（新增）
+    decSummaryImport: url.DEC + '/declaration/summaryDec/declaration/add/new',
+    // 进口备案清单(概要申报)（新增）
+    recordSummaryImport: url.DEC + '/declaration/summaryDec/recordList/add/new',
     // 进口核注清单（新增）
     importTaxList: url.JINER + '/dec/datainput/I/taxList',
     // 出口核注清单（新增）
@@ -48,6 +52,8 @@ export default {
     taxReviewed: url.JINER + '/taxList/taxListCheckQuery',
     // 报关数据查询
     decInfo: url.DEC + '/declaration/list',
+    // 概要申报数据查询
+    summaryDecInfo: url.DEC + '/declaration/summaryDec/list',
     // 核注清单查询
     taxInfo: url.JINER + '/eImport/dataQuery/taxInfo',
     // 业务跟踪台账

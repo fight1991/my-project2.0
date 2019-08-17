@@ -21,6 +21,10 @@ export default {
       this.url = pathList.eImport['importDecList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     } else if (this.$route.name === 'importRecList') {
       this.url = pathList.eImport['importRecList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'importSummaryDec') {
+      this.url = pathList.eImport['decSummaryImport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    } else if (this.$route.name === 'importSummaryRecord') {
+      this.url = pathList.eImport['recordSummaryImport'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
     }
   }
 }
