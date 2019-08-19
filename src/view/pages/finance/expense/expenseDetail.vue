@@ -10,7 +10,7 @@
     <div class="decDetail area">
       <div class="title">报关单/订单详情</div>
       <!-- 台账查看时报关单详情区域 -->
-      <div class="content" v-if="optionsType === 'look' || optionsType === 'edit'">
+      <div class="content" v-if="optionsType === 'look' || optionsType === 'check' || optionsType === 'edit'">
         <el-row class="line up">
           <el-col :span="8">
             <div class="one-row">
@@ -102,6 +102,8 @@
             <el-col :span="6">
               <el-form-item label="开航日">
                 <el-date-picker
+                  :disabled="addForm.businessType === 1 || !addForm.businessType"
+                  id="dates1"
                   style="width:100%"
                   v-model="dates1"
                   default-value
@@ -116,6 +118,8 @@
             <el-col :span="6">
               <el-form-item label="放行时间">
                 <el-date-picker
+                  :disabled="addForm.businessType === 2 || !addForm.businessType"
+                  id="dates2"
                   style="width:100%"
                   v-model="dates2"
                   type="date"
@@ -449,13 +453,13 @@
         </el-col>
       </el-row>
     </div>
-    <div class="area" v-if="optionsType === 'look'">
+    <div class="area" v-if="optionsType === 'check'">
       <div class="title">审核意见</div>
       <el-row>
         <el-input type="textarea" :rows="4" v-model="verifys" :maxlength="200" show-word-limit></el-input>
       </el-row>
     </div>
-    <div class="submit" v-if="optionsType === 'look'">
+    <div class="submit" v-if="optionsType === 'check'">
       <el-row style="text-align:center">
         <el-button size="mini"  @click="expenseCheck('rejects')">审核驳回</el-button>
         <el-button size="mini" type="primary" class="longButton"  @click="expenseCheck('verifys')">审核通过</el-button>
@@ -607,7 +611,9 @@ export default {
       this.getQuotationsByAdd()
       this.justyIsOpen()
     }
-    type === 'look' && this.getBillDetail(expenseBillId)
+    if (type === 'look' || type === 'check') {
+      this.getBillDetail(expenseBillId)
+    }
     this.optionsType = type
     this.iEFlag = iEFlag
     this.getOptionList()
@@ -626,6 +632,7 @@ export default {
     'billReceivableBodyVO.billReceivableBodyVOList.length': function () { // 更新dom节点
       this.$nextTick(() => {
         let inputAll = this.$refs.container.querySelectorAll('input')
+        console.log(inputAll)
         this.allInput = Array.from(inputAll)
       })
     }
@@ -659,9 +666,10 @@ export default {
   methods: {
     // 下一个
     nextInput (e) {
-      console.log(e)
       let temp = e.target
       let index = this.allInput.indexOf(temp)
+      console.log(index)
+      console.log(this.allInput)
       if (index > -1 && index < this.allInput.length - 1) {
         this.allInput[index + 1].focus()
         this.allInput[index + 1].select()
@@ -1103,6 +1111,7 @@ export default {
         router: this.$router,
         success: ({result}) => {
           let swtichCheck = result['account_manual_audit'].value
+          this.swtichCheck = swtichCheck
           callback && callback(swtichCheck)
         }
       })

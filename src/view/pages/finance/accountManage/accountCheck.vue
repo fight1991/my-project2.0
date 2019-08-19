@@ -431,8 +431,19 @@ export default {
       this.formData.accountBillOptionVOs[index]['billOptionsVOs'].push(obj)
     },
     delItems (index1, index2, id) {
-      this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
-      id && this.accountBillOptionIds.push(id)
+      if (this.formData.accountBillOptionVOs[index1]['billOptionsVOs'] && this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].length === 1) {
+        this.$confirm('请确认是否删除该账单', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
+          id && this.accountBillOptionIds.push(id)
+        }).catch(() => {})
+      } else {
+        this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
+        id && this.accountBillOptionIds.push(id)
+      }
     },
     // 提交编辑
     submitBtn (status) {
