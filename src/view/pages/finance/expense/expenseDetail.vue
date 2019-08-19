@@ -46,7 +46,7 @@
         </el-row>
       </div>
       <!-- 台账新增时表单录入 -->
-      <el-row class='query-condition' v-if="optionsType === 'add'">
+      <el-row class='query-condition addForm' v-if="optionsType === 'add'">
         <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right" @keyup.enter.native="nextInput">
           <el-row :gutter="50">
             <el-col :span="6">
@@ -66,7 +66,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="业务类型">
-                <el-select v-model="addForm.businessType" size="mini" clearable filterable default-first-option style="width:100%;">
+                <el-select v-model="addForm.businessType" size="mini" @change="updateDom" clearable filterable default-first-option style="width:100%;">
                   <el-option key="1" :label="'报关'" :value="1"></el-option>
                   <el-option key="2" :label="'货代'" :value="2"></el-option>
                 </el-select>
@@ -74,6 +74,39 @@
             </el-col>
           </el-row>
           <el-row :gutter="50">
+            <el-col :span="6">
+              <el-form-item label="开航日">
+                <el-date-picker
+                  :disabled="addForm.businessType === 1 || !addForm.businessType"
+                  id="dates1"
+                  style="width:100%"
+                  v-model="dates1"
+                  default-value
+                  type="date"
+                  align="right"
+                  unlink-panels
+                  value-format="yyyy-MM-dd"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="放行时间">
+                <el-date-picker
+                  :disabled="addForm.businessType === 2 || !addForm.businessType"
+                  id="dates2"
+                  ref="dates2"
+                  style="width:100%"
+                  v-model="dates2"
+                  type="date"
+                  default-value
+                  align="right"
+                  unlink-panels
+                  value-format="yyyy-MM-dd"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
             <el-col :span="6">
               <el-form-item label="委托企业" prop="entrustCompanyName">
                 <el-select v-model="addForm.entrustCompanyName" style="width:100%"
@@ -97,38 +130,6 @@
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
                   <el-option key="2" :label="'内贸'" :value="2"></el-option>
                 </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="开航日">
-                <el-date-picker
-                  :disabled="addForm.businessType === 1 || !addForm.businessType"
-                  id="dates1"
-                  style="width:100%"
-                  v-model="dates1"
-                  default-value
-                  type="date"
-                  align="right"
-                  unlink-panels
-                  value-format="yyyy-MM-dd"
-                  :picker-options="pickerOptions">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="放行时间">
-                <el-date-picker
-                  :disabled="addForm.businessType === 2 || !addForm.businessType"
-                  id="dates2"
-                  style="width:100%"
-                  v-model="dates2"
-                  type="date"
-                  default-value
-                  align="right"
-                  unlink-panels
-                  value-format="yyyy-MM-dd"
-                  :picker-options="pickerOptions">
-                </el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -159,11 +160,15 @@
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
               <template slot-scope="scope">
                 <div class="table-select" v-if="optionsType === 'edit' || optionsType === 'add'">
-                  <el-select size="mini" placeholder="请选择费用名称" clearable filterable default-first-option v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
-                    <el-option v-for="item in optionsList"
-                      :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
-                    </el-option>
-                  </el-select>
+                  <el-form-item
+                    :prop="'billReceivableBodyVOList.'+ scope.$index + '.feeOptionName'"
+                    :rules="valid.feeOptionName">
+                    <el-select size="mini" placeholder="请选择费用名称" clearable filterable default-first-option v-model="scope.row.feeOptionName" style="width:100%;" @change="getRate(scope.row)">
+                      <el-option v-for="item in optionsList"
+                        :key="item.feePid" :label="item.feeOptionName" :value="item.feeOptionName">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
                 </div>
                 <div class="cell-div" v-else>{{scope.row.feeOptionName || '-'}}</div>
               </template>
@@ -559,7 +564,8 @@ export default {
       // {pattern: /^\d{1,9}(\.\d{1,3})?$|^$/,validator: priceValid,message:'小数点支持前9位,后3位',trigger:'blur'}
       valid: {
         price: {validator: this.priceValid, message: '小数点支持前9位,后3位', trigger: 'blur'},
-        num: {validator: this.numValid, message: '小数点支持前9位,后3位', trigger: 'blur'}
+        num: {validator: this.numValid, message: '小数点支持前9位,后3位', trigger: 'blur'},
+        feeOptionName: {validator: this.feeOptionValid, message: '费用名称不能为空', trigger: 'change'}
       },
       ruleForm: { // 新建台账表格校验
         entrustCompanyName: [{required: true, message: '请输入委托企业', trigger: 'change'}]
@@ -591,14 +597,14 @@ export default {
           }
         }]
       },
-      allInput: []
+      allInput: [],
+      fixInput: []
     }
   },
   mounted () {
-    console.log(this.$refs.container)
-    let inputAll = this.$refs.container.querySelectorAll('input')
-    console.log(inputAll)
-    this.allInput = Array.from(inputAll)
+    let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
+    this.fixInput = Array.from(addFormInput)
+    this.allInput = [...this.fixInput]
   },
   created () {
     let {type, iEFlag, expenseBillId, innerNo, status, businessType} = this.$route.query
@@ -625,15 +631,14 @@ export default {
     },
     'billPayableBodyVO.billPayableBodyVOList.length': function () { // 更新dom节点
       this.$nextTick(() => {
-        let inputAll = this.$refs.container.querySelectorAll('input')
-        this.allInput = Array.from(inputAll)
+        let payInput = this.$refs.container.querySelectorAll('td:not(.is-hidden) input')
+        this.allInput = [...this.fixInput, ...Array.from(payInput)]
       })
     },
     'billReceivableBodyVO.billReceivableBodyVOList.length': function () { // 更新dom节点
       this.$nextTick(() => {
-        let inputAll = this.$refs.container.querySelectorAll('input')
-        console.log(inputAll)
-        this.allInput = Array.from(inputAll)
+        let reInput = this.$refs.container.querySelectorAll('td:not(.is-hidden) input')
+        this.allInput = [...this.fixInput, ...Array.from(reInput)]
       })
     }
   },
@@ -664,12 +669,16 @@ export default {
     }
   },
   methods: {
+    // 更具业务类型重新选择没有disable的input
+    updateDom () {
+      let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
+      this.fixInput = Array.from(addFormInput)
+      this.allInput = [...this.fixInput]
+    },
     // 下一个
     nextInput (e) {
       let temp = e.target
       let index = this.allInput.indexOf(temp)
-      console.log(index)
-      console.log(this.allInput)
       if (index > -1 && index < this.allInput.length - 1) {
         this.allInput[index + 1].focus()
         this.allInput[index + 1].select()
@@ -711,7 +720,6 @@ export default {
                   }
                 })
                 this.decDetail = tempObj
-                console.log(tempObj)
               }
             } else {
               this.decDetail = {}
@@ -1023,6 +1031,18 @@ export default {
           message: '数量为空或格式输入有误,支持小数点后3位,前9位'
         })
         callback(new Error('数量为空或格式输入有误,支持小数点后3位,前9位'))
+      } else {
+        callback()
+      }
+    },
+    // 校验费用项
+    feeOptionValid (rule, value, callback) {
+      if (value) {
+        this.$message({
+          type: 'error',
+          message: '费用名称不能为空'
+        })
+        callback(new Error('费用名称不能为空'))
       } else {
         callback()
       }
