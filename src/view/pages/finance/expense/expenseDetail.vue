@@ -47,7 +47,7 @@
       </div>
       <!-- 台账新增时表单录入 -->
       <el-row class='query-condition addForm' v-if="optionsType === 'add'">
-        <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right" @keyup.enter.native="nextInput">
+        <el-form label-width="75px" :rules="ruleForm" :model="addForm" ref="addForm" size="mini" label-position="right" @keyup.enter.native="nextInputFocus">
           <el-row :gutter="50">
             <el-col :span="6">
               <el-form-item label="接单编号">
@@ -168,7 +168,7 @@
         </el-dropdown>
       </el-row>
       <div class='query-table-finance'>
-        <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false" @keyup.enter.native="nextInput">
+        <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false" @keyup.enter.native="nextInputFocus">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
@@ -320,7 +320,7 @@
         </el-dropdown>
       </el-row>
       <div class='query-table-finance'>
-        <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false" @keyup.enter.native="nextInput">
+        <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false" @keyup.enter.native="nextInputFocus">
           <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
@@ -697,19 +697,15 @@ export default {
     },
     // 更具业务类型重新选择没有disable的input
     updateDom () {
-      if (this.businessType === 1) {
-        this.dates1 = ''
-      } else {
-        this.dates2 = ''
-      }
+      this.businessType === 1 ? this.dates1 = '' : this.dates2 = ''
       this.$nextTick(() => {
         let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
         this.fixInput = Array.from(addFormInput)
         this.allInput = [...this.fixInput]
       })
     },
-    // 下一个
-    nextInput (e) {
+    // 下一个input聚焦
+    nextInputFocus (e) {
       let temp = e.target
       let index = this.allInput.indexOf(temp)
       if (index > -1 && index < this.allInput.length - 1) {
