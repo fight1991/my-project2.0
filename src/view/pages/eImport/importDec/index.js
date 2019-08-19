@@ -30,6 +30,27 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '进境备案清单'
       }
+    }, {
+      path: '/eImport/importDec/importSummaryDec',
+      name: 'importSummaryDec',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20209010000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '进口报关单(概要申报)'
+      }
+    },
+    {
+      path: '/eImport/importDec/importSummaryRecord',
+      name: 'importSummaryRecord',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20209020000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '进境备案清单(概要申报)'
+      }
     },
     {
       path: '/eImport/importDec/importTaxList',
