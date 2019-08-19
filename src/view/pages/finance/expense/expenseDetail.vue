@@ -88,7 +88,7 @@
                   value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions">
                 </el-date-picker>
-                <div class="hidden-input">
+                <div class="hidden-input" style="width:100%">
                   <el-input
                     :disabled="addForm.businessType === 1 || !addForm.businessType" placeholder=""
                     @clear="removeDate('dates1')"
@@ -112,7 +112,7 @@
                   value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions">
                 </el-date-picker>
-                <div class="hidden-input">
+                <div class="hidden-input" style="width:100%">
                   <el-input
                     :disabled="addForm.businessType === 2 || !addForm.businessType" placeholder=""
                     @clear="removeDate('dates2')"
