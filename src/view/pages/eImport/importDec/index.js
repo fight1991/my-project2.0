@@ -34,7 +34,7 @@ const MENU = {
       path: '/eImport/importDec/importSummaryDec',
       name: 'importSummaryDec',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20209010000',
+      permissions: 'CCBA20209060000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
@@ -45,7 +45,7 @@ const MENU = {
       path: '/eImport/importDec/importSummaryRecord',
       name: 'importSummaryRecord',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20209020000',
+      permissions: 'CCBA20209070000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
