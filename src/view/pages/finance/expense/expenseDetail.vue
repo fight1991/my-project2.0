@@ -1037,7 +1037,7 @@ export default {
     },
     // 校验费用项
     feeOptionValid (rule, value, callback) {
-      if (value) {
+      if (!value) {
         this.$message({
           type: 'error',
           message: '费用名称不能为空'
