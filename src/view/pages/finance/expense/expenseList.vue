@@ -164,7 +164,7 @@
         <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" v-if="scope.row.status === 4 || scope.row.status === 6" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
+              <el-button title="编辑" v-if="scope.row.status === 1 || scope.row.status === 4 || scope.row.status === 6" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
               <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
               <el-button type="text" title="台账审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.status === 2" @click.stop="goToDeital('check', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
