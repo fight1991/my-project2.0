@@ -701,7 +701,8 @@ export default {
       this.$nextTick(() => {
         let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
         this.fixInput = Array.from(addFormInput)
-        this.allInput = [...this.fixInput]
+        this.allInput.splice(0, this.fixInput.length)
+        this.allInput.unshift(...this.fixInput)
       })
     },
     // 下一个input聚焦
