@@ -24,7 +24,7 @@ const MENU = {
       path: '/eImport/dataQuery/summaryDecInfo',
       name: 'summaryDecInfo',
       icon: 'icons-menu-price',
-      permissions: 'CCBA20205010000',
+      permissions: 'CCBA20205040000',
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
