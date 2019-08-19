@@ -75,10 +75,10 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :span="6">
-              <el-form-item label="开航日">
+              <el-form-item label="开航日" class="formDatePicker">
                 <el-date-picker
                   :disabled="addForm.businessType === 1 || !addForm.businessType"
-                  id="dates1"
+                  @blur="switchInput('dates1')"
                   style="width:100%"
                   v-model="dates1"
                   default-value
@@ -88,14 +88,21 @@
                   value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions">
                 </el-date-picker>
+                <div class="hidden-input">
+                  <el-input
+                    :disabled="addForm.businessType === 1 || !addForm.businessType" placeholder=""
+                    @clear="removeDate('dates1')"
+                    prefix-icon="el-icon-date" ref="dates1"
+                    v-model="dates1" clearable>
+                  </el-input>
+                </div>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="放行时间">
+              <el-form-item label="放行时间" class="formDatePicker">
                 <el-date-picker
                   :disabled="addForm.businessType === 2 || !addForm.businessType"
-                  id="dates2"
-                  ref="dates2"
+                  @blur="switchInput('dates2')"
                   style="width:100%"
                   v-model="dates2"
                   type="date"
@@ -105,6 +112,14 @@
                   value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions">
                 </el-date-picker>
+                <div class="hidden-input">
+                  <el-input
+                    :disabled="addForm.businessType === 2 || !addForm.businessType" placeholder=""
+                    @clear="removeDate('dates2')"
+                    prefix-icon="el-icon-date" ref="dates2"
+                    v-model="dates2" clearable>
+                  </el-input>
+                </div>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -669,11 +684,29 @@ export default {
     }
   },
   methods: {
+    // 清空按钮时,清除真正的picker的数据
+    removeDate (date) {
+      this[date] = ''
+    },
+    // picker有值时切换下一个input
+    switchInput (date) {
+      if (this[date]) {
+        this.$refs[date].focus()
+        this.$refs[date].select()
+      }
+    },
     // 更具业务类型重新选择没有disable的input
     updateDom () {
-      let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
-      this.fixInput = Array.from(addFormInput)
-      this.allInput = [...this.fixInput]
+      if (this.businessType === 1) {
+        this.dates1 = ''
+      } else {
+        this.dates2 = ''
+      }
+      this.$nextTick(() => {
+        let addFormInput = this.$refs.container.querySelectorAll('.addForm input:not([disabled=disabled])')
+        this.fixInput = Array.from(addFormInput)
+        this.allInput = [...this.fixInput]
+      })
     },
     // 下一个
     nextInput (e) {
@@ -1182,6 +1215,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .formDatePicker {
+    position: relative;
+    .hidden-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
   .content {
     color: #4c4c4c;
     padding: 0 18px;
