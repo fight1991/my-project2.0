@@ -814,11 +814,11 @@ export default {
             let str = item.codeField + '-' + item.nameField
             return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
           })
-          temp = filterList.slice(0, 30)
+          temp = filterList.slice(0, 40)
         }
       } else {
         if (!util.isEmpty(JSON.parse(localStorage.getItem(params)))) {
-          temp = JSON.parse(localStorage.getItem(params)).slice(0, 30)
+          temp = JSON.parse(localStorage.getItem(params)).slice(0, 40)
         }
       }
       // 添加响应式

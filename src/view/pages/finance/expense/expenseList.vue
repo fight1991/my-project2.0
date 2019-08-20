@@ -340,7 +340,7 @@ export default {
           expenseBillId: id,
           status,
           setTitle: type === 'edit' ? '台账编辑' : type === 'add' ? '台账新增' : '台账详情',
-          setId: 'expense-detail' + id
+          setId: 'expense-detail' + type + id
         }
       })
     },
