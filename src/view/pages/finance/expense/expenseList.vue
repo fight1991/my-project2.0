@@ -439,9 +439,6 @@ export default {
   background-color: #fff;
   padding: 20px;
 }
-.query-btn {
-  padding: 10px 0;
-}
 .table-btn {
   padding-bottom: 15px;
 }
