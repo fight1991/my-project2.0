@@ -330,7 +330,7 @@ export default {
       if (rule.field.endsWith('feeType')) {
         message = '请选择费用名称'
       }
-      if (!value) {
+      if (!value && value !== 0) {
         this.$message({
           type: 'error',
           message: message
