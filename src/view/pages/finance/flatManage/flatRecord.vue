@@ -68,6 +68,9 @@
       <el-table class='sys-table-table' align="left"
         :data="recordTableList" border highlight-current-row height="530px">
         <el-table-column type="index" width="50" label="序号" align="center">
+          <template slot-scope="scope">
+            {{(scope.$index + 1) + (paginationInit.pageIndex - 1) * 10}}
+          </template>
         </el-table-column>
         <el-table-column label="账单企业" min-width="160" prop="settleCompanyName">
         </el-table-column>
