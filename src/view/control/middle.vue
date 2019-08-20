@@ -58,10 +58,6 @@ export default {
   },
   created () {
     this.getCheckPanel()
-    // 如果本地有缓存信息,则根据缓存位置信息来排序
-    if (this.indexSort().length > 0) {
-      // this.$store.state.controlPanelList = this.indexSort()
-    }
   },
   mounted () {
   },
@@ -108,24 +104,15 @@ export default {
       // 位置互换
       newItems.splice(dst, 1, this.dragging)
       newItems.splice(src, 1, item)
-      // 保存位置信息
+      this.storePositionInfo(newItems)
+      this.$store.state.controlPanelList = newItems
+    },
+    // 保存位置信息
+    storePositionInfo (newItems) {
       let indexInfo = newItems.map(v => {
         return v.id
       })
       localStorage.setItem('indexInfo', JSON.stringify(indexInfo))
-      this.$store.state.controlPanelList = newItems
-    },
-    // 根据存储的位置信息排序
-    indexSort () {
-      let arr = []
-      if (localStorage.getItem('indexInfo')) {
-        let indexInfo = JSON.parse(localStorage.getItem('indexInfo'))
-        arr = indexInfo.map(v => {
-          let temp = this.divList.find(item => v === item.id)
-          return temp
-        })
-      }
-      return arr
     },
     // 获取已勾选的看板
     getCheckPanel () {
@@ -138,6 +125,22 @@ export default {
           let list = util.isEmpty(res.result) ? [] : res.result
           let arr = []
           let component = ''
+          let storeIndexInfo
+          if (localStorage.getItem('indexInfo')) {
+            storeIndexInfo = JSON.parse(localStorage.getItem('indexInfo'))
+          }
+          if (storeIndexInfo) {
+            let listCodes = list.map((item) => { return item.itemCode })
+            let mergeCodes = [...new Set(listCodes.concat(storeIndexInfo))]
+            if (mergeCodes.length === storeIndexInfo.length) {
+              arr = storeIndexInfo.map(v => {
+                let temp = this.divList.find(item => v === item.id)
+                return temp
+              })
+              this.$store.commit('getPanel', arr)
+              return
+            }
+          }
           list.map((e) => {
             if (e.itemCode === 'DEC_001') {
               component = boardComponent
@@ -157,6 +160,9 @@ export default {
             })
           })
           this.$store.commit('getPanel', arr)
+          if (storeIndexInfo) {
+            this.storePositionInfo(arr)
+          }
         }
       })
     }
