@@ -24,11 +24,8 @@
           <el-col :span="6">
             <el-form-item label="发票类型">
               <el-select v-model="QueryForm.invoiceType" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
-                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
-                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
-                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
-                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
+                <el-option key="1" :label="'增值税普通发票'" :value="1"></el-option>
+                <el-option key="2" :label="'增值税专用发票'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
