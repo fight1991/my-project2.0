@@ -243,6 +243,9 @@ export default {
         this.getsExpenseList(this.$store.state.pagination)
         this.isCreateBill = true
         this.expenseBillIds = []
+        this.selectedRow = []
+        this.dates1 = []
+        this.dates2 = []
       }
     }
   },
