@@ -1,7 +1,7 @@
 <template>
     <el-container class="ccba-control main" v-loading="$store.state.loading">
       <el-header class="header" height="62px">
-        <top></top>
+        <top @resetMiddleInfo="resetMiddleInfo"></top>
       </el-header>
       <el-container class="middle">
         <el-aside :class="['sidebar',{'sidebar-xs-only' : this.$store.state.menuShow}]" :width="$store.state.collapse ? '64px' : '200px'">
@@ -9,7 +9,7 @@
         </el-aside>
         <el-main class="middle-right">
           <!-- <div class="scroll-hidden"></div> -->
-          <middle></middle>
+          <middle ref="middle"></middle>
         </el-main>
       </el-container>
       <el-footer class="footer-bottom" :height="footHeight+'px'">
@@ -40,6 +40,9 @@ export default {
   methods: {
     pullHeight (value) {
       this.footHeight = value
+    },
+    resetMiddleInfo () {
+      this.$refs.middle.getCheckPanel()
     }
   }
 }

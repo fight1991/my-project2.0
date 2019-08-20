@@ -19,7 +19,7 @@
         <!-- <span class="date"></span> -->
         <!-- <span class="setting"></span> -->
         <el-tooltip content="工作台设置" placement="top">
-          <span class="setting" @click="setPanel(true)"></span>
+          <span class="setting" @click="setPanel"></span>
         </el-tooltip>
       </div>
       <div class="user-info">
@@ -94,13 +94,6 @@
 import config from '../../../config/config'
 import commonPath from '../../../config/commonPath'
 import util from '../../../common/util'
-
-import boardComponent from '../middle/board.vue'
-import reportComponent from '../middle/report.vue'
-import newsComponent from '../middle/news.vue'
-import corpDisplayComponent from '../middle/corpDisplay.vue'
-import taxRuleComponent from '../middle/taxRule.vue'
-
 import defaultImg from '../../../assets/img/icon/CCBA_logo.png'
 import hegsImg from '../../../assets/img/icon/HEGS_logo.png'
 // import eventBus from '../middle/eventBus.js'
@@ -298,7 +291,7 @@ export default {
       window.open(commonPath['CCBA'] + '/index?token=' + encodeURIComponent(window.localStorage.getItem('token')), '_self')
     },
     // 获取已勾选工作台
-    setPanel (flag) {
+    setPanel () {
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/queryUserWorkspaceItem',
         data: {},
@@ -306,33 +299,10 @@ export default {
         isLoad: false,
         success: (res) => {
           let list = util.isEmpty(res.result) ? [] : res.result
-          let arr = []
-          let component = ''
-          list.forEach((e) => {
-            if (e.itemCode === 'DEC_001') {
-              component = boardComponent
-            } else if (e.itemCode === 'REPORT_002') {
-              component = reportComponent
-            } else if (e.itemCode === 'INFO_003') {
-              component = newsComponent
-            } else if (e.itemCode === 'CORP_004') {
-              component = corpDisplayComponent
-            } else if (e.itemCode === 'TAX_005') {
-              component = taxRuleComponent
-            }
-            arr.push({
-              id: e.itemCode,
-              component: component,
-              isShadow: false
-            })
+          this.checkedSet = list.map(e => {
+            return e.itemCode
           })
-          this.$store.commit('getPanel', arr)
-          if (flag) {
-            this.checkedSet = list.map(e => {
-              return e.itemCode
-            })
-            this.setDialogVisible = true
-          }
+          this.setDialogVisible = true
         }
       })
     },
@@ -369,13 +339,6 @@ export default {
           }
         })
       })
-      // if (arr.length < 4) {
-      //   this.$message({
-      //     type: 'error',
-      //     message: '需要设置4个看板'
-      //   })
-      //   return false
-      // }
       this.$store.dispatch('ajax', {
         url: 'API@/login/workspace/setUserWorkspaceItem',
         data: arr,
@@ -387,7 +350,7 @@ export default {
             message: '设置成功'
           })
           this.setDialogVisible = false
-          this.setPanel(false)
+          this.$emit('resetMiddleInfo')
         }
       })
     }
