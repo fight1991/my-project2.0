@@ -1214,10 +1214,14 @@ export default {
 <style lang="less" scoped>
   .formDatePicker {
     position: relative;
+    .el-input {
+      z-index: 10;
+    }
     .hidden-input {
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 2;
     }
   }
   .content {
