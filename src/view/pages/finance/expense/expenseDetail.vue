@@ -489,7 +489,7 @@
       <el-row style="text-align:center">
         <el-button size="mini" type="primary" @click="submitBtn('1')">提交</el-button>
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
-        <el-button size="mini" type="primary" v-if="status === 4 || status === 1 || status === 6 || status === 7"  @click="submitBtn('2')">发送审核</el-button>
+        <el-button size="mini" type="primary" v-if="status === 4 || ((status === 1 || status === 6 || status === 7) && swtichCheck === 'Y')"  @click="submitBtn('2')">发送审核</el-button>
       </el-row>
     </div>
     <div class="submit" v-if="optionsType === 'add'">
