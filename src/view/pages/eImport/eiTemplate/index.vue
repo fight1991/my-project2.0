@@ -12,19 +12,19 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'iTemplate') {
-      this.url = pathList.eImport['decImTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'eTemplate') {
-      this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'templateList') {
-      this.url = pathList.eImport['decTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'shipping') {
-      this.url = pathList.eImport['shipping'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['shipping'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'taxTemplateList') {
-      this.url = pathList.eImport['taxTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['taxTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'tax_I_Template') {
-      this.url = pathList.eImport['tax_I_Template'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['tax_I_Template'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'tax_E_Template') {
-      this.url = pathList.eImport['tax_E_Template'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['tax_E_Template'] + '?sysId=CCBA&tabId=' + this.$route.name
     }
   }
 }

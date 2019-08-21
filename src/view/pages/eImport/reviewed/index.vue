@@ -12,9 +12,9 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'decReviewed') {
-      this.url = pathList.eImport['decReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'taxReviewed') {
-      this.url = pathList.eImport['taxReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['taxReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name
     }
   }
 }
