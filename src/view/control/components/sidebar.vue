@@ -54,7 +54,7 @@ export default {
         }
       })
       // 拿到当前的连接地址 拼上token
-      window.open(`${index}?token=${encodeURIComponent(localStorage.getItem('token'))}`)
+      window.open(`${index}`)
     },
     // 获取左侧应用列表
     getAllApp () {

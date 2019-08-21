@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted () {
-    this.url = pathList.jinerInfo['synDecForm'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.jinerInfo['synDecForm'] + '?sysId=CCBA&tabId=' + this.$route.name
   }
 }
 </script>

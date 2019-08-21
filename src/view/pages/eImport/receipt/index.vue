@@ -33,9 +33,9 @@ export default {
       params += `&tabId=${datas.tabId}`
     }
     if (this.$route.name === 'iReceipt') {
-      this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decImReceipt'] + '?sysId=CCBA' + params
     } else {
-      this.url = pathList.eImport['decExReceipt'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.eImport['decExReceipt'] + '?sysId=CCBA' + params
     }
   }
 }

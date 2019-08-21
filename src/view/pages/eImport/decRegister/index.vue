@@ -27,7 +27,7 @@ export default {
       }
       params += `&tabId=${datas.tabId}`
     }
-    this.url = pathList.eImport['decRegister'] + '?sysId=CCBA' + params + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+    this.url = pathList.eImport['decRegister'] + '?sysId=CCBA' + params
   }
 }
 </script>

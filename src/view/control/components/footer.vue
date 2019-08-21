@@ -71,11 +71,7 @@ export default {
         })
         return
       }
-      if (path.indexOf('?') > -1) {
-        window.open(path + '&token=' + encodeURIComponent(window.localStorage.getItem('token')), '_blank')
-      } else {
-        window.open(path + '?token=' + encodeURIComponent(window.localStorage.getItem('token')), '_blank')
-      }
+      window.open(path)
     }
 
   }

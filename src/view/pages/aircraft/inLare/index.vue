@@ -12,9 +12,9 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'customPort') {
-      this.url = pathList.aircraft['customPort'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.aircraft['customPort'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'materials') {
-      this.url = pathList.aircraft['materials'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.aircraft['materials'] + '?sysId=CCBA&tabId=' + this.$route.name
     }
   }
 }

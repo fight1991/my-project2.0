@@ -169,12 +169,12 @@ export default {
       // 如果状态为0 跳转到进口接单或出口接单,否则跳转到报关单查询
       if (status === '0') {
         if (iEFlag === 'I') {
-          window.open(host + `/eImport/receipt/import?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+          window.open(host + `/eImport/receipt/import?${params}&sysId=${sysId}`, '_blank')
         } else {
-          window.open(host + `/eImport/receipt/export?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+          window.open(host + `/eImport/receipt/export?${params}&sysId=${sysId}`, '_blank')
         }
       } else {
-        window.open(host + `/eImport/dataQuery/decInfo?${params}&token=${encodeURIComponent(window.localStorage.getItem('token'))}&sysId=${sysId}`, '_blank')
+        window.open(host + `/eImport/dataQuery/decInfo?${params}&sysId=${sysId}`, '_blank')
       }
     },
     // 行点击样式
