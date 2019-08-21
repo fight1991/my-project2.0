@@ -143,7 +143,7 @@
                 <el-select v-model="addForm.iEFlag" size="mini" clearable filterable default-first-option style="width:100%;">
                   <el-option key="0" :label="'进口'" :value="0"></el-option>
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
-                  <el-option key="2" :label="'内贸'" :value="2"></el-option>
+                  <el-option v-show="addForm.businessType === 2 || !addForm.businessType" key="2" :label="'内贸'" :value="2"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>

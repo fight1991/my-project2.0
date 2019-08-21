@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="center">
           <template slot-scope="scope">
-            {{scope.row.entrustCompanyName || '-'}}
+            {{scope.row.sailDay || '-'}}
           </template>
         </el-table-column>
       </el-table>
