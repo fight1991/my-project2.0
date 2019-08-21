@@ -66,7 +66,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="业务类型">
-                <el-select v-model="addForm.businessType" size="mini" @change="updateDom" clearable filterable default-first-option style="width:100%;">
+                <el-select v-model="addForm.businessType" size="mini" @change="updateDom" filterable default-first-option style="width:100%;">
                   <el-option key="1" :label="'报关'" :value="1"></el-option>
                   <el-option key="2" :label="'货代'" :value="2"></el-option>
                 </el-select>
@@ -140,7 +140,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="进出口">
-                <el-select v-model="addForm.iEFlag" size="mini" clearable filterable default-first-option style="width:100%;">
+                <el-select v-model="addForm.iEFlag" size="mini" filterable default-first-option style="width:100%;">
                   <el-option key="0" :label="'进口'" :value="0"></el-option>
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
                   <el-option v-show="addForm.businessType === 2 || !addForm.businessType" key="2" :label="'内贸'" :value="2"></el-option>
