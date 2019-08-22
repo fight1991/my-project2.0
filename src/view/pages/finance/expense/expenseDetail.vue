@@ -1311,6 +1311,7 @@ export default {
   }
   .title {
     padding-bottom: 18px;
+    font-size: 16px;
   }
   .line {
     padding-bottom: 18px;
