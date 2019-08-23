@@ -47,7 +47,7 @@
             </el-dropdown>
           </el-row>
           <div class='query-table-finance'>
-            <el-table class='sys-table-table' row-key="expenseBillId" :cell-class-name="getCellStyle" align="left" :data="item1.billOptionsVOs" border>
+            <el-table class='sys-table-table borderRightDeep' row-key="expenseBillId" :cell-class-name="getCellStyle" align="left" :data="item1.billOptionsVOs" border>
               <el-table-column type="index" label="序号" width="50" align="center">
               </el-table-column>
               <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -719,7 +719,7 @@ export default {
   }
   .cell-div {
     padding: 5px 12px;
-    line-height: 30px;
+    line-height: 18px;
   }
   .cell-div.last-column {
     position: relative;

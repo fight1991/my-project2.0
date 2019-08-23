@@ -59,7 +59,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form :show-message="false" :model="invoiceOptionData" ref="invoiceOptionData">
-          <el-table class='sys-table-table' :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="invoiceOptionData.invoiceOptionTableList" border>
+          <el-table :class="{'sys-table-table': true, 'borderRightDeep': optionsType==='edit'}" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="invoiceOptionData.invoiceOptionTableList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeType" label="费用分类" min-width="80" align="center">
@@ -434,7 +434,7 @@ export default {
   }
   .cell-div {
     padding: 5px 12px;
-    line-height: 30px;
+    line-height: 18px;
   }
   .table-btn {
     padding-left: 4px;

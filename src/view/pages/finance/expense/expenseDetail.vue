@@ -169,7 +169,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="receiveTableForm" :model="billReceivableBodyVO" :show-message="false" @keyup.enter.native="nextInputFocus">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
+          <el-table :class="{'sys-table-table': true, 'borderRightDeep': optionsType==='edit' || optionsType==='add'}" row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billReceivableBodyVO.billReceivableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -321,7 +321,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form ref="payTableForm" :model="billPayableBodyVO" :show-message="false" @keyup.enter.native="nextInputFocus">
-          <el-table class='sys-table-table' row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
+          <el-table :class="{'sys-table-table': true, 'borderRightDeep': optionsType==='edit' || optionsType==='add'}" row-key="expenseBillOptionId" :cell-class-name="((optionsType==='edit' || optionsType==='add') && getCellStyle) || ''" align="left" :data="billPayableBodyVO.billPayableBodyVOList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -1346,7 +1346,7 @@ export default {
   }
   .cell-div {
     padding: 5px 12px;
-    line-height: 30px;
+    line-height: 18px;
   }
   .cell-div.last-column {
     position: relative;
