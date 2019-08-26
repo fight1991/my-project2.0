@@ -32,6 +32,16 @@ export default {
       }
       store.commit('RemoveTab', state.tabsList[index])
     },
+    SetTabTitle (state, data) {
+      console.log(state)
+
+      for (let x in state.tabsList) {
+        if ((state.tabsList[x].path === data.id || state.tabsList[x].tabId === data.id) && !state.tabsList[x].isDel) {
+          state.tabsList[x].title = data.title
+          break
+        }
+      }
+    },
     // 从 tab 列表 移除 tab
     RemoveTab (state, data) {
       let firstIndex = 0

@@ -2,23 +2,57 @@
   <section class='sys-main'>
      <!-- 头部 -->
       <el-row class = "query-condition">
-        <el-form label-width="0px" :model="queryForm" size="mini" label-position="right">
+        <el-form :label-width="labelFormWidth.seven" :model="queryForm" size="mini" label-position="right">
       <!-- 查询条件 -->
           <el-row :gutter="50">
             <el-col :span="6" :xs="12">
-              <el-form-item class="form-item-mg0">
+              <el-form-item class="form-item-mg0" label="委托企业">
                 <el-autocomplete
                   size='mini' style="width:100%"
-                  placeholder="请输入委托企业(输入2个字后搜索)"
                   :maxlength="20" clearable
-                  v-model="queryForm.keywords"
+                  v-model="queryForm.tradeName"
                   :fetch-suggestions="querySearch"
                   :trigger-on-focus="false">
                 </el-autocomplete>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :xs="12">
-              <el-form-item :label-width="labelFormWidth.seven" label="报关单创建日期" class="form-item-mg0">
+            <el-col :span="6" :xs="12">
+              <el-form-item class="form-item-mg0" label="报关单系统编号">
+                <el-input v-model="queryForm.decPid" clearable :maxlength="50"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6" :xs="12">
+              <el-form-item class="form-item-mg0" label="接单编号">
+                <el-input v-model="queryForm.bossId" clearable :maxlength="50"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6" :xs="12">
+              <el-form-item class="form-item-mg0" label="报关单号">
+                <el-input v-model="queryForm.entryId" clearable :maxlength="50"></el-input>
+              </el-form-item>
+            </el-col>
+            </el-row>
+            <el-row style="margin-top:27px" :gutter="50">
+            <el-col :span="6" :xs="12">
+              <el-form-item class="form-item-mg0" label="提单号">
+                <el-input v-model="queryForm.billNo" clearable :maxlength="50"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6" :xs="12">
+              <el-form-item label="系统状态" class="form-item-mg0">
+                <el-select v-model="queryForm.status" style="display: unset"  clearable>
+                  <el-option
+                    v-for="item in sysstatus"
+                    :key="item.codeField"
+                    :label="item.nameField"
+                    :value="item.codeField"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6" :xs="12">
+              <el-form-item :label-width="labelFormWidth.seven" label="创建日期" class="form-item-mg0">
                 <el-date-picker size="mini"  style="width:100%;"
                   v-model="dates"
                   type="daterange"
@@ -29,11 +63,11 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :xs="12">
+            </el-row>
+            <el-row style="text-align:center;margin-top:27px;" >
               <el-button size="mini" type="primary" @click="search()">查询</el-button>
               <el-button size="mini" @click="reset">重置</el-button>
-            </el-col>
-          </el-row>
+            </el-row>
        <!-- 查询条件 end-->
         </el-form>
       </el-row>
@@ -44,39 +78,76 @@
         <el-table class='sys-table-table' height="548px"
           border highlight-current-row size="mini"
           :data="resultList">
-          <el-table-column label="委托企业" min-width="100">
+          <el-table-column label="委托企业" min-width="150">
             <template slot-scope="scope">
               <div class='sys-td-l'>
-                {{scope.row.ownerName || '-'}}
+                {{scope.row.tradeName || '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="累计业务票数" min-width="50">
+          <el-table-column label="报关单系统编号" min-width="80">
             <template slot-scope="scope">
-              <div class='sys-td-r'>
-                {{scope.row.decCount+'' || '-'}}
+              <div class='sys-td-c'>
+                {{scope.row.decPid || '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="累计上传单证" min-width="50">
+          <el-table-column label="接单编号" min-width="100">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.bossId || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="统一编号" min-width="110">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.seqNo || '-'}}
+                </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="报关单号" min-width="110">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.entryId || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="提单号" min-width="100">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.billNo || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="业务状态" min-width="100">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.statusValue || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="创建日期" min-width="100">
+            <template slot-scope="scope">
+              <div class='sys-td-c'>
+                {{scope.row.createTime || '-'}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="上传单证数" min-width="60">
             <template slot-scope="scope">
               <div class='sys-td-r'>
                 {{scope.row.edocCount+'' || '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="报关单创建时间" min-width="50">
+          <el-table-column label="操作" width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>
-                {{scope.row.updateTime | date() || '-'}}
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="100">
-            <template slot-scope="scope">
-              <div class='sys-td-c'>
-                <el-button type="text" class="table-icon list-icon-look" @click="toChild(scope.row)" title="查看"><i></i></el-button>
-              </div>
+                <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,scope.row.tradeCoScc)" title="查看"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,scope.row.tradeCoScc)" title="编辑"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-import" @click="upload(scope.row.decPid,scope.row.tradeCoScc)" title="导入"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-export" v-if="scope.row.edocCount >0" @click="exportdec(scope.row.decPid)" title="导出"><i></i></el-button></div>
             </template>
           </el-table-column>
         </el-table>
@@ -92,14 +163,16 @@
 
 <script>
 import util from '../../../../common/util'
+import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
       queryForm: {
-        keywords: '',
+        tradeName: '',
         updateTimeStart: '',
         updateTimeEnd: ''
       },
+      sysstatus: [{nameField: '报关单预录入', codeField: '2'}, {nameField: '待审核', codeField: '3'}, {nameField: '待复核', codeField: 'R'}, {nameField: '审核通过', codeField: '6'}, {nameField: '审核驳回', codeField: '4'}],
       corpListOptions: [], // 委托企业
       dates: ['', ''],
       resultList: []
@@ -125,6 +198,36 @@ export default {
     search () {
       this.queryList(this.$store.state.pagination)
     },
+    // 跳转到详情页面
+    toDetail (decPid, ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/detailJobs',
+        query: {
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
+        }
+      })
+    },
+    // 跳转到编辑页面
+    toEdit (decPid, ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/editJobs',
+        query: {
+          decPid: decPid,
+          ownerCodeScc: ownerCodeScc
+        }
+      })
+    },
+    // 导入
+    upload (decPid, ownerCodeScc) {
+      this.$router.push({
+        path: '/dataCenter/jobsLicense/importLicense',
+        query: {
+          ownerCodeScc: ownerCodeScc,
+          decPid: decPid
+        }
+      })
+    },
     // 列表
     queryList (pagination) {
       if (this.dates === '' || this.dates === null) {
@@ -136,7 +239,7 @@ export default {
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/business/queryOwnerList',
+        url: 'API@/saas-document-center/business/getDecInfos',
         data: {
           ...this.queryForm,
           page: pagination
@@ -149,11 +252,49 @@ export default {
         }
       })
     },
+    // 导出
+    exportdec (val) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-document-center/business/exportDocZip',
+        data: {decPid: val},
+        router: this.$router,
+        success: (res) => {
+          if (res.success === 'false') {
+            this.$message({
+              message: '没有可导出的数据',
+              type: 'warning'
+            })
+          } else {
+            window.open(res.result)
+          }
+        }
+      })
+    },
+    // 获取公共字典list
+    getCommonParams () {
+      let par = ['SAAS_DATA_STATUS_CODE']
+      let tableNames = commonParam.isRequire(par)
+      if (tableNames.length > 0) {
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-dictionary/dictionary/getParam',
+          data: {
+            'tableNames': tableNames
+          },
+          router: this.$router,
+          success: (res) => {
+            commonParam.saveParams(res.result)
+            this.sysstatus = JSON.parse(window.localStorage.getItem('SAAS_DATA_STATUS_CODE'))
+          }
+        })
+      } else {
+        this.sysstatus = JSON.parse(window.localStorage.getItem('SAAS_DATA_STATUS_CODE'))
+      }
+    },
     // 重置
     reset () {
       this.dates = ['', '']
       this.queryForm = {
-        keywords: '',
+        tradeName: '',
         updateTimeStart: '',
         updateTimeEnd: ''
       }
@@ -176,7 +317,7 @@ export default {
     },
     // 输入2个字后搜索
     querySearch (queryString, cb) {
-      if (this.queryForm.keywords.length < 2) {
+      if (this.queryForm.tradeName.length < 2) {
         return
       }
       let restaurants = this.corpListOptions
@@ -264,23 +405,5 @@ export default {
     cursor: pointer;
     text-decoration: none;
     color: #333333;
-  }
-  .el-select-dropdown__item.selected {
-        background: #0080ff;
-        color: #ffffff;
-    }
-  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
-      background: #dbed8a;
-      font-weight: bold;
-  }
-  .el-select-dropdown__item {
-      font-size: 12px;
-      padding: 0 15px;
-      height: 22px;
-      line-height: 22px;
-      border: #c0c0c0 solid 1px;
-  }
-  .el-select-dropdown__list {
-      padding: 0;
   }
 </style>

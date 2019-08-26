@@ -344,7 +344,7 @@ export default {
     toDetail () {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
-        path: '/dataCenter/license/detailListLicense',
+        path: '/dataCenter/license',
         query: {
           sccCode: this.subData.info.ownerCodeScc,
           corpName: encodeURIComponent(this.subData.info.corpName)

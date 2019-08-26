@@ -244,7 +244,7 @@ export default {
     toDetail (ownerCodeScc) {
       this.$store.commit('CloseTab', this.$route.name)
       this.$router.push({
-        path: '/dataCenter/jobsLicense/jobDetailList',
+        path: '/dataCenter/jobsLicense',
         query: {
           ownerCodeScc: ownerCodeScc
         }

@@ -497,7 +497,7 @@ export default {
               })
               this.$store.commit('CloseTab', this.$route.name)
               this.$router.push({
-                path: '/dataCenter/license/detailListLicense',
+                path: '/dataCenter/license',
                 query: {
                   sccCode: this.addForm.ownerCodeScc,
                   corpName: encodeURIComponent(this.addForm.corpName)

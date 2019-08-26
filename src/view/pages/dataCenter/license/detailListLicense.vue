@@ -67,7 +67,7 @@
                   <el-table class='sys-table-table' :data="scope.row.licenseInfos">
                     <el-table-column label="上传时间" min-width="200">
                       <template slot-scope="scope">
-                        <div class='sys-td-c'>{{scope.row.updateTime | date() || '-'}}</div>
+                        <div class='sys-td-c'>{{scope.row.updateTime || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="许可证号" min-width="200">

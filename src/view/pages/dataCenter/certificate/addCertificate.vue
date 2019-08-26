@@ -386,7 +386,7 @@ export default {
             })
             this.$store.commit('CloseTab', this.$route.name)
             this.$router.push({
-              path: '/dataCenter/certificate/detailListCertificate',
+              path: '/dataCenter/certificate',
               query: {
                 sccCode: this.addForm.ownerCodeScc,
                 corpName: encodeURIComponent(this.addForm.corpName)

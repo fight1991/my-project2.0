@@ -1,6 +1,6 @@
 <template>
   <section class='sys-main'>
-    <el-row class = "query-condition" v-if="isNull">
+    <el-row class = "sys-header" v-if="isNull">
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData">
           <el-row :gutter="20">
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
@@ -36,7 +36,7 @@
                     <el-row :gutter="30">
                       <el-col :span="12">
                         <el-form-item label="上传时间：" class="type-height">
-                          {{ item.updateTime | date() || '-' }}
+                          {{ item.updateTime  || '-' }}
                         </el-form-item>
                       </el-col>
                       <el-col :span="12">
