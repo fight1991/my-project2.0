@@ -126,7 +126,7 @@ export default {
       }
     },
     goToControl () {
-      let url = pathList.WWWCCBA + '?token=' + encodeURIComponent(localStorage.getItem('token'))
+      let url = pathList.WWWCCBA
       window.open(url, '_blank')
     },
     logIn (type) {

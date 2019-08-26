@@ -47,7 +47,7 @@
             </el-dropdown>
           </el-row>
           <div class='query-table-finance'>
-            <el-table class='sys-table-table' row-key="expenseBillId" :cell-class-name="getCellStyle" align="left" :data="item1.billOptionsVOs" border>
+            <el-table class='sys-table-table borderRightDeep' row-key="expenseBillId" :cell-class-name="getCellStyle" align="left" :data="item1.billOptionsVOs" border>
               <el-table-column type="index" label="序号" width="50" align="center">
               </el-table-column>
               <el-table-column prop="feeOptionName" label="费用名称" min-width="120">
@@ -431,8 +431,19 @@ export default {
       this.formData.accountBillOptionVOs[index]['billOptionsVOs'].push(obj)
     },
     delItems (index1, index2, id) {
-      this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
-      id && this.accountBillOptionIds.push(id)
+      if (this.formData.accountBillOptionVOs[index1]['billOptionsVOs'] && this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].length === 1) {
+        this.$confirm('请确认是否删除该账单', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
+          id && this.accountBillOptionIds.push(id)
+        }).catch(() => {})
+      } else {
+        this.formData.accountBillOptionVOs[index1]['billOptionsVOs'].splice(index2, 1)
+        id && this.accountBillOptionIds.push(id)
+      }
     },
     // 提交编辑
     submitBtn (status) {
@@ -708,7 +719,7 @@ export default {
   }
   .cell-div {
     padding: 5px 12px;
-    line-height: 30px;
+    line-height: 18px;
   }
   .cell-div.last-column {
     position: relative;

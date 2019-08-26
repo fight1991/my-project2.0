@@ -24,11 +24,8 @@
           <el-col :span="6">
             <el-form-item label="发票类型">
               <el-select v-model="QueryForm.invoiceType" size="mini" clearable style="width:100%;">
-                <el-option key="0" :label="'待审核'" :value="'1'"></el-option>
-                <el-option key="6" :label="'审核退回'" :value="'2'"></el-option>
-                <el-option key="9" :label="'待对账'" :value="'3'"></el-option>
-                <el-option key="13" :label="'对账驳回'" :value="'4'"></el-option>
-                <el-option key="14" :label="'对账确认'" :value="'5'"></el-option>
+                <el-option key="1" :label="'增值税普通发票'" :value="1"></el-option>
+                <el-option key="2" :label="'增值税专用发票'" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -78,7 +75,7 @@
           type="selection"
           width="40">
         </el-table-column>
-        <el-table-column label="发票号" min-width="180" prop="invoiceNumVO" align="left">
+        <el-table-column label="发票号" width="210" prop="invoiceNumVO" align="left">
           <template slot-scope="scope">
             <div class="invoiceNumVO">
               <span class="invoiceNumAgency" v-for="(item, index) in scope.row.invoiceNumVO.invoiceNumAgency" :key="'item'+index">{{item}}</span>
@@ -86,12 +83,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="发票企业" min-width="100" prop="settleCompanyNames" align="left">
+        <el-table-column label="发票企业" show-overflow-tooltip min-width="100" prop="settleCompanyNames" align="left">
           <template slot-scope="scope">
             {{scope.row.settleCompanyNames || '-'}}
           </template>
         </el-table-column>
-        <el-table-column label="委托企业" min-width="100" prop="entrustCompanyNames" align="left">
+        <el-table-column label="委托企业" show-overflow-tooltip min-width="100" prop="entrustCompanyNames" align="left">
           <template slot-scope="scope">
             {{scope.row.entrustCompanyNames || '-'}}
           </template>
@@ -439,19 +436,17 @@ export default {
   padding-bottom: 15px;
 }
 .invoiceNumVO {
+  width: 100%;
+  font-weight: bold;
   .invoiceNumAgency {
-    background-color: #54b047;
-    color: #fff;
-    margin: 0 5px;
-    padding: 0 4px;
-    border-radius: 4px;
+    float: left;
+    color: #54b047;
+    margin: 0 3px;
   }
   .invoiceNumTransport {
-    background-color: #f8a227;
-    color: #fff;
-    margin: 0 5px;
-    padding: 0 4px;
-    border-radius: 4px;
+    float: left;
+    color: #f8a227;
+    margin: 0 3px;
   }
 }
 </style>

@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column label="开航/放行日" min-width="100" prop="sailDay" align="center">
           <template slot-scope="scope">
-            {{scope.row.entrustCompanyName || '-'}}
+            {{scope.row.sailDay || '-'}}
           </template>
         </el-table-column>
       </el-table>
@@ -59,7 +59,7 @@
       </el-row>
       <div class='query-table-finance'>
         <el-form :show-message="false" :model="invoiceOptionData" ref="invoiceOptionData">
-          <el-table class='sys-table-table' :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="invoiceOptionData.invoiceOptionTableList" border>
+          <el-table :class="{'sys-table-table': true, 'borderRightDeep': optionsType==='edit'}" :cell-class-name="(optionsType==='edit' && getCellStyle) || ''" align="left" :data="invoiceOptionData.invoiceOptionTableList" border>
             <el-table-column type="index" label="序号" width="50" align="center">
             </el-table-column>
             <el-table-column prop="feeType" label="费用分类" min-width="80" align="center">
@@ -259,7 +259,7 @@ export default {
         }
       })
       if (sum < 100000) {
-        this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
+        this.invoiceOptionData.invoiceOptionTableList = [{...this.invoiceTemplate}]
         return
       }
       let maxLength = Math.floor(sum / 1.13 / base)
@@ -330,7 +330,7 @@ export default {
       if (rule.field.endsWith('feeType')) {
         message = '请选择费用名称'
       }
-      if (!value) {
+      if (!value && value !== 0) {
         this.$message({
           type: 'error',
           message: message
@@ -393,7 +393,7 @@ export default {
     // 取消
     cancelEdit () {
       this.$refs['invoiceOptionData'].clearValidate()
-      this.invoiceOptionData.invoiceOptionTableList = [this.invoiceTemplate]
+      this.invoiceOptionData.invoiceOptionTableList = [{...this.invoiceTemplate}]
     },
     // 获取单元格样式
     getCellStyle ({row, column, rowIndex, columnIndex}) {
@@ -434,7 +434,7 @@ export default {
   }
   .cell-div {
     padding: 5px 12px;
-    line-height: 30px;
+    line-height: 18px;
   }
   .table-btn {
     padding-left: 4px;

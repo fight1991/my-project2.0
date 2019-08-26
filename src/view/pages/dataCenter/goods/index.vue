@@ -12,9 +12,9 @@ export default {
   },
   mounted () {
     if (this.$route.name === 'noBonded') {
-      this.url = pathList.dataCenter['noBonded'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.dataCenter['noBonded'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else {
-      this.url = pathList.dataCenter['bonded'] + '?sysId=CCBA&tabId=' + this.$route.name + '&token=' + encodeURIComponent(window.localStorage.getItem('token'))
+      this.url = pathList.dataCenter['bonded'] + '?sysId=CCBA&tabId=' + this.$route.name
     }
   }
 }

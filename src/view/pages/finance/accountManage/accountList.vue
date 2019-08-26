@@ -320,7 +320,7 @@ export default {
         return state.userLoginInfo.userId
       }
     }),
-    optionIds () { // 开票
+    optionIds () { // 必须是对账确认状态,已开票的可以重复开票
       let tempArr = {
         isHas: true,
         data: []
@@ -328,7 +328,7 @@ export default {
       if (this.accountBillOptionIds && JSON.stringify(this.accountBillOptionIds !== '{}')) {
         for (let k in this.accountBillOptionIds) {
           this.accountBillOptionIds[k].forEach(v => {
-            if (v.invoiceStatus === 0) {
+            if (v.reconStatus === 5) {
               tempArr.data.push(v.accountBillOptionId)
             } else {
               tempArr.isHas = false
@@ -341,14 +341,20 @@ export default {
     accountBillIds () { // 导出对账单
       return this.accountBillIdSelect.map(v => v.accountBillId)
     },
-    accountBillIdsStatus () { // 批量审核驳回
-      return this.accountBillIdSelect.filter(v => v.reconStatus === 1)
+    accountBillIdsStatus () { // 待审核状态下批量审核驳回
+      let flag = this.accountBillIdSelect.every(v => v.reconStatus === 1)
+      if (flag) {
+        return this.accountBillIdSelect.map(v => v.accountBillId)
+      }
+      return []
     }
   },
   watch: {
     '$route': function (to, from) {
       if (to.name === 'accountManage-list' && to.query.from === 'other' && (from.name === 'billManage-invoiceDetail' || from.name === 'accountManage-detail' || from.name === 'accountManage-check')) {
         this.getAccountList(this.$store.state.pagination)
+        this.accountBillIdSelect = []
+        this.accountBillOptionIds = {}
       }
     }
   },
@@ -488,10 +494,10 @@ export default {
     },
     // 批量审核驳回/确认
     accountCheck (type, verifyMsg = '') {
-      if (this.accountBillIds.length === 0) {
+      if (this.accountBillIdsStatus.length === 0) {
         this.$message({
           type: 'warning',
-          message: '请选择一条或多条对账单'
+          message: '请选择一条或多条待审核对账单'
         })
         return
       }
@@ -499,7 +505,7 @@ export default {
       this.$store.dispatch('ajax', {
         url: `API@saas-finance/${url}`,
         data: {
-          accountBillIds: this.accountBillIds,
+          accountBillIds: this.accountBillIdsStatus,
           verifyMsg
         },
         router: this.$router,
@@ -508,7 +514,7 @@ export default {
             type: 'success',
             message: type === 'rejects' ? '批量驳回成功' : '批量审核成功'
           })
-          this.accountBillOptionIds = {}
+          this.accountBillIdSelect = []
           this.getAccountList(this.$store.state.pagination)
         }
       })

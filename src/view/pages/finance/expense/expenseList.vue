@@ -164,9 +164,10 @@
         <el-table-column label="操作" fixed="right" min-width="130" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
-              <el-button title="编辑" v-if="scope.row.status === 4" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
-              <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
+              <el-button title="编辑" v-if="scope.row.status === 7 || scope.row.status === 1 || (scope.row.status === 4 && currentUser === scope.row.createUserId)  || scope.row.status === 6" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
+              <el-button title="查看" type="text" class="table-icon list-icon-look" @click.stop="goToDeital('look', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
+              <el-button type="text" title="台账审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.status === 2" @click.stop="goToDeital('check', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -182,6 +183,7 @@
 
 <script>
 import util from '@/common/util'
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -240,9 +242,19 @@ export default {
     '$route': function (to, from) {
       if (to.name === 'expense-list' && to.query.from === 'other' && from.name === 'expense-detail') {
         this.getsExpenseList(this.$store.state.pagination)
+        this.isCreateBill = true
+        this.expenseBillIds = []
+        this.selectedRow = []
+        this.dates1 = []
+        this.dates2 = []
       }
     }
   },
+  computed: mapState({
+    currentUser (state) {
+      return state.userLoginInfo.userId
+    }
+  }),
   created () {
     this.justyIsOpen()
     this.paginationInit = this.$store.state.pagination
@@ -324,17 +336,17 @@ export default {
       this.dates2 = []
     },
     // 跳转到编辑或详情页
-    goToDeital (type, iEFlag = '', id = '', status = '', businessType) {
+    goToDeital (type, businessType, iEFlag = '', id = '', status = '') {
       this.$router.push({
         name: 'expense-detail',
         query: {
           type,
-          iEFlag,
           businessType,
+          iEFlag,
           expenseBillId: id,
           status,
           setTitle: type === 'edit' ? '台账编辑' : type === 'add' ? '台账新增' : '台账详情',
-          setId: 'expense-detail' + id
+          setId: 'expense-detail' + type + id
         }
       })
     },
@@ -435,9 +447,6 @@ export default {
 .query-condition {
   background-color: #fff;
   padding: 20px;
-}
-.query-btn {
-  padding: 10px 0;
 }
 .table-btn {
   padding-bottom: 15px;
