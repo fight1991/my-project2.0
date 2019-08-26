@@ -627,6 +627,7 @@ export default {
     if (type === 'edit') {
       expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
       this.status = status
+      this.justyIsOpen()
     }
     if (type === 'add') {
       this.getQuotationsByAdd()
