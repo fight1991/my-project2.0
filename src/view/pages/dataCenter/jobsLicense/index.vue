@@ -134,7 +134,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="上传单证数" min-width="60">
+          <el-table-column label="上传单据数" min-width="60">
             <template slot-scope="scope">
               <div class='sys-td-r'>
                 {{scope.row.edocCount+'' || '-'}}
