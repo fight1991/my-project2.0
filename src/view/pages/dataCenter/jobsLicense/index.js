@@ -6,7 +6,7 @@ const MENU = [
     icon: 'icons-menu-jobsLicense',
     permissions: 'CCBA20303000000',
     meta: {
-      title: '业务单证管理',
+      title: '业务单据管理',
       component: resolve => require(['./index.vue'], resolve)
     }
   },
@@ -16,7 +16,7 @@ const MENU = [
     hidden: true,
     meta: {
       component: resolve => require(['./jobDetailList.vue'], resolve),
-      title: '业务单证详情列表'
+      title: '业务单据详情列表'
     }
   },
   {
@@ -25,7 +25,7 @@ const MENU = [
     hidden: true,
     meta: {
       component: resolve => require(['./detailJobs.vue'], resolve),
-      title: '业务单证详情'
+      title: '业务单据详情'
     }
   },
 
@@ -35,7 +35,7 @@ const MENU = [
     hidden: true,
     meta: {
       component: resolve => require(['./editJobs.vue'], resolve),
-      title: '编辑业务单证'
+      title: '编辑业务单据'
     }
   },
   {
@@ -44,7 +44,7 @@ const MENU = [
     hidden: true,
     meta: {
       component: resolve => require(['./importLicense.vue'], resolve),
-      title: '导入业务单证'
+      title: '导入业务单据'
     }
   }
 ]
