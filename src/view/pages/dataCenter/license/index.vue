@@ -39,6 +39,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
+            <el-form-item class="form-item-mg0" label="监管证件代码">
+              <el-input v-model="queryForm.licenseNo" clearable ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" :xs="12">
             <el-form-item class="form-item-mg0" label="许可证号">
               <el-input v-model="queryForm.licenseNo" clearable :maxlength="20"></el-input>
             </el-form-item>
@@ -88,7 +93,7 @@
         <el-row style="margin-bottom: 8px;">
         <el-button  size="mini" @click="delect"  class="list-btns list-icon-delete"><i></i>删除</el-button>
         </el-row>
-        <el-table class='sys-table-table'  height="498px" ref="licenseTable"
+        <el-table class='sys-table-table'  height="398px" ref="licenseTable"
           border highlight-current-row size="mini" @select="selectionChange" @row-click='rowClickDecList'
           :data="resultList">
           <el-table-column  type="selection" min-width="50"></el-table-column>

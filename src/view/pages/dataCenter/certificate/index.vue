@@ -89,7 +89,7 @@
         <el-row style="margin-bottom: 8px;">
         <el-button  size="mini" @click="delect"  class="list-btns list-icon-delete" :disabled="!checkifmy()"><i></i>删除</el-button>
         </el-row>
-        <el-table class='sys-table-table' height="498px"
+        <el-table class='sys-table-table' height="398px"
           border highlight-current-row size="mini" ref="certTable"
           @select="selectionChange" @row-click='rowClickDecList'
           :data="resultList">
@@ -467,6 +467,7 @@ export default {
     // 重置
     reset () {
       this.dates = ['', '']
+      this.expiryDate = ['', '']
       this.queryForm = {
         serviceName: '',
         startTime: '',

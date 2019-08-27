@@ -27,12 +27,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" :xs="12">
-              <el-form-item class="form-item-mg0" label="报关单号">
-                <el-input v-model="queryForm.entryId" clearable :maxlength="50"></el-input>
+              <el-form-item class="form-item-mg0" label="统一编号">
+                <el-input v-model="queryForm.seqNo" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
             <el-row style="margin-top:27px" :gutter="50">
+            <el-col :span="6" :xs="12">
+              <el-form-item class="form-item-mg0" label="报关单号">
+                <el-input v-model="queryForm.entryId" clearable :maxlength="50"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="6" :xs="12">
               <el-form-item class="form-item-mg0" label="提单号">
                 <el-input v-model="queryForm.billNo" clearable :maxlength="50"></el-input>
@@ -75,7 +80,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-table class='sys-table-table' height="548px"
+        <el-table class='sys-table-table' height="398px"
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="150">
@@ -120,7 +125,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="业务状态" min-width="100">
+          <el-table-column label="系统状态" min-width="100">
             <template slot-scope="scope">
               <div class='sys-td-c'>
                 {{scope.row.statusValue || '-'}}
