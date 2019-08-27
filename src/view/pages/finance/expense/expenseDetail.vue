@@ -124,7 +124,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="委托企业" prop="entrustCompanyName">
-                <el-select v-model="addForm.entrustCompanyName" style="width:100%"
+                <!-- <el-select v-model="addForm.entrustCompanyName" style="width:100%"
                   filterable remote clearable
                   :remote-method="getcorps"
                   allow-create
@@ -135,12 +135,19 @@
                     :label="item.corpName"
                     :value="item.corpName">
                   </el-option>
-                </el-select>
+                </el-select> -->
+                <el-autocomplete style="width:100%;"
+                  class="inline-input" :maxlength="30" clearable
+                  v-model="addForm.entrustCompanyName"
+                  :fetch-suggestions="querySearch"
+                  :trigger-on-focus="false"
+                  placeholder="请选择">
+                </el-autocomplete>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="进出口">
-                <el-select v-model="addForm.iEFlag" size="mini" filterable default-first-option style="width:100%;">
+                <el-select v-model="addForm.iEFlag" size="mini" filterable default-first-option style="width:100%;" @change="addIEflag">
                   <el-option key="0" :label="'进口'" :value="0"></el-option>
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
                   <el-option v-show="addForm.businessType === 2 || !addForm.businessType" key="2" :label="'内贸'" :value="2"></el-option>
@@ -489,7 +496,7 @@
       <el-row style="text-align:center">
         <el-button size="mini" type="primary" @click="submitBtn('1')">提交</el-button>
         <el-button size="mini"  @click="cancelEdit">取消</el-button>
-        <el-button size="mini" type="primary" v-if="status === 4 || ((status === 1 || status === 6 || status === 7) && swtichCheck === 'Y')"  @click="submitBtn('2')">发送审核</el-button>
+        <el-button size="mini" type="primary" v-if="status === 4 || ((status === 1 || status === 6 || status === 7) && isNeed)"  @click="submitBtn('2')">发送审核</el-button>
       </el-row>
     </div>
     <div class="submit" v-if="optionsType === 'add'">
@@ -508,6 +515,7 @@ export default {
   data () {
     return {
       iEFlag: '',
+      isNeed: false,
       optionsType: 'look', // 记录当前操作类型
       payablefeeOptions: {},
       businessType: '', // 类型
@@ -623,6 +631,7 @@ export default {
   },
   created () {
     let {type, iEFlag, expenseBillId, innerNo, status, businessType} = this.$route.query
+    this.iEFlag = iEFlag
     this.businessType = +businessType || 2
     if (type === 'edit') {
       expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
@@ -632,12 +641,12 @@ export default {
     if (type === 'add') {
       this.getQuotationsByAdd()
       this.justyIsOpen()
+      this.iEFlag = this.addForm.iEFlag
     }
     if (type === 'look' || type === 'check') {
       this.getBillDetail(expenseBillId)
     }
     this.optionsType = type
-    this.iEFlag = iEFlag
     this.getOptionList()
     this.getCommonParam()
   },
@@ -685,6 +694,10 @@ export default {
     }
   },
   methods: {
+    // 台账新增时,绑定进出口
+    addIEflag () {
+      this.iEFlag = this.addForm.iEFlag || ''
+    },
     // 清空按钮时,清除真正的picker的数据
     removeDate (date) {
       this[date] = ''
@@ -734,11 +747,12 @@ export default {
         router: this.$router,
         success: (res) => {
           if (res.result && JSON.stringify(res.result) !== '{}') {
-            let {billPayableBodyVO, billReceivableBodyVO, result, summarys, billNo, cusCiqNo, innerNo, msg, verifyMsg} = res.result
+            let {billPayableBodyVO, billReceivableBodyVO, result, summarys, billNo, isNeed, cusCiqNo, innerNo, msg, verifyMsg} = res.result
             this.billPayableBodyVO.billPayableBodyVOList = billPayableBodyVO.billPayableBodyVOList || []
             this.billPayableBodyVO.billQuotationRespVOs = billPayableBodyVO.billQuotationRespVOs || []
             this.billReceivableBodyVO.billReceivableBodyVOList = billReceivableBodyVO.billReceivableBodyVOList || []
             this.billReceivableBodyVO.billQuotationRespVOs = billReceivableBodyVO.billQuotationRespVOs || []
+            this.isNeed = isNeed
             if (Array.isArray(result) && result.length > 0) {
               this.businessType === 1 && (this.decDetail = result[0])
               if (this.businessType === 2) { // 解构
@@ -1101,18 +1115,28 @@ export default {
         // }
       })
     },
-    // 委托企业
-    getcorps (query) {
-      if (query.length < 2 || query.length > 30) return
+    // 搜索委托企业
+    querySearch (queryString, cb) {
+      let temp = []
+      if (queryString.trim().length < 2) {
+        cb(temp)
+        return
+      }
       this.$store.dispatch('ajax', {
         url: 'API@/login/corp/getCorpByCondAssignProp',
         data: {
-          corpName: query,
+          corpName: queryString,
           returnProps: ['corpId', 'corpName']
         },
         router: this.$router,
         success: ({result}) => {
-          this.corpList = (result && result.splice(0, 20)) || []
+          let corpList = (result && result.splice(0, 20)) || []
+          if (corpList.length > 0) {
+            let tempArr = corpList.map(item => ({value: item.corpName}))
+            cb(tempArr)
+          } else {
+            cb(temp)
+          }
         }
       })
     },
