@@ -39,11 +39,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item class="form-item-mg0" label="监管证件代码">
-              <el-input v-model="queryForm.licenseNo" clearable ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" :xs="12">
             <el-form-item class="form-item-mg0" label="许可证号">
               <el-input v-model="queryForm.licenseNo" clearable :maxlength="20"></el-input>
             </el-form-item>
