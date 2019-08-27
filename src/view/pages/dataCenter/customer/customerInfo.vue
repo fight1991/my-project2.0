@@ -145,7 +145,7 @@
         <el-row :gutter="30">
           <el-col :span="8">
             <el-form-item label="客户代码"  prop='customCode'>
-              <el-input v-model="newcustomer.customCode" maxlength="50"></el-input>
+              <el-input v-model="newcustomer.customCode" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
