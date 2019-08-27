@@ -1,0 +1,3 @@
+[submodule "src/view/pages/finance"]
+	path = src/view/pages/finance
+	url = http://tiancong@47.96.177.138:8084/gitblit/r/finance-public.git
