@@ -99,7 +99,7 @@
             <div class='sys-td-c'>{{scope.row.createTime || '-'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="上传单证数" min-width="80">
+        <el-table-column label="上传单据数" min-width="80">
           <template slot-scope="scope">
             <div class='sys-td-r'>{{scope.row.count+'' || '-'}}</div>
           </template>

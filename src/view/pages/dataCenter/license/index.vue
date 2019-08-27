@@ -241,19 +241,25 @@ export default {
     },
     // 删除
     delect () {
-      this.$store.dispatch('ajax', {
-        url: 'API@/saas-document-center/license/delete',
-        data: {pid: this.selection},
-        router: this.$router,
-        success: (res) => {
-          if (res.success) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.search()
+      this.$confirm('确定复制当前数据？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('ajax', {
+          url: 'API@/saas-document-center/license/delete',
+          data: {pid: this.selection},
+          router: this.$router,
+          success: (res) => {
+            if (res.success) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              this.search()
+            }
           }
-        }
+        })
       })
     },
     // 选择列表行
