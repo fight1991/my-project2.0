@@ -140,7 +140,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="进出口">
-                <el-select v-model="addForm.iEFlag" size="mini" filterable default-first-option style="width:100%;">
+                <el-select v-model="addForm.iEFlag" size="mini" filterable default-first-option style="width:100%;" @change="addIEflag">
                   <el-option key="0" :label="'进口'" :value="0"></el-option>
                   <el-option key="1" :label="'出口'" :value="1"></el-option>
                   <el-option v-show="addForm.businessType === 2 || !addForm.businessType" key="2" :label="'内贸'" :value="2"></el-option>
@@ -623,6 +623,7 @@ export default {
   },
   created () {
     let {type, iEFlag, expenseBillId, innerNo, status, businessType} = this.$route.query
+    this.iEFlag = iEFlag
     this.businessType = +businessType || 2
     if (type === 'edit') {
       expenseBillId ? this.getBillDetail(expenseBillId) : this.getBillDetail('', innerNo)
@@ -632,12 +633,12 @@ export default {
     if (type === 'add') {
       this.getQuotationsByAdd()
       this.justyIsOpen()
+      this.iEFlag = this.addForm.iEFlag
     }
     if (type === 'look' || type === 'check') {
       this.getBillDetail(expenseBillId)
     }
     this.optionsType = type
-    this.iEFlag = iEFlag
     this.getOptionList()
     this.getCommonParam()
   },
@@ -685,6 +686,10 @@ export default {
     }
   },
   methods: {
+    // 台账新增时,绑定进出口
+    addIEflag () {
+      this.iEFlag = this.addForm.iEFlag || ''
+    },
     // 清空按钮时,清除真正的picker的数据
     removeDate (date) {
       this[date] = ''
