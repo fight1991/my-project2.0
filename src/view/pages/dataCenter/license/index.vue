@@ -86,7 +86,7 @@
       <div class='query-table'>
         <!-- 列表 list -->
         <el-row style="margin-bottom: 8px;">
-        <el-button  size="mini" @click="delect"  class="list-btns list-icon-delete"><i></i>删除</el-button>
+        <el-button  size="mini" @click="delect" :disabled='selection.length===0'  class="list-btns list-icon-delete"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table'  height="398px" ref="licenseTable"
           border highlight-current-row size="mini" @select="selectionChange" @row-click='rowClickDecList'
@@ -241,7 +241,7 @@ export default {
     },
     // 删除
     delect () {
-      this.$confirm('确定复制当前数据？', '提示', {
+      this.$confirm('确定删除当前选择的数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -241,9 +241,10 @@ export default {
       })
     },
     delect () {
-      this.$confirm('确定复制当前数据？', '提示', {
+      this.$confirm('确定删除当前选择的数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        confirmButtonClass: 'todelect_btn',
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('ajax', {
@@ -498,5 +499,8 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
+  }
+  .todelect_btn:hover{
+    color:black !important
   }
 </style>
