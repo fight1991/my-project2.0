@@ -6,7 +6,7 @@
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
-        <p>1. 从报关单上传的业务单证无法在当前模块进行编辑，若有需要，请回到报关单页面进行编辑</p>
+        <p>1. 从报关单上传的业务单据无法在当前模块进行编辑，若有需要，请回到报关单页面进行编辑</p>
         <p>2. 在当前页面，您也无法编辑他人上传的文件</p>
       </el-row>
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
