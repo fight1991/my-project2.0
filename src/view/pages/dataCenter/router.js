@@ -1,7 +1,7 @@
 import License from './license/index' // 许可证件
 import Goods from './goods/index' // 商品资料库
 import certificate from './certificate/index' // 证书管理
-import JobsLicense from './jobsLicense/index' // 业务单证管理
+import JobsLicense from './jobsLicense/index' // 业务单据管理
 import Customer from './customer/index' // 客户管理
 import Classify from './classify/index' // 归类管理
 

@@ -21,14 +21,14 @@
                   <el-col :span="20">
                     <el-row :gutter="30">
                       <el-col :span="24">
-                        <el-form-item label="单证类型：" class="type-height">
+                        <el-form-item label="单据类型：" class="type-height">
                           <span>
                             {{ item.documentTypeValue || '-' }}
                           </span>
                         </el-form-item>
                       </el-col>
                       <el-col :span="24">
-                        <el-form-item label="单证编号：" class="type-height" prop="licensePath">
+                        <el-form-item label="单据编号：" class="type-height" prop="licensePath">
                           {{ item.documentNo || '-' }}
                         </el-form-item>
                       </el-col>

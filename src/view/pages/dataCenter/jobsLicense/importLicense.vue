@@ -32,8 +32,8 @@
                 <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
                 <el-row :gutter="30">
                   <el-col :span="12" :xs='24'>
-                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
-                      <el-select size="mini" placeholder="请选择单证类型" v-model="item.documentType"
+                    <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
+                      <el-select size="mini" placeholder="请选择单据类型" v-model="item.documentType"
                       filterable clearable
                       style="width:100%">
                         <el-option
@@ -46,13 +46,13 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12" :xs='24'>
-                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
+                    <el-form-item label="单据编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                   <el-form-item label="单证文件" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
+                   <el-form-item label="单据文件" :prop="'licenseList.'+index+'.documentUrl'" :rules="rules.documentUrl">
                     <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item,index)}"
@@ -72,7 +72,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多业务单证</el-button>
+            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多业务单据</el-button>
           </el-row>
           <el-row class="query-btn">
             <el-button type="primary" size="mini" @click="submit">确认</el-button>
@@ -90,9 +90,9 @@ export default {
   data () {
     return {
       rules: {
-        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }],
+        documentType: [{ required: true, message: '请选择单据类型', trigger: 'change' }],
         documentUrl: [{ required: true, message: '请选择上传文件', trigger: 'change' }],
-        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }]
+        documentNo: [{ required: true, message: '请输入单据编号', trigger: 'blur' }]
       },
       ownerCodeScc: '',
       resultTopData: {
@@ -184,7 +184,7 @@ export default {
         }
       })
     },
-    // 删除业务单证
+    // 删除业务单据
     delLicense (index) {
       this.submitData.licenseList.splice(index, 1)
     },
@@ -214,7 +214,7 @@ export default {
           for (let j = list.length - 1; j > i; j--) {
             if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
               this.$message({
-                message: '此单证类型和单证编号已存在',
+                message: '此单据类型和单据编号已存在',
                 type: 'error'
               })
               return
