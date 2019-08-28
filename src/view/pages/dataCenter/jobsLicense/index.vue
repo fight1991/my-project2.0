@@ -236,11 +236,11 @@ export default {
     // 列表
     queryList (pagination) {
       if (this.dates === '' || this.dates === null) {
-        this.queryForm.updateTimeStart = ''
-        this.queryForm.updateTimeEnd = ''
+        this.queryForm.startTime = ''
+        this.queryForm.endTime = ''
       } else {
-        this.queryForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.queryForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       this.paginationInit = pagination
       this.$store.dispatch('ajax', {

@@ -21,14 +21,14 @@
                   <el-col :span="20">
                     <el-row :gutter="30">
                       <el-col :span="24">
-                        <el-form-item label="单证类型：" class="type-height">
+                        <el-form-item label="单据类型：" class="type-height">
                           <span>
                             {{ item.documentTypeValue || '-' }}
                           </span>
                         </el-form-item>
                       </el-col>
                       <el-col :span="24">
-                        <el-form-item label="单证编号：" class="type-height" prop="licensePath">
+                        <el-form-item label="单据编号：" class="type-height" prop="licensePath">
                           {{ item.documentNo || '-' }}
                         </el-form-item>
                       </el-col>
@@ -171,7 +171,7 @@ export default {
     },
     // 跳转到编辑页面
     toEdit (decPid, ownerCodeScc) {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/editJobs',
         query: {
@@ -182,7 +182,7 @@ export default {
     },
     // 跳转到详情页面
     toDetail (decPid, ownerCodeScc) {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense/jobDetailList',
         query: {

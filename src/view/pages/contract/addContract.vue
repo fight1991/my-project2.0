@@ -266,7 +266,7 @@ export default {
     },
     // 返回按钮
     back () {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         name: 'contract-list'
       })
@@ -348,7 +348,7 @@ export default {
               type: 'success'
             })
           }
-          this.$store.commit('CloseTab', this.$route.name)
+          this.$store.dispatch('CloseTab', this.$route.name)
           this.$router.push({
             name: 'contract-list'
           })
@@ -373,7 +373,7 @@ export default {
               type: 'success'
             })
           }
-          this.$store.commit('CloseTab', this.$route.name)
+          this.$store.dispatch('CloseTab', this.$route.name)
           this.$router.push({
             name: 'contract-list'
           })
@@ -472,7 +472,7 @@ export default {
                 message: '保存成功',
                 type: 'success'
               })
-              this.$store.commit('CloseTab', this.$route.name)
+              this.$store.dispatch('CloseTab', this.$route.name)
               this.$router.push({
                 name: 'contract-list'
               })

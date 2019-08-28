@@ -6,7 +6,7 @@
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
-        <p>1. 从报关单上传的业务单证无法在当前模块进行编辑，若有需要，请回到报关单页面进行编辑</p>
+        <p>1. 从报关单上传的业务单据无法在当前模块进行编辑，若有需要，请回到报关单页面进行编辑</p>
         <p>2. 在当前页面，您也无法编辑他人上传的文件</p>
       </el-row>
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
@@ -33,8 +33,8 @@
                     </el-upload>
                   </el-col>
                   <el-col :span="20" style="padding-top:16px;">
-                    <el-form-item label="单证类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType" class="mb18">
-                      <el-select placeholder="请选择单证类型" size="mini" v-model="item.documentType"
+                    <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType" class="mb18">
+                      <el-select placeholder="请选择单据类型" size="mini" v-model="item.documentType"
                       filterable clearable
                       style="width:100%">
                         <el-option
@@ -45,7 +45,7 @@
                         </el-option>
                       </el-select>
                     </el-form-item>
-                    <el-form-item label="单证编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo" class="mb18">
+                    <el-form-item label="单据编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo" class="mb18">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
                   </el-col>
@@ -69,8 +69,8 @@ export default {
   data () {
     return {
       rules: {
-        documentNo: [{ required: true, message: '请输入单证编号', trigger: 'blur' }],
-        documentType: [{ required: true, message: '请选择单证类型', trigger: 'change' }]
+        documentNo: [{ required: true, message: '请输入单据编号', trigger: 'blur' }],
+        documentType: [{ required: true, message: '请选择单据类型', trigger: 'change' }]
       },
       fileLists: [],
       decPid: '',
@@ -182,7 +182,7 @@ export default {
         }
       })
     },
-    // 删除业务单证
+    // 删除业务单据
     delLicense (index) {
       this.submitData.licenseList.splice(index, 1)
     },
@@ -198,7 +198,7 @@ export default {
           for (let j = list.length - 1; j > i; j--) {
             if (list[i].documentNo === list[j].documentNo && list[i].documentType === list[j].documentType) {
               this.$message({
-                message: '此单证类型和单证编号已存在',
+                message: '此单据类型和单据编号已存在',
                 type: 'error'
               })
               return
@@ -342,7 +342,7 @@ export default {
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense',
         query: {

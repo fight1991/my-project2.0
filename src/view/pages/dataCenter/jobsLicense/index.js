@@ -1,4 +1,4 @@
-// 业务单证管理
+// 业务单据管理
 const MENU = [
   {
     path: '/dataCenter/jobsLicense',

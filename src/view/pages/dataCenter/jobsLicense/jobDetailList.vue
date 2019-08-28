@@ -18,7 +18,7 @@
             累计业务票数：<span class="top-text">{{decCount + ''}}</span>
           </el-col>
           <el-col :span="8">
-            累计上传单证：<span class="top-text">{{edocCount + ''}}</span>
+            累计上传单据：<span class="top-text">{{edocCount + ''}}</span>
           </el-col>
         </el-row>
       </el-row>
