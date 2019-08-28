@@ -151,7 +151,7 @@ export default {
   methods: {
     // 返回按钮
     back () {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         name: 'contract-list'
       })

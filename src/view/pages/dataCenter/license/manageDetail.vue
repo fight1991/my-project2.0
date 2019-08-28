@@ -342,7 +342,7 @@ export default {
     },
     // 跳转详情页
     toDetail () {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/license',
         query: {

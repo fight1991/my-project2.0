@@ -463,7 +463,7 @@ export default {
     },
     // 返回
     back () {
-      // this.$store.commit('CloseTab', this.$route.name)
+      // this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         name: 'shipBillList'
       })
