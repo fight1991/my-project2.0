@@ -242,7 +242,7 @@ export default {
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         path: '/dataCenter/jobsLicense',
         query: {

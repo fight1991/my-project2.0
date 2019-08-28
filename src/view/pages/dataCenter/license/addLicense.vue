@@ -268,7 +268,7 @@ export default {
   methods: {
     // 返回按钮
     back () {
-      this.$store.commit('CloseTab', this.$route.name)
+      this.$store.dispatch('CloseTab', this.$route.name)
       this.$router.push({
         name: 'license'
       })
@@ -495,7 +495,7 @@ export default {
                 message: '新建成功',
                 type: 'success'
               })
-              this.$store.commit('CloseTab', this.$route.name)
+              this.$store.dispatch('CloseTab', this.$route.name)
               this.$router.push({
                 path: '/dataCenter/license',
                 query: {

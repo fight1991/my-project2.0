@@ -162,7 +162,7 @@ export default {
         return v.corpName === this.corpName
       })
       // 关闭之前打开的所有页签
-      this.$store.commit('CloseTabs', 'all')
+      this.$store.dispatch('CloseTabs', 'all')
       this.selectUserCorp(temp.corpId)
       this.$store.commit('userCompanyInfo', {
         companyType: temp.corpType, // 公司类型

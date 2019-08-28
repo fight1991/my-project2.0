@@ -186,11 +186,11 @@ export default {
     },
     // 移除页签
     delTab (tabName) {
-      this.$store.commit('CloseTab', tabName)
+      this.$store.dispatch('CloseTab', tabName)
     },
     // 关闭所有或其他页签
     closeTabs (tag) {
-      this.$store.commit('CloseTabs', tag)
+      this.$store.dispatch('CloseTabs', tag)
     },
     // 折叠按钮事件
     collapseClick: function () {

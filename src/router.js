@@ -242,6 +242,10 @@ router.beforeEach((to, from, next) => {
         break
     }
     router.app.$options.store.commit('setChildSys', json)
+    if (from.fullPath === '/' && to.params && to.params.sysData && window.sessionStorage.getItem('fromLogin') === 'true') {
+      window.sessionStorage.removeItem('fromLogin')
+      next('/' + childSys[1] + '/index')
+    }
   }
   /* 登录校验：
      1、登录页面直接放行
