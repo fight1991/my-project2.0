@@ -105,7 +105,7 @@ export default {
             break
           case 'editTitle':
             // close： 关闭指定的tab
-            store.commit('SetTabTitle', {title: sysData.title, id: sysData.tabId})
+            store.commit('SetTabTitle', {title: sysData.title, id: sysData.tabId, newtabId: sysData.newtabId})
             break
           case 'refresh':
             let index = 0
