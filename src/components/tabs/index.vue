@@ -102,7 +102,7 @@ export default {
             break
           case 'close':
             // close： 关闭指定的tab
-            store.commit('CloseTab', sysData.tabId)
+            store.dispatch('CloseTab', sysData.tabId)
             break
           case 'editTitle':
             // close： 关闭指定的tab
