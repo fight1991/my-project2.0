@@ -76,6 +76,7 @@ export default {
             id: eventData && util.isEmpty(eventData.id) ? '' : eventData.id, // 业务的id或标记
             title: eventData.title, // 页签的展示名称
             url: eventData.url, // 要打开的外部URL
+            newtabId: eventData.newtabId,
             tabId: eventData.tabId + '', // 页签的id
             index: null, // 页签的数组位置下标
             params: eventData.params // 其他参数
