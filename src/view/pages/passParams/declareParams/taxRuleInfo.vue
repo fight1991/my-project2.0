@@ -96,6 +96,14 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="24">
+            <div class="param-row">
+              <div class="param-left params-borderR">特惠税率</div>
+              <div class="param-right">{{taxForm.preferentialRate}}</div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <div class="param-row">
               <div class="param-left params-borderR">增值税率</div>
@@ -131,6 +139,16 @@
             </div>
           </el-col>
         </el-row>
+      </el-row>
+      <el-row>
+        <div style="margin-top:4px;">
+          注：<br><span>东盟：&nbsp;文莱、柬埔寨、印尼、老挝、马来西亚、缅甸、菲律宾、新加坡、泰国、越南</span>
+            <br><span>亚太：&nbsp;大韩民国、斯里兰卡民主社会主义共和国、孟加拉人民共和国、印度共和国、老挝人民民主共和国</span>
+            <br><span>亚太2国：&nbsp;孟加拉人民共和国、老挝人民民主共和国</span>
+            <br><span>LDC1：&nbsp;埃塞俄比亚联邦民主共和国、布隆迪共和国、赤道几内亚共和国、刚果民主共和国、吉布提共和国、几内亚共和国、几内亚比绍共和国、莱索托王国、马达加斯加共和国、马拉维共和国、马里共和国、莫桑比克共和国、南苏丹共和国、塞拉利昂共和国、塞内加尔共和国、苏丹共和国、索马里联邦共和国、坦桑尼亚联合共和国、乌干达共和国、乍得共和国、中非共和国、阿富汗伊斯兰共和国、也门共和国、瓦努阿图共和国、科摩罗联盟、毛里塔尼亚伊斯兰共和国、多哥共和国、利比里亚共和国、卢旺达共和国、安哥拉共和国、赞比亚共和国、尼泊尔联邦民主共和国、尼日尔共和国、厄立特里亚国、柬埔寨王国</span>
+            <br><span>LDC2：&nbsp;贝宁共和国、东帝汶民主共和国、缅甸联邦共和国</span>
+            <br><span>LDC3：&nbsp;孟加拉人民共和国</span>
+        </div>
       </el-row>
     </el-row>
   </section>
@@ -203,6 +221,9 @@ export default {
       .param-right{
         padding: 15px 10px;
         word-break: break-all;
+        span{
+          margin: 0 4px;
+        }
       }
     }
   }

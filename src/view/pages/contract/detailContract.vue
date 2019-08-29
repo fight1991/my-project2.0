@@ -7,8 +7,8 @@
       </el-col>
       <!-- 返回按钮 end-->
       </el-row>
-      <el-row class = "query-table">
-      <div style="width:95%;margin:0px auto;">
+      <el-row class= "query-table">
+      <div style="margin:0px 20px;">
         <el-form :model="resultForm" label-width="100px">
           <el-row :gutter="10">
             <el-col :span="8" :xs="12" >
@@ -70,7 +70,7 @@
             </el-col>
           </el-row>
         </el-form>
-        <el-table class='sys-table-table' :data="resultForm.infos" border highlight-current-row>
+        <el-table class='sys-table-table' :data="resultForm.infos" border highlight-current-row height="530px">
           <el-table-column label="创建时间" min-width="160" >
             <template slot-scope="scope">
               {{dateFormat(new Date(scope.row.createDate))|| '-'}}

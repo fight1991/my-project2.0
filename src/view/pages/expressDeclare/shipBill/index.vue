@@ -55,7 +55,7 @@
         <el-button size="mini" class="list-btns list-icon-delete" @click="deletes"><i></i>删除</el-button>
       </el-row>
       <el-row>
-        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange">
+        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange" height="530px">
           <el-table-column  type="selection" min-width="35" align="center"></el-table-column>
           <el-table-column label="序号" width="100">
             <template slot-scope="scope">

@@ -103,7 +103,7 @@
         <el-button size="mini" class="list-btns list-icon-delete" @click="deletes"><i></i>删除</el-button>
       </el-row>
       <el-row>
-        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange">
+        <el-table class='sys-table-table express-table' :data="shipList" border highlight-current-row size="mini" @selection-change="selectChange" height="530px">
           <el-table-column  type="selection" min-width="35" align="center"></el-table-column>
           <el-table-column label="序号" width="100">
             <template slot-scope="scope">
@@ -584,6 +584,7 @@ export default {
         this.$confirm('您确定删除所选数据吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          confirmButtonClass: 'confirm-btn-ok',
           type: 'warning'
         }).then(() => {
           let list = []
@@ -662,5 +663,9 @@ export default {
 }
 .mg-b-15{
   margin-bottom: 15px;
+}
+.confirm-btn-ok{
+  background-color: #287FCA !important;
+  border-color: #287FCA !important;
 }
 </style>
