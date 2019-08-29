@@ -89,7 +89,7 @@
         <el-button  size="mini" @click="delect" :disabled='selection.length===0'  class="list-btns list-icon-delete"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table'  height="398px" ref="licenseTable"
-          border highlight-current-row size="mini" @select="selectionChange" @row-click='rowClickDecList'
+          border highlight-current-row size="mini" @select="selectionChange" @row-click='rowClickDecList'  @select-all='selectALl'
           :data="resultList">
           <el-table-column  type="selection" min-width="50"></el-table-column>
           <el-table-column label="委托企业" min-width="140" prop="corpName">
@@ -275,6 +275,16 @@ export default {
         this.$refs.licenseTable.toggleRowSelection(row, true)
       }
     },
+    selectALl (selection) {
+      this.selection = []
+      this.selectRow = []
+      if (selection.length !== 0) {
+        for (let a in selection) {
+          this.selection.push(selection[a].licensePid)
+        }
+      }
+      this.selectRow = selection
+    },
     // 选择
     selectionChange (selection, row) {
       this.selection = []
@@ -351,6 +361,8 @@ export default {
         success: (res) => {
           this.resultList = util.isEmpty(res.result) ? [] : res.result
           this.paginationInit = res.page
+          this.selection = []
+          this.selectRow = []
         }
       })
     },
