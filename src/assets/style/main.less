@@ -896,7 +896,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-createAccount:hover i,.list-icon-createAccount:focus i,.sys-table-table .list-icon-createAccount i{
     background: url('../../assets/img/icon/createA-focus.png') no-repeat;
   }
-  .list-icon-createAccount.is-disabled:hover i {
+  .list-icon-createAccount.is-disabled:hover i,.list-icon-createAccount.is-disabled i {
     background: url('../../assets/img/icon/createA-disabled.png') no-repeat;
   }
   // 平账
@@ -906,7 +906,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-pa:hover i,.list-icon-pa:focus i,.sys-table-table .list-icon-pa i{
     background: url('../../assets/img/icon/icon-paF.png') no-repeat;
   }
-  .list-icon-pa.is-disabled:hover i {
+  .list-icon-pa.is-disabled:hover i,.list-icon-pa.is-disabled i{
     background: url('../../assets/img/icon/icon-paD.png') no-repeat;
   }
   // 平账记录
@@ -926,10 +926,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-invoice:hover .other,.list-icon-invoice:focus .other,.sys-table-table .list-icon-invoice .other{
     background: url('../../assets/img/icon/icon-billF.png') no-repeat;
   }
-  .list-icon-invoice.is-disabled:hover .other {
+  .list-icon-invoice.is-disabled:hover .other,.list-icon-invoice.is-disabled .other {
     background: url('../../assets/img/icon/icon-billD.png') no-repeat;
   }
-  // 撤销开票
+  // 平账记录
   .list-icon-paR i{
     background: url('../../assets/img/icon/icon-paRN.png') no-repeat;
   }
@@ -1657,10 +1657,13 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   background: url(../img/icon-exportH.png) no-repeat;
 }
 .list-icon-exportO .other{
-  background: url(../img/icon-export.png) no-repeat;
+  background: url(../img/icon-exportG.png) no-repeat;
 }
 .list-icon-exportO:hover .other,.list-icon-export:focus .other,.sys-table-table .list-icon-export .other{
   background: url(../img/icon-exportH.png) no-repeat;
+}
+.list-icon-exportO.is-disabled:hover .other,.list-icon-exportO.is-disabled .other{
+  background: url(../img/icon-exportG.png) no-repeat;
 }
 .list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled i{
   background: url(../img/icon-exportG.png) no-repeat;
@@ -1734,11 +1737,17 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-checkP:hover i,.list-icon-checkP:focus i{
   background: url(../img/icon-checkPH.png) no-repeat;
 }
+.list-icon-checkP.is-disabled:hover i,.list-icon-checkP.is-disabled i{
+  background: url(../img/icon-checkPD.png) no-repeat;
+}
 .list-icon-rollback i{
   background: url(../img/icon-rollback.png) no-repeat;
 }
 .list-icon-rollback:hover i,.list-iconrollback:focus i{
   background: url(../img/icon-rollbackH.png) no-repeat;
+}
+.list-icon-rollback:disabled:hover i, .list-icon-rollback:disabled i{
+  background: url(../img/icon-rollbackD.png) no-repeat;
 }
 .list-icon-edit i{
   background: url(../img/icon-edit.png) no-repeat;
