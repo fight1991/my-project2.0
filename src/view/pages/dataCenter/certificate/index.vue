@@ -91,7 +91,7 @@
         </el-row>
         <el-table class='sys-table-table' height="398px"
           border highlight-current-row size="mini" ref="certTable"
-          @select="selectionChange" @row-click='rowClickDecList'
+          @selection-change="selectionChange" @row-click='rowClickDecList' @select-all='selectALl'
           :data="resultList">
           <el-table-column  type="selection" min-width="50"></el-table-column>
           <el-table-column label="委托企业" min-width="100" prop="corpName">
@@ -341,6 +341,16 @@ export default {
         this.$refs.certTable.toggleRowSelection(row, true)
       }
     },
+    selectALl (selection) {
+      this.selection = []
+      this.selectRow = []
+      if (selection.length !== 0) {
+        for (let a in selection) {
+          this.selection.push(selection[a].certificatePid)
+        }
+      }
+      this.selectRow = selection
+    },
     // 选择
     selectionChange (selection, row) {
       this.selection = []
@@ -462,6 +472,8 @@ export default {
         success: (res) => {
           this.resultList = util.isEmpty(res.result) ? [] : res.result
           this.paginationInit = res.page
+          this.selection = []
+          this.selectRow = []
         }
       })
     },
