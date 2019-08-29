@@ -533,7 +533,7 @@ export default {
 .primary-btns{
   border-color: @sys-color-main;
   background-color: @sys-color-main;
-  padding: 8px 20px;
+  padding: 6px 20px;
 }
 
 @media screen and (max-width:900px) {
