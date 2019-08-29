@@ -25,6 +25,9 @@ export default {
       state.tabsList.some(item => {
         if ((item.path === data.path || item.tabId === data.id) && !item.isDel) {
           item.title = data.title
+          if (data.newtabId) {
+            item.tabId = data.newtabId
+          }
           return true
         }
         return false
