@@ -253,6 +253,7 @@ export default {
           router: this.$router,
           success: (res) => {
             row.documentUrl = res.result.url
+            row.createUserName = res.result.name
             row.fileLists = []
             if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp') {
               row.fileType = false
