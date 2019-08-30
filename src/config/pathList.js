@@ -335,6 +335,10 @@ export default {
     carParter: url.COMMON + '',
     // 税则
     taxRule: url.COMMON + '',
+    // 计征汇率
+    calculatedRate: url.COMMON + '',
+    // 最惠国
+    favoredCountry: url.COMMON + '',
     // 统计商品目录
     productCate: url.COMMON + '',
     // 规范申报要素

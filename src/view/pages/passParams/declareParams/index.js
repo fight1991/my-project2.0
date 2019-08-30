@@ -29,6 +29,26 @@ const MENU = {
       }
     },
     {
+      path: '/passParams/calculatedRate/list',
+      name: 'calculatedRate',
+      permissions: 'CCBA21202070000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./calculatedRate.vue'], resolve),
+        title: '计征汇率'
+      }
+    },
+    {
+      path: '/passParams/favoredCountry/list',
+      name: 'favoredCountry',
+      permissions: 'CCBA21202080000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./favoredCountry.vue'], resolve),
+        title: '最惠国'
+      }
+    },
+    {
       path: '/passParams/productCate/list',
       name: 'productCate',
       permissions: 'CCBA21202020000',
