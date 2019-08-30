@@ -31,7 +31,7 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8" style="padding-left:20px;">
             <el-button type="primary" size="mini" @click="getTableData($store.state.pagination)">查询</el-button>
             <el-button size="mini" @click="resetquery()">重置</el-button>
           </el-col>
