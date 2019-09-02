@@ -379,17 +379,9 @@ router.afterEach(route => {
   }
   let fun = 'SetTabData'
   let tabData = ''
-  let title = route.meta.title
-  let tabId = route.name
   // 本系统跳转后自定义title
-  if (route.query.setTitle || route.query.setId) {
-    title = route.query.setTitle || route.meta.title
-    tabId = route.query.setId || route.name
-  }
-  if (route.params.setTitle || route.params.setId) {
-    title = route.params.setTitle || route.meta.title
-    tabId = route.params.setId || route.name
-  }
+  let title = route.query.setTitle || route.params.setTitle || route.meta.title
+  let tabId = route.query.setId || route.params.setId || route.name
   // sysData 交互特有字段 不等于空  则使用自定义的title
   if (!util.isEmpty(route.params.sysData) || !util.isEmpty(route.query.sysData)) {
     let datas = []
