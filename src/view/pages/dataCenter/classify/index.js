@@ -3,7 +3,7 @@
 const MENU = {
   path: '/dataCenter/classify',
   name: 'classify',
-  icon: 'icons-menu-productInfo',
+  icon: 'icons-menu-classify',
   permissions: 'CCBA20306000000',
   component: resolve => require(['../../../common/abstract.vue'], resolve),
   meta: {
