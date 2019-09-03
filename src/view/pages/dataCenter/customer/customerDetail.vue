@@ -409,7 +409,7 @@
     </section>
 </template>
 <script>
-import util from '../../../../common/util'
+import util from '@/common/util'
 import config from '../../../../config/config'
 export default {
   name: 'index',

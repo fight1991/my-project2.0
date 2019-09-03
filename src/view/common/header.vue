@@ -64,7 +64,7 @@
 <script>
 import config from '../../config/config'
 import commonPath from '../../config/commonPath'
-import util from '../../common/util'
+import util from '@/common/util'
 import defaultImg from '../../assets/img/icon/CCBA_logo.png'
 import hegsImg from '../../assets/img/icon/HEGS_logo.png'
 

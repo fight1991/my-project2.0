@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import util from '../../../common/util'
+import util from '@/common/util'
 import eventBus from '../../www/common/eventBus'
 import QRCode from 'qrcodejs2'
 export default {

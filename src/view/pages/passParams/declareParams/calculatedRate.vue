@@ -68,8 +68,8 @@
   </section>
 </template>
 <script>
-import util from '../../../../common/util'
-import commonParam from '../../../../common/commonParam'
+import util from '@/common/util'
+import commonParam from '@/common/commonParam'
 export default {
   name: 'calculatedRate',
   data () {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import util from '../common/util'
+import util from '@/common/util'
 import config from '../config/config'
 import TabsStore from '../components/tabs/store'
 
