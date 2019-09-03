@@ -58,6 +58,7 @@ export default {
     currentChange (page) {
       this.pagination.pageIndex = page
       this.$emit('change', this.pagination)
+      this.$emit('update:pagination', this.pagination)
     },
     sizeChange (size) {
       this.pagination.pageSize = size
@@ -65,6 +66,7 @@ export default {
         this.pagination.pageIndex = 1
       }
       this.$emit('change', this.pagination)
+      this.$emit('update:pagination', this.pagination)
     },
     windowsWidth () {
       if (document.documentElement.clientWidth < 768) {

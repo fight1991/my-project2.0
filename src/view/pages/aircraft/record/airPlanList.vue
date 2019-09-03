@@ -116,7 +116,7 @@
       <!--分页-->
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+          <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
       <!--分页end-->
@@ -256,19 +256,6 @@ export default {
         this.colSpan = 6
       }
     },
-    // 加载缓存数据
-    loadData () {
-      this.$store.commit('pageCacheInit', this.pagination)
-      this.pageList()
-    },
-    // 缓存数据
-    cacheData () {
-      this.pagination = {
-        currentPage: this.$store.state.pagination.currentPage, // 当前页
-        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
-        total: this.$store.state.pagination.total // 总条数
-      }
-    },
     // 判断缓存中是否有数据
     getCommonParam () {
       let map = {tableNames: []}
@@ -322,8 +309,7 @@ export default {
     },
     // 查询
     search () {
-      this.$store.commit('pageInit')
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 重置
     reset () {
@@ -338,7 +324,7 @@ export default {
       this.search()
     },
     // 获取表格数据
-    pageList () {
+    pageList (pagination) {
       this.tabHeight = '450px'
       this.returnVisable = false
       if (this.dates === '' || this.dates === null) {
@@ -350,11 +336,14 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/cds/common/getCdsRouteList',
-        data: this.QueryForm,
-        isPageList: true,
+        data: {
+          ...this.QueryForm,
+          page: pagination
+        },
         router: this.$router,
         success: (res) => {
-          this.resultList = util.isEmpty(res.result) ? [] : res.result
+          this.paginationInit = res.page || {}
+          this.resultList = res.result || []
         }
       })
     },
@@ -401,7 +390,7 @@ export default {
               message: '复制成功',
               type: 'success'
             })
-            this.pageList()
+            this.search()
           }
         })
       }
@@ -437,7 +426,7 @@ export default {
               message: '删除成功',
               type: 'success'
             })
-            this.pageList()
+            this.search()
           }
         })
       }).catch(() => {
@@ -488,7 +477,7 @@ export default {
             message: '导入成功',
             type: 'success'
           })
-          this.pageList()
+          this.search()
         }
       })
     },
@@ -518,7 +507,7 @@ export default {
             message: res.result.msg,
             type: 'success'
           })
-          this.pageList()
+          this.search()
         }
       })
     },
