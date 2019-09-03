@@ -529,7 +529,8 @@ export default {
         name: '当日飞行计划备案信息',
         params: {
           'type': type,
-          'id': id
+          'id': id,
+          setTitle: title
         }
       })
     },

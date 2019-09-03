@@ -35,7 +35,7 @@
         <!-- 查询条件 end-->
       </el-form>
     </div>
-    <div class="query-table">
+    <div class="query-table-common">
       <!-- 操作按钮 -->
       <el-row class="table-btn">
         <el-upload
@@ -125,7 +125,7 @@ export default {
         departureDateTimeEnd: '',
         ioFlag: 'O'
       }, // 查询传参
-      resultList: [{}], // 表格数据
+      resultList: [], // 表格数据
       thList: [{
         value: true,
         text: '系统编号'
@@ -531,7 +531,8 @@ export default {
         name: '出境、港动态申报信息',
         params: {
           type: type,
-          id: id
+          id: id,
+          setTitle: title
         }
       })
     },

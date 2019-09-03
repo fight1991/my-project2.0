@@ -12,7 +12,7 @@
           </el-col>
           <el-col :span="colSpan">
             <el-form-item label="供退标志">
-              <el-select v-model="QueryForm.iOFlag" clearable size="mini">
+              <el-select style="width:100%" v-model="QueryForm.iOFlag" clearable size="mini">
                 <el-option v-for="item in signList" :label="item.text" :value="item.value" :key="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -460,7 +460,8 @@ export default {
         name: '供退物料申报信息',
         params: {
           type: type,
-          id: id
+          id: id,
+          setTitle: title
         }
       })
     },

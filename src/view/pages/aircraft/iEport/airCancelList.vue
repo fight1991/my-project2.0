@@ -7,7 +7,7 @@
         <el-row :gutter="50">
           <el-col :span="colSpan">
             <el-form-item label="进出口标识">
-              <el-select v-model="QueryForm.ioFlag" filterable>
+              <el-select style="width:100%" v-model="QueryForm.ioFlag" filterable>
                 <el-option value="O" label="出口" key="O"></el-option>
                 <el-option value="I" label="进口" key="I"></el-option>
               </el-select>
@@ -20,7 +20,7 @@
           </el-col>
           <el-col :span="colSpan">
             <el-form-item label="取消港">
-              <el-select size="mini" v-model="QueryForm.fromAirport"
+              <el-select style="width:100%" size="mini" v-model="QueryForm.fromAirport"
                 @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CNCODE')"
                 filterable remote default-first-option clearable
                 :remote-method="checkParamsList"

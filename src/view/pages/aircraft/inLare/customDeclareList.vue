@@ -415,7 +415,8 @@ export default {
         name: '海关在港申报信息',
         params: {
           type: type,
-          id: id
+          id: id,
+          setTitle: title
         }
       })
     },

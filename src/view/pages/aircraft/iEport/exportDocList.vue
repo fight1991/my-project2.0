@@ -35,7 +35,7 @@
         <!-- 查询条件 end-->
       </el-form>
     </div>
-    <div class="query-table">
+    <div class="query-table-common">
       <!-- 操作按钮 -->
       <el-row class="table-btn">
         <el-upload
@@ -407,7 +407,8 @@ export default {
         name: '出境、港单证申报信息',
         params: {
           type: type,
-          id: id
+          id: id,
+          setTitle: title
         }
       })
     },
