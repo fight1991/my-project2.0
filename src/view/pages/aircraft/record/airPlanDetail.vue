@@ -1,39 +1,39 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 头部 -->
     <el-row class='sys-header'>
       <el-form label-width="0px">
         <!-- 返回按钮 -->
-        <el-row class='mg-b-15'>
-          <span @click="$router.go(-1)" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
-        </el-row>
+        <!-- <el-row class='mg-b-15'>
+          <span @click="$router.push({name: '当日飞行计划备案'})" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
+        </el-row> -->
         <!-- 返回按钮 end-->
         <el-row v-if="isEdit" class="mg-b-15">
-          <el-button type="primary" size="mini" icon="fa fa-save" @click="saveData">&nbsp;暂存</el-button>
-          <el-button type="primary" size="mini" icon="fa fa-file-o" @click="declare">&nbsp;申报</el-button>
+          <el-button size="mini" class="default-btn" @click="saveData">暂存</el-button>
+          <el-button type="primary" class="primary-btn" size="mini" @click="declare">申报</el-button>
         </el-row>
       </el-form>
     </el-row>
     <!-- 头部end -->
     <!-- 主显示框 -->
     <el-row class="airvehicle-panel">
-      <el-form label-width="115px" :model="submitData" :rules="rules" ref="submitData">
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>当日飞行计划备案信息</el-row>
-        <el-row>
+      <el-form :label-width="isEdit?'103px':'117px'" :model="submitData" :rules="rules" ref="submitData" size="mini">
+        <el-row class="import-edit-title">当日飞行计划备案信息</el-row>
+        <el-row :gutter="30" class="pd-l-15">
           <el-col :span="6" :xs="12">
-            <el-form-item label="航班号" prop="flightNo">
+            <el-form-item :label="isEdit?'航班号':'航班号：'" prop="flightNo">
               <el-input size="mini" clearable maxlength="20" v-model="submitData.flightNo" v-if="isEdit"></el-input>
-              <span v-else>{{submitData.flightNo}}</span>
+              <span v-else class="color-txt">{{submitData.flightNo}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="航班日期" prop="flightDate">
+            <el-form-item :label="isEdit?'航班日期':'航班日期：'" prop="flightDate">
               <el-date-picker size="mini" v-if="isEdit" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="submitData.flightDate" style="width:100%"></el-date-picker>
-              <span v-else>{{submitData.flightDate}}</span>
+              <span v-else class="color-txt">{{submitData.flightDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="执行任务类型" prop="linesType">
+            <el-form-item :label="isEdit?'执行任务类型':'执行任务类型：'" prop="linesType">
               <el-select size="mini" v-model="submitData.linesType" v-if="isEdit" clearable>
                 <el-option
                   v-for="item in linesTypeList"
@@ -42,11 +42,11 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.linesType}}-{{submitData.linesTypeValue}}</span>
+              <span v-else class="color-txt">{{submitData.linesType}}-{{submitData.linesTypeValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="海关关区" prop="cusCustomsCode">
+            <el-form-item :label="isEdit?'海关关区':'海关关区：'" prop="cusCustomsCode">
               <el-select size="mini" v-model="submitData.cusCustomsCode" v-if="isEdit"
                 @focus="tipsFillMessage('cusCustomsCodeList','SAAS_CUSTOMS_REL')"
                 filterable remote default-first-option clearable
@@ -59,11 +59,11 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.cusCustomsCode}}-{{submitData.cusCustomsCodeValue}}</span>
+              <span v-else class="color-txt">{{submitData.cusCustomsCode}}-{{submitData.cusCustomsCodeValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="出发港" prop="fromAirport">
+            <el-form-item :label="isEdit?'出发港':'出发港：'" prop="fromAirport">
               <el-select size="mini" v-model="submitData.fromAirport" v-if="isEdit"
                 @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CODE')"
                 filterable remote default-first-option clearable
@@ -76,11 +76,11 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.fromAirport}}-{{submitData.fromAirportValue}}</span>
+              <span v-else class="color-txt">{{submitData.fromAirport}}-{{submitData.fromAirportValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="目的港" prop="toAirport">
+            <el-form-item :label="isEdit?'目的港':'目的港：'" prop="toAirport">
               <el-select size="mini" v-model="submitData.toAirport" v-if="isEdit"
                 @focus="tipsFillMessage('portListA','SAAS_SW_AIRPORT_CODE')"
                 filterable remote default-first-option clearable
@@ -93,31 +93,31 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.toAirport}}-{{submitData.toAirportValue}}</span>
+              <span v-else class="color-txt">{{submitData.toAirport}}-{{submitData.toAirportValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="计划离港时间" prop="currentTakeoffTime">
+            <el-form-item :label="isEdit?'计划离港时间':'计划离港时间：'" prop="currentTakeoffTime">
               <el-date-picker size="mini" type="datetime" v-if="isEdit" v-model="submitData.currentTakeoffTime" style="width:100%"></el-date-picker>
-              <span v-else>{{submitData.currentTakeoffTime | date()}}</span>
+              <span v-else class="color-txt">{{submitData.currentTakeoffTime | date()}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6" :xs="12">
-            <el-form-item label="计划抵港时间" prop="currentLandingTime">
+            <el-form-item :label="isEdit?'计划抵港时间':'计划抵港时间：'" prop="currentLandingTime">
               <el-date-picker size="mini" type="datetime" v-if="isEdit" v-model="submitData.currentLandingTime" style="width:100%"></el-date-picker>
-              <span v-else>{{submitData.currentLandingTime | date()}}</span>
+              <span v-else class="color-txt">{{submitData.currentLandingTime | date()}}</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12" v-if="isEdit">
+        <el-row :gutter="30" class="pd-l-15 mg-b-10">
+          <el-col :span="24" v-if="isEdit">
             <el-form-item label="备注">
               <el-input type="textarea" rows="4" maxlength="200" v-model="submitData.memo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24" v-else>
-            <el-form-item label="备注">
-              <span class="break-text">{{submitData.memo}}</span>
+            <el-form-item label="备注：">
+              <span class="break-text color-txt">{{submitData.memo}}</span>
             </el-form-item>
           </el-col>
         </el-row>

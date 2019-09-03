@@ -1,45 +1,45 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 头部 -->
     <el-row class='sys-header'>
       <el-form label-width="0px">
         <!-- 返回按钮 -->
-        <el-row class='mg-b-15'>
-          <span @click="$router.go(-1)" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
-        </el-row>
+        <!-- <el-row class='mg-b-15'>
+          <span @click="$router.push({name: '出境、港单证申报'})" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
+        </el-row> -->
         <!-- 返回按钮 end-->
         <el-row v-if="isEdit" class="mg-b-15">
-          <el-button type="primary" size="mini" icon="fa fa-save" @click="saveData(false)">&nbsp;暂存</el-button>
-          <el-button type="primary" size="mini" icon="fa fa-file-o" @click="declare">&nbsp;申报</el-button>
+          <el-button size="mini" class="default-btn" @click="saveData(false)">暂存</el-button>
+          <el-button type="primary" size="mini" class="primary-btn" @click="declare">申报</el-button>
         </el-row>
       </el-form>
     </el-row>
     <!-- 头部end -->
     <!-- 主显示框 -->
     <el-row class="airvehicle-panel airvehicle-form">
-      <el-form label-width="165px" :model="submitData" ref="submitData" :rules="rules">
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>航空器动态信息</el-row>
-        <el-row>
+      <el-form :label-width="isEdit?labelFormWidth.sixR:'173px'" :model="submitData" ref="submitData" :rules="rules" size="mini">
+        <el-row class="import-edit-title">航空器动态信息</el-row>
+        <el-row :gutter="30" class="pd-l-15">
           <el-col :span="6">
-            <el-form-item label="航空器注册编号" prop="aircraftNo">
+            <el-form-item :label="isEdit?'航空器注册编号':'航空器注册编号：'" prop="aircraftNo" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable maxlength="25" v-model="submitData.aircraftNo"  v-if="isEdit"></el-input>
-              <span v-else>{{submitData.aircraftNo}}</span>
+              <span v-else class="color-txt">{{submitData.aircraftNo}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="航班号" prop="flightNo">
+            <el-form-item :label="isEdit?'航班号':'航班号：'" prop="flightNo">
               <el-input size="mini" clearable maxlength="20" v-model="submitData.flightNo" v-if="isEdit"></el-input>
-              <span v-else>{{submitData.flightNo}}</span>
+              <span v-else class="color-txt">{{submitData.flightNo}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="航班日期" prop="flightDate">
+            <el-form-item :label="isEdit?'航班日期':'航班日期：'" prop="flightDate">
               <el-date-picker size="mini" v-model="submitData.flightDate" v-if="isEdit" type="date" style="width:100%"></el-date-picker>
-              <span v-else>{{submitData.flightDate | date('yyyy-MM-dd')}}</span>
+              <span v-else class="color-txt">{{submitData.flightDate | date('yyyy-MM-dd')}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="驶离港口" prop="departurePort">
+            <el-form-item :label="isEdit?'驶离港口':'驶离港口：'" prop="departurePort">
               <el-select size="mini" v-model="submitData.departurePort" v-if="isEdit"
                 @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CODE')"
                 filterable remote default-first-option clearable
@@ -52,11 +52,11 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.departurePort}}-{{submitData.departurePortValue}}</span>
+              <span v-else class="color-txt">{{submitData.departurePort}}-{{submitData.departurePortValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="海关关区">
+            <el-form-item :label="isEdit?'海关关区':'海关关区：'">
               <el-select size="mini" v-model="submitData.cusCustomsCode" v-if="isEdit"
                 @focus="tipsFillMessage('cusCustomsCodeList','SAAS_CUSTOMS_REL')"
                 filterable remote default-first-option clearable
@@ -69,135 +69,139 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.cusCustomsCode}}-{{submitData.cusCustomsCodeValue}}</span>
+              <span v-else class="color-txt">{{submitData.cusCustomsCode}}-{{submitData.cusCustomsCodeValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="驶离时间" prop="dTime">
+            <el-form-item :label="isEdit?'驶离时间':'驶离时间：'" prop="dTime">
               <el-date-picker  v-if="isEdit" v-model="submitData.dTime" style="width:100%"
                 type="datetime"
                 placeholder="">
               </el-date-picker>
-              <span v-else>{{submitData.dTime | date()}}</span>
+              <span v-else class="color-txt">{{submitData.dTime | date()}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="停靠机位" prop="arrivalPosition">
+            <el-form-item :label="isEdit?'停靠机位':'停靠机位：'" prop="arrivalPosition">
               <el-input size="mini" v-model.number="submitData.arrivalPosition" maxlength="35" clearable v-if="isEdit"></el-input>
-              <span v-else>{{submitData.arrivalPosition}}</span>
+              <span v-else class="color-txt">{{submitData.arrivalPosition}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="机组人数" prop="aircrewSum">
+            <el-form-item :label="isEdit?'机组人数':'机组人数：'" prop="aircrewSum">
               <el-input size="mini" v-model.number="submitData.aircrewSum" maxlength="5" clearable v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.aircrewSum!==''&& submitData.aircrewSum!== null?submitData.aircrewSum+'人':''"></span>
+              <span v-else class="color-txt" v-text="submitData.aircrewSum!==''&& submitData.aircrewSum!== null?submitData.aircrewSum+'人':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="国际旅客人数" prop="interPassengerSum">
+            <el-form-item :label="isEdit?'国际旅客人数':'国际旅客人数：'" prop="interPassengerSum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.interPassengerSum" maxlength="5" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.interPassengerSum!==''&& submitData.interPassengerSum!== null?submitData.interPassengerSum+'人':''"></span>
+              <span v-else class="color-txt" v-text="submitData.interPassengerSum!==''&& submitData.interPassengerSum!== null?submitData.interPassengerSum+'人':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="国内旅客人数" prop="localePassengerSum">
+            <el-form-item :label="isEdit?'国内旅客人数':'国内旅客人数：'" prop="localePassengerSum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.localePassengerSum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.localePassengerSum!==''&& submitData.localePassengerSum!== null?submitData.localePassengerSum+'人':''"></span>
+              <span v-else class="color-txt" v-text="submitData.localePassengerSum!==''&& submitData.localePassengerSum!== null?submitData.localePassengerSum+'人':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="国际行李件数" prop="interBaggageNum">
+            <el-form-item :label="isEdit?'国际行李件数':'国际行李件数：'" prop="interBaggageNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.interBaggageNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.interBaggageNum!==''&& submitData.interBaggageNum!== null?submitData.interBaggageNum+'件':''"></span>
+              <span v-else class="color-txt" v-text="submitData.interBaggageNum!==''&& submitData.interBaggageNum!== null?submitData.interBaggageNum+'件':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="国内行李件数" prop="localeBaggageNum">
+            <el-form-item :label="isEdit?'国内行李件数':'国内行李件数：'" prop="localeBaggageNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.localeBaggageNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.localeBaggageNum!==''&& submitData.localeBaggageNum!== null?submitData.localeBaggageNum+'件':''"></span>
+              <span v-else class="color-txt" v-text="submitData.localeBaggageNum!==''&& submitData.localeBaggageNum!== null?submitData.localeBaggageNum+'件':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="旅客名单份数" prop="passengerBillNum">
+            <el-form-item :label="isEdit?'旅客名单份数':'旅客名单份数：'" prop="passengerBillNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.passengerBillNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.passengerBillNum!==''&& submitData.passengerBillNum!== null?submitData.passengerBillNum+'份':''"></span>
+              <span v-else class="color-txt" v-text="submitData.passengerBillNum!==''&& submitData.passengerBillNum!== null?submitData.passengerBillNum+'份':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="机组名单份数" prop="aircrewBillNum">
+            <el-form-item :label="isEdit?'机组名单份数':'机组名单份数：'" prop="aircrewBillNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.aircrewBillNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.aircrewBillNum!==''&& submitData.aircrewBillNum!== null?submitData.aircrewBillNum+'份':''"></span>
+              <span v-else class="color-txt" v-text="submitData.aircrewBillNum!==''&& submitData.aircrewBillNum!== null?submitData.aircrewBillNum+'份':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="机组物品申报单份数" prop="aircrewCargoBillNum">
+            <el-form-item :label="isEdit?'机组物品申报单份数':'机组物品申报单份数：'" prop="aircrewCargoBillNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.aircrewCargoBillNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.aircrewCargoBillNum!==''&& submitData.aircrewCargoBillNum!== null?submitData.aircrewCargoBillNum+'份':''"></span>
+              <span v-else class="color-txt" v-text="submitData.aircrewCargoBillNum!==''&& submitData.aircrewCargoBillNum!== null?submitData.aircrewCargoBillNum+'份':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="货物申报单份数" prop="cargoBillNum">
+            <el-form-item :label="isEdit?'货物申报单份数':'货物申报单份数：'" prop="cargoBillNum" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.cargoBillNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.cargoBillNum!==''&& submitData.cargoBillNum!== null?submitData.cargoBillNum+'份':''"></span>
+              <span v-else class="color-txt" v-text="submitData.cargoBillNum!==''&& submitData.cargoBillNum!== null?submitData.cargoBillNum+'份':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="货邮件数" prop="goodsNum">
+            <el-form-item :label="isEdit?'货邮件数':'货邮件数：'" prop="goodsNum">
               <el-input size="mini" clearable v-model.number="submitData.goodsNum" maxlength="10" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.goodsNum!==''&& submitData.goodsNum!== null?submitData.goodsNum+'件':''"></span>
+              <span v-else class="color-txt" v-text="submitData.goodsNum!==''&& submitData.goodsNum!== null?submitData.goodsNum+'件':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="货邮重量(千克)" prop="goodsQuantity">
+            <el-form-item :label="isEdit?'货邮重量(千克)':'货邮重量(千克)：'" prop="goodsQuantity" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable v-model.number="submitData.goodsQuantity" maxlength="35" v-if="isEdit"></el-input>
-              <span v-else v-text="submitData.goodsQuantity!==''&& submitData.goodsQuantity!== null?submitData.goodsQuantity+'千克':''"></span>
+              <span v-else class="color-txt" v-text="submitData.goodsQuantity!==''&& submitData.goodsQuantity!== null?submitData.goodsQuantity+'千克':''"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="是否有健康异常" prop="healthStatus">
+            <el-form-item :label="isEdit?'是否有健康异常':'是否有健康异常：'" prop="healthStatus" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.healthStatus" v-if="isEdit" clearable>
                 <el-option v-for="item in statusList" :value="item.value" :label="item.text" :key="item.value"></el-option>
               </el-select>
-              <span v-else v-text="submitData.healthStatus === '1'?'是':'否'"></span>
+              <span v-else class="color-txt" v-text="submitData.healthStatus === '1'?'是':'否'"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="是否发现病媒生物" prop="vectorOrganisms">
+            <el-form-item :label="isEdit?'是否发现病媒生物':'是否发现病媒生物：'" prop="vectorOrganisms" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.vectorOrganisms" v-if="isEdit" clearable>
                 <el-option v-for="item in statusList" :value="item.value" :label="item.text" :key="item.value"></el-option>
               </el-select>
-              <span v-else v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
+              <span v-else class="color-txt" v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="是否发现外来有害生物" prop="harmfulOrganisms">
+            <el-form-item :label="isEdit?'是否发现外来有害生物':'是否发现外来有害生物：'" prop="harmfulOrganisms" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.harmfulOrganisms" v-if="isEdit" clearable>
                 <el-option v-for="item in statusList" :value="item.value" :label="item.text" :key="item.value"></el-option>
               </el-select>
-              <span v-else v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
+              <span v-else class="color-txt" v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="是否有有效灭蚊证明" prop="mosquitoEradication">
+            <el-form-item :label="isEdit?'是否有有效灭蚊证明':'是否有有效灭蚊证明：'" prop="mosquitoEradication" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.mosquitoEradication" v-if="isEdit" clearable>
                 <el-option v-for="item in statusList" :value="item.value" :label="item.text" :key="item.value"></el-option>
               </el-select>
-              <span v-else v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
+              <span v-else class="color-txt" v-text="submitData.vectorOrganisms === '1'?'是':'否'"></span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="airvehicle-form-row">
-          <el-col :span="12">
+        <el-row class="airvehicle-form-row pd-l-15 mg-b-10" :gutter="30">
+          <el-col :span="24" v-if="isEdit">
             <el-form-item label="备注">
-              <el-input type="textarea" v-model="submitData.memo" rows="2" maxlength="200" v-if="isEdit"></el-input>
-              <span v-else>{{submitData.memo}}</span>
+              <el-input type="textarea" v-model="submitData.memo" rows="2" maxlength="200"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" v-else>
+            <el-form-item label="备注：">
+              <span class="break-text color-txt">{{submitData.memo}}</span>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </el-row>
     <el-row class="airvehicle-panel airvehicle-table">
-      <el-row class="import-edit-title"><i class="fa fa-edit"></i>机组名单信息</el-row>
+      <el-row class="import-edit-title">机组名单信息</el-row>
       <el-row class="airvehicle-table-icon" v-if="isEdit">
         <el-button size="mini" class="list-btns list-icon-delete" @click="deletes"><i></i>删除</el-button>
         <div class="airvehicle-list-drop">
@@ -211,7 +215,7 @@
           </el-popover>
         </div>
       </el-row>
-      <el-table class='sys-table-table' :data="submitData.cdsAirMemberVO" border highlight-current-row size="mini" @selection-change="selectVal">
+      <el-table class='sys-table-table' :data="submitData.cdsAirMemberVO" :height="250" border highlight-current-row size="mini" @selection-change="selectVal">
         <el-table-column  type="selection" min-width="50" align="center" v-if="isEdit"></el-table-column>
         <el-table-column label="序号" width="100" prop="serialNo" align="left" v-if="thList[0].value"></el-table-column>
         <el-table-column label="姓名" prop="mName" min-width="100" align="center" v-if="thList[1].value"></el-table-column>
@@ -226,13 +230,6 @@
         <el-table-column label="证件号" prop="certNo" align="left" min-width="150" v-if="thList[6].value"></el-table-column>
         <el-table-column label="备注" prop="memo" align="left" min-width="180" v-if="thList[7].value"></el-table-column>
       </el-table>
-      <!--分页-->
-      <el-row class='sys-page-list'>
-        <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
-        </el-col>
-      </el-row>
-      <!--分页end-->
     </el-row>
     <!-- 主显示框end -->
   </section>

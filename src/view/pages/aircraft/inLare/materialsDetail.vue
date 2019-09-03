@@ -1,5 +1,5 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 头部 -->
     <el-row class='sys-header'>
       <el-form label-width="0px">
@@ -103,7 +103,7 @@
     </el-row>
     <el-row class="airvehicle-panel airvehicle-table">
       <el-row class="import-edit-title"><i class="fa fa-edit"></i>货物明细信息</el-row>
-      <el-row class="airvehicle-table-icon" v-if="isEdit">
+      <el-row class="table-btn" v-if="isEdit">
         <el-button size="mini" class="list-btns list-icon-delete" @click="deletes"><i></i>删除</el-button>
         <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">

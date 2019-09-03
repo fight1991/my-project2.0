@@ -1,103 +1,83 @@
-.airvehicle-main {
-//   background-color: #e5f2ff;
-    padding: 15px;
-    height: calc((100% - 30px));
-    font-size:12px;
-    font-family: Arial,Microsoft YaHei,SimSun;
-    overflow: auto;
-    .airvehicle-search {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-        [class*=el-col-]{
-            padding: 0 10px;
-        }
+.query-condition {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .table-btn {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  .query-table-common {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .table-btn {
+    .last-btn {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
     }
-    .airvehicle-search-btn {
-        text-align: center;
-    }
-    .airvehicle-icon-btn {
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        vertical-align: sub;
-    }
+  }
+  .file-inputx {
+    height: 100%;
+  }
+  
   .air-i{
     display: inline-block;
     width: 15px;
     height: 15px; 
     vertical-align: middle;
   }
-  .airvehicle-table {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      .airvehicle-table-icon{
-          margin-bottom: 15px;
-          .upload-demo{
-              display: inline-block;
-          }
-      }
-  }
-    .airvehicle-table{
-        .sys-table-table{
-            i{
-                margin-right: 5px;
-            }
-        }
-    }
   .airvehicle-back-btn{
+    display: inline-block;
+    font-size: 13px;
+    color: #353535;
+    cursor: pointer;
+    .back-btn {
       display: inline-block;
-      font-size: 13px;
-      color: #353535;
-      cursor: pointer;
-      .back-btn {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          margin-right: 5px;
-          background: url(../../../../assets/img/icon/back.png) no-repeat;
-          vertical-align: middle;
-      }
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      background: url(../../../../assets/img/icon/back.png)no-repeat;
+      vertical-align: middle;
+    }
   }
   .airvehicle-panel{
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
   }
-}
-.airvehicle-list-drop{
-  float: right;
-  .el-button{
-    i{
-      margin: 0 0 0 5px;
-    }
-  }
-}
 .import-edit-title{
   font-size: 14px;
   margin-bottom: 15px;
-  i{
-    margin-right: 5px;
-    vertical-align: middle;
-  }
+  border-left: 2px solid #287fca;
+  padding-left: 10px;
+  color: @font-color-main;
+  font-weight: bold;
 }
 .airvehicle-form{
-    .el-form-item{
-        margin-bottom: 15px;
-    }
-    .airvehicle-form-row{
-        margin-top: 6px;
-    }
-    .el-form-item__error{
-        padding-top: 0;
-    }
+  .el-form-item{
+    margin-bottom: 18px;
+  }
+  .airvehicle-form-row{
+    margin-top: 6px;
+  }
+  .el-form-item__error{
+    padding-top: 0;
+  }
+}
+.mg-b-10{
+  margin-bottom: 10px;
 }
 .mg-b-15{
   margin-bottom: 15px;
 }
 .mg-b-30{
     margin-bottom: 30px;
+}
+.pd-l-15{
+    padding-left: 15px;
 }
 .pad0{
     padding: 0;
@@ -116,7 +96,7 @@
 }
 .airvehicle-return{
     background-color: #fff;
-    padding: 0 20px 20px;
+    padding: 20px;
 }
 .icon-btn{
     padding: 7px 10px;
@@ -136,4 +116,7 @@
     color: @font-color-main;
     text-align: center;
     margin-top: -25px;
+}
+.color-txt{
+    color: @font-color-main;
 }

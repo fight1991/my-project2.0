@@ -1,27 +1,27 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 头部 -->
     <el-row class='sys-header'>
       <el-form label-width="0px">
         <!-- 返回按钮 -->
-        <el-row class='mg-b-15'>
-          <span @click="$router.go(-1)" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
-        </el-row>
+        <!-- <el-row class='mg-b-15'>
+          <span @click="$router.push({name: '海关在港申报'})" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
+        </el-row> -->
         <!-- 返回按钮 end-->
         <el-row v-if="isEdit" class="mg-b-15">
-          <el-button type="primary" size="mini" icon="fa fa-save" @click="saveData">&nbsp;暂存</el-button>
-          <el-button type="primary" size="mini" icon="fa fa-file-o" @click="declare">&nbsp;申报</el-button>
+          <el-button size="mini" class="default-btn" @click="saveData">暂存</el-button>
+          <el-button type="primary" size="mini" class="primary-btn" @click="declare">申报</el-button>
         </el-row>
       </el-form>
     </el-row>
     <!-- 头部end -->
     <!-- 主显示框 -->
     <el-row class="airvehicle-panel">
-      <el-form label-width="135px" :model="submitData" ref="submitData" :rules="rules">
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>报给单位</el-row>
-        <el-row>
+      <el-form :label-width="isEdit?labelFormWidth.sixR:'130px'" :model="submitData" ref="submitData" :rules="rules" size="mini">
+        <el-row class="import-edit-title">报给单位</el-row>
+        <el-row :gutter="30" class="pd-l-15">
           <el-col :span="6">
-            <el-form-item label="海关关区" prop="cusCustomsCode2">
+            <el-form-item :label="isEdit?'海关关区':'海关关区：'" prop="cusCustomsCode2">
               <el-select size="mini" v-model="submitData.cusCustomsCode2" v-if="isEdit"
                 @focus="tipsFillMessage('cusCustomsCodeList','SAAS_CUSTOMS_REL')"
                 filterable remote default-first-option clearable
@@ -34,20 +34,20 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.cusCustomsCode2}}-{{submitData.cusCustomsCode2Value}}</span>
+              <span v-else class="color-txt">{{submitData.cusCustomsCode2}}-{{submitData.cusCustomsCode2Value}}</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>航空器信息</el-row>
-        <el-row>
+        <el-row class="import-edit-title">航空器信息</el-row>
+        <el-row :gutter="30" class="pd-l-15 mg-b-10">
           <el-col :span="6">
-            <el-form-item label="航空器注册编号" prop="aircraftNo">
+            <el-form-item :label="isEdit?'航空器注册编号':'航空器注册编号：'" prop="aircraftNo" :class="{'more-txt-lh': isEdit}">
               <el-input size="mini" clearable maxlength="25" v-model="submitData.aircraftNo" v-if="isEdit"></el-input>
-              <span v-else>{{submitData.aircraftNo}}</span>
+              <span v-else class="color-txt">{{submitData.aircraftNo}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="注册海关关区">
+            <el-form-item :label="isEdit?'注册海关关区':'注册海关关区：'" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.cusCustomsCode1" v-if="isEdit"
                 @focus="tipsFillMessage('cusCustomsCodeListA','SAAS_CUSTOMS_REL')"
                 filterable remote default-first-option clearable
@@ -60,34 +60,34 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.cusCustomsCode1}}-{{submitData.cusCustomsCode1Value}}</span>
+              <span v-else class="color-txt">{{submitData.cusCustomsCode1}}-{{submitData.cusCustomsCode1Value}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="航空器备案类型" prop="putrecAirType">
+            <el-form-item :label="isEdit?'航空器备案类型':'航空器备案类型：'" prop="putrecAirType" :class="{'more-txt-lh': isEdit}">
               <el-select size="mini" v-model="submitData.putrecAirType" v-if="isEdit" clearable>
                 <el-option v-for="item in putrecAirTypeList" :value="item.value" :label="item.text" :key="item.value"></el-option>
               </el-select>
-              <span v-else>{{submitData.putrecAirType==='1'?'航线航空器':'通用航空器'}}</span>
+              <span v-else class="color-txt">{{submitData.putrecAirType==='1'?'航线航空器':'通用航空器'}}</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>在港申报信息</el-row>
-        <el-row>
+        <el-row class="import-edit-title">在港申报信息</el-row>
+        <el-row :gutter="30" class="pd-l-15 mg-b-10">
           <el-col :span="6">
-            <el-form-item label="进港航班号" prop="voyageIn">
+            <el-form-item :label="isEdit?'进港航班号':'进港航班号：'" prop="voyageIn">
               <el-input size="mini" clearable v-model="submitData.voyageIn" v-if="isEdit" maxlength="20"></el-input>
-              <span v-else>{{submitData.voyageIn}}</span>
+              <span v-else class="color-txt">{{submitData.voyageIn}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="航班日期" prop="arrivalDate">
+            <el-form-item :label="isEdit?'航班日期':'航班日期：'" prop="arrivalDate">
               <el-date-picker size="mini" v-model="submitData.arrivalDate" v-if="isEdit" type="date" style="width:100%"></el-date-picker>
-              <span v-else>{{submitData.arrivalDate | date('yyyy-MM-dd')}}</span>
+              <span v-else class="color-txt">{{submitData.arrivalDate | date('yyyy-MM-dd')}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="停靠港" prop="stayAirport">
+            <el-form-item :label="isEdit?'停靠港':'停靠港：'" prop="stayAirport">
               <el-select size="mini" v-model="submitData.stayAirport" v-if="isEdit"
                 @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CODE')"
                 filterable remote default-first-option clearable
@@ -100,24 +100,24 @@
                   :value="item.codeField">
                 </el-option>
               </el-select>
-              <span v-else>{{submitData.stayAirport}}-{{submitData.stayAirportValue}}</span>
+              <span v-else class="color-txt">{{submitData.stayAirport}}-{{submitData.stayAirportValue}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="停机位" prop="stayId">
+            <el-form-item :label="isEdit?'停机位':'停机位：'" prop="stayId">
               <el-input size="mini" clearable v-model.number="submitData.stayId" v-if="isEdit" maxlength="35"></el-input>
-              <span v-else>{{submitData.stayId}}</span>
+              <span v-else class="color-txt">{{submitData.stayId}}</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="import-edit-title"><i class="fa fa-edit"></i>备注信息</el-row>
-        <el-row>
+        <el-row class="import-edit-title">备注信息</el-row>
+        <el-row :gutter="30" class="pd-l-15 mg-b-10">
           <el-col :span="6">
-            <el-form-item label="滞留原因" prop="content">
+            <el-form-item :label="isEdit?'滞留原因':'滞留原因：'" prop="content">
               <el-select size="mini" v-model="submitData.content" v-if="isEdit">
                 <el-option v-for="item in reasonList" :key="item.value" :value="item.value" :label="item.text"></el-option>
               </el-select>
-              <span v-else>{{formatContent(submitData.content)}}</span>
+              <span v-else class="color-txt">{{formatContent(submitData.content)}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="24" v-if="isEdit">
@@ -126,8 +126,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="24" v-else>
-            <el-form-item label="海关备注">
-              <span class="break-text">{{submitData.memo}}</span>
+            <el-form-item label="海关备注：">
+              <span class="break-text color-txt">{{submitData.memo}}</span>
             </el-form-item>
           </el-col>
         </el-row>

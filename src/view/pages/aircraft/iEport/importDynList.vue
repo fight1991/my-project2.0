@@ -1,21 +1,21 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 查询条件 -->
-    <div class = "airvehicle-search">
+    <div class = "query-condition">
       <!-- -->
-      <el-form label-width="125px" :model="QueryForm" size="mini">
+      <el-form :label-width="labelFormWidth.five" :model="QueryForm" size="mini">
         <el-row :gutter="50">
-          <el-col :span="8">
-            <el-form-item label="航空器注册编号">
+          <el-col :span="7">
+            <el-form-item label="航空器注册编号" class="more-txt-lh">
               <el-input size="mini" v-model="QueryForm.aircraftNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="7">
             <el-form-item label="进港航班号">
               <el-input size="mini" v-model="QueryForm.voyageIn" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item label="抵港时间">
               <el-date-picker size="mini" v-model="dates" style="width:100%"
                 type="daterange"
@@ -28,18 +28,16 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="24" class='airvehicle-search-btn'>
-            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="search">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="reset">重置</el-button>
-          </el-col>
+        <el-row class="query-btn" style="text-align:center">
+          <el-button size="mini" type="primary" class="primary-btn" @click="search">查询</el-button>
+          <el-button size="mini" class="default-btn" @click="reset">重置</el-button>
         </el-row>
         <!-- 查询条件 end-->
       </el-form>
     </div>
-    <div class="airvehicle-table">
+    <div class="query-table">
       <!-- 操作按钮 -->
-      <el-row class="airvehicle-table-icon">
+      <el-row class="table-btn">
         <el-upload
           class="upload-demo"
           action="http://127.0.0.1"
@@ -52,44 +50,47 @@
         <el-button size="mini" class="list-btns list-icon-declare" @click="declare"><i></i>申报</el-button>
         <el-button size="mini" class="list-btns list-icon-autodeclare" @click="autoDeclare"><i></i>自动申报</el-button>
         <el-button size="mini" class="list-btns list-icon-canceldeclare" @click="cancelDeclare"><i></i>取消自动申报</el-button>
-        <div class="airvehicle-list-drop">
-          <el-popover popper-class="airvehicle-table-popper">
-            <ul>
-              <li v-for="(item,index) in thList" :key="index">
-                <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
-              </li>
-            </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
-          </el-popover>
+        <div class="last-btn">
+          <div class="airvehicle-list-drop">
+            <el-popover popper-class="airvehicle-table-popper">
+              <ul>
+                <li v-for="(item,index) in thList" :key="index">
+                  <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
+                </li>
+              </ul>
+              <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            </el-popover>
+          </div>
         </div>
       </el-row>
       <!-- 操作按钮 end -->
       <!-- 列表 -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row size="mini" @selection-change="selectVal" :height="tabHeight">
         <el-table-column  type="selection" width="37" align="center"></el-table-column>
-        <el-table-column label="编号" prop="iprtTmpNo" min-width="130" v-if="thList[0].value"></el-table-column>
-        <el-table-column label="申报方式" min-width="130" align="center" v-if="thList[1].value">
+        <el-table-column label="系统编号" prop="iprtTmpNo" align="left" min-width="120" v-if="thList[0].value"></el-table-column>
+        <el-table-column label="单一窗口编号" prop="swSeqId" align="left" min-width="150" v-if="thList[1].value"></el-table-column>
+        <el-table-column label="申报方式" min-width="130" align="center" v-if="thList[2].value">
           <template slot-scope="scope">
             <div v-if="scope.row.autoDec === '1'">自动申报</div>
             <div v-else></div>
           </template>
         </el-table-column>
-        <el-table-column label="申报对象" prop="cdsDclTypeValue" align="center" min-width="130" v-if="thList[2].value"></el-table-column>
-        <el-table-column label="航空器注册编号" prop="aircraftNo" align="left" min-width="130" v-if="thList[3].value"></el-table-column>
-        <el-table-column label="进港航班号" prop="voyageIn" align="left" min-width="130" v-if="thList[4].value"></el-table-column>
-        <el-table-column label="到达港" prop="toAirportValue" align="left" min-width="180" v-if="thList[5].value"></el-table-column>
-        <el-table-column label="抵港时间" min-width="150" align="center" v-if="thList[6].value">
+        <el-table-column label="申报对象" prop="cdsDclTypeValue" align="center" min-width="130" v-if="thList[3].value"></el-table-column>
+        <el-table-column label="航空器注册编号" prop="aircraftNo" align="left" min-width="130" v-if="thList[4].value"></el-table-column>
+        <el-table-column label="进港航班号" prop="voyageIn" align="left" min-width="130" v-if="thList[5].value"></el-table-column>
+        <el-table-column label="到达港" prop="toAirportValue" align="left" min-width="180" v-if="thList[6].value"></el-table-column>
+        <el-table-column label="抵港时间" min-width="150" align="center" v-if="thList[7].value">
           <template slot-scope="scope">
             <div>{{scope.row.arrivalDateTime | date()}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="海关状态" align="left" min-width="110" v-if="thList[7].value">
+        <el-table-column label="海关状态" align="left" min-width="110" v-if="thList[8].value">
           <template slot-scope="scope">
             <a href="javascript:void(0)" style='color: #287fca;' @click="lookReturnInfo(scope.row.iprtTmpNo)">{{scope.row.rcptStatusValue}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="操作状态" prop="xmlStatusValue" align="left" min-width="110" v-if="thList[8].value"></el-table-column>
-        <el-table-column label="操作" width="120" align="center">
+        <el-table-column label="操作状态" prop="xmlStatusValue" align="left" min-width="110" v-if="thList[9].value"></el-table-column>
+        <el-table-column label="操作" width="120" align="center" fixed="right">
           <template slot-scope="scope">
             <el-button size="mini" type="text" class="list-icon-edit pad0" title="编辑" v-if="scope.row.rcptStatus !== 'REC' && scope.row.rcptStatus !== 'ACC' && scope.row.rcptStatus !== 'WMA' && scope.row.rcptStatus !== 'END'" @click="editDetail('edit',scope.row.iprtTmpNo)"><i class="air-i"></i></el-button>
             <el-button size="mini" type="text" class="list-icon-look pad0" title="详情" @click="editDetail('detail',scope.row.iprtTmpNo)"><i class="air-i"></i></el-button>
@@ -112,6 +113,8 @@
 </template>
 <script>
 import util from '@/common/util'
+import returnInfo from '../component/returnDetail.vue'
+
 export default {
   data () {
     return {
@@ -126,7 +129,10 @@ export default {
       resultList: [], // 表格数据
       thList: [{
         value: true,
-        text: '编号'
+        text: '系统编号'
+      }, {
+        value: true,
+        text: '单一窗口编号'
       }, {
         value: true,
         text: '申报方式'
@@ -197,7 +203,7 @@ export default {
     }
   },
   components: {
-    'return-info': resolve => require(['../component/returnDetail.vue'], resolve)
+    returnInfo
   },
   created () {
     this.dates = [util.getNdayDate(new Date(), -30), new Date()]
@@ -524,6 +530,7 @@ export default {
     },
     // 跳转到编辑详情页
     editDetail (type, id) {
+      let title = type === 'edit' ? '进境、港动态申报修改' : '进境、港动态申报详情'
       this.$router.push({
         name: '进境、港动态申报信息',
         params: {

@@ -1,11 +1,11 @@
 <template>
-  <section class='airvehicle-main'>
+  <section class='sys-main'>
     <!-- 查询条件 -->
-    <div class = "airvehicle-search">
+    <div class = "query-condition">
       <!-- -->
-      <el-form :label-width="labelFormWidth.six" :model="QueryForm" size="mini">
+      <el-form :label-width="labelFormWidth.five" :model="QueryForm" size="mini">
         <el-row :gutter="50">
-          <el-col :span="6">
+          <el-col :span="colSpan">
             <el-form-item label="进出口标识">
               <el-select v-model="QueryForm.ioFlag" filterable>
                 <el-option value="O" label="出口" key="O"></el-option>
@@ -13,12 +13,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="colSpan">
             <el-form-item label="航班号">
               <el-input size="mini" v-model="QueryForm.voyageOut" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="colSpan">
             <el-form-item label="取消港">
               <el-select size="mini" v-model="QueryForm.fromAirport"
                 @focus="tipsFillMessage('portList','SAAS_SW_AIRPORT_CNCODE')"
@@ -34,7 +34,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="colSpan">
             <el-form-item label="航班日期">
               <el-date-picker size="mini" v-model="dates"  style="width:100%"
                 type="daterange"
@@ -47,18 +47,16 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="24" class='airvehicle-search-btn'>
-            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="search">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="reset">重置</el-button>
-          </el-col>
+        <el-row class="query-btn" style="text-align:center">
+          <el-button size="mini" type="primary" class="primary-btn" @click="search">查询</el-button>
+          <el-button size="mini" class="default-btn" @click="reset">重置</el-button>
         </el-row>
         <!-- 查询条件 end-->
       </el-form>
     </div>
-    <div class="airvehicle-table">
+    <div class="query-table-common">
       <!-- 操作按钮 -->
-      <el-row class="airvehicle-table-icon">
+      <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-add" @click="editDetail('add','')"><i></i>新增</el-button>
         <el-upload
           class="upload-demo"
@@ -70,51 +68,54 @@
         <el-button size="mini" class="list-btns list-icon-copy" @click="copyData"><i></i>复制</el-button>
         <el-button size="mini" class="list-btns list-icon-delete" @click="delData"><i></i>删除</el-button>
         <el-button size="mini" class="list-btns list-icon-declare" @click="declare"><i></i>申报</el-button>
-        <div class="airvehicle-list-drop">
-          <el-popover popper-class="airvehicle-table-popper">
-            <ul>
-              <li v-for="(item,index) in thList" :key="index">
-                <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
-              </li>
-            </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
-          </el-popover>
+        <div class="last-btn">
+          <div class="airvehicle-list-drop">
+            <el-popover popper-class="airvehicle-table-popper">
+              <ul>
+                <li v-for="(item,index) in thList" :key="index">
+                  <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
+                </li>
+              </ul>
+              <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            </el-popover>
+          </div>
         </div>
       </el-row>
       <!-- 操作按钮 end -->
       <!-- 列表 -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row size="mini" @selection-change="selectVal" :height="tabHeight">
         <el-table-column  type="selection" width="37" align="center"></el-table-column>
-        <el-table-column label="编号" prop="iprtTmpNo" min-width="150" align="left" v-if="thList[0].value"></el-table-column>
-        <el-table-column label="进出口标识" min-width="120" align="center" v-if="thList[1].value">
+        <el-table-column label="系统编号" prop="iprtTmpNo" min-width="120" align="left" v-if="thList[0].value"></el-table-column>
+        <el-table-column label="单一窗口编号" prop="swSeqId" align="left" min-width="150" v-if="thList[1].value"></el-table-column>
+        <el-table-column label="进出口标识" min-width="120" align="center" v-if="thList[2].value">
           <template slot-scope="scope">
             <div>{{scope.row.ioFlag=='O'?'出口':'进口'}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="航班号" min-width="150" align="left" v-if="thList[2].value">
+        <el-table-column label="航班号" min-width="150" align="left" v-if="thList[3].value">
           <template slot-scope="scope">
             <div v-if="scope.row.ioFlag=='O'">{{scope.row.voyageOut}}</div>
             <div v-else>{{scope.row.voyageIn}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="取消港" min-width="180" align="left" v-if="thList[3].value">
+        <el-table-column label="取消港" min-width="180" align="left" v-if="thList[4].value">
           <template slot-scope="scope">
             <div v-if="scope.row.ioFlag=='O'">{{scope.row.fromAirportValue}}</div>
             <div v-else>{{scope.row.toAirportValue}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="航班日期" min-width="130" align="center" v-if="thList[4].value">
+        <el-table-column label="航班日期" min-width="130" align="center" v-if="thList[5].value">
           <template slot-scope="scope">
             <div>{{scope.row.arrivalDate | date('yyyy-MM-dd')}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="海关备案状态" align="left" min-width="110" v-if="thList[5].value">
+        <el-table-column label="海关备案状态" align="left" min-width="110" v-if="thList[6].value">
           <template slot-scope="scope">
             <a href="javascript:void(0)" style='color: #287fca;' @click="lookReturnInfo(scope.row.iprtTmpNo)">{{scope.row.rcptStatusValue}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="操作状态" prop="xmlStatusValue" align="left" min-width="110" v-if="thList[6].value"></el-table-column>
-        <el-table-column label="操作" width="120" align="center">
+        <el-table-column label="操作状态" prop="xmlStatusValue" align="left" min-width="110" v-if="thList[7].value"></el-table-column>
+        <el-table-column label="操作" width="120" align="center" fixed="right">
           <template slot-scope="scope">
             <el-button size="mini" type="text" class="list-icon-edit pad0" title="编辑" v-if="scope.row.rcptStatus !== 'REC' && scope.row.rcptStatus !== 'ACC' && scope.row.rcptStatus !== 'WMA' && scope.row.rcptStatus !== 'END'" @click="editDetail('edit',scope.row.iprtTmpNo)"><i class="air-i"></i></el-button>
             <el-button size="mini" type="text" class="list-icon-look pad0" title="详情" @click="editDetail('detail',scope.row.iprtTmpNo)"><i class="air-i"></i></el-button>
@@ -143,9 +144,13 @@
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import returnInfo from '../component/returnDetail.vue'
+import cancelInfo from './airCancelDetail'
+
 export default {
   data () {
     return {
+      colSpan: 6,
       dates: ['', ''],
       QueryForm: {
         ioFlag: 'O',
@@ -157,7 +162,10 @@ export default {
       resultList: [], // 表格数据
       thList: [{
         value: true,
-        text: '编号'
+        text: '系统编号'
+      }, {
+        value: true,
+        text: '单一窗口编号'
       }, {
         value: true,
         text: '进出口标识'
@@ -237,15 +245,31 @@ export default {
     }
   },
   components: {
-    'cancel-info': resolve => require(['./airCancelDetail.vue'], resolve),
-    'return-info': resolve => require(['../component/returnDetail.vue'], resolve)
+    returnInfo,
+    cancelInfo
   },
   created () {
     this.dates = [util.getNdayDate(new Date(), -30), new Date()]
     this.getCommonParam()
     // this.search()
   },
+  mounted () {
+    this.windowsWidth()
+    window.onresize = () => {
+      return (() => {
+        this.windowsWidth()
+      })()
+    }
+  },
   methods: {
+    // 获取屏幕宽度
+    windowsWidth () {
+      if (document.documentElement.clientWidth < 1440) {
+        this.colSpan = 12
+      } else {
+        this.colSpan = 6
+      }
+    },
     // 加载缓存数据
     loadData () {
       this.$store.commit('pageCacheInit', this.pagination)
