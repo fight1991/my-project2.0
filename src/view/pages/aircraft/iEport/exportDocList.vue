@@ -193,7 +193,7 @@ export default {
   },
   created () {
     this.dates = [util.getNdayDate(new Date(), -30), new Date()]
-    // this.search()
+    this.search()
   },
   methods: {
     // 查询
@@ -391,13 +391,14 @@ export default {
     },
     // 跳转到编辑详情页
     editDetail (type, id) {
-      let title = type === 'edit' ? '出境、港单证申报修改' : '出境、港单证申报详情'
+      let title = type === 'edit' ? '出境/港单证申报修改' : '出境/港单证申报详情'
       this.$router.push({
-        name: '出境、港单证申报信息',
+        name: 'exportDocumentDetail',
         params: {
           type: type,
           id: id,
-          setTitle: title
+          setTitle: title + '-' + id,
+          setId: this.$route.name + type + id
         }
       })
     },

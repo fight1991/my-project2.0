@@ -519,13 +519,14 @@ export default {
     },
     // 跳转到编辑详情页
     editDetail (type, id) {
-      let title = type === 'edit' ? '进境、港动态申报修改' : '进境、港动态申报详情'
+      let title = type === 'edit' ? '进境/港动态申报修改' : '进境/港动态申报详情'
       this.$router.push({
-        name: '进境、港动态申报信息',
+        name: 'importDynamicDetail',
         params: {
           type: type,
           id: id,
-          setTitle: title
+          setTitle: title + '-' + id,
+          setId: this.$route.name + type + id
         }
       })
     },

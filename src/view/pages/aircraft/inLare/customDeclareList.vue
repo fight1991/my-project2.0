@@ -401,11 +401,12 @@ export default {
     editDetail (type, id) {
       let title = type === 'edit' ? '海关在港申报修改' : '海关在港申报详情'
       this.$router.push({
-        name: '海关在港申报信息',
+        name: 'customPortDetail',
         params: {
           type: type,
           id: id,
-          setTitle: title
+          setTitle: title + '-' + id,
+          setId: this.$route.name + type + id
         }
       })
     },

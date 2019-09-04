@@ -116,7 +116,7 @@
       <!--分页-->
       <el-row class='sys-page-list mg-b-30'>
         <el-col :span="24" align="right">
-          <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
+          <page-box :pagination.sync='paginationInit' @change="pageList"></page-box>
         </el-col>
       </el-row>
       <!--分页end-->
@@ -237,7 +237,7 @@ export default {
   created () {
     this.dates = [util.getNdayDate(new Date(), -30), new Date()]
     this.getCommonParam()
-    // this.search()
+    this.search()
   },
   mounted () {
     this.windowsWidth()
@@ -515,11 +515,12 @@ export default {
     editDetail (type, id) {
       let title = type === 'edit' ? '当日飞行计划备案修改' : '当日飞行计划备案详情'
       this.$router.push({
-        name: '当日飞行计划备案信息',
+        name: 'airplanDetail',
         params: {
-          'type': type,
-          'id': id,
-          setTitle: title
+          type,
+          id,
+          setTitle: title + '-' + id,
+          setId: this.$route.name + type + id
         }
       })
     },
