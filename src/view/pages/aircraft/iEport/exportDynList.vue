@@ -100,7 +100,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box :pagination.sync="paginationInit" @change="pageList"></page-box>            
+            <page-box :pagination.sync="paginationInit" @change="pageList"></page-box>
         </el-col>
       </el-row>
       <!--分页end-->
