@@ -17,7 +17,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '进口报关单模版'
+        title: '进口报关单模板'
       }
     },
     {
@@ -28,7 +28,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出口报关单模版'
+        title: '出口报关单模板'
       }
     },
     {
@@ -61,7 +61,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '报关单模版查询'
+        title: '报关单模板查询'
       }
     },
     {
@@ -72,7 +72,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '核注清单模版查询'
+        title: '核注清单模板查询'
       }
     },
     {
