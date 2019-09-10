@@ -64,7 +64,7 @@
       <!-- 操作按钮 end -->
       <!-- 列表 -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row size="mini" @selection-change="selectVal" :height="tabHeight">
-        <el-table-column  type="selection" width="37" align="center"></el-table-column>
+        <el-table-column  type="selection" width="40" align="center"></el-table-column>
         <el-table-column label="系统编号" prop="preMainDeclareId" align="left" min-width="120" v-if="thList[0].value"></el-table-column>
         <el-table-column label="单一窗口编号" prop="swSeqId" align="left" min-width="150" v-if="thList[1].value"></el-table-column>
         <el-table-column label="航空器注册编号" prop="aircraftNo" align="left" min-width="150" v-if="thList[2].value"></el-table-column>
