@@ -3,10 +3,6 @@
     <!-- 头部 -->
     <el-row class='sys-header'>
       <el-form label-width="0px">
-        <!-- 返回按钮 -->
-        <el-row class='mg-b-15'>
-          <span @click="$router.go(-1)" class="airvehicle-back-btn"><i class="back-btn"></i>返回</span>
-        </el-row>
         <!-- 返回按钮 end-->
         <el-row v-if="isEdit" class="mg-b-15">
           <el-button type="primary" size="mini" icon="fa fa-save" @click="saveData">&nbsp;暂存</el-button>

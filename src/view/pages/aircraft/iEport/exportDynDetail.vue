@@ -3,10 +3,6 @@
     <el-form :label-width="isEdit?labelFormWidth.sixR:'130px'" :model="submitData" :rules="rules" ref="submitData" class="airvehicle-form-b" size="mini">
       <!-- 头部 -->
       <el-row class='sys-header'>
-          <!-- 返回按钮 -->
-          <!-- <el-row>
-            <span @click="$router.push({name: '出境、港动态申报'})" class="airvehicle-back-btn mg-b-15"><i class="back-btn"></i>返回</span>
-          </el-row> -->
           <el-row>
             <el-form-item label="申报对象:" label-width="70px" v-if="!isEdit">
               <span class="color-txt">{{submitData.cdsDclTypeValue}}</span>
