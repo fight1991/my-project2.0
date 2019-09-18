@@ -188,8 +188,8 @@
 </template>
 
 <script>
-import validator from '../../../../common/validator'
-import util from '../../../../common/util'
+import validator from '@/common/validator'
+import util from '@/common/util'
 export default {
   data () {
     return {

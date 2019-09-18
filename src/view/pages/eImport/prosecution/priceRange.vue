@@ -251,8 +251,8 @@
     </section>
 </template>
 <script>
-import util from '../../../../common/util'
-import commonParam from '../../../../common/commonParam'
+import util from '@/common/util'
+import commonParam from '@/common/commonParam'
 export default {
   components: {
     'history-goods': resolve => require(['./component/historyGoods.vue'], resolve)

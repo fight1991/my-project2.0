@@ -144,9 +144,9 @@
 </template>
 
 <script>
-import validator from '../../../../common/validator'
-import util from '../../../../common/util'
-import commonParam from '../../../../common/commonParam'
+import validator from '@/common/validator'
+import util from '@/common/util'
+import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {

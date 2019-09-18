@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import util from '../../../common/util'
+import util from '@/common/util'
 // import pathList from '../../../config/pathList'
 import config from '../../../config/config'
 import eventBus from './eventBus'

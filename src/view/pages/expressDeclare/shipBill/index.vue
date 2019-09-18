@@ -108,7 +108,7 @@
   </section>
 </template>
 <script>
-import util from '../../../../common/util'
+import util from '@/common/util'
 export default {
   data () {
     return {

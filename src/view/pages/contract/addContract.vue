@@ -156,8 +156,8 @@
   </section>
 </template>
 <script>
-import util from '../../../common/util'
-import validator from '../../../common/validator'
+import util from '@/common/util'
+import validator from '@/common/validator'
 export default {
   data () {
     return {

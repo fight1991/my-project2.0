@@ -18,7 +18,7 @@ import reportComponent from './middle/report.vue'
 import newsComponent from './middle/news.vue'
 import corpDisplayComponent from './middle/corpDisplay.vue'
 import taxRuleComponent from './middle/taxRule.vue'
-import util from '../../common/util'
+import util from '@/common/util'
 export default {
   data () {
     return {

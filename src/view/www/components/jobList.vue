@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import util from '../../../common/util'
+import util from '@/common/util'
 import {jobTypeList} from '@/config/www'
 export default {
   data () {
