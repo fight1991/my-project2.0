@@ -83,7 +83,7 @@ export default {
     return {
       queryForm: {
         'querykey': '',
-        'classType': '1'
+        'classType': '2'
       },
       hsCodeList: [{
         text: '',
@@ -167,7 +167,7 @@ export default {
       this.queryForm.hs = ''
       this.queryForm = {
         'querykey': '',
-        'classType': '1'
+        'classType': '2'
       }
     },
     // 详情
