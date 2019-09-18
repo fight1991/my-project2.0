@@ -1,7 +1,11 @@
 const pagination = {
   data () {
     return {
-      paginationInit: {}
+      paginationInit: {
+        pageIndex: 1,
+        pageSize: 10,
+        total: 0
+      }
     }
   }
 }
