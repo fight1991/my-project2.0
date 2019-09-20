@@ -3,4 +3,4 @@
 	url = http://47.96.177.138:8084/gitblit/r/finance-public.git
 [submodule "src/view/pages/aircraft"]
 	path = src/view/pages/aircraft
-	url = http://tiancong@47.96.177.138:8084/gitblit/r/aircraft-public.git
+	url = http://47.96.177.138:8084/gitblit/r/aircraft-public.git
