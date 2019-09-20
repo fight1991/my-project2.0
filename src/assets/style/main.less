@@ -78,6 +78,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .mg-t-10{
   margin-top: 10px;
 }
+.mg-t-20{
+  margin-top: 20px;
+}
 .mg-l-10{
   margin-left: 10px;
 }
@@ -1011,6 +1014,12 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-scan:hover i,.list-icon-scan:focus i,.sys-table-table .list-icon-scan i{
     background: url('../../assets/img/icon/icon-scanH.png') no-repeat;
   }
+  .list-icon-approval i{
+    background: url('../../assets/img/icon/icon-approval.png') no-repeat;
+  }
+  .list-icon-approval:hover i,.list-icon-approval:focus i,.sys-table-table .list-icon-approval i{
+    background: url('../../assets/img/icon/icon-approvalH.png') no-repeat;
+  }
   .list-btn-drop{
     .list-icon-dropdown{
       width: 40px;
@@ -1091,6 +1100,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     .cell {
       color: #A5A5A5!important;
     }
+  }
+  .row-disable{
+    background-color: #f5f5f5;
   }
   .borderRightDeep {
     .el-table__body {
@@ -1249,13 +1261,13 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .el-button--primary{
     background-color: #287fca;
-    width: 70px;
+    min-width: 70px;
     height: 30px;
     color:#ffffff;
     border-color: rgba(255, 255, 255, 0);
   }
   .el-button--default{
-    width: 70px;
+    min-width: 70px;
     height: 30px;  
     color:#4c4c4c;
     border-color:#d8d8d8;
