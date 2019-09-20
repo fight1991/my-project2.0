@@ -953,6 +953,16 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   .list-icon-paR.is-disabled:hover i {
     background: url('../../assets/img/icon/icon-paRD.png') no-repeat;
   }
+  // 发票结案
+  .list-icon-case i{
+    background: url('../../assets/img/icon/icon-caseN.png') no-repeat;
+  }
+  .list-icon-case:hover i,.list-icon-case:focus i,.sys-table-table .list-icon-case i{
+    background: url('../../assets/img/icon/icon-caseF.png') no-repeat;
+  }
+  .list-icon-case.is-disabled:hover i,.list-icon-case.is-disabled i{
+    background: url('../../assets/img/icon/icon-caseD.png') no-repeat;
+  }
   // 导出发票
   .list-icon-exportBill i{
     background: url('../../assets/img/icon/icon-exportBillN.png') no-repeat;
@@ -974,6 +984,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
   .list-icon-look:hover i,.list-icon-look:focus i,.sys-table-table .list-icon-look i{
     background: url('../../assets/img/icon/icon-lookH.png') no-repeat;
+  }
+  .list-icon-look.is-disabled:hover i {
+    background: url('../../assets/img/icon/icon-lookD.png') no-repeat;
   }
   .list-icon-exportBill.is-disabled i, .list-icon-exportBill.is-disabled:hover i {
     background: url('../../assets/img/icon/icon-accountPassD.png') no-repeat;
@@ -1105,6 +1118,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   }
 }
 .query-table-finance {
+  .el-table__empty-block {
+    min-height: auto!important;
+  }
   .el-input__inner {
     height: auto;
     border-color: transparent!important;
