@@ -25,6 +25,8 @@ export default {
       this.url = pathList.eImport['tax_I_Template'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'tax_E_Template') {
       this.url = pathList.eImport['tax_E_Template'] + '?sysId=CCBA&tabId=' + this.$route.name
+    } else if (this.$route.name === 'customizeTemplate') {
+      this.url = pathList.eImport['customizeTemplate'] + '?sysId=CCBA&tabId=' + this.$route.name
     }
   }
 }
