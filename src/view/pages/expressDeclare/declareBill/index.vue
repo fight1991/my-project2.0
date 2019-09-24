@@ -3,20 +3,20 @@
     <!-- 查询条件 -->
     <div class="query-header">
       <el-form size="mini" :label-width="labelFormWidth.six" :model="queryForm" ref="queryForm" :rules="rules">
-        <el-row :gutter="50">
-          <el-col :span="8">
+        <el-row :gutter="30">
+          <el-col :md="12" :lg="8">
             <el-form-item label="进出口标志">
               <el-select v-model="queryForm.iEFlag" filterable style="width:100%;">
                 <el-option v-for="item in iEFlagList" :key="item.value" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :md="12" :lg="8">
             <el-form-item label="总运单号">
               <el-input v-model="queryForm.billNo" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :md="12" :lg="8">
             <el-form-item label="关区代码">
               <el-select v-model="queryForm.cusCustomsCode"
                 default-first-option remote
@@ -33,19 +33,32 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :span="8">
+          <el-col :md="12" :lg="8">
             <el-form-item label="分运单号">
               <el-input v-model="queryForm.assBillNo" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :md="12" :lg="8">
             <el-form-item label="报关单号">
               <el-input v-model="queryForm.entryId" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :md="12" :lg="8">
+            <el-form-item label="收发货人编码">
+              <el-input v-model="queryForm.tradeCo" maxlength="30" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="12" :lg="8">
+            <el-form-item label="状态信息">
+              <el-input v-model="queryForm.statusInfo" maxlength="2" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="12" :lg="8">
+            <el-form-item label="收发货统一社会信用代码" class="more-txt-lh">
+              <el-input v-model="queryForm.tradeScc" maxlength="30" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="12" :lg="8">
             <el-form-item label="申报时间">
               <el-date-picker v-model="dates" style="width:100%;"
                 type="daterange"
@@ -54,23 +67,6 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :span="8">
-            <el-form-item label="收发货人编码">
-              <el-input v-model="queryForm.tradeCo" maxlength="30" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="状态信息">
-              <el-input v-model="queryForm.statusInfo" maxlength="2" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="收发货统一社会信用代码" class="more-txt-lh">
-              <el-input v-model="queryForm.tradeScc" maxlength="30" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
