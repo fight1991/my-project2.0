@@ -94,7 +94,7 @@ const MENU = {
       hidden: false,
       meta: {
         component: resolve => require(['./index.vue'], resolve),
-        title: '出口导入模板'
+        title: '自定义模板'
       }
     }
   ]
