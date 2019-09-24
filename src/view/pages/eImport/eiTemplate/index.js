@@ -85,6 +85,17 @@ const MENU = {
         component: resolve => require(['./index.vue'], resolve),
         title: '出口导入模板'
       }
+    },
+    {
+      path: '/eImport/customizeTemplate/list',
+      name: 'customizeTemplate',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20201050000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./index.vue'], resolve),
+        title: '出口导入模板'
+      }
     }
   ]
 }

@@ -59,7 +59,9 @@ export default {
     // 业务跟踪台账
     tLedger: url.DEC + '/declaration/businessTrack',
     // 青源模板
-    shipping: url.DEC + '/declaration/shipping'
+    shipping: url.DEC + '/declaration/shipping',
+    // 自定义模版
+    customizeTemplate: url.DEC + '/customizeTemplate/list'
   },
   // 资料中心
   dataCenter: {
