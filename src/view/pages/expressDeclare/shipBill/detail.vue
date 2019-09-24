@@ -204,7 +204,7 @@
                 <div class='sys-td-c'>{{scope.row.tradeCurrValue}}</div>
               </template>
             </el-table-column>
-            <el-table-column label="申报日期" min-width="130">
+            <el-table-column label="申报日期" width="140">
               <template slot-scope="scope">
                 <div class='sys-td-c'>{{scope.row.dDate}}</div>
               </template>
