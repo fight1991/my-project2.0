@@ -84,20 +84,21 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .mg-l-10{
   margin-left: 10px;
 }
-// 小于1024的屏占一整行
-@media only screen and(max-width:1024px) {
+// 兼容1024 1280显示屏
+// 小于1030的屏占一整行
+@media only screen and(max-width:1030px) {
   .el-col-24 {
     width: 100%
   }
 }
-// 大于1024的屏显示2列
-@media only screen and(min-width:1024px) {
+// 大于1030的屏显示2列
+@media only screen and(min-width:1030px) {
   .el-col-md-12 {
     width: 50%
   }
 }
-// 大于1280的屏显示4列或3列
-@media only screen and(min-width:1280px) {
+// 大于1285的屏显示4列或3列
+@media only screen and(min-width:1285px) {
   .el-col-lg-6 {
     width: 25%
   }
