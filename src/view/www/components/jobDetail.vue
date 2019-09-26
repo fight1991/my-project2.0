@@ -491,6 +491,8 @@ export default {
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)
+        let date = util.dateFormat(new Date(), 'yyyyMM')
+        param.append('filePath', '/longshine/document/resume/' + date)
         this.$store.dispatch('upload', {
           url: 'FILE@/saas-upload/upload/uploadFile',
           data: param,

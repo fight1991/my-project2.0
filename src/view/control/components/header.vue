@@ -224,6 +224,7 @@ export default {
           companyType: temp.corpType, // 公司类型
           companyCode: temp.corpId, // 公司id
           companyName: temp.corpName,
+          sccCode: temp.sccCode,
           adminFlag: temp.adminFlag
         })
       }

@@ -570,6 +570,7 @@ export default {
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)
+        param.append('filePath', '/download')
         this.$store.dispatch('upload', {
           url: 'FILE@/saas-upload/upload/uploadFile',
           data: param,

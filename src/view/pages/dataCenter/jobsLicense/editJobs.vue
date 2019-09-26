@@ -246,6 +246,9 @@ export default {
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)
+        let sccCode = this.$store.state.userLoginInfo.sccCode
+        let date = util.dateFormat(new Date(), 'yyyyMM')
+        param.append('filePath', '/longshine/document/' + sccCode + '/job_license/' + date)
         this.$store.dispatch('upload', {
           url: 'FILE@/saas-upload/upload/uploadFile',
           data: param,

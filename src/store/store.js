@@ -29,6 +29,7 @@ export default new Vuex.Store({
       mobile: '', // 手机号
       userPhoto: '', // 用户头像
       companyName: '',
+      sccCode: '',
       adminFlag: ''
     },
     childSys: {
@@ -255,6 +256,7 @@ export default new Vuex.Store({
       state.userLoginInfo.userPhoto = data.userPhoto
       state.userLoginInfo.companyName = data.companyName
       state.userLoginInfo.adminFlag = data.adminFlag
+      state.userLoginInfo.sccCode = data.sccCode
       state.userLoginInfo.userId = data.userId
     },
     // 用户切换公司信息变更
@@ -263,6 +265,7 @@ export default new Vuex.Store({
       state.userLoginInfo.companyCode = data.companyCode
       state.userLoginInfo.isAdmin = data.isAdmin
       state.userLoginInfo.companyName = data.companyName
+      state.userLoginInfo.sccCode = data.sccCode
       state.userLoginInfo.adminFlag = data.adminFlag
     },
     // 初次进入系统后 变更状态
