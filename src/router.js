@@ -298,6 +298,7 @@ router.beforeEach((to, from, next) => {
               userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,
               companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
               adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
+              sccCode: util.isEmpty(res.result.sccCode) ? '' : res.result.sccCode,
               companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
             }
             if (!util.isEmpty(res.result.userTitleList)) {
