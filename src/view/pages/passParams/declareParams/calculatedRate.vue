@@ -6,6 +6,7 @@
         <el-col :span="8">
           <span class="input-label">适用月份</span>
           <el-date-picker
+            style="width:calc(100% - 80px);"
             size="mini"
             v-model="queryForm.date"
             type="month"
@@ -15,9 +16,9 @@
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="8">
           <span class="input-label">币制</span>
-          <el-select v-model="queryForm.curr" placeholder="请选择币制" size="mini" filterable clearable>
+          <el-select v-model="queryForm.curr" placeholder="请选择币制" size="mini" filterable clearable style="width:calc(100% - 52px);">
             <el-option
               v-for="item in paramsOptions['SAAS_CURR']"
               :key="item.codeField"
@@ -26,7 +27,7 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
         </el-col>
       </el-row>
