@@ -2,14 +2,14 @@
   <section class='sys-main'>
      <el-row class = "query-condition">
          <el-row class="content-title">
-          <el-col :span='1'>
+          <span>
             <img v-if="titleData.userPhoto!=null" class='user-img' :src="titleData.userPhoto">
             <img v-else class='user-img' src="../../../assets/img/answer-head.png">
             <div class="user-name">
               {{titleData.userName}}
             </div>
-          </el-col>
-          <el-col :span='22' class="left-cls">
+          </span>
+          <span class="left-cls">
             <div class="answer-title">
               <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === true">
               <span class="word-break">{{titleData.questionTitle}}</span>
@@ -24,18 +24,18 @@
             <div class="create-time">
               {{titleData.createTime}}
             </div>
-          </el-col>
+          </span>
          </el-row>
          <el-row v-for="(item,index) in listData" :key="index">
           <el-row class="content-list">
-            <el-col :span='1'>
+            <span>
               <img v-if="item.userPhoto!=null" class='user-img' :src="item.userPhoto">
               <img v-else class='user-img' src="../../../assets/img/answer-head.png">
               <div class="user-name">
                 {{item.userName}}
               </div>
-            </el-col>
-            <el-col :span='22' class="left-cls">
+            </span>
+            <span class="left-cls">
               <div class="answer-content">{{item.answerText}}</div>
               <div class="content-img">
                 <img v-for="(item1,index1) in item.urlList" :key="index1+'img'" :src="item1" @click.stop="showfile(item1)" class="detail-img">
@@ -66,7 +66,7 @@
                 </span>
                 <img src="../../../assets/img/answer-sol.png" class="sol-img">
               </div>
-            </el-col>
+            </span>
           </el-row>
          </el-row>
         <el-row class='sys-page-list'>
@@ -207,7 +207,7 @@ export default {
   padding: 20px;
   color: #4c4c4c;
   .content-title {
-    position: relative;
+    display: flex;
     padding-bottom: 36px;
     border-bottom: 1px solid #ccc;
     .answer-title {
@@ -222,7 +222,7 @@ export default {
     }
   }
   .content-list {
-    position: relative;
+    display: flex;
     padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
@@ -257,6 +257,8 @@ export default {
 .user-name {
     padding-top: 10px;
     padding-left: 10px;
+    width: 60px;
+    text-align: center;
   }
 .small-title {
   padding-left: 20px;

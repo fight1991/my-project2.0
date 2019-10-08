@@ -13,7 +13,7 @@
     <el-row class = "query-condition">
       <el-form :label-width="labelFormWidth.six" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
-        <el-row :gutter="30">
+        <el-row :gutter="30" :lg="6" :md="12">
           <el-col :span="6" :xs="12">
             <el-form-item class="form-item-mg0" label="委托企业">
               <el-autocomplete
@@ -58,8 +58,8 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <el-row style="margin-top: 27px;" :gutter="30">
-            <el-col :span="6" :xs="12">
+          <el-row style="margin-top: 12px;" :gutter="30">
+            <el-col :md="12" :lg="12">
               <el-form-item label="上传时间" class="form-item-mg0"  >
                 <el-date-picker size="mini"
                 style="width:100%;"
@@ -73,11 +73,11 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row style="text-align:center;">
+       <!-- 查询条件 end-->
+          <el-row style="text-align:center;margin-top:12px;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="reset">重置</el-button>
         </el-row>
-       <!-- 查询条件 end-->
       </el-form>
     </el-row>
       <!-- 头部 end-->
