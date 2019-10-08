@@ -6,7 +6,7 @@
             <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <el-row>
-                  <el-col :span="4" style="height:120px;line-height:120px;">
+                  <el-col :span="7" style="height:120px;line-height:120px;">
                     <el-upload
                     action="http://127.0.0.1"
                     :auto-upload="false"
@@ -18,7 +18,7 @@
                     <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                     </el-upload>
                   </el-col>
-                  <el-col :span="20">
+                  <el-col :span="17">
                     <el-row :gutter="30">
                       <el-col :span="24">
                         <el-form-item label="单据类型：" class="type-height">
@@ -34,12 +34,14 @@
                       </el-col>
                     </el-row>
                     <el-row :gutter="30">
-                      <el-col :span="12">
+                      <el-col>
                         <el-form-item label="上传时间：" class="type-height">
                           {{ item.updateTime  || '-' }}
                         </el-form-item>
                       </el-col>
-                      <el-col :span="12">
+                    </el-row>
+                    <el-row :gutter="30">
+                      <el-col>
                         <el-form-item label="上传人：" class="type-height">
                           {{ item.updateUserName || '-' }}
                         </el-form-item>

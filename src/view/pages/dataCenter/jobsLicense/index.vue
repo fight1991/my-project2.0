@@ -4,8 +4,8 @@
       <el-row class = "query-condition">
         <el-form :label-width="labelFormWidth.seven" :model="queryForm" size="mini" label-position="right">
       <!-- 查询条件 -->
-          <el-row :gutter="50">
-            <el-col :span="6" :xs="12">
+          <el-row>
+            <el-col :span="6" :xs="12" :md="12" :lg="12">
               <el-form-item class="form-item-mg0" label="委托企业">
                 <el-autocomplete
                   size='mini' style="width:100%"
@@ -16,6 +16,20 @@
                 </el-autocomplete>
               </el-form-item>
             </el-col>
+            <el-col :span="6" :xs="12" :md="12" :lg="12">
+              <el-form-item :label-width="labelFormWidth.seven" label="创建日期" class="form-item-mg0">
+                <el-date-picker size="mini"  style="width:100%;"
+                  v-model="dates"
+                  type="daterange"
+                  :editable='false'
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            </el-row>
+            <el-row style="margin-top:27px">
             <el-col :span="6" :xs="12">
               <el-form-item class="form-item-mg0" label="报关单系统编号">
                 <el-input v-model="queryForm.decPid" clearable :maxlength="50"></el-input>
@@ -31,43 +45,31 @@
                 <el-input v-model="queryForm.seqNo" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
-            </el-row>
-            <el-row style="margin-top:27px" :gutter="50">
             <el-col :span="6" :xs="12">
               <el-form-item class="form-item-mg0" label="报关单号">
                 <el-input v-model="queryForm.entryId" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6" :xs="12">
-              <el-form-item class="form-item-mg0" label="提单号">
-                <el-input v-model="queryForm.billNo" clearable :maxlength="50"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6" :xs="12">
-              <el-form-item label="系统状态" class="form-item-mg0">
-                <el-select v-model="queryForm.status" style="display: unset"  clearable>
-                  <el-option
-                    v-for="item in sysstatus"
-                    :key="item.codeField"
-                    :label="item.nameField"
-                    :value="item.codeField"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6" :xs="12">
-              <el-form-item :label-width="labelFormWidth.seven" label="创建日期" class="form-item-mg0">
-                <el-date-picker size="mini"  style="width:100%;"
-                  v-model="dates"
-                  type="daterange"
-                  :editable='false'
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
+            </el-row>
+            <el-row style="text-align:center;margin-top:27px;" >
+              <el-col :span="6" :xs="12">
+                <el-form-item class="form-item-mg0" label="提单号">
+                  <el-input v-model="queryForm.billNo" clearable :maxlength="50"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" :xs="12">
+                <el-form-item label="系统状态" class="form-item-mg0">
+                  <el-select v-model="queryForm.status" style="display: unset"  clearable>
+                    <el-option
+                      v-for="item in sysstatus"
+                      :key="item.codeField"
+                      :label="item.nameField"
+                      :value="item.codeField"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
             <el-row style="text-align:center;margin-top:27px;" >
               <el-button size="mini" type="primary" @click="search()">查询</el-button>
@@ -132,7 +134,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="创建日期" min-width="100">
+          <el-table-column label="创建日期" min-width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>
                 {{scope.row.createTime || '-'}}
@@ -410,5 +412,12 @@ export default {
     cursor: pointer;
     text-decoration: none;
     color: #333333;
+  }
+  .query-condition label{
+    padding-right: 2px;
+    text-align: right;
+  }
+  .query-condition  /deep/ .el-form-item__label{
+    text-align:right;
   }
 </style>

@@ -50,7 +50,7 @@
           </el-col>
           </el-row>
           <el-row style="margin-top:27px;" :gutter="50">
-          <el-col  :span="6" :xs="24">
+          <el-col  :span="6" :xs="24" :md="12" :lg="12">
             <el-form-item label="到期时间" class="form-item-mg0">
               <el-date-picker size="mini"  style="width:100%;"
                 v-model="expiryDate"
@@ -62,7 +62,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="24">
+          <el-col :span="6" :xs="24" :md="12" :lg="12">
             <el-form-item label="上传时间" class="form-item-mg0">
               <el-date-picker size="mini"  style="width:100%;"
                 v-model="dates"

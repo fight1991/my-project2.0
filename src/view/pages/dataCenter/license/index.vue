@@ -58,7 +58,7 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <el-row style="margin-top: 12px;" :gutter="30">
+          <el-row style="margin-top: 27px;" :gutter="30">
             <el-col :md="12" :lg="12">
               <el-form-item label="上传时间" class="form-item-mg0"  >
                 <el-date-picker size="mini"
@@ -74,7 +74,7 @@
             </el-col>
           </el-row>
        <!-- 查询条件 end-->
-          <el-row style="text-align:center;margin-top:12px;">
+          <el-row style="text-align:center;margin-top:27px;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="reset">重置</el-button>
         </el-row>
@@ -132,7 +132,7 @@
               <div class='sys-td-r'>{{scope.row.lastCount+''}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="上传时间" min-width="80">
+          <el-table-column label="上传时间" min-width="140">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.createTime+''}}</div>
             </template>
