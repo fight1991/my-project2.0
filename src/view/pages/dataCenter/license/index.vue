@@ -13,8 +13,8 @@
     <el-row class = "query-condition">
       <el-form :label-width="labelFormWidth.six" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
-        <el-row :gutter="30" :lg="6" :md="12">
-          <el-col :span="6" :xs="12">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="委托企业">
               <el-autocomplete
                 size='mini' style="width:100%"
@@ -25,7 +25,7 @@
               </el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="许可证名称">
                <el-select v-model="queryForm.licenseType" style="display: unset" default-first-option clearable :allow-create='true' filterable>
                 <el-option
@@ -38,12 +38,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="许可证号">
               <el-input v-model="queryForm.licenseNo" clearable :maxlength="20"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="可用次数">
               <el-select v-model="queryForm.availableNum"  clearable style="display:unset" >
                 <el-option
@@ -58,7 +58,7 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <el-row style="margin-top: 27px;" :gutter="30">
+          <el-row>
             <el-col :md="12" :lg="12">
               <el-form-item label="上传时间" class="form-item-mg0"  >
                 <el-date-picker size="mini"
@@ -399,5 +399,12 @@ export default {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
+  }
+  .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
+    margin-bottom: 18px;
+  }
+  .el-col{
+    padding-left: 25px;
+    padding-right: 25px;
   }
 </style>

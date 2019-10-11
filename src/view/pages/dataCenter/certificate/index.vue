@@ -13,8 +13,8 @@
     <el-row class = "query-condition">
       <el-form :label-width="labelFormWidth.four" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
-        <el-row :gutter="50">
-          <el-col :span="6" :xs="24">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="委托企业">
               <el-autocomplete
                 size='mini' style="width:100%" clearable
@@ -25,17 +25,17 @@
               </el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="证书名称">
                <el-input v-model="queryForm.certificateName" clearable :maxlength="50"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="证书编号">
               <el-input v-model="queryForm.certificateNo" clearable :maxlength="50"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="12">
+          <el-col :md="12" :lg="6">
             <el-form-item class="form-item-mg0" label="上传人">
               <el-select v-model="queryForm.createUserName" style="display: unset" default-first-option :allow-create="true"  clearable filterable>
                 <el-option
@@ -49,8 +49,8 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <el-row style="margin-top:27px;" :gutter="50">
-          <el-col  :span="6" :xs="24" :md="12" :lg="12">
+          <el-row>
+          <el-col :md="12" :lg="12">
             <el-form-item label="到期时间" class="form-item-mg0">
               <el-date-picker size="mini"  style="width:100%;"
                 v-model="expiryDate"
@@ -62,7 +62,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="24" :md="12" :lg="12">
+          <el-col :md="12" :lg="12">
             <el-form-item label="上传时间" class="form-item-mg0">
               <el-date-picker size="mini"  style="width:100%;"
                 v-model="dates"
@@ -514,5 +514,12 @@ export default {
   }
   .todelect_btn:hover{
     color:black !important
+  }
+  .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
+    margin-bottom: 18px;
+  }
+  .el-col{
+    padding-left: 25px;
+    padding-right: 25px;
   }
 </style>

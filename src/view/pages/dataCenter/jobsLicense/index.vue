@@ -5,7 +5,7 @@
         <el-form :label-width="labelFormWidth.seven" :model="queryForm" size="mini" label-position="right">
       <!-- 查询条件 -->
           <el-row>
-            <el-col :span="6" :xs="12" :md="12" :lg="12">
+            <el-col :md="12" :lg="12">
               <el-form-item class="form-item-mg0" label="委托企业">
                 <el-autocomplete
                   size='mini' style="width:100%"
@@ -16,7 +16,7 @@
                 </el-autocomplete>
               </el-form-item>
             </el-col>
-            <el-col :span="6" :xs="12" :md="12" :lg="12">
+            <el-col :md="12" :lg="12">
               <el-form-item :label-width="labelFormWidth.seven" label="创建日期" class="form-item-mg0">
                 <el-date-picker size="mini"  style="width:100%;"
                   v-model="dates"
@@ -29,35 +29,35 @@
               </el-form-item>
             </el-col>
             </el-row>
-            <el-row style="margin-top:27px">
-            <el-col :span="6" :xs="12">
+            <el-row>
+            <el-col :md="12" :lg="6">
               <el-form-item class="form-item-mg0" label="报关单系统编号">
                 <el-input v-model="queryForm.decPid" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6" :xs="12">
+            <el-col :md="12" :lg="6">
               <el-form-item class="form-item-mg0" label="接单编号">
                 <el-input v-model="queryForm.bossId" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6" :xs="12">
+            <el-col :md="12" :lg="6">
               <el-form-item class="form-item-mg0" label="统一编号">
                 <el-input v-model="queryForm.seqNo" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6" :xs="12">
+            <el-col :md="12" :lg="6">
               <el-form-item class="form-item-mg0" label="报关单号">
                 <el-input v-model="queryForm.entryId" clearable :maxlength="50"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
-            <el-row style="text-align:center;margin-top:27px;" >
-              <el-col :span="6" :xs="12">
+            <el-row>
+              <el-col :md="12" :lg="6">
                 <el-form-item class="form-item-mg0" label="提单号">
                   <el-input v-model="queryForm.billNo" clearable :maxlength="50"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" :xs="12">
+              <el-col :md="12" :lg="6">
                 <el-form-item label="系统状态" class="form-item-mg0">
                   <el-select v-model="queryForm.status" style="display: unset"  clearable>
                     <el-option
@@ -417,7 +417,11 @@ export default {
     padding-right: 2px;
     text-align: right;
   }
-  .query-condition  /deep/ .el-form-item__label{
-    text-align:right;
+  .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
+    margin-bottom: 18px;
+  }
+  .el-col{
+    padding-left: 25px;
+    padding-right: 25px;
   }
 </style>

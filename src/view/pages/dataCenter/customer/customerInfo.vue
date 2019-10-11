@@ -4,18 +4,18 @@
     <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" size="mini">
-        <el-row :gutter="66">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="8" :lg="8">
             <el-form-item label="客户代码" class="select-Color">
               <el-input v-model="queryForm.customCode" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="8" :lg="8">
             <el-form-item label="客户名称" >
               <el-input v-model="queryForm.customName" maxlength="70"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="8" :lg="8">
             <el-form-item label="审核状态">
               <el-select size="mini" filterable v-model="queryForm.auditStatus" default-first-option clearable>
                 <el-option
@@ -653,5 +653,9 @@ export default {
     width: 14px;
     height: 14px;
     vertical-align: middle;
+}
+.el-col{
+  padding-left: 25px;
+  padding-right: 25px;
 }
 </style>

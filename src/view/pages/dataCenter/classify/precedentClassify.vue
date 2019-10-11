@@ -4,20 +4,20 @@
     <div class = "query-condition" style="background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.five" size="mini">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item label="商品描述" >
               <el-input v-model="queryForm.querykey" maxlength="70" clearable placeholder="请输入商品描述(必填)"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="归类线路" class="select-Color">
               <el-select v-model="queryForm.classType" style="width:100%;">
                 <el-option v-for="item in classList" :key="item.value+'class'" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="12" :lg="6">
             <el-button size="mini" type="primary" @click="queryList" style="width:96px;">智能归类</el-button>
              <!-- <el-button size="mini" style="padding: 8px 20px;" @click="resetFun">重置</el-button> -->
           </el-col>
@@ -199,5 +199,9 @@ export default {
     height: 14px;
     vertical-align: middle;
     background-color: #fff
+}
+.el-col{
+  padding-left: 25px;
+  padding-right: 25px;
 }
 </style>
