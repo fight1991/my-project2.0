@@ -4,3 +4,6 @@
 [submodule "src/view/pages/aircraft"]
 	path = src/view/pages/aircraft
 	url = http://47.96.177.138:8084/gitblit/r/aircraft-public.git
+[submodule "src/view/www"]
+	path = src/view/www
+	url = http://47.96.177.138:8084/gitblit/r/www-public.git
