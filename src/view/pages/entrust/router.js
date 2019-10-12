@@ -1,5 +1,4 @@
-import ImportEn from './importEn/index' // 出口委托
-import ExportEn from './exportEn/index' // 出口委托
+
 const MENU = [
   {
     path: '/entrust/index',
@@ -13,16 +12,50 @@ const MENU = [
     }
   },
   {
-    path: '/entrust/new/:sysData',
-    name: 'entrust-new',
-    permissions: 'SAASOM0504000000',
-    hidden: false,
+    path: '/entrust/exportEntrust',
+    name: 'exportEntrust',
+    icon: 'icons-menu-exportEn',
+    permissions: 'CCBA21502000000',
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
-      title: '编辑详情'
+      component: resolve => require(['./entrustQuery.vue'], resolve),
+      title: '出口委托',
+      iEFlag: 'export'
     }
   },
-  ImportEn.MENU,
-  ExportEn.MENU
+  {
+    path: '/entrust/importEntrust',
+    name: 'importEntrust',
+    icon: 'icons-menu-importEn',
+    permissions: 'CCBA21501000000',
+    meta: {
+      component: resolve => require(['./entrustQuery.vue'], resolve),
+      title: '进口委托',
+      iEFlag: 'import'
+    }
+  },
+  {
+    path: '/entrust/businessEntrust/entrustPage/import/:type/:id',
+    name: 'importEntrustInfo',
+    meta: {
+      component: resolve => require(['./component/entrustInfo.vue'], resolve),
+      title: '进口委托信息'
+    }
+  },
+  {
+    path: '/entrust/businessEntrust/entrustPage/export/:type/:id',
+    name: 'exportEntrustInfo',
+    meta: {
+      component: resolve => require(['./component/entrustInfo.vue'], resolve),
+      title: '出口委托信息'
+    }
+  },
+  {
+    path: '/entrust/businessEntrust/statusList/:iEFlag/:code',
+    name: 'entrustStateTracking',
+    meta: {
+      component: resolve => require(['./component/statusList.vue'], resolve),
+      title: '状态跟踪'
+    }
+  }
 ]
 export default {MENU}
