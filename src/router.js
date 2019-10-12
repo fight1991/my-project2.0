@@ -3,7 +3,8 @@ import Errors from './view/error'
 import config from './config/config'
 import util from './common/util'
 import base64 from '@/common/base64'
-import EImport from './view/pages/eImport/router'
+// import EImport from './view/pages/eImport/router'
+import IEPort from './view/pages/iExport/router'
 import DataCenter from './view/pages/dataCenter/router'
 import ReportCenter from './view/pages/reportCenter/router'
 import Aircraft from './view/pages/aircraft/router'
@@ -89,7 +90,7 @@ const routes = [
 ]
 
 // routes[1].children.push(Errors.MENU)
-routes[1].children.push(...EImport.MENU)
+routes[1].children.push(...IEPort.MENU)
 routes[1].children.push(...DataCenter.MENU)
 routes[1].children.push(...ReportCenter.MENU)
 routes[1].children.push(...Aircraft.MENU)
@@ -121,9 +122,9 @@ router.beforeEach((to, from, next) => {
       title: ''
     }
     switch (childSys[1]) {
-      case 'eImport':
+      case 'iExport':
         json = {
-          type: 'eImport',
+          type: 'iExport',
           title: '进出口管理',
           permissions: 'CCBA20200000000'
         }
