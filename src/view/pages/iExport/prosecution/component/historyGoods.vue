@@ -108,10 +108,7 @@ export default {
   methods: {
     configBtn () {
       if (this.selectedData.length === 0) {
-        this.$message({
-          message: '请选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条数据')
         return false
       }
       this.$emit('backDatas', {goodsInfo: util.simpleClone(this.selectedData)})

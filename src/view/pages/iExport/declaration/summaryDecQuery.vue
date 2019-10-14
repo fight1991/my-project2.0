@@ -190,7 +190,6 @@
 
 <script>
 import util from '@/common/util'
-import config from '@/config/config'
 import decprintView from './decPage/components/decPrint'
 export default {
   components: {
@@ -644,14 +643,8 @@ export default {
             'ids': pidList
           },
           success: (res) => {
-            this.$message({
-              dangerouslyUseHTMLString: true,
-              message: res.message,
-              type: 'success'
-            })
-            if (res.code === '0000') {
-              this.querySummaryDecList()
-            }
+            this.messageTips(res.message, 'success')
+            this.querySummaryDecList()
           }
         })
       }).catch(() => {
@@ -751,37 +744,35 @@ export default {
      */
     gotoDecPage (funFlag, operationType, pid = 'new') {
       let sysId = window.sessionStorage.getItem('sysId')
-      let title = ''
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/summaryDec/' + funFlag + '/' + operationType + '/' + pid
+      let routeName
+      let tabName
       if (funFlag === 'declaration') {
-        if (operationType === 'add') {
-          title = '进口报关单(概要申报)'
-        } else if (operationType === 'look') {
-          title = '进口报关单(概要申报)'
+        if (operationType === 'look') {
+          tabName = '进口报关单(完整申报)'
+          routeName = 'importDecLook'
         } else if (operationType === 'edit') {
-          title = '进口报关单(概要申报)'
+          tabName = '进口报关单(完整申报)'
+          routeName = 'importDecEdit'
         }
       }
       if (funFlag === 'recordList') {
-        if (operationType === 'add') {
-          title = '进境备案清单(概要申报)'
-        } else if (operationType === 'look') {
-          title = '进境备案清单(概要申报)'
+        if (operationType === 'look') {
+          tabName = '进境备案清单(完整申报)'
+          routeName = 'importRecordLook'
         } else if (operationType === 'edit') {
-          title = '进境备案清单(概要申报)'
+          tabName = '进境备案清单(完整申报)'
+          routeName = 'importRecordEdit'
         }
       }
-      if (sysId === '002' || sysId === 'CCBA') {
-        let skipOper = ''
-        let tabId = util.isEmpty(this.$route.query.tabId) ? (new Date().getTime()) : this.$route.query.tabId
-        if (operationType === 'look') {
-          tabId = 'rewLook-' + pid
-          skipOper = 'rewLook'
-        } else if (operationType === 'edit') {
-          tabId = 'rewEdit-' + pid
-          skipOper = 'rewEdit'
-        }
-        window.parent.postMessage({type: 'declaration', data: {url: url, operationType: skipOper, id: pid, title: title, tabId: tabId}}, '*')
+      if (sysId === 'CCBA') {
+        this.$router.push({
+          name: routeName,
+          params: {
+            'pid': pid,
+            'setTitle': tabName + '-' + pid,
+            'setId': routeName + operationType + pid
+          }
+        })
       } else {
         this.$router.push({
           name: '概要申报',

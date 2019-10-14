@@ -362,16 +362,10 @@ export default {
         computFileType = file.type
       }
       if (!(computFileType === 'application/vnd.ms-excel' || (computFileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || (computFileType === ''))) {
-        this.$message({
-          message: '上传文件只支持execl格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持execl格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传文件大小不能超过2MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过2MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -399,18 +393,8 @@ export default {
           type: 'GD'
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '导入成功',
-              type: 'success'
-            })
-            this.pageList()
-          } else {
-            this.$message({
-              message: '导入失败',
-              type: 'error'
-            })
-          }
+          this.messageTips('导入成功', 'success')
+          this.pageList()
         }
       })
     },
@@ -458,10 +442,7 @@ export default {
     // 打开编辑页面
     openEditPage () {
       if (this.checkedData.length !== 1) {
-        this.$message({
-          message: '选择一条需要编辑的数据',
-          type: 'warning'
-        })
+        this.messageTips('选择一条需要编辑的数据')
         return false
       }
       this.goodsModelForm = util.simpleClone(this.checkedData[0])
@@ -472,10 +453,7 @@ export default {
     // 删除 操作
     deleteInfo () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择需要删除的数据')
         return false
       }
       let pidList = []
@@ -493,18 +471,8 @@ export default {
             'list': pidList
           },
           success: (res) => {
-            if (res.code === '0000') {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-              this.pageList()
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            }
+            this.messageTips(res.message, 'success')
+            this.pageList()
           }
         })
       }).catch(() => {
@@ -516,10 +484,7 @@ export default {
         // 列表导出
         let len = this.checkedData.length
         if (len === 0) {
-          this.$message({
-            message: '请选择需要导出的数据！',
-            type: 'warning'
-          })
+          this.messageTips('请选择需要导出的数据！')
           return false
         } else {
           let data = {}
@@ -528,14 +493,7 @@ export default {
             url: 'API@/dec-common/dec/decListHis/exportBondListHis',
             data: data,
             success: (res) => {
-              if (res.code === '0000') {
-                window.open(res.result, '_blank')
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-              }
+              window.open(res.result, '_blank')
             }
           })
         }
@@ -581,10 +539,7 @@ export default {
     // 商品资料库
     query () {
       if (!/^[A-Za-z0-9]{0,12}$/.test(this.manualNo)) {
-        this.$message({
-          message: '请正确填写备案号',
-          type: 'warning'
-        })
+        this.messageTips('请正确填写备案号')
         return
       }
       this.$store.commit('pageInit')
@@ -622,20 +577,18 @@ export default {
           'mtpckEndprdTypecd': this.goodsModelForm.mtpckEndprdTypecd
         },
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result.length > 0) { // 有数据时候
-              let data = res.result[0]
-              this.goodsModelForm.codeTs = data.codeTs
-              this.goodsModelForm.gModel = data.gModel
-              this.goodsModelForm.gName = data.gName
-              this.goodsModelForm.gUnit = data.gUnit
-              this.goodsModelForm.tradeCurr = data.tradeCurr
-              this.goodsModelForm.originCountry = data.originCountry
-              this.initSelectParam()
-            } else { // 没有数据的时候
-              this.goodsModelForm.codeTs = ''
-              this.goodsModelForm.gModel = ''
-            }
+          if (res.result.length > 0) { // 有数据时候
+            let data = res.result[0]
+            this.goodsModelForm.codeTs = data.codeTs
+            this.goodsModelForm.gModel = data.gModel
+            this.goodsModelForm.gName = data.gName
+            this.goodsModelForm.gUnit = data.gUnit
+            this.goodsModelForm.tradeCurr = data.tradeCurr
+            this.goodsModelForm.originCountry = data.originCountry
+            this.initSelectParam()
+          } else { // 没有数据的时候
+            this.goodsModelForm.codeTs = ''
+            this.goodsModelForm.gModel = ''
           }
         }
       })
@@ -697,10 +650,7 @@ export default {
     // 打开申报要素重新归类
     openElement () {
       if (util.isEmpty(this.goodsModelForm.gModel)) {
-        this.$message({
-          message: '需要填写规格型号',
-          type: 'warning'
-        })
+        this.messageTips('需要填写规格型号')
         return
       }
       this.getGoodsInfo()
@@ -724,51 +674,31 @@ export default {
         url: 'API@/dec-common/decParam/common/saveDecGoodsHis',
         data: this.goodsModelForm, // 0 新增保存 1 覆盖新增保存
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result.isForceCover === '0') { //  0 保存成功  1 数据已经存在
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-              this.resetgoodsModelForm()
-              this.$refs['goodsModelForm'].resetFields()
-              this.goodsModelVisible = false
-              this.pageList()
-            } else {
-              this.$confirm('此数据已经存在,是否覆盖', '提示', {
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                type: 'warning'
-              }).then(() => {
-                this.goodsModelForm['isForceCover'] = '1'
-                this.$post({
-                  url: 'API@/dec-common/decParam/common/saveDecGoodsHis',
-                  data: this.goodsModelForm,
-                  success: (res) => {
-                    if (res.code === '0000') {
-                      this.$message({
-                        message: res.message,
-                        type: 'success'
-                      })
-                      this.resetgoodsModelForm()
-                      this.$refs['goodsModelForm'].resetFields()
-                      this.goodsModelVisible = false
-                      this.pageList()
-                    } else {
-                      this.$message({
-                        message: res.message,
-                        type: 'error'
-                      })
-                    }
-                  }
-                })
-              }).catch(() => {
-              })
-            }
+          if (res.result.isForceCover === '0') { //  0 保存成功  1 数据已经存在
+            this.messageTips(res.message, 'success')
+            this.resetgoodsModelForm()
+            this.$refs['goodsModelForm'].resetFields()
+            this.goodsModelVisible = false
+            this.pageList()
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            this.$confirm('此数据已经存在,是否覆盖', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              type: 'warning'
+            }).then(() => {
+              this.goodsModelForm['isForceCover'] = '1'
+              this.$post({
+                url: 'API@/dec-common/decParam/common/saveDecGoodsHis',
+                data: this.goodsModelForm,
+                success: (res) => {
+                  this.messageTips(res.message, 'success')
+                  this.resetgoodsModelForm()
+                  this.$refs['goodsModelForm'].resetFields()
+                  this.goodsModelVisible = false
+                  this.pageList()
+                }
+              })
+            }).catch(() => {
             })
           }
         }
@@ -780,21 +710,11 @@ export default {
         url: 'API@/dec-common/decParam/common/saveDecGoodsHis',
         data: this.goodsModelForm,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.resetgoodsModelForm()
-            this.$refs['goodsModelForm'].resetFields()
-            this.goodsModelVisible = false
-            this.pageList()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          this.resetgoodsModelForm()
+          this.$refs['goodsModelForm'].resetFields()
+          this.goodsModelVisible = false
+          this.pageList()
         }
       })
     },

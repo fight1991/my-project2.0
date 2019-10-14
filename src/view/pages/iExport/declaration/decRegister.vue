@@ -450,35 +450,20 @@ export default {
         url: 'API@/dec-common/dec/revise/checkEntryId',
         data: this.decRegisterForm.entryId,
         success: (res) => {
-          if (res.code === '0000') {
-            if (util.isEmpty(res.result.decPid)) {
-              this.decRegisterForm.entryId = ''
-              this.$refs['entryId'].$children[1].focus()
-              this.$message({
-                message: '报关单号不存在',
-                type: 'error'
-              })
-            } else {
-              this.decRegisterForm.decPid = res.result.decPid
-              this.decRegisterForm.tradeName = res.result.tradeName
-              this.$refs['reviseType'].focus()
-            }
-          } else {
+          if (util.isEmpty(res.result.decPid)) {
             this.decRegisterForm.entryId = ''
             this.$refs['entryId'].$children[1].focus()
-            this.$message({
-              message: '报关单号不存在',
-              type: 'error'
-            })
+            this.messageTips('报关单号不存在', 'error')
+          } else {
+            this.decRegisterForm.decPid = res.result.decPid
+            this.decRegisterForm.tradeName = res.result.tradeName
+            this.$refs['reviseType'].focus()
           }
         },
         other: (res) => {
           this.decRegisterForm.entryId = ''
           this.$refs['entryId'].$children[1].focus()
-          this.$message({
-            message: '报关单号不存在',
-            type: 'error'
-          })
+          this.messageTips('报关单号不存在', 'error')
         }
       })
     },
@@ -542,10 +527,7 @@ export default {
     // 删除 操作
     deleteInfo () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据！',
-          type: 'error'
-        })
+        this.messageTips('请选择需要删除的数据！', 'error')
         return false
       }
       let pidList = []
@@ -558,18 +540,8 @@ export default {
           'list': pidList
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.pageList()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          this.pageList()
         }
       })
     },
@@ -611,16 +583,9 @@ export default {
             url: url,
             data: this.decRegisterForm,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message(res.message)
-                this.clearDecRegisterForm()
-                this.pageList()
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.messageTips(res.message, 'success')
+              this.clearDecRegisterForm()
+              this.pageList()
             }
           })
         }

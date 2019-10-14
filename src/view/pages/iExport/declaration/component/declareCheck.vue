@@ -1132,19 +1132,9 @@ export default {
           'pid': pid
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            // 更改状态
-            this.$emit('backData')
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          // 更改状态
+          this.$emit('backData')
         }
       })
     },
@@ -1199,15 +1189,8 @@ export default {
           'decVerifyListVOs': checkList
         },
         success: (res) => {
-          if (res.code === '0000') {
-            // 更改状态
-            this.rejectUpdateStatus(res.result)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          // 更改状态
+          this.rejectUpdateStatus(res.result)
         }
       })
     },
@@ -1263,54 +1246,47 @@ export default {
           'decVerifyListVOs': checkList
         },
         success: (res) => {
-          if (res.code === '0000') {
-            // 2. 更改数据状态
-            if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
-              // 复核开启
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag, // 进出口
-                'pid': res.result,
-                'status': 'R'
-              }
-              this.$confirm('是否需要复核？', '提示', {
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.submitPassCheck(param)
-              }).catch(() => {
-                param['status'] = '6'
-                this.submitPassCheck(param)
-              })
-            } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': '6'
-              }
-              this.submitPassCheck(param)
-            } else {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': 'R'
-              }
-              this.submitPassCheck(param)
+          // 2. 更改数据状态
+          if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
+            // 复核开启
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag, // 进出口
+              'pid': res.result,
+              'status': 'R'
             }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            this.$confirm('是否需要复核？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.submitPassCheck(param)
+            }).catch(() => {
+              param['status'] = '6'
+              this.submitPassCheck(param)
             })
+          } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': '6'
+            }
+            this.submitPassCheck(param)
+          } else {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': 'R'
+            }
+            this.submitPassCheck(param)
           }
         }
       })
@@ -1321,18 +1297,8 @@ export default {
         url: 'API@/dec-common/dec/common/updateExamStatus',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.$emit('backData')
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips('操作成功', 'success')
+          this.$emit('backData')
         }
       })
     },

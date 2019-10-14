@@ -214,13 +214,8 @@ export default {
           if (!list || list.length === 0) {
             this.messageTips('打印失败', 'error')
           } else {
-            let sysId = window.sessionStorage.getItem('sysId')
             for (let item in list) {
-              if (sysId === 'CCBA') {
-                window.parent.postMessage({type: 'window-open', data: {url: list[item]}}, '*')
-              } else {
-                window.open(list[item], '_blank')
-              }
+              window.open(list[item], '_blank')
             }
             this.$emit('cancLeData')
           }

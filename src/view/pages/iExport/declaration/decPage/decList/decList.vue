@@ -1990,10 +1990,7 @@ export default {
             this.tableList.push({})
             this.tableList.pop()
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+            this.messageTips(res.message, 'error')
           }
         }
       })

@@ -13,7 +13,7 @@
       </el-radio-group>
     </el-row>
     <div class='sys-jiner-class'>
-    <el-tabs v-model="activeNameHead" :before-leave="tabClick">
+    <el-tabs v-model="activeNameHead">
       <el-tab-pane label="基本信息" name="baseInfo">
       <el-container>
         <el-main style="padding:0px 0px 20px 0px;">
@@ -1706,21 +1706,6 @@ export default {
         }
       }
     },
-    // 切换tab页
-    tabClick (activeName, oldActiveName) {
-      // if (util.isEmpty(this.innerNo)) {
-      //   if (activeName !== 'baseInfo') {
-      //     // this.addFun('tabadd')
-      //   // this.$message({
-      //   //   message: '请先保存基本信息',
-      //   //   type: 'error'
-      //   // })
-      //   // return false
-      //   }
-      // } else {
-      //   return true
-      // }
-    },
     // 切换接单类型
     orderChange () {
       if (JSON.stringify(this.saveInfo) !== JSON.stringify(this.baseInfo)) {
@@ -1932,15 +1917,10 @@ export default {
             }
           },
           other: (res) => {
-            if (res.code !== '0000') {
-              this.$message({
-                type: 'error',
-                message: res.result
-              })
-              this.baseInfo.companyId = ''
-              this.baseInfo.company = ''
-              this.$refs.company.focus()
-            }
+            this.messageTips(res.result, 'error')
+            this.baseInfo.companyId = ''
+            this.baseInfo.company = ''
+            this.$refs.company.focus()
           }
         })
       }
@@ -1986,10 +1966,7 @@ export default {
               this.baseInfo.ownerName = res.result.rcvgdEtpsNm
             }
           } else {
-            this.$message({
-              message: '您输入的手(账)册编号不存在，请输入正确的手(账)册编号。',
-              type: 'error'
-            })
+            this.messageTips('您输入的手(账)册编号不存在，请输入正确的手(账)册编号。', 'error')
           }
         },
         other: res => {
@@ -2000,10 +1977,7 @@ export default {
             this.baseInfo.ownerCodeScc = ''
             this.baseInfo.ownerCode = ''
             this.baseInfo.ownerName = ''
-            this.$message({
-              type: 'error',
-              message: res.message
-            })
+            this.messageTips(res.message, 'error')
           }
         }
       })
@@ -2111,10 +2085,7 @@ export default {
               }
             } else {
               if (para === '4') {
-                this.$message({
-                  type: 'error',
-                  message: res.message
-                })
+                this.messageTips(res.message, 'error')
                 this.baseInfo.companyId = ''
                 this.baseInfo.company = ''
                 this.$refs.company.focus()
@@ -2123,10 +2094,7 @@ export default {
           },
           other: (res) => {
             if (para === '4') {
-              this.$message({
-                type: 'error',
-                message: res.message
-              })
+              this.messageTips(res.message, 'error')
               this.baseInfo.companyId = ''
               this.baseInfo.company = ''
               this.$refs.company.focus()
@@ -2302,17 +2270,11 @@ export default {
       let fileType = ''
       fileType = util.getFileTypeByName(file.name)
       if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         if (util.isEmpty(fileType)) {
-          this.$message({
-            message: '该类型文件不允许转换',
-            type: 'warning'
-          })
+          this.messageTips('该类型文件不允许转换')
           this.$emit('closeEditUpload')
           return false
         }
@@ -2328,10 +2290,7 @@ export default {
               res.result[0].name = arr[0] + '.pdf'
               this.fileList = res.result
             } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
+              this.messageTips(res.message, 'error')
             }
           }
         })
@@ -2428,10 +2387,7 @@ export default {
           return false
         }
         if ((this.orderType === 'invt' && this.baseInfo.billtype === '4') || (this.orderType === 'invt' && this.baseInfo.billtype === '9')) {
-          this.$message({
-            type: 'error',
-            message: '暂不支持生成清单类型为“简单加工”和“一纳成品内销”的核注清单'
-          })
+          this.messageTips('暂不支持生成清单类型为“简单加工”和“一纳成品内销”的核注清单', 'error')
           return false
         }
         if (type === 'submit') {
@@ -2510,10 +2466,7 @@ export default {
           if (type === 'submit') {
             this.orderTakenToDec(res.result, value)
           } else {
-            this.$message({
-              message: '暂存成功',
-              type: 'success'
-            })
+            this.messageTips('暂存成功', 'success')
             this.isSave = true
             if (type !== 'tabadd') {
               this.$emit('closedecele')
@@ -2564,10 +2517,7 @@ export default {
         url: url,
         data: row,
         success: (res) => {
-          this.$message({
-            message: '生成成功',
-            type: 'success'
-          })
+          this.messageTips('生成成功', 'success')
           this.$emit('closedecele')
         }
       })
@@ -2584,10 +2534,7 @@ export default {
       } else if (this.exportForm.docType === '10000001' || this.exportForm.docType === '10000002' || this.exportForm.docType === '10000003') {
       } else {
         if (this.fileList.length === 0) {
-          this.$message({
-            message: '请选择文件上传',
-            type: 'error'
-          })
+          this.messageTips('请选择文件上传', 'error')
           return false
         }
         let uploadData = this.fileList[0]
@@ -2636,10 +2583,7 @@ export default {
     // 随附单据删除
     deleteDocFun () {
       if (this.idList.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'error'
-        })
+        this.messageTips('请选择需要删除的数据', 'error')
       } else {
         this.$confirm('确认删除吗？', '提示', {
           confirmButtonText: '确定',
@@ -2664,23 +2608,14 @@ export default {
     // 上传单一窗口
     loadWindow () {
       if (this.docList.length === 0) {
-        this.$message({
-          message: '请选择需要上传单一窗口的数据',
-          type: 'error'
-        })
+        this.messageTips('请选择需要上传单一窗口的数据', 'error')
       } else {
         for (let i of this.docList) {
           if (i.isUpload === '是') {
-            this.$message({
-              message: '请选择未上传至单一窗口的数据',
-              type: 'warning'
-            })
+            this.messageTips('请选择未上传至单一窗口的数据')
             return false
           } else if (util.isEmpty(i.docType)) {
-            this.$message({
-              message: '类型为空的随附单据不可点击上传单一窗口',
-              type: 'warning'
-            })
+            this.messageTips('类型为空的随附单据不可点击上传单一窗口')
             return false
           } else {
             this.fileorderList.forEach(e => {
@@ -2709,19 +2644,10 @@ export default {
     // 下载
     downloadFun () {
       if (this.docList.length !== 1) {
-        this.$message({
-          message: '请选择1条需要下载的数据',
-          type: 'error'
-        })
+        this.messageTips('请选择1条需要下载的数据', 'error')
       } else {
         for (let i in this.docList) {
-          // util.fileView(this.docList[i].fullName)
-          let sysId = window.sessionStorage.getItem('sysId')
-          if (sysId === 'CCBA') {
-            window.parent.postMessage({type: 'window-open', data: {url: this.docList[i].fullName}}, '*')
-          } else {
-            window.open(this.docList[i].fullName, '_blank')
-          }
+          window.open(this.docList[i].fullName, '_blank')
         }
       }
     },
@@ -2920,17 +2846,11 @@ export default {
         url: 'API@/dec-common/ccba/common/changeOrderIE',
         data: [this.baseInfo],
         success: (res) => {
-          this.$message({
-            type: 'success',
-            message: res.message
-          })
+          this.messageTips(res.message, 'success')
           this.closeOrder()
         },
         other: (res) => {
-          this.$message({
-            type: 'error',
-            message: res.message
-          })
+          this.messageTips(res.message, 'error')
         }
       })
     },

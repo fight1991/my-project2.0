@@ -90,17 +90,11 @@ export default {
         isLoad: true,
         success: (res) => {
           if (res.success === 'true') {
-            this.$message({
-              message: '单证识别中，可以到识别记录中查看结果。',
-              type: 'success'
-            })
+            this.messageTips('单证识别中，可以到识别记录中查看结果。', 'success')
             this.$emit('close:smartOrcClose')
             this.samrtOrcVisable = false
           } else {
-            this.$message({
-              message: res.message,
-              type: 'warning'
-            })
+            this.messageTips(res.message)
           }
         }
       })
@@ -110,23 +104,14 @@ export default {
       let fileType = util.getFileTypeByName(file.name)
       for (let a in this.ocrfileList) {
         if (this.filetype === this.ocrfileList[a].docType) {
-          this.$message({
-            message: '文件类型已存在，不可重复上传',
-            type: 'error'
-          })
+          this.messageTips('文件类型已存在，不可重复上传', 'error')
           return
         }
       }
       if (!(fileType === 'application/pdf')) {
-        this.$message({
-          message: '上传文件只支持pdf格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持pdf格式', 'error')
       } else if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)

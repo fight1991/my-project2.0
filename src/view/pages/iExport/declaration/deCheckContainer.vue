@@ -34,23 +34,16 @@ export default {
           'pid': this.decPid // 19561进口 19560出口
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.initDeCheckParam = {
-              iEFlag: res.result.decHeadVO.iEFlag,
-              head: res.result.decHeadVO,
-              list: res.result.decListVO,
-              containers: res.result.decContainersVO,
-              licenses: res.result.decLicensesVO,
-              check: res.result.decVerifyVO,
-              operationType: this.operationType
-            }
-            this.openCompentFlag = true
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+          this.initDeCheckParam = {
+            iEFlag: res.result.decHeadVO.iEFlag,
+            head: res.result.decHeadVO,
+            list: res.result.decListVO,
+            containers: res.result.decContainersVO,
+            licenses: res.result.decLicensesVO,
+            check: res.result.decVerifyVO,
+            operationType: this.operationType
           }
+          this.openCompentFlag = true
         }
       })
     },

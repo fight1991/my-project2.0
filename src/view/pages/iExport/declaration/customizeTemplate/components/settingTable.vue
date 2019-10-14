@@ -81,10 +81,6 @@ export default {
     cellSettingValid (rule, value, callback) {
       let reg = /^[a-zA-Z]+[0-9]+$/
       if (value && !reg.test(value)) {
-        this.$message({
-          type: 'error',
-          message: '只支持输入连续字母和数字'
-        })
         callback(new Error('只支持输入连续字母和数字'))
       } else {
         callback()

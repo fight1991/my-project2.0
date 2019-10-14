@@ -217,17 +217,11 @@ export default {
     // Excel 导入
     upLoadExcel () {
       if (this.fileList.length === 0) {
-        this.$message({
-          message: '请先选择需要导入的文件',
-          type: 'warning'
-        })
+        this.messageTips('请先选择需要导入的文件')
       } else {
         if (this.importType === 'MB') {
           if (!this.customTemplateDecPid) {
-            this.$message({
-              message: '请先选择导入模版',
-              type: 'warning'
-            })
+            this.messageTips('请先选择导入模版')
           } else {
             let declareType = this.declareType.split(',')
             this.$post({
@@ -258,9 +252,7 @@ export default {
             success: (res) => {
               this.$message(res.message)
               this.fileList = []
-              if (res.code === '0000') {
-                this.$emit('cancLeData', {isQuery: true})
-              }
+              this.$emit('cancLeData', {isQuery: true})
             }
           })
         } else if (this.importType === 'DL') { // 报关单表体导入
@@ -303,14 +295,6 @@ export default {
               success: (res) => {
                 this.fileList = []
                 this.$emit('cancLeData', {'res': res, isQuery: true})
-              },
-              other: res => {
-                if (res.code === '0001') {
-                  this.$message({
-                    type: 'error',
-                    message: res.result
-                  })
-                }
               }
             })
           } else {
@@ -336,18 +320,10 @@ export default {
             success: (res) => {
               this.fileList = []
               if (res.code === '0000') {
-                this.$message({
-                  dangerouslyUseHTMLString: true,
-                  message: res.message,
-                  type: 'warning'
-                })
+                this.messageTips(res.message)
                 this.$emit('cancLeData', {isQuery: true})
               } else {
-                this.$message({
-                  dangerouslyUseHTMLString: true,
-                  message: res.message,
-                  type: 'warning'
-                })
+                this.messageTips(res.message)
               }
             }
           })
@@ -385,16 +361,10 @@ export default {
         computFileType = file.type
       }
       if (!(computFileType === 'application/vnd.ms-excel' || (computFileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || (computFileType === ''))) {
-        this.$message({
-          message: '上传文件只支持execl格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持execl格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传文件大小不能超过2MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过2MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()

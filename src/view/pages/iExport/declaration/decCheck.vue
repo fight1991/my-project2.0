@@ -180,7 +180,6 @@
 <script>
 import util from '@/common/util'
 import '@/common/directives'
-import config from '@/config/config'
 import decprintView from '../declaration/decPage/components/decPrint'
 
 export default {
@@ -495,34 +494,29 @@ export default {
           'categoryType': this.checkedData[0].type // dec报关单 decTs 两步概要申报
         },
         success: (res) => {
-          if (res.code === '0000') {
-            if (!['3', 'R'].includes(res.result)) {
-              this.messageTips('当前状态不能编辑')
-            } else {
-              let sysId = window.sessionStorage.getItem('sysId')
-              let title = '报关单可视化编辑'
-              let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/decCheck/edit/' + this.checkedData[0].decPid + '?decType=' + this.checkedData[0].type
-              let tabId = 'rewEdit-' + this.checkedData[0].decPid
-              if (sysId === 'CCBA') {
-                // 跳审核页面
-                window.parent.postMessage({type: 'declaration', data: {url: url, operationType: 'rewEdit', id: this.checkedData[0].decPid, title: title, tabId: tabId}}, '*')
-              } else {
-                this.$router.push({
-                  name: '报关单可视化审核',
-                  params: {
-                    'operationType': 'edit',
-                    'pid': this.checkedData[0].decPid
-                  },
-                  query: {
-                    decType: this.checkedData[0].type
-                  }
-                })
-              }
-            }
+          if (!['3', 'R'].includes(res.result)) {
+            this.messageTips('当前状态不能编辑')
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            let pid = this.checkedData[0].decPid
+            let tabName = '报关单可视化审核编辑'
+            let routeName = 'decReviewedEdit'
+            if (this.checkedData[0].type === 'dec') {
+              tabName = '报关单可视化审核编辑'
+            } else {
+              tabName = '概要申报可视化审核编辑'
+              routeName = 'summaryDecReviewedEdit'
+            }
+            // 这里名称没有区分概要审核和报关单
+            this.$router.push({
+              name: routeName,
+              params: {
+                'pid': pid,
+                'setTitle': tabName + '-' + pid,
+                'setId': routeName + 'edit' + pid
+              },
+              query: {
+                decType: this.checkedData[0].type
+              }
             })
           }
         }
@@ -538,25 +532,27 @@ export default {
         this.messageTips('只能选择一条数据编辑')
         return false
       }
-      let sysId = window.sessionStorage.getItem('sysId')
-      let title = this.checkedData[0].type === '1' ? '报关单可视化预览' : '概要申报可视化预览'
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/decCheck/look/' + this.checkedData[0].decPid + '?decType=' + this.checkedData[0].type
-      let tabId = 'rewLook-' + this.checkedData[0].decPid
-      if (sysId === 'CCBA') {
-        // 跳审核页面
-        window.parent.postMessage({type: 'declaration', data: {url: url, operationType: 'rewLook', id: this.checkedData[0].decPid, title: title, tabId: tabId}}, '*')
+      let pid = this.checkedData[0].decPid
+      let tabName = '报关单可视化审核预览'
+      let routeName = 'decReviewedLook'
+      if (this.checkedData[0].type === 'dec') {
+        tabName = '报关单可视化审核预览'
       } else {
-        this.$router.push({
-          name: '报关单可视化审核',
-          params: {
-            'operationType': 'look',
-            'pid': this.checkedData[0].decPid
-          },
-          query: {
-            decType: this.checkedData[0].type
-          }
-        })
+        tabName = '概要申报可视化审核预览'
+        routeName = 'summaryDecReviewedLook'
       }
+      // 这里名称没有区分概要审核和报关单
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + 'edit' + pid
+        },
+        query: {
+          decType: this.checkedData[0].type
+        }
+      })
     },
     // 批量审核
     batchCheck () {
@@ -787,36 +783,23 @@ export default {
       }
     },
     togoSummaryDec (pid, funFlag) {
-      let url = ''
-      let sysId = window.sessionStorage.getItem('sysId')
-      let title = ''
-      let operationType = 'look'
-      let token = encodeURIComponent(window.localStorage.getItem('token'))
+      let routeName
+      let tabName
       if (funFlag === 'declaration') {
-        title = '进口报关单(概要申报)'
+        tabName = '进口报关单(概要申报)'
+        routeName = 'importSummaryDeclook'
       } else {
-        title = '进境备案清单(概要申报)'
+        tabName = '进境备案清单(概要申报)'
+        routeName = 'importSummaryRecordLook'
       }
-      url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/summaryDec/' + funFlag + '/' + operationType + '/' + pid + '?token=' + token
-      if (sysId === '002' || sysId === 'CCBA') {
-        let tabId = util.isEmpty(this.$route.query.tabId) ? (new Date().getTime()) : this.$route.query.tabId
-        tabId = 'rewLook-' + pid
-        let skipOper = 'rewLook'
-        if (sysId === '002') {
-          window.parent.postMessage({type: funFlag, data: {url: url, operationType: skipOper, id: pid, title: title, tabId: tabId}}, '*')
-        } else {
-          window.parent.postMessage({type: 'declaration', data: {url: url, operationType: skipOper, id: pid, title: title, tabId: tabId}}, '*')
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + 'look' + pid
         }
-      } else {
-        this.$router.push({
-          name: '概要申报',
-          params: {
-            'funFlag': funFlag,
-            'operationType': operationType,
-            'pid': pid
-          }
-        })
-      }
+      })
     },
     /**
      * 跳转 新增、详情、编辑
@@ -826,69 +809,50 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let sysId = window.sessionStorage.getItem('sysId')
-      let title = ''
-      let CCBATitle = ''
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/' + funFlag + '/' + flag + '/' + operationType + '/' + pid
+      let routeName
+      let tabName
       if (funFlag === 'declaration') {
         if (flag === 'import') {
-          if (operationType === 'add') {
-            title = '进口报关单'
-          } else if (operationType === 'look') {
-            title = '进口报关单-' + pid
+          tabName = '进口报关单'
+          if (operationType === 'look') {
+            routeName = 'importDecLook'
           } else if (operationType === 'edit') {
-            title = '进口报关单-' + pid
+            routeName = 'importDecEdit'
           }
-          CCBATitle = '进口报关单'
         } else if (flag === 'export') {
-          if (operationType === 'add') {
-            title = '出口报关单'
-          } else if (operationType === 'look') {
-            title = '出口报关单-' + pid
+          tabName = '出口报关单'
+          if (operationType === 'look') {
+            routeName = 'exportDecLook'
           } else if (operationType === 'edit') {
-            title = '出口报关单-' + pid
+            routeName = 'exportDecEdit'
           }
-          CCBATitle = '出口报关单'
         }
       }
       if (funFlag === 'recordList') {
         if (flag === 'import') {
-          if (operationType === 'add') {
-            title = '进境备案清单'
-          } else if (operationType === 'look') {
-            title = '进境备案清单-' + pid
+          tabName = '进境备案清单'
+          if (operationType === 'look') {
+            routeName = 'importRecordLook'
           } else if (operationType === 'edit') {
-            title = '进境备案清单-' + pid
+            routeName = 'importRecordEdit'
           }
-          CCBATitle = '进境备案清单'
         } else if (flag === 'export') {
-          if (operationType === 'add') {
-            title = '出境备案清单'
-          } else if (operationType === 'look') {
-            title = '出境备案清单-' + pid
+          tabName = '出境备案清单'
+          if (operationType === 'look') {
+            routeName = 'exportRecordLook'
           } else if (operationType === 'edit') {
-            title = '出境备案清单-' + pid
+            routeName = 'exportRecordEdit'
           }
-          CCBATitle = '出境备案清单'
         }
       }
-      if (sysId === '002') {
-        window.parent.postMessage({type: funFlag, data: {url: url, operationType: operationType, id: pid, title: title}}, '*')
-      } else if (sysId === 'CCBA') {
-        url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/declaration/' + flag + '/' + operationType + '/' + pid
-        let tabId = 'look-' + pid
-        window.parent.postMessage({type: 'declaration', data: {url: url, operationType: operationType, id: pid, title: CCBATitle, tabId: tabId}}, '*')
-      } else {
-        this.$router.push({
-          name: '报关单页面',
-          params: {
-            'funFlag': funFlag,
-            'iEFlag': flag,
-            'operationType': operationType,
-            'pid': pid
-          }
-        })
-      }
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + 'look' + pid
+        }
+      })
     },
     // 远程搜素
     checkParamsList (query) {

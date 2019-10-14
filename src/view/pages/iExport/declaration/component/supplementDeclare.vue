@@ -1859,10 +1859,7 @@ export default {
     // 复制补充说明
     copySupDec () {
       if (util.isEmpty(this.supplementRadio)) {
-        this.$message({
-          message: '请选择一条需要复制的数据',
-          type: 'error'
-        })
+        this.messageTips('请选择一条需要复制的数据', 'error')
         return false
       }
       this.copySuppList = util.simpleClone(this.supplementTableList)
@@ -1877,10 +1874,7 @@ export default {
     // 打印补充说明
     printSupDec () {
       if (util.isEmpty(this.supplementRadio)) {
-        this.$message({
-          message: '选择一条需要打印的数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条需要打印的数据', 'error')
         return false
       }
       let pid = []
@@ -1892,10 +1886,7 @@ export default {
         }
       }
       if (pid.length === 0) {
-        this.$message({
-          message: '没有可打印的数据',
-          type: 'error'
-        })
+        this.messageTips('没有可打印的数据', 'error')
         return false
       }
       this.$post({
@@ -1905,15 +1896,8 @@ export default {
           'ieFlag': this.initParams.iEFlag
         },
         success: (res) => {
-          if (res.code === '0000') {
-            for (let i in res.result) {
-              window.open(res.result[i], '_blank')
-            }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+          for (let i in res.result) {
+            window.open(res.result[i], '_blank')
           }
         }
       })
@@ -2597,17 +2581,11 @@ export default {
     // 确定复制
     configCopy () {
       if (util.isEmpty(this.copySuppRadio)) {
-        this.$message({
-          message: '至少选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('至少选择一条数据')
         return false
       }
       if (this.copySupTypeCheck.length === 0) {
-        this.$message({
-          message: '没有可复制的数据',
-          type: 'warning'
-        })
+        this.messageTips('没有可复制的数据')
         return false
       }
       let index = parseInt(this.supplementRadio) - 1 // 补充申报选的的数据 index

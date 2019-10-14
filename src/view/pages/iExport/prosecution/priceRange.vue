@@ -425,10 +425,7 @@ export default {
     // 删除
     deleteFun () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据')
         return false
       }
       let pidList = []
@@ -442,18 +439,8 @@ export default {
         },
         router: this.$router,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.queryList(this.$store.state.pagination)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips('删除成功', 'success')
+          this.queryList(this.$store.state.pagination)
         }
       })
     },
@@ -466,19 +453,9 @@ export default {
             data: this.priceDialogForm,
             router: this.$router,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                })
-                this.priceDialogVisible = false
-                this.queryList(this.$store.state.pagination)
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.messageTips('保存成功', 'success')
+              this.priceDialogVisible = false
+              this.queryList(this.$store.state.pagination)
             }
           })
         }

@@ -57,10 +57,7 @@ export default {
                 this.$emit('close:electricBill', res.result)
                 this.$emit('update:electricVisible', false)
               } else {
-                this.$message({
-                  type: 'error',
-                  message: '未查询到电子底账数据'
-                })
+                this.messageTips('未查询到电子底账数据', 'error')
               }
             }
           }

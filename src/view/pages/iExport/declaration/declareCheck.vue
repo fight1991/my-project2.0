@@ -2579,7 +2579,7 @@ export default {
     // 获取 复核状态
     this.getSwitchCheck()
     //
-    this.operationType = this.$route.params.operationType
+    this.operationType = this.$route.meta.operationType
   },
   mounted () {
   },
@@ -2597,71 +2597,64 @@ export default {
         url: 'API@/dec-common/dec/common/queryVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.iEFlag = res.result.decHeadVO.iEFlag
-            this.deCheckList = res.result.decListVO // 报关单表体信息
-            for (let x in res.result.decListVO) {
-              this.deCheckListVisable.push({})
-              for (let y in res.result.decListVO[x]) {
-                this.deCheckListVisable[x][y] = false
-              }
+          this.iEFlag = res.result.decHeadVO.iEFlag
+          this.deCheckList = res.result.decListVO // 报关单表体信息
+          for (let x in res.result.decListVO) {
+            this.deCheckListVisable.push({})
+            for (let y in res.result.decListVO[x]) {
+              this.deCheckListVisable[x][y] = false
             }
-            this.goodsVisable = util.simpleClone(this.deCheckListVisable)
-            this.decVisable = util.simpleClone(this.deCheckListVisable)
-            this.decHead = res.result.decHeadVO // 报关单 表头信息
-            this.licenses = res.result.decLicensesVO // 报关单 随附单证
-            this.container = res.result.decContainersVO // 报关单集装箱
-            for (let x in res.result.decContainersVO) {
-              this.containerVisable.push({})
-              for (let y in res.result.decContainersVO[x]) {
-                this.containerVisable[x][y] = false
-              }
-            }
-            this.check = res.result.decVerifyVO // 报关单审核信息
-            if (res.result.decVerifyVO.headMap) {
-              this.decCheckRec = res.result.decVerifyVO.headMap
-            }
-            if (res.result.decVerifyVO.listMap) {
-              this.declistCheckRec = res.result.decVerifyVO.listMap
-            } else {
-              this.declistCheckRec = res.result.decListVO
-            }
-            if (res.result.decVerifyVO.containerMap) {
-              this.containerMapCheckRec = res.result.decVerifyVO.containerMap
-            }
-            if (this.check.decVerifyHeadVO) {
-              this.headColor = this.check.decVerifyHeadVO
-              for (let item in this.headColor) {
-                if (item !== 'auditOpinion') { // 审核意见不做处理
-                  this.headColor[item] = this.headColor[item] === '' ? '' : +this.headColor[item]
-                }
-              }
-            }
-            // // 转关单 信息
-            // let decTrn = res.result.decTrnVO
-            // if (decTrn !== null) {
-            //   this.transHead = decTrn.decTrnHeadVO // 转关单 表头
-            //   this.transBill = decTrn.decTrnListVO // 转关单 提运单
-            //   this.contaGoodsList = decTrn.decTrnContaGoods // zhuan'dan
-            //   this.transitContaList = decTrn.decTrnContainers
-            // }
-            // let transVerify = res.result.decVerifyVO // 转关单 审核信息
-            // if (transVerify.transVerifyHead) { // 表头审核结果
-            //   this.transHeadColor = transVerify.transVerifyHead
-            // }
-            // 格式化数据
-            this.specialBusiChangeCodeName()
-            this.listFormat()
-            this.containerFormat()
-            this.enterpriseQualificationFormat()
-            this.userFormat()
-            this.requestCertsFormat()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
           }
+          this.goodsVisable = util.simpleClone(this.deCheckListVisable)
+          this.decVisable = util.simpleClone(this.deCheckListVisable)
+          this.decHead = res.result.decHeadVO // 报关单 表头信息
+          this.licenses = res.result.decLicensesVO // 报关单 随附单证
+          this.container = res.result.decContainersVO // 报关单集装箱
+          for (let x in res.result.decContainersVO) {
+            this.containerVisable.push({})
+            for (let y in res.result.decContainersVO[x]) {
+              this.containerVisable[x][y] = false
+            }
+          }
+          this.check = res.result.decVerifyVO // 报关单审核信息
+          if (res.result.decVerifyVO.headMap) {
+            this.decCheckRec = res.result.decVerifyVO.headMap
+          }
+          if (res.result.decVerifyVO.listMap) {
+            this.declistCheckRec = res.result.decVerifyVO.listMap
+          } else {
+            this.declistCheckRec = res.result.decListVO
+          }
+          if (res.result.decVerifyVO.containerMap) {
+            this.containerMapCheckRec = res.result.decVerifyVO.containerMap
+          }
+          if (this.check.decVerifyHeadVO) {
+            this.headColor = this.check.decVerifyHeadVO
+            for (let item in this.headColor) {
+              if (item !== 'auditOpinion') { // 审核意见不做处理
+                this.headColor[item] = this.headColor[item] === '' ? '' : +this.headColor[item]
+              }
+            }
+          }
+          // // 转关单 信息
+          // let decTrn = res.result.decTrnVO
+          // if (decTrn !== null) {
+          //   this.transHead = decTrn.decTrnHeadVO // 转关单 表头
+          //   this.transBill = decTrn.decTrnListVO // 转关单 提运单
+          //   this.contaGoodsList = decTrn.decTrnContaGoods // zhuan'dan
+          //   this.transitContaList = decTrn.decTrnContainers
+          // }
+          // let transVerify = res.result.decVerifyVO // 转关单 审核信息
+          // if (transVerify.transVerifyHead) { // 表头审核结果
+          //   this.transHeadColor = transVerify.transVerifyHead
+          // }
+          // 格式化数据
+          this.specialBusiChangeCodeName()
+          this.listFormat()
+          this.containerFormat()
+          this.enterpriseQualificationFormat()
+          this.userFormat()
+          this.requestCertsFormat()
         }
       })
     },
@@ -2724,26 +2717,12 @@ export default {
           'type': this.$route.query.decType
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            // 更改状态
-            this.operationType = 'look'
-            if (window.sessionStorage.getItem('sysId') === 'CCBA') {
+          this.messageTips(res.message, 'success')
+          // 更改状态
+          this.operationType = 'look'
+          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
             // 跳审核页面
-              window.parent.postMessage({type: 'close', data: { tabId: this.$route.query.tabId }}, '*')
-            } else {
-              this.$router.push({
-                name: '报关单审核'
-              })
-            }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
           }
         }
       })
@@ -2756,15 +2735,8 @@ export default {
         url: 'API@/dec-common/dec/common/saveVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            // 更改状态
-            this.rejectUpdateStatus(res.result)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          // 更改状态
+          this.rejectUpdateStatus(res.result)
         }
       })
     },
@@ -2840,54 +2812,47 @@ export default {
         url: 'API@/dec-common/dec/common/saveVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            // 2. 更改数据状态
-            if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
-              // 复核开启
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag, // 进出口
-                'pid': res.result,
-                'status': 'R'
-              }
-              this.$confirm('是否需要复核？', '提示', {
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.submitPassCheck(param)
-              }).catch(() => {
-                param['status'] = '6'
-                this.submitPassCheck(param)
-              })
-            } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': '6'
-              }
-              this.submitPassCheck(param)
-            } else {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': 'R'
-              }
-              this.submitPassCheck(param)
+          // 2. 更改数据状态
+          if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
+            // 复核开启
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag, // 进出口
+              'pid': res.result,
+              'status': 'R'
             }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            this.$confirm('是否需要复核？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.submitPassCheck(param)
+            }).catch(() => {
+              param['status'] = '6'
+              this.submitPassCheck(param)
             })
+          } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': '6'
+            }
+            this.submitPassCheck(param)
+          } else {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': 'R'
+            }
+            this.submitPassCheck(param)
           }
         }
       })
@@ -2898,24 +2863,13 @@ export default {
         url: 'API@/dec-common/dec/common/updateExamStatus',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.operationType = 'look'
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips('操作成功', 'success')
           if (window.sessionStorage.getItem('sysId') === 'CCBA') {
             // 跳审核页面
-            window.parent.postMessage({type: 'close', data: { tabId: this.$route.query.tabId }}, '*')
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
           } else {
             this.$router.push({
-              name: '报关单审核'
+              name: 'decReviewedList'
             })
           }
         }

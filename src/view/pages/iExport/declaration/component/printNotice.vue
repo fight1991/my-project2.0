@@ -58,10 +58,7 @@ export default {
     configBtn () {
       // 判断是否勾选需要打印的通知书
       if (this.checkedList.length === 0) {
-        this.$message({
-          message: '请选择通知书类型!',
-          type: 'warning'
-        })
+        this.messageTips('请选择通知书类型!')
         return
       }
       // 判断是否能打印选择的通知书
@@ -246,22 +243,10 @@ export default {
         url: 'API@/dec-common/dec/print/noticePrint',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$emit('backDatas', {})
-            if (res.result.length > 0) {
-              let sysId = window.sessionStorage.getItem('sysId')
-              res.result.forEach((item) => {
-                if (sysId === 'CCBA') {
-                  window.parent.postMessage({type: 'window-open', data: {url: item}}, '*')
-                } else {
-                  window.open(item, '_blank')
-                }
-              })
-            }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'warning'
+          this.$emit('backDatas', {})
+          if (res.result.length > 0) {
+            res.result.forEach((item) => {
+              window.open(item, '_blank')
             })
           }
         }

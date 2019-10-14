@@ -67,16 +67,10 @@ export default {
     // 上传图片前的格式及大小判断
     beforeAvatarUpload (file) {
       if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp')) {
-        this.$message({
-          message: '上传文件只支持jpg、png、gif、bmp格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持jpg、png、gif、bmp格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 1024)) {
-        this.$message({
-          message: '上传文件大小不能超过1MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过1MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -99,10 +93,7 @@ export default {
     // 预览图片
     previewPicture () {
       if (this.fileList.length === 0) {
-        this.$message({
-          message: '没有可以预览的数据',
-          type: 'error'
-        })
+        this.messageTips('没有可以预览的数据', 'error')
       } else {
         window.open(this.fileList[0].url, '_blank')
       }

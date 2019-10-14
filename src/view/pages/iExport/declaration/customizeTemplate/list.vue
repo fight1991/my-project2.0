@@ -168,15 +168,9 @@ export default {
     edit () {
       let len = this.tableValue.length
       if (len === 0) {
-        this.$message({
-          message: '请选择一条需要编辑的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条需要编辑的数据')
       } else if (len > 1) {
-        this.$message({
-          message: '只能选择一条需要编辑的数据',
-          type: 'warning'
-        })
+        this.messageTips('只能选择一条需要编辑的数据')
       } else {
         let row = this.tableValue[0]
         this.goPage('edit', row.customTemplateDecPid)
@@ -227,14 +221,8 @@ export default {
             'customTemplateDecPids': pidList
           },
           success: (res) => {
-            this.$message({
-              dangerouslyUseHTMLString: true,
-              message: res.message,
-              type: 'success'
-            })
-            if (res.code === '0000') {
-              this.queryList()
-            }
+            this.messageTips(res.message, 'error')
+            this.queryList()
           }
         })
       }).catch(() => {

@@ -74,10 +74,7 @@ export default {
     // 确定
     configBtn () {
       if (this.checkHBookList.length === 0) {
-        this.$message({
-          message: '至少选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('至少选择一条数据')
         return
       }
       let tips = ''

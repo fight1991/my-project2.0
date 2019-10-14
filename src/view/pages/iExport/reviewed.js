@@ -28,7 +28,7 @@ const MENU = {
       hidden: true,
       meta: {
         component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
-        title: '报关单审核',
+        title: '报关单可视化审核编辑',
         operationType: 'edit'
       }
     },
@@ -40,7 +40,31 @@ const MENU = {
       hidden: true,
       meta: {
         component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
-        title: '报关单审核',
+        title: '报关单可视化审核预览',
+        operationType: 'look'
+      }
+    },
+    {
+      path: '/iExport/reviewed/summaryDecReviewed/edit/:pid',
+      name: 'summaryDecReviewedEdit',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20204010000',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        title: '概要申报可视化审核编辑',
+        operationType: 'edit'
+      }
+    },
+    {
+      path: '/iExport/reviewed/summaryDecReviewed/look/:pid',
+      name: 'summaryDecReviewedLook',
+      icon: 'icons-menu-price',
+      permissions: 'CCBA20204010000',
+      hidden: true,
+      meta: {
+        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        title: '概要申报可视化审核预览',
         operationType: 'look'
       }
     },

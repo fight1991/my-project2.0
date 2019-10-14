@@ -1217,10 +1217,7 @@ export default {
             url: 'API@/login/tenantConf/saveSWAccountInfo',
             data: this.bindform,
             success: (res) => {
-              this.$message({
-                message: '绑定成功',
-                type: 'success'
-              })
+              this.messageTips('绑定成功', 'success')
               this.gotoBind = false
               if (this.downLoadType === 'A') {
                 this.queryDecList()
@@ -1242,17 +1239,11 @@ export default {
       // 校验查询数据
       if (this.QueryDecForm.declTrnrel === '9') {
         if (!/^[0-9A-Za-z]{18}$/.test(this.QueryDecForm.seqNo)) {
-          this.$message({
-            message: '请输入18位统一编号！',
-            type: 'error'
-          })
+          this.messageTips('请输入18位统一编号！', 'error')
           return false
         }
         if (util.isEmpty(this.QueryDecForm.iEFlag) && this.QueryDecForm.seqNo.indexOf('I') !== 0 && this.QueryDecForm.seqNo.indexOf('E') !== 0) {
-          this.$message({
-            message: '需要选择进出口标识！',
-            type: 'error'
-          })
+          this.messageTips('需要选择进出口标识！', 'error')
           return false
         }
         rightsUtil.checkRights(() => {
@@ -1821,10 +1812,7 @@ export default {
         url: 'API@/dec-common/dec/common/favourDecList',
         data: param,
         success: (res) => {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
+          this.messageTips(res.message, 'success')
           if (this.QueryDecForm.declTrnrel === '9') {
             this.QueryDecForm.declTrnrel = '0,2'
           }
@@ -1832,10 +1820,7 @@ export default {
           this.pageList()
         },
         other: (res) => {
-          this.$message({
-            message: res.message,
-            type: 'error'
-          })
+          this.messageTips(res.message, 'error')
         }
       })
     },
@@ -1909,24 +1894,12 @@ export default {
             'flag': '1'
           },
           success: (res) => {
-            if (res.code === '0000') {
-              this.$message({
-                dangerouslyUseHTMLString: true,
-                message: res.message,
-                type: 'success'
-              })
-              if (this.QueryDecForm.declTrnrel === '9') {
-                this.QueryDecForm.declTrnrel = '0,2'
-              }
-              this.isDisabled = false
-              this.queryDecList()
-            } else {
-              this.$message({
-                dangerouslyUseHTMLString: true,
-                message: res.message,
-                type: 'error'
-              })
+            this.messageTips(res.message, 'success')
+            if (this.QueryDecForm.declTrnrel === '9') {
+              this.QueryDecForm.declTrnrel = '0,2'
             }
+            this.isDisabled = false
+            this.queryDecList()
           }
         })
       }
@@ -1937,27 +1910,22 @@ export default {
         url: 'API@/dec-common/dec/common/generateBossId',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            if (this.QueryDecForm.declTrnrel === '9') {
-              this.QueryDecForm.declTrnrel = '0,2'
-            }
-            this.isDisabled = false
-            this.queryDecList()
-            this.$message({
-              dangerouslyUseHTMLString: true,
-              message: res.message,
-              type: 'success'
-            })
-          } else {
-            this.$alert(res.message, '提示', {
-              dangerouslyUseHTMLString: true,
-              confirmButtonText: '我知道了',
-              type: 'warning',
-              customClass: 'confirm-tips-warning',
-              callback: action => {
-              }
-            })
+          this.messageTips(res.message, 'success')
+          if (this.QueryDecForm.declTrnrel === '9') {
+            this.QueryDecForm.declTrnrel = '0,2'
           }
+          this.isDisabled = false
+          this.queryDecList()
+        },
+        other: (res) => {
+          this.$alert(res.message, '提示', {
+            dangerouslyUseHTMLString: true,
+            confirmButtonText: '我知道了',
+            type: 'warning',
+            customClass: 'confirm-tips-warning',
+            callback: action => {
+            }
+          })
         }
       })
     },
@@ -1988,14 +1956,7 @@ export default {
             'list': pidLit
           },
           success: (res) => {
-            if (res.code === '0000') {
-              window.open(res.result, '_blank')
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-            }
+            window.open(res.result, '_blank')
           }
         })
       }
@@ -2017,14 +1978,7 @@ export default {
             'list': pidLit
           },
           success: (res) => {
-            if (res.code === '0000') {
-              window.open(res.result, '_blank')
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            }
+            window.open(res.result, '_blank')
           }
         })
       }
@@ -2166,14 +2120,8 @@ export default {
             'operType': 'C'
           },
           success: (res) => {
-            this.$message({
-              dangerouslyUseHTMLString: true,
-              message: res.result,
-              type: 'success'
-            })
-            if (res.code === '0000') {
-              this.queryDecList()
-            }
+            this.messageTips(res.result, 'success')
+            this.queryDecList()
           }
         })
       }
@@ -2388,10 +2336,7 @@ export default {
             }
           })
         } catch (e) {
-          this.$message({
-            message: '读卡失败,请检查卡介质',
-            type: 'error'
-          })
+          this.messageTips('读卡失败,请检查卡介质', 'error')
         }
       } else {
         this.passwordVisible = true
@@ -2488,17 +2433,11 @@ export default {
             this.billDownLoadVisible = true
             this.billBossIdDisabled = false
           } else {
-            this.$message({
-              message: msg.Error[0],
-              type: 'error'
-            })
+            this.messageTips(msg.Error[0], 'error')
           }
         })
       } catch (e) {
-        this.$message({
-          message: '读卡失败,请检查卡介质',
-          type: 'error'
-        })
+        this.messageTips('读卡失败,请检查卡介质', 'error')
       }
     },
     // 关联接单编号没有开启时,下载统一编号的方法
@@ -2508,52 +2447,41 @@ export default {
         data: this.QueryDecForm,
         isPageList: true,
         success: (res) => {
-          // 如果没有异常
-          if (res.code === '0000') {
-            // 判断是否需要 覆盖
-            if (res.result.code === '1') { // 1.代表我们数据库有这条数据
-              this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                // 覆盖操作
-                let param = util.simpleClone(this.QueryDecForm)
-                param['isNeedUpdate'] = '1'
-                param['bossNo'] = res.result.bossNo
-                this.coverLocalDec(param)
-              }).catch(() => {
-              })
-            } else if (res.result.code === '-1') {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            } else if (res.result.code === '3') { // 报关单数据与接单数据不一致
-              this.$confirm(res.result.message + '<br>是否确认关联?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                dangerouslyUseHTMLString: true,
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.configRelevance(res.result.decVO)
-              }).catch(() => {
-              })
-            } else { // 直接入库 给了数据
-              this.decResultList = res.result.decList
-              this.total = res.page.total
-            }
-          } else { // 成功
-            this.$message({
-              message: res.message,
-              type: 'error'
+          // 判断是否需要 覆盖
+          if (res.result.code === '1') { // 1.代表我们数据库有这条数据
+            this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              // 覆盖操作
+              let param = util.simpleClone(this.QueryDecForm)
+              param['isNeedUpdate'] = '1'
+              param['bossNo'] = res.result.bossNo
+              this.coverLocalDec(param)
+            }).catch(() => {
             })
+          } else if (res.result.code === '-1') {
+            this.messageTips(res.message, 'error')
+          } else if (res.result.code === '3') { // 报关单数据与接单数据不一致
+            this.$confirm(res.result.message + '<br>是否确认关联?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              dangerouslyUseHTMLString: true,
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.configRelevance(res.result.decVO)
+            }).catch(() => {
+            })
+          } else { // 直接入库 给了数据
+            this.decResultList = res.result.decList
+            this.total = res.page.total
           }
         }
       })
@@ -2565,30 +2493,20 @@ export default {
         data: param,
         isPageList: true,
         success: (res) => {
-          if (res.code === '0000') { // 覆盖成功
-            if (res.result.code === '-1') {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            } else { // 直接入库 给了数据
-              if (type === 'down') {
-                if (this.contactBossIdVisible) { // 如果录入接单编号弹出 则关闭
-                  this.contactBossIdVisible = false // 关闭弹出框
-                  this.bossIdForm.bossId = ''
-                  this.bossIdForm.corpBusiNo = ''
-                }
-                this.decResultList = res.result.decList
-                this.total = res.page.total
-              } else if (type === 'update') {
-                this.pageList()
+          if (res.result.code === '-1') {
+            this.messageTips(res.message, 'error')
+          } else { // 直接入库 给了数据
+            if (type === 'down') {
+              if (this.contactBossIdVisible) { // 如果录入接单编号弹出 则关闭
+                this.contactBossIdVisible = false // 关闭弹出框
+                this.bossIdForm.bossId = ''
+                this.bossIdForm.corpBusiNo = ''
               }
+              this.decResultList = res.result.decList
+              this.total = res.page.total
+            } else if (type === 'update') {
+              this.pageList()
             }
-          } else { // 覆盖失败
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
           }
         }
       })
@@ -2611,49 +2529,44 @@ export default {
         data: param,
         isPageList: true,
         success: (res) => {
-          // 如果没有异常
-          if (res.code === '0000') {
-            // 判断是否需要 覆盖
-            if (res.result.code === '1') { // 1.代表我们数据库有这条数据
-              this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                let para = util.simpleClone(this.QueryDecForm)
-                para['bossNo'] = res.result.bossNo
-                para['isNeedUpdate'] = '1'
-                this.coverLocalDec(para)
-              }).catch(() => {
-              })
-            } else if (res.result.code === '-1') {
-              this.messageTips(res.message, 'error')
-            } else if (res.result.code === '3') { // 报关单数据与接单数据不一致
-              this.$confirm(res.result.message + '<br>是否确认关联?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                dangerouslyUseHTMLString: true,
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.configRelevance(res.result.decVO)
-              }).catch(() => {
-              })
-            } else { // res.result.code === '0' 或者 2 都为成功 成功
-              this.messageTips(res.message, 'success')
-              this.decResultList = res.result.decList
-              this.total = res.page.total
-              this.contactBossIdVisible = false // 关闭弹出框
-              this.bossIdForm.bossId = ''
-              this.bossIdForm.corpBusiNo = ''
-            }
-          } else {
+          // 判断是否需要 覆盖
+          if (res.result.code === '1') { // 1.代表我们数据库有这条数据
+            this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              let para = util.simpleClone(this.QueryDecForm)
+              para['bossNo'] = res.result.bossNo
+              para['isNeedUpdate'] = '1'
+              this.coverLocalDec(para)
+            }).catch(() => {
+            })
+          } else if (res.result.code === '-1') {
             this.messageTips(res.message, 'error')
+          } else if (res.result.code === '3') { // 报关单数据与接单数据不一致
+            this.$confirm(res.result.message + '<br>是否确认关联?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              dangerouslyUseHTMLString: true,
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.configRelevance(res.result.decVO)
+            }).catch(() => {
+            })
+          } else { // res.result.code === '0' 或者 2 都为成功 成功
+            this.messageTips(res.message, 'success')
+            this.decResultList = res.result.decList
+            this.total = res.page.total
+            this.contactBossIdVisible = false // 关闭弹出框
+            this.bossIdForm.bossId = ''
+            this.bossIdForm.corpBusiNo = ''
           }
         }
       })
@@ -2664,17 +2577,12 @@ export default {
         url: 'API@/dec-common/dec/common/getAndSaveDec',
         data: decVo,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.decResultList = res.result.decList
-            this.total = res.page.total
-            this.contactBossIdVisible = false // 关闭弹出框
-            this.bossIdForm.bossId = ''
-            this.bossIdForm.corpBusiNo = ''
-          }
+          this.messageTips(res.message, 'success')
+          this.decResultList = res.result.decList
+          this.total = res.page.total
+          this.contactBossIdVisible = false // 关闭弹出框
+          this.bossIdForm.bossId = ''
+          this.bossIdForm.corpBusiNo = ''
         }
       })
     },
@@ -2724,73 +2632,65 @@ export default {
         url: 'API@/dec-common/dec/common/getDecData',
         data: postData,
         success: (res) => {
-          if (res.code === '0000') { // 调用内部接口成功
-            if (res.result.code === 'EXIST') { // 如果库里面有这条信息的参数
-              this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                postData['needUpdate'] = true
-                this.$post({
-                  url: 'API@/dec-common/dec/common/getDecData',
-                  data: postData,
-                  success: (res) => {
-                    this.commonFunction(res)
-                  }
-                })
-              }).catch(() => {
-                this.billForm.listNo = ''
-                this.billForm.emsListNo = ''
-                this.billForm.bossId = ''
-                this.billForm.corpBusiNo = ''
-                this.billForm.declTrnrel = ''
-                this.isBillTypeDisable = false
-                this.billBossIdDisabled = false
-                this.billDownLoadVisible = false
+          if (res.result.code === 'EXIST') { // 如果库里面有这条信息的参数
+            this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              postData['needUpdate'] = true
+              this.$post({
+                url: 'API@/dec-common/dec/common/getDecData',
+                data: postData,
+                success: (res) => {
+                  this.commonFunction(res)
+                }
               })
-            } else if (res.result.code === 'UPDATE') { //
-              this.$confirm(res.result.message, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.coverLocalBill(res.result.decVO)
-              }).catch(() => {
-                this.billForm.listNo = ''
-                this.billForm.emsListNo = ''
-                this.billForm.bossId = ''
-                this.billForm.corpBusiNo = ''
-                this.billForm.declTrnrel = ''
-                this.billBossIdDisabled = false
-                this.billDownLoadVisible = false
-                this.isBillTypeDisable = false
-              })
-            } else {
-              this.commonFunction(res)
-            }
-          } else {
-            this.$message({
-              dangerouslyUseHTMLString: true,
-              message: res.message,
-              type: 'error'
+            }).catch(() => {
+              this.billForm.listNo = ''
+              this.billForm.emsListNo = ''
+              this.billForm.bossId = ''
+              this.billForm.corpBusiNo = ''
+              this.billForm.declTrnrel = ''
+              this.isBillTypeDisable = false
+              this.billBossIdDisabled = false
+              this.billDownLoadVisible = false
             })
+          } else if (res.result.code === 'UPDATE') { //
+            this.$confirm(res.result.message, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.coverLocalBill(res.result.decVO)
+            }).catch(() => {
+              this.billForm.listNo = ''
+              this.billForm.emsListNo = ''
+              this.billForm.bossId = ''
+              this.billForm.corpBusiNo = ''
+              this.billForm.declTrnrel = ''
+              this.billBossIdDisabled = false
+              this.billDownLoadVisible = false
+              this.isBillTypeDisable = false
+            })
+          } else {
+            this.commonFunction(res)
           }
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
         }
       })
     },
     commonFunction (res) {
       if (res.result.code === '0000') {
-        this.$message({
-          message: res.message,
-          type: 'success'
-        })
+        this.messageTips(res.message, 'success')
         this.billBossIdDisabled = false
         this.billDownLoadVisible = false
         // 查询刚下载的清单
@@ -2845,10 +2745,7 @@ export default {
         url: 'API@/dec-common/dec/common/getAndSaveDec',
         data: decVo,
         success: (res) => {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
+          this.messageTips(res.message, 'success')
           this.billBossIdDisabled = false
           this.billDownLoadVisible = false
           // 查询刚下载的清单
@@ -2892,50 +2789,42 @@ export default {
             url: 'API@/dec-common/dec/common/decDown',
             data: param,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-                this.billForm.bossId = ''
-                this.billForm.listNo = ''
-                this.billForm.emsListNo = ''
-                this.billForm.corpBusiNo = ''
-                this.billBossIdDisabled = false
-                this.billDownLoadVisible = false
-                // 查询刚下载的清单
-                this.QueryDecForm = {
-                  declTrnrel: '0,2', // 报关单类型
-                  etpsCategory: 'D', // 企业类别
-                  entryId: '', // 报关单号
-                  seqNo: res.result.data.cusCiqNo ? res.result.data.cusCiqNo : res.result.data.seqNo, // 统一编号
-                  bossId: '', // 接单编号
-                  tradeCode: '', // 境内收发货人
-                  billNo: '', // 提运单号
-                  customMaster: '', // 申报地海关
-                  status: '', // 是否结关
-                  clientSeqno: '', // 客户业务号
-                  createUser: '', // 创建人
-                  corpBusiNo: '', //  客户端统一编号
-                  updateTimeStart: '', // 最近开始操作时间
-                  updateTimeEnd: '', // 最近终止操作时间
-                  iEFlag: res.result.data.iEFlag // 进出口标志
-                }
-                this.isDisabled = false
-                this.pageList()
-              } else {
-                this.$message({
-                  message: msg.Error[0],
-                  type: 'error'
-                })
+              this.messageTips(res.message, 'success')
+              this.billForm.bossId = ''
+              this.billForm.listNo = ''
+              this.billForm.emsListNo = ''
+              this.billForm.corpBusiNo = ''
+              this.billBossIdDisabled = false
+              this.billDownLoadVisible = false
+              // 查询刚下载的清单
+              this.QueryDecForm = {
+                declTrnrel: '0,2', // 报关单类型
+                etpsCategory: 'D', // 企业类别
+                entryId: '', // 报关单号
+                seqNo: res.result.data.cusCiqNo ? res.result.data.cusCiqNo : res.result.data.seqNo, // 统一编号
+                bossId: '', // 接单编号
+                tradeCode: '', // 境内收发货人
+                billNo: '', // 提运单号
+                customMaster: '', // 申报地海关
+                status: '', // 是否结关
+                clientSeqno: '', // 客户业务号
+                createUser: '', // 创建人
+                corpBusiNo: '', //  客户端统一编号
+                updateTimeStart: '', // 最近开始操作时间
+                updateTimeEnd: '', // 最近终止操作时间
+                iEFlag: res.result.data.iEFlag // 进出口标志
               }
+              this.isDisabled = false
+              this.pageList()
+
+              this.messageTips(msg.Error[0], 'success')
+            },
+            other: () => {
+              this.messageTips(msg.Error[0], 'error')
             }
           })
         } else {
-          this.$message({
-            message: msg.error.join(','),
-            type: 'error'
-          })
+          this.messageTips(msg.error.join(','), 'error')
         }
       })
     },
@@ -2977,28 +2866,26 @@ export default {
         url: 'API@/dec-common/dec/common/getUserInfo',
         data: {},
         success: (res) => {
-          if (res.code === '0000') {
-            this.sccCode = res.result.agentCodeScc
-            this.userId = res.result.userId
-            if (!util.isEmpty(this.userId)) {
-              this.QueryDecForm.createUser = this.userId
-              let fieldList = window.localStorage.getItem('DTH' + this.userId)
-              if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-                let list = JSON.parse(fieldList)
-                if (this.compareFieldList(this.fieldList, list)) {
-                  this.fieldList = JSON.parse(fieldList)
-                } else {
-                  window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
-                }
+          this.sccCode = res.result.agentCodeScc
+          this.userId = res.result.userId
+          if (!util.isEmpty(this.userId)) {
+            this.QueryDecForm.createUser = this.userId
+            let fieldList = window.localStorage.getItem('DTH' + this.userId)
+            if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
+              let list = JSON.parse(fieldList)
+              if (this.compareFieldList(this.fieldList, list)) {
+                this.fieldList = JSON.parse(fieldList)
+              } else {
+                window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
               }
             }
-            // 初始化查询列表，因为要默认当前操作人 所以放到这里来
-            if (util.isEmpty(this.$route.query.status)) {
-              // 初始化查询日期
-              this.setDefaultDate()
-              // 进页面默认加载数据
-              this.queryDecList()
-            }
+          }
+          // 初始化查询列表，因为要默认当前操作人 所以放到这里来
+          if (util.isEmpty(this.$route.query.status)) {
+            // 初始化查询日期
+            this.setDefaultDate()
+            // 进页面默认加载数据
+            this.queryDecList()
           }
         }
       }

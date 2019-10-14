@@ -62,8 +62,8 @@ export default {
   },
   created () {
     this.templateUrl = window.sessionStorage.getItem('customizeTemplateUrl')
-    this.customTemplateDecPid = this.$route.params.operationType !== 'add' ? this.$route.params.pid : ''
-    this.isEditable = this.$route.params.operationType !== 'look'
+    this.customTemplateDecPid = this.$route.meta.operationType !== 'add' ? this.$route.params.pid : ''
+    this.isEditable = this.$route.meta.operationType !== 'look'
     if (this.customTemplateDecPid) {
       this.getDetail()
     } else {
@@ -186,8 +186,6 @@ export default {
             this.customTemplateDecPid = res.result
           }
           if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            // let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + `/customizeTemplate/edit/${this.customTemplateDecPid}`
-            // window.parent.postMessage({type: 'refresh', data: {tabId: tabId, url: url, operationType: 'customizeTemplate-edit', id: this.customTemplateDecPid, title: '自定义模版'}}, '*')
             // 如果是新增页面的保存操作
             if (url === 'API@/dec-common/customTemplate/save') {
               // 先关闭新增

@@ -392,12 +392,7 @@ export default {
     },
     // 预览pdf
     downLoadPdf (rowIndex) {
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === 'CCBA') {
-        window.parent.postMessage({type: 'window-open', data: {url: this.accDocList[rowIndex].edocUrl}}, '*')
-      } else {
-        window.open(this.accDocList[rowIndex].edocUrl, '_blank')
-      }
+      window.open(this.accDocList[rowIndex].edocUrl, '_blank')
     },
     // 传送数据给父组件
     configBtn () {
@@ -421,15 +416,10 @@ export default {
     },
     // 预览图片
     previewPicture () {
-      let sysId = window.sessionStorage.getItem('sysId')
       if (this.fileList.length === 0) {
         this.messageTips('没有可以预览的数据', 'error')
       } else {
-        if (sysId === 'CCBA') {
-          window.parent.postMessage({type: 'window-open', data: {url: this.fileList[0].url}}, '*')
-        } else {
-          window.open(this.fileList[0].url, '_blank')
-        }
+        window.open(this.fileList[0].url, '_blank')
       }
     },
     // 删除图片

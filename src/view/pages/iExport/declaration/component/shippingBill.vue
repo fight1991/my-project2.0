@@ -106,22 +106,12 @@ export default {
         url: 'API@/dec-common/dec/common/queryCusContainer',
         data: {billNo: this.shippingList[this.shippingRadio].billNo, customMaster: this.initParams.customMaster},
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result !== null && res.result.length === 0) {
-              this.$message({
-                message: '无集装箱信息！',
-                type: 'success'
-              })
-            } else {
-              this.containerPara['list'] = res.result
-              this.containerPara['customMaster'] = this.initParams.customMaster
-              this.containerVisible = true
-            }
+          if (!res.result && res.result.length === 0) {
+            this.messageTips('无集装箱信息！', 'success')
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+            this.containerPara['list'] = res.result
+            this.containerPara['customMaster'] = this.initParams.customMaster
+            this.containerVisible = true
           }
         }
       })

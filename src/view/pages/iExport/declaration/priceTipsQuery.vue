@@ -310,10 +310,7 @@ export default {
     // 打开编辑页面
     openEditPage () {
       if (this.checkedData.length !== 1) {
-        this.$message({
-          message: '选择一条数据,且只能选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据,且只能选择一条数据', 'error')
         return false
       }
       this.priceTipsForm = util.simpleClone(this.checkedData[0])
@@ -333,10 +330,7 @@ export default {
     // 删除 操作
     deleteInfo () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据', 'error')
         return false
       }
       let pidList = []
@@ -349,15 +343,8 @@ export default {
           'list': pidList
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message(res.message)
-            this.pageList()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          this.pageList()
         }
       })
     },
@@ -473,18 +460,11 @@ export default {
             url: 'API@/dec-common/decParam/common/saveDecPriceInfo',
             data: this.priceTipsForm,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message(res.message)
-                this.resetPriceTipsForm()
-                this.$refs['priceTipsForm'].resetFields()
-                this.priceTipsVisible = false
-                this.pageList()
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.messageTips(res.message, 'success')
+              this.resetPriceTipsForm()
+              this.$refs['priceTipsForm'].resetFields()
+              this.priceTipsVisible = false
+              this.pageList()
             }
           })
         }

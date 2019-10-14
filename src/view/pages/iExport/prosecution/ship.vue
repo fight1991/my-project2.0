@@ -275,10 +275,7 @@ export default {
     // 删除 操作
     deleteInfo () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据', 'error')
         return false
       }
       let pidList = []
@@ -292,18 +289,8 @@ export default {
         },
         router: this.$router,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.pageList(this.$store.state.pagination)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips('删除成功', 'success')
+          this.pageList(this.$store.state.pagination)
         }
       })
     },
@@ -342,16 +329,10 @@ export default {
     // 上传文件
     beforeUpload (file) {
       if (!(file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-        this.$message({
-          message: '上传文件只支持execl格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持execl格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传文件大小不能超过2MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过2MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -381,10 +362,7 @@ export default {
         data: data,
         router: this.$router,
         success: (res) => {
-          this.$message({
-            message: '导入成功',
-            type: 'success'
-          })
+          this.messageTips('导入成功', 'success')
           this.pageList(this.$store.state.pagination)
         }
       })
@@ -440,10 +418,7 @@ export default {
     // 保存
     saveDialogForm () {
       if (this.shipDialogForm.iEPort === this.shipForm.iEPort) {
-        this.$message({
-          message: '该进出口关别已经存在',
-          type: 'error'
-        })
+        this.messageTips('该进出口关别已经存在', 'error')
         return false
       }
       this.$refs['shipDialogForm'].validate((valid) => {
@@ -453,19 +428,9 @@ export default {
             data: this.shipDialogForm,
             router: this.$router,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                })
-                this.trafModeTipsVisible = false
-                this.pageList(this.$store.state.pagination)
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.messageTips('保存成功', 'success')
+              this.trafModeTipsVisible = false
+              this.pageList(this.$store.state.pagination)
             }
           })
         }

@@ -54,17 +54,11 @@ export default {
   methods: {
     configBtn () {
       if (this.tableChecked === 0) {
-        this.$message({
-          message: '请选择商品数据!',
-          type: 'warning'
-        })
+        this.messageTips('请选择商品数据!')
         return
       }
       if (this.tableChecked > 50) {
-        this.$message({
-          message: '商品数量不能超过50条!',
-          type: 'warning'
-        })
+        this.messageTips('商品数量不能超过50条!')
         return
       }
       this.$confirm('是否要将商品的“最终目的国”赋值为CHN：中国，“征免方式”赋值为1:照章征税？', '提示', {

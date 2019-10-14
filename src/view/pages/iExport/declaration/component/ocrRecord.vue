@@ -40,7 +40,7 @@
   </section>
 </template>
 <script>
-import util from '@/common/util'
+// import util from '@/common/util'
 export default {
   name: 'ocr-record',
   data () {
@@ -86,11 +86,8 @@ export default {
         url: 'API@/dec-common/dec/common/getDecExamStatus',
         data: {seqNo: row.sysCode},
         success: (res) => {
-          if (util.isEmpty(res.result)) {
-            this.$message({
-              message: '该数据已被删除，不可查看',
-              type: 'error'
-            })
+          if (!res.result) {
+            this.messageTips('该数据已被删除，不可查看', 'error')
           } else {
             let pageType
             if (row.declTrnrel === '0') {

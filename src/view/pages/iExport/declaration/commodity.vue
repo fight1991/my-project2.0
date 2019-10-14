@@ -293,10 +293,7 @@ export default {
     },
     // 数据同步
     backHistory () {
-      this.$message({
-        message: '任务已受理',
-        type: 'success'
-      })
+      this.messageTips('任务已受理', 'success')
       this.queryList()
       this.historyVisible = false
     },
@@ -307,10 +304,7 @@ export default {
     // 删除
     deleteFun () {
       if (this.innerNoList.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'error'
-        })
+        this.messageTips('请选择需要删除的数据', 'error')
       } else {
         this.$confirm('确认删除吗？', '提示', {
           confirmButtonText: '确定',
@@ -321,10 +315,7 @@ export default {
             url: 'API@/dec-common/dec/decListHis/delDecHis',
             data: {ids: this.innerNoList},
             success: (res) => {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
+              this.messageTips('删除成功', 'success')
               this.queryList()
             }
           })
@@ -338,10 +329,7 @@ export default {
       // 列表导出
         let len = this.selectList.length
         if (len === 0) {
-          this.$message({
-            message: '请选择需要导出的数据！',
-            type: 'warning'
-          })
+          this.messageTips('请选择需要导出的数据！')
           return false
         } else {
           let data = {}
@@ -350,14 +338,7 @@ export default {
             url: 'API@/dec-common/dec/decListHis/exportDecListHis',
             data: data,
             success: (res) => {
-              if (res.code === '0000') {
-                window.open(res.result, '_blank')
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-              }
+              res.result && window.open(res.result, '_blank')
             }
           })
         }
@@ -394,16 +375,10 @@ export default {
         computFileType = file.type
       }
       if (!((computFileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || (computFileType === ''))) {
-        this.$message({
-          message: '上传文件只支持xlsx格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持xlsx格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 10240)) {
-        this.$message({
-          message: '上传文件大小不能超过10MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过10MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -427,10 +402,7 @@ export default {
         url: 'API@/dec-common/dec/decListHis/importDecHisData',
         data: {httpUrl: url},
         success: (res) => {
-          this.$message({
-            message: '导入成功',
-            type: 'success'
-          })
+          this.messageTips('导入成功', 'success')
           this.queryList()
         }
       })

@@ -685,16 +685,10 @@ export default {
     // 上传文件
     beforeUpload (file) {
       if (!(file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-        this.$message({
-          message: '上传文件只支持execl格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持execl格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传文件大小不能超过2MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过2MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -722,10 +716,7 @@ export default {
         url: 'API@/dec-common/ccba/common/importOrderTake',
         data: data,
         success: (res) => {
-          this.$message({
-            message: '导入成功',
-            type: 'success'
-          })
+          this.messageTips('导入成功', 'success')
           this.queryList()
         }
       })
@@ -747,10 +738,7 @@ export default {
     // 删除
     deleteFun () {
       if (this.selectList.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择需要删除的数据')
       } else {
         let url = ''
         let flag = false
@@ -779,17 +767,11 @@ export default {
             url: url,
             data: {list: this.bossIdList},
             success: (res) => {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
+              this.messageTips('删除成功', 'success')
               this.queryList()
             },
             other: (res) => {
-              this.$message({
-                message: res.result,
-                type: 'error'
-              })
+              this.messageTips(res.result, 'error')
             }
           })
         }).catch(() => {
@@ -799,10 +781,7 @@ export default {
     // 复制
     copeFun () {
       if (this.selectList.length !== 1) {
-        this.$message({
-          message: '请选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条数据')
       } else {
         this.addFun(this.selectList)
       }
@@ -833,10 +812,7 @@ export default {
           url: url,
           data: data,
           success: (res) => {
-            this.$message({
-              message: '复制成功',
-              type: 'success'
-            })
+            this.messageTips('复制成功', 'success')
             this.queryList()
           }
         })
@@ -846,10 +822,7 @@ export default {
     // 查看相关数据
     openCdFun () {
       if (this.innerNoList.length !== 1) {
-        this.$message({
-          message: '请选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条数据')
       } else {
         this.typeTitle = this.selectList[0].type === 'dec' ? '关联报关单-查看' : (this.selectList[0].type === 'invt' ? '关联核注清单-查看' : '关联物流作业-查看')
         this.cdVisible = true
@@ -890,15 +863,9 @@ export default {
     // 接单生成报关单,核注清单，物流作业
     orderTakenToDec () {
       if (this.innerNoList.length !== 1) {
-        this.$message({
-          message: '请选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条数据')
       } else if (this.selectList[0].status !== '0' && this.selectList[0].splitFlag !== 'Y') {
-        this.$message({
-          message: '当前状态不允许提交',
-          type: 'warning'
-        })
+        this.messageTips('当前状态不允许提交')
       } else if (this.selectList[0].splitFlag === 'Y') {
         this.$prompt('请输入生成报关单数量', '提示', {
           confirmButtonText: '确定',
@@ -972,18 +939,12 @@ export default {
                 url: url,
                 data: row,
                 success: (res) => {
-                  this.$message({
-                    message: '生成成功',
-                    type: 'success'
-                  })
+                  this.messageTips('生成成功', 'success')
                   this.queryList()
                 }
               })
             } else {
-              this.$message({
-                message: '您输入的手(账)册编号不存在，请输入正确的手(账)册编号。',
-                type: 'error'
-              })
+              this.messageTips('您输入的手(账)册编号不存在，请输入正确的手(账)册编号。', 'error')
             }
           }
         })
@@ -992,10 +953,7 @@ export default {
           url: url,
           data: row,
           success: (res) => {
-            this.$message({
-              message: '生成成功',
-              type: 'success'
-            })
+            this.messageTips('生成成功', 'success')
             this.queryList()
           }
         })
@@ -1013,10 +971,7 @@ export default {
         url: url,
         data: {list: [val]},
         success: (res) => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
+          this.messageTips('删除成功', 'success')
           this.queryDecList()
         }
       })
@@ -1025,10 +980,7 @@ export default {
     exportFun () {
       let len = this.selectList.length
       if (len === 0) {
-        this.$message({
-          message: '请至少选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('请至少选择一条数据')
       } else {
         let pidLit = []
         for (let i in this.selectList) {
@@ -1041,14 +993,10 @@ export default {
             'list': pidLit
           },
           success: (res) => {
-            if (res.code === '0000') {
-              window.open(res.result, '_blank')
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-            }
+            window.open(res.result, '_blank')
+          },
+          other: (res) => {
+            this.messageTips(res.message, 'error')
           }
         })
       }
@@ -1195,15 +1143,9 @@ export default {
     // 解析PDF
     beforeUploadPDF (file) {
       if (!(file.type === 'application/pdf')) {
-        this.$message({
-          message: '解析文件只支持pdf格式',
-          type: 'error'
-        })
+        this.messageTips('解析文件只支持pdf格式', 'error')
       } else if (!(Math.ceil(file.size / 1024) <= 3072)) {
-        this.$message({
-          message: '解析文件大小不能超过3MB',
-          type: 'error'
-        })
+        this.messageTips('解析文件大小不能超过3MB', 'error')
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)
@@ -1232,10 +1174,7 @@ export default {
         url: 'API@/dec-common/dec/orc/parsePDF',
         data: param,
         success: (res) => {
-          this.$message({
-            message: 'pdf解析成功',
-            type: 'success'
-          })
+          this.messageTips('pdf解析成功', 'success')
           this.queryList()
         }
       })

@@ -2487,10 +2487,10 @@ export default {
         isdefault: 'N'
       }, // 报关单表头
       controller: {
-        operationType: this.$route.params.operationType, // 记录操作类型  详情 新增  修改
+        operationType: this.$route.meta.operationType, // 记录操作类型  详情 新增  修改
         iEFlag: '', // 记录是进口页面还是出口页面 import export
-        pid: this.$route.params.operationType !== 'add' ? this.$route.params.pid : '', // 报关单id
-        isDisabled: this.$route.params.operationType === 'look', // 判断 input button 禁用
+        pid: this.$route.meta.operationType !== 'add' ? this.$route.params.pid : '', // 报关单id
+        isDisabled: this.$route.meta.operationType === 'look', // 判断 input button 禁用
         requireColor: true, // 显示必填的颜色
         otherCurrDisabled: false, // 杂费用币制
         feeMarkDisabled: false, // 运费币制
@@ -3215,7 +3215,7 @@ export default {
       this.zoom = 0.7
       this.asideWidth = 20
     }
-    let operation = this.$route.params.operationType
+    let operation = this.$route.meta.operationType
     if (operation === 'look') {
       this.controller.requireColor = false
     }
@@ -3244,8 +3244,8 @@ export default {
     'decHead.ownerCode': 'backFillDistrictCode'
   },
   mounted () {
-    let operation = this.$route.params.operationType
-    this.controller.iEFlag = (this.$route.params.iEFlag === 'import' ? 'I' : 'E')
+    let operation = this.$route.meta.operationType
+    this.controller.iEFlag = (this.$route.meta.iEFlag === 'import' ? 'I' : 'E')
     if (operation === 'add') {
       this.decHead.iEFlag = this.controller.iEFlag
       if (this.controller.iEFlag === 'I') {
@@ -3732,7 +3732,7 @@ export default {
         }
         this.checkParamsList('CHN', 'init')
       }
-      let operation = this.$route.params.operationType
+      let operation = this.$route.meta.operationType
       if (operation === 'look' || operation === 'edit') {
         this.getDecDetail(this.$route.params.pid)
       }
@@ -4104,11 +4104,8 @@ export default {
         },
         success: (res) => {
           this.encodeTableList = res.result
-          if (this.encodeTableList === null || this.encodeTableList === undefined || this.encodeTableList.length === 0) {
-            this.$message({
-              message: '无此商品编码',
-              type: 'error'
-            })
+          if (!this.encodeTableList || this.encodeTableList.length === 0) {
+            this.messageTips('无此商品编码', 'error')
             this.encodeTableList = []
           } else {
             this.encodeTableVisible = true
@@ -4154,10 +4151,7 @@ export default {
       let goodsAttrLen = this.goodsAttrCollection.length
       if (goodsAttrLen > 7) {
         this.goodsAttrCollection.pop()
-        this.$message({
-          message: '不能超过7条数据',
-          type: 'warning'
-        })
+        this.messageTips('不能超过7条数据')
       }
     },
     // 打开检验检疫货物规格 弹出框
@@ -4203,10 +4197,7 @@ export default {
         return false
       }
       if (this.decList.codeTs.length < 4) {
-        this.$message({
-          message: '至少输入四位商品编码',
-          type: 'warning'
-        })
+        this.messageTips('至少输入四位商品编码')
         this.$refs['codeTs'].$children[1].select()
         return false
       }
@@ -4220,11 +4211,8 @@ export default {
         success: (res) => {
           this.codeTsChange = false
           this.productList = res.result
-          if (this.productList === null || this.productList === undefined || this.productList.length === 0) {
-            this.$message({
-              message: '无此商品编码',
-              type: 'error'
-            })
+          if (!this.productList || this.productList.length === 0) {
+            this.messageTips('无此商品编码', 'error')
             this.decList.codeTs = ''
             this.productList = []
           } else {
@@ -5182,10 +5170,7 @@ export default {
       }
       let char = this.decHead.manualNo.charAt(0).toUpperCase()
       if (!util.isExistInArray(char, ['B', 'C', 'D', 'E', 'H', 'Z'])) {
-        this.$message({
-          message: '备案号:' + this.decHead.manualNo + '不存在',
-          type: 'error'
-        })
+        this.messageTips('备案号:' + this.decHead.manualNo + '不存在', 'error')
         this.controller.contrItemDisabled = false
         return false
       }
@@ -5196,39 +5181,37 @@ export default {
           iEFlag: this.controller.iEFlag
         },
         success: (res) => {
-          if (res.code === '0000') { // 查询成功口
-            // 反填表头信息到报关单表头
-            let head = res.result
-            this.decHead.tradeCode = head.tradeCode
-            this.decHead.tradeName = head.tradeName
-            this.decHead.tradeCoScc = head.tradeCodeScc
-            this.decHead.ownerCode = head.ownerCode
-            this.decHead.ownerCodeScc = head.ownerCodeScc
-            this.decHead.ownerName = head.ownerName
-            if (['B', 'C', 'D', 'H', 'Z'].includes(char)) {
-              if (!util.isEmpty(head.tradeMode)) { // 监管方式
-                this.decHead.tradeMode = head.tradeMode
-                this.selectObj = {
-                  obj: 'saasTrade',
-                  params: 'SAAS_TRADE'
-                }
-                this.checkParamsList(this.decHead.tradeMode, 'init')
+          // 反填表头信息到报关单表头
+          let head = res.result
+          this.decHead.tradeCode = head.tradeCode
+          this.decHead.tradeName = head.tradeName
+          this.decHead.tradeCoScc = head.tradeCodeScc
+          this.decHead.ownerCode = head.ownerCode
+          this.decHead.ownerCodeScc = head.ownerCodeScc
+          this.decHead.ownerName = head.ownerName
+          if (['B', 'C', 'D', 'H', 'Z'].includes(char)) {
+            if (!util.isEmpty(head.tradeMode)) { // 监管方式
+              this.decHead.tradeMode = head.tradeMode
+              this.selectObj = {
+                obj: 'saasTrade',
+                params: 'SAAS_TRADE'
               }
-              if (!util.isEmpty(head.cutMode)) { // 征免性质
-                this.decHead.cutMode = head.cutMode
-                this.selectObj = {
-                  obj: 'saasLevytype',
-                  params: 'SAAS_LEVYTYPE'
-                }
-                this.checkParamsList(this.decHead.cutMode, 'init')
-              }
+              this.checkParamsList(this.decHead.tradeMode, 'init')
             }
-          } else {
-            this.$message({
-              message: '备案号:' + this.decHead.manualNo + '不存在',
-              type: 'error'
-            })
+            if (!util.isEmpty(head.cutMode)) { // 征免性质
+              this.decHead.cutMode = head.cutMode
+              this.selectObj = {
+                obj: 'saasLevytype',
+                params: 'SAAS_LEVYTYPE'
+              }
+              this.checkParamsList(this.decHead.cutMode, 'init')
+            }
           }
+          // 放开 商品列表里的备案序号
+          this.controller.contrItemDisabled = false
+        },
+        other: (res) => {
+          this.messageTips('备案号:' + this.decHead.manualNo + '不存在', 'error')
           // 放开 商品列表里的备案序号
           this.controller.contrItemDisabled = false
         }
@@ -5240,17 +5223,10 @@ export default {
         return false
       }
       if (util.isEmpty(this.decHead.tradeMode)) {
-        this.$message({
-          message: '监管/贸易方式不能为空',
-          type: 'warning'
-        })
+        this.messageTips('监管/贸易方式不能为空')
         return false
       }
       if (util.isEmpty(this.decHead.manualNo)) {
-        // this.$message({
-        //   message: '需要填写备案号',
-        //   type: 'warning'
-        // })
         return false
       }
       this.$post({
@@ -5262,41 +5238,39 @@ export default {
           contrItem: this.decList.contrItem // 备案序号
         },
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result.body !== null) {
-              let manualData = res.result.body
-              this.decList.codeTs = manualData.codeTs // 商品编号
-              this.decList.gName = manualData.gname // 商品名称
-              if (!util.isEmpty(manualData.gmodel)) {
-                this.decList.gModel = manualData.gmodel // 规格型号
-              }
-              this.decList.gUnit = manualData.gUnit // 成交计量单位
-              this.decList.unit1 = manualData.unit1 // 法定第一计量单位
-              this.decList.unit2 = manualData.unit2 // 法定第二计量单位
-              this.decList.gQty = manualData.gQty // 成交数量
-              this.decList.qty1 = manualData.qty1 // 法定第一计数量
-              this.decList.qty2 = manualData.qty2 // 法定第二计数量
-              if (this.controller.iEFlag === 'I') {
-                this.decList.originCountry = manualData.originCountry // 原产国(地区)
-              }
-              if (this.controller.iEFlag === 'E') {
-                this.decList.destinationCountry = manualData.originCountry // 最终目的国
-              }
-              this.decList.tradeCurr = manualData.curr // 币制
-              this.decList.declPrice = manualData.decPrice // 单价
-              this.decList.declTotal = manualData.declTotal // 总价
-              this.decList.dutyMode = manualData.dutyMode // 征免方式
-              this.decList.exgVersion = manualData.exgVersion // 加工成品单耗版本号
-              this.decList.exgNo = manualData.exgNo // 货号
+          if (res.result.body !== null) {
+            let manualData = res.result.body
+            this.decList.codeTs = manualData.codeTs // 商品编号
+            this.decList.gName = manualData.gname // 商品名称
+            if (!util.isEmpty(manualData.gmodel)) {
+              this.decList.gModel = manualData.gmodel // 规格型号
             }
-            if (!util.isEmpty(res.result.goodsModel)) { // 这个是商品资料库里维护的规格型号
-              this.decList.gModel = res.result.goodsModel // 规格型号
+            this.decList.gUnit = manualData.gUnit // 成交计量单位
+            this.decList.unit1 = manualData.unit1 // 法定第一计量单位
+            this.decList.unit2 = manualData.unit2 // 法定第二计量单位
+            this.decList.gQty = manualData.gQty // 成交数量
+            this.decList.qty1 = manualData.qty1 // 法定第一计数量
+            this.decList.qty2 = manualData.qty2 // 法定第二计数量
+            if (this.controller.iEFlag === 'I') {
+              this.decList.originCountry = manualData.originCountry // 原产国(地区)
             }
-            // 初始化下拉框
-            this.initSelect(this.bodySelect, this.decList)
-            // 如果法定第二计量单位有值则 法定第二数据 可输入
-            this.unit2Change(this.decList.unit2)
+            if (this.controller.iEFlag === 'E') {
+              this.decList.destinationCountry = manualData.originCountry // 最终目的国
+            }
+            this.decList.tradeCurr = manualData.curr // 币制
+            this.decList.declPrice = manualData.decPrice // 单价
+            this.decList.declTotal = manualData.declTotal // 总价
+            this.decList.dutyMode = manualData.dutyMode // 征免方式
+            this.decList.exgVersion = manualData.exgVersion // 加工成品单耗版本号
+            this.decList.exgNo = manualData.exgNo // 货号
           }
+          if (!util.isEmpty(res.result.goodsModel)) { // 这个是商品资料库里维护的规格型号
+            this.decList.gModel = res.result.goodsModel // 规格型号
+          }
+          // 初始化下拉框
+          this.initSelect(this.bodySelect, this.decList)
+          // 如果法定第二计量单位有值则 法定第二数据 可输入
+          this.unit2Change(this.decList.unit2)
         }
       })
     },

@@ -325,14 +325,7 @@ export default {
         url: 'API@/dec-common/ccba/review/exportDecHisExcel',
         data: this.dataList,
         success: (res) => {
-          if (res.code === '0000') {
-            window.open(res.result, '_blank')
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          }
+          res.result && window.open(res.result, '_blank')
         }
       })
     }

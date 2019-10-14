@@ -1810,12 +1810,7 @@ export default {
         })
       } else {
         for (let i in this.docList) {
-          let sysId = window.sessionStorage.getItem('sysId')
-          if (sysId === 'CCBA') {
-            window.parent.postMessage({type: 'window-open', data: {url: this.docList[i].fullName}}, '*')
-          } else {
-            window.open(this.docList[i].fullName, '_blank')
-          }
+          window.open(this.docList[i].fullName, '_blank')
         }
       }
     },

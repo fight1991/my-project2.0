@@ -153,14 +153,7 @@ export default {
         url: 'API@/dec-common/ccba/review/decHisQueryDetail',
         data: para,
         success: (res) => {
-          if (res.code === '0000') {
-            this.dataList = res.result
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.dataList = res.result
         }
       })
     },
@@ -176,24 +169,14 @@ export default {
         url: 'API@/dec-common/ccba/log/getLogs',
         data: para,
         success: (res) => {
-          if (res.code === '0000') {
-            this.blockchainList = res.result
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.blockchainList = res.result
         }
       })
     },
     // 打开审核
     lookDeCheck (row) {
       if (util.isEmpty(row.pkId)) {
-        this.$message({
-          message: '数据未备份',
-          type: 'error'
-        })
+        this.messageTips('数据未备份', 'error')
         return
       }
       this.$router.push({

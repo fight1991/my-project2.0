@@ -133,14 +133,7 @@ export default {
           url: url,
           data: param,
           success: (res) => {
-            if (res.code === '0000') {
-              this.$emit('submitdatas', {})
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            }
+            this.$emit('submitdatas', {})
           }
         })
       })

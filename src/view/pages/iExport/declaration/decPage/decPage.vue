@@ -1175,98 +1175,92 @@ export default {
         this.messageTips('没有可复制的数据', 'error')
         return false
       }
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === '002') {
-        this.$refs.decHead.clearHeadData()
-        this.controller.pid = ''
-        // 清除 表体的主键
-        this.$refs.decList.clearBodyData()
-        // 清除集装箱主键
-        this.$refs.decContainer.clearDecContainerData()
-        // 清除 随附单证主键
-        this.$refs.decDocuments.clearDocumentsData()
-        this.controller.isDisabled = false
-        this.controller.requireColor = true
-        this.messageTips('数据复制成功', 'success')
-      } else {
-        let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
-        let cropLimit = this.$refs.decHead.cropLimit
-        if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
-          decHeadVo.decCopLimits.push(cropLimit)
-        }
-        decHeadVo.seqNo = ''
-        // 清除 预录入编号
-        decHeadVo.preEntryId = ''
-        decHeadVo.bossId = ''
-        decHeadVo.clientSeqno = ''
-        decHeadVo.dDate = ''
-        decHeadVo.cusCiqNo = ''
-        // 随附单据
-        decHeadVo.decEdocRealations = []
-        // 标记号码 标记唛码附件
-        decHeadVo.decMarkLobs = []
-        // 海关编号
-        decHeadVo.entryId = ''
-        // 清除所有的主键
-        decHeadVo.decPid = ''
-        decHeadVo.isExamine = ''
-        decHeadVo.status = ''
-        decHeadVo.statusValue = ''
-        delete decHeadVo.dataSource
-        delete decHeadVo.sysSource
-        delete decHeadVo.feePid
-        delete decHeadVo.expenseId
-        delete decHeadVo.emailAddress
-        delete decHeadVo.xmlStatus
-        delete decHeadVo.xmlUrl
-        delete decHeadVo.ref5
-        delete decHeadVo.twoStepFlag
-        // 清除 申报日期
-        if (this.controller.iEFlag === 'E') {
-          decHeadVo.iEDate = ''
-        }
-        let tableListC = util.simpleClone(this.$refs.decList.tableList)
-        for (let i in tableListC) {
-          tableListC[i].decListPid = ''
-          tableListC[i].decPid = ''
-        }
-        let licenselistC = util.simpleClone(this.$refs.decDocuments.licenselist)
-        for (let n in licenselistC) {
-          licenselistC[n].pid = ''
-          licenselistC[n].decPid = ''
-        }
-        let ContainerlistC = util.simpleClone(this.$refs.decContainer.tableDecContainerlist)
-        for (let n in ContainerlistC) {
-          ContainerlistC[n].pid = ''
-          ContainerlistC[n].decPid = ''
-        }
-        let decVo = {
-          decContainersVO: ContainerlistC,
-          decHeadVO: decHeadVo,
-          decLicensesVO: licenselistC,
-          decListVO: tableListC
-        }
-        // 缓存数据
-        window.localStorage.setItem('copyDec', JSON.stringify(decVo))
-        // 重开页签
-        let routeName
-        if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
-          routeName = 'importDecAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '0') {
-          routeName = 'exportDecAdd'
-        } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '2') {
-          routeName = 'importRecordAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '2') {
-          routeName = 'exportRecordAdd'
-        }
-        if (routeName) {
-          this.$router.push({
-            name: routeName,
-            query: {
-              'type': 'copy'
-            }
-          })
-        }
+      let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
+      let cropLimit = this.$refs.decHead.cropLimit
+      if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
+        decHeadVo.decCopLimits.push(cropLimit)
+      }
+      decHeadVo.seqNo = ''
+      // 清除 预录入编号
+      decHeadVo.preEntryId = ''
+      decHeadVo.bossId = ''
+      decHeadVo.clientSeqno = ''
+      decHeadVo.dDate = ''
+      decHeadVo.cusCiqNo = ''
+      // 随附单据
+      decHeadVo.decEdocRealations = []
+      // 标记号码 标记唛码附件
+      decHeadVo.decMarkLobs = []
+      // 海关编号
+      decHeadVo.entryId = ''
+      // 清除所有的主键
+      decHeadVo.decPid = ''
+      decHeadVo.isExamine = ''
+      decHeadVo.status = ''
+      decHeadVo.statusValue = ''
+      delete decHeadVo.dataSource
+      delete decHeadVo.sysSource
+      delete decHeadVo.feePid
+      delete decHeadVo.expenseId
+      delete decHeadVo.emailAddress
+      delete decHeadVo.xmlStatus
+      delete decHeadVo.xmlUrl
+      delete decHeadVo.ref5
+      delete decHeadVo.twoStepFlag
+      // 清除 申报日期
+      if (this.controller.iEFlag === 'E') {
+        decHeadVo.iEDate = ''
+      }
+      let tableListC = util.simpleClone(this.$refs.decList.tableList)
+      for (let i in tableListC) {
+        tableListC[i].decListPid = ''
+        tableListC[i].decPid = ''
+      }
+      let licenselistC = util.simpleClone(this.$refs.decDocuments.licenselist)
+      for (let n in licenselistC) {
+        licenselistC[n].pid = ''
+        licenselistC[n].decPid = ''
+      }
+      let ContainerlistC = util.simpleClone(this.$refs.decContainer.tableDecContainerlist)
+      for (let n in ContainerlistC) {
+        ContainerlistC[n].pid = ''
+        ContainerlistC[n].decPid = ''
+      }
+      let decVo = {
+        decContainersVO: ContainerlistC,
+        decHeadVO: decHeadVo,
+        decLicensesVO: licenselistC,
+        decListVO: tableListC
+      }
+      // 缓存数据
+      window.localStorage.setItem('copyDec', JSON.stringify(decVo))
+      // 重开页签
+      let routeName
+      let tabName
+      if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
+        routeName = 'importDecAdd'
+        tabName = '进口报关单'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '0') {
+        routeName = 'exportDecAdd'
+        tabName = '出口报关单'
+      } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '2') {
+        routeName = 'importRecordAdd'
+        tabName = '进口备案清单'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '2') {
+        routeName = 'exportRecordAdd'
+        tabName = '出口备案清单'
+      }
+      if (routeName) {
+        this.$router.push({
+          name: routeName,
+          params: {
+            'setTitle': tabName,
+            'setId': routeName + 'copy' + new Date().getTime()
+          },
+          query: {
+            'type': 'copy'
+          }
+        })
       }
     },
     // 打印 报关单
@@ -1550,12 +1544,7 @@ export default {
             this.messageTips('未查到ocr来源')
             return
           }
-          let sysId = window.sessionStorage.getItem('sysId')
-          if (sysId === 'CCBA') {
-            window.parent.postMessage({type: 'window-open', data: {url: res.result}}, '*')
-          } else {
-            window.open(res.result, '_blank')
-          }
+          window.open(res.result, '_blank')
         },
         other: (res) => {
           this.messageTips(res.message, 'error')

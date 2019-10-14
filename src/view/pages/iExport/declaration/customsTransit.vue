@@ -5051,10 +5051,7 @@ export default {
     copyDecHead () {
       // 做法 就是去掉所有的主键和状态
       if (util.isEmpty(this.decHead.decPid)) {
-        this.$message({
-          message: '没有可复制的数据',
-          type: 'error'
-        })
+        this.messageTips('没有可复制的数据', 'error')
         return false
       }
       let sysId = window.sessionStorage.getItem('sysId')
@@ -5106,10 +5103,7 @@ export default {
         }
         this.controller.isDisabled = false
         this.controller.requireColor = true
-        this.$message({
-          message: '数据复制成功',
-          type: 'success'
-        })
+        this.messageTips('数据复制成功', 'success')
       } else {
         let decHeadVo = util.simpleClone(this.decHead)
         if (!util.isEmpty(this.cropLimit.entQualiftypeCode)) {
@@ -5231,10 +5225,7 @@ export default {
     // 打印 报关单
     printDecHead () {
       if (util.isEmpty(this.decHead.decPid)) {
-        this.$message({
-          message: '没有可打印的数据',
-          type: 'error'
-        })
+        this.messageTips('没有可打印的数据', 'error')
         return false
       }
       this.printCompnentParam = {
@@ -5434,10 +5425,7 @@ export default {
       }).then(() => {
         // 删除
         if (util.isEmpty(this.decHead.decPid)) {
-          this.$message({
-            message: '没有可删除的数据',
-            type: 'error'
-          })
+          this.messageTips('没有可删除的数据', 'error')
           return false
         } else {
           this.$post({
@@ -5446,10 +5434,7 @@ export default {
               'seqNos': [this.decHead.decPid]
             },
             success: (res) => {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
+              this.messageTips(res.message, 'success')
               // 刷新报关单
               this.addDecHead()
             }
@@ -6402,10 +6387,7 @@ export default {
     // 打开随附单据 弹出框
     openAccDoc () {
       if (util.isEmpty(this.decHead.customMaster)) {
-        this.$message({
-          message: '申报地海关不能为空',
-          type: 'error'
-        })
+        this.messageTips('没有可打印的数据', 'error')
         return false
       }
       this.accDocVisible = true
@@ -6492,61 +6474,38 @@ export default {
               url: 'API@/dec-common/dec/common/saveCommonDec',
               data: param,
               success: (res) => {
-                if (res.code === '0000') {
-                  if (this.decHead.decPid === '') {
-                    this.decHead.decPid = res.result[0].decPid
-                    this.controller.pid = res.result[0].decPid
-                    this.decHead.status = res.result[0].status
-                    this.decHead.statusValue = res.result[0].statusValue
-                    this.initTransfer.statusForm.trnStatusValue = res.result[0].trnStatusValue // 转关单状态赋值
-                    this.initTransfer.billInfoForm.billSeqNo = res.result[0].billSeqNo // 转关单提运单序号
-                    this.initTransfer.transDcForm.transDecNo = res.result[0].transDecNo // 转关单编号
-                  }
-                  // if (this.swtichCheck === 'Y' && this.decHead.isExamine !== '6') { // 需要审核
-                  //   let message = ''
-                  //   if (operType === 'G') {
-                  //     message = '数据没有通过审核,不能发送'
-                  //   } else {
-                  //     message = '数据没有通过审核,不能申报'
-                  //   }
-                  //   this.messageTips(message)
-                  //   return false
-                  // }
-                  // 暂存成功后 申报 先校验能不能申报
-                  this.$post({
-                    url: 'API@/dec-common/dec/common/declareDec',
-                    data: {
-                      'seqNos': [this.decHead.decPid],
-                      'operType': operType
-                    },
-                    success: (res) => {
-                      this.$message({
-                        message: res.message,
-                        type: 'success'
-                      })
-                      if (res.code === '0000') {
-                        this.decHead.status = res.result.status
-                        this.decHead.statusValue = res.result.statusValue
-                        this.controller.isDisabled = true
-                      }
-                    },
-                    other: (res) => {
-                      this.$alert(res.message, '提示', {
-                        dangerouslyUseHTMLString: true,
-                        confirmButtonText: '我知道了',
-                        type: 'warning',
-                        customClass: 'confirm-tips-warning',
-                        callback: action => {
-                        }
-                      })
-                    }
-                  })
-                } else {
-                  this.$message({
-                    message: res.message,
-                    type: 'error'
-                  })
+                if (this.decHead.decPid === '') {
+                  this.decHead.decPid = res.result[0].decPid
+                  this.controller.pid = res.result[0].decPid
+                  this.decHead.status = res.result[0].status
+                  this.decHead.statusValue = res.result[0].statusValue
+                  this.initTransfer.statusForm.trnStatusValue = res.result[0].trnStatusValue // 转关单状态赋值
+                  this.initTransfer.billInfoForm.billSeqNo = res.result[0].billSeqNo // 转关单提运单序号
+                  this.initTransfer.transDcForm.transDecNo = res.result[0].transDecNo // 转关单编号
                 }
+                // 暂存成功后 申报 先校验能不能申报
+                this.$post({
+                  url: 'API@/dec-common/dec/common/declareDec',
+                  data: {
+                    'seqNos': [this.decHead.decPid],
+                    'operType': operType
+                  },
+                  success: (res) => {
+                    this.messageTips(res.message, 'success')
+                    this.decHead.status = res.result.status
+                    this.decHead.statusValue = res.result.statusValue
+                  },
+                  other: (res) => {
+                    this.$alert(res.message, '提示', {
+                      dangerouslyUseHTMLString: true,
+                      confirmButtonText: '我知道了',
+                      type: 'warning',
+                      customClass: 'confirm-tips-warning',
+                      callback: action => {
+                      }
+                    })
+                  }
+                })
               }
             })
           }
@@ -6574,11 +6533,7 @@ export default {
           'list': pidList
         },
         success: (res) => {
-          this.$message({
-            dangerouslyUseHTMLString: true,
-            message: res.result,
-            type: 'success'
-          })
+          this.messageTips(res.result, 'success')
         }
       })
     },
@@ -6589,19 +6544,7 @@ export default {
         url: 'API@/dec-common/dec/orc/queryDecOCRPic',
         data: {seqNo: this.decHead.decPid},
         success: (res) => {
-          if (res.code === '0000') {
-            let sysId = window.sessionStorage.getItem('sysId')
-            if (sysId === 'CCBA') {
-              window.parent.postMessage({type: 'window-open', data: {url: res.result}}, '*')
-            } else {
-              window.open(res.result, '_blank')
-            }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          window.open(res.result, '_blank')
         }
       })
     },
@@ -7345,10 +7288,7 @@ export default {
         success: (res) => {
           this.encodeTableList = res.result
           if (this.encodeTableList === null || this.encodeTableList === undefined || this.encodeTableList.length === 0) {
-            this.$message({
-              message: '无此商品编号',
-              type: 'error'
-            })
+            this.messageTips('无此商品编号', 'error')
             this.encodeTableList = []
           } else {
             this.encodeTableVisible = true
@@ -7480,10 +7420,7 @@ export default {
           this.codeTsChange = false
           this.productList = res.result
           if (this.productList === null || this.productList === undefined || this.productList.length === 0) {
-            this.$message({
-              message: '无此商品编号',
-              type: 'error'
-            })
+            this.messageTips('无此商品编号', 'error')
             this.decList.codeTs = ''
             this.productList = []
           } else {
@@ -8013,18 +7950,12 @@ export default {
       this.$refs['originRelRuleForm'].validate((valid) => {
         if (valid === true) {
           if (parseInt(this.originRelForm.decGno) > this.tableList.length) {
-            this.$message({
-              message: '输入的商品序号不在范围内',
-              type: 'error'
-            })
+            this.messageTips('输入的商品序号不在范围内', 'error')
             return false
           }
           for (let i in this.decLicense.decEcoRealations) {
             if (this.decLicense.decEcoRealations[i].decGno === this.originRelForm.decGno) {
-              this.$message({
-                message: '报关单商品序列号不能重复',
-                type: 'error'
-              })
+              this.messageTips('报关单商品序列号不能重复', 'error')
               return false
             }
           }
@@ -9027,13 +8958,9 @@ export default {
           this.decList = util.simpleClone(this.checkedTableList[0])
           // 初始化下拉框
           this.initSelect(this.bodySelect, this.decList)
-          // this.refreshDecList()
           // 重新设置商品对应关系列表
           this.resetGoodsEnNameList()
-          this.$message({
-            message: '数据复制成功',
-            type: 'success'
-          })
+          this.messageTips('数据复制成功', 'success')
         }
       } else {
         if (this.bodyListRadio === '') {
@@ -9203,11 +9130,8 @@ export default {
           },
           success: (res) => {
             let productList = res.result
-            if (productList === null || productList === undefined || productList.length === 0) {
-              this.$message({
-                message: '本数据商品编号不正确，请先重新设置',
-                type: 'error'
-              })
+            if (!productList === undefined || productList.length === 0) {
+              this.messageTips('本数据商品编号不正确，请先重新设置', 'error')
             } else {
               this.decElementPara = {
                 checkedgoods: productList[0], // 加载数据
@@ -9234,11 +9158,8 @@ export default {
           },
           success: (res) => {
             let productList = res.result
-            if (productList === null || productList === undefined || productList.length === 0) {
-              this.$message({
-                message: '本数据商品编号不正确，请先重新设置',
-                type: 'error'
-              })
+            if (!productList || productList.length === 0) {
+              this.messageTips('本数据商品编号不正确，请先重新设置', 'error')
             } else {
               this.decElementPara = {
                 checkedgoods: productList[0], // 加载数据
@@ -9281,11 +9202,8 @@ export default {
         },
         success: (res) => {
           let productList = res.result
-          if (productList === null || productList === undefined || productList.length === 0) {
-            this.$message({
-              message: '本数据商品编号不正确，请先重新设置',
-              type: 'error'
-            })
+          if (!productList || productList.length === 0) {
+            this.messageTips('本数据商品编号不正确，请先重新设置', 'error')
           } else {
             this.decElementPara = {
               checkedgoods: productList[0], // 加载数据
@@ -9520,18 +9438,11 @@ export default {
           'tradeMode': this.decHead.tradeMode
         },
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result !== null && res.result.length > 0) {
-              this.initManualGoods = util.simpleClone(res.result)
-              this.openManualGoods()
-            } else {
-              this.messageTips('查无联系单备案商品信息！')
-            }
+          if (!res.result && res.result.length > 0) {
+            this.initManualGoods = util.simpleClone(res.result)
+            this.openManualGoods()
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+            this.messageTips('查无联系单备案商品信息！')
           }
         }
       })
@@ -9609,10 +9520,7 @@ export default {
             // 校验 集装箱号是否重复
             for (let n in this.tableDecContainerlist) {
               if (this.tableDecContainerlist[n].containerNo === this.decContainer.containerNo) {
-                this.$message({
-                  message: '集装箱号已存在',
-                  type: 'error'
-                })
+                this.messageTips('集装箱号已存在', 'error')
                 return false
               }
             }
@@ -9626,10 +9534,7 @@ export default {
                 continue
               }
               if (this.tableDecContainerlist[n].containerNo === this.decContainer.containerNo) {
-                this.$message({
-                  message: '集装箱号已存在',
-                  type: 'error'
-                })
+                this.messageTips('集装箱号已存在', 'error')
                 return false
               }
             }
@@ -10375,10 +10280,7 @@ export default {
       }
       let char = this.decHead.manualNo.charAt(0).toUpperCase()
       if (!util.isExistInArray(char, ['B', 'C', 'D', 'E', 'H', 'Z'])) {
-        this.$message({
-          message: '备案号:' + this.decHead.manualNo + '不存在',
-          type: 'error'
-        })
+        this.messageTips('备案号:' + this.decHead.manualNo + '不存在', 'error')
         this.controller.importIsDisabled = false
         this.controller.refreshIsDisabled = false
         this.controller.insertIsDisabled = false
@@ -10928,48 +10830,41 @@ export default {
         url: 'API@/dec-common/dec/common/searchShipBill',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            if (util.isEmpty(res.result)) {
-              this.$message({
-                message: '未查到相关舱单信息',
-                type: 'info'
-              })
-            } else {
-              let data = JSON.parse(res.result)
-              let list = []
-              for (let i in data) {
-                list.push({
-                  'trafMode': data[i]['TRAF_MODE'], // 运输方式（请填写空运）
-                  'customMaster': data[i]['CUSTOM_MASTER'], // 关区代码
-                  'iEFlag': data[i]['I_E_FLAG'], // 进出口标志 （I/E）
-                  'trafName': data[i]['TRAF_NAME'], // 运输工具
-                  'voyageNo': data[i]['VOYAGE_NO'], // 航次号
-                  'billNos': data[i]['BILL_NOS'], // 总提运单号
-                  'billNo': data[i]['BILL_NO'], // 提运单号,
-                  'iEDate': data[i]['I_E_DATE'], // 提运单号,
-                  'packNo': data[i]['PACK_NO'], // 件数,
-                  'wt': data[i]['WT'], // 重量,
-                  'iFlag': data[i]['IFLAG'], //
-                  'status': data[i]['STATUS'], // 理货状态
-                  'eFlag': data[i]['EFLAG'] //
-                })
-              }
-              this.initMftBill = {
-                list: list,
-                trafName: this.decHead.trafName, // 运输工具名称
-                voyageNo: this.decHead.voyageNo, // 航班\航次
-                billNo: this.decHead.billNo, // 提运单号
-                packNo: this.decHead.packNo, // 件数
-                wt: this.decHead.grossWt, // 毛重
-                customMaster: this.decHead.iEPort // 关区代码
-              }
-              this.mftBillVisible = true
-            }
-          } else {
+          if (util.isEmpty(res.result)) {
             this.$message({
-              message: res.message,
-              type: 'error'
+              message: '未查到相关舱单信息',
+              type: 'info'
             })
+          } else {
+            let data = JSON.parse(res.result)
+            let list = []
+            for (let i in data) {
+              list.push({
+                'trafMode': data[i]['TRAF_MODE'], // 运输方式（请填写空运）
+                'customMaster': data[i]['CUSTOM_MASTER'], // 关区代码
+                'iEFlag': data[i]['I_E_FLAG'], // 进出口标志 （I/E）
+                'trafName': data[i]['TRAF_NAME'], // 运输工具
+                'voyageNo': data[i]['VOYAGE_NO'], // 航次号
+                'billNos': data[i]['BILL_NOS'], // 总提运单号
+                'billNo': data[i]['BILL_NO'], // 提运单号,
+                'iEDate': data[i]['I_E_DATE'], // 提运单号,
+                'packNo': data[i]['PACK_NO'], // 件数,
+                'wt': data[i]['WT'], // 重量,
+                'iFlag': data[i]['IFLAG'], //
+                'status': data[i]['STATUS'], // 理货状态
+                'eFlag': data[i]['EFLAG'] //
+              })
+            }
+            this.initMftBill = {
+              list: list,
+              trafName: this.decHead.trafName, // 运输工具名称
+              voyageNo: this.decHead.voyageNo, // 航班\航次
+              billNo: this.decHead.billNo, // 提运单号
+              packNo: this.decHead.packNo, // 件数
+              wt: this.decHead.grossWt, // 毛重
+              customMaster: this.decHead.iEPort // 关区代码
+            }
+            this.mftBillVisible = true
           }
         }
       })
@@ -11601,48 +11496,41 @@ export default {
         url: 'API@/dec-common/dec/common/getCusCorpInf',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            if (type === '1') { // 境内收发货人
-              this.decHead.tradeCoScc = res.result.sccCode
-              this.decHead.tradeCode = res.result.regCusCode
-              this.decHead.tradeName = res.result.cusNameSaic
-              if (!util.isEmpty(res.result.regCiqCode)) {
-                this.decHead.consigneeCode = res.result.regCiqCode
-              }
-              return
+          if (type === '1') { // 境内收发货人
+            this.decHead.tradeCoScc = res.result.sccCode
+            this.decHead.tradeCode = res.result.regCusCode
+            this.decHead.tradeName = res.result.cusNameSaic
+            if (!util.isEmpty(res.result.regCiqCode)) {
+              this.decHead.consigneeCode = res.result.regCiqCode
             }
-            if (type === '2') { // 境外收发货人
-              if (iEFlag === 'I') {
-                this.decHead.overseasConsignorCode = res.result.sccCode
-                this.decHead.overseasConsignorEname = res.result.cusNameSaic
-              } else {
-                this.decHead.overseasConsigneeCode = res.result.sccCode
-                this.decHead.overseasConsigneeEname = res.result.cusNameSaic
-              }
-              return
+            return
+          }
+          if (type === '2') { // 境外收发货人
+            if (iEFlag === 'I') {
+              this.decHead.overseasConsignorCode = res.result.sccCode
+              this.decHead.overseasConsignorEname = res.result.cusNameSaic
+            } else {
+              this.decHead.overseasConsigneeCode = res.result.sccCode
+              this.decHead.overseasConsigneeEname = res.result.cusNameSaic
             }
-            if (type === '3') { // 生产销售单位
-              this.decHead.ownerCodeScc = res.result.sccCode
-              this.decHead.ownerCode = res.result.regCusCode
-              this.decHead.ownerName = res.result.cusNameSaic
-              if (!util.isEmpty(res.result.regCiqCode)) {
-                this.decHead.ownerCiqCode = res.result.regCiqCode
-              }
-              return
+            return
+          }
+          if (type === '3') { // 生产销售单位
+            this.decHead.ownerCodeScc = res.result.sccCode
+            this.decHead.ownerCode = res.result.regCusCode
+            this.decHead.ownerName = res.result.cusNameSaic
+            if (!util.isEmpty(res.result.regCiqCode)) {
+              this.decHead.ownerCiqCode = res.result.regCiqCode
             }
-            if (type === '4') { // 申报单位
-              this.decHead.agentCodeScc = res.result.sccCode
-              this.decHead.agentCode = res.result.regCusCode
-              this.decHead.agentName = res.result.cusNameSaic
-              if (!util.isEmpty(res.result.regCiqCode)) {
-                this.decHead.declRegNo = res.result.regCiqCode
-              }
+            return
+          }
+          if (type === '4') { // 申报单位
+            this.decHead.agentCodeScc = res.result.sccCode
+            this.decHead.agentCode = res.result.regCusCode
+            this.decHead.agentName = res.result.cusNameSaic
+            if (!util.isEmpty(res.result.regCiqCode)) {
+              this.decHead.declRegNo = res.result.regCiqCode
             }
-          } else {
-            this.$message({
-              message: res.result,
-              type: 'success'
-            })
           }
         }
       })
@@ -11675,22 +11563,15 @@ export default {
       let importLen = data.res.result.length
       let totalLen = this.Add(len, importLen)
       if (totalLen > 50) {
-        this.$message({
-          message: '导入商品数量超过本单商品不能超过50条限制,导入失败！',
-          type: 'error'
-        })
+        this.messageTips('导入商品数量超过本单商品不能超过50条限制', 'error')
         return
       }
-      if (data.res.code === '0000' && data.res.result.length > 0) {
+      if (data.res.result && data.res.result.length > 0) {
         let list = data.res.result
         for (let i in list) {
           this.tableList.push(list[i])
         }
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: data.res.message,
-          type: 'success'
-        })
+        this.messageTips(data.res.message, 'success')
       } else {
         this.messageTips(data.res.message)
       }

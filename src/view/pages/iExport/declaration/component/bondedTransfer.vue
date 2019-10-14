@@ -390,10 +390,10 @@ export default {
       type: Object,
       default: () => {
         return {
-          iEFlag: this.$route.params.iEFlag, // I E
-          operationType: this.$route.params.operationType, // look  edit
+          iEFlag: this.$route.meta.iEFlag, // I E
+          operationType: this.$route.meta.operationType, // look  edit
           pid: '', // 主键
-          funFlag: this.$route.params.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
+          funFlag: this.$route.meta.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
           customMaster: '', // 报关单申报地海关
           isDisabled: false,
           statusForm: {

@@ -1167,10 +1167,7 @@ export default {
         success: (res) => {
           this.encodeTableList = res.result
           if (!this.encodeTableList || this.encodeTableList.length === 0) {
-            this.$message({
-              message: '无此商品编号',
-              type: 'error'
-            })
+            this.messageTips('无此商品编号', 'error')
             this.encodeTableList = []
           } else {
             this.encodeTableVisible = true
@@ -1197,10 +1194,7 @@ export default {
     openfilingInfoContent () {
       // 判断 是否能打开弹出框
       if (util.isEmpty(this.baseInfo.codeTs) || util.isEmpty(this.baseInfo.gName)) {
-        this.$message({
-          message: '请输入商品编码和商品名称',
-          type: 'error'
-        })
+        this.messageTips('请输入商品编码和商品名称', 'error')
       } else {
         if (this.baseInfo.iEFlag === 'I') {
           this.LicTypeList = util.simpleClone(this.iLicType)
@@ -1223,10 +1217,7 @@ export default {
         return false
       }
       if (this.baseInfo.codeTs.length < 4) {
-        this.$message({
-          message: '至少输入四位商品编号',
-          type: 'warning'
-        })
+        this.messageTips('至少输入四位商品编号')
         this.$refs['codeTs'].$children[0].select()
         return false
       }
@@ -1241,10 +1232,7 @@ export default {
           this.codeTsChange = false
           this.productList = res.result
           if (!this.productList || this.productList.length === 0) {
-            this.$message({
-              message: '无此商品编号',
-              type: 'error'
-            })
+            this.messageTips('无此商品编号', 'error')
             this.baseInfo.codeTs = ''
             this.productList = []
           } else {
@@ -1400,10 +1388,7 @@ export default {
     delfilingInfo () {
       let delData = this.checkedFilingInfoList
       if (delData.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择需要删除的数据')
       } else {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
@@ -1514,10 +1499,7 @@ export default {
     dellicVIN () {
       let delData = this.checkedLicVINVList
       if (delData.length === 0) {
-        this.$message({
-          message: '请选择需要删除的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择需要删除的数据')
       } else {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
@@ -1568,10 +1550,7 @@ export default {
       let goodsAttrLen = this.goodsAttrCollection.length
       if (goodsAttrLen > 7) {
         this.goodsAttrCollection.pop()
-        this.$message({
-          message: '不能超过7条数据',
-          type: 'warning'
-        })
+        this.messageTips('不能超过7条数据')
       }
     },
     // 保存 货物属性的值

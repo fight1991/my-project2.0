@@ -351,10 +351,7 @@ export default {
     deleteFun () {
       let len = this.checkedShipping.length
       if (len === 0) {
-        this.$message({
-          message: '至少选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('至少选择一条数据')
       } else {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
@@ -375,18 +372,11 @@ export default {
               'list': pidLit
             },
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-                this.pageList()
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.messageTips(res.message, 'success')
+              this.pageList()
+            },
+            other: (res) => {
+              this.messageTips(res.message, 'error')
             }
           })
         }).catch(() => {
@@ -397,10 +387,7 @@ export default {
     createDeclare () {
       let len = this.checkedShipping.length
       if (len === 0) {
-        this.$message({
-          message: '请选择需要生成报关单条数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择需要生成报关单条数据')
         return
       }
       // 如果已经存在接单编号 则不能再次生成报关单
@@ -414,29 +401,19 @@ export default {
         }
       }
       if (otherPidList.length > 0) {
-        this.$message({
-          message: '接单编号为：' + otherPidList.join('、') + '的数据已生成报关单，不可重复生成！',
-          type: 'warning'
-        })
+        this.messageTips('接单编号为：' + otherPidList.join('、') + '的数据已生成报关单，不可重复生成！')
         return
       }
       this.$post({
         url: 'API@/dec-common/ccba/shipping/shippingToDec',
         data: {list: pidLit},
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.lineProgressShow = true
-            this.pageList()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          this.lineProgressShow = true
+          this.pageList()
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
         }
       })
     },
@@ -511,16 +488,10 @@ export default {
     // 上传文件
     beforeUpload (file) {
       if (!(file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-        this.$message({
-          message: '上传文件只支持execl格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持execl格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 2048)) {
-        this.$message({
-          message: '上传文件大小不能超过2MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过2MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -547,18 +518,12 @@ export default {
         url: 'API@/dec-common/ccba/shipping/importShipping',
         data: data,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.pageList()
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips(res.message, 'success')
+          this.pageList()
+          this.messageTips(res.message, 'error')
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
         }
       })
     },

@@ -43,10 +43,7 @@ export default {
     configBtn () {
       // 开始ocr识别
       if (this.fileList.length === 0) {
-        this.$message({
-          message: '请上传需要识别的文件！',
-          type: 'warning'
-        })
+        this.messageTips('请上传需要识别的文件！')
         return
       }
       let param = []
@@ -63,18 +60,11 @@ export default {
         url: 'API@/dec-common/dec/orc/uploadDecOcrPictures',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$alert('单证识别中，可以到识别记录中查看结果', '提示', {
-              confirmButtonText: '我知道啦',
-              callback: action => {
-              }
-            })
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.$alert('单证识别中，可以到识别记录中查看结果', '提示', {
+            confirmButtonText: '我知道啦',
+            callback: action => {
+            }
+          })
           this.$emit('backData')
         }
       })
@@ -85,16 +75,10 @@ export default {
     // 上传随附单据的文件
     beforeUpload (file) {
       if (!['application/pdf', 'image/jpeg', 'image/png', 'image/bmp'].includes(file.type)) {
-        this.$message({
-          message: '上传文件只支持bmp、png、jpg、pdf格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持bmp、png、jpg、pdf格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()

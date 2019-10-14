@@ -73,7 +73,6 @@ import decList from '../summaryDec/components/decList'
 import decContainer from '../summaryDec/components/containers'
 import decDocuments from '../summaryDec/components/documents'
 import decprintView from '../decPage/components/decPrint'
-import config from '@/config/config'
 export default {
   components: {
     decHead,
@@ -94,7 +93,8 @@ export default {
     this.$store.unregisterModule(this.moduleName)
   },
   created () {
-    let {operationType, funFlag, pid} = this.$route.params
+    let {operationType, funFlag} = this.$route.meta
+    let pid = this.$route.params.pid
     this.moduleName = funFlag + '-' + operationType + '-' + pid
     this.$store.registerModule(this.moduleName, summaryDecStore)
     decUtil.setModuleName(this.moduleName)
@@ -139,9 +139,8 @@ export default {
   },
   mounted () {
     // 获取tabId  为了CCBA
-    this.tabId = this.getQueryString('tabId')
     let type = this.$route.query.type // 取路径的参数
-    let operation = this.$route.params.operationType
+    let operation = this.$route.meta.operationType
     // 备案清单、报关单标识
     if (this.controller.funFlag === 'declaration') {
       // this.$nextTick(_ => {
@@ -173,10 +172,6 @@ export default {
   },
   methods: {
     specialInit () {
-      // 初始化 默认下拉框值
-      // this.$nextTick(_ => {
-      //   this.$refs.decList.initBodyCountry()
-      // })
       let operation = this.controller.operationType // 取路径的参数
       let type = this.$route.query.type
       if ((operation === 'look' && util.isEmpty(type)) || operation === 'edit') {
@@ -246,34 +241,6 @@ export default {
       let licenselist = this.declareType.indexOf(1) !== -1 ? this.$refs.decDocuments.licenselist : [] // 随附单据
       this.$refs.decHead.verifyDecHeadBeforeSave()
       let messageTips = this.$store.state[this.moduleName].headMessageTips
-      // // 表头表体重量检控
-      // if (decHead.netWt) {
-      //   let listTotalNet = 0
-      //   tableList.forEach((v, i) => {
-      //     let middle = ''
-      //     if (v.gUnit === '036' && !util.isEmpty(v.gQty)) { // 克
-      //       listTotalNet = decUtil.Add(listTotalNet, v.gQty)
-      //     } else if (v.gUnit === '035' && !util.isEmpty(v.gQty)) {
-      //       middle = decUtil.Mul(v.gQty, 1000)
-      //       listTotalNet = decUtil.Add(listTotalNet, middle)
-      //     } else if (v.unit1 === '036' && !util.isEmpty(v.qty1)) {
-      //       listTotalNet = decUtil.Add(listTotalNet, v.qty1)
-      //     } else if (v.unit1 === '035' && !util.isEmpty(v.qty1)) {
-      //       middle = decUtil.Mul(v.qty1, 1000)
-      //       listTotalNet = decUtil.Add(listTotalNet, v.middle)
-      //     } else if (v.unit2 === '036' && !util.isEmpty(v.qty2)) {
-      //       listTotalNet = decUtil.Add(listTotalNet, v.qty2)
-      //     } else if (v.unit2 === '035' && !util.isEmpty(v.qty2)) {
-      //       middle = decUtil.Mul(v.qty2, 1000)
-      //       listTotalNet = decUtil.Add(listTotalNet, v.middle)
-      //     }
-      //   })
-      //   let netWtg = decUtil.Mul(decHead.netWt, 1000)
-      //   if (netWtg < listTotalNet) {
-      //     mesLen = messageTips.length + 1
-      //     messageTips.push(mesLen + '.' + '表体商品重量需要小于或等于表头总净重')
-      //   }
-      // }
       // 随附单证代码为“Y”时，需要上传随附单据“00000001 合同”以及“00000003 提/运单”，未上传时提示
       let licenseIndex = licenselist.findIndex((v, i) => {
         return v.docuCode === 'Y'
@@ -304,13 +271,6 @@ export default {
       }
       // 提示 需要添加的随附单证
       let needArr = []
-      // 先算出本票报关单需要的所有单证
-      // for (let n in tableList) {
-      //   if (!util.isEmpty(tableList[n].controlMa)) {
-      //     needArr.push(...tableList[n].controlMa.split(','))
-      //   }
-      // }
-      needArr = decUtil.unique(needArr)
       // 判单 一些特殊单证
       // 1.当进口时
       if (this.controller.iEFlag === 'I') {
@@ -322,27 +282,8 @@ export default {
         let arrIndex2 = needArr.findIndex((v, i) => {
           return v === '9'
         })
-        // A检验检疫商品表头以及表体涉检必填项未填时，提示：项号X、X、X涉检，请完善检验检疫信息
-        // D出/入境货物通关单（毛坯钻石用）
-        // let arrIndex3 = needArr.findIndex((v, i) => {
-        //   return v === 'A' || v === 'D'
-        // })
         let tipsArr1 = [] // 旧机电产品
         let tipsArr2 = [] // 禁止进口商品
-        let tipsArr3 = [] // A D
-        // tableList.forEach((item) => {
-        //   if (!util.isEmpty(item.controlMa)) {
-        //     if (arrIndex1 > -1 && item.controlMa.indexOf('6') > -1) {
-        //       tipsArr1.push(item.gNo)
-        //     }
-        //     if (arrIndex2 > -1 && item.controlMa.indexOf('9') > -1) {
-        //       tipsArr2.push(item.gNo)
-        //     }
-        //     if (arrIndex3 > -1 && (item.controlMa.indexOf('A') > -1 || item.controlMa.indexOf('D') > -1)) {
-        //       tipsArr3.push(item.gNo)
-        //     }
-        //   }
-        // })
         if (tipsArr1.length > 0) {
           needArr.splice(arrIndex1, 1)
           mesLen = messageTips.length + 1
@@ -353,69 +294,11 @@ export default {
           mesLen = messageTips.length + 1
           messageTips.push(mesLen + '.' + '项号' + tipsArr2.join('、') + '为禁止进口商品')
         }
-        if (tipsArr3.length > 0) { // 有涉检
-          // 检查检验信息是否完善
-          // let flag = false // false 代表质检信息已经完善 true 代表已经完善
-          // 1.检验表头
-          // let checkFeildArr = []
-          // checkFeildArr.push(decHead.orgCode) // 检验检疫受理机关
-          // checkFeildArr.push(decHead.vsaOrgCode) // 领证机关
-          // checkFeildArr.push(decHead.inspOrgCode) // 口岸检验检疫机关
-          // checkFeildArr.push(decHead.despDate) // 启运日期
-          // let index = checkFeildArr.findIndex((v, i) => {
-          //   return util.isEmpty(v)
-          // })
-          // if (index > -1) {
-          //   flag = true
-          // }
-          // 表体
-          // for (let xy in tableList) {
-          //   if (!tableList[xy].purpose || tableList[xy].goodsAttr.length === 0) {
-          //     flag = true
-          //     break
-          //   }
-          // }
-          // if (flag) {
-          //   mesLen = messageTips.length + 1
-          //   messageTips.push(mesLen + '.' + '涉检，请完善检验检疫信息')
-          // }
-        }
-        // 监管方式为“0110”且商品编码涉A时，
-        // 商品表体的“检验检疫货物规格”的“货物品牌”、“货物规格”字段未填时提示：项号X需要补充货物品牌、货物规格信息；
-        // “生产日期”、“生产批次”两个字段均为填写时提示：项号X需要补充生产日期或生产批次信息。
-        // let AmessageTips = []
-        // if (decHead.tradeMode === '0110') {
-        // for (let c in tableList) {
-        //   let bodyVo = tableList[c]
-        //   if (bodyVo.controlMa.indexOf('A') > -1) {
-        //     if (util.isEmpty(bodyVo.goodsBrand) || util.isEmpty(bodyVo.goodsSpec)) {
-        //       AmessageTips.push('   项号' + bodyVo.gNo + '需要补充货物品牌、货物规格信息')
-        //     }
-        //     if (util.isEmpty(bodyVo.produceDate) && util.isEmpty(bodyVo.prodBatchNo)) {
-        //       AmessageTips.push('  项号' + bodyVo.gNo + '需要补充生产日期或生产批次信息')
-        //     }
-        //   }
-        // }
-        // }
-        // if (AmessageTips.length > 0) {
-        //   mesLen = messageTips.length + 1
-        //   messageTips.push(mesLen + '.' + '当前申报的商品如含有食品、化妆品')
-        //   messageTips.push(...AmessageTips)
-        // }
       }
       // 监管方式为“0255 来料深加工”、“0654 进料深加工”，且未添加添加随附单证时提示
       if (['0255', '0654'].includes(decHead.tradeMode)) {
         needArr.push('K')
       }
-      // 进口时启运国为“CHN 中国”，且征免方式为“1 照章征税”，未添加添加随附单证时提示
-      // if (decHead.tradeCountry === 'CHN' && this.controller.iEFlag === 'I') {
-      //   for (let m in tableList) {
-      //     if (tableList[m].dutyMode === '1') {
-      //       needArr.push('c')
-      //       break
-      //     }
-      //   }
-      // }
       // 去掉 A证的提示
       for (let g in needArr) {
         if (needArr[g] === 'A') {
@@ -434,19 +317,6 @@ export default {
           }
         }
       }
-      // 1、备案号格式为H****W******、T****W******，或随附单证中添加了a证，不提示需要添加内销征税联系单
-      // for (let n in needArr) {
-      //   if (needArr[n] === 'c') {
-      //     // let _manualNo = decHead.manualNo
-      // let index = licenselist.findIndex((v, i) => {
-      //   return v.docuCode === 'a'
-      // })
-      // if ((['H', 'T'].includes(_manualNo.charAt(0).toUpperCase()) && _manualNo.charAt(5).toUpperCase() === 'W') || index > -1) {
-      //   needArr.splice(n, 1)
-      //   break
-      // }
-      //   }
-      // }
       if (needArr.length > 0) {
         mesLen = messageTips.length + 1
         messageTips.push(mesLen + '.' + '此票数据可能需要添加代码为: ' + needArr.join(',') + ' 的随附单证')
@@ -543,7 +413,7 @@ export default {
         data: param,
         success: (res) => {
           this.messageTips(res.message, 'success')
-          if (decHeadVo.pid === '') {
+          if (!decHeadVo.pid) { // 如果为空 则先关闭新增tab 然后再打开编辑tab
             let result = util.isEmpty(res.result) ? {} : res.result
             this.$refs.decHead.setHeadFieldValue({
               'pid': result.pid,
@@ -552,30 +422,27 @@ export default {
             })
             this.controller.pid = result.pid
             this.controller.completeBtn = false
-            let sysId = window.sessionStorage.getItem('sysId')
-            let name = '进口报关单(概要申报)' + result.pid
-            let CCBATtitle = ''
-            let funlag = ''
+            let tabName = '进口报关单(概要申报)'
+            let routeName = 'declaration'
             // 重开页签
             if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
-              CCBATtitle = '进口报关单(概要申报)'
-              name = CCBATtitle + result.pid
-              funlag = 'declaration'
+              tabName = '进口报关单(概要申报)'
+              routeName = 'declaration'
             } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
-              CCBATtitle = '进境备案清单(概要申报)'
-              name = CCBATtitle + result.pid
-              funlag = 'recordList'
+              tabName = '进境备案清单(概要申报)'
+              routeName = 'recordList'
             }
-            if (sysId === '002') {
-              window.parent.postMessage({type: 'modiftyTab', data: {title: name, tabId: this.tabId}}, '*')
-            } else if (sysId === 'CCBA') {
-              let tabId = util.isEmpty(this.tabId) ? ('rewEdit-' + result.pid) : this.tabId
-              if (this.$route.query.type && this.$route.query.type === 'copy') {
-                this.copyTabId = 'rewEdit-' + result.pid
+            // 关闭新增tab
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            // 打开编辑tab
+            this.$router.push({
+              name: routeName,
+              params: {
+                'pid': result.pid,
+                'setTitle': tabName + '-' + result.pid,
+                'setId': routeName + 'edit' + result.pid
               }
-              let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/summaryDec/' + funlag + '/edit/' + result.pid
-              window.parent.postMessage({type: 'refresh', data: {url: url, operationType: 'rewEdit', id: result.pid, title: CCBATtitle, tabId: tabId}}, '*')
-            }
+            })
           }
         },
         other: (res) => {
@@ -635,10 +502,6 @@ export default {
         this.messageTips('数据复制成功', 'success')
       } else {
         let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
-        // let cropLimit = this.$refs.decHead.cropLimit
-        // if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
-        //   decHeadVo.decCopLimits.push(cropLimit)
-        // }
         let [a, b, c] = ['0', '0', '0']
         for (let i in this.declareType) {
           if (this.declareType[i] === 1) {
@@ -705,16 +568,26 @@ export default {
         window.localStorage.setItem('copyDec', JSON.stringify(decVo))
         let tabId = new Date().getTime()
         this.copyTabId = tabId
-        // 重开页签
-        if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
-          let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/summaryDec/declaration/add/new?type=copy'
-          let timestamp = 'none-' + (new Date()).getTime()
-          window.parent.postMessage({type: 'declaration', data: {url: url, title: '进口报关单(概要申报)', operationType: 'copy', id: timestamp, tabId: tabId}}, '*')
-        } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
-          let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/summaryDec/recordList/add/new?type=copy'
-          let timestamp = 'none-' + (new Date()).getTime()
-          window.parent.postMessage({type: 'declaration', data: {url: url, title: '进境备案清单(概要申报)', operationType: 'copy', id: timestamp, tabId: tabId}}, '*')
+        let routeName
+        let tabName
+        if (this.controller.declTrnrel === '0') {
+          routeName = '进口报关单(概要申报)'
+          tabName = 'importSummaryDecAdd'
+        } else if (this.controller.declTrnrel === '2') {
+          routeName = '进境备案清单(概要申报)'
+          tabName = 'importSummaryRecordAdd'
         }
+        // 重开页签
+        this.$router.push({
+          name: routeName,
+          params: {
+            'setTitle': tabName,
+            'setId': routeName + 'copy' + new Date().getTime()
+          },
+          query: {
+            'type': 'copy'
+          }
+        })
       }
     },
     // 打印
@@ -827,30 +700,6 @@ export default {
             this.$nextTick(() => {
               this.$refs.decDocuments.getDocumentsDetail(res.result.decLicensesVO)
             })
-            // 概要申报 申报状态： 1概要暂存；2概要申报；3申报失败；4概要申报入库；6概要申报退单；7概要申报审结；12补充申报；8删单；11查验；9提货放行。
-            // if (['1', '3', '6'].includes('1')) {
-            //   operationType = 'edit'
-            // }
-            // if (this.$refs.decList.supplementFlag) {
-            //   this.openSuppDec()
-            // } else {
-            // 当状态为审核驳回并且为编辑状态时。调用审核记录
-            // if (this.switch['show_audit_log_in_reject_status'] && this.switch['show_audit_log_in_reject_status'] === 'Y' && decHeadVO.isExamine === '4' && this.controller.operationType === 'edit') {
-            //   // 需要获取审核驳回时报关单的数据 以便对比是否修改 以便改变颜色
-            //   let checkVo = res.result.decVerifyVO
-            //   if (checkVo) {
-            //     this.$refs.decHead.formatHeadCheckData(checkVo.decVerifyHeadVO, checkVo.headMap, this.$refs.decHead.decHead)
-            //     this.$refs.decList.formatBodyCheckData(checkVo.decVerifyListVOs, checkVo.listMap, this.$refs.decList.tableList)
-            //   }
-            //   this.controller.showCheckTips = true
-            // } else {
-            //   this.controller.showCheckTips = false
-            // }
-            //   this.$refs.decHead.focusCustomMaster()
-            // }
-            // if (this.$refs.decHead.decHead.isExamine === '6') {
-            //   this.feeEstimateState = false
-            // }
           }
         }
       })
@@ -864,8 +713,6 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     goToDec () {
-      let sysId = window.sessionStorage.getItem('sysId')
-      let title = ''
       let funFlag = this.controller.funFlag
       let operationType = this.controller.operationType
       let decOperationType = 'look'
@@ -874,53 +721,38 @@ export default {
       } else {
         decOperationType = 'edit'
       }
+      let routeName
+      let tabName
       let pid = this.controller.pid
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/' + funFlag + '/import/' + decOperationType + '/' + pid + '?summary=true'
       if (funFlag === 'declaration') {
         if (decOperationType === 'look') {
-          title = '进口报关单(完整申报)'
+          tabName = '进口报关单(完整申报)'
+          routeName = 'importDecLook'
         } else {
-          title = '进口报关单(完整申报)'
+          tabName = '进口报关单(完整申报)'
+          routeName = 'importDecEdit'
         }
       }
       if (funFlag === 'recordList') {
         if (decOperationType === 'look') {
-          title = '进境备案清单(完整申报)'
+          tabName = '进境备案清单(完整申报)'
+          routeName = 'importRecordLook'
         } else {
-          title = '进境备案清单(完整申报)'
+          tabName = '进境备案清单(完整申报)'
+          routeName = 'importRecordEdit'
         }
       }
-      if (sysId === '002' || sysId === 'CCBA') {
-        if (this.$route.query.type && this.$route.query.type === 'copy') {
-          window.parent.postMessage({type: 'close', data: { tabId: this.copyTabId }}, '*')
-        } else {
-          window.parent.postMessage({type: 'close', data: { tabId: this.$route.query.tabId }}, '*')
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
+        },
+        query: {
+          'summary': 'true'
         }
-        let tabId = new Date().getTime()
-        if (decOperationType === 'look') {
-          tabId = 'look-' + pid
-        } else if (decOperationType === 'edit') {
-          tabId = 'edit-' + pid
-        }
-        if (sysId === '002') {
-          window.parent.postMessage({type: funFlag, data: {url: url, operationType: decOperationType, id: pid, title: title, tabId: tabId}}, '*')
-        } else {
-          window.parent.postMessage({type: 'declaration', data: {url: url, operationType: decOperationType, id: pid, title: title, tabId: tabId}}, '*')
-        }
-      } else {
-        this.$router.push({
-          name: '报关单页面',
-          params: {
-            'funFlag': funFlag,
-            'iEFlag': 'import',
-            'operationType': decOperationType,
-            'pid': pid
-          },
-          query: {
-            summary: 'true'
-          }
-        })
-      }
+      })
     },
     // 提交审核
     sumbitCheck () {

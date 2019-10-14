@@ -303,49 +303,55 @@ export default {
      */
     gotoDecPage (funFlag, flag, operationType, pid = 'new') {
       let sysId = window.sessionStorage.getItem('sysId')
-      let title = ''
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/' + funFlag + '/' + flag + '/' + operationType + '/' + pid
+      let routeName
+      let tabName
       if (funFlag === 'declaration') {
         if (flag === 'import') {
-          if (operationType === 'add') {
-            title = '进口报关单-新增'
-          } else if (operationType === 'look') {
-            title = '进口报关单-查看'
+          if (operationType === 'look') {
+            tabName = '进口报关单'
+            routeName = 'importDecLook'
           } else if (operationType === 'edit') {
-            title = '进口报关单-编辑'
+            tabName = '进口报关单'
+            routeName = 'importDecEdit'
           }
         } else if (flag === 'export') {
-          if (operationType === 'add') {
-            title = '出口报关单-新增'
-          } else if (operationType === 'look') {
-            title = '出口报关单-查看'
+          if (operationType === 'look') {
+            tabName = '出口报关单'
+            routeName = 'exportDecLook'
           } else if (operationType === 'edit') {
-            title = '出口报关单-编辑'
+            tabName = '出口报关单'
+            routeName = 'exportDecEdit'
           }
         }
       }
       if (funFlag === 'recordList') {
         if (flag === 'import') {
-          if (operationType === 'add') {
-            title = '进境备案清单-新增'
-          } else if (operationType === 'look') {
-            title = '进境备案清单-查看'
+          if (operationType === 'look') {
+            tabName = '进境备案清单'
+            routeName = 'importRecordLook'
           } else if (operationType === 'edit') {
-            title = '进境备案清单-编辑'
+            tabName = '进境备案清单'
+            routeName = 'importRecordEdit'
           }
         } else if (flag === 'export') {
-          if (operationType === 'add') {
-            title = '出境备案清单-新增'
-          } else if (operationType === 'look') {
-            title = '出境备案清单-查看'
+          if (operationType === 'look') {
+            tabName = '出境备案清单'
+            routeName = 'exportRecordLook'
           } else if (operationType === 'edit') {
-            title = '出境备案清单-编辑'
+            tabName = '出境备案清单'
+            routeName = 'exportRecordEdit'
           }
         }
       }
-      if (sysId === '002') {
-        window.parent.postMessage({type: funFlag, data: {url: url, operationType: operationType, title: title}}, '*')
-        // window.open(url)
+      if (sysId === 'CCBA') {
+        this.$router.push({
+          name: routeName,
+          params: {
+            'pid': pid,
+            'setTitle': tabName + '-' + pid,
+            'setId': routeName + operationType + pid
+          }
+        })
       } else {
         this.$router.push({
           name: '报关单页面',
@@ -364,10 +370,7 @@ export default {
     // 查看详情
     lookDetail () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据', 'error')
         return false
       }
       window.sessionStorage.setItem('isSuppDec', true)
@@ -376,17 +379,11 @@ export default {
     // 编辑
     editDetail () {
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据', 'error')
         return false
       }
       if (util.isExistInArray(this.checkedData.status, ['2', '4', '5', '7', '8', '9', '10', '11'])) {
-        this.$message({
-          message: '当前数据状态不能编辑',
-          type: 'warning'
-        })
+        this.messageTips('当前数据状态不能编辑')
         return false
       }
       window.sessionStorage.setItem('isSuppDec', true)
@@ -396,10 +393,7 @@ export default {
     printSuppDec () {
       let pid = []
       if (this.checkedData.length === 0) {
-        this.$message({
-          message: '选择一条数据',
-          type: 'error'
-        })
+        this.messageTips('选择一条数据')
         return false
       }
       pid.push(this.checkedData.pid.toString())
@@ -410,16 +404,12 @@ export default {
           ieFlag: this.checkedData.iEFlag
         },
         success: (res) => {
-          if (res.code === '0000') {
-            for (let i in res.result) {
-              window.open(res.result[i], '_blank')
-            }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
+          for (let i in res.result) {
+            window.open(res.result[i], '_blank')
           }
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
         }
       })
     }

@@ -45,10 +45,7 @@ export default {
   methods: {
     configBtn () {
       if (util.isEmpty(this.updateTimeStart)) {
-        this.$message({
-          message: '请选择同步日期！',
-          type: 'error'
-        })
+        this.messageTips('请选择同步日期！', 'error')
         return
       }
       let param = {}
@@ -61,14 +58,9 @@ export default {
         url: 'API@/saas-sync/dec/sync/batchCheckSeqNo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.isDisabled = true
-            this.$emit('backData', {})
-          }
+          this.messageTips(res.message, 'success')
+          this.isDisabled = true
+          this.$emit('backData', {})
         }
       })
     }

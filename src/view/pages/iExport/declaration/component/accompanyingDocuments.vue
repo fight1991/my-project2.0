@@ -234,10 +234,7 @@ export default {
       // 判断类型是否已经存在
       for (let i in this.accDocList) {
         if (this.accDocList[i].edocCode === value) {
-          this.$message({
-            message: '类别：' + this.accDocVo.edocCodeValue + ' 已经存在',
-            type: 'error'
-          })
+          this.messageTips('类别：' + this.accDocVo.edocCodeValue + ' 已经存在', 'error')
           this.accDocVo.edocCodeValue = ''
           this.accDocVo.edocCode = ''
           return false
@@ -248,10 +245,7 @@ export default {
     saveAccDocByE () {
       // 如果 随附单据号 为空  则不执行保存操作
       if (util.isEmpty(this.accDocVo.edocNo) && this.accDocVo.edocCode !== '10000001') {
-        this.$message({
-          message: '请填写随附单据编号',
-          type: 'warning'
-        })
+        this.messageTips('请填写随附单据编号')
         return false
       }
       this.accDocList.push(util.simpleClone(this.accDocVo))
@@ -269,11 +263,7 @@ export default {
     creatElecNo () {
       let message = this.verifyElecNo()
       if (message.length > 0) {
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: message.join('<br>'),
-          type: 'warning'
-        })
+        this.messageTips(message.join('<br>'))
         return
       }
       this.$post({
@@ -283,14 +273,7 @@ export default {
           'iEFlag': this.iEFlag
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.accDocVo.edocNo = res.result.consignNo
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.accDocVo.edocNo = res.result.consignNo
         }
       })
     },
@@ -394,12 +377,7 @@ export default {
     },
     // 预览pdf
     downLoadPdf (rowIndex) {
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === 'CCBA') {
-        window.parent.postMessage({type: 'window-open', data: {url: this.accDocList[rowIndex].edocUrl}}, '*')
-      } else {
-        window.open(this.accDocList[rowIndex].edocUrl, '_blank')
-      }
+      window.open(this.accDocList[rowIndex].edocUrl, '_blank')
     },
     // 传送数据给父组件
     configBtn () {
@@ -420,18 +398,10 @@ export default {
     },
     // 预览图片
     previewPicture () {
-      let sysId = window.sessionStorage.getItem('sysId')
       if (this.fileList.length === 0) {
-        this.$message({
-          message: '没有可以预览的数据',
-          type: 'error'
-        })
+        this.messageTips('没有可以预览的数据', 'error')
       } else {
-        if (sysId === 'CCBA') {
-          window.parent.postMessage({type: 'window-open', data: {url: this.fileList[0].url}}, '*')
-        } else {
-          window.open(this.fileList[0].url, '_blank')
-        }
+        window.open(this.fileList[0].url, '_blank')
       }
     },
     // 删除图片
@@ -451,16 +421,10 @@ export default {
     // 上传图片前的格式及大小判断
     beforeAvatarUpload (file) {
       if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp')) {
-        this.$message({
-          message: '上传文件只支持jpg、png、gif、bmp格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持jpg、png、gif、bmp格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -483,24 +447,15 @@ export default {
     // 上传随附单据的文件
     beforeUpload (file) {
       if (util.isEmpty(this.accDocVo.edocCode)) {
-        this.$message({
-          message: '请选择随附单据文件类别!',
-          type: 'warning'
-        })
+        this.messageTips('请选择随附单据文件类别!')
         this.$emit('closeEditUpload')
         return false
       }
       if (!(file.type === 'application/pdf')) {
-        this.$message({
-          message: '上传文件只支持pdf格式',
-          type: 'error'
-        })
+        this.messageTips('上传文件只支持pdf格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let param = new FormData()
@@ -533,10 +488,7 @@ export default {
     // 上传 其他类型的随附单证
     uploadOtherFile (file) {
       if (util.isEmpty(this.accDocVo.edocCode)) {
-        this.$message({
-          message: '请选择随附单据文件类别!',
-          type: 'warning'
-        })
+        this.messageTips('请选择随附单据文件类别!')
         this.$emit('closeEditUpload')
         return false
       }
@@ -545,16 +497,10 @@ export default {
         computFileType = util.getFileTypeByName(file.name)
       }
       if ((file.type === 'application/pdf')) {
-        this.$message({
-          message: '此上传不支持pdf格式',
-          type: 'error'
-        })
+        this.messageTips('此上传不支持pdf格式', 'error')
         this.$emit('closeEditUpload')
       } else if (!(Math.ceil(file.size / 1024) <= 4096)) {
-        this.$message({
-          message: '上传文件大小不能超过4MB',
-          type: 'error'
-        })
+        this.messageTips('上传文件大小不能超过4MB', 'error')
         this.$emit('closeEditUpload')
       } else {
         let fileType = ''
@@ -580,10 +526,7 @@ export default {
           fileType = 'excel'
         }
         if (util.isEmpty(fileType)) {
-          this.$message({
-            message: '该类型文件不允许转换',
-            type: 'warning'
-          })
+          this.messageTips('该类型文件不允许转换')
           this.$emit('closeEditUpload')
           return false
         }
@@ -611,10 +554,7 @@ export default {
               this.refreshAccDoc()
               this.$refs['edocCode'].focus()
             } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
+              this.messageTips(res.message, 'error')
             }
           }
         })

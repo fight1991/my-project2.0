@@ -116,24 +116,17 @@ export default {
           'seqNo': pid
         },
         success: (res) => {
-          if (res.code === '0000') {
-            let goodCount = res.result.decListNum
-            let contaCount = res.result.containerNum
-            if (!util.isEmpty(goodCount) && goodCount === 0) {
-              this.goods = true
-            } else {
-              this.goods = false
-            }
-            if (!util.isEmpty(contaCount) && contaCount === 0) {
-              this.container = true
-            } else {
-              this.container = false
-            }
+          let goodCount = res.result.decListNum
+          let contaCount = res.result.containerNum
+          if (!util.isEmpty(goodCount) && goodCount === 0) {
+            this.goods = true
           } else {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
+            this.goods = false
+          }
+          if (!util.isEmpty(contaCount) && contaCount === 0) {
+            this.container = true
+          } else {
+            this.container = false
           }
         }
       })
@@ -161,19 +154,11 @@ export default {
         },
         success: (res) => {
           let list = res.result
-          if (list === null || list === undefined || list.length === 0) {
-            this.$message({
-              message: '打印失败',
-              type: 'error'
-            })
+          if (!list || list.length === 0) {
+            this.messageTips('打印失败', 'error')
           } else {
-            let sysId = window.sessionStorage.getItem('sysId')
             for (let item in list) {
-              if (sysId === 'CCBA') {
-                window.parent.postMessage({type: 'window-open', data: {url: list[item]}}, '*')
-              } else {
-                window.open(list[item], '_blank')
-              }
+              window.open(list[item], '_blank')
             }
             this.$emit('cancLeData')
           }

@@ -164,7 +164,7 @@ export default {
     this.getDecOpenConf()
     // 获取 复核状态
     this.getSwitchCheck()
-    this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isLook', value: this.$route.params.operationType === 'look'})
+    this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isLook', value: this.$route.meta.operationType === 'look'})
   },
   computed: {
     // ...mapState({
@@ -205,31 +205,24 @@ export default {
         url: 'API@/dec-common/dec/common/queryVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isImport', value: res.result.decHeadVO.iEFlag === 'I'})
-            this.deCheckList = res.result.decListVO // 报关单表体信息
-            this.decHead = res.result.decHeadVO // 报关单 表头信息
-            this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'chkPayment', value: this.decHead.chkPayment === '1' ? '是' : '否'})
-            this.container = res.result.decContainersVO // 报关单集装箱
-            let check = res.result.decVerifyVO // 报关单审核信息
-            let decListCheckRec
-            if (res.result.decVerifyVO.decVerifyListVOs) {
-              decListCheckRec = res.result.decVerifyVO.decVerifyListVOs
-            } else {
-              decListCheckRec = res.result.decListVO
-            }
-            this.auditOpinion = check.decVerifyHeadVO.auditOpinion
-            this.headConfig = businessUtil.generateDecHeadCheck(this.decHead, check.decVerifyHeadVO, res.result.decVerifyVO.headMap)
-            this.listConfigs = businessUtil.generateDecListCheck(this.deCheckList, decListCheckRec, res.result.decVerifyVO.listMap)
-            this.containerListConfigs = businessUtil.generateContainerListCheck(this.container, check.decVerifyContainerVOs, res.result.decVerifyVO.containerMap)
-            let decOtherInfo = businessUtil.formatDecList(this.deCheckList, check.decVerifyListVOs)
-            this.generateDecOther(decOtherInfo, this.decHead, res.result.decLicensesVO)
+          this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isImport', value: res.result.decHeadVO.iEFlag === 'I'})
+          this.deCheckList = res.result.decListVO // 报关单表体信息
+          this.decHead = res.result.decHeadVO // 报关单 表头信息
+          this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'chkPayment', value: this.decHead.chkPayment === '1' ? '是' : '否'})
+          this.container = res.result.decContainersVO // 报关单集装箱
+          let check = res.result.decVerifyVO // 报关单审核信息
+          let decListCheckRec
+          if (res.result.decVerifyVO.decVerifyListVOs) {
+            decListCheckRec = res.result.decVerifyVO.decVerifyListVOs
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
+            decListCheckRec = res.result.decListVO
           }
+          this.auditOpinion = check.decVerifyHeadVO.auditOpinion
+          this.headConfig = businessUtil.generateDecHeadCheck(this.decHead, check.decVerifyHeadVO, res.result.decVerifyVO.headMap)
+          this.listConfigs = businessUtil.generateDecListCheck(this.deCheckList, decListCheckRec, res.result.decVerifyVO.listMap)
+          this.containerListConfigs = businessUtil.generateContainerListCheck(this.container, check.decVerifyContainerVOs, res.result.decVerifyVO.containerMap)
+          let decOtherInfo = businessUtil.formatDecList(this.deCheckList, check.decVerifyListVOs)
+          this.generateDecOther(decOtherInfo, this.decHead, res.result.decLicensesVO)
         }
       })
     },
@@ -292,25 +285,13 @@ export default {
           'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
         },
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            // 更改状态
-            this.operationType = 'look'
-            if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            // 跳审核页面
-              window.parent.postMessage({type: 'close', data: { tabId: this.$route.query.tabId }}, '*')
-            } else {
-              this.$router.push({
-                name: '报关单审核'
-              })
-            }
+          this.messageTips('操作成功', 'success')
+          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
+          // 跳审核页面
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
           } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            this.$router.push({
+              name: 'decReviewedList'
             })
           }
         }
@@ -319,10 +300,7 @@ export default {
     // 提交 审核结果
     checkReject () {
       if (this.$store.state.ifDecOpen && businessUtil.allDecDataColorCheck(this.headConfig, this.listConfigs, this.containerListConfigs, this.isImport)) {
-        this.$message({
-          message: '所有栏位必须为非白色',
-          type: 'warning'
-        })
+        this.messageTips('所有栏位必须为非白色')
         return
       }
       let param = this.checkData()
@@ -330,15 +308,8 @@ export default {
         url: 'API@/dec-common/dec/common/saveVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            // 更改状态
-            this.rejectUpdateStatus(res.result)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          // 更改状态
+          this.rejectUpdateStatus(res.result)
         }
       })
     },
@@ -358,10 +329,7 @@ export default {
     // 审核通过
     checkPassed () {
       if (this.$store.state.ifDecOpen && businessUtil.allDecDataColorCheck(this.headConfig, this.listConfigs, this.containerListConfigs, this.isImport)) {
-        this.$message({
-          message: '所有栏位必须为非白色',
-          type: 'warning'
-        })
+        this.messageTips('所有栏位必须为非白色')
         return
       }
       let param = this.checkData()
@@ -369,57 +337,50 @@ export default {
         url: 'API@/dec-common/dec/common/saveVerifyInfo',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            // 2. 更改数据状态
-            if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
-              // 复核开启
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag, // 进出口
-                'pid': res.result,
-                'status': 'R',
-                'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
-              }
-              this.$confirm('是否需要复核？', '提示', {
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                distinguishCancelAndClose: true,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                type: 'warning'
-              }).then(() => {
-                this.submitPassCheck(param)
-              }).catch(() => {
-                param['status'] = '6'
-                this.submitPassCheck(param)
-              })
-            } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': '6',
-                'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
-              }
-              this.submitPassCheck(param)
-            } else {
-              let param = {
-                'bossId': this.decHead.bossId, // 接单编号
-                'decPid': this.decHead.decPid, // 报关单主键
-                'iEFlag': this.decHead.iEFlag,
-                'pid': res.result,
-                'status': 'R',
-                'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
-              }
-              this.submitPassCheck(param)
+          // 2. 更改数据状态
+          if (this.decHead.isExamine === 'R' && this.checkReview === 'Y') {
+            // 复核开启
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag, // 进出口
+              'pid': res.result,
+              'status': 'R',
+              'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
             }
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
+            this.$confirm('是否需要复核？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              distinguishCancelAndClose: true,
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              type: 'warning'
+            }).then(() => {
+              this.submitPassCheck(param)
+            }).catch(() => {
+              param['status'] = '6'
+              this.submitPassCheck(param)
             })
+          } else if ((this.decHead.isExamine === 'R' && this.checkReview === 'N') || (this.decHead.isExamine === '3' && this.checkReview === 'N')) {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': '6',
+              'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
+            }
+            this.submitPassCheck(param)
+          } else {
+            let param = {
+              'bossId': this.decHead.bossId, // 接单编号
+              'decPid': this.decHead.decPid, // 报关单主键
+              'iEFlag': this.decHead.iEFlag,
+              'pid': res.result,
+              'status': 'R',
+              'type': this.$route.query.decType ? this.$route.query.decType : 'dec'
+            }
+            this.submitPassCheck(param)
           }
         }
       })
@@ -430,24 +391,13 @@ export default {
         url: 'API@/dec-common/dec/common/updateExamStatus',
         data: param,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.operationType = 'look'
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.messageTips('操作成功', 'success')
           if (window.sessionStorage.getItem('sysId') === 'CCBA') {
             // 跳审核页面
-            window.parent.postMessage({type: 'close', data: { tabId: this.$route.query.tabId }}, '*')
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
           } else {
             this.$router.push({
-              name: '报关单审核'
+              name: 'decReviewedList'
             })
           }
         }

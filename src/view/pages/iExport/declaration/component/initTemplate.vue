@@ -80,16 +80,10 @@ export default {
   methods: {
     configBtn () {
       if (this.isDefult && this.checkedTemplate.decPid === '') { // 设置了默认 但没有选择默认数据
-        this.$message({
-          message: '请选择一条数据设置默认',
-          type: 'error'
-        })
+        this.messageTips('请选择一条数据设置默认', 'error')
         return false
       } else if (this.isDefult && this.checkedTemplate.effective === '1') { // 设置了 默认 但 选择的数据为单位可见
-        this.$message({
-          message: '单位可见模板不能设置默认模板',
-          type: 'error'
-        })
+        this.messageTips('单位可见模板不能设置默认模板', 'error')
       } else if (this.isDefult && this.checkedTemplate.effective === '2') { // 设置了 默认 选择的数据为自己可见
         // 更新默认值的方法
         this.updateDefultTemplate(this.checkedTemplate.decPid)

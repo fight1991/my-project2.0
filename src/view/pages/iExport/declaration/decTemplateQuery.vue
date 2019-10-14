@@ -236,15 +236,9 @@ export default {
     lookupDetail () {
       let len = this.checkedTemplate.length
       if (len === 0) {
-        this.$message({
-          message: '请选择一条需要查看的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条需要查看的数据')
       } else if (len > 1) {
-        this.$message({
-          message: '只能选择一条需要查看的数据',
-          type: 'warning'
-        })
+        this.messageTips('只能选择一条需要查看的数据')
       } else {
         let row = this.checkedTemplate[0]
         this.gotoDecPage(row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
@@ -254,15 +248,9 @@ export default {
     editDetail () {
       let len = this.checkedTemplate.length
       if (len === 0) {
-        this.$message({
-          message: '请选择一条需要编辑的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条需要编辑的数据')
       } else if (len > 1) {
-        this.$message({
-          message: '只能选择一条需要编辑的数据',
-          type: 'warning'
-        })
+        this.messageTips('只能选择一条需要编辑的数据')
       } else {
         let row = this.checkedTemplate[0]
         this.gotoDecPage(row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString())
@@ -321,10 +309,7 @@ export default {
     delDecTemplate () {
       let len = this.checkedTemplate.length
       if (len === 0) {
-        this.$message({
-          message: '至少选择一条数据',
-          type: 'warning'
-        })
+        this.messageTips('至少选择一条数据')
       } else {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
@@ -342,13 +327,8 @@ export default {
               'initHeadIds': pidLit
             },
             success: (res) => {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-              if (res.code === '0000') {
-                this.pageList()
-              }
+              this.messageTips(res.message, 'success')
+              this.pageList()
             }
           })
         }).catch(() => {

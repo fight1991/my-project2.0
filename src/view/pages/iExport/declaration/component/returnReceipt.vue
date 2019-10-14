@@ -72,10 +72,7 @@ export default {
     print () {
       let len = this.checkedReceiptList.length
       if (len === 0) {
-        this.$message({
-          message: '请选择一条需要打印通知书的数据',
-          type: 'warning'
-        })
+        this.messageTips('请选择一条需要打印通知书的数据')
       } else {
         // 查询勾选数据的回执数据
         let pidList = []
@@ -89,24 +86,17 @@ export default {
           url: 'API@/dec-common/dec/print/printNoticeList',
           data: pidList,
           success: (res) => {
-            if (res.code === '0000') {
-              if (res.result.data.length > 0) {
-                res.result.data.forEach((item) => {
-                  window.open(item, '_blank')
-                })
-              }
-              if (!util.isEmpty(res.result.error)) {
-                this.$alert(res.result.error, '信息', {
-                  dangerouslyUseHTMLString: true,
-                  confirmButtonText: '确定',
-                  callback: action => {
-                  }
-                })
-              }
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
+            if (res.result && res.result.data.length > 0) {
+              res.result.data.forEach((item) => {
+                window.open(item, '_blank')
+              })
+            }
+            if (!util.isEmpty(res.result.error)) {
+              this.$alert(res.result.error, '信息', {
+                dangerouslyUseHTMLString: true,
+                confirmButtonText: '确定',
+                callback: action => {
+                }
               })
             }
           }
@@ -122,15 +112,8 @@ export default {
         url: 'API@/dec-common/dec/common/queryRetData',
         data: {decPid: this.initParams},
         success: (res) => {
-          if (res.code === '0000') {
-            this.receiptList = res.result
-            this.total = this.receiptList.length
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.receiptList = res.result
+          this.total = this.receiptList.length
         }
       })
     },
