@@ -6,6 +6,7 @@
       :visible.sync="samrtOrcVisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       @closed ="closeSmartOrc()"
       v-dialogDrag

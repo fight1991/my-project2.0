@@ -95,6 +95,7 @@
       :before-close='beforeClose'
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       class='sys-bonded'
       width="800px">
@@ -232,6 +233,7 @@
       :visible.sync="historyVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       class="commodity-el-dialog__mini"
       width="500px">
@@ -244,6 +246,7 @@
       :visible.sync="syncDecRcordVisable"
       :close-on-click-modal='false'
       v-dialogDrag
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       class="commodity-el-dialog__mini"
       width="800px">

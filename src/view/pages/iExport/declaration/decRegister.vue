@@ -92,6 +92,7 @@
       :visible.sync="decRegisterVisible"
       :before-close='beforeClose'
       :close-on-click-modal="false"
+      :modal-append-to-body='false'
       width="900px"
       class="register-dialog">
       <el-form :label-width="labelFormWidth.six" size="mini" :rules="rules" @keyup.enter.native="switchFoucsByEnter"

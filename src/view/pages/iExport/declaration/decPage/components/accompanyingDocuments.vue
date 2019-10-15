@@ -3,6 +3,7 @@
   <el-dialog
       title="随附单据"
       :visible.sync="accDocVisible"
+      :modal-append-to-body='false'
       :show-close='false'
       v-loading="$store.state.loading"
       :before-close='closeCompnent'
@@ -12,6 +13,7 @@
         <el-dialog
           title="编辑标记及号码附件信息"
           :visible.sync="attachVisabled"
+          :modal-append-to-body='false'
           append-to-body
           class='sys-dec-class'
           width="600px">

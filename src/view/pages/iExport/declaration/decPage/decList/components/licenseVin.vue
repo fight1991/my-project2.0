@@ -6,6 +6,7 @@
       :visible.sync="licVINVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened='openLicVIN'
       :before-close='closeCompnent'
       v-dialogDrag

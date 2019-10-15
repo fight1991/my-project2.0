@@ -6,6 +6,7 @@
       :visible.sync="goodsAttrVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened='openGoodsAttr'
       :before-close='closeCompnent'
       width="640px">

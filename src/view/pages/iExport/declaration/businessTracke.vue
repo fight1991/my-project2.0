@@ -117,6 +117,7 @@
       :visible.sync="trackeVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       class="sys-dec-class"
       width="80%">

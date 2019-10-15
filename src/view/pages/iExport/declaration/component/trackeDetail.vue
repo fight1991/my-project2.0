@@ -102,7 +102,6 @@
 <script>
 import util from '@/common/util'
 import '@/common/directives'
-import config from '@/config/config'
 export default {
   name: 'tracke-detail',
   props: {
@@ -337,23 +336,13 @@ export default {
     },
     // 查看删改单
     lookDecdRegister (row) {
-      // let id = ''
-      // if (!util.isEmpty(row.info)) {
-      //   id = JSON.parse(row.info).id
-      // }
-      let sysId = window.sessionStorage.getItem('sysId')
-      let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + '/declaration/decRegister/' + '?type=redirect'
       window.localStorage.setItem('decRegisterHistory', row.info)
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: 'decRegisterList',
-          query: {
-            'type': 'redirect'
-          }
-        })
-      } else {
-        window.open(url, '_blank')
-      }
+      this.$router.push({
+        name: 'decRegisterList',
+        query: {
+          'type': 'redirect'
+        }
+      })
     }
   }
 }

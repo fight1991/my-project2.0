@@ -39,7 +39,7 @@ const errorHandle = (err, error, isLoad) => {
   if (isLoad) {
     store.state.loading = false
   }
-  util.errorReport('', '', '', this, err)
+  util.errorReport('', '', '', store, err)
   if (error) {
     error(err)
   } else {

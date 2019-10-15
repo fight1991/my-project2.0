@@ -4,12 +4,14 @@
       title="随附单据"
       :visible.sync="accDocVisible"
       :show-close='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       width="700px">
         <!-- 弹出框 编辑标记及号码附件信息 开始 -->
         <el-dialog
           title="编辑标记及号码附件信息"
           :visible.sync="attachVisabled"
+          :modal-append-to-body='false'
           append-to-body
           class='sys-dec-class'
           width="600px">

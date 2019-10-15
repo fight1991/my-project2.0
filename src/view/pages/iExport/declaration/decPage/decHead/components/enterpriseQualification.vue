@@ -9,6 +9,7 @@
       @open="entQuaShow"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       width="650px">
       <div class="border">

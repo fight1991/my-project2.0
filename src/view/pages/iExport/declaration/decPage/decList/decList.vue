@@ -555,6 +555,7 @@
       :visible.sync="importCompnentVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       class="sys-dec-class"
       width="640px">
        <execl-import :initParams="initImport" @cancLeData="closeImportCompnent" @backData="receptionImportData"  v-if="importCompnentVisible"></execl-import>
@@ -566,6 +567,7 @@
       :visible.sync="elementVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       v-dialogDrag
       width="640px">
@@ -578,6 +580,7 @@
       :visible.sync="BulkEditingVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       :show-close='false'
       width="640px">
@@ -590,6 +593,7 @@
       :visible.sync="historyGoodsVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='true'
       v-dialogDrag
       width="900px">
@@ -608,7 +612,7 @@
      <!-- 危险货物信息 -->
     <danger-goods :dangerGoodsVisible.sync='dangerGoodsVisible' :dangerInfo="dangerForm" :isDisabled='controller.isDisabled'  @close:dangerGoods="backDangerGoods" :showCustomsCode="showCustomsCode"></danger-goods>
      <!-- 产品许可证/审批/备案信息 -->
-    <product-license :filingInfoVisible='filingInfoVisible' :decList="decList" :controller='controller'  @close:productLicense="backProductLicense"></product-license>
+    <product-license  :filingInfoVisible='filingInfoVisible' :decList="decList" :controller='controller'  @close:productLicense="backProductLicense"></product-license>
     <!-- 智能归类 -->
     <classify-Goods :classifyGoodsVisible.sync='classifyGoodsVisible' :iEFlag='controller.iEFlag' :gName='decList.gName'  @close:classifyGoods="backClassifyGoods"></classify-Goods>
   </section>

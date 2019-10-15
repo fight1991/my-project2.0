@@ -6,6 +6,7 @@
     :visible.sync="decNotevisible"
     :close-on-click-modal='false'
     :close-on-press-escape='false'
+    :modal-append-to-body='false'
     :before-close='closenoteCompnent'
     @open="decNoteShow"
     v-dialogDrag

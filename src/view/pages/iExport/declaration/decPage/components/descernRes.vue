@@ -6,6 +6,7 @@
       :visible.sync="descernResultVisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @closed ="closedesRes()"
       width="900px">
       <el-table

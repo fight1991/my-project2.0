@@ -1,5 +1,14 @@
 <template>
-  <el-dialog title="引用电子底账" :visible.sync="electricVisible" v-loading="$store.state.loading" @open="eleBillShow" :before-close="beforeClose" class="electricDialog" v-dialogDrag width="450px">
+  <el-dialog
+  title="引用电子底账"
+  :visible.sync="electricVisible"
+  v-loading="$store.state.loading"
+  @open="eleBillShow"
+  :before-close="beforeClose"
+  class="electricDialog"
+  v-dialogDrag
+  width="450px"
+  :modal-append-to-body='false'>
     <div style="padding: 20px 50px;">
       <el-form size="mini" label-width="75px" :model="electricForm" class="mg-b-40" ref="electricForm" :rules="electricRules" @submit.native.prevent hide-required-asterisk>
         <el-form-item label="电子底账号:" prop="qcPassId">

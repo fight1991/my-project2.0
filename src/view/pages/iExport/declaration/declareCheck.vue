@@ -2720,10 +2720,8 @@ export default {
           this.messageTips(res.message, 'success')
           // 更改状态
           this.operationType = 'look'
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            // 跳审核页面
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
-          }
+          // 跳审核页面
+          this.$store.dispatch('CloseTab', this.$route.params.setId)
         }
       })
     },
@@ -2864,14 +2862,7 @@ export default {
         data: param,
         success: (res) => {
           this.messageTips('操作成功', 'success')
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            // 跳审核页面
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
-          } else {
-            this.$router.push({
-              name: 'decReviewedList'
-            })
-          }
+          this.$store.dispatch('CloseTab', this.$route.params.setId)
         }
       })
     },

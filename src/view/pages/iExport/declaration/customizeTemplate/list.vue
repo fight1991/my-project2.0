@@ -232,22 +232,15 @@ export default {
       this.goPage('edit', row.customTemplateDecPid)
     },
     goPage (operationType, pid = 'new') {
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: 'customizeTemplate',
-          params: {
-            'pid': pid,
-            'operationType': operationType,
-            'setTitle': '自定义模版' + '-' + pid,
-            'setId': 'customizeTemplate' + operationType + pid
-          }
-        })
-      } else {
-        this.$router.push({
-          path: `/customizeTemplate/${operationType}/${pid}`
-        })
-      }
+      this.$router.push({
+        name: 'customizeTemplate',
+        params: {
+          'pid': pid,
+          'operationType': operationType,
+          'setTitle': '自定义模版' + '-' + pid,
+          'setId': 'customizeTemplate' + operationType + pid
+        }
+      })
     },
     lookupDetail (row) {
       this.goPage('look', row.customTemplateDecPid)
@@ -320,23 +313,16 @@ export default {
     },
     toSettingPage () {
       window.sessionStorage.setItem('customizeTemplateUrl', this.uploadFileUrl)
-      let sysId = window.sessionStorage.getItem('sysId')
       this.changeUploadVisible(false)
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: 'customizeTemplate',
-          params: {
-            'pid': 'new',
-            'operationType': 'add',
-            'setTitle': '自定义模版',
-            'setId': 'customizeTemplate' + 'add' + 'new'
-          }
-        })
-      } else {
-        this.$router.push({
-          path: '/customizeTemplate/add/new'
-        })
-      }
+      this.$router.push({
+        name: 'customizeTemplate',
+        params: {
+          'pid': 'new',
+          'operationType': 'add',
+          'setTitle': '自定义模版',
+          'setId': 'customizeTemplate' + 'add' + 'new'
+        }
+      })
     }
   }
 }

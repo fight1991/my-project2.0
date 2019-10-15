@@ -7,6 +7,7 @@
       :visible.sync="otherPacksVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :before-close='closeOtherPacks'
       @open="otherPacksShow"
       class='sys-dec-class'

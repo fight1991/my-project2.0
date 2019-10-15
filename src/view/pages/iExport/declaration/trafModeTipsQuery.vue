@@ -91,6 +91,7 @@
     <el-dialog
       title="运输方式提示"
       :visible.sync="trafModeTipsVisible"
+      :modal-append-to-body='false'
       :before-close='beforeClose'
       width="400px">
       <el-form label-width="100px" size="mini" :rules="rules"

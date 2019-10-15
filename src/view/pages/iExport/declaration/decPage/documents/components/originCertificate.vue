@@ -6,6 +6,7 @@
       title="原产地对应关系录入"
       :visible.sync="originRelVisible"
       :before-close='closeCompnent'
+      :modal-append-to-body='false'
       @opened='openOriginReled'
       v-dialogDrag
       width="640px">

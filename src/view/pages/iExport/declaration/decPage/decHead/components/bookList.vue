@@ -6,6 +6,7 @@
       :visible.sync="ZBookVisabled"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='false'
       class='sys-dec-class'
       width="80%">

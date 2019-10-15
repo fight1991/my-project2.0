@@ -127,6 +127,7 @@
       title="运输方式提示"
       :visible.sync="trafModeTipsVisible"
       :close-on-click-modal="false"
+      :modal-append-to-body='false'
       width="400px">
       <el-form label-width="96px" size="mini" :rules="rules"
        label-position="right" :model="shipDialogForm" ref='shipDialogForm'>

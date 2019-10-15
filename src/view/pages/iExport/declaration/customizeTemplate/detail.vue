@@ -185,25 +185,19 @@ export default {
           if (!this.customTemplateDecPid) {
             this.customTemplateDecPid = res.result
           }
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            // 如果是新增页面的保存操作
-            if (url === 'API@/dec-common/customTemplate/save') {
-              // 先关闭新增
-              this.$store.dispatch('CloseTab', this.$route.params.setId)
-              // 在打开编辑页面
-              this.$router.push({
-                name: 'customizeTemplate',
-                params: {
-                  'pid': res.result.decPid,
-                  'operationType': 'edit',
-                  'setTitle': '自定义模版' + '-' + res.result.decPid,
-                  'setId': 'customizeTemplate' + 'edit' + res.result.decPid
-                }
-              })
-            }
-          } else {
+          // 如果是新增页面的保存操作
+          if (url === 'API@/dec-common/customTemplate/save') {
+            // 先关闭新增
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            // 在打开编辑页面
             this.$router.push({
-              path: `/customizeTemplate/edit/${res.result.decPid}`
+              name: 'customizeTemplate',
+              params: {
+                'pid': res.result.decPid,
+                'operationType': 'edit',
+                'setTitle': '自定义模版' + '-' + res.result.decPid,
+                'setId': 'customizeTemplate' + 'edit' + res.result.decPid
+              }
             })
           }
         }

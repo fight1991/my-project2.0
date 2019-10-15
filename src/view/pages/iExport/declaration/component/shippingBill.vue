@@ -40,6 +40,7 @@
       :visible.sync="containerVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       class="sys-dec-class"
       :append-to-body='true'
       width="500px">

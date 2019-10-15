@@ -254,10 +254,10 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog :visible.sync="detailVisible" width="1130px" class="order-dialog-noTitle" :close-on-click-modal="false" :before-close="cancleElement" v-loading="$store.state.loading">
+    <el-dialog :modal-append-to-body='false' :visible.sync="detailVisible" width="1130px" class="order-dialog-noTitle" :close-on-click-modal="false" :before-close="cancleElement" v-loading="$store.state.loading">
       <order-detail :typeValue="typeValue" :id="id" :userId="userId" :iEFlag="iEFlag" :status="status" @closedecele="cancleElement"  v-if="detailVisible"></order-detail>
     </el-dialog>
-    <el-dialog :title="typeTitle" :visible.sync="cdVisible" width="800px" v-loading="$store.state.loading" :close-on-click-modal="false">
+    <el-dialog :modal-append-to-body='false' :title="typeTitle" :visible.sync="cdVisible" width="800px" v-loading="$store.state.loading" :close-on-click-modal="false">
      <div class='dec-query-table'>
           <!-- 列表table开始 -->
           <el-table class='sys-table-table dec-table' border highlight-current-row size="mini" height="300px" :data="cdList">
@@ -298,7 +298,7 @@
         </div>
     </el-dialog>
     <!-- 导入弹窗 -->
-    <el-dialog title="EXCEL导入" :visible.sync="importCompnentVisible" class="sys-dec-class" width="640px">
+    <el-dialog :modal-append-to-body='false' title="EXCEL导入" :visible.sync="importCompnentVisible" class="sys-dec-class" width="640px">
       <execl-import :initParams="initImport" @cancLeData="closeImportCompnent"  v-if="importCompnentVisible"></execl-import>
     </el-dialog>
     <!-- 导入弹窗 end -->
@@ -307,6 +307,7 @@
       title="上传文件"
       :visible.sync="ocrVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       v-loading="$store.state.loading"
       class="sys-dec-class"
@@ -319,6 +320,7 @@
       title="识别记录"
       :visible.sync="ocrRcordVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       class="sys-dec-dialog"
       width="800px">
@@ -331,6 +333,7 @@
       :visible.sync="coverVisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       class="sys-dec-class"
       v-dialogDrag
       width="400px">
@@ -342,8 +345,8 @@
       title="同步记录"
       :visible.sync="syncDecRcordVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
-      append-to-body
       v-loading="$store.state.loading"
       class="sys-dec-dialog"
       width="800px">

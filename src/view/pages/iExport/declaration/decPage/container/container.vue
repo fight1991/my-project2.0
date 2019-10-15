@@ -123,6 +123,7 @@
       :visible.sync="importCompnentVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       class="sys-dec-class"
       width="640px">
        <execl-import :initParams="initImport" @cancLeData="closeImportCompnent" @backData="receptionImportData"  v-if="importCompnentVisible"></execl-import>

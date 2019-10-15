@@ -6,6 +6,7 @@
       :visible.sync="matchEmsVisiable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :before-close='closeMatchEmsCompnent'
       @open="matchEmsShow"
       v-loading="$store.state.loading"

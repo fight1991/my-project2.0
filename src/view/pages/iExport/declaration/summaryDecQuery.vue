@@ -180,6 +180,7 @@
     <el-dialog
       :title="titleName"
       :visible.sync="printCompnentVisible"
+      :modal-append-to-body='false'
       :show-close='false'
       class="sys-dec-class"
       width="640px">
@@ -743,7 +744,6 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoDecPage (funFlag, operationType, pid = 'new') {
-      let sysId = window.sessionStorage.getItem('sysId')
       let routeName
       let tabName
       if (funFlag === 'declaration') {
@@ -764,25 +764,14 @@ export default {
           routeName = 'importRecordEdit'
         }
       }
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          }
-        })
-      } else {
-        this.$router.push({
-          name: '概要申报',
-          params: {
-            'funFlag': funFlag,
-            'operationType': operationType,
-            'pid': pid
-          }
-        })
-      }
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
+        }
+      })
     },
     // 提交审核
     submitAudit () {

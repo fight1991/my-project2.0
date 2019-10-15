@@ -6,6 +6,7 @@
       :visible.sync="goodsGNoVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       @open="GoodsGNoShow"
       :before-close='closeCompnent'

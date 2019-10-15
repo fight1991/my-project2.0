@@ -138,7 +138,6 @@
 
 <script>
 import util from '@/common/util'
-import config from '@/config/config'
 export default {
   name: 'decQueryTable',
   data () {
@@ -302,7 +301,6 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let sysId = window.sessionStorage.getItem('sysId')
       let routeName
       let tabName
       if (funFlag === 'declaration') {
@@ -343,26 +341,14 @@ export default {
           }
         }
       }
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          }
-        })
-      } else {
-        this.$router.push({
-          name: '报关单页面',
-          params: {
-            'funFlag': funFlag,
-            'iEFlag': flag,
-            'operationType': operationType,
-            'pid': pid
-          }
-        })
-      }
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
+        }
+      })
     },
     changeFun (index, row) {
       this.checkedData = row

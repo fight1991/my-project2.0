@@ -324,7 +324,12 @@
         <el-button size="mini" @click="closeOrder">取消</el-button>
       </div>
       <!-- 弹出框 检验检疫编码列表 开始 -->
-    <el-dialog title="检验检疫编码列表" :visible.sync="encodeTableVisible" width="640px" class="dec-query-table" :modal='false' :close-on-click-modal="false">
+    <el-dialog
+    :modal-append-to-body='false'
+     title="检验检疫编码列表"
+    :visible.sync="encodeTableVisible" width="640px"
+    class="dec-query-table" :modal='false'
+    :close-on-click-modal="false">
       <el-table  ref="encodeTable" :data="encodeTableList" highlight-current-row border size='mini'  @selection-change="encodeTableChanged" max-height="300" style="width: 100%">
         <el-table-column width="50" align="center">
           <template slot-scope="scope">
@@ -343,7 +348,11 @@
     </el-dialog>
     <!--检验检疫货物规格 弹出框 结束-->
     <!-- 弹出框 商品列表 开始 -->
-    <el-dialog title="商品列表" :visible.sync="productListVisible"  width="640px" :modal='false' class='sys-jiner-class' :close-on-click-modal="false">
+    <el-dialog
+    :modal-append-to-body='false' title="商品列表"
+    :visible.sync="productListVisible"  width="640px"
+    :modal='false' class='sys-jiner-class'
+    :close-on-click-modal="false">
       <el-table ref="productListTable" :data="productList" highlight-current-row border size='mini' max-height="300" style="width: 100%">
         <span>从商品归类表中查询到了下列商品，请选择：</span>
         <el-table-column  min-width="50"  >
@@ -365,6 +374,7 @@
     <el-dialog title="商品规范申报-商品申报要素"
       :visible.sync="elementVisible"
       width="640px" :modal='false'
+      :modal-append-to-body='false'
       class='sys-dec-class'
       v-loading="$store.state.loading"
       :close-on-click-modal="false">
@@ -372,7 +382,11 @@
     </el-dialog>
     <!-- 弹出框 商品规范申报-商品申报要素 结束 -->
     <!-- 检验检疫货物规格 弹出框 开始-->
-    <el-dialog title="检验检疫货物规格" :visible.sync="goodsSpecVisible" width="540px" :modal='false' :close-on-click-modal="false">
+    <el-dialog title="检验检疫货物规格"
+    :visible.sync="goodsSpecVisible"
+    width="540px" :modal='false'
+    :close-on-click-modal="false"
+    :modal-append-to-body='false'>
       <div class="sys-jiner-class">
       <div class="border">
         <el-form label-width="100px" @keyup.enter.native="switchFoucsByEnter" size="mini" label-position="right" :data="goodsSpecForm">
@@ -576,7 +590,12 @@
     </el-dialog>
     <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
     <!-- 弹出框 许可证VIN  开始 -->
-    <el-dialog title="编辑许可证VIN" :visible.sync="licVINVisible" :before-close="licVINClose" width="70%" :modal='false' :close-on-click-modal="false">
+    <el-dialog
+    :modal-append-to-body='false' title="编辑许可证VIN"
+    :visible.sync="licVINVisible"
+    :before-close="licVINClose" width="70%"
+    :modal='false'
+    :close-on-click-modal="false">
       <div class="sys-jiner-class">
        <div class="border m-b-10">
           <el-form label-width="120px" :model="licVINForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
@@ -711,7 +730,13 @@
     </el-dialog>
     <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
     <!-- 弹出框 货物属性 开始 -->
-    <el-dialog  title="货物属性" :visible.sync="goodsAttrVisible" width="640px" :modal='false' class='commodity-checkbox-style' :close-on-click-modal="false">
+    <el-dialog
+    title="货物属性"
+    :visible.sync="goodsAttrVisible"
+     width="640px" :modal='false'
+     class='commodity-checkbox-style'
+     :modal-append-to-body='false'
+     :close-on-click-modal="false">
       <el-row :gutter="30" style='border: 0px;' class="sys-jiner-class">
         <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
           <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-b-10">

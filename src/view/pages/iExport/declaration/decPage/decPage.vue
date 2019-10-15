@@ -127,6 +127,7 @@
       :visible.sync="additionInfoLaVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       width="640px">
        <extra-note :additionInfoLa="additionInfoLa"  @backDatas="saveExtraNote" @cancLeData="cancleExtraNote" v-if="additionInfoLaVisible"></extra-note>
@@ -141,6 +142,7 @@
       :visible.sync="printCompnentVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='false'
       v-dialogDrag
       width="640px">
@@ -153,6 +155,7 @@
       :visible.sync="initTemplateVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='false'
       v-dialogDrag
       width="640px">
@@ -169,6 +172,7 @@
       :show-close='true'
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       width="800px">
        <compare-template :initParams="initCompare"  @backDatas="compareData" @cancLeData="cancleCompareData"  v-if="compareVisible"></compare-template>
     </el-dialog>
@@ -182,6 +186,7 @@
       :visible.sync="charterVisabled"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       append-to-body
       v-dialogDrag
       class='sys-dec-class'
@@ -194,6 +199,7 @@
       title="税费预估"
       :visible.sync="feeEstimateVisible"
       :close-on-click-modal="false"
+      :modal-append-to-body='false'
       class="sys-dec-dialog"
       v-dialogDrag
       v-loading="$store.state.loading"
@@ -502,7 +508,6 @@ export default {
 
     },
     togoSummaryDec (pid, status) {
-      let sysId = window.sessionStorage.getItem('sysId')
       let tabName = ''
       let routeName
       let operationType = 'look'
@@ -519,37 +524,14 @@ export default {
         tabName = '进境备案清单(概要申报)'
         routeName = 'importSummaryRecordEdit'
       }
-      if (sysId === 'CCBA') {
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          }
-        })
-      } else {
-        if (this.controller.isSummary) {
-          this.$router.push({
-            name: '概要申报',
-            params: {
-              'funFlag': this.controller.funFlag,
-              'operationType': operationType,
-              'pid': pid
-            }
-          })
-        } else {
-          this.$router.push({
-            name: '概要申报',
-            params: {
-              'funFlag': this.controller.funFlag,
-              'iEFlag': 'import',
-              'operationType': operationType,
-              'pid': pid
-            }
-          })
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
         }
-      }
+      })
     },
     saveDecHead () {
       this.$refs['datasForm'].validate((valid) => {
@@ -903,16 +885,7 @@ export default {
         data: param,
         success: (res) => {
           let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + `/declaration/decTemplate/${this.iEFlag[this.controller.iEFlag]}/edit/${res.result.decPid}`
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            window.parent.postMessage({type: 'EMS', data: {tabId: 'edit-' + res.result.decPid, url: url, operationType: 'edit', id: res.result.decPid, title: this.modelTitle[this.controller.iEFlag]}}, '*')
-          } else {
-            this.$router.push({
-              path: `/declaration/decTemplate/${this.controller.iEFlag === 'I' ? 'import' : 'export'}/edit/${res.result.decPid}`,
-              query: {
-                'type': 'edit'
-              }
-            })
-          }
+          window.parent.postMessage({type: 'EMS', data: {tabId: 'edit-' + res.result.decPid, url: url, operationType: 'edit', id: res.result.decPid, title: this.modelTitle[this.controller.iEFlag]}}, '*')
         }
       })
     },
@@ -948,43 +921,40 @@ export default {
         success: (res) => {
           this.messageTips(res.message, 'success')
           if (!decHeadVo.decPid) {
-            let result = res.result && res.result.length === 1 ? res.result[0] : {}
+            let result = res.result && res.result[0]
             this.$refs.decHead.setHeadFieldValue({
               'decPid': result.decPid,
               'status': result.status,
               'statusValue': result.statusValue
             })
             this.controller.pid = result.decPid
-            let sysId = window.sessionStorage.getItem('sysId')
-            if (sysId === 'CCBA') {
-              let routeName
-              let tabName
-              if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
-                tabName = '进口报关单'
-                routeName = 'importDecEdit'
-              } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '0') {
-                tabName = '出口报关单'
-                routeName = 'exportDecEdit'
-              } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
-                tabName = '进境备案清单'
-                routeName = 'importRecordEdit'
-              } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '2') {
-                tabName = '出境备案清单'
-                routeName = 'exportRecordEdit'
-              }
-              // 先关闭当前页签
-              this.$store.dispatch('CloseTab', this.$route.params.setId)
-              // 再跳转到编辑页面
-              this.$router.push({
-                name: routeName,
-                params: {
-                  'pid': this.decHead.decPid,
-                  'operationType': 'edit',
-                  'setTitle': tabName + '-' + this.decHead.decPid,
-                  'setId': routeName + 'edit' + this.decHead.decPid
-                }
-              })
+            let routeName
+            let tabName
+            if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
+              tabName = '进口报关单'
+              routeName = 'importDecEdit'
+            } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '0') {
+              tabName = '出口报关单'
+              routeName = 'exportDecEdit'
+            } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
+              tabName = '进境备案清单'
+              routeName = 'importRecordEdit'
+            } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '2') {
+              tabName = '出境备案清单'
+              routeName = 'exportRecordEdit'
             }
+            // 先关闭当前页签
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            // 再跳转到编辑页面
+            this.$router.push({
+              name: routeName,
+              params: {
+                'pid': this.controller.pid,
+                'operationType': 'edit',
+                'setTitle': tabName + '-' + this.controller.pid,
+                'setId': routeName + 'edit' + this.controller.pid
+              }
+            })
           }
         },
         other: (res) => {
@@ -1139,7 +1109,6 @@ export default {
     },
     // 修改页签的名字
     modifyTabName () {
-      let sysId = window.sessionStorage.getItem('sysId')
       let titleName = ''
       if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') {
         titleName = '进口报关单'
@@ -1150,9 +1119,7 @@ export default {
       } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '2') {
         titleName = '出口备案清单'
       }
-      if (sysId === 'CCBA') {
-        window.parent.postMessage({type: 'editTitle', data: {tabId: this.$route.query.tabId, title: titleName}}, '*')
-      }
+      window.parent.postMessage({type: 'editTitle', data: {tabId: this.$route.query.tabId, title: titleName}}, '*')
     },
     // 智能制单
     OCRMadeCert (command) {
@@ -1237,16 +1204,16 @@ export default {
       // 重开页签
       let routeName
       let tabName
-      if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
+      if (this.controller.iEFlag === 'I' && this.$refs.decHead.decHead.declTrnrel === '0') { // 进口报关单
         routeName = 'importDecAdd'
         tabName = '进口报关单'
-      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '0') {
+      } else if (this.controller.iEFlag === 'E' && this.$refs.decHead.decHead.declTrnrel === '0') {
         routeName = 'exportDecAdd'
         tabName = '出口报关单'
-      } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '2') {
+      } else if (this.controller.iEFlag === 'I' && this.$refs.decHead.decHead.declTrnrel === '2') {
         routeName = 'importRecordAdd'
         tabName = '进口备案清单'
-      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '2') {
+      } else if (this.controller.iEFlag === 'E' && this.$refs.decHead.decHead.declTrnrel === '2') {
         routeName = 'exportRecordAdd'
         tabName = '出口备案清单'
       }

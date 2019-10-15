@@ -6,6 +6,7 @@
       :visible.sync="ORCuploadvisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened='openClassifyGoodsAfter'
       :before-close='closeCompnent'
       v-loading="$store.state.loading"

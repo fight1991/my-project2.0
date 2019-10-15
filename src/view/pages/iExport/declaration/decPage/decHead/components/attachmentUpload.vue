@@ -7,6 +7,7 @@
       :close-on-click-modal='false'
       :close-on-press-escape='false'
       :before-close='closeCompnent'
+      :modal-append-to-body='false'
       class='sys-dec-class'
       @open="attachShow"
       v-dialogDrag

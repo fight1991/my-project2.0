@@ -1195,7 +1195,14 @@
       <el-button type="primary" class='dec-h-30' size="mini" @click="addFun('add')" :disabled="isStatus">暂存</el-button>
       <el-button class='dec-h-30' size="mini" @click="closeOrder">关闭</el-button>
     </div>
-    <el-dialog title="随附单据-上传" :visible.sync="exportVisible" width="40%" :modal="false" class="decDialog" style="margin-top: 8vh;" :close-on-click-modal="false">
+    <el-dialog
+    title="随附单据-上传"
+    :visible.sync="exportVisible"
+    width="40%" :modal="false"
+    class="decDialog"
+    style="margin-top: 8vh;"
+    :close-on-click-modal="false"
+    :modal-append-to-body='false'>
       <div class="order-query-main" style="width:100%">
         <div class="query-condition" style="padding: 0;">
           <el-form label-width="107px" :model="exportForm" ref="exportForm" :rules="exportRules" size="mini">
@@ -1253,7 +1260,13 @@
         <el-button type="primary" size="mini" @click="uploadFun">确认</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="编辑其他包装信息" :visible.sync="wrapVisible" width="35%" :modal="false" class="order-dialog" :close-on-click-modal="false">
+    <el-dialog
+    title="编辑其他包装信息"
+    :visible.sync="wrapVisible"
+    width="35%" :modal="false"
+    class="order-dialog"
+    :modal-append-to-body='false'
+    :close-on-click-modal="false">
      <div class='dec-query-table'>
           <!-- 列表table开始 -->
           <el-table class='sys-table-table dec-table' ref="otherWrapList" border highlight-current-row size="mini" height="300px" :data="wrapList['Wraps']" @selection-change="selectVal">

@@ -5,6 +5,7 @@
       title="取值xlsx测试"
       :visible.sync="userTemplateVisabled"
       :show-close='false'
+      :modal-append-to-body='false'
       class='sys-dec-class'
       width="80%">
       <el-upload

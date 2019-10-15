@@ -7,6 +7,7 @@
       :close-on-click-modal='false'
       :close-on-press-escape='false'
       :before-close='closeDecUser'
+      :modal-append-to-body='false'
       @opened='openDecUser'
       v-dialogDrag
       width="50%">

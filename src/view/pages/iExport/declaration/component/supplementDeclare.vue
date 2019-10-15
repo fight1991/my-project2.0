@@ -6,6 +6,7 @@
       :show-close='false'
       class='sys-dec-class'
       :close-on-click-modal = 'false'
+      :modal-append-to-body='false'
       width="1000px">
       <el-dialog
           title="复制"

@@ -56,6 +56,7 @@
       :visible.sync="printCompnentVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='false'
       v-dialogDrag
       width="640px">
@@ -487,108 +488,94 @@ export default {
         this.messageTips('没有可复制的数据', 'error')
         return false
       }
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === '002') {
-        this.$refs.decHead.clearHeadData()
-        this.controller.pid = ''
-        // 清除 表体的主键
-        this.$refs.decList.clearBodyData()
-        // 清除集装箱主键
-        this.$refs.decContainer.clearDecContainerData()
-        // 清除 随附单证主键
-        this.$refs.decDocuments.clearDocumentsData()
-        this.controller.isDisabled = false
-        this.controller.requireColor = true
-        this.messageTips('数据复制成功', 'success')
-      } else {
-        let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
-        let [a, b, c] = ['0', '0', '0']
-        for (let i in this.declareType) {
-          if (this.declareType[i] === 1) {
-            a = '1'
-          } else if (this.declareType[i] === 2) {
-            b = '1'
-          } else if (this.declareType[i] === 3) {
-            c = '1'
-          }
+
+      let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
+      let [a, b, c] = ['0', '0', '0']
+      for (let i in this.declareType) {
+        if (this.declareType[i] === 1) {
+          a = '1'
+        } else if (this.declareType[i] === 2) {
+          b = '1'
+        } else if (this.declareType[i] === 3) {
+          c = '1'
         }
-        decHeadVo['twoStepFlag'] = a + b + c
-        decHeadVo.seqNo = ''
-        // 清除 预录入编号
-        decHeadVo.preEntryId = ''
-        decHeadVo.bossId = ''
-        decHeadVo.clientSeqno = ''
-        decHeadVo.dDate = ''
-        decHeadVo.cusCiqNo = ''
-        // 随附单据
-        decHeadVo.decEdocRealations = []
-        // 标记号码 标记唛码附件
-        decHeadVo.decMarkLobs = []
-        // 海关编号
-        decHeadVo.entryId = ''
-        // 清除所有的主键
-        decHeadVo.decPid = ''
-        decHeadVo.pid = ''
-        decHeadVo.isExamine = ''
-        decHeadVo.status = ''
-        decHeadVo.statusValue = ''
-        delete decHeadVo.dataSource
-        delete decHeadVo.sysSource
-        delete decHeadVo.feePid
-        delete decHeadVo.expenseId
-        delete decHeadVo.emailAddress
-        delete decHeadVo.xmlStatus
-        delete decHeadVo.xmlUrl
-        // 清除 申报日期
-        if (this.controller.iEFlag === 'E') {
-          decHeadVo.iEDate = ''
-        }
-        let tableListC = util.simpleClone(this.$refs.decList.tableList)
-        for (let i in tableListC) {
-          tableListC[i].decListPid = ''
-          tableListC[i].decPid = ''
-        }
-        let licenselistC = this.declareType.indexOf(1) !== -1 ? util.simpleClone(this.$refs.decDocuments.licenselist) : []
-        for (let n in licenselistC) {
-          licenselistC[n].pid = ''
-          licenselistC[n].decPid = ''
-        }
-        let ContainerlistC = util.simpleClone(this.$refs.decContainer.tableDecContainerlist)
-        for (let n in ContainerlistC) {
-          ContainerlistC[n].pid = ''
-          ContainerlistC[n].decPid = ''
-        }
-        let decVo = {
-          decContainersVO: ContainerlistC,
-          decHeadVO: decHeadVo,
-          decLicensesVO: licenselistC,
-          decListVO: tableListC
-        }
-        // 缓存数据
-        window.localStorage.setItem('copyDec', JSON.stringify(decVo))
-        let tabId = new Date().getTime()
-        this.copyTabId = tabId
-        let routeName
-        let tabName
-        if (this.controller.declTrnrel === '0') {
-          routeName = '进口报关单(概要申报)'
-          tabName = 'importSummaryDecAdd'
-        } else if (this.controller.declTrnrel === '2') {
-          routeName = '进境备案清单(概要申报)'
-          tabName = 'importSummaryRecordAdd'
-        }
-        // 重开页签
-        this.$router.push({
-          name: routeName,
-          params: {
-            'setTitle': tabName,
-            'setId': routeName + 'copy' + new Date().getTime()
-          },
-          query: {
-            'type': 'copy'
-          }
-        })
       }
+      decHeadVo['twoStepFlag'] = a + b + c
+      decHeadVo.seqNo = ''
+      // 清除 预录入编号
+      decHeadVo.preEntryId = ''
+      decHeadVo.bossId = ''
+      decHeadVo.clientSeqno = ''
+      decHeadVo.dDate = ''
+      decHeadVo.cusCiqNo = ''
+      // 随附单据
+      decHeadVo.decEdocRealations = []
+      // 标记号码 标记唛码附件
+      decHeadVo.decMarkLobs = []
+      // 海关编号
+      decHeadVo.entryId = ''
+      // 清除所有的主键
+      decHeadVo.decPid = ''
+      decHeadVo.pid = ''
+      decHeadVo.isExamine = ''
+      decHeadVo.status = ''
+      decHeadVo.statusValue = ''
+      delete decHeadVo.dataSource
+      delete decHeadVo.sysSource
+      delete decHeadVo.feePid
+      delete decHeadVo.expenseId
+      delete decHeadVo.emailAddress
+      delete decHeadVo.xmlStatus
+      delete decHeadVo.xmlUrl
+      // 清除 申报日期
+      if (this.controller.iEFlag === 'E') {
+        decHeadVo.iEDate = ''
+      }
+      let tableListC = util.simpleClone(this.$refs.decList.tableList)
+      for (let i in tableListC) {
+        tableListC[i].decListPid = ''
+        tableListC[i].decPid = ''
+      }
+      let licenselistC = this.declareType.indexOf(1) !== -1 ? util.simpleClone(this.$refs.decDocuments.licenselist) : []
+      for (let n in licenselistC) {
+        licenselistC[n].pid = ''
+        licenselistC[n].decPid = ''
+      }
+      let ContainerlistC = util.simpleClone(this.$refs.decContainer.tableDecContainerlist)
+      for (let n in ContainerlistC) {
+        ContainerlistC[n].pid = ''
+        ContainerlistC[n].decPid = ''
+      }
+      let decVo = {
+        decContainersVO: ContainerlistC,
+        decHeadVO: decHeadVo,
+        decLicensesVO: licenselistC,
+        decListVO: tableListC
+      }
+      // 缓存数据
+      window.localStorage.setItem('copyDec', JSON.stringify(decVo))
+      let tabId = new Date().getTime()
+      this.copyTabId = tabId
+      let routeName
+      let tabName
+      if (this.controller.declTrnrel === '0') {
+        routeName = '进口报关单(概要申报)'
+        tabName = 'importSummaryDecAdd'
+      } else if (this.controller.declTrnrel === '2') {
+        routeName = '进境备案清单(概要申报)'
+        tabName = 'importSummaryRecordAdd'
+      }
+      // 重开页签
+      this.$router.push({
+        name: routeName,
+        params: {
+          'setTitle': tabName,
+          'setId': routeName + 'copy' + new Date().getTime()
+        },
+        query: {
+          'type': 'copy'
+        }
+      })
     },
     // 打印
     printDecHead () {

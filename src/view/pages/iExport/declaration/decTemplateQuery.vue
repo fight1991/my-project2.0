@@ -267,43 +267,31 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoDecPage (flag, operationType, pid = 'new') {
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === 'CCBA') {
-        let routeName
-        let tabName
-        if (flag === 'import') {
-          tabName = '进口报关单模板'
-          if (operationType === 'add') {
-            routeName = 'iDecTemplateAdd'
-          } else if (operationType === 'edit') {
-            routeName = 'iDecTemplateEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口报关单模板'
-          if (operationType === 'add') {
-            routeName = 'eDecTemplateAdd'
-          } else if (operationType === 'edit') {
-            routeName = 'eDecTemplateEdit'
-          }
+      let routeName
+      let tabName
+      if (flag === 'import') {
+        tabName = '进口报关单模板'
+        if (operationType === 'add') {
+          routeName = 'iDecTemplateAdd'
+        } else if (operationType === 'edit') {
+          routeName = 'iDecTemplateEdit'
         }
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          }
-        })
-      } else {
-        this.$router.push({
-          name: '初始值模板',
-          params: {
-            'iEFlag': flag,
-            'operationType': operationType,
-            'pid': pid
-          }
-        })
+      } else if (flag === 'export') {
+        tabName = '出口报关单模板'
+        if (operationType === 'add') {
+          routeName = 'eDecTemplateAdd'
+        } else if (operationType === 'edit') {
+          routeName = 'eDecTemplateEdit'
+        }
       }
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
+        }
+      })
     },
     // 删除报关单模板
     delDecTemplate () {

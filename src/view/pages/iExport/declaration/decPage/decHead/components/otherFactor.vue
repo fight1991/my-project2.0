@@ -6,6 +6,7 @@
       :visible.sync="otherPriceFactorVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened = 'openOthered'
       :before-close='closeCompnent'
       v-dialogDrag

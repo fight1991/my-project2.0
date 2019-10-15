@@ -81,6 +81,7 @@
       title="价格提示"
       :visible.sync="priceTipsVisible"
       :before-close='beforeClose'
+      :modal-append-to-body='false'
       width="900px">
       <el-form label-width="100px" size="mini" :rules="rules" @keyup.enter.native="switchFoucsByEnter"
        label-position="right" :model="priceTipsForm" ref='priceTipsForm'>
@@ -188,6 +189,7 @@
     <el-dialog
       title="历史商品数据"
       :visible.sync="historyGoodsVisible"
+      :modal-append-to-body='false'
       class="sys-dec-class"
       :show-close='true'
       width="640px">

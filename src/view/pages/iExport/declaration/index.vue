@@ -388,6 +388,7 @@
     <el-dialog
       :title="titleName"
       :visible.sync="printCompnentVisible"
+      :modal-append-to-body='false'
       :show-close='false'
       class="sys-dec-class"
       width="640px">
@@ -395,6 +396,7 @@
     </el-dialog>
     <el-dialog
       title="EXCEL导入"
+      :modal-append-to-body='false'
       :visible.sync="importCompnentVisible"
       class="sys-dec-class"
       width="640px">
@@ -403,6 +405,7 @@
     <el-dialog
       title="IC卡登陆"
       :visible.sync="passwordVisible"
+      :modal-append-to-body='false'
       class='dec-dialog-class'
       width="500px">
       <div>
@@ -424,6 +427,7 @@
       title="清单下载"
       :visible.sync="billDownLoadVisible"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       width="400px">
       <el-form label-width="80px" ref='billForm' :model="billForm" :rules="rules" size="mini" label-position="left" @keyup.enter.native="switchFoucsByEnter">
@@ -512,6 +516,7 @@
       title="关联接单"
       :visible.sync="contactBossIdVisible"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       v-dialogDrag
       width="400px">
@@ -555,6 +560,7 @@
       title="业务跟踪明细"
       :visible.sync="trackeVisible"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       class="sys-dec-class"
       width="80%">
@@ -566,6 +572,7 @@
       title="回执通知书打印"
       :visible.sync="printNoticeVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       class="sys-dec-class"
       width="500px">
@@ -577,6 +584,7 @@
       title="同步"
       :visible.sync="batchsyncVisiable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       append-to-body
       v-loading="$store.state.loading"
@@ -589,6 +597,7 @@
       title="上传文件"
       :visible.sync="ocrVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       v-loading="$store.state.loading"
       class="sys-dec-class"
@@ -601,6 +610,7 @@
       title="识别记录"
       :visible.sync="ocrRcordVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       class="sys-dec-dialog"
       width="800px">
@@ -613,6 +623,7 @@
       :visible.sync="coverVisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       class="sys-dec-class"
       v-dialogDrag
       width="400px">
@@ -624,6 +635,7 @@
       title="生成接单"
       :visible.sync="createBillVisiable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       class="sys-dec-dialog"
       v-dialogDrag
       width="400px">
@@ -635,15 +647,20 @@
       title="同步记录"
       :visible.sync="syncDecRcordVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
-      append-to-body
       v-loading="$store.state.loading"
       class="sys-dec-dialog"
       width="800px">
       <syncdec-record @cancLeData="syncDecRcordCompnent"  v-if="syncDecRcordVisable"></syncdec-record>
     </el-dialog>
     <!-- 弹出框 同步记录 结束 -->
-    <el-dialog :visible.sync="gotoBind" width="25%" title='绑定单一窗口账号' :close-on-click-modal="false">
+    <el-dialog
+    :visible.sync="gotoBind"
+    width="25%"
+    title='绑定单一窗口账号'
+    :modal-append-to-body='false'
+    :close-on-click-modal="false">
       <el-form :model="bindform" ref='bindform' :rules='singlerule'>
         <el-row>
         <el-col :span="18" :offset="3">

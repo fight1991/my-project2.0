@@ -3653,29 +3653,26 @@ export default {
               if (!this.decHead.decPid) {
                 this.decHead.decPid = res.result.decPid
                 this.controller.pid = res.result.decPid
-                let sysId = window.sessionStorage.getItem('sysId')
-                if (sysId === 'CCBA') {
-                  let routeName
-                  let tabName
-                  if (this.controller.iEFlag === 'I') {
-                    routeName = 'iDecTemplateEdit'
-                    tabName = '进口报关单模板'
-                  } else {
-                    routeName = 'eDecTemplateEdit'
-                    tabName = '出口报关单模板'
-                  }
-                  // 关闭新增界面
-                  this.$store.dispatch('CloseTab', this.$route.params.setId)
-                  // 打开编辑界面
-                  this.$router.push({
-                    name: routeName,
-                    params: {
-                      'pid': res.result.decPid,
-                      'setTitle': tabName + '-' + res.result.decPid,
-                      'setId': routeName + 'edit' + res.result.decPid
-                    }
-                  })
+                let routeName
+                let tabName
+                if (this.controller.iEFlag === 'I') {
+                  routeName = 'iDecTemplateEdit'
+                  tabName = '进口报关单模板'
+                } else {
+                  routeName = 'eDecTemplateEdit'
+                  tabName = '出口报关单模板'
                 }
+                // 关闭新增界面
+                this.$store.dispatch('CloseTab', this.$route.params.setId)
+                // 打开编辑界面
+                this.$router.push({
+                  name: routeName,
+                  params: {
+                    'pid': res.result.decPid,
+                    'setTitle': tabName + '-' + res.result.decPid,
+                    'setId': routeName + 'edit' + res.result.decPid
+                  }
+                })
               }
             }
           })

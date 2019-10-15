@@ -1,7 +1,7 @@
 // 接单
 const MENU = {
-  path: '/eImport/receipt',
-  name: 'receipt',
+  path: '/iExport/orderReceiving',
+  name: 'orderReceiving',
   icon: 'icons-menu-receipt',
   permissions: 'CCBA20202000000',
   component: resolve => require(['../../common/abstract.vue'], resolve),
@@ -10,7 +10,7 @@ const MENU = {
   },
   children: [
     {
-      path: '/eImport/orderReceiving/iOrderReceiving',
+      path: '/iExport/orderReceiving/iOrderReceiving',
       name: 'iOrderReceiving',
       icon: 'icons-menu-price',
       permissions: 'CCBA20202010000',
@@ -21,7 +21,7 @@ const MENU = {
         iEFlag: 'import'
       }
     }, {
-      path: '/eImport/orderReceiving/eOrderReceiving',
+      path: '/iExport/orderReceiving/eOrderReceiving',
       name: 'eOrderReceiving',
       icon: 'icons-menu-price',
       permissions: 'CCBA20202020000',

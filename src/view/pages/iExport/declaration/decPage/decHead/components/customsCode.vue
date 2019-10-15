@@ -6,6 +6,7 @@
       :visible.sync="customsCodeVisabled"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened='openCustomsCode'
       append-to-body
       v-dialogDrag

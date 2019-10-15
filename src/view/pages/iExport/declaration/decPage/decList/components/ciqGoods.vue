@@ -7,6 +7,7 @@
       @opened='openencodeListAfter'
       :before-close='closeCompnent'
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       @keyup.native='updownSelect'
       width="640px">

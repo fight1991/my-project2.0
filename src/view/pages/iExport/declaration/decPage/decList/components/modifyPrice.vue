@@ -6,6 +6,7 @@
       :visible.sync="modifyPriceVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       :show-close='false'
       v-dialogDrag
       @opened = 'focusBtn'

@@ -135,6 +135,7 @@
     </div>
     <el-dialog :title="titleName"
      :visible.sync="detailVisible"
+     :modal-append-to-body='false'
       width="950px"
       append-to-body
       class="order-dialog commodityDetail-dialog"
@@ -147,6 +148,7 @@
       :visible.sync="historyVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       v-loading="$store.state.loading"
       class="commodity-el-dialog__mini"
       width="500px">
@@ -158,6 +160,7 @@
       title="同步记录"
       :visible.sync="syncDecRcordVisable"
       :close-on-click-modal='false'
+      :modal-append-to-body='false'
       v-dialogDrag
       v-loading="$store.state.loading"
       width="800px">
@@ -169,6 +172,7 @@
       title="关联报关单"
       :visible.sync="rltDecVisible"
       :close-on-click-modal="false"
+      :modal-append-to-body='false'
       v-dialogDrag
       append-to-body
       v-loading="$store.state.loading"

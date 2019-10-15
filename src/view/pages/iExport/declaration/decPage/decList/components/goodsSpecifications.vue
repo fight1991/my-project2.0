@@ -6,6 +6,7 @@
       :visible.sync="goodsSpecVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
+      :modal-append-to-body='false'
       @opened='openGoodsSpec'
       :before-close='closeCompnent'
       width="540px">

@@ -5054,172 +5054,120 @@ export default {
         this.messageTips('没有可复制的数据', 'error')
         return false
       }
-      let sysId = window.sessionStorage.getItem('sysId')
-      if (sysId === '002') {
-        // 清除 统一编号
-        this.decHead.seqNo = ''
-        // 清除 预录入编号
-        this.decHead.preEntryId = ''
-        this.decHead.bossId = ''
-        this.decHead.clientSeqno = ''
-        this.decHead.dDate = ''
-        this.decHead.cusCiqNo = ''
-        if (this.controller.iEFlag === 'E') {
-          this.decHead.iEDate = ''
-        }
-        // 随附单据
-        this.decHead.decEdocRealations = []
-        // 标记号码 标记唛码附件
-        this.decHead.decMarkLobs = []
-        // 海关编号
-        this.decHead.entryId = ''
-        // 清除所有的主键
-        this.decHead.decPid = ''
-        this.decHead.isExamine = ''
-        this.decHead.status = ''
-        this.decHead.isExamine = ''
-        this.decHead.statusValue = ''
-        this.controller.pid = ''
-        // 清除 表体的主键
-        for (let i in this.tableList) {
-          this.tableList[i].decListPid = ''
-          this.tableList[i].decPid = ''
-        }
-        this.decList.decListPid = ''
-        this.decList.decPid = ''
-        // 清除集装箱主键
-        this.decContainer.pid = ''
-        this.decContainer.decPid = ''
-        for (let m in this.tableDecContainerlist) {
-          this.tableDecContainerlist[m].pid = ''
-          this.tableDecContainerlist[m].decPid = ''
-        }
-        // 清除 随附单证主键
-        this.decLicense.pid = ''
-        this.decLicense.decPid = ''
-        for (let n in this.licenselist) {
-          this.licenselist[n].pid = ''
-          this.licenselist[n].decPid = ''
-        }
-        this.controller.isDisabled = false
-        this.controller.requireColor = true
-        this.messageTips('数据复制成功', 'success')
-      } else {
-        let decHeadVo = util.simpleClone(this.decHead)
-        if (!util.isEmpty(this.cropLimit.entQualiftypeCode)) {
-          decHeadVo.decCopLimits.push(this.cropLimit)
-        }
-        decHeadVo.seqNo = ''
-        // 清除 预录入编号
-        decHeadVo.preEntryId = ''
-        decHeadVo.bossId = ''
-        decHeadVo.clientSeqno = ''
-        decHeadVo.dDate = ''
-        decHeadVo.cusCiqNo = ''
-        // 随附单据
-        decHeadVo.decEdocRealations = []
-        // 标记号码 标记唛码附件
-        decHeadVo.decMarkLobs = []
-        // 海关编号
-        decHeadVo.entryId = ''
-        // 清除所有的主键
-        decHeadVo.decPid = ''
-        decHeadVo.isExamine = ''
-        decHeadVo.status = ''
-        decHeadVo.statusValue = ''
-        // 清除 申报日期
-        if (this.controller.iEFlag === 'E') {
-          decHeadVo.iEDate = ''
-        }
-        let tableListC = util.simpleClone(this.tableList)
-        for (let i in tableListC) {
-          tableListC[i].decListPid = ''
-          tableListC[i].decPid = ''
-        }
-        let licenselistC = util.simpleClone(this.licenselist)
-        for (let n in licenselistC) {
-          licenselistC[n].pid = ''
-          licenselistC[n].decPid = ''
-        }
-        let ContainerlistC = util.simpleClone(this.tableDecContainerlist)
-        for (let n in ContainerlistC) {
-          ContainerlistC[n].pid = ''
-          ContainerlistC[n].decPid = ''
-        }
-        // 转关单
-        let statusForm = util.simpleClone(this.initTransfer.statusForm)
-        statusForm.trnStatus = ''
-        statusForm.transDecNo = ''
-        let transDcForm = util.simpleClone(this.initTransfer.transDcForm)
-        transDcForm.decPid = ''
-        transDcForm.transApplCode = ''
-        transDcForm.transApplName = ''
-        transDcForm.transApplScc = ''
-        transDcForm.updateTime = ''
-        transDcForm.updateUser = ''
-        transDcForm.transDecNo = ''
-        let billInfoForm = util.simpleClone(this.initTransfer.billInfoForm)
-        billInfoForm.updateTime = ''
-        billInfoForm.updateUser = ''
-        billInfoForm.transDecNo = ''
-        let contaGoodsList = util.simpleClone(this.initTransfer.contaGoodsList)
-        for (let i in contaGoodsList) {
-          contaGoodsList[i].transDecNo = ''
-          contaGoodsList[i].updateTime = ''
-          contaGoodsList[i].updateUser = ''
-          contaGoodsList[i].relId = parseInt(i) + 1
-        }
-        let contaInfoList = util.simpleClone(this.initTransfer.contaInfoList)
-        for (let i in contaInfoList) {
-          contaInfoList[i].transDecNo = ''
-          contaInfoList[i].updateTime = ''
-          contaInfoList[i].updateUser = ''
-        }
-        let decTrn = {
-          decTrnContaGoods: contaGoodsList,
-          decTrnContainers: contaInfoList,
-          decTrnHeadVO: transDcForm,
-          decTrnListVO: billInfoForm,
-          decTrnStatusVO: statusForm
-        }
-        let decVo = {
-          decContainersVO: ContainerlistC,
-          decHeadVO: decHeadVo,
-          decLicensesVO: licenselistC,
-          decListVO: tableListC,
-          decTrnVO: decTrn
-        }
-        // 缓存数据
-        window.localStorage.setItem('copyDec', JSON.stringify(decVo))
-        // 重开页签
-        let routeName
-        if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
-          routeName = 'importDecAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '0') {
-          routeName = 'exportDecAdd'
-        } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '2') {
-          routeName = 'importRecordAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '2') {
-          routeName = 'exportRecordAdd'
-        } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '1') {
-          routeName = 'importTransitDecAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '1') {
-          routeName = 'exportTransitDecAdd'
-        } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '3') {
-          routeName = 'importTransitRecordListAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '3') {
-          routeName = 'exportTransitRecordListAdd'
-        } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '4') {
-          routeName = 'exportTransitSecondDecAdd'
-        }
-        if (routeName) {
-          this.$router.push({
-            name: routeName,
-            query: {
-              'type': 'copy'
-            }
-          })
-        }
+      let decHeadVo = util.simpleClone(this.decHead)
+      if (!util.isEmpty(this.cropLimit.entQualiftypeCode)) {
+        decHeadVo.decCopLimits.push(this.cropLimit)
+      }
+      decHeadVo.seqNo = ''
+      // 清除 预录入编号
+      decHeadVo.preEntryId = ''
+      decHeadVo.bossId = ''
+      decHeadVo.clientSeqno = ''
+      decHeadVo.dDate = ''
+      decHeadVo.cusCiqNo = ''
+      // 随附单据
+      decHeadVo.decEdocRealations = []
+      // 标记号码 标记唛码附件
+      decHeadVo.decMarkLobs = []
+      // 海关编号
+      decHeadVo.entryId = ''
+      // 清除所有的主键
+      decHeadVo.decPid = ''
+      decHeadVo.isExamine = ''
+      decHeadVo.status = ''
+      decHeadVo.statusValue = ''
+      // 清除 申报日期
+      if (this.controller.iEFlag === 'E') {
+        decHeadVo.iEDate = ''
+      }
+      let tableListC = util.simpleClone(this.tableList)
+      for (let i in tableListC) {
+        tableListC[i].decListPid = ''
+        tableListC[i].decPid = ''
+      }
+      let licenselistC = util.simpleClone(this.licenselist)
+      for (let n in licenselistC) {
+        licenselistC[n].pid = ''
+        licenselistC[n].decPid = ''
+      }
+      let ContainerlistC = util.simpleClone(this.tableDecContainerlist)
+      for (let n in ContainerlistC) {
+        ContainerlistC[n].pid = ''
+        ContainerlistC[n].decPid = ''
+      }
+      // 转关单
+      let statusForm = util.simpleClone(this.initTransfer.statusForm)
+      statusForm.trnStatus = ''
+      statusForm.transDecNo = ''
+      let transDcForm = util.simpleClone(this.initTransfer.transDcForm)
+      transDcForm.decPid = ''
+      transDcForm.transApplCode = ''
+      transDcForm.transApplName = ''
+      transDcForm.transApplScc = ''
+      transDcForm.updateTime = ''
+      transDcForm.updateUser = ''
+      transDcForm.transDecNo = ''
+      let billInfoForm = util.simpleClone(this.initTransfer.billInfoForm)
+      billInfoForm.updateTime = ''
+      billInfoForm.updateUser = ''
+      billInfoForm.transDecNo = ''
+      let contaGoodsList = util.simpleClone(this.initTransfer.contaGoodsList)
+      for (let i in contaGoodsList) {
+        contaGoodsList[i].transDecNo = ''
+        contaGoodsList[i].updateTime = ''
+        contaGoodsList[i].updateUser = ''
+        contaGoodsList[i].relId = parseInt(i) + 1
+      }
+      let contaInfoList = util.simpleClone(this.initTransfer.contaInfoList)
+      for (let i in contaInfoList) {
+        contaInfoList[i].transDecNo = ''
+        contaInfoList[i].updateTime = ''
+        contaInfoList[i].updateUser = ''
+      }
+      let decTrn = {
+        decTrnContaGoods: contaGoodsList,
+        decTrnContainers: contaInfoList,
+        decTrnHeadVO: transDcForm,
+        decTrnListVO: billInfoForm,
+        decTrnStatusVO: statusForm
+      }
+      let decVo = {
+        decContainersVO: ContainerlistC,
+        decHeadVO: decHeadVo,
+        decLicensesVO: licenselistC,
+        decListVO: tableListC,
+        decTrnVO: decTrn
+      }
+      // 缓存数据
+      window.localStorage.setItem('copyDec', JSON.stringify(decVo))
+      // 重开页签
+      let routeName
+      if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
+        routeName = 'importDecAdd'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '0') {
+        routeName = 'exportDecAdd'
+      } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '2') {
+        routeName = 'importRecordAdd'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '2') {
+        routeName = 'exportRecordAdd'
+      } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '1') {
+        routeName = 'importTransitDecAdd'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '1') {
+        routeName = 'exportTransitDecAdd'
+      } else if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '3') {
+        routeName = 'importTransitRecordListAdd'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '3') {
+        routeName = 'exportTransitRecordListAdd'
+      } else if (this.controller.iEFlag === 'E' && this.decHead.declTrnrel === '4') {
+        routeName = 'exportTransitSecondDecAdd'
+      }
+      if (routeName) {
+        this.$router.push({
+          name: routeName,
+          query: {
+            'type': 'copy'
+          }
+        })
       }
     },
     // 打印 报关单
@@ -6303,8 +6251,6 @@ export default {
             this.initTransfer.statusForm.trnStatusValue = res.result[0].trnStatusValue // 转关单状态赋值
             this.initTransfer.billInfoForm.billSeqNo = res.result[0].billSeqNo // 转关单提运单序号
             this.initTransfer.transDcForm.transDecNo = res.result[0].transDecNo // 转关单编号
-
-            let sysId = window.sessionStorage.getItem('sysId')
             let routeName
             let tabName
             if (this.controller.iEFlag === 'I' && this.decHead.declTrnrel === '0') { // 进口报关单
@@ -6335,20 +6281,18 @@ export default {
               tabName = '出口二次转关'
               routeName = 'exportTransitSecondDecEdit'
             }
-            if (sysId === 'CCBA') {
-              // 先关闭当前页签
-              this.$store.dispatch('CloseTab', this.$route.params.setId)
-              // 再跳转到编辑页面
-              this.$router.push({
-                name: routeName,
-                params: {
-                  'pid': this.decHead.decPid,
-                  'operationType': 'edit',
-                  'setTitle': tabName + '-' + this.decHead.decPid,
-                  'setId': routeName + 'edit' + this.decHead.decPid
-                }
-              })
-            }
+            // 先关闭当前页签
+            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            // 再跳转到编辑页面
+            this.$router.push({
+              name: routeName,
+              params: {
+                'pid': this.decHead.decPid,
+                'operationType': 'edit',
+                'setTitle': tabName + '-' + this.decHead.decPid,
+                'setId': routeName + 'edit' + this.decHead.decPid
+              }
+            })
           }
         }
       })
