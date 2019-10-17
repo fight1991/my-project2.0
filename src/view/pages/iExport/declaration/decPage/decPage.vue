@@ -1,9 +1,9 @@
 <template>
   <!-- 进出口报关单 新增 详情 修改 合用界面-->
-  <section class='sys-main sys-dec-class' style='min-width: 1000px'  :style="{ zoom: zoom }">
-    <el-header style='height:24px;' class= 'topDiv'>
+  <section class='sys-main sys-dec-class dec-section-edit' :style="{ zoom: zoom }">
+    <el-header class= 'topDiv'>
       <!-- 操作按钮-->
-      <el-row style='margin-right:20px'>
+      <el-row style='margin-right:54px'>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-plus" @click="addDecHead" :disabled="controller.isDisabled || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;新增</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDecHead" :disabled="controller.isDisabled || queryEntrust">&nbsp;暂存</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-copy" @click="copyDecHead" :disabled="queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;复制</el-button>
@@ -32,192 +32,194 @@
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('G')" style='float: right;' :disabled="controller.isDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;发送</el-button>
           <el-button type="primary" title="仅上海地区可用" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('C')" style='float: right;margin-right:5px' :disabled="controller.isDisabled || isDisabledDec || queryEntrust" v-if='!controller.isSummary'>&nbsp;申报</el-button>
         </el-row>
-      </el-header>
-    <el-container>
+    </el-header>
+    <div class='dec-container-div'>
       <el-container>
-        <el-main style="padding:3px 5px 20px 0px;">
-          <!---表头开始  -->
-          <dec-head ref='decHead' :moduleName="moduleName"></dec-head>
-          <!---表头结束  -->
-          <!---表体开始  -->
-          <dec-list ref='decList' @backStatisticsData='backStatisticsData' :moduleName="moduleName"></dec-list>
-        </el-main>
-      </el-container>
-      <el-aside style="width: 20%; padding-top: 3px;">
-        <!-- 集装箱信息 开始-->
-        <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
-        <!-- 集装箱信息 结束-->
-        <!-- 随附单证 开始 -->
-        <dec-documents ref='decDocuments' @compareDecAndEms='compareDecAndEms' :moduleName="moduleName"></dec-documents>
-        <!-- 随附单证 结束 -->
-        <div class="dec-div">
-          <el-form ref="datasForm" :rules='datasForm' :model="datasFormDate"  @keyup.enter.native="switchFoucsByEnter"  label-width="100px" size="mini">
+        <el-container>
+          <el-main style="padding:3px 5px 20px 0px;">
+            <!---表头开始  -->
+            <dec-head ref='decHead' :moduleName="moduleName"></dec-head>
+            <!---表头结束  -->
+            <!---表体开始  -->
+            <dec-list ref='decList' @backStatisticsData='backStatisticsData' :moduleName="moduleName"></dec-list>
+          </el-main>
+        </el-container>
+        <el-aside style="width: 20%; padding-top: 3px;">
+          <!-- 集装箱信息 开始-->
+          <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
+          <!-- 集装箱信息 结束-->
+          <!-- 随附单证 开始 -->
+          <dec-documents ref='decDocuments' @compareDecAndEms='compareDecAndEms' :moduleName="moduleName"></dec-documents>
+          <!-- 随附单证 结束 -->
+          <div class="dec-div">
+            <el-form ref="datasForm" :rules='datasForm' :model="datasFormDate"  @keyup.enter.native="switchFoucsByEnter"  label-width="100px" size="mini">
+              <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="关联报关单">
+                      <el-input v-model="datasFormDate.relId" @focus="tipsFillMessage('relId')" :readonly="controller.isDisabled" :maxlength="18"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="关联备案" prop='relManno'>
+                      <el-input v-model="datasFormDate.relManno" @focus="tipsFillMessage('relManno')" :readonly="controller.isDisabled" :maxlength="12"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="保税/监管场地">
+                      <el-input v-model="datasFormDate.bonNo"  @focus="tipsFillMessage('bonNo')" :readonly="controller.isDisabled" :maxlength="32"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="场地代码">
+                      <el-input v-model="datasFormDate.cusFie" @focus="tipsFillMessage('cusFie')" :readonly="controller.isDisabled" :maxlength="255"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+            </el-form>
+          </div>
+          <!-- 统计 开始 -->
+          <div class="dec-div" style="background-color: #e1f0ff;">
             <el-row >
-                <el-col :span="24">
-                  <el-form-item label="关联报关单">
-                    <el-input v-model="datasFormDate.relId" @focus="tipsFillMessage('relId')" :readonly="controller.isDisabled" :maxlength="18"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="关联备案" prop='relManno'>
-                    <el-input v-model="datasFormDate.relManno" @focus="tipsFillMessage('relManno')" :readonly="controller.isDisabled" :maxlength="12"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="保税/监管场地">
-                    <el-input v-model="datasFormDate.bonNo"  @focus="tipsFillMessage('bonNo')" :readonly="controller.isDisabled" :maxlength="32"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="场地代码">
-                    <el-input v-model="datasFormDate.cusFie" @focus="tipsFillMessage('cusFie')" :readonly="controller.isDisabled" :maxlength="255"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-          </el-form>
-        </div>
-        <!-- 统计 开始 -->
-        <div class="dec-div" style="background-color: #e1f0ff;">
-          <el-row >
-            <el-col :span="16">
-              <label >总价:</label>
-            </el-col>
-            <el-col :span="8" style="text-align: right">
-              <span >{{statisticsData.totalPrice}}</span>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="16">
-              <label >成交数量合计</label>
-            </el-col>
-            <el-col :span="8" style="text-align: right">
-              <span >{{statisticsData.totalGQty}}</span>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="16">
-              <label >法定第一数量合计</label>
-            </el-col>
-            <el-col :span="8" style="text-align: right">
-              <span >{{statisticsData.totalQty1}}</span>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="16">
-              <label >法定第二数量合计</label>
-            </el-col>
-            <el-col :span="8" style="text-align: right">
-              <span>{{statisticsData.totalQty2}}</span>
-            </el-col>
-          </el-row>
-        </div>
-        <!-- 统计 结束 -->
-      </el-aside>
-      <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
-    </el-container>
-    <!-- 弹出框 附注信息 开始 -->
-    <el-dialog
-      title="附注信息"
-      :visible.sync="additionInfoLaVisible"
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      :modal-append-to-body='false'
-      v-dialogDrag
-      width="640px">
-       <extra-note :additionInfoLa="additionInfoLa"  @backDatas="saveExtraNote" @cancLeData="cancleExtraNote" v-if="additionInfoLaVisible"></extra-note>
-    </el-dialog>
-    <!-- 弹出框 附注信息 结束 -->
-     <!-- 弹出框 随附单据 开始 -->
-    <accompanying-documents :initParams="accDocData"  @backDatas="receptionAccDocData" @cancLeData="cancleAccDocData" :accDocVisible="accDocVisible" :showCustomsCode="showCustomsCode"></accompanying-documents>
-    <!-- 弹出框 随附单据 结束 -->
-    <!-- 弹出框 打印报关单 开始 -->
-    <el-dialog
-      title="打印报关单"
-      :visible.sync="printCompnentVisible"
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      :modal-append-to-body='false'
-      :show-close='false'
-      v-dialogDrag
-      width="640px">
-       <decprint-view :initParams="printCompnentParam"  @cancLeData="closePrintCompnent"  v-if="printCompnentVisible"></decprint-view>
-    </el-dialog>
-    <!-- 弹出框 打印报关单 结束 -->
-    <!-- 弹出框 初始值模板 开始 -->
-    <el-dialog
-      title="初始值模板选择"
-      :visible.sync="initTemplateVisible"
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      :modal-append-to-body='false'
-      :show-close='false'
-      v-dialogDrag
-      width="640px">
-       <init-template :initParams="controller.iEFlag"  @backDatas="receptionTemplateData"  @cancLeData="closeTemplateCompnent"  v-if="initTemplateVisible"></init-template>
-    </el-dialog>
-    <!-- 弹出框 初始值模板 结束 -->
-    <!-- 弹出框 报关补充申报 开始 -->
-      <supplement-declare :initParams="initSupplDec"  @backDatas="backSupplDec"  @cancLeData="closeSupplDec"  v-if="supplDecVisible"></supplement-declare>
-    <!-- 弹出框 报关补充申报 结束 -->
-    <!-- 弹出框 对比模板与现在的区别 开始 -->
-    <el-dialog
-      title="选择需要引用模板数据"
-      :visible.sync="compareVisible"
-      :show-close='true'
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      :modal-append-to-body='false'
-      width="800px">
-       <compare-template :initParams="initCompare"  @backDatas="compareData" @cancLeData="cancleCompareData"  v-if="compareVisible"></compare-template>
-    </el-dialog>
-    <!-- 弹出框 对比模板与现在的区别 结束 -->
-    <!-- 弹出框 标记唛码和备注 开始 -->
-    <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
-    <!-- 弹出框 标记唛码和备注 结束 -->
-    <!-- 弹出框 特许权使用费 开始 -->
-    <el-dialog
-      title="特许权使用费"
-      :visible.sync="charterVisabled"
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      :modal-append-to-body='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-class'
-      width="75%">
-      <dec-charter :data="initCharter" :username="controller.userName" :type="$route.params.operationType" @getData="getCharterForm" @closeTemplate="closeCharter" v-if="charterVisabled" :showCustomsCode="showCustomsCode"></dec-charter>
-    </el-dialog>
-    <!-- 弹出框 特许权使用费 结束 -->
-        <!-- 弹出框 税费预估 开始-->
-    <el-dialog
-      title="税费预估"
-      :visible.sync="feeEstimateVisible"
-      :close-on-click-modal="false"
-      :modal-append-to-body='false'
-      class="sys-dec-dialog"
-      v-dialogDrag
-      v-loading="$store.state.loading"
-      width="1000px"
-    >
-      <fee-estimate :feeEstimateData="this.feeEstimateData" v-if="this.feeEstimateVisible"></fee-estimate>
-    </el-dialog>
-    <!-- 弹出框 税费预估 结束-->
-    <!-- 引用电子底账 弹窗 -->
-      <electric-bill :electricVisible.sync="electricVisible" @close:electricBill="getElectricBill"></electric-bill>
-    <!-- 引用电子底账 弹窗 end -->
-    <!-- 引用上传识别文件 弹窗 -->
+              <el-col :span="16">
+                <label >总价:</label>
+              </el-col>
+              <el-col :span="8" style="text-align: right">
+                <span >{{statisticsData.totalPrice}}</span>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="16">
+                <label >成交数量合计</label>
+              </el-col>
+              <el-col :span="8" style="text-align: right">
+                <span >{{statisticsData.totalGQty}}</span>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="16">
+                <label >法定第一数量合计</label>
+              </el-col>
+              <el-col :span="8" style="text-align: right">
+                <span >{{statisticsData.totalQty1}}</span>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="16">
+                <label >法定第二数量合计</label>
+              </el-col>
+              <el-col :span="8" style="text-align: right">
+                <span>{{statisticsData.totalQty2}}</span>
+              </el-col>
+            </el-row>
+          </div>
+          <!-- 统计 结束 -->
+        </el-aside>
+        <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
+      </el-container>
+      <!-- 弹出框 附注信息 开始 -->
+      <el-dialog
+        title="附注信息"
+        :visible.sync="additionInfoLaVisible"
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        :modal-append-to-body='false'
+        v-dialogDrag
+        width="640px">
+        <extra-note :additionInfoLa="additionInfoLa"  @backDatas="saveExtraNote" @cancLeData="cancleExtraNote" v-if="additionInfoLaVisible"></extra-note>
+      </el-dialog>
+      <!-- 弹出框 附注信息 结束 -->
+      <!-- 弹出框 随附单据 开始 -->
+      <accompanying-documents :initParams="accDocData"  @backDatas="receptionAccDocData" @cancLeData="cancleAccDocData" :accDocVisible="accDocVisible" :showCustomsCode="showCustomsCode"></accompanying-documents>
+      <!-- 弹出框 随附单据 结束 -->
+      <!-- 弹出框 打印报关单 开始 -->
+      <el-dialog
+        title="打印报关单"
+        :visible.sync="printCompnentVisible"
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        :modal-append-to-body='false'
+        :show-close='false'
+        v-dialogDrag
+        width="640px">
+        <decprint-view :initParams="printCompnentParam"  @cancLeData="closePrintCompnent"  v-if="printCompnentVisible"></decprint-view>
+      </el-dialog>
+      <!-- 弹出框 打印报关单 结束 -->
+      <!-- 弹出框 初始值模板 开始 -->
+      <el-dialog
+        title="初始值模板选择"
+        :visible.sync="initTemplateVisible"
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        :modal-append-to-body='false'
+        :show-close='false'
+        v-dialogDrag
+        width="640px">
+        <init-template :initParams="controller.iEFlag"  @backDatas="receptionTemplateData"  @cancLeData="closeTemplateCompnent"  v-if="initTemplateVisible"></init-template>
+      </el-dialog>
+      <!-- 弹出框 初始值模板 结束 -->
+      <!-- 弹出框 报关补充申报 开始 -->
+        <supplement-declare :initParams="initSupplDec"  @backDatas="backSupplDec"  @cancLeData="closeSupplDec"  v-if="supplDecVisible"></supplement-declare>
+      <!-- 弹出框 报关补充申报 结束 -->
+      <!-- 弹出框 对比模板与现在的区别 开始 -->
+      <el-dialog
+        title="选择需要引用模板数据"
+        :visible.sync="compareVisible"
+        :show-close='true'
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        :modal-append-to-body='false'
+        width="800px">
+        <compare-template :initParams="initCompare"  @backDatas="compareData" @cancLeData="cancleCompareData"  v-if="compareVisible"></compare-template>
+      </el-dialog>
+      <!-- 弹出框 对比模板与现在的区别 结束 -->
+      <!-- 弹出框 标记唛码和备注 开始 -->
+      <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
+      <!-- 弹出框 标记唛码和备注 结束 -->
+      <!-- 弹出框 特许权使用费 开始 -->
+      <el-dialog
+        title="特许权使用费"
+        :visible.sync="charterVisabled"
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        :modal-append-to-body='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-class'
+        width="75%">
+        <dec-charter :data="initCharter" :username="controller.userName" :type="$route.params.operationType" @getData="getCharterForm" @closeTemplate="closeCharter" v-if="charterVisabled" :showCustomsCode="showCustomsCode"></dec-charter>
+      </el-dialog>
+      <!-- 弹出框 特许权使用费 结束 -->
+          <!-- 弹出框 税费预估 开始-->
+      <el-dialog
+        title="税费预估"
+        :visible.sync="feeEstimateVisible"
+        :close-on-click-modal="false"
+        :modal-append-to-body='false'
+        class="sys-dec-dialog"
+        v-dialogDrag
+        v-loading="$store.state.loading"
+        width="1000px"
+      >
+        <fee-estimate :feeEstimateData="this.feeEstimateData" v-if="this.feeEstimateVisible"></fee-estimate>
+      </el-dialog>
+      <!-- 弹出框 税费预估 结束-->
+      <!-- 引用电子底账 弹窗 -->
+        <electric-bill :electricVisible.sync="electricVisible" @close:electricBill="getElectricBill"></electric-bill>
+      <!-- 引用电子底账 弹窗 end -->
+      <!-- 引用上传识别文件 弹窗 -->
       <smart-orc :samrtOrcVisable.sync="samrtOrcVisable" :decPid='$refs.decHead.decHead.decPid' @close:smartOrcClose="smartOrcClose" v-if="samrtOrcVisable"></smart-orc>
-    <!-- 引用上传识别文件 弹窗 end -->
-    <!-- 引用识别记录 弹窗 -->
+      <!-- 引用上传识别文件 弹窗 end -->
+      <!-- 引用识别记录 弹窗 -->
       <ocr-record :orcRecordVisable.sync="orcRecordVisable" @close:orcRecordClose="orcRecordClose" @backOrcdata="backOrcdata" :total='{decHeadVO: $refs.decHead.decHead,
         decListVO: $refs.decList.tableList}' @getTradeSelects='getTradeSelects' v-if="orcRecordVisable"></ocr-record>
-    <!-- 引用识别记录 弹窗 end -->
+      <!-- 引用识别记录 弹窗 end -->
+    </div>
   </section>
 </template>
 
@@ -885,7 +887,16 @@ export default {
         data: param,
         success: (res) => {
           let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + `/declaration/decTemplate/${this.iEFlag[this.controller.iEFlag]}/edit/${res.result.decPid}`
-          window.parent.postMessage({type: 'EMS', data: {tabId: 'edit-' + res.result.decPid, url: url, operationType: 'edit', id: res.result.decPid, title: this.modelTitle[this.controller.iEFlag]}}, '*')
+          // window.parent.postMessage({type: 'EMS', data: {tabId: 'edit-' + res.result.decPid, url: url, operationType: 'edit', id: res.result.decPid, title: this.modelTitle[this.controller.iEFlag]}}, '*')
+          let title = '核注清单编辑'
+          this.$router.push({
+            name: 'iExport-ems',
+            query: {
+              url: encodeURIComponent(url),
+              setTitle: title + '-' + res.result.decPid,
+              setId: 'iExport-ems' + 'edit' + res.result.decPid
+            }
+          })
         }
       })
     },

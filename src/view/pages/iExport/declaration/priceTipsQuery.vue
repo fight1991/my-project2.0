@@ -55,7 +55,7 @@
       <el-table class='sys-table-table' :data="priceTipsList"
          @selection-change="priceTipsListChange"
          border highlight-current-row size="mini"  height="400">
-         <el-table-column type="selection" width="30"></el-table-column>
+         <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="业务类型" prop="type" min-width="150"></el-table-column>
         <el-table-column label="境内收发货人" prop="tradeName" min-width="150"></el-table-column>
         <el-table-column label="商品名称" prop="gName" min-width="150"></el-table-column>

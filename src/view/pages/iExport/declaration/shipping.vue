@@ -74,7 +74,7 @@
         :data="ShippingList" border highlight-current-row size="mini"
         @selection-change="changeFun" height="400px"
         :max-height="$store.state.tableHeight" >
-        <el-table-column  type="selection" align='center' min-width="50"></el-table-column>
+        <el-table-column  type="selection" align='center' min-width="40"></el-table-column>
         <el-table-column label="接单编号" align='center' fixed prop="innerNo" min-width="120" v-if="fieldList[0].value"></el-table-column>
         <el-table-column label="主单号" align='left' fixed prop="mawbNo" min-width="100" v-if="fieldList[1].value"></el-table-column>
         <el-table-column label="分单号" align='left' fixed prop="hawbNo" min-width="100" v-if="fieldList[2].value"></el-table-column>

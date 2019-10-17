@@ -326,7 +326,7 @@
        border highlight-current-row size="mini"
        @selection-change="changeFun"
        @row-click='rowClickChange'>
-        <el-table-column  type="selection" align='center' width="37"></el-table-column>
+        <el-table-column  type="selection" align='center' width="40"></el-table-column>
         <el-table-column label="标记" align='center'  min-width="50">
           <template slot-scope="scope">
             <span class='el-icon-star-on' title='标记' v-if = "scope.row.isFavour === '1'"></span>

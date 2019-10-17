@@ -1,9 +1,9 @@
 <template>
   <!-- 转关单 合用界面-->
-  <section class='sys-main sys-dec-class' :style="{ zoom: zoom }">
-    <el-header style='height:24px;' class= 'topDiv'>
+  <section class='sys-main sys-dec-class dec-section-edit' :style="{ zoom: zoom }">
+    <el-header class= 'topDiv'>
       <!-- 操作按钮-->
-      <el-row style='margin-right:20px'>
+      <el-row style='margin-right:54px'>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-plus" @click="addDecHead" :disabled="controller.isDisabled">&nbsp;新增</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDecHead" :disabled="controller.isDisabled">&nbsp;暂存</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-copy" @click="copyDecHead">&nbsp;复制</el-button>
@@ -20,8 +20,9 @@
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('G')" style='float: right;' :disabled="controller.isDisabled">&nbsp;发送</el-button>
           <!-- <el-button type="primary" title="仅上海地区可用" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('C')" style='float: right;margin-right:5px' :disabled="controller.isDisabled || isDisabledDec">&nbsp;申报</el-button> -->
         </el-row>
-      </el-header>
-      <el-tabs v-model="activeTab" :before-leave="changeTabs" style="padding:21px 5px 20px 20px;">
+    </el-header>
+    <div class="dec-container-div">
+      <el-tabs v-model="activeTab" :before-leave="changeTabs">
         <el-tab-pane :label="tabsLabel" name="first">
           <el-container>
             <el-container>
@@ -1893,721 +1894,621 @@
         </el-tab-pane>
         <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
       </el-tabs>
-    <!-- 弹出框 其他包装信息 -->
-    <el-dialog
-      title="编辑其他包装信息"
-      :visible.sync="otherPacksVisible"
-      :close-on-click-modal='false'
-      @open="otherPacksShow"
-      v-dialogDrag
-      width="700px">
-      <div class="border">
-        <el-table
-          ref="otherPacksTable"
-          :data="otherPackList"
-          highlight-current-row border size='mini'
-          @selection-change="otherPacksChangeFun"
-          max-height="300" style="width: 100%">
-          <el-table-column  type="selection" min-width="50"></el-table-column>
-          <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
-          <el-table-column  property="packType" label="包装材料种类代码" min-width="100"></el-table-column>
-          <el-table-column  property="packTypeName" label="包装材料种类名称" min-width="200"></el-table-column>
-        </el-table>
-      </div>
-      <span slot="footer" class="dialog-footer" style="text-align:center">
-        <el-button class='layer-btn' @click="saveOtherPackageInfo" :disabled="controller.isDisabled">保存</el-button>
-      </span>
-    </el-dialog>
-    <!-- -->
-    <el-dialog
-      title="其他事项确认"
-      :visible.sync="otherPriceFactorVisible"
-      :close-on-click-modal='false'
-      @opened = 'openOthered'
-      v-dialogDrag
-      width="500px">
-      <div class="border">
-        <el-form label-width="240px" size='mini'  @keyup.enter.native="switchFoucsByEnter"
-         ref='otherPriceFactorForm'
-         label-position="right" :model="otherPriceFactor">
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="特殊关系确认">
-                <el-select placeholder=" " v-model="otherPriceFactor.promiseItem1"
-                  @focus="tipsFillMessage('', 'priceFactor1','PRICE_FACTOR')"
-                  filterable remote default-first-option
-                  clearable autofocus
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor1')"
-                  ref="promiseItem1" dataRef ='promiseItem1'
-                  style="width:100%" @change="promiseItem1Change" >
-                  <el-option
-                    v-for="item in priceFactor1"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="价格影响确认" >
-                <el-select placeholder=" " v-model="otherPriceFactor.promiseItem2"
-                   ref="promiseItem2" dataRef ='promiseItem2'
-                  @focus="tipsFillMessage('', 'priceFactor2','PRICE_FACTOR')"
-                  filterable remote default-first-option clearable
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor2')"
-                   style="width:100%" :disabled='promiseItem2Disabed'>
-                  <el-option
-                    v-for="item in priceFactor2"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="与货物有关的特许权使用费支付确认" >
-                <el-select placeholder=" " v-model="otherPriceFactor.promiseItem3"
-                   ref="promiseItem3" dataRef ='promiseItem3'
-                  @focus="tipsFillMessage('', 'priceFactor3','PRICE_FACTOR')"
-                  clearable filterable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor3')"
-                  enter="no"
-                  @keyup.enter.native="saveotherPriceFactor"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in priceFactor3"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="saveotherPriceFactor" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--业务事项 弹出框 开始 -->
-    <el-dialog
-      title="业务事项"
-      :visible.sync="businessVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="500px">
-      <el-checkbox-group v-model="checkList" class="border-margin">
-        <el-checkbox label="税单无纸化" v-show="controller.declTrnrel == '0'"></el-checkbox>
-        <el-checkbox label="自主报税" v-show="controller.declTrnrel == '0'"></el-checkbox>
-        <el-checkbox label="水运中转" v-show="controller.iEFlag == 'E'"></el-checkbox>
-        <el-checkbox label="自报自缴"></el-checkbox>
-        <el-checkbox label="担保验放"></el-checkbox>
-      </el-checkbox-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="saveBusiness" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--业务事项 弹出框 结束-->
-    <!--使用人 弹出框 开始-->
-    <el-dialog
-      title="编辑使用人信息"
-      :visible.sync="decUserVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="50%">
-      <div class="border">
-        <el-form label-width="120px" :model="userForm" size="mini" label-position="right">
-          <el-row  >
-            <el-col :span="12">
-              <el-form-item label="使用单位联系人">
-                <el-input v-model="userForm.useOrgpersonCode" :maxlength="20" @input='checklen("userForm", "useOrgpersonCode", 20)'></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="使用单位联系电话">
-                <el-input v-model="userForm.useOrgpersonTel" :maxlength="20"  @input='checklen("userForm", "useOrgpersonCode", 20)' @keyup.enter.native='saveDecUser'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="saveDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
-          <el-button icon="fa fa-trash-o" @click="delDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">删除</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="userTable" :data="decHead.decDecUsers"
-        highlight-current-row border size='mini'
-        @selection-change="decUserchangeFun"
-        @row-click="backDecUserInfo"
-        max-height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  type="index" property="gNo" label="序号" min-width="50"></el-table-column>
-        <el-table-column  property="useOrgpersonCode" label="使用单位联系人" min-width="100"></el-table-column>
-        <el-table-column  property="useOrgpersonTel" label="使用单位联系电话" min-width="100"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!--使用人 弹出框 结束-->
-    <!-- 企业资质 弹出框 开始-->
-    <el-dialog
-      title="编辑企业资质信息"
-      :visible.sync="entQuaVisible"
-      :before-close='closeEntQua'
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      v-dialogDrag
-      width="50%">
-      <div class="border">
-        <el-form label-width="120px" :model="copLimitsForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
-          <el-row  >
-            <el-col :span="12">
-              <el-form-item label="企业资质类别">
-                <el-select placeholder=" " v-model="copLimitsForm.entQualiftypeCode"
-                  @focus="tipsFillMessage('', 'saasEntQualifType','SAAS_ENT_QUALIF_TYPE')"
-                  remote filterable  clearable default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('saasEntQualifType')"
-                   ref="entQualiftypeCode" dataRef ='entQualiftypeCode'
-                  style="width:100%" @change ="entQuaChanged" >
-                  <el-option
-                    v-for="(item,index) in saasEntQualifType"
-                    :key="index"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="企业资质编号">
-                <el-input v-model="copLimitsForm.entQualifNo"  :maxlength='40' @keyup.enter.native="savedEntQua" enter = 'no'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row class="border-bottom">
-          <el-button icon="fa fa-plus" @click="AddEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="savedEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
-          <el-button icon="fa fa-trash-o" @click="deldEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">删除</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="entQuaTable" :data="decHead.decCopLimits"
-        highlight-current-row border size='mini'
-        @selection-change="copLimitschangeFun"
-        @row-click="backCopLimitsInfo"
-        max-height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
-        <el-table-column  property="entQualiftypeCode" label="企业资质类别代码" min-width="100"></el-table-column>
-        <el-table-column  property="entQualiftypeName" label="企业资质类别名称" min-width="100"></el-table-column>
-        <el-table-column  property="entQualifNo" label="企业资质编号" min-width="100"></el-table-column>
-      </el-table>
-      <el-checkbox v-model="copmpanyPromise" @change='cropPromiseClick'><span class="tips">企业承诺：本单位持有海关要求的合格保证、标签标识及其他证明声明材料，知悉相关材料内容，保证符合法律法规要求，并自存留档。</span></el-checkbox>
-    </el-dialog>
-    <!--使用人 弹出框 结束-->
-    <!--特殊业务标识 弹出框 开始 -->
-    <el-dialog
-      title="特殊业务标识"
-      :visible.sync="specialBusiVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="600px">
-      <el-checkbox-group v-model="specialBusiList" class ='border-margin'>
-        <el-row class="border-bottom">
-          <el-col :span="6">
-            <el-checkbox label="国际赛事"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="特殊进出军工物资"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="国际援助物资"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="国际会议"></el-checkbox>
-          </el-col>
-        </el-row>
-        <el-row class="m-t-10 border-bottom">
-          <el-col :span="6">
-            <el-checkbox label="直通放行"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="外交礼遇"></el-checkbox>
-          </el-col>
-          <el-col :span="6" v-if="controller.iEFlag == 'I'" >
-            <el-checkbox label="转关"></el-checkbox>
-          </el-col>
-        </el-row>
-      </el-checkbox-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="sureSpecialBusi" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--特殊业务标识 弹出框 结束-->
-    <!-- 检验检疫申报要素 弹出框 开始-->
-    <el-dialog
-      title="检验检疫签证申报要素"
-      :visible.sync="decElementsVisible"
-      :close-on-click-modal='false'
-      @open="decElementsShow"
-      v-dialogDrag
-      width="60%">
-      <el-table  ref="decElementsTable" :data="decElementsList"
-        highlight-current-row border size='mini'
-        @selection-change="decElementsChangeFun"
-        max-height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
-        <el-table-column  property="appCertCode" label="证书代码" min-width="50"></el-table-column>
-        <el-table-column  property="appCertName" label="证书名称" min-width="150"></el-table-column>
-        <el-table-column  property="applOri" label="正本数量" min-width="50">
-          <template slot-scope="scope">
-            <input v-model="scope.row.applOri" maxlength='50'>
-          </template>
-        </el-table-column>
-        <el-table-column  property="applCopyQuan" label="副本数量" min-width="50">
-          <template slot-scope="scope">
-            <input v-model="scope.row.applCopyQuan" maxlength='50'>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="border m-t-10">
-        <el-form label-width="140px" size="mini" label-position="right" v-if = "controller.iEFlag == 'I'">
-         <el-row >
-            <el-col :span="24">
-              <el-form-item label="境内收发货人名称(外文)" class="sys-d-title">
-                <el-input v-model="decHead.domesticConsigneeEname"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="境外收发货人名称(中文)" class="sys-d-title">
-                <el-input v-model="decHead.overseasConsignorCname"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="境外发货人地址" class="sys-d-title">
-                <el-input v-model="decHead.overseasConsignorAddr" :maxlength='100'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="卸毕日期">
-                <el-date-picker
-                  v-model="decHead.cmplDschrgDt"
-                  @change='cmplDschrgDtChange'
-                  type="date"
-                  value-format="yyyyMMdd"
-                  format='yyyyMMdd'
-                  style="width:100%"
-                  placeholder=" ">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="商品英文名称">
-                <el-col :span="20">
-                  <el-input v-model="decHead.gEnName" disabled></el-input>
-                </el-col>
-                <el-col :span="4">
-                  <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsEnConent" ></el-button>
-                </el-col>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <el-form label-width="140px" size="mini" label-position="right" v-else>
-         <el-row >
-            <el-col :span="24">
-              <el-form-item label="境内收发货人名称(外文)" class="sys-d-title">
-                <el-input v-model="decHead.domesticConsigneeEname"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="境外收发货人名称(中文)" class="sys-d-title">
-                <el-input v-model="decHead.overseasConsignorCname"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="商品英文名称">
-                <el-col :span="20">
-                  <el-input v-model="decHead.gEnName" disabled></el-input>
-                </el-col>
-                <el-col :span="4">
-                  <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsEnConent" ></el-button>
-                </el-col>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" @click="savedDcElements" :disabled="controller.isDisabled">保存</el-button>
-      </span>
-    </el-dialog>
-    <!--检验检疫签证申报要素 弹出框 结束-->
-    <!-- 弹出框 检验检疫编码列表 开始 -->
-    <el-dialog
-      title="检验检疫编码列表"
-      :visible.sync="encodeTableVisible"
-      @opened = 'openencodeListAfter'
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="640px">
-      <el-table  ref="encodeTable" :data="encodeTableList" highlight-current-row border size='mini'  @selection-change="encodeTableChanged" max-height="300" style="width: 100%">
-        <el-table-column  min-width="50"  >
-          <template slot-scope="scope">
-              <el-radio v-model="encodeListRadio" @keyup.enter.native="saveEncodeTableVaue"  :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column  property="gNameNote" label="名称" min-width="100"></el-table-column>
-        <el-table-column  property="typeName" label="类型" min-width="100"></el-table-column>
-        <el-table-column  property="codeTs" label="HS代码" min-width="100"></el-table-column>
-        <el-table-column  property="hsGName" label="HS名称" min-width="100"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button  class="dialog-primary-btn"  @click="saveEncodeTableVaue" :disabled="controller.isDisabled">确定</el-button>
-        <el-button  class="dialog-btn"  size="mini" @click="closeEncodeTable">关闭</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 检验检疫编码列表 结束 -->
-    <!-- 弹出框 货物属性 开始 -->
-    <el-dialog
-      title="货物属性"
-      :visible.sync="goodsAttrVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="640px">
-      <el-row :gutter="30" style='border: 0px;'>
-        <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
-          <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-t-10">
-            <div style="width:100%;height:100%">
-              <el-checkbox-button :label="item.codeField + '-' + item.nameField" border style="width:100%;height:100%"></el-checkbox-button>
-            </div>
-          </el-col>
+      <!-- 弹出框 其他包装信息 -->
+      <el-dialog
+        title="编辑其他包装信息"
+        :visible.sync="otherPacksVisible"
+        :close-on-click-modal='false'
+        @open="otherPacksShow"
+        v-dialogDrag
+        width="700px">
+        <div class="border">
+          <el-table
+            ref="otherPacksTable"
+            :data="otherPackList"
+            highlight-current-row border size='mini'
+            @selection-change="otherPacksChangeFun"
+            max-height="300" style="width: 100%">
+            <el-table-column  type="selection" min-width="50"></el-table-column>
+            <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
+            <el-table-column  property="packType" label="包装材料种类代码" min-width="100"></el-table-column>
+            <el-table-column  property="packTypeName" label="包装材料种类名称" min-width="200"></el-table-column>
+          </el-table>
+        </div>
+        <span slot="footer" class="dialog-footer" style="text-align:center">
+          <el-button class='layer-btn' @click="saveOtherPackageInfo" :disabled="controller.isDisabled">保存</el-button>
+        </span>
+      </el-dialog>
+      <!-- -->
+      <el-dialog
+        title="其他事项确认"
+        :visible.sync="otherPriceFactorVisible"
+        :close-on-click-modal='false'
+        @opened = 'openOthered'
+        v-dialogDrag
+        width="500px">
+        <div class="border">
+          <el-form label-width="240px" size='mini'  @keyup.enter.native="switchFoucsByEnter"
+          ref='otherPriceFactorForm'
+          label-position="right" :model="otherPriceFactor">
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="特殊关系确认">
+                  <el-select placeholder=" " v-model="otherPriceFactor.promiseItem1"
+                    @focus="tipsFillMessage('', 'priceFactor1','PRICE_FACTOR')"
+                    filterable remote default-first-option
+                    clearable autofocus
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor1')"
+                    ref="promiseItem1" dataRef ='promiseItem1'
+                    style="width:100%" @change="promiseItem1Change" >
+                    <el-option
+                      v-for="item in priceFactor1"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="价格影响确认" >
+                  <el-select placeholder=" " v-model="otherPriceFactor.promiseItem2"
+                    ref="promiseItem2" dataRef ='promiseItem2'
+                    @focus="tipsFillMessage('', 'priceFactor2','PRICE_FACTOR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor2')"
+                    style="width:100%" :disabled='promiseItem2Disabed'>
+                    <el-option
+                      v-for="item in priceFactor2"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="与货物有关的特许权使用费支付确认" >
+                  <el-select placeholder=" " v-model="otherPriceFactor.promiseItem3"
+                    ref="promiseItem3" dataRef ='promiseItem3'
+                    @focus="tipsFillMessage('', 'priceFactor3','PRICE_FACTOR')"
+                    clearable filterable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor3')"
+                    enter="no"
+                    @keyup.enter.native="saveotherPriceFactor"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in priceFactor3"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button  @click="saveotherPriceFactor" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--业务事项 弹出框 开始 -->
+      <el-dialog
+        title="业务事项"
+        :visible.sync="businessVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="500px">
+        <el-checkbox-group v-model="checkList" class="border-margin">
+          <el-checkbox label="税单无纸化" v-show="controller.declTrnrel == '0'"></el-checkbox>
+          <el-checkbox label="自主报税" v-show="controller.declTrnrel == '0'"></el-checkbox>
+          <el-checkbox label="水运中转" v-show="controller.iEFlag == 'E'"></el-checkbox>
+          <el-checkbox label="自报自缴"></el-checkbox>
+          <el-checkbox label="担保验放"></el-checkbox>
         </el-checkbox-group>
-      </el-row>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="dialog-primary-btn" @click="saveGoodsAttr" :disabled="controller.isDisabled">确定</el-button>
-        <el-button class="dialog-btn"  size="mini" @click="closeGoodsAttr">取消</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 货物属性 结束 -->
-    <!-- 检验检疫货物规格 弹出框 开始-->
-    <el-dialog
-      title="编辑检验检疫货物规格"
-      :visible.sync="goodsSpecVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="540px">
-      <div class="border">
-        <el-form label-width="100px"
-          @keyup.enter.native="switchFoucsByEnter"
-          size="mini" label-position="right" :data="goodsSpecForm">
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="成分/原料/组分">
-                <el-input v-model="goodsSpecForm.stuffNote" autofocus  @input='checklen("goodsSpecForm", "stuffNote", 400)'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="产品有效期">
-                <el-date-picker
-                  v-model="goodsSpecForm.prodValidDt"
-                  @change='prodValidDtChange'
-                  type="date"
-                  style="width:100%"
-                  value-format="yyyy-MM-dd"
-                  placeholder=" ">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="产品保质期(天)">
-                <el-input v-model="goodsSpecForm.prodQgp"  @input='decCheckInt("goodsSpecForm", "prodQgp", 20)' ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="境外生产企业">
-                <el-input v-model="goodsSpecForm.engManentCnm" @input='checklen("goodsSpecForm", "engManentCnm", 100)'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物规格">
-                <el-input v-model="goodsSpecForm.goodsSpec" @input='checklen("goodsSpecForm", "goodsSpec", 100)'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物型号">
-                <el-input v-model="goodsSpecForm.goodsModel" @input='checklen("goodsSpecForm", "goodsModel", 100)'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物品牌">
-                <el-input v-model="goodsSpecForm.goodsBrand" @input='checklen("goodsSpecForm", "goodsBrand", 100)'></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="生产日期">
-                <el-date-picker
-                  v-model="goodsSpecForm.produceDate"
-                  @change='produceDateChange'
-                  type="dates"
-                  style="width:100%"
-                  value-format="yyyy-MM-dd"
-                  placeholder=" ">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <div v-if = "controller.iEFlag == 'I'">
-            <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产批次">
-                  <el-input v-model="goodsSpecForm.prodBatchNo"  @input='checklen("goodsSpecForm", "prodBatchNo", 2000)' enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-          <div v-else>
-            <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产批次">
-                  <el-input v-model="goodsSpecForm.prodBatchNo"  @input='checklen("goodsSpecForm", "prodBatchNo", 2000)'></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-             <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产单位代码">
-                  <el-input v-model="goodsSpecForm.mnufctrRegno"  @input='checklen("goodsSpecForm", "mnufctrRegno", 20)' enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" size="mini" @click="saveGoodsSpec" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--检验检疫货物规格 弹出框 结束-->
-    <!-- 弹出框 商品列表 开始 -->
-    <el-dialog
-      title="商品列表"
-      :visible.sync="productListVisible"
-      :close-on-click-modal='false'
-      @opened = 'openProductListAfter'
-      v-dialogDrag
-      width="640px">
-      <el-table
-        ref="productListTable"
-        :data="productList"
-        highlight-current-row border
-        size='mini'
-        @keyup.native='updownSelect'
-        max-height="300" style="width: 100%">
-        <span>从商品归类表中查询到了下列商品，请选择：</span>
-        <el-table-column  min-width="50"  >
-          <template slot-scope="scope">
-              <el-radio v-model="productListRadio"  @keyup.enter.native="saveProductList" :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="gName" label="商品名称" min-width="200"></el-table-column>
-        <el-table-column  property="noteS" label="备注" min-width="100"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="dialog-primary-btn" @click="saveProductList" :disabled="controller.isDisabled">确定</el-button>
-        <el-button class="dialog-btn" @click="saveProductList">关闭</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 商品列表 结束 -->
-    <!-- 弹出框 产品许可证/审批/备案信息  开始 -->
-    <el-dialog
-      title="编辑产品许可证/审批/备案信息"
-      :visible.sync="filingInfoVisible"
-      :before-close="filingInfoClose"
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      v-dialogDrag
-      width="80%">
-      <div class="border">
-        <el-form label-width="100px" :model="filingInfoForm" size="mini"
-        @keyup.enter.native="switchFoucsByEnter"
-        label-position="right" ref="licRuleForm" :rules="licRuleForm">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item label="商品编码">
-                <el-input v-model="decList.codeTs" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="商品名称">
-                <el-input v-model="decList.gName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="检验检疫名称">
-                <el-input v-model="decList.ciqName" disabled></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row  >
-            <el-col :span="6">
-              <el-form-item label="序号">
-                <el-input v-model="filingInfoForm.gNo" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="许可证类别" :class="{ 'require-color': controller.requireColor }"  prop="licTypeCode"  ref="licTypeCode">
-              <el-select placeholder=" " v-model="filingInfoForm.licTypeCode"
-                @focus="tipsFillMessage('', 'saasLicType1','SAAS_LIC_TYPE')"
-                remote filterable clearable  default-first-option
-                :remote-method="checkParamsList"
-                @clear="clearSelct('saasLicType1')"
-                dataRef='licTypeCode'
-                 style="width:100%" autofocus>
-                  <el-option
-                    v-for="(item,index) in saasLicType1"
-                    :key="index"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="许可证编号" :class="{ 'require-color': controller.requireColor }" prop="licenceNo" ref="licenceNo">
-                <el-input v-model="filingInfoForm.licenceNo" :maxlength="40"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row  >
-            <el-col :span="6">
-              <el-form-item label="核销货物序号" prop="licWrtofDetailno" ref="licWrtofDetailno">
-                <el-input v-model="filingInfoForm.licWrtofDetailno" :maxlength="2"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="核销数量"  prop="licWrtofQty" ref="licWrtofQty">
-                <el-input v-model="filingInfoForm.licWrtofQty" :maxlength="20" ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="核销数量单位"  prop="licWrtofQtyUnit" ref="licWrtofQtyUnit">
-                <el-select placeholder=" " v-model="filingInfoForm.licWrtofQtyUnit"
-                  @focus="tipsFillMessage('licWrtofQtyUnit', 'saasUnit4','SAAS_UNIT')"
-                  ref="licWrtofQtyUnit" dataRef ='licWrtofQtyUnit'
-                  remote  default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('saasUnit4')"
-                  :maxlength="3"
-                  enter = 'no'
-                  @keyup.enter.native ='savefilingInfo'
-                  clearable filterable :disabled="controller.isDisabled"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in saasUnit4"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddfilingInfo" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="savefilingInfo" class='secondButton'  :disabled="controller.isDisabled">保存</el-button>
-          <el-button icon="fa fa-trash-o" @click="delfilingInfo" class='secondButton'  :disabled="controller.isDisabled">删除</el-button>
-          <el-button  @click="openLicVIN" class='secondButton'>许可证VIN信息</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="filingInfoTable" :data="decList.decGoodsLimits"
-        highlight-current-row border size='mini'
-        @selection-change="filingInfoChangeFun"
-        @row-click="backFilingInfo"
-        height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
-        <el-table-column  property="licTypeCode" label="许可证类别代码" min-width="80"></el-table-column>
-        <el-table-column  property="licTypeCodeValue" label="许可证类别名称" min-width="100"></el-table-column>
-        <el-table-column  property="licenceNo" label="许可证编号" min-width="80"></el-table-column>
-        <el-table-column  property="licWrtofDetailno" label="核销货物序号" min-width="50"></el-table-column>
-        <el-table-column  property="licWrtofQty" label="核销数量" min-width="100"></el-table-column>
-        <el-table-column  property="licWrtofQtyUnitVaue" label="核销数量单位" min-width="80"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
-     <!-- 弹出框 许可证VIN  开始 -->
-    <el-dialog
-      title="编辑许可证VIN"
-      :visible.sync="licVINVisible"
-      :before-close="licVINClose"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="70%">
-       <div class="border">
-          <el-form label-width="120px" :model="licVINForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="saveBusiness" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--业务事项 弹出框 结束-->
+      <!--使用人 弹出框 开始-->
+      <el-dialog
+        title="编辑使用人信息"
+        :visible.sync="decUserVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="50%">
+        <div class="border">
+          <el-form label-width="120px" :model="userForm" size="mini" label-position="right">
             <el-row  >
-              <el-col :span="6">
-                <el-form-item label="序号">
-                  <el-input v-model="licVINForm.gNo" disabled></el-input>
+              <el-col :span="12">
+                <el-form-item label="使用单位联系人">
+                  <el-input v-model="userForm.useOrgpersonCode" :maxlength="20" @input='checklen("userForm", "useOrgpersonCode", 20)'></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="许可证类别">
-                  <el-select placeholder=" " v-model="licVINForm.licTypeCode" disabled
-                     ref="licTypeCode" dataRef='licTypeCode'
-                    @focus="tipsFillMessage('', 'saasLicType2','SAAS_LIC_TYPE')"
-                    remote  default-first-option
+                <el-form-item label="使用单位联系电话">
+                  <el-input v-model="userForm.useOrgpersonTel" :maxlength="20"  @input='checklen("userForm", "useOrgpersonCode", 20)' @keyup.enter.native='saveDecUser'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <div>
+          <el-row>
+            <el-button icon="fa fa-plus" @click="AddDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="saveDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
+            <el-button icon="fa fa-trash-o" @click="delDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">删除</el-button>
+          </el-row>
+        </div>
+        <el-table  ref="userTable" :data="decHead.decDecUsers"
+          highlight-current-row border size='mini'
+          @selection-change="decUserchangeFun"
+          @row-click="backDecUserInfo"
+          max-height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  type="index" property="gNo" label="序号" min-width="50"></el-table-column>
+          <el-table-column  property="useOrgpersonCode" label="使用单位联系人" min-width="100"></el-table-column>
+          <el-table-column  property="useOrgpersonTel" label="使用单位联系电话" min-width="100"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!--使用人 弹出框 结束-->
+      <!-- 企业资质 弹出框 开始-->
+      <el-dialog
+        title="编辑企业资质信息"
+        :visible.sync="entQuaVisible"
+        :before-close='closeEntQua'
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        v-dialogDrag
+        width="50%">
+        <div class="border">
+          <el-form label-width="120px" :model="copLimitsForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
+            <el-row  >
+              <el-col :span="12">
+                <el-form-item label="企业资质类别">
+                  <el-select placeholder=" " v-model="copLimitsForm.entQualiftypeCode"
+                    @focus="tipsFillMessage('', 'saasEntQualifType','SAAS_ENT_QUALIF_TYPE')"
+                    remote filterable  clearable default-first-option
                     :remote-method="checkParamsList"
-                    @clear="clearSelct('saasLicType2')"
-                    style="width:100%" >
+                    @clear="clearSelct('saasEntQualifType')"
+                    ref="entQualiftypeCode" dataRef ='entQualiftypeCode'
+                    style="width:100%" @change ="entQuaChanged" >
                     <el-option
-                      v-for="(item,index) in saasLicType2"
+                      v-for="(item,index) in saasEntQualifType"
+                      :key="index"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="企业资质编号">
+                  <el-input v-model="copLimitsForm.entQualifNo"  :maxlength='40' @keyup.enter.native="savedEntQua" enter = 'no'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <div>
+          <el-row class="border-bottom">
+            <el-button icon="fa fa-plus" @click="AddEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="savedEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
+            <el-button icon="fa fa-trash-o" @click="deldEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">删除</el-button>
+          </el-row>
+        </div>
+        <el-table  ref="entQuaTable" :data="decHead.decCopLimits"
+          highlight-current-row border size='mini'
+          @selection-change="copLimitschangeFun"
+          @row-click="backCopLimitsInfo"
+          max-height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
+          <el-table-column  property="entQualiftypeCode" label="企业资质类别代码" min-width="100"></el-table-column>
+          <el-table-column  property="entQualiftypeName" label="企业资质类别名称" min-width="100"></el-table-column>
+          <el-table-column  property="entQualifNo" label="企业资质编号" min-width="100"></el-table-column>
+        </el-table>
+        <el-checkbox v-model="copmpanyPromise" @change='cropPromiseClick'><span class="tips">企业承诺：本单位持有海关要求的合格保证、标签标识及其他证明声明材料，知悉相关材料内容，保证符合法律法规要求，并自存留档。</span></el-checkbox>
+      </el-dialog>
+      <!--使用人 弹出框 结束-->
+      <!--特殊业务标识 弹出框 开始 -->
+      <el-dialog
+        title="特殊业务标识"
+        :visible.sync="specialBusiVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="600px">
+        <el-checkbox-group v-model="specialBusiList" class ='border-margin'>
+          <el-row class="border-bottom">
+            <el-col :span="6">
+              <el-checkbox label="国际赛事"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="特殊进出军工物资"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="国际援助物资"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="国际会议"></el-checkbox>
+            </el-col>
+          </el-row>
+          <el-row class="m-t-10 border-bottom">
+            <el-col :span="6">
+              <el-checkbox label="直通放行"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="外交礼遇"></el-checkbox>
+            </el-col>
+            <el-col :span="6" v-if="controller.iEFlag == 'I'" >
+              <el-checkbox label="转关"></el-checkbox>
+            </el-col>
+          </el-row>
+        </el-checkbox-group>
+        <span slot="footer" class="dialog-footer">
+          <el-button  @click="sureSpecialBusi" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--特殊业务标识 弹出框 结束-->
+      <!-- 检验检疫申报要素 弹出框 开始-->
+      <el-dialog
+        title="检验检疫签证申报要素"
+        :visible.sync="decElementsVisible"
+        :close-on-click-modal='false'
+        @open="decElementsShow"
+        v-dialogDrag
+        width="60%">
+        <el-table  ref="decElementsTable" :data="decElementsList"
+          highlight-current-row border size='mini'
+          @selection-change="decElementsChangeFun"
+          max-height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
+          <el-table-column  property="appCertCode" label="证书代码" min-width="50"></el-table-column>
+          <el-table-column  property="appCertName" label="证书名称" min-width="150"></el-table-column>
+          <el-table-column  property="applOri" label="正本数量" min-width="50">
+            <template slot-scope="scope">
+              <input v-model="scope.row.applOri" maxlength='50'>
+            </template>
+          </el-table-column>
+          <el-table-column  property="applCopyQuan" label="副本数量" min-width="50">
+            <template slot-scope="scope">
+              <input v-model="scope.row.applCopyQuan" maxlength='50'>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="border m-t-10">
+          <el-form label-width="140px" size="mini" label-position="right" v-if = "controller.iEFlag == 'I'">
+          <el-row >
+              <el-col :span="24">
+                <el-form-item label="境内收发货人名称(外文)" class="sys-d-title">
+                  <el-input v-model="decHead.domesticConsigneeEname"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="境外收发货人名称(中文)" class="sys-d-title">
+                  <el-input v-model="decHead.overseasConsignorCname"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="境外发货人地址" class="sys-d-title">
+                  <el-input v-model="decHead.overseasConsignorAddr" :maxlength='100'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="卸毕日期">
+                  <el-date-picker
+                    v-model="decHead.cmplDschrgDt"
+                    @change='cmplDschrgDtChange'
+                    type="date"
+                    value-format="yyyyMMdd"
+                    format='yyyyMMdd'
+                    style="width:100%"
+                    placeholder=" ">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="商品英文名称">
+                  <el-col :span="20">
+                    <el-input v-model="decHead.gEnName" disabled></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsEnConent" ></el-button>
+                  </el-col>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-form label-width="140px" size="mini" label-position="right" v-else>
+          <el-row >
+              <el-col :span="24">
+                <el-form-item label="境内收发货人名称(外文)" class="sys-d-title">
+                  <el-input v-model="decHead.domesticConsigneeEname"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="境外收发货人名称(中文)" class="sys-d-title">
+                  <el-input v-model="decHead.overseasConsignorCname"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="商品英文名称">
+                  <el-col :span="20">
+                    <el-input v-model="decHead.gEnName" disabled></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsEnConent" ></el-button>
+                  </el-col>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" @click="savedDcElements" :disabled="controller.isDisabled">保存</el-button>
+        </span>
+      </el-dialog>
+      <!--检验检疫签证申报要素 弹出框 结束-->
+      <!-- 弹出框 检验检疫编码列表 开始 -->
+      <el-dialog
+        title="检验检疫编码列表"
+        :visible.sync="encodeTableVisible"
+        @opened = 'openencodeListAfter'
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="640px">
+        <el-table  ref="encodeTable" :data="encodeTableList" highlight-current-row border size='mini'  @selection-change="encodeTableChanged" max-height="300" style="width: 100%">
+          <el-table-column  min-width="50"  >
+            <template slot-scope="scope">
+                <el-radio v-model="encodeListRadio" @keyup.enter.native="saveEncodeTableVaue"  :label="scope.$index">&nbsp;</el-radio>
+            </template>
+          </el-table-column>
+          <el-table-column  property="gNameNote" label="名称" min-width="100"></el-table-column>
+          <el-table-column  property="typeName" label="类型" min-width="100"></el-table-column>
+          <el-table-column  property="codeTs" label="HS代码" min-width="100"></el-table-column>
+          <el-table-column  property="hsGName" label="HS名称" min-width="100"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button  class="dialog-primary-btn"  @click="saveEncodeTableVaue" :disabled="controller.isDisabled">确定</el-button>
+          <el-button  class="dialog-btn"  size="mini" @click="closeEncodeTable">关闭</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 检验检疫编码列表 结束 -->
+      <!-- 弹出框 货物属性 开始 -->
+      <el-dialog
+        title="货物属性"
+        :visible.sync="goodsAttrVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="640px">
+        <el-row :gutter="30" style='border: 0px;'>
+          <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
+            <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-t-10">
+              <div style="width:100%;height:100%">
+                <el-checkbox-button :label="item.codeField + '-' + item.nameField" border style="width:100%;height:100%"></el-checkbox-button>
+              </div>
+            </el-col>
+          </el-checkbox-group>
+        </el-row>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="dialog-primary-btn" @click="saveGoodsAttr" :disabled="controller.isDisabled">确定</el-button>
+          <el-button class="dialog-btn"  size="mini" @click="closeGoodsAttr">取消</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 货物属性 结束 -->
+      <!-- 检验检疫货物规格 弹出框 开始-->
+      <el-dialog
+        title="编辑检验检疫货物规格"
+        :visible.sync="goodsSpecVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="540px">
+        <div class="border">
+          <el-form label-width="100px"
+            @keyup.enter.native="switchFoucsByEnter"
+            size="mini" label-position="right" :data="goodsSpecForm">
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="成分/原料/组分">
+                  <el-input v-model="goodsSpecForm.stuffNote" autofocus  @input='checklen("goodsSpecForm", "stuffNote", 400)'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="产品有效期">
+                  <el-date-picker
+                    v-model="goodsSpecForm.prodValidDt"
+                    @change='prodValidDtChange'
+                    type="date"
+                    style="width:100%"
+                    value-format="yyyy-MM-dd"
+                    placeholder=" ">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="产品保质期(天)">
+                  <el-input v-model="goodsSpecForm.prodQgp"  @input='decCheckInt("goodsSpecForm", "prodQgp", 20)' ></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="境外生产企业">
+                  <el-input v-model="goodsSpecForm.engManentCnm" @input='checklen("goodsSpecForm", "engManentCnm", 100)'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物规格">
+                  <el-input v-model="goodsSpecForm.goodsSpec" @input='checklen("goodsSpecForm", "goodsSpec", 100)'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物型号">
+                  <el-input v-model="goodsSpecForm.goodsModel" @input='checklen("goodsSpecForm", "goodsModel", 100)'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物品牌">
+                  <el-input v-model="goodsSpecForm.goodsBrand" @input='checklen("goodsSpecForm", "goodsBrand", 100)'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="生产日期">
+                  <el-date-picker
+                    v-model="goodsSpecForm.produceDate"
+                    @change='produceDateChange'
+                    type="dates"
+                    style="width:100%"
+                    value-format="yyyy-MM-dd"
+                    placeholder=" ">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div v-if = "controller.iEFlag == 'I'">
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产批次">
+                    <el-input v-model="goodsSpecForm.prodBatchNo"  @input='checklen("goodsSpecForm", "prodBatchNo", 2000)' enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+            <div v-else>
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产批次">
+                    <el-input v-model="goodsSpecForm.prodBatchNo"  @input='checklen("goodsSpecForm", "prodBatchNo", 2000)'></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产单位代码">
+                    <el-input v-model="goodsSpecForm.mnufctrRegno"  @input='checklen("goodsSpecForm", "mnufctrRegno", 20)' enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" size="mini" @click="saveGoodsSpec" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--检验检疫货物规格 弹出框 结束-->
+      <!-- 弹出框 商品列表 开始 -->
+      <el-dialog
+        title="商品列表"
+        :visible.sync="productListVisible"
+        :close-on-click-modal='false'
+        @opened = 'openProductListAfter'
+        v-dialogDrag
+        width="640px">
+        <el-table
+          ref="productListTable"
+          :data="productList"
+          highlight-current-row border
+          size='mini'
+          @keyup.native='updownSelect'
+          max-height="300" style="width: 100%">
+          <span>从商品归类表中查询到了下列商品，请选择：</span>
+          <el-table-column  min-width="50"  >
+            <template slot-scope="scope">
+                <el-radio v-model="productListRadio"  @keyup.enter.native="saveProductList" :label="scope.$index">&nbsp;</el-radio>
+            </template>
+          </el-table-column>
+          <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="gName" label="商品名称" min-width="200"></el-table-column>
+          <el-table-column  property="noteS" label="备注" min-width="100"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="dialog-primary-btn" @click="saveProductList" :disabled="controller.isDisabled">确定</el-button>
+          <el-button class="dialog-btn" @click="saveProductList">关闭</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 商品列表 结束 -->
+      <!-- 弹出框 产品许可证/审批/备案信息  开始 -->
+      <el-dialog
+        title="编辑产品许可证/审批/备案信息"
+        :visible.sync="filingInfoVisible"
+        :before-close="filingInfoClose"
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        v-dialogDrag
+        width="80%">
+        <div class="border">
+          <el-form label-width="100px" :model="filingInfoForm" size="mini"
+          @keyup.enter.native="switchFoucsByEnter"
+          label-position="right" ref="licRuleForm" :rules="licRuleForm">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="商品编码">
+                  <el-input v-model="decList.codeTs" disabled></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="商品名称">
+                  <el-input v-model="decList.gName" disabled></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="检验检疫名称">
+                  <el-input v-model="decList.ciqName" disabled></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row  >
+              <el-col :span="6">
+                <el-form-item label="序号">
+                  <el-input v-model="filingInfoForm.gNo" disabled></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="许可证类别" :class="{ 'require-color': controller.requireColor }"  prop="licTypeCode"  ref="licTypeCode">
+                <el-select placeholder=" " v-model="filingInfoForm.licTypeCode"
+                  @focus="tipsFillMessage('', 'saasLicType1','SAAS_LIC_TYPE')"
+                  remote filterable clearable  default-first-option
+                  :remote-method="checkParamsList"
+                  @clear="clearSelct('saasLicType1')"
+                  dataRef='licTypeCode'
+                  style="width:100%" autofocus>
+                    <el-option
+                      v-for="(item,index) in saasLicType1"
                       :key="index"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
@@ -2616,492 +2517,593 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="许可证编号">
-                  <el-input v-model="licVINForm.licenceNo" disabled></el-input>
+                <el-form-item label="许可证编号" :class="{ 'require-color': controller.requireColor }" prop="licenceNo" ref="licenceNo">
+                  <el-input v-model="filingInfoForm.licenceNo" :maxlength="40"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row  >
               <el-col :span="6">
-                <el-form-item label="VIN序号">
-                  <el-input v-model="licVINForm.vinNo" @input='checklen("licVINForm", "vinNo", 100)' :maxlength="100" autofocus></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="提/运单日期">
-                  <el-date-picker
-                    v-model="licVINForm.billLaddate"
-                    type="date"
-                    :editable='false'
-                    style="width:100%"
-                    value-format="yyyy-MM-dd"
-                    placeholder=" ">
-                  </el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="质量保质期">
-                  <el-input v-model="licVINForm.qualityQgp" @input='checklen("licVINForm", "qualityQgp", 100)' :maxlength="100"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="车辆识别代码(VIN)" >
-                  <el-input v-model="licVINForm.vinCode" @input='checklen("licVINForm", "vinCode", 20)' :maxlength="20"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row  >
-              <el-col :span="9">
-                <el-form-item label="发动机号或电机号" >
-                  <el-input v-model="licVINForm.motorNo" @input='checklen("licVINForm", "motorNo", 100)' :maxlength="100"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="9">
-                <el-form-item label="发票号">
-                  <el-input v-model="licVINForm.invoiceNo" @input='checklen("licVINForm", "invoiceNo", 30)' :maxlength="30" ></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="发票所列数量" >
-                  <el-input v-model="licVINForm.invoiceNum" @input='checklen("licVINForm", "invoiceNum", 14)' placeholder="只能输入自然数"  :maxlength="14" @blur="invoiceNumValid"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row  >
-              <el-col :span="12">
-                <el-form-item label="品名(中文名称)" >
-                  <el-input v-model="licVINForm.prodCnnm" @input='checklen("licVINForm", "prodCnnm", 500)'  :maxlength="500" ></el-input>
+                <el-form-item label="核销货物序号" prop="licWrtofDetailno" ref="licWrtofDetailno">
+                  <el-input v-model="filingInfoForm.licWrtofDetailno" :maxlength="2"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="品名(英文名称)" >
-                  <el-input v-model="licVINForm.prodEnnm" @input='checklen("licVINForm", "prodEnnm", 500)'  :maxlength="500" ></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row  >
-              <el-col :span="12">
-                <el-form-item label="型号（英文)">
-                  <el-input v-model="licVINForm.modelEn" @input='checklen("licVINForm", "modelEn", 500)'  :maxlength="500" ></el-input>
+                <el-form-item label="核销数量"  prop="licWrtofQty" ref="licWrtofQty">
+                  <el-input v-model="filingInfoForm.licWrtofQty" :maxlength="20" ></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="底盘(车架)号" >
-                  <el-input v-model="licVINForm.chassisNo" @input='checklen("licVINForm", "chassisNo", 20)' :maxlength="20" ></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="单价">
-                  <el-input v-model="licVINForm.pricePerunit" @input='checklen("licVINForm", "pricePerunit", 20)'  :maxlength="20" enter = 'no' @keyup.enter.native ='savelicVIN'></el-input>
+                <el-form-item label="核销数量单位"  prop="licWrtofQtyUnit" ref="licWrtofQtyUnit">
+                  <el-select placeholder=" " v-model="filingInfoForm.licWrtofQtyUnit"
+                    @focus="tipsFillMessage('licWrtofQtyUnit', 'saasUnit4','SAAS_UNIT')"
+                    ref="licWrtofQtyUnit" dataRef ='licWrtofQtyUnit'
+                    remote  default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('saasUnit4')"
+                    :maxlength="3"
+                    enter = 'no'
+                    @keyup.enter.native ='savefilingInfo'
+                    clearable filterable :disabled="controller.isDisabled"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in saasUnit4"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
-       </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddlicVIN" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-save" @click="savelicVIN" class='secondButton' :disabled="controller.isDisabled">保存</el-button>
-          <el-button icon="fa fa-trash-o" @click="dellicVIN" class='secondButton' :disabled="controller.isDisabled">删除</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="licVINTable" :data="filingInfoForm.decGoodsLimitvins"
-        highlight-current-row border size='mini'
-        @selection-change="licVINChangeFun"
-        @row-click="backLicVINInfo"
-        height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="gNo" label="VIN序号" min-width="50"></el-table-column>
-        <el-table-column  property="billLaddate" label="提/运单日期" min-width="100"></el-table-column>
-        <el-table-column  property="qualityQgp" label="质量保质期" min-width="80"></el-table-column>
-        <el-table-column  property="motorNo" label="发动机号或电机号" min-width="100"></el-table-column>
-        <el-table-column  property="vinCode" label="车辆识别代码(VIN)" min-width="100"></el-table-column>
-        <el-table-column  property="chassisNo" label="底盘(车架)号" min-width="100"></el-table-column>
-        <el-table-column  property="invoiceNo" label="发票号" min-width="100"></el-table-column>
-        <el-table-column  property="invoiceNum" label="发票所列数量" min-width="80"></el-table-column>
-        <el-table-column  property="prodCnnm" label="品名(中文名称)" min-width="120"></el-table-column>
-        <el-table-column  property="prodEnnm" label="品名(英文名称)" min-width="120"></el-table-column>
-        <el-table-column  property="modelEn" label="型号(英文)" min-width="120"></el-table-column>
-        <el-table-column  property="pricePerunit" label="单价" min-width="50"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
-    <!-- 弹出框 危险货物信息 开始  -->
-    <el-dialog
-      title="编辑危险货物信息"
-      :visible.sync="dangerGoodsVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="540px">
-      <div class="border">
-        <el-form label-width="100px" size="mini" label-position="right" :data="decList" @keyup.enter.native="switchFoucsByEnter">
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="非危险化学品">
-              <el-select placeholder=" " v-model="decList.noDangFlag"
-                  @focus="tipsFillMessage('', 'commomPara3','COMMON_PARA')"
-                  filterable clearable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('commomPara3')"
-                   ref="noDangFlag" dataRef='noDangFlag'
-                  style="width:100%" autofocus>
-                  <el-option
-                    v-for="item in commomPara3"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </div>
+        <div>
           <el-row>
-            <el-col :span="24">
-              <el-form-item label="UN编码">
-                <el-input v-model="decList.unCode" @input='checklen("decList", "unCode", 20)' maxlength='20'></el-input>
-              </el-form-item>
-            </el-col>
+            <el-button icon="fa fa-plus" @click="AddfilingInfo" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="savefilingInfo" class='secondButton'  :disabled="controller.isDisabled">保存</el-button>
+            <el-button icon="fa fa-trash-o" @click="delfilingInfo" class='secondButton'  :disabled="controller.isDisabled">删除</el-button>
+            <el-button  @click="openLicVIN" class='secondButton'>许可证VIN信息</el-button>
           </el-row>
+        </div>
+        <el-table  ref="filingInfoTable" :data="decList.decGoodsLimits"
+          highlight-current-row border size='mini'
+          @selection-change="filingInfoChangeFun"
+          @row-click="backFilingInfo"
+          height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
+          <el-table-column  property="licTypeCode" label="许可证类别代码" min-width="80"></el-table-column>
+          <el-table-column  property="licTypeCodeValue" label="许可证类别名称" min-width="100"></el-table-column>
+          <el-table-column  property="licenceNo" label="许可证编号" min-width="80"></el-table-column>
+          <el-table-column  property="licWrtofDetailno" label="核销货物序号" min-width="50"></el-table-column>
+          <el-table-column  property="licWrtofQty" label="核销数量" min-width="100"></el-table-column>
+          <el-table-column  property="licWrtofQtyUnitVaue" label="核销数量单位" min-width="80"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
+      <!-- 弹出框 许可证VIN  开始 -->
+      <el-dialog
+        title="编辑许可证VIN"
+        :visible.sync="licVINVisible"
+        :before-close="licVINClose"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="70%">
+        <div class="border">
+            <el-form label-width="120px" :model="licVINForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
+              <el-row  >
+                <el-col :span="6">
+                  <el-form-item label="序号">
+                    <el-input v-model="licVINForm.gNo" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="许可证类别">
+                    <el-select placeholder=" " v-model="licVINForm.licTypeCode" disabled
+                      ref="licTypeCode" dataRef='licTypeCode'
+                      @focus="tipsFillMessage('', 'saasLicType2','SAAS_LIC_TYPE')"
+                      remote  default-first-option
+                      :remote-method="checkParamsList"
+                      @clear="clearSelct('saasLicType2')"
+                      style="width:100%" >
+                      <el-option
+                        v-for="(item,index) in saasLicType2"
+                        :key="index"
+                        :label="item.codeField + '-' + item.nameField"
+                        :value="item.codeField">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="许可证编号">
+                    <el-input v-model="licVINForm.licenceNo" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="6">
+                  <el-form-item label="VIN序号">
+                    <el-input v-model="licVINForm.vinNo" @input='checklen("licVINForm", "vinNo", 100)' :maxlength="100" autofocus></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="提/运单日期">
+                    <el-date-picker
+                      v-model="licVINForm.billLaddate"
+                      type="date"
+                      :editable='false'
+                      style="width:100%"
+                      value-format="yyyy-MM-dd"
+                      placeholder=" ">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="质量保质期">
+                    <el-input v-model="licVINForm.qualityQgp" @input='checklen("licVINForm", "qualityQgp", 100)' :maxlength="100"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="车辆识别代码(VIN)" >
+                    <el-input v-model="licVINForm.vinCode" @input='checklen("licVINForm", "vinCode", 20)' :maxlength="20"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="9">
+                  <el-form-item label="发动机号或电机号" >
+                    <el-input v-model="licVINForm.motorNo" @input='checklen("licVINForm", "motorNo", 100)' :maxlength="100"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="9">
+                  <el-form-item label="发票号">
+                    <el-input v-model="licVINForm.invoiceNo" @input='checklen("licVINForm", "invoiceNo", 30)' :maxlength="30" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="发票所列数量" >
+                    <el-input v-model="licVINForm.invoiceNum" @input='checklen("licVINForm", "invoiceNum", 14)' placeholder="只能输入自然数"  :maxlength="14" @blur="invoiceNumValid"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="12">
+                  <el-form-item label="品名(中文名称)" >
+                    <el-input v-model="licVINForm.prodCnnm" @input='checklen("licVINForm", "prodCnnm", 500)'  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="品名(英文名称)" >
+                    <el-input v-model="licVINForm.prodEnnm" @input='checklen("licVINForm", "prodEnnm", 500)'  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="12">
+                  <el-form-item label="型号（英文)">
+                    <el-input v-model="licVINForm.modelEn" @input='checklen("licVINForm", "modelEn", 500)'  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="底盘(车架)号" >
+                    <el-input v-model="licVINForm.chassisNo" @input='checklen("licVINForm", "chassisNo", 20)' :maxlength="20" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="单价">
+                    <el-input v-model="licVINForm.pricePerunit" @input='checklen("licVINForm", "pricePerunit", 20)'  :maxlength="20" enter = 'no' @keyup.enter.native ='savelicVIN'></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+        </div>
+        <div>
           <el-row>
-            <el-col :span="24">
-              <el-form-item label="危险货物名称">
-                <el-input v-model="decList.dangName" @input='checklen("decList", "dangName", 80)' maxlength='80'></el-input>
-              </el-form-item>
-            </el-col>
+            <el-button icon="fa fa-plus" @click="AddlicVIN" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-save" @click="savelicVIN" class='secondButton' :disabled="controller.isDisabled">保存</el-button>
+            <el-button icon="fa fa-trash-o" @click="dellicVIN" class='secondButton' :disabled="controller.isDisabled">删除</el-button>
           </el-row>
+        </div>
+        <el-table  ref="licVINTable" :data="filingInfoForm.decGoodsLimitvins"
+          highlight-current-row border size='mini'
+          @selection-change="licVINChangeFun"
+          @row-click="backLicVINInfo"
+          height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="gNo" label="VIN序号" min-width="50"></el-table-column>
+          <el-table-column  property="billLaddate" label="提/运单日期" min-width="100"></el-table-column>
+          <el-table-column  property="qualityQgp" label="质量保质期" min-width="80"></el-table-column>
+          <el-table-column  property="motorNo" label="发动机号或电机号" min-width="100"></el-table-column>
+          <el-table-column  property="vinCode" label="车辆识别代码(VIN)" min-width="100"></el-table-column>
+          <el-table-column  property="chassisNo" label="底盘(车架)号" min-width="100"></el-table-column>
+          <el-table-column  property="invoiceNo" label="发票号" min-width="100"></el-table-column>
+          <el-table-column  property="invoiceNum" label="发票所列数量" min-width="80"></el-table-column>
+          <el-table-column  property="prodCnnm" label="品名(中文名称)" min-width="120"></el-table-column>
+          <el-table-column  property="prodEnnm" label="品名(英文名称)" min-width="120"></el-table-column>
+          <el-table-column  property="modelEn" label="型号(英文)" min-width="120"></el-table-column>
+          <el-table-column  property="pricePerunit" label="单价" min-width="50"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
+      <!-- 弹出框 危险货物信息 开始  -->
+      <el-dialog
+        title="编辑危险货物信息"
+        :visible.sync="dangerGoodsVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="540px">
+        <div class="border">
+          <el-form label-width="100px" size="mini" label-position="right" :data="decList" @keyup.enter.native="switchFoucsByEnter">
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="非危险化学品">
+                <el-select placeholder=" " v-model="decList.noDangFlag"
+                    @focus="tipsFillMessage('', 'commomPara3','COMMON_PARA')"
+                    filterable clearable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('commomPara3')"
+                    ref="noDangFlag" dataRef='noDangFlag'
+                    style="width:100%" autofocus>
+                    <el-option
+                      v-for="item in commomPara3"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="UN编码">
+                  <el-input v-model="decList.unCode" @input='checklen("decList", "unCode", 20)' maxlength='20'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危险货物名称">
+                  <el-input v-model="decList.dangName" @input='checklen("decList", "dangName", 80)' maxlength='80'></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危包类别">
+                  <el-select placeholder=" " clearable  v-model="decList.dangPackType" style="width:100%"
+                    @focus="tipsFillMessage('', 'dangerLevel','DANGER_LEVEL')"
+                    filterable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('dangerLevel')"
+                    ref="dangPackType" dataRef='dangPackType'>
+                    <el-option
+                      v-for="item in dangerLevel"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危包规格">
+                  <el-input v-model="decList.dangPackSpec" @input='checklen("decList", "dangPackSpec", 24)'  maxlength='24' enter = 'no' @keyup.enter.native="sureDangerGoods"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" @click="sureDangerGoods" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 危险货物信息 结束 -->
+      <!-- 弹出框 商品项号关系 开始 -->
+      <el-dialog
+        title="编辑商品项号关系"
+        :visible.sync="goodsGNoVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        @open="GoodsGNoShow"
+        width="640px">
+        <el-table
+          ref="goodsGNoTable"
+          :data="tableList"
+          highlight-current-row border
+          size='mini'
+          @selection-change="goodsGNoChange"
+          max-height="300" style="width: 100%">
+          <el-table-column label="选中" min-width="50" type="selection">
+          </el-table-column>
+          <el-table-column  property="gNo" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="gName" label="商品名称" min-width="100"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" @click="saveGoodsGNo" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 商品项号关系 结束 -->
+      <!-- 弹出框 原产地对应关系录入 开始 -->
+      <el-dialog
+        title="原产地对应关系录入"
+        :visible.sync="originRelVisible"
+        :before-close= 'colseOriginRel'
+        :close-on-click-modal='false'
+        :close-on-press-escape='false'
+        @opened = 'openOriginReled'
+        v-dialogDrag
+        width="640px">
+        <div class='border'>
+          <el-form label-width="150px" ref="originRelRuleForm"
+          @keyup.enter.native="switchFoucsByEnter"
+          :rules="originRelRuleForm" size="mini" label-position="right" :model="originRelForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="报关单商品序号" prop="decGno" ref ='decGno'>
+                  <el-input v-model="originRelForm.decGno" dataRef ='decGno' :maxlength="2"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="对应随附单证商品项号" prop="ecoGno" ref ='ecoGno'>
+                  <el-input v-model="originRelForm.ecoGno"  dataRef ='ecoGno' :maxlength="3" @keyup.enter.native="saveOriginRel"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <div>
           <el-row>
-            <el-col :span="24">
-              <el-form-item label="危包类别">
-                <el-select placeholder=" " clearable  v-model="decList.dangPackType" style="width:100%"
-                  @focus="tipsFillMessage('', 'dangerLevel','DANGER_LEVEL')"
-                  filterable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('dangerLevel')"
-                   ref="dangPackType" dataRef='dangPackType'>
-                  <el-option
-                    v-for="item in dangerLevel"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
+            <el-button icon="fa fa-plus" @click="addOriginRel" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-trash-o" @click="delOriginRel" class='secondButton' :disabled="controller.isDisabled">删除</el-button>
           </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="危包规格">
-                <el-input v-model="decList.dangPackSpec" @input='checklen("decList", "dangPackSpec", 24)'  maxlength='24' enter = 'no' @keyup.enter.native="sureDangerGoods"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" @click="sureDangerGoods" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 危险货物信息 结束 -->
-    <!-- 弹出框 商品项号关系 开始 -->
-    <el-dialog
-      title="编辑商品项号关系"
-      :visible.sync="goodsGNoVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      @open="GoodsGNoShow"
-      width="640px">
-      <el-table
-        ref="goodsGNoTable"
-        :data="tableList"
-        highlight-current-row border
-        size='mini'
-        @selection-change="goodsGNoChange"
-        max-height="300" style="width: 100%">
-        <el-table-column label="选中" min-width="50" type="selection">
-        </el-table-column>
-        <el-table-column  property="gNo" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="gName" label="商品名称" min-width="100"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" @click="saveGoodsGNo" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 商品项号关系 结束 -->
-    <!-- 弹出框 原产地对应关系录入 开始 -->
-    <el-dialog
-      title="原产地对应关系录入"
-      :visible.sync="originRelVisible"
-      :before-close= 'colseOriginRel'
-      :close-on-click-modal='false'
-      :close-on-press-escape='false'
-      @opened = 'openOriginReled'
-      v-dialogDrag
-      width="640px">
-      <div class='border'>
-        <el-form label-width="150px" ref="originRelRuleForm"
-        @keyup.enter.native="switchFoucsByEnter"
-        :rules="originRelRuleForm" size="mini" label-position="right" :model="originRelForm">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="报关单商品序号" prop="decGno" ref ='decGno'>
-                <el-input v-model="originRelForm.decGno" dataRef ='decGno' :maxlength="2"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="对应随附单证商品项号" prop="ecoGno" ref ='ecoGno'>
-                <el-input v-model="originRelForm.ecoGno"  dataRef ='ecoGno' :maxlength="3" @keyup.enter.native="saveOriginRel"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="addOriginRel" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-trash-o" @click="delOriginRel" class='secondButton' :disabled="controller.isDisabled">删除</el-button>
-        </el-row>
-      </div>
-      <el-table
-        ref="riginRelTable"
-        :data="decLicense.decEcoRealations"
-        highlight-current-row border
-        size='mini'
-        @selection-change="originRelChange"
-        max-height="300" style="width: 100%">
-        <el-table-column label="选中" min-width="50" type="selection">
-        </el-table-column>
-        <el-table-column  property="decGno" label="报关单商品序号" min-width="100"></el-table-column>
-        <el-table-column  property="ecoGno" label="对应随附单证商品项号" min-width="100"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 弹出框 原产地对应关系录入 结束 -->
-    <!-- 弹出框 编辑商品英文名称 开始 -->
-    <el-dialog
-      title="编辑商品英文名称"
-      :visible.sync="goodsEnNameVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      @open="goodsEnNameShow"
-      width="640px">
-      <el-table
-        ref="goodsEnNameTable"
-        :data="goodsEnNameList"
-        highlight-current-row border
-        size='mini'
-        @selection-change="goodsEnNameChange"
-        max-height="300" style="width: 100%">
-        <el-table-column label="选中" min-width="50" type="selection"></el-table-column>
-        <el-table-column  property="gNo" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="gName" label="商品名称" min-width="100"></el-table-column>
-        <el-table-column  property="declGoodsEname" label="商品英文名称" min-width="100">
-          <template slot-scope="scope">
-            <input v-model="scope.row.declGoodsEname">
-          </template>
-        </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" @click="saveGoodsEnName" :disabled="controller.isDisabled">保存</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 编辑商品英文名称 结束 -->
-    <!--修改单价总价 弹出框 开始 -->
-    <el-dialog
-      title="报关修改单价/总价？"
-      :visible.sync="modifyPriceVisible"
-      :close-on-click-modal='false'
-      :show-close='false'
-      v-dialogDrag
-      @opened = 'focusBtn'
-      width="500px">
-      <div class= 'priceDiv'>
-        <el-button class="layer-btn2" autofocus ref = 'modifyDeclPrice'
-        @keydown.enter.native="prevent"
-        @keyup.enter.native="modifyPrice('1')"
-        @keyup.native="switchFocus($event, '1')"
-        @click="modifyPrice('1')">修改单价</el-button>
-        <el-button class="layer-btn2"
-        ref = 'modifyTotalPrice'
+        </div>
+        <el-table
+          ref="riginRelTable"
+          :data="decLicense.decEcoRealations"
+          highlight-current-row border
+          size='mini'
+          @selection-change="originRelChange"
+          max-height="300" style="width: 100%">
+          <el-table-column label="选中" min-width="50" type="selection">
+          </el-table-column>
+          <el-table-column  property="decGno" label="报关单商品序号" min-width="100"></el-table-column>
+          <el-table-column  property="ecoGno" label="对应随附单证商品项号" min-width="100"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!-- 弹出框 原产地对应关系录入 结束 -->
+      <!-- 弹出框 编辑商品英文名称 开始 -->
+      <el-dialog
+        title="编辑商品英文名称"
+        :visible.sync="goodsEnNameVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        @open="goodsEnNameShow"
+        width="640px">
+        <el-table
+          ref="goodsEnNameTable"
+          :data="goodsEnNameList"
+          highlight-current-row border
+          size='mini'
+          @selection-change="goodsEnNameChange"
+          max-height="300" style="width: 100%">
+          <el-table-column label="选中" min-width="50" type="selection"></el-table-column>
+          <el-table-column  property="gNo" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="gName" label="商品名称" min-width="100"></el-table-column>
+          <el-table-column  property="declGoodsEname" label="商品英文名称" min-width="100">
+            <template slot-scope="scope">
+              <input v-model="scope.row.declGoodsEname">
+            </template>
+          </el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" @click="saveGoodsEnName" :disabled="controller.isDisabled">保存</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 编辑商品英文名称 结束 -->
+      <!--修改单价总价 弹出框 开始 -->
+      <el-dialog
+        title="报关修改单价/总价？"
+        :visible.sync="modifyPriceVisible"
+        :close-on-click-modal='false'
+        :show-close='false'
+        v-dialogDrag
+        @opened = 'focusBtn'
+        width="500px">
+        <div class= 'priceDiv'>
+          <el-button class="layer-btn2" autofocus ref = 'modifyDeclPrice'
           @keydown.enter.native="prevent"
-          @keyup.enter.native="modifyPrice('2')"
-          @keyup.native="switchFocus($event, '2')"
-         @click="modifyPrice('2')">修改总价</el-button>
-      </div>
-    </el-dialog>
-    <!--修改单价总价 弹出框 结束-->
-    <!-- 弹出框 商品规范申报-商品申报要素 开始 -->
-    <el-dialog
-      title="商品规范申报-商品申报要素"
-      :visible.sync="elementVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="640px">
-      <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>
-    </el-dialog>
-    <!-- 弹出框 商品规范申报-商品申报要素 结束 -->
-    <!-- 弹出框 附注信息 开始 -->
-    <el-dialog
-      title="附注信息"
-      :visible.sync="additionInfoLaVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      width="640px">
-       <extra-note :additionInfoLa="decHead.remarkInfo"  @backDatas="saveExtraNote" @cancLeData="cancleExtraNote" v-if="additionInfoLaVisible"></extra-note>
-    </el-dialog>
-    <!-- 弹出框 附注信息 结束 -->
-    <!-- 弹出框 批量修改 开始 -->
-    <el-dialog
-      title="批量修改"
-      :visible.sync="BulkEditingVisible"
-      :close-on-click-modal='false'
-      v-dialogDrag
-      :show-close='false'
-      width="640px">
-       <revise-view :decParams="BulkEditingList"  @backDatas="saveBulkEditing" @cancLeData="cancleBulkEditing" v-if="BulkEditingVisible"></revise-view>
-    </el-dialog>
-    <!-- 弹出框 批量修改 结束 -->
-     <!-- 弹出框 随附单据 开始 -->
-    <!-- <el-dialog
-      title="随附单据"
-      :visible.sync="accDocVisible"
-      :show-close='false'
-      width="640px">
+          @keyup.enter.native="modifyPrice('1')"
+          @keyup.native="switchFocus($event, '1')"
+          @click="modifyPrice('1')">修改单价</el-button>
+          <el-button class="layer-btn2"
+          ref = 'modifyTotalPrice'
+            @keydown.enter.native="prevent"
+            @keyup.enter.native="modifyPrice('2')"
+            @keyup.native="switchFocus($event, '2')"
+          @click="modifyPrice('2')">修改总价</el-button>
+        </div>
+      </el-dialog>
+      <!--修改单价总价 弹出框 结束-->
+      <!-- 弹出框 商品规范申报-商品申报要素 开始 -->
+      <el-dialog
+        title="商品规范申报-商品申报要素"
+        :visible.sync="elementVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="640px">
+        <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>
+      </el-dialog>
+      <!-- 弹出框 商品规范申报-商品申报要素 结束 -->
+      <!-- 弹出框 附注信息 开始 -->
+      <el-dialog
+        title="附注信息"
+        :visible.sync="additionInfoLaVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        width="640px">
+        <extra-note :additionInfoLa="decHead.remarkInfo"  @backDatas="saveExtraNote" @cancLeData="cancleExtraNote" v-if="additionInfoLaVisible"></extra-note>
+      </el-dialog>
+      <!-- 弹出框 附注信息 结束 -->
+      <!-- 弹出框 批量修改 开始 -->
+      <el-dialog
+        title="批量修改"
+        :visible.sync="BulkEditingVisible"
+        :close-on-click-modal='false'
+        v-dialogDrag
+        :show-close='false'
+        width="640px">
+        <revise-view :decParams="BulkEditingList"  @backDatas="saveBulkEditing" @cancLeData="cancleBulkEditing" v-if="BulkEditingVisible"></revise-view>
+      </el-dialog>
+      <!-- 弹出框 批量修改 结束 -->
+      <!-- 弹出框 随附单据 开始 -->
+      <!-- <el-dialog
+        title="随附单据"
+        :visible.sync="accDocVisible"
+        :show-close='false'
+        width="640px">
 
-    </el-dialog> -->
-    <accompanying-documents :initParams="accDocData"  @backDatas="receptionAccDocData" @cancLeData="cancleAccDocData" v-if="accDocVisible"></accompanying-documents>
-    <!-- 弹出框 随附单据 结束 -->
-    <!-- 弹出框 批量修改 开始 -->
-    <el-dialog
-      title="打印报关单"
-      :visible.sync="printCompnentVisible"
-      :close-on-click-modal='false'
-      :show-close='false'
-      v-dialogDrag
-      width="640px">
-       <decprint-view :initParams="printCompnentParam"  @cancLeData="closePrintCompnent"  v-if="printCompnentVisible"></decprint-view>
-    </el-dialog>
-    <!-- 弹出框 批量修改 结束 -->
-    <!-- 弹出框 初始值模板 开始 -->
-    <el-dialog
-      title="初始值模板选择"
-      :visible.sync="initTemplateVisible"
-      :close-on-click-modal='false'
-      :show-close='false'
-      v-dialogDrag
-      width="640px">
-       <init-template :initParams="controller.iEFlag"  @backDatas="receptionTemplateData"  @cancLeData="closeTemplateCompnent"  v-if="initTemplateVisible"></init-template>
-    </el-dialog>
-    <!-- 弹出框 初始值模板 结束 -->
-    <!-- 弹出框 报关补充申报 开始 -->
-      <supplement-declare :initParams="initSupplDec"  @backDatas="backSupplDec"  @cancLeData="closeSupplDec"  v-if="supplDecVisible"></supplement-declare>
-    <!-- 弹出框 报关补充申报 结束 -->
-    <!-- 弹出框 历史商品数据 开始 -->
-    <el-dialog
-      title="历史商品数据"
-      :visible.sync="historyGoodsVisible"
-      :close-on-click-modal='false'
-      :show-close='true'
-      v-dialogDrag
-      width="900px">
-       <history-goods :initParams="initHistory"  @backDatas="historyGoodsData"  @cancLeData="historyGoodsCompnent"  v-if="historyGoodsVisible"></history-goods>
-    </el-dialog>
-    <!-- 弹出框 历史商品数据 结束 -->
-    <!-- 弹出框 舱单数据 开始 -->
-    <el-dialog
-      title="舱单调取"
-      :visible.sync="mftBillVisible"
-      :close-on-click-modal='false'
-      :show-close='true'
-      v-dialogDrag
-      width="800px">
-       <shipping-bill :initParams="initMftBill"  @backDatas="mftBillData"  @cancLeData="closeMftBill"   v-if="mftBillVisible"></shipping-bill>
-    </el-dialog>
-    <!-- 弹出框 舱单数据 结束 -->
-    <!-- 弹出框 对比模板与现在的区别 开始 -->
-    <el-dialog
-      title="选择需要引用模板数据"
-      :visible.sync="compareVisible"
-      :show-close='true'
-      :close-on-click-modal='false'
-      width="800px">
-       <compare-template :initParams="initCompare"  @backDatas="compareData" @cancLeData="cancleCompareData"  v-if="compareVisible"></compare-template>
-    </el-dialog>
-    <!-- 弹出框 对比模板与现在的区别 结束 -->
-    <!-- 弹出框 报关单表体导入 开始 -->
-    <el-dialog
-      title="商品导入"
-      :visible.sync="importCompnentVisible"
-      :close-on-click-modal='false'
-      class="sys-dec-class"
-      width="640px">
-       <execl-import :initParams="initImport" @cancLeData="closeImportCompnent" @backData="receptionImportData"  v-if="importCompnentVisible"></execl-import>
-    </el-dialog>
-    <!-- 弹出框 报关单表体导入 结束 -->
-    <!-- 弹出框 标记唛码和备注 开始 -->
-    <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
-    <!-- 弹出框 标记唛码和备注 结束 -->
-    <!-- 弹出框 编辑标记及号码附件信息 开始 -->
-    <el-dialog
-      title="编辑标记及号码附件信息"
-      :visible.sync="attachVisabled"
-      :close-on-click-modal='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-class'
-      width="600px">
-      <attachment-upload :initParams="initAttach" @backDatas="receptionAttachData"  v-if="attachVisabled"></attachment-upload>
-    </el-dialog>
-    <!-- 弹出框 编辑标记及号码附件信息 介素 -->
-    <!-- 弹出框 减免税备案清单商品列表 开始 -->
-    <el-dialog
-      title="减免税备案清单商品列表"
-      :visible.sync="ZBookVisabled"
-      :close-on-click-modal='false'
-      :show-close='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-class'
-      width="80%">
-      <dec-zbook :initParams="initHBook" @backDatas="receptionZBookData" @cancLeData="closeZBookCompnent"  v-if="ZBookVisabled"></dec-zbook>
-    </el-dialog>
-    <!-- 弹出框 减免税备案清单商品列表 结束 -->
-    <!-- 弹出框 特许权使用费 开始 -->
-    <el-dialog
-      title="特许权使用费"
-      :visible.sync="charterVisabled"
-      :close-on-click-modal='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-class'
-      width="75%">
-      <dec-charter :data="decHead.decRoyaltyFeeVO" :username="controller.userName" :type="$route.params.operationType" @getData="getCharterForm" @closeTemplate="closeCharter" v-if="charterVisabled"></dec-charter>
-    </el-dialog>
-    <!-- 弹出框 特许权使用费 结束 -->
-    <!-- 弹出框 选择海关 开始 -->
-    <el-dialog
-      title="企业编码选择"
-      :visible.sync="customsCodeVisabled"
-      :close-on-click-modal='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-class'
-      width="400px">
-      <customs-code :initParams="initCustomsCode" @backDatas="receptionCustomsCode" @cancLeData="closeCustomsCodeCompnent"  v-if="customsCodeVisabled"></customs-code>
-    </el-dialog>
-    <!-- 弹出框 企业编码选择 结束 -->
-    <!-- 弹出框 联系单备案商品信息列表 开始 -->
-    <el-dialog
-      title="联系单备案商品信息列表"
-      :visible.sync="manualGoodsVisabled"
-      :close-on-click-modal='false'
-      append-to-body
-      v-dialogDrag
-      class='sys-dec-dialog'
-      width="800px">
-      <manual-goods :initParams="initManualGoods" @backDatas="receptionManualGoods" @cancLeData="closeManualGoods"  v-if="manualGoodsVisabled"></manual-goods>
-    </el-dialog>
-    <!-- 弹出框 联系单备案商品信息列表 结束 -->
+      </el-dialog> -->
+      <accompanying-documents :initParams="accDocData"  @backDatas="receptionAccDocData" @cancLeData="cancleAccDocData" v-if="accDocVisible"></accompanying-documents>
+      <!-- 弹出框 随附单据 结束 -->
+      <!-- 弹出框 批量修改 开始 -->
+      <el-dialog
+        title="打印报关单"
+        :visible.sync="printCompnentVisible"
+        :close-on-click-modal='false'
+        :show-close='false'
+        v-dialogDrag
+        width="640px">
+        <decprint-view :initParams="printCompnentParam"  @cancLeData="closePrintCompnent"  v-if="printCompnentVisible"></decprint-view>
+      </el-dialog>
+      <!-- 弹出框 批量修改 结束 -->
+      <!-- 弹出框 初始值模板 开始 -->
+      <el-dialog
+        title="初始值模板选择"
+        :visible.sync="initTemplateVisible"
+        :close-on-click-modal='false'
+        :show-close='false'
+        v-dialogDrag
+        width="640px">
+        <init-template :initParams="controller.iEFlag"  @backDatas="receptionTemplateData"  @cancLeData="closeTemplateCompnent"  v-if="initTemplateVisible"></init-template>
+      </el-dialog>
+      <!-- 弹出框 初始值模板 结束 -->
+      <!-- 弹出框 报关补充申报 开始 -->
+        <supplement-declare :initParams="initSupplDec"  @backDatas="backSupplDec"  @cancLeData="closeSupplDec"  v-if="supplDecVisible"></supplement-declare>
+      <!-- 弹出框 报关补充申报 结束 -->
+      <!-- 弹出框 历史商品数据 开始 -->
+      <el-dialog
+        title="历史商品数据"
+        :visible.sync="historyGoodsVisible"
+        :close-on-click-modal='false'
+        :show-close='true'
+        v-dialogDrag
+        width="900px">
+        <history-goods :initParams="initHistory"  @backDatas="historyGoodsData"  @cancLeData="historyGoodsCompnent"  v-if="historyGoodsVisible"></history-goods>
+      </el-dialog>
+      <!-- 弹出框 历史商品数据 结束 -->
+      <!-- 弹出框 舱单数据 开始 -->
+      <el-dialog
+        title="舱单调取"
+        :visible.sync="mftBillVisible"
+        :close-on-click-modal='false'
+        :show-close='true'
+        v-dialogDrag
+        width="800px">
+        <shipping-bill :initParams="initMftBill"  @backDatas="mftBillData"  @cancLeData="closeMftBill"   v-if="mftBillVisible"></shipping-bill>
+      </el-dialog>
+      <!-- 弹出框 舱单数据 结束 -->
+      <!-- 弹出框 对比模板与现在的区别 开始 -->
+      <el-dialog
+        title="选择需要引用模板数据"
+        :visible.sync="compareVisible"
+        :show-close='true'
+        :close-on-click-modal='false'
+        width="800px">
+        <compare-template :initParams="initCompare"  @backDatas="compareData" @cancLeData="cancleCompareData"  v-if="compareVisible"></compare-template>
+      </el-dialog>
+      <!-- 弹出框 对比模板与现在的区别 结束 -->
+      <!-- 弹出框 报关单表体导入 开始 -->
+      <el-dialog
+        title="商品导入"
+        :visible.sync="importCompnentVisible"
+        :close-on-click-modal='false'
+        class="sys-dec-class"
+        width="640px">
+        <execl-import :initParams="initImport" @cancLeData="closeImportCompnent" @backData="receptionImportData"  v-if="importCompnentVisible"></execl-import>
+      </el-dialog>
+      <!-- 弹出框 报关单表体导入 结束 -->
+      <!-- 弹出框 标记唛码和备注 开始 -->
+      <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
+      <!-- 弹出框 标记唛码和备注 结束 -->
+      <!-- 弹出框 编辑标记及号码附件信息 开始 -->
+      <el-dialog
+        title="编辑标记及号码附件信息"
+        :visible.sync="attachVisabled"
+        :close-on-click-modal='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-class'
+        width="600px">
+        <attachment-upload :initParams="initAttach" @backDatas="receptionAttachData"  v-if="attachVisabled"></attachment-upload>
+      </el-dialog>
+      <!-- 弹出框 编辑标记及号码附件信息 介素 -->
+      <!-- 弹出框 减免税备案清单商品列表 开始 -->
+      <el-dialog
+        title="减免税备案清单商品列表"
+        :visible.sync="ZBookVisabled"
+        :close-on-click-modal='false'
+        :show-close='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-class'
+        width="80%">
+        <dec-zbook :initParams="initHBook" @backDatas="receptionZBookData" @cancLeData="closeZBookCompnent"  v-if="ZBookVisabled"></dec-zbook>
+      </el-dialog>
+      <!-- 弹出框 减免税备案清单商品列表 结束 -->
+      <!-- 弹出框 特许权使用费 开始 -->
+      <el-dialog
+        title="特许权使用费"
+        :visible.sync="charterVisabled"
+        :close-on-click-modal='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-class'
+        width="75%">
+        <dec-charter :data="decHead.decRoyaltyFeeVO" :username="controller.userName" :type="$route.params.operationType" @getData="getCharterForm" @closeTemplate="closeCharter" v-if="charterVisabled"></dec-charter>
+      </el-dialog>
+      <!-- 弹出框 特许权使用费 结束 -->
+      <!-- 弹出框 选择海关 开始 -->
+      <el-dialog
+        title="企业编码选择"
+        :visible.sync="customsCodeVisabled"
+        :close-on-click-modal='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-class'
+        width="400px">
+        <customs-code :initParams="initCustomsCode" @backDatas="receptionCustomsCode" @cancLeData="closeCustomsCodeCompnent"  v-if="customsCodeVisabled"></customs-code>
+      </el-dialog>
+      <!-- 弹出框 企业编码选择 结束 -->
+      <!-- 弹出框 联系单备案商品信息列表 开始 -->
+      <el-dialog
+        title="联系单备案商品信息列表"
+        :visible.sync="manualGoodsVisabled"
+        :close-on-click-modal='false'
+        append-to-body
+        v-dialogDrag
+        class='sys-dec-dialog'
+        width="800px">
+        <manual-goods :initParams="initManualGoods" @backDatas="receptionManualGoods" @cancLeData="closeManualGoods"  v-if="manualGoodsVisabled"></manual-goods>
+      </el-dialog>
+      <!-- 弹出框 联系单备案商品信息列表 结束 -->
+    </div>
   </section>
 </template>
 
@@ -11832,6 +11834,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .sys-main{
     position: absolute;
     height: 100%;
@@ -11984,4 +11987,5 @@ export default {
     background-color: #096AC6;
     color: #fff;
   }
+  @import './decPage/common/decCss';
 </style>

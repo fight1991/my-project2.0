@@ -142,7 +142,7 @@
         border highlight-current-row size="mini"
         @selection-change="changeFun"
         @row-click="rowClickChange">
-        <el-table-column  type="selection" align='center' width="37"></el-table-column>
+        <el-table-column  type="selection" align='center' width="40"></el-table-column>
         <el-table-column label="系统编号" align='left' prop="pid" min-width="120" v-if="fieldList[0].value"></el-table-column>
         <el-table-column label="报关单编号" align='left' prop="decPid" min-width="120" v-if="fieldList[1].value"></el-table-column>
         <el-table-column label="接单编号" align='left' prop="bossId" min-width="160" v-if="fieldList[2].value"></el-table-column>

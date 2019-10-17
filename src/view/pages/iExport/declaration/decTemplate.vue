@@ -1,332 +1,1476 @@
 <template>
   <!-- 进出口报关单 新增 详情 修改 合用界面-->
-  <section class='sys-main sys-dec-class' style='min-width: 1000px' :style="{ zoom: zoom }">
-    <el-header style="height:24px">
+  <section class='sys-main sys-dec-class dec-section-edit' :style="{ zoom: zoom }">
+    <el-header class= 'topDiv'>
         <!-- 操作按钮-->
-        <el-row>
+        <el-row style='margin-right:54px'>
             <el-button type="primary" size="mini" class='dec-h-24' icon="fa fa-plus" @click="addDecHead" :disabled="controller.isDisabled">&nbsp;新增</el-button>
             <el-button type="primary" size="mini" class='dec-h-24' icon="fa fa-save" @click="saveDecHead" :disabled="controller.isDisabled">&nbsp;暂存</el-button>
           </el-row>
       </el-header>
-    <el-container>
+    <div class="dec-container-div">
       <el-container>
-        <el-main style="padding:0px 5px 20px 20px;">
-          <!---表头开始  -->
-          <div class='dec-div'>
-            <el-form ref="headRuleForm" :model="decHead"  :rules="headRuleForm" label-width="105px" size="mini" @keyup.enter.native="switchFoucsByEnter">
-              <el-row  >
-                <el-col :span="12">
-                  <el-form-item label="模板名称" :class="{ 'require-color': controller.requireColor }"  prop="settingsName">
-                    <el-input v-model="decHead.settingsName" @focus="tipsFillMessage('settingsName')" ref="settingsName"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="生效标志">
-                    <el-radio-group v-model="decHead.effective">
-                      <el-radio :label="'1'">使用单位</el-radio>
-                      <el-radio :label="'2'">创建人</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </el-col>
-              </el-row>
+        <el-container>
+          <el-main style="padding:3px 5px 20px 0px;">
+            <!---表头开始  -->
+            <div class='dec-div'>
+              <el-form ref="headRuleForm" :model="decHead"  :rules="headRuleForm" label-width="105px" size="mini" @keyup.enter.native="switchFoucsByEnter">
                 <el-row  >
                   <el-col :span="12">
-                    <el-form-item label="申报地海关" :class="{ 'require-color': controller.requireColor }"  prop="customMaster">
-                      <el-select placeholder="" v-model="decHead.customMaster"
-                      @focus="tipsFillMessage('customMaster', 'saasCustomsRel1','SAAS_CUSTOMS_REL')"
-                      remote clearable filterable  default-first-option
-                      :remote-method="checkParamsList"
-                      @clear="clearSelct('saasCustomsRel1')"
-                      ref="customMaster" dataRef ='customMaster'
-                      :disabled="controller.isDisabled" style="width:100%" >
-                        <el-option
-                          v-for="item in saasCustomsRel1"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' +item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
+                    <el-form-item label="模板名称" :class="{ 'require-color': controller.requireColor }"  prop="settingsName">
+                      <el-input v-model="decHead.settingsName" @focus="tipsFillMessage('settingsName')" ref="settingsName"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item :label="controller.iEFlag == 'I' ? '进境关别':'出境关别'"
-                      :class="{ 'require-color': controller.requireColor }" prop="iEPort">
-                      <el-select placeholder="" v-model="decHead.iEPort"
-                      ref="iEPort" dataRef ='iEPort'
-                      remote default-first-option clearable filterable
-                      :remote-method="checkParamsList"
-                      @change="iEPortChange"
-                      @clear="clearSelct('saasCustomsRel2')"
-                      @focus="tipsFillMessage('iEPort', 'saasCustomsRel2','SAAS_CUSTOMS_REL')"
-                      :disabled="controller.isDisabled" style="width:100%" >
-                        <el-option
-                          v-for="item in saasCustomsRel2"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
+                    <el-form-item label="生效标志">
+                      <el-radio-group v-model="decHead.effective">
+                        <el-radio :label="'1'">使用单位</el-radio>
+                        <el-radio :label="'2'">创建人</el-radio>
+                      </el-radio-group>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="12">
-                    <el-form-item label="备案号" prop="manualNo" ref="manualNo">
-                      <el-input v-model="decHead.manualNo" :maxlength="12"
-                      @blur='queryBookHead' clearable
-                      @input='manualNoChange'
-                      @focus="tipsFillMessage('manualNo')" :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="合同协议号" prop="contrNo" ref="contrNo">
-                      <el-input v-model="decHead.contrNo"  :maxlength="32" @focus="tipsFillMessage('contrNo')" :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  v-if ="controller.iEFlag == 'I'">
-                  <el-col :span="12">
-                    <el-form-item label="进口日期">
-                      <el-input  v-model="decHead.iEDate"  :maxlength="8"
-                      :class="{ 'require-color': controller.requireColor }"
-                      @focus="tipsFillMessage('iEDate')" :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="24">
-                    <el-form-item label="境内收发货人" >
-                      <el-col :span="4">
-                        <el-form-item prop="tradeCoScc" ref="tradeCoScc" >
-                          <el-input :class="{ 'require-color': controller.requireColor }"
-                            v-model="decHead.tradeCoScc" :maxlength="18" placeholder="18位社会信用代码"
-                            dataRef = 'tradeCoScc'
-                            @focus="tipsFillMessage('tradeCoScc')"
-                             @blur="queryCropInfo('tradeCoScc')"
-                            :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                         <el-form-item prop="tradeCode" ref="tradeCode">
-                            <el-input   :class="{ 'require-color': controller.requireColor }"
-                              v-model="decHead.tradeCode"  :maxlength="10"  placeholder="10位海关编码"
-                              dataRef = 'tradeCode'
-                              @focus="tipsFillMessage('tradeCode')"
-                              @blur="queryCropInfo('tradeCode')"
+                  <el-row  >
+                    <el-col :span="12">
+                      <el-form-item label="申报地海关" :class="{ 'require-color': controller.requireColor }"  prop="customMaster">
+                        <el-select placeholder="" v-model="decHead.customMaster"
+                        @focus="tipsFillMessage('customMaster', 'saasCustomsRel1','SAAS_CUSTOMS_REL')"
+                        remote clearable filterable  default-first-option
+                        :remote-method="checkParamsList"
+                        @clear="clearSelct('saasCustomsRel1')"
+                        ref="customMaster" dataRef ='customMaster'
+                        :disabled="controller.isDisabled" style="width:100%" >
+                          <el-option
+                            v-for="item in saasCustomsRel1"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' +item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item :label="controller.iEFlag == 'I' ? '进境关别':'出境关别'"
+                        :class="{ 'require-color': controller.requireColor }" prop="iEPort">
+                        <el-select placeholder="" v-model="decHead.iEPort"
+                        ref="iEPort" dataRef ='iEPort'
+                        remote default-first-option clearable filterable
+                        :remote-method="checkParamsList"
+                        @change="iEPortChange"
+                        @clear="clearSelct('saasCustomsRel2')"
+                        @focus="tipsFillMessage('iEPort', 'saasCustomsRel2','SAAS_CUSTOMS_REL')"
+                        :disabled="controller.isDisabled" style="width:100%" >
+                          <el-option
+                            v-for="item in saasCustomsRel2"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="12">
+                      <el-form-item label="备案号" prop="manualNo" ref="manualNo">
+                        <el-input v-model="decHead.manualNo" :maxlength="12"
+                        @blur='queryBookHead' clearable
+                        @input='manualNoChange'
+                        @focus="tipsFillMessage('manualNo')" :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="合同协议号" prop="contrNo" ref="contrNo">
+                        <el-input v-model="decHead.contrNo"  :maxlength="32" @focus="tipsFillMessage('contrNo')" :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  v-if ="controller.iEFlag == 'I'">
+                    <el-col :span="12">
+                      <el-form-item label="进口日期">
+                        <el-input  v-model="decHead.iEDate"  :maxlength="8"
+                        :class="{ 'require-color': controller.requireColor }"
+                        @focus="tipsFillMessage('iEDate')" :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="24">
+                      <el-form-item label="境内收发货人" >
+                        <el-col :span="4">
+                          <el-form-item prop="tradeCoScc" ref="tradeCoScc" >
+                            <el-input :class="{ 'require-color': controller.requireColor }"
+                              v-model="decHead.tradeCoScc" :maxlength="18" placeholder="18位社会信用代码"
+                              dataRef = 'tradeCoScc'
+                              @focus="tipsFillMessage('tradeCoScc')"
+                              @blur="queryCropInfo('tradeCoScc')"
                               :disabled="controller.isDisabled"></el-input>
-                         </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                        <el-form-item prop="consigneeCode" ref="consigneeCode">
-                          <el-input   v-model="decHead.consigneeCode" placeholder="10位检验检疫编码"
-                            @focus="tipsFillMessage('consigneeCode')"
-                            :maxlength="10"  :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="tradeName" ref="tradeName">
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="tradeCode" ref="tradeCode">
+                              <el-input   :class="{ 'require-color': controller.requireColor }"
+                                v-model="decHead.tradeCode"  :maxlength="10"  placeholder="10位海关编码"
+                                dataRef = 'tradeCode'
+                                @focus="tipsFillMessage('tradeCode')"
+                                @blur="queryCropInfo('tradeCode')"
+                                :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="consigneeCode" ref="consigneeCode">
+                            <el-input   v-model="decHead.consigneeCode" placeholder="10位检验检疫编码"
+                              @focus="tipsFillMessage('consigneeCode')"
+                              :maxlength="10"  :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="tradeName" ref="tradeName">
+                              <el-autocomplete
+                                :class="{ 'require-color': controller.requireColor }" :popper-append-to-body='false'
+                                :maxlength="70"
+                                placeholder="企业名称(中文),输入两位字符开始匹配"
+                                size='mini'
+                                @focus="tipsFillMessage('tradeName')"
+                                v-model="decHead.tradeName"
+                                :fetch-suggestions="querySearch"
+                                :trigger-on-focus="false"
+                                :select-when-unmatched='true'
+                                :highlight-first-item='true'
+                                :disabled="controller.isDisabled"
+                                @select="handleSelect($event, '1')">
+                              </el-autocomplete>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="domesticConsigneeEname" ref="domesticConsigneeEname">
+                            <el-input  :class="{ 'require-color': controller.requireColor }"
+                              :maxlength="70"  v-model="decHead.domesticConsigneeEname" placeholder="企业名称(外文)"
+                              @focus="tipsFillMessage('domesticConsigneeEname')"
+                              :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  v-if="controller.iEFlag == 'I'">
+                    <el-col :span="24">
+                      <el-form-item label="境外收发货人" >
+                        <el-col :span="6">
+                          <el-form-item >
+                            <el-input  v-model="decHead.overseasConsignorCode" placeholder="境外收货人代码"
+                              @focus="tipsFillMessage('overseasConsignorCode')"
+                            :maxlength="50" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsignorEname" ref="overseasConsignorEname" >
+                            <el-input  :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsignorEname')"
+                              v-model="decHead.overseasConsignorEname" placeholder="企业名称(外文)" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsignorCname" ref="overseasConsignorCname" >
+                            <el-input :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsignorCname')"
+                              v-model="decHead.overseasConsignorCname" placeholder="企业名称(中文)" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsignorAddr" ref="overseasConsignorAddr" >
+                            <el-input  :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsignorAddr')"
+                              v-model="decHead.overseasConsignorAddr" placeholder="发货人地址" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  v-else>
+                    <el-col :span="24">
+                      <el-form-item label="境外收发货人" >
+                        <el-col :span="6">
+                          <el-form-item >
+                            <el-input  v-model="decHead.overseasConsigneeCode" placeholder="境外收货人代码"
+                              @focus="tipsFillMessage('overseasConsigneeCode')"
+                            :maxlength="50" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsigneeEname" ref="overseasConsigneeEname" >
+                            <el-input  :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsigneeEname')"
+                              v-model="decHead.overseasConsigneeEname" placeholder="企业名称(外文)" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsignorCname" ref="overseasConsignorCname" >
+                            <el-input :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsignorCname')"
+                              v-model="decHead.overseasConsignorCname" placeholder="企业名称(中文)" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-form-item prop="overseasConsignorAddr" ref="overseasConsignorAddr" >
+                            <el-input  :maxlength="100"
+                              @focus="tipsFillMessage('overseasConsignorAddr')"
+                              v-model="decHead.overseasConsignorAddr" placeholder="发货人地址" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="24" >
+                      <el-form-item :label="controller.iEFlag == 'I' ? '消费使用单位':'生产销售单位'" >
+                        <el-col :span="4">
+                          <el-form-item prop="ownerCodeScc" ref="ownerCodeScc" >
+                            <el-input   :class="{ 'require-color': controller.requireColor }" :maxlength="18"
+                              @focus="tipsFillMessage('ownerCodeScc')"
+                              @blur="queryCropInfo('ownerCodeScc')"
+                              v-model="decHead.ownerCodeScc" placeholder="18位社会信用代码" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="ownerCode" ref="ownerCode" >
+                            <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="10"
+                              dataRef = 'ownerCode'
+                              @focus="tipsFillMessage('ownerCode')"
+                              @blur="queryCropInfo('ownerCode')"
+                              v-model="decHead.ownerCode" placeholder="10位海关编码" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="ownerCiqCode" ref="ownerCiqCode" >
+                            <el-input  v-model="decHead.ownerCiqCode" :maxlength="10"
+                              @focus="tipsFillMessage('ownerCiqCode')"
+                              placeholder="10位检验检疫编码" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item prop="ownerName" ref="ownerName" >
                             <el-autocomplete
-                              :class="{ 'require-color': controller.requireColor }" :popper-append-to-body='false'
-                              :maxlength="70"
-                              placeholder="企业名称(中文),输入两位字符开始匹配"
-                              size='mini'
-                              @focus="tipsFillMessage('tradeName')"
-                              v-model="decHead.tradeName"
-                              :fetch-suggestions="querySearch"
-                              :trigger-on-focus="false"
-                              :select-when-unmatched='true'
-                              :highlight-first-item='true'
-                              :disabled="controller.isDisabled"
-                              @select="handleSelect($event, '1')">
-                            </el-autocomplete>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="domesticConsigneeEname" ref="domesticConsigneeEname">
-                          <el-input  :class="{ 'require-color': controller.requireColor }"
-                            :maxlength="70"  v-model="decHead.domesticConsigneeEname" placeholder="企业名称(外文)"
-                            @focus="tipsFillMessage('domesticConsigneeEname')"
-                             :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  v-if="controller.iEFlag == 'I'">
-                  <el-col :span="24">
-                    <el-form-item label="境外收发货人" >
-                      <el-col :span="6">
-                        <el-form-item >
-                          <el-input  v-model="decHead.overseasConsignorCode" placeholder="境外收货人代码"
-                            @focus="tipsFillMessage('overseasConsignorCode')"
-                           :maxlength="50" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsignorEname" ref="overseasConsignorEname" >
-                          <el-input  :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsignorEname')"
-                            v-model="decHead.overseasConsignorEname" placeholder="企业名称(外文)" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsignorCname" ref="overseasConsignorCname" >
-                          <el-input :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsignorCname')"
-                            v-model="decHead.overseasConsignorCname" placeholder="企业名称(中文)" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsignorAddr" ref="overseasConsignorAddr" >
-                          <el-input  :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsignorAddr')"
-                            v-model="decHead.overseasConsignorAddr" placeholder="发货人地址" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  v-else>
-                  <el-col :span="24">
-                    <el-form-item label="境外收发货人" >
-                      <el-col :span="6">
-                        <el-form-item >
-                          <el-input  v-model="decHead.overseasConsigneeCode" placeholder="境外收货人代码"
-                            @focus="tipsFillMessage('overseasConsigneeCode')"
-                           :maxlength="50" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsigneeEname" ref="overseasConsigneeEname" >
-                          <el-input  :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsigneeEname')"
-                            v-model="decHead.overseasConsigneeEname" placeholder="企业名称(外文)" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsignorCname" ref="overseasConsignorCname" >
-                          <el-input :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsignorCname')"
-                            v-model="decHead.overseasConsignorCname" placeholder="企业名称(中文)" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="6">
-                        <el-form-item prop="overseasConsignorAddr" ref="overseasConsignorAddr" >
-                          <el-input  :maxlength="100"
-                            @focus="tipsFillMessage('overseasConsignorAddr')"
-                            v-model="decHead.overseasConsignorAddr" placeholder="发货人地址" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="24" >
-                    <el-form-item :label="controller.iEFlag == 'I' ? '消费使用单位':'生产销售单位'" >
-                      <el-col :span="4">
-                        <el-form-item prop="ownerCodeScc" ref="ownerCodeScc" >
-                          <el-input   :class="{ 'require-color': controller.requireColor }" :maxlength="18"
-                            @focus="tipsFillMessage('ownerCodeScc')"
-                            @blur="queryCropInfo('ownerCodeScc')"
-                            v-model="decHead.ownerCodeScc" placeholder="18位社会信用代码" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                        <el-form-item prop="ownerCode" ref="ownerCode" >
-                          <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="10"
-                            dataRef = 'ownerCode'
-                            @focus="tipsFillMessage('ownerCode')"
-                            @blur="queryCropInfo('ownerCode')"
-                            v-model="decHead.ownerCode" placeholder="10位海关编码" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                        <el-form-item prop="ownerCiqCode" ref="ownerCiqCode" >
-                          <el-input  v-model="decHead.ownerCiqCode" :maxlength="10"
-                            @focus="tipsFillMessage('ownerCiqCode')"
-                            placeholder="10位检验检疫编码" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item prop="ownerName" ref="ownerName" >
-                          <el-autocomplete
+                                :class="{ 'require-color': controller.requireColor }" :popper-append-to-body='false'
+                                :maxlength="70"
+                                placeholder="企业名称,输入两位字符开始匹配"
+                                size='mini'
+                                @focus="tipsFillMessage('ownerName')"
+                                v-model="decHead.ownerName"
+                                :fetch-suggestions="querySearch"
+                                :trigger-on-focus="false"
+                                :select-when-unmatched='true'
+                                :highlight-first-item='true'
+                                :disabled="controller.isDisabled"
+                                @select="handleSelect($event, '3')">
+                              </el-autocomplete>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="24">
+                      <el-form-item label="申报单位">
+                        <el-col :span="4">
+                          <el-form-item prop="agentCodeScc" ref="agentCodeScc" >
+                            <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="18"
+                              @focus="tipsFillMessage('agentCodeScc')"
+                              v-model="decHead.agentCodeScc" placeholder="18位社会信用代码" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="agentCode" ref="agentCode" >
+                            <el-input   :class="{ 'require-color': controller.requireColor }" :maxlength="10"
+                            @focus="tipsFillMessage('agentCode')"
+                            v-model="decHead.agentCode" placeholder="10位海关编码" :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                          <el-form-item prop="declRegNo" ref="declRegNo" >
+                            <el-input  :maxlength="10"  v-model="decHead.declRegNo" placeholder="10位检验检疫编码"
+                              @focus="tipsFillMessage('declRegNo')"
+                              :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item prop="agentName" ref="agentName" >
+                            <el-autocomplete
                               :class="{ 'require-color': controller.requireColor }" :popper-append-to-body='false'
                               :maxlength="70"
                               placeholder="企业名称,输入两位字符开始匹配"
                               size='mini'
-                              @focus="tipsFillMessage('ownerName')"
-                              v-model="decHead.ownerName"
+                              @focus="tipsFillMessage('agentName')"
+                              v-model="decHead.agentName"
                               :fetch-suggestions="querySearch"
                               :trigger-on-focus="false"
                               :select-when-unmatched='true'
                               :highlight-first-item='true'
                               :disabled="controller.isDisabled"
-                              @select="handleSelect($event, '3')">
+                              @select="handleSelect($event, '4')">
                             </el-autocomplete>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="24">
-                    <el-form-item label="申报单位">
-                      <el-col :span="4">
-                        <el-form-item prop="agentCodeScc" ref="agentCodeScc" >
-                          <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="18"
-                            @focus="tipsFillMessage('agentCodeScc')"
-                            v-model="decHead.agentCodeScc" placeholder="18位社会信用代码" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                        <el-form-item prop="agentCode" ref="agentCode" >
-                          <el-input   :class="{ 'require-color': controller.requireColor }" :maxlength="10"
-                          @focus="tipsFillMessage('agentCode')"
-                           v-model="decHead.agentCode" placeholder="10位海关编码" :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                        <el-form-item prop="declRegNo" ref="declRegNo" >
-                          <el-input  :maxlength="10"  v-model="decHead.declRegNo" placeholder="10位检验检疫编码"
-                            @focus="tipsFillMessage('declRegNo')"
-                            :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="6">
+                      <el-form-item label="运输方式" prop="trafMode">
+                        <el-select placeholder="" v-model="decHead.trafMode"
+                          remote default-first-option  clearable filterable
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasTransportType')"
+                          @focus="tipsFillMessage('trafMode', 'saasTransportType','SAAS_TRANSPORT_TYPE')"
+                          ref="trafMode" dataRef ='trafMode'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasTransportType"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="运输工具名称" >
+                        <el-input v-model="decHead.trafName" :maxlength="50"
+                          @focus="tipsFillMessage('trafName')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="航次号">
+                        <el-input v-model="decHead.voyageNo" :maxlength="32"
+                          @focus="tipsFillMessage('voyageNo')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="12">
+                      <el-form-item label="提运单号">
+                        <el-input v-model="decHead.billNo" :maxlength="32"
+                          @focus="tipsFillMessage('billNo')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="监管方式"  :class="{ 'require-color': controller.requireColor }"  prop="tradeMode">
+                        <el-select placeholder="" v-model="decHead.tradeMode"
+                          @focus="tipsFillMessage('tradeMode', 'saasTrade','SAAS_TRADE')"
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasTrade')"
+                          @change = 'tradeModeChange'
+                          ref="tradeMode" dataRef ='tradeMode'
+                          remote default-first-option clearable filterable
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasTrade"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="征免性质">
+                        <el-select placeholder="" v-model="decHead.cutMode"
+                          @focus="tipsFillMessage('cutMode', 'saasLevytype','SAAS_LEVYTYPE')"
+                          remote clearable filterable default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasLevytype')"
+                          @change='cutModeChange'
+                          ref="cutMode" dataRef ='cutMode'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasLevytype"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="6">
+                      <el-form-item label="许可证号">
+                        <el-input v-model="decHead.licenseNo"  :maxlength="20"
+                          @focus="tipsFillMessage('licenseNo')"
+                          @keyup.native = "changeLicenseNo"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item :label="controller.iEFlag == 'I' ? '启运国(地区)':'运抵国(地区)'"
+                        :class="{ 'require-color': controller.requireColor }"
+                        prop="tradeCountry">
+                        <el-select placeholder="" v-model="decHead.tradeCountry"
+                          @focus="tipsFillMessage('tradeCountry', 'saasCountry1','SAAS_COUNTRY')"
+                          remote clearable filterable default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCountry1')"
+                          @change = 'tradeCountryChange'
+                          ref="tradeCountry" dataRef ='tradeCountry'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCountry1"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item :label="controller.iEFlag == 'I' ? '经停港':'指运港'"
+                      :class="{ 'require-color': controller.requireColor }"
+                        prop="distinatePort">
+                        <el-select placeholder="" v-model="decHead.distinatePort"
+                          @focus="tipsFillMessage('distinatePort', 'saasPortLin1','SAAS_PORT_LIN')"
+                          remote clearable filterable default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasPortLin1')"
+                          ref="distinatePort" dataRef ='distinatePort'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasPortLin1"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="成交方式"  :class="{ 'require-color': controller.requireColor }" prop="transMode">
+                        <el-select placeholder="" v-model="decHead.transMode"
+                          @focus="tipsFillMessage('transMode', 'saasTransac','SAAS_TRANSAC')"
+                          remote clearable filterable default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasTransac')"
+                          @change="transModeChange"
+                          ref="transMode" dataRef ='transMode'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasTransac"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row >
+                    <el-col :span="6">
+                      <el-form-item label="运费" label-width="50px">
+                        <el-col :span="8">
+                          <el-form-item prop="feeMark">
+                            <el-select placeholder=""
+                            v-model="decHead.feeMark"
+                            @focus="tipsFillMessage('feeMark', 'feeRate1' ,'FEE_RATE')"
+                            remote clearable filterable  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('feeRate1')"
+                            :disabled="controller.isDisabled || controller.feeMarkDisabled"
+                            ref="feeMark" dataRef ='feeMark'
+                            style="width:100%"
+                            @change="feeChange(decHead.feeMark, 1)"
+                            :class="{ 'require-color': controller.requireColor }">
+                              <el-option
+                                v-for="item in feeRate1"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item prop="feeRate" ref="feeRate" >
+                            <el-input v-model="decHead.feeRate"
+                              @focus="tipsFillMessage('feeRate')"
+                              :disabled="controller.isDisabled || controller.feeRateDisabled" ></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item >
+                            <el-select placeholder="" v-model="decHead.feeCurr"
+                            @focus="tipsFillMessage('feeCurr', 'saasCurr1','SAAS_CURR')"
+                            remote filterable clearable  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCurr1')"
+                            ref="feeCurr" dataRef ='feeCurr'
+                            :disabled="controller.isDisabled || controller.feeCurrDisabled" style="width:100%">
+                              <el-option
+                                v-for="item in saasCurr1"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="保费" label-width="50px">
+                        <el-col :span="8">
+                          <el-form-item >
+                            <el-select placeholder="" v-model="decHead.insurMark"
+                            @focus="tipsFillMessage('insurMark', 'feeRate2' ,'FEE_RATE_OHTER')"
+                            remote clearable filterable  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('feeRate2')"
+                            ref="insurMark" dataRef ='insurMark'
+                            :disabled="controller.isDisabled || controller.insurMarkDisabled" style="width:100%"  @change="feeChange(decHead.insurMark, 2)">
+                              <el-option
+                                v-for="item in feeRate2"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item prop="insurRate" ref="insurRate" >
+                            <el-input v-model="decHead.insurRate"
+                              @focus="tipsFillMessage('insurRate')"
+                              :disabled="controller.isDisabled || controller.insurRateDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item >
+                            <el-select placeholder="" v-model="decHead.insurCurr"
+                            @focus="tipsFillMessage('insurCurr', 'saasCurr2','SAAS_CURR')"
+                            remote clearable filterable  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCurr2')"
+                            ref="insurCurr" dataRef ='insurCurr'
+                            :disabled="controller.isDisabled || controller.insurCurrDisabled" style="width:100%"  >
+                              <el-option
+                                v-for="item in saasCurr2"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="杂费" label-width="50px">
+                        <el-col :span="8">
+                          <el-form-item>
+                            <el-select placeholder="" v-model="decHead.otherMark"
+                              @focus="tipsFillMessage('otherMark', 'feeRate3' ,'FEE_RATE_OHTER')"
+                              remote clearable filterable  default-first-option
+                              :remote-method="checkParamsList"
+                              @clear="clearSelct('feeRate3')"
+                              ref="otherMark" dataRef ='otherMark'
+                              :disabled="controller.isDisabled" style="width:100%"  @change="feeChange(decHead.otherMark, 3)">
+                              <el-option
+                                v-for="item in feeRate3"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item prop="otherRate" ref="otherRate" >
+                            <el-input v-model="decHead.otherRate"
+                              @focus="tipsFillMessage('otherRate')"
+                              :disabled="controller.isDisabled"></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                          <el-form-item>
+                              <el-select placeholder="" v-model="decHead.otherCurr"
+                                @focus="tipsFillMessage('otherCurr', 'saasCurr3','SAAS_CURR')"
+                                ref="otherCurr" dataRef ='otherCurr'
+                                remote clearable filterable  default-first-option
+                                :remote-method="checkParamsList"
+                                @clear="clearSelct('saasCurr3')"
+                                :disabled="controller.isDisabled  || controller.otherCurrDisabled" style="width:100%">
+                                <el-option
+                                  v-for="item in saasCurr3"
+                                  :key="item.codeField"
+                                  :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                                  :value="item.codeField">
+                                </el-option>
+                              </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="件数" prop="packNo" ref="packNo">
+                        <el-input v-model="decHead.packNo" :maxlength="9"
+                          @focus="tipsFillMessage('packNo')"
+                          :class="{ 'require-color': controller.requireColor }"   :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="6">
+                      <el-form-item label="包装种类"  :class="{ 'require-color': controller.requireColor }"  prop="wrapType">
+                        <el-select placeholder="" v-model="decHead.wrapType"
+                          @focus="tipsFillMessage('wrapType', 'saasWrap','SAAS_WRAP')"
+                          remote clearable filterable  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasWrap')"
+                          ref="wrapType" dataRef ='wrapType'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasWrap"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item >
+                        <el-button type="primary" @click="otherPacksDiv()" class="w-100">其他包装</el-button>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="毛重(KG)" prop="grossWt" ref="grossWt">
+                        <el-input v-model="decHead.grossWt" :maxlength="20"
+                          @focus="tipsFillMessage('grossWt')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="净重(KG)" prop="netWt" ref="netWt">
+                        <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="20"
+                          @focus="tipsFillMessage('netWt')"
+                          v-model="decHead.netWt"  :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="6">
+                      <el-form-item label="贸易国别(地区)"  :class="{ 'require-color': controller.requireColor }"  prop="tradeAreaCode">
+                        <el-select placeholder="" v-model="decHead.tradeAreaCode"
+                          @focus="tipsFillMessage('tradeAreaCode', 'saasCountry2','SAAS_COUNTRY')"
+                          remote clearable filterable  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCountry2')"
+                          ref="tradeAreaCode" dataRef ='tradeAreaCode'
+                          :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCountry2"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="集装箱数">
+                        <el-input v-model="decHead.contaCount" @focus="tipsFillMessage('contaCount')"  disabled></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="随附单证">
+                        <el-input v-model="showFied.attaDocuCdstr" @focus="tipsFillMessage('attaDocuCdstr')"  disabled></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row   v-if="controller.iEFlag == 'I'">
+                    <!-- 进口页面显示 -->
+                    <el-col :span="6">
+                      <el-form-item label="入境口岸"  :class="{ 'require-color': controller.requireColor }"  prop="entyPortCode">
+                        <el-select placeholder="" v-model="decHead.entyPortCode"
+                          @focus="tipsFillMessage('entyPortCode', 'saasInlandPort','SAAS_INLAND_PORT')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasInlandPort')"
+                          ref="entyPortCode" dataRef ='entyPortCode'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasInlandPort"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="货物存放地点"  :class="{ 'require-color': controller.requireColor }" prop="goodSplace" ref="goodSplace">
+                        <el-input v-model="decHead.goodSplace" :maxlength="100"
+                          @focus="tipsFillMessage('goodSplace')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6" >
+                      <el-form-item label="启运港"  :class="{ 'require-color': controller.requireColor }" prop="despPortCode">
+                        <el-select placeholder="" v-model="decHead.despPortCode"
+                          @focus="tipsFillMessage('despPortCode', 'saasPortLin','SAAS_PORT_LIN')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasPortLin')"
+                          enter = 'no'
+                          ref="despPortCode" dataRef ='despPortCode'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasPortLin"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row   v-else>
+                    <!-- 出口页面显示 -->
+                    <el-col :span="12">
+                      <el-form-item label="货物存放地点" :maxlength="100" :class="{ 'require-color': controller.requireColor }" prop="goodSplace" ref="goodSplace">
+                        <el-input v-model="decHead.goodSplace"
+                          @focus="tipsFillMessage('goodSplace')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="离境口岸"  :class="{ 'require-color': controller.requireColor }"  prop="entyPortCode">
+                        <el-select placeholder="" v-model="decHead.entyPortCode"
+                          @focus="tipsFillMessage('entyPortCode', 'saasInlandPort','SAAS_INLAND_PORT')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasInlandPort')"
+                          enter = 'no'
+                          ref="entyPortCode" dataRef ='entyPortCode'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasInlandPort"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="6" >
+                      <el-form-item label="报关单类型"  :class="{ 'require-color': controller.requireColor }"  prop="entryType">
+                        <el-select placeholder="" v-model="decHead.entryType"
+                        @focus="tipsFillMessage('entryType', 'decType','DEC_TYPE')"
+                          remote default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('decType')"
+                          ref="entryType" dataRef ='entryType'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%" >
+                          <el-option
+                            v-for="item in decType"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="备注">
+                        <el-input v-model="decHead.noteS" :maxlength="255"
+                          type="textarea"
+                          class='dec-textarea'
+                          @keydown.enter.native="prevent"
+                          @focus="tipsFillMessage('noteS')"
+                          @keyup.native= "computLength('1')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6" >
+                      <div style='display: inline-block;width: 50%;'>
+                        <span >{{'(' + showFied.noteLenght + ')字节'}}</span>
+                        <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openNote('1')"></el-button>
+                      </div>
+                      <div style='display: inline-block;width: 48%;'>
+                        <el-button type="primary" @click="openOtherPriceFactor" class="w-100">其他事项确认</el-button>
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="3">
+                      <el-button class="btn-pop" :icon="isShowText1" size='mini' @click="changeIsShow1"></el-button>
+                    </el-col>
+                    <el-col :span="3">
+                      <el-form-item >
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="标记唛码" :maxlength="400" :class="{ 'require-color': controller.requireColor }"  prop="markNo" ref="markNo">
+                        <el-input v-model="decHead.markNo"
+                          dataRef = 'markNo'
+                          type="textarea"
+                          class='dec-textarea'
+                          @keydown.enter.native="prevent"
+                          @keyup.native= "computLength('2')"
+                          @focus="tipsFillMessage('markNo')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <div style='display: inline-block;width: 50%;'>
+                        <span >{{'(' + showFied.markNoLength + ')字节'}}</span>
+                        <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openNote('2')"></el-button>
+                      </div>
+                      <div style='display: inline-block;width: 48%;'>
+                        <el-button type="primary" @click="openBussiness" class="w-100">业务事项</el-button>
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <div v-show="isShow1">
+                    <el-row   >
+                      <el-col :span="12">
+                        <el-form-item label="检验检疫受理机关"  :class="{ 'require-color': controller.requireColor }"  prop="orgCode">
+                          <el-select placeholder="" v-model="decHead.orgCode"
+                            @focus="tipsFillMessage('orgCode', 'saasCiqOrganization1','SAAS_CIQ_ORGANIZATION')"
+                            remote clearable filterable default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCiqOrganization1')"
+                            ref="orgCode" dataRef ='orgCode'
+                            :disabled="controller.isDisabled" style="width:100%">
+                            <el-option
+                              v-for="item in saasCiqOrganization1"
+                              :key="item.codeField"
+                              :label="item.codeField + '-' + item.nameField"
+                              :value="item.codeField">
+                            </el-option>
+                          </el-select>
                         </el-form-item>
                       </el-col>
                       <el-col :span="12">
-                        <el-form-item prop="agentName" ref="agentName" >
-                          <el-autocomplete
-                            :class="{ 'require-color': controller.requireColor }" :popper-append-to-body='false'
-                            :maxlength="70"
-                            placeholder="企业名称,输入两位字符开始匹配"
-                            size='mini'
-                            @focus="tipsFillMessage('agentName')"
-                            v-model="decHead.agentName"
-                            :fetch-suggestions="querySearch"
-                            :trigger-on-focus="false"
-                            :select-when-unmatched='true'
-                            :highlight-first-item='true'
-                            :disabled="controller.isDisabled"
-                            @select="handleSelect($event, '4')">
-                          </el-autocomplete>
+                        <el-form-item label="企业资质">
+                          <el-col :span="8">
+                            <el-input v-model="showFied.entQualifTypeCodeS" @focus="tipsFillMessage('entQualifTypeCodeS')" placeholder="企业资质类别" disabled></el-input>
+                          </el-col>
+                          <el-col :span="10">
+                            <el-input v-model="showFied.entQualifTypeCodeSName" @focus="tipsFillMessage('entQualifTypeCodeSName')" placeholder="企业资质编号"  disabled></el-input>
+                          </el-col>
+                          <el-col :span="6">
+                            <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openEntQuaConent" ></el-button>
+                          </el-col>
                         </el-form-item>
                       </el-col>
+                    </el-row>
+                    <el-row  >
+                      <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
+                        <el-form-item label="领证机关"  :class="{ 'require-color': controller.requireColor }"  prop="vsaOrgCode">
+                          <el-select placeholder="" v-model="decHead.vsaOrgCode"
+                            @focus="tipsFillMessage('vsaOrgCode', 'saasCiqOrganization2','SAAS_CIQ_ORGANIZATION')"
+                            remote default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCiqOrganization2')"
+                            ref="vsaOrgCode" dataRef ='vsaOrgCode'
+                            clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                            <el-option
+                              v-for="item in saasCiqOrganization2"
+                              :key="item.codeField"
+                              :label="item.codeField + '-' + item.nameField"
+                              :value="item.codeField">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
+                        <el-form-item label="口岸检验检疫机关"  :class="{ 'require-color': controller.requireColor }" prop="inspOrgCode">
+                          <el-select placeholder="" v-model="decHead.inspOrgCode"
+                            @focus="tipsFillMessage('inspOrgCode', 'saasCiqOrganization3','SAAS_CIQ_ORGANIZATION')"
+                            remote  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCiqOrganization3')"
+                            ref="inspOrgCode" dataRef ='inspOrgCode'
+                            clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                            <el-option
+                              v-for="item in saasCiqOrganization3"
+                              :key="item.codeField"
+                              :label="item.codeField + '-' + item.nameField"
+                              :value="item.codeField">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6" v-if="controller.iEFlag === 'I'">
+                        <el-form-item label="启运日期"  :class="{ 'require-color': controller.requireColor }"  prop="despDate" ref="despDate">
+                          <el-date-picker
+                            v-model="decHead.despDate"
+                            type="date"
+                            @focus="tipsFillMessage('despDate')"
+                            :disabled="controller.isDisabled"
+                            value-format="yyyyMMdd"
+                            format='yyyyMMdd'
+                            placeholder="">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6" v-if="controller.iEFlag === 'I'">
+                        <el-form-item label="B/L号">
+                          <el-input v-model="decHead.blno" :disabled="controller.isDisabled"
+                          @focus="tipsFillMessage('blno')"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row  >
+                      <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
+                        <el-form-item label="目的地检验检疫机关"  :class="{ 'require-color': controller.requireColor }"  prop="purpOrgCode">
+                          <el-select placeholder="" v-model="decHead.purpOrgCode"
+                            @focus="tipsFillMessage('purpOrgCode', 'saasCiqOrganization4','SAAS_CIQ_ORGANIZATION')"
+                            remote  default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasCiqOrganization4')"
+                            ref="purpOrgCode" dataRef ='purpOrgCode'
+                            clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                            <el-option
+                              v-for="item in saasCiqOrganization4"
+                              :key="item.codeField"
+                              :label="item.codeField + '-' + item.nameField"
+                              :value="item.codeField">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="关联号码及理由" >
+                          <el-col :span="12">
+                            <el-input v-model="decHead.correlationaNo" :maxlength="500"
+                              @focus="tipsFillMessage('correlationaNo')"
+                              placeholder="关联号码" :disabled="controller.isDisabled"></el-input>
+                          </el-col>
+                          <el-col :span="12">
+                            <el-select v-model="decHead.correlationReasonFlag"
+                              @focus="tipsFillMessage('correlationReasonFlag', 'saasCorrelationReason','SAAS_CORRELATION_REASON')"
+                              remote   default-first-option
+                              :remote-method="checkParamsList"
+                              @clear="clearSelct('saasCorrelationReason')"
+                              ref="correlationReasonFlag" dataRef ='correlationReasonFlag'
+                              clearable filterable :disabled="controller.isDisabled" style="width:100%" placeholder="关联理由">
+                              <el-option
+                                v-for="item in saasCorrelationReason"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6" v-if="controller.iEFlag === 'I'">
+                        <el-form-item >
+                          <el-button type="primary" class="w-100" @click="openDecUserContent">使用人</el-button>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row  >
+                      <el-col :span="6" v-if="controller.iEFlag == 'I'">
+                        <el-form-item label="原箱运输">
+                          <el-select placeholder="" v-model="decHead.origBoxFlag"
+                            @focus="tipsFillMessage('origBoxFlag', 'commomPara1','COMMON_PARA')"
+                            filterable clearable remote default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('commomPara1')"
+                            ref="origBoxFlag" dataRef ='origBoxFlag'
+                            :disabled="controller.isDisabled" style="width:100%" >
+                            <el-option
+                              v-for="item in commomPara1"
+                              :key="item.codeField"
+                              :label="item.codeField + '-' + item.nameField"
+                              :value="item.codeField">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="controller.iEFlag == 'I' ? 6 : 12">
+                        <el-form-item label="特殊业务标识" >
+                          <el-col :span="controller.iEFlag == 'I' ? 18 : 20">
+                            <el-input v-model="showFied.specDeclFlagValue" @focus="tipsFillMessage('specDeclFlagValue')" disabled></el-input>
+                          </el-col>
+                          <el-col :span="controller.iEFlag == 'I' ? 6 : 4">
+                            <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openSpecialBusiContent"></el-button>
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item label="卸毕日期">
+                          <el-date-picker
+                            v-model="decHead.cmplDschrgDt"
+                            type="date"
+                            value-format="yyyyMMdd"
+                            format='yyyyMMdd'
+                            style="width:100%"
+                            placeholder="">
+                          </el-date-picker>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </div>
+              </el-form>
+            </div>
+            <!---表头结束  -->
+            <!--- table 开始  -->
+            <div class = "dec-div" >
+              <el-row>
+                <el-button size="mini" icon="fa fa-plus" class="secondButton" :disabled="controller.isDisabled"  @click="refreshDecList">&nbsp;新增</el-button>
+                <el-button size="mini" icon="fa fa-floppy-o" class="secondButton" @click="saveDecList" :disabled="controller.isDisabled" >&nbsp;保存</el-button>
+              </el-row>
+              <el-row >
+                <el-col :span="24">
+                  <el-table
+                  ref="decListTable"
+                  :data="tableList"
+                  highlight-current-row
+                  :height='230'
+                  style="width: 100%"
+                  size="mini" border
+                  @select="decListSelect"
+                  @selection-change="decListChange"
+                  @row-click='backDeccListInfo'>
+                    <el-table-column type="selection" width="55"></el-table-column>
+                    <el-table-column prop="contrItem" label="备案序号" min-width="80"></el-table-column>
+                    <el-table-column prop="codeTs" label="商品编号" min-width="100"></el-table-column>
+                    <el-table-column prop="ciqName" label="检验检疫名称" min-width="180"></el-table-column>
+                    <el-table-column prop="gName" label="商品名称" min-width="100"></el-table-column>
+                    <el-table-column prop="gModel" label="规格" min-width="200"></el-table-column>
+                    <el-table-column prop="gQty" label="成交数量" min-width="100"></el-table-column>
+                    <el-table-column prop="gUnitValue" label="成交单位" min-width="80"></el-table-column>
+                    <el-table-column prop="declPrice" label="单价" min-width="80"></el-table-column>
+                    <el-table-column prop="declTotal" label="总价" min-width="100"></el-table-column>
+                    <el-table-column prop="tradeCurrValue" label="币制" min-width="100"></el-table-column>
+                    <el-table-column prop="originCountryValue" label="原产国(地区)" min-width="100"></el-table-column>
+                    <el-table-column prop="destinationCountryValue" label="最终目的国" min-width="100"></el-table-column>
+                    <el-table-column prop="dutyModeValue" label="征免方式" min-width="80"></el-table-column>
+                    <!-- <el-table-column prop="date" label="监管要求" width="80"></el-table-column> -->
+                  </el-table>
+                </el-col>
+              </el-row>
+            </div>
+            <!--- table 结束  -->
+            <div class="dec-div">
+              <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
+                  <el-row  >
+                    <el-col :span="6">
+                      <el-form-item label="备案序号" ref="contrItem">
+                        <el-input v-model="decList.contrItem"
+                        @blur="selectBookBody"
+                        :disabled="controller.contrItemDisabled"
+                        @focus="tipsFillMessage('contrItem')"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="9">
+                      <el-form-item label="商品编号"  prop="codeTs" ref="codeTs">
+                        <el-input  :class="{ 'require-color': controller.requireColor }"
+                        @focus="tipsFillMessage('codeTs')"
+                        v-model="decList.codeTs"
+                        :disabled="controller.isDisabled"
+                        enter = 'no'
+                        @change="codeTsChangeF"
+                        @keyup.enter.native="openProductList()"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="9">
+                      <el-form-item label="检验检疫名称" >
+                        <el-col :span="21">
+                          <el-input v-model="decList.ciqName" @focus="tipsFillMessage('ciqName')"  disabled></el-input>
+                        </el-col>
+                        <el-col :span="3">
+                          <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openEncodeTableContent"></el-button>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="12">
+                      <el-form-item label="商品名称" prop="gName" ref="gName">
+                        <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="255"
+                          @focus="tipsFillMessage('gName')"
+                          v-model="decList.gName" dataRef='gName'
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="规格型号">
+                        <el-input v-model="decList.gModel" @focus="tipsFillMessage('gModel')" disabled></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="5">
+                      <el-form-item label="成交数量" prop="gQty" ref="gQty">
+                        <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="20"
+                          @focus="tipsFillMessage('gQty')"
+                          @blur="gQtyBlur"
+                        v-model="decList.gQty"  :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="成交计量单位"  :class="{ 'require-color': controller.requireColor }">
+                        <el-select placeholder="" v-model="decList.gUnit"
+                          @focus="tipsFillMessage('gUnit', 'saasUnit1','SAAS_UNIT')"
+                          ref="gUnit" dataRef ='gUnit'
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasUnit1')"
+                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasUnit1"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="单价" label-width="50px" prop="declPrice" ref="declPrice" :class="{ 'require-color': controller.requireColor }">
+                        <el-input v-model="decList.declPrice" :maxlength="19"
+                        @focus="tipsFillMessage('declPrice')"
+                        @blur="computTotal"
+                        :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                      <el-form-item label="总价" prop="declTotal" ref="declTotal" label-width="50px">
+                        <el-input  :class="{ 'require-color': controller.requireColor }"
+                        :maxlength="18" v-model="decList.declTotal"
+                        @focus="tipsFillMessage('declTotal')"
+                        @blur="computPrice"
+                        :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="币制" label-width="50px"  :class="{ 'require-color': controller.requireColor }" prop="tradeCurr">
+                        <el-select placeholder="" v-model="decList.tradeCurr"
+                          @focus="tipsFillMessage('tradeCurr', 'saasCurr4','SAAS_CURR')"
+                          remote   default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCurr4')"
+                          ref="tradeCurr" dataRef ='tradeCurr'
+                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCurr4"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="5">
+                      <el-form-item label="法定第一数量"  :class="{ 'require-color': controller.requireColor }" prop="qty1" ref="qty1">
+                        <el-input v-model="decList.qty1" :maxlength="20"
+                          @focus="tipsFillMessage('qty1')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="法定第一计量单位" >
+                        <el-select placeholder="" v-model="decList.unit1"
+                          @focus="tipsFillMessage('unit1', 'saasUnit2','SAAS_UNIT')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasUnit2')"
+                          ref="unit1" dataRef ='unit1'
+                          clearable filterable disabled style="width:100%">
+                          <el-option
+                            v-for="item in saasUnit2"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="加工成品单耗版本号" label-width="120px">
+                        <el-input v-model="decList.exgVersion" :maxlength="8"
+                          @focus="tipsFillMessage('exgVersion')"
+                          :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                      <el-form-item label="货号" label-width="50px">
+                        <el-input v-model="decList.exgNo"  :maxlength="30"
+                        @focus="tipsFillMessage('exgNo')"
+                        :disabled="controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="最终目的国(地区)"  :class="{ 'require-color': controller.requireColor }"  prop="destinationCountry">
+                        <el-select placeholder="" v-model="decList.destinationCountry"
+                          @focus="tipsFillMessage('destinationCountry', 'saasCountry3','SAAS_COUNTRY')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCountry3')"
+                          ref="destinationCountry" dataRef ='destinationCountry'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCountry3"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="5">
+                      <el-form-item label="法定第二数量" >
+                        <el-input v-model="decList.qty2"  @focus="tipsFillMessage('qty2')" :disabled="controller.qty2Disabled || controller.isDisabled"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="法定第二计量单位" >
+                        <el-select placeholder="" v-model="decList.unit2"
+                          @focus="tipsFillMessage('unit2', 'saasUnit3','SAAS_UNIT')"
+                          remote  default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasUnit3')"
+                          ref="unit2" dataRef ='unit2'
+                          @change = "unit2Change"
+                          clearable filterable disabled style="width:100%">
+                          <el-option
+                            v-for="item in saasUnit3"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="controller.iEFlag == 'I' ? 7 :14" >
+                      <el-form-item label="原产国(地区)"  :class="{ 'require-color': controller.requireColor }" prop="originCountry">
+                        <el-select placeholder="" v-model="decList.originCountry"
+                          @focus="tipsFillMessage('originCountry', 'saasCountry4','SAAS_COUNTRY')"
+                          remote default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCountry4')"
+                          ref="originCountry" dataRef ='originCountry'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCountry4"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="7" v-if="controller.iEFlag == 'I'">
+                      <el-form-item label="原产地区">
+                        <el-select placeholder="" v-model="decList.origPlaceCode "
+                          @focus="tipsFillMessage('origPlaceCode', 'saasCiqOriginPlace','SAAS_CIQ_ORIGIN_PLACE')"
+                          remote default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasCiqOriginPlace')"
+                          ref="origPlaceCode" dataRef ='origPlaceCode'
+                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
+                          <el-option
+                            v-for="item in saasCiqOriginPlace"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row  >
+                    <el-col :span="3">
+                      <el-button class="btn-pop"  :icon="isShowText2" size='mini' @click="changeIsShow2"></el-button>
+                    </el-col>
+                    <el-col :span="3">
+                      <el-form-item >
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item :label="controller.iEFlag == 'I' ? '境内目的地' :'境内货源地'" >
+                        <el-col :span="12">
+                          <el-form-item  prop="districtCode">
+                            <el-select  :class="{ 'require-color': controller.requireColor }"  v-model="decList.districtCode"
+                              class='spical-class'
+                              @focus="tipsFillMessage('districtCode', 'saasDistrictRel','SAAS_DISTRICT_REL')"
+                              remote default-first-option
+                              :remote-method="checkParamsList"
+                              @clear="clearSelct('saasDistrictRel')"
+                              ref="districtCode" dataRef ='districtCode'
+                              clearable filterable :placeholder="controller.iEFlag == 'I' ?  '境内目的地代码' : '产地代码'" :disabled="controller.isDisabled" style="width:100%">
+                              <el-option
+                                v-for="item in saasDistrictRel"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item  prop="destCode">
+                            <el-select v-model="decList.destCode" :placeholder="controller.iEFlag == 'I' ?  '目的地代码' : '境内货源地代码'"
+                              class='spical-class'
+                              @focus="tipsFillMessage('destCode', 'saasCiqCityCn','SAAS_CIQ_CITY_CN')"
+                              remote default-first-option
+                              :remote-method="checkParamsList"
+                              @clear="clearSelct('saasCiqCityCn')"
+                              clearable  filterable ref="destCode" dataRef ='destCode'
+                              :disabled="controller.isDisabled" style="width:100%">
+                              <el-option
+                                v-for="item in saasCiqCityCn"
+                                :key="item.codeField"
+                                :label="item.codeField + '-' + item.nameField"
+                                :value="item.codeField">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="征免方式"  :class="{ 'require-color': controller.requireColor }"  prop="dutyMode">
+                        <el-select placeholder="" v-model="decList.dutyMode" enter="no"
+                          @focus="tipsFillMessage('dutyMode', 'saasLevymode','SAAS_LEVYMODE')"
+                          remote default-first-option
+                          :remote-method="checkParamsList"
+                          @clear="clearSelct('saasLevymode')"
+                          ref="dutyMode" dataRef ='dutyMode'
+                          clearable  filterable :disabled="controller.isDisabled" style="width:100%"
+                          @keyup.enter.native="saveDecList('1')">
+                          <el-option
+                            v-for="item in saasLevymode"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <div v-show="isShow2" >
+                    <el-row  >
+                      <el-col :span="18">
+                        <el-form-item label="检验检疫货物规格" >
+                          <el-col :span="23">
+                            <el-input v-model="showFied.showGoodsSpec" @focus="tipsFillMessage('showGoodsSpec')" disabled></el-input>
+                          </el-col>
+                          <el-col :span="1">
+                            <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsSpecContent"></el-button>
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item >
+                          <el-button type="primary" class="w-100" @click="openfilingInfoContent">产品资质</el-button>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row  >
+                      <el-col :span="9">
+                        <el-form-item label="货物属性">
+                          <el-col :span="21">
+                            <el-input v-model="showFied.showGoodsAttrValue"  @focus="tipsFillMessage('showGoodsAttrValue')" disabled></el-input>
+                          </el-col>
+                          <el-col :span="3">
+                            <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodAtrrContent"></el-button>
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="9">
+                        <el-form-item label="用途"  :class="{ 'require-color': controller.requireColor }"  prop="purpose">
+                          <el-select placeholder="" v-model="decList.purpose"
+                            @focus="tipsFillMessage('purpose', 'saasUserTo','SAAS_USER_TO')"
+                            remote default-first-option
+                            :remote-method="checkParamsList"
+                            @clear="clearSelct('saasUserTo')"
+                            ref="purpose" dataRef ='purpose'
+                            clearable  filterable :disabled="controller.isDisabled" style="width:100%"
+                            @keyup.enter.native="saveDecList('2')">
+                          <el-option
+                            v-for="item in saasUserTo"
+                            :key="item.codeField"
+                            :label="item.codeField + '-' + item.nameField"
+                            :value="item.codeField">
+                          </el-option>
+                        </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-form-item >
+                          <el-button type="primary" class="w-100" @click="openDangerGoods">危险货物信息</el-button>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </div>
+              </el-form>
+            </div>
+          </el-main>
+        </el-container>
+        <el-aside style="width: 20%; padding-top: 3px;">
+          <!-- 集装箱信息 开始-->
+          <div class="dec-div">
+            <el-row>
+              <el-button size="mini" icon="fa fa-plus" class="secondButton" @click="refreshDecConta" :disabled="controller.isDisabled">&nbsp;新增</el-button>
+              <el-button size="mini" icon="fa fa-save" class="secondButton" @click="saveDecConta" :disabled="controller.isDisabled">&nbsp;保存</el-button>
+            </el-row>
+            <el-row >
+                <el-col :span="24">
+                  <el-table :data="tableDecContainerlist" :height='200'
+                    style="width:100%" size="mini"
+                    @selection-change="decContaChange"
+                    @row-click= 'backDecContaInfo'>
+                    <el-table-column type="selection" width="55" ></el-table-column>
+                    <el-table-column prop="containerNo" label="集装箱号" min-width="80"></el-table-column>
+                    <el-table-column prop="containerSizeValue" label="集装箱规格" min-width="100"></el-table-column>
+                    <el-table-column prop="lclFlag" label="拼箱标识" min-width="80">
+                      <template slot-scope="scope">
+                        <span>{{scope.row.lclFlag === '0' ? '否' : '是'}}</span>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </el-col>
+              </el-row>
+            <div>
+              <el-form ref="containerRuleForm" :rules="containerRuleForm"
+                @keyup.enter.native="switchFoucsByEnter"
+                :model="decContainer"  label-width="100px" size="mini">
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="集装箱号"  :class="{ 'require-color': controller.requireColor }" prop="containerNo" ref="containerNo" >
+                      <el-input v-model="decContainer.containerNo" :disabled="controller.isDisabled"
+                        @focus="tipsFillMessage('containerNo')"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="6">
-                    <el-form-item label="运输方式" prop="trafMode">
-                      <el-select placeholder="" v-model="decHead.trafMode"
-                        remote default-first-option  clearable filterable
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="集装箱规格"  :class="{ 'require-color': controller.requireColor }"  prop="containerSize">
+                      <el-select placeholder="" v-model="decContainer.containerSize"
+                        @focus="tipsFillMessage('containerSize', 'saasContainerModel','SAAS_CONTAINER_MODEL')"
+                        remote default-first-option
                         :remote-method="checkParamsList"
-                        @clear="clearSelct('saasTransportType')"
-                        @focus="tipsFillMessage('trafMode', 'saasTransportType','SAAS_TRANSPORT_TYPE')"
-                        ref="trafMode" dataRef ='trafMode'
-                        :disabled="controller.isDisabled" style="width:100%">
+                        @clear="clearSelct('saasContainerModel')"
+                        ref="containerSize" dataRef ='containerSize'
+                        clearable  filterable :disabled="controller.isDisabled" style="width:100%">
                         <el-option
-                          v-for="item in saasTransportType"
+                          v-for="item in saasContainerModel"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
                           :value="item.codeField">
@@ -334,60 +1478,30 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="运输工具名称" >
-                      <el-input v-model="decHead.trafName" :maxlength="50"
-                        @focus="tipsFillMessage('trafName')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="航次号">
-                      <el-input v-model="decHead.voyageNo" :maxlength="32"
-                        @focus="tipsFillMessage('voyageNo')"
+                </el-row>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="自重(KG)" prop="containerWeight" ref="containerWeight">
+                      <el-input v-model="decContainer.containerWeight"
+                        @focus="tipsFillMessage('containerWeight')"
                         :disabled="controller.isDisabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="12">
-                    <el-form-item label="提运单号">
-                      <el-input v-model="decHead.billNo" :maxlength="32"
-                        @focus="tipsFillMessage('billNo')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="监管方式"  :class="{ 'require-color': controller.requireColor }"  prop="tradeMode">
-                      <el-select placeholder="" v-model="decHead.tradeMode"
-                        @focus="tipsFillMessage('tradeMode', 'saasTrade','SAAS_TRADE')"
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="拼箱标识">
+                      <el-select placeholder="" v-model="decContainer.lclFlag"
+                        @focus="tipsFillMessage('lclFlag', 'commomPara2','COMMON_PARA')"
+                        filterable remote default-first-option
+                        clearable
                         :remote-method="checkParamsList"
-                        @clear="clearSelct('saasTrade')"
-                        @change = 'tradeModeChange'
-                        ref="tradeMode" dataRef ='tradeMode'
-                        remote default-first-option clearable filterable
-                        :disabled="controller.isDisabled" style="width:100%">
+                        @clear="clearSelct('commomPara2')"
+                        ref="lclFlag" dataRef ='lclFlag'
+                        @keyup.enter.native="saveDecConta"
+                        :disabled="controller.isDisabled" style="width:100%" >
                         <el-option
-                          v-for="item in saasTrade"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="征免性质">
-                      <el-select placeholder="" v-model="decHead.cutMode"
-                        @focus="tipsFillMessage('cutMode', 'saasLevytype','SAAS_LEVYTYPE')"
-                        remote clearable filterable default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasLevytype')"
-                        @change='cutModeChange'
-                        ref="cutMode" dataRef ='cutMode'
-                        :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasLevytype"
+                          v-for="item in commomPara2"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -396,68 +1510,47 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="6">
-                    <el-form-item label="许可证号">
-                      <el-input v-model="decHead.licenseNo"  :maxlength="20"
-                        @focus="tipsFillMessage('licenseNo')"
-                        @keyup.native = "changeLicenseNo"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item :label="controller.iEFlag == 'I' ? '启运国(地区)':'运抵国(地区)'"
-                      :class="{ 'require-color': controller.requireColor }"
-                      prop="tradeCountry">
-                      <el-select placeholder="" v-model="decHead.tradeCountry"
-                        @focus="tipsFillMessage('tradeCountry', 'saasCountry1','SAAS_COUNTRY')"
-                        remote clearable filterable default-first-option
+              </el-form>
+            </div>
+          </div>
+          <!-- 集装箱信息 结束-->
+          <!-- 随附单证 开始 -->
+          <div class="dec-div">
+            <el-row>
+              <el-button size="mini" icon="fa fa-plus" class="secondButton" @click="refreshDoc" :disabled="controller.isDisabled">&nbsp;新增</el-button>
+              <el-button size="mini" icon="fa fa-save" class="secondButton" @click="saveDecLic" :disabled="controller.isDisabled">&nbsp;保存</el-button>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-table
+                  :data="licenselist"
+                  :height='190' style="width: 100%" size="mini"
+                  ref="decLicTable"
+                  highlight-current-row border
+                  @selection-change="decLicChange"
+                  @row-click= 'backDecLicInfo' >
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column prop="docuCode" label="单证代码" min-width="80"></el-table-column>
+                  <el-table-column prop="certCode" label="单证编号" min-width="100"></el-table-column>
+              </el-table>
+              </el-col>
+            </el-row>
+            <div>
+              <el-form ref="docuRuleForm" :rules="docuRuleForm"
+                @keyup.enter.native="switchFoucsByEnter"
+                :model="decLicense" label-width="100px"  size="mini">
+                <el-row>
+                  <el-col :span="24">
+                    <el-form-item label="随附单证代码"  :class="{ 'require-color': controller.requireColor }"  prop="docuCode">
+                      <el-select placeholder="" v-model="decLicense.docuCode"
+                        @focus="tipsFillMessage('docuCode', 'saasLicensedocu','SAAS_LICENSEDOCU')"
+                        remote default-first-option
                         :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCountry1')"
-                        @change = 'tradeCountryChange'
-                         ref="tradeCountry" dataRef ='tradeCountry'
-                        :disabled="controller.isDisabled" style="width:100%">
+                        @clear="clearSelct('saasLicensedocu')"
+                        ref="docuCode" dataRef ='docuCode'
+                      clearable  filterable :disabled="controller.isDisabled" style="width:100%">
                         <el-option
-                          v-for="item in saasCountry1"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item :label="controller.iEFlag == 'I' ? '经停港':'指运港'"
-                    :class="{ 'require-color': controller.requireColor }"
-                      prop="distinatePort">
-                      <el-select placeholder="" v-model="decHead.distinatePort"
-                        @focus="tipsFillMessage('distinatePort', 'saasPortLin1','SAAS_PORT_LIN')"
-                        remote clearable filterable default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasPortLin1')"
-                         ref="distinatePort" dataRef ='distinatePort'
-                        :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasPortLin1"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="成交方式"  :class="{ 'require-color': controller.requireColor }" prop="transMode">
-                      <el-select placeholder="" v-model="decHead.transMode"
-                        @focus="tipsFillMessage('transMode', 'saasTransac','SAAS_TRANSAC')"
-                        remote clearable filterable default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasTransac')"
-                        @change="transModeChange"
-                         ref="transMode" dataRef ='transMode'
-                        :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasTransac"
+                          v-for="item in saasLicensedocu"
                           :key="item.codeField"
                           :label="item.codeField + '-' + item.nameField"
                           :value="item.codeField">
@@ -467,1689 +1560,227 @@
                   </el-col>
                 </el-row>
                 <el-row >
-                  <el-col :span="6">
-                    <el-form-item label="运费" label-width="50px">
-                      <el-col :span="8">
-                        <el-form-item prop="feeMark">
-                          <el-select placeholder=""
-                          v-model="decHead.feeMark"
-                          @focus="tipsFillMessage('feeMark', 'feeRate1' ,'FEE_RATE')"
-                           remote clearable filterable  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('feeRate1')"
-                          :disabled="controller.isDisabled || controller.feeMarkDisabled"
-                          ref="feeMark" dataRef ='feeMark'
-                          style="width:100%"
-                          @change="feeChange(decHead.feeMark, 1)"
-                          :class="{ 'require-color': controller.requireColor }">
-                            <el-option
-                              v-for="item in feeRate1"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item prop="feeRate" ref="feeRate" >
-                          <el-input v-model="decHead.feeRate"
-                            @focus="tipsFillMessage('feeRate')"
-                            :disabled="controller.isDisabled || controller.feeRateDisabled" ></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item >
-                          <el-select placeholder="" v-model="decHead.feeCurr"
-                          @focus="tipsFillMessage('feeCurr', 'saasCurr1','SAAS_CURR')"
-                          remote filterable clearable  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCurr1')"
-                          ref="feeCurr" dataRef ='feeCurr'
-                          :disabled="controller.isDisabled || controller.feeCurrDisabled" style="width:100%">
-                            <el-option
-                              v-for="item in saasCurr1"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="保费" label-width="50px">
-                      <el-col :span="8">
-                        <el-form-item >
-                          <el-select placeholder="" v-model="decHead.insurMark"
-                           @focus="tipsFillMessage('insurMark', 'feeRate2' ,'FEE_RATE_OHTER')"
-                          remote clearable filterable  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('feeRate2')"
-                          ref="insurMark" dataRef ='insurMark'
-                          :disabled="controller.isDisabled || controller.insurMarkDisabled" style="width:100%"  @change="feeChange(decHead.insurMark, 2)">
-                            <el-option
-                              v-for="item in feeRate2"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item prop="insurRate" ref="insurRate" >
-                          <el-input v-model="decHead.insurRate"
-                            @focus="tipsFillMessage('insurRate')"
-                            :disabled="controller.isDisabled || controller.insurRateDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item >
-                          <el-select placeholder="" v-model="decHead.insurCurr"
-                          @focus="tipsFillMessage('insurCurr', 'saasCurr2','SAAS_CURR')"
-                          remote clearable filterable  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCurr2')"
-                           ref="insurCurr" dataRef ='insurCurr'
-                          :disabled="controller.isDisabled || controller.insurCurrDisabled" style="width:100%"  >
-                            <el-option
-                              v-for="item in saasCurr2"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="杂费" label-width="50px">
-                      <el-col :span="8">
-                        <el-form-item>
-                          <el-select placeholder="" v-model="decHead.otherMark"
-                             @focus="tipsFillMessage('otherMark', 'feeRate3' ,'FEE_RATE_OHTER')"
-                            remote clearable filterable  default-first-option
-                            :remote-method="checkParamsList"
-                            @clear="clearSelct('feeRate3')"
-                            ref="otherMark" dataRef ='otherMark'
-                            :disabled="controller.isDisabled" style="width:100%"  @change="feeChange(decHead.otherMark, 3)">
-                            <el-option
-                              v-for="item in feeRate3"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item prop="otherRate" ref="otherRate" >
-                          <el-input v-model="decHead.otherRate"
-                            @focus="tipsFillMessage('otherRate')"
-                            :disabled="controller.isDisabled"></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                         <el-form-item>
-                            <el-select placeholder="" v-model="decHead.otherCurr"
-                              @focus="tipsFillMessage('otherCurr', 'saasCurr3','SAAS_CURR')"
-                              ref="otherCurr" dataRef ='otherCurr'
-                              remote clearable filterable  default-first-option
-                              :remote-method="checkParamsList"
-                              @clear="clearSelct('saasCurr3')"
-                              :disabled="controller.isDisabled  || controller.otherCurrDisabled" style="width:100%">
-                              <el-option
-                                v-for="item in saasCurr3"
-                                :key="item.codeField"
-                                :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                                :value="item.codeField">
-                              </el-option>
-                            </el-select>
-                         </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="件数" prop="packNo" ref="packNo">
-                      <el-input v-model="decHead.packNo" :maxlength="9"
-                        @focus="tipsFillMessage('packNo')"
-                        :class="{ 'require-color': controller.requireColor }"   :disabled="controller.isDisabled"></el-input>
+                  <el-col :span="24">
+                    <el-form-item label="随附单证编号"  :class="{ 'require-color': controller.requireColor }"  prop="certCode" ref="certCode">
+                      <el-input v-model="decLicense.certCode" :disabled="controller.isDisabled"
+                        @focus="tipsFillMessage('certCode')"
+                        @keyup.enter.native="saveDecLic"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="6">
-                    <el-form-item label="包装种类"  :class="{ 'require-color': controller.requireColor }"  prop="wrapType">
-                      <el-select placeholder="" v-model="decHead.wrapType"
-                        @focus="tipsFillMessage('wrapType', 'saasWrap','SAAS_WRAP')"
-                        remote clearable filterable  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasWrap')"
-                        ref="wrapType" dataRef ='wrapType'
-                        :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasWrap"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item >
-                      <el-button type="primary" @click="otherPacksDiv()" class="w-100">其他包装</el-button>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="毛重(KG)" prop="grossWt" ref="grossWt">
-                      <el-input v-model="decHead.grossWt" :maxlength="20"
-                        @focus="tipsFillMessage('grossWt')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="净重(KG)" prop="netWt" ref="netWt">
-                      <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="20"
-                        @focus="tipsFillMessage('netWt')"
-                        v-model="decHead.netWt"  :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="6">
-                    <el-form-item label="贸易国别(地区)"  :class="{ 'require-color': controller.requireColor }"  prop="tradeAreaCode">
-                      <el-select placeholder="" v-model="decHead.tradeAreaCode"
-                        @focus="tipsFillMessage('tradeAreaCode', 'saasCountry2','SAAS_COUNTRY')"
-                        remote clearable filterable  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCountry2')"
-                        ref="tradeAreaCode" dataRef ='tradeAreaCode'
-                        :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasCountry2"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="集装箱数">
-                      <el-input v-model="decHead.contaCount" @focus="tipsFillMessage('contaCount')"  disabled></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="随附单证">
-                      <el-input v-model="showFied.attaDocuCdstr" @focus="tipsFillMessage('attaDocuCdstr')"  disabled></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row   v-if="controller.iEFlag == 'I'">
-                  <!-- 进口页面显示 -->
-                  <el-col :span="6">
-                    <el-form-item label="入境口岸"  :class="{ 'require-color': controller.requireColor }"  prop="entyPortCode">
-                      <el-select placeholder="" v-model="decHead.entyPortCode"
-                         @focus="tipsFillMessage('entyPortCode', 'saasInlandPort','SAAS_INLAND_PORT')"
-                         remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasInlandPort')"
-                         ref="entyPortCode" dataRef ='entyPortCode'
-                         clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasInlandPort"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="货物存放地点"  :class="{ 'require-color': controller.requireColor }" prop="goodSplace" ref="goodSplace">
-                      <el-input v-model="decHead.goodSplace" :maxlength="100"
-                        @focus="tipsFillMessage('goodSplace')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6" >
-                    <el-form-item label="启运港"  :class="{ 'require-color': controller.requireColor }" prop="despPortCode">
-                      <el-select placeholder="" v-model="decHead.despPortCode"
-                        @focus="tipsFillMessage('despPortCode', 'saasPortLin','SAAS_PORT_LIN')"
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasPortLin')"
-                        enter = 'no'
-                        ref="despPortCode" dataRef ='despPortCode'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasPortLin"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row   v-else>
-                  <!-- 出口页面显示 -->
-                  <el-col :span="12">
-                    <el-form-item label="货物存放地点" :maxlength="100" :class="{ 'require-color': controller.requireColor }" prop="goodSplace" ref="goodSplace">
-                      <el-input v-model="decHead.goodSplace"
-                        @focus="tipsFillMessage('goodSplace')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="离境口岸"  :class="{ 'require-color': controller.requireColor }"  prop="entyPortCode">
-                      <el-select placeholder="" v-model="decHead.entyPortCode"
-                        @focus="tipsFillMessage('entyPortCode', 'saasInlandPort','SAAS_INLAND_PORT')"
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasInlandPort')"
-                         enter = 'no'
-                        ref="entyPortCode" dataRef ='entyPortCode'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasInlandPort"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="6" >
-                    <el-form-item label="报关单类型"  :class="{ 'require-color': controller.requireColor }"  prop="entryType">
-                      <el-select placeholder="" v-model="decHead.entryType"
-                       @focus="tipsFillMessage('entryType', 'decType','DEC_TYPE')"
-                        remote default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('decType')"
-                        ref="entryType" dataRef ='entryType'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%" >
-                        <el-option
-                          v-for="item in decType"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="备注">
-                      <el-input v-model="decHead.noteS" :maxlength="255"
-                        type="textarea"
-                        class='dec-textarea'
-                        @keydown.enter.native="prevent"
-                        @focus="tipsFillMessage('noteS')"
-                        @keyup.native= "computLength('1')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6" >
-                    <div style='display: inline-block;width: 50%;'>
-                      <span >{{'(' + showFied.noteLenght + ')字节'}}</span>
-                      <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openNote('1')"></el-button>
-                    </div>
-                    <div style='display: inline-block;width: 48%;'>
-                      <el-button type="primary" @click="openOtherPriceFactor" class="w-100">其他事项确认</el-button>
-                    </div>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="3">
-                    <el-button class="btn-pop" :icon="isShowText1" size='mini' @click="changeIsShow1"></el-button>
-                  </el-col>
-                  <el-col :span="3">
-                    <el-form-item >
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="标记唛码" :maxlength="400" :class="{ 'require-color': controller.requireColor }"  prop="markNo" ref="markNo">
-                      <el-input v-model="decHead.markNo"
-                        dataRef = 'markNo'
-                        type="textarea"
-                        class='dec-textarea'
-                        @keydown.enter.native="prevent"
-                        @keyup.native= "computLength('2')"
-                        @focus="tipsFillMessage('markNo')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <div style='display: inline-block;width: 50%;'>
-                      <span >{{'(' + showFied.markNoLength + ')字节'}}</span>
-                      <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openNote('2')"></el-button>
-                    </div>
-                    <div style='display: inline-block;width: 48%;'>
-                      <el-button type="primary" @click="openBussiness" class="w-100">业务事项</el-button>
-                    </div>
-                  </el-col>
-                </el-row>
-                <div v-show="isShow1">
-                  <el-row   >
-                    <el-col :span="12">
-                      <el-form-item label="检验检疫受理机关"  :class="{ 'require-color': controller.requireColor }"  prop="orgCode">
-                        <el-select placeholder="" v-model="decHead.orgCode"
-                          @focus="tipsFillMessage('orgCode', 'saasCiqOrganization1','SAAS_CIQ_ORGANIZATION')"
-                          remote clearable filterable default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCiqOrganization1')"
-                          ref="orgCode" dataRef ='orgCode'
-                          :disabled="controller.isDisabled" style="width:100%">
-                          <el-option
-                            v-for="item in saasCiqOrganization1"
-                            :key="item.codeField"
-                            :label="item.codeField + '-' + item.nameField"
-                            :value="item.codeField">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="企业资质">
-                        <el-col :span="8">
-                          <el-input v-model="showFied.entQualifTypeCodeS" @focus="tipsFillMessage('entQualifTypeCodeS')" placeholder="企业资质类别" disabled></el-input>
-                        </el-col>
-                        <el-col :span="10">
-                          <el-input v-model="showFied.entQualifTypeCodeSName" @focus="tipsFillMessage('entQualifTypeCodeSName')" placeholder="企业资质编号"  disabled></el-input>
-                        </el-col>
-                        <el-col :span="6">
-                          <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openEntQuaConent" ></el-button>
-                        </el-col>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row  >
-                    <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
-                      <el-form-item label="领证机关"  :class="{ 'require-color': controller.requireColor }"  prop="vsaOrgCode">
-                        <el-select placeholder="" v-model="decHead.vsaOrgCode"
-                          @focus="tipsFillMessage('vsaOrgCode', 'saasCiqOrganization2','SAAS_CIQ_ORGANIZATION')"
-                          remote default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCiqOrganization2')"
-                          ref="vsaOrgCode" dataRef ='vsaOrgCode'
-                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                          <el-option
-                            v-for="item in saasCiqOrganization2"
-                            :key="item.codeField"
-                            :label="item.codeField + '-' + item.nameField"
-                            :value="item.codeField">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
-                      <el-form-item label="口岸检验检疫机关"  :class="{ 'require-color': controller.requireColor }" prop="inspOrgCode">
-                        <el-select placeholder="" v-model="decHead.inspOrgCode"
-                          @focus="tipsFillMessage('inspOrgCode', 'saasCiqOrganization3','SAAS_CIQ_ORGANIZATION')"
-                          remote  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCiqOrganization3')"
-                          ref="inspOrgCode" dataRef ='inspOrgCode'
-                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                          <el-option
-                            v-for="item in saasCiqOrganization3"
-                            :key="item.codeField"
-                            :label="item.codeField + '-' + item.nameField"
-                            :value="item.codeField">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6" v-if="controller.iEFlag === 'I'">
-                      <el-form-item label="启运日期"  :class="{ 'require-color': controller.requireColor }"  prop="despDate" ref="despDate">
-                        <el-date-picker
-                          v-model="decHead.despDate"
-                          type="date"
-                          @focus="tipsFillMessage('despDate')"
-                          :disabled="controller.isDisabled"
-                          value-format="yyyyMMdd"
-                          format='yyyyMMdd'
-                          placeholder="">
-                        </el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6" v-if="controller.iEFlag === 'I'">
-                      <el-form-item label="B/L号">
-                        <el-input v-model="decHead.blno" :disabled="controller.isDisabled"
-                        @focus="tipsFillMessage('blno')"
-                        ></el-input>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row  >
-                    <el-col :span="controller.iEFlag === 'I' ? 6 : 12">
-                      <el-form-item label="目的地检验检疫机关"  :class="{ 'require-color': controller.requireColor }"  prop="purpOrgCode">
-                        <el-select placeholder="" v-model="decHead.purpOrgCode"
-                          @focus="tipsFillMessage('purpOrgCode', 'saasCiqOrganization4','SAAS_CIQ_ORGANIZATION')"
-                          remote  default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasCiqOrganization4')"
-                          ref="purpOrgCode" dataRef ='purpOrgCode'
-                          clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                          <el-option
-                            v-for="item in saasCiqOrganization4"
-                            :key="item.codeField"
-                            :label="item.codeField + '-' + item.nameField"
-                            :value="item.codeField">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="关联号码及理由" >
-                        <el-col :span="12">
-                          <el-input v-model="decHead.correlationaNo" :maxlength="500"
-                            @focus="tipsFillMessage('correlationaNo')"
-                            placeholder="关联号码" :disabled="controller.isDisabled"></el-input>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-select v-model="decHead.correlationReasonFlag"
-                            @focus="tipsFillMessage('correlationReasonFlag', 'saasCorrelationReason','SAAS_CORRELATION_REASON')"
-                            remote   default-first-option
-                            :remote-method="checkParamsList"
-                            @clear="clearSelct('saasCorrelationReason')"
-                            ref="correlationReasonFlag" dataRef ='correlationReasonFlag'
-                            clearable filterable :disabled="controller.isDisabled" style="width:100%" placeholder="关联理由">
-                            <el-option
-                              v-for="item in saasCorrelationReason"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-col>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6" v-if="controller.iEFlag === 'I'">
-                      <el-form-item >
-                        <el-button type="primary" class="w-100" @click="openDecUserContent">使用人</el-button>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row  >
-                    <el-col :span="6" v-if="controller.iEFlag == 'I'">
-                      <el-form-item label="原箱运输">
-                        <el-select placeholder="" v-model="decHead.origBoxFlag"
-                          @focus="tipsFillMessage('origBoxFlag', 'commomPara1','COMMON_PARA')"
-                          filterable clearable remote default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('commomPara1')"
-                          ref="origBoxFlag" dataRef ='origBoxFlag'
-                          :disabled="controller.isDisabled" style="width:100%" >
-                          <el-option
-                            v-for="item in commomPara1"
-                            :key="item.codeField"
-                            :label="item.codeField + '-' + item.nameField"
-                            :value="item.codeField">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="controller.iEFlag == 'I' ? 6 : 12">
-                      <el-form-item label="特殊业务标识" >
-                        <el-col :span="controller.iEFlag == 'I' ? 18 : 20">
-                          <el-input v-model="showFied.specDeclFlagValue" @focus="tipsFillMessage('specDeclFlagValue')" disabled></el-input>
-                        </el-col>
-                        <el-col :span="controller.iEFlag == 'I' ? 6 : 4">
-                          <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openSpecialBusiContent"></el-button>
-                        </el-col>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="卸毕日期">
-                        <el-date-picker
-                          v-model="decHead.cmplDschrgDt"
-                          type="date"
-                          value-format="yyyyMMdd"
-                          format='yyyyMMdd'
-                          style="width:100%"
-                          placeholder="">
-                        </el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                </div>
-            </el-form>
+              </el-form>
+            </div>
           </div>
-          <!---表头结束  -->
-          <!--- table 开始  -->
-          <div class = "dec-div" >
-            <el-row>
-              <el-button size="mini" icon="fa fa-plus" class="secondButton" :disabled="controller.isDisabled"  @click="refreshDecList">&nbsp;新增</el-button>
-              <el-button size="mini" icon="fa fa-floppy-o" class="secondButton" @click="saveDecList" :disabled="controller.isDisabled" >&nbsp;保存</el-button>
-            </el-row>
-            <el-row >
-              <el-col :span="24">
-                <el-table
-                ref="decListTable"
-                :data="tableList"
-                highlight-current-row
-                :height='230'
-                style="width: 100%"
-                size="mini" border
-                @select="decListSelect"
-                @selection-change="decListChange"
-                @row-click='backDeccListInfo'>
-                  <el-table-column type="selection" width="55"></el-table-column>
-                  <el-table-column prop="contrItem" label="备案序号" min-width="80"></el-table-column>
-                  <el-table-column prop="codeTs" label="商品编号" min-width="100"></el-table-column>
-                  <el-table-column prop="ciqName" label="检验检疫名称" min-width="180"></el-table-column>
-                  <el-table-column prop="gName" label="商品名称" min-width="100"></el-table-column>
-                  <el-table-column prop="gModel" label="规格" min-width="200"></el-table-column>
-                  <el-table-column prop="gQty" label="成交数量" min-width="100"></el-table-column>
-                  <el-table-column prop="gUnitValue" label="成交单位" min-width="80"></el-table-column>
-                  <el-table-column prop="declPrice" label="单价" min-width="80"></el-table-column>
-                  <el-table-column prop="declTotal" label="总价" min-width="100"></el-table-column>
-                  <el-table-column prop="tradeCurrValue" label="币制" min-width="100"></el-table-column>
-                  <el-table-column prop="originCountryValue" label="原产国(地区)" min-width="100"></el-table-column>
-                  <el-table-column prop="destinationCountryValue" label="最终目的国" min-width="100"></el-table-column>
-                  <el-table-column prop="dutyModeValue" label="征免方式" min-width="80"></el-table-column>
-                  <!-- <el-table-column prop="date" label="监管要求" width="80"></el-table-column> -->
-                </el-table>
-              </el-col>
-            </el-row>
-          </div>
-          <!--- table 结束  -->
+          <!-- 随附单证 结束 -->
           <div class="dec-div">
-            <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
-                <el-row  >
-                  <el-col :span="6">
-                    <el-form-item label="备案序号" ref="contrItem">
-                      <el-input v-model="decList.contrItem"
-                      @blur="selectBookBody"
-                      :disabled="controller.contrItemDisabled"
-                      @focus="tipsFillMessage('contrItem')"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="9">
-                    <el-form-item label="商品编号"  prop="codeTs" ref="codeTs">
-                      <el-input  :class="{ 'require-color': controller.requireColor }"
-                      @focus="tipsFillMessage('codeTs')"
-                      v-model="decList.codeTs"
-                      :disabled="controller.isDisabled"
-                      enter = 'no'
-                      @change="codeTsChangeF"
-                      @keyup.enter.native="openProductList()"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="9">
-                    <el-form-item label="检验检疫名称" >
-                      <el-col :span="21">
-                        <el-input v-model="decList.ciqName" @focus="tipsFillMessage('ciqName')"  disabled></el-input>
-                      </el-col>
-                      <el-col :span="3">
-                        <el-button class="btn-pop" icon="fa fa-ellipsis-h" @click="openEncodeTableContent"></el-button>
-                      </el-col>
+            <el-form ref="datas" :model="decHead"  label-width="100px" size="mini">
+              <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="关联报关单">
+                      <el-input v-model="decHead.relId" @focus="tipsFillMessage('relId')" :disabled="controller.isDisabled" :maxlength="18"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="12">
-                    <el-form-item label="商品名称" prop="gName" ref="gName">
-                      <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="255"
-                        @focus="tipsFillMessage('gName')"
-                        v-model="decList.gName" dataRef='gName'
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="规格型号">
-                      <el-input v-model="decList.gModel" @focus="tipsFillMessage('gModel')" disabled></el-input>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="关联备案">
+                      <el-input v-model="decHead.relManno" @focus="tipsFillMessage('relManno')" :disabled="controller.isDisabled" :maxlength="12"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="5">
-                    <el-form-item label="成交数量" prop="gQty" ref="gQty">
-                      <el-input  :class="{ 'require-color': controller.requireColor }" :maxlength="20"
-                        @focus="tipsFillMessage('gQty')"
-                        @blur="gQtyBlur"
-                       v-model="decList.gQty"  :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="成交计量单位"  :class="{ 'require-color': controller.requireColor }">
-                      <el-select placeholder="" v-model="decList.gUnit"
-                        @focus="tipsFillMessage('gUnit', 'saasUnit1','SAAS_UNIT')"
-                        ref="gUnit" dataRef ='gUnit'
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasUnit1')"
-                       clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasUnit1"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="单价" label-width="50px" prop="declPrice" ref="declPrice" :class="{ 'require-color': controller.requireColor }">
-                      <el-input v-model="decList.declPrice" :maxlength="19"
-                      @focus="tipsFillMessage('declPrice')"
-                      @blur="computTotal"
-                      :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="4">
-                    <el-form-item label="总价" prop="declTotal" ref="declTotal" label-width="50px">
-                      <el-input  :class="{ 'require-color': controller.requireColor }"
-                      :maxlength="18" v-model="decList.declTotal"
-                      @focus="tipsFillMessage('declTotal')"
-                      @blur="computPrice"
-                      :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="币制" label-width="50px"  :class="{ 'require-color': controller.requireColor }" prop="tradeCurr">
-                      <el-select placeholder="" v-model="decList.tradeCurr"
-                        @focus="tipsFillMessage('tradeCurr', 'saasCurr4','SAAS_CURR')"
-                        remote   default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCurr4')"
-                        ref="tradeCurr" dataRef ='tradeCurr'
-                       clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasCurr4"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="保税/监管场地">
+                      <el-input v-model="decHead.bonNo"  @focus="tipsFillMessage('bonNo')" :disabled="controller.isDisabled" :maxlength="32"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="5">
-                    <el-form-item label="法定第一数量"  :class="{ 'require-color': controller.requireColor }" prop="qty1" ref="qty1">
-                      <el-input v-model="decList.qty1" :maxlength="20"
-                        @focus="tipsFillMessage('qty1')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="法定第一计量单位" >
-                      <el-select placeholder="" v-model="decList.unit1"
-                        @focus="tipsFillMessage('unit1', 'saasUnit2','SAAS_UNIT')"
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasUnit2')"
-                        ref="unit1" dataRef ='unit1'
-                        clearable filterable disabled style="width:100%">
-                        <el-option
-                          v-for="item in saasUnit2"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="加工成品单耗版本号" label-width="120px">
-                      <el-input v-model="decList.exgVersion" :maxlength="8"
-                        @focus="tipsFillMessage('exgVersion')"
-                        :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="4">
-                    <el-form-item label="货号" label-width="50px">
-                      <el-input v-model="decList.exgNo"  :maxlength="30"
-                       @focus="tipsFillMessage('exgNo')"
-                       :disabled="controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="最终目的国(地区)"  :class="{ 'require-color': controller.requireColor }"  prop="destinationCountry">
-                      <el-select placeholder="" v-model="decList.destinationCountry"
-                        @focus="tipsFillMessage('destinationCountry', 'saasCountry3','SAAS_COUNTRY')"
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCountry3')"
-                        ref="destinationCountry" dataRef ='destinationCountry'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasCountry3"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
+                <el-row >
+                  <el-col :span="24">
+                    <el-form-item label="场地代码">
+                      <el-input v-model="decHead.cusFie" @focus="tipsFillMessage('cusFie')" :disabled="controller.isDisabled" :maxlength="255"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-row  >
-                  <el-col :span="5">
-                    <el-form-item label="法定第二数量" >
-                      <el-input v-model="decList.qty2"  @focus="tipsFillMessage('qty2')" :disabled="controller.qty2Disabled || controller.isDisabled"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="法定第二计量单位" >
-                      <el-select placeholder="" v-model="decList.unit2"
-                        @focus="tipsFillMessage('unit2', 'saasUnit3','SAAS_UNIT')"
-                        remote  default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasUnit3')"
-                        ref="unit2" dataRef ='unit2'
-                        @change = "unit2Change"
-                        clearable filterable disabled style="width:100%">
-                        <el-option
-                          v-for="item in saasUnit3"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="controller.iEFlag == 'I' ? 7 :14" >
-                    <el-form-item label="原产国(地区)"  :class="{ 'require-color': controller.requireColor }" prop="originCountry">
-                       <el-select placeholder="" v-model="decList.originCountry"
-                         @focus="tipsFillMessage('originCountry', 'saasCountry4','SAAS_COUNTRY')"
-                        remote default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCountry4')"
-                        ref="originCountry" dataRef ='originCountry'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasCountry4"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="7" v-if="controller.iEFlag == 'I'">
-                    <el-form-item label="原产地区">
-                       <el-select placeholder="" v-model="decList.origPlaceCode "
-                        @focus="tipsFillMessage('origPlaceCode', 'saasCiqOriginPlace','SAAS_CIQ_ORIGIN_PLACE')"
-                        remote default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasCiqOriginPlace')"
-                        ref="origPlaceCode" dataRef ='origPlaceCode'
-                        clearable filterable :disabled="controller.isDisabled" style="width:100%">
-                        <el-option
-                          v-for="item in saasCiqOriginPlace"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row  >
-                  <el-col :span="3">
-                    <el-button class="btn-pop"  :icon="isShowText2" size='mini' @click="changeIsShow2"></el-button>
-                  </el-col>
-                  <el-col :span="3">
-                    <el-form-item >
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item :label="controller.iEFlag == 'I' ? '境内目的地' :'境内货源地'" >
-                      <el-col :span="12">
-                        <el-form-item  prop="districtCode">
-                          <el-select  :class="{ 'require-color': controller.requireColor }"  v-model="decList.districtCode"
-                            class='spical-class'
-                            @focus="tipsFillMessage('districtCode', 'saasDistrictRel','SAAS_DISTRICT_REL')"
-                            remote default-first-option
-                            :remote-method="checkParamsList"
-                            @clear="clearSelct('saasDistrictRel')"
-                            ref="districtCode" dataRef ='districtCode'
-                            clearable filterable :placeholder="controller.iEFlag == 'I' ?  '境内目的地代码' : '产地代码'" :disabled="controller.isDisabled" style="width:100%">
-                            <el-option
-                              v-for="item in saasDistrictRel"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                         <el-form-item  prop="destCode">
-                          <el-select v-model="decList.destCode" :placeholder="controller.iEFlag == 'I' ?  '目的地代码' : '境内货源地代码'"
-                            class='spical-class'
-                            @focus="tipsFillMessage('destCode', 'saasCiqCityCn','SAAS_CIQ_CITY_CN')"
-                            remote default-first-option
-                            :remote-method="checkParamsList"
-                            @clear="clearSelct('saasCiqCityCn')"
-                            clearable  filterable ref="destCode" dataRef ='destCode'
-                            :disabled="controller.isDisabled" style="width:100%">
-                            <el-option
-                              v-for="item in saasCiqCityCn"
-                              :key="item.codeField"
-                              :label="item.codeField + '-' + item.nameField"
-                              :value="item.codeField">
-                            </el-option>
-                          </el-select>
-                         </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="征免方式"  :class="{ 'require-color': controller.requireColor }"  prop="dutyMode">
-                      <el-select placeholder="" v-model="decList.dutyMode" enter="no"
-                        @focus="tipsFillMessage('dutyMode', 'saasLevymode','SAAS_LEVYMODE')"
-                        remote default-first-option
-                        :remote-method="checkParamsList"
-                        @clear="clearSelct('saasLevymode')"
-                        ref="dutyMode" dataRef ='dutyMode'
-                        clearable  filterable :disabled="controller.isDisabled" style="width:100%"
-                        @keyup.enter.native="saveDecList('1')">
-                        <el-option
-                          v-for="item in saasLevymode"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <div v-show="isShow2" >
-                  <el-row  >
-                    <el-col :span="18">
-                      <el-form-item label="检验检疫货物规格" >
-                        <el-col :span="23">
-                          <el-input v-model="showFied.showGoodsSpec" @focus="tipsFillMessage('showGoodsSpec')" disabled></el-input>
-                        </el-col>
-                        <el-col :span="1">
-                          <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodsSpecContent"></el-button>
-                        </el-col>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item >
-                        <el-button type="primary" class="w-100" @click="openfilingInfoContent">产品资质</el-button>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row  >
-                    <el-col :span="9">
-                      <el-form-item label="货物属性">
-                        <el-col :span="21">
-                          <el-input v-model="showFied.showGoodsAttrValue"  @focus="tipsFillMessage('showGoodsAttrValue')" disabled></el-input>
-                        </el-col>
-                        <el-col :span="3">
-                          <el-button  class="btn-pop" icon="fa fa-ellipsis-h" @click="openGoodAtrrContent"></el-button>
-                        </el-col>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="9">
-                      <el-form-item label="用途"  :class="{ 'require-color': controller.requireColor }"  prop="purpose">
-                        <el-select placeholder="" v-model="decList.purpose"
-                          @focus="tipsFillMessage('purpose', 'saasUserTo','SAAS_USER_TO')"
-                          remote default-first-option
-                          :remote-method="checkParamsList"
-                          @clear="clearSelct('saasUserTo')"
-                          ref="purpose" dataRef ='purpose'
-                          clearable  filterable :disabled="controller.isDisabled" style="width:100%"
-                          @keyup.enter.native="saveDecList('2')">
-                        <el-option
-                          v-for="item in saasUserTo"
-                          :key="item.codeField"
-                          :label="item.codeField + '-' + item.nameField"
-                          :value="item.codeField">
-                        </el-option>
-                      </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item >
-                        <el-button type="primary" class="w-100" @click="openDangerGoods">危险货物信息</el-button>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                </div>
             </el-form>
           </div>
-        </el-main>
+        </el-aside>
+        <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
       </el-container>
-      <el-aside :style="{ width: asideWidth + '%' }">
-        <!-- 集装箱信息 开始-->
-        <div class="dec-div">
-          <el-row>
-            <el-button size="mini" icon="fa fa-plus" class="secondButton" @click="refreshDecConta" :disabled="controller.isDisabled">&nbsp;新增</el-button>
-            <el-button size="mini" icon="fa fa-save" class="secondButton" @click="saveDecConta" :disabled="controller.isDisabled">&nbsp;保存</el-button>
-          </el-row>
-          <el-row >
+      <!-- 弹出框 其他包装信息 -->
+      <el-dialog
+        title="编辑其他包装信息"
+        :visible.sync="otherPacksVisible"
+        @open="otherPacksShow"
+        width="700px">
+        <div class="border">
+          <el-table
+            ref="otherPacksTable"
+            :data="otherPackList"
+            highlight-current-row border size='mini'
+            @selection-change="otherPacksChangeFun"
+            max-height="300" style="width: 100%">
+            <el-table-column  type="selection" min-width="50"></el-table-column>
+            <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
+            <el-table-column  property="packType" label="包装材料种类代码" min-width="100"></el-table-column>
+            <el-table-column  property="packTypeName" label="包装材料种类名称" min-width="200"></el-table-column>
+          </el-table>
+        </div>
+        <span slot="footer" class="dialog-footer" style="text-align:center">
+          <el-button class='layer-btn' @click="saveOtherPackageInfo" :disabled="controller.isDisabled">保存</el-button>
+        </span>
+      </el-dialog>
+      <!-- -->
+      <!-- -->
+      <el-dialog
+        title="其他事项确认"
+        :visible.sync="otherPriceFactorVisible"
+        width="500px">
+        <div class="border">
+          <el-form label-width="240px" size='mini' label-position="right" :model="otherPriceFactor">
+            <el-row>
               <el-col :span="24">
-                <el-table :data="tableDecContainerlist" :height='200'
-                  style="width:100%" size="mini"
-                  @selection-change="decContaChange"
-                  @row-click= 'backDecContaInfo'>
-                  <el-table-column type="selection" width="55" ></el-table-column>
-                  <el-table-column prop="containerNo" label="集装箱号" min-width="80"></el-table-column>
-                  <el-table-column prop="containerSizeValue" label="集装箱规格" min-width="100"></el-table-column>
-                  <el-table-column prop="lclFlag" label="拼箱标识" min-width="80">
-                    <template slot-scope="scope">
-                      <span>{{scope.row.lclFlag === '0' ? '否' : '是'}}</span>
-                    </template>
-                  </el-table-column>
-                </el-table>
+                <el-form-item label="特殊关系确认">
+                  <el-select placeholder="" v-model="otherPriceFactor.promiseItem1"
+                    @focus="tipsFillMessage('', 'priceFactor1','PRICE_FACTOR')"
+                    filterable remote default-first-option
+                    clearable autofocus
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor1')"
+                    ref="promiseItem1" dataRef ='promiseItem1'
+                    style="width:100%" @change="promiseItem1Change" >
+                    <el-option
+                      v-for="item in priceFactor1"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
               </el-col>
             </el-row>
-          <div>
-            <el-form ref="containerRuleForm" :rules="containerRuleForm"
-              @keyup.enter.native="switchFoucsByEnter"
-              :model="decContainer"  label-width="100px" size="mini">
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="集装箱号"  :class="{ 'require-color': controller.requireColor }" prop="containerNo" ref="containerNo" >
-                    <el-input v-model="decContainer.containerNo" :disabled="controller.isDisabled"
-                      @focus="tipsFillMessage('containerNo')"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="集装箱规格"  :class="{ 'require-color': controller.requireColor }"  prop="containerSize">
-                    <el-select placeholder="" v-model="decContainer.containerSize"
-                      @focus="tipsFillMessage('containerSize', 'saasContainerModel','SAAS_CONTAINER_MODEL')"
-                      remote default-first-option
-                      :remote-method="checkParamsList"
-                      @clear="clearSelct('saasContainerModel')"
-                       ref="containerSize" dataRef ='containerSize'
-                      clearable  filterable :disabled="controller.isDisabled" style="width:100%">
-                      <el-option
-                        v-for="item in saasContainerModel"
-                        :key="item.codeField"
-                        :label="item.codeField + '-' + item.nameField + ' ' + item.otherField + ' ' + item.extendField"
-                        :value="item.codeField">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="自重(KG)" prop="containerWeight" ref="containerWeight">
-                    <el-input v-model="decContainer.containerWeight"
-                      @focus="tipsFillMessage('containerWeight')"
-                      :disabled="controller.isDisabled"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="拼箱标识">
-                    <el-select placeholder="" v-model="decContainer.lclFlag"
-                      @focus="tipsFillMessage('lclFlag', 'commomPara2','COMMON_PARA')"
-                      filterable remote default-first-option
-                      clearable
-                      :remote-method="checkParamsList"
-                      @clear="clearSelct('commomPara2')"
-                       ref="lclFlag" dataRef ='lclFlag'
-                      @keyup.enter.native="saveDecConta"
-                      :disabled="controller.isDisabled" style="width:100%" >
-                      <el-option
-                        v-for="item in commomPara2"
-                        :key="item.codeField"
-                        :label="item.codeField + '-' + item.nameField"
-                        :value="item.codeField">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-          </div>
-        </div>
-        <!-- 集装箱信息 结束-->
-        <!-- 随附单证 开始 -->
-        <div class="dec-div">
-          <el-row>
-            <el-button size="mini" icon="fa fa-plus" class="secondButton" @click="refreshDoc" :disabled="controller.isDisabled">&nbsp;新增</el-button>
-            <el-button size="mini" icon="fa fa-save" class="secondButton" @click="saveDecLic" :disabled="controller.isDisabled">&nbsp;保存</el-button>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-table
-                :data="licenselist"
-                :height='190' style="width: 100%" size="mini"
-                ref="decLicTable"
-                highlight-current-row border
-                @selection-change="decLicChange"
-                @row-click= 'backDecLicInfo' >
-                <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="docuCode" label="单证代码" min-width="80"></el-table-column>
-                <el-table-column prop="certCode" label="单证编号" min-width="100"></el-table-column>
-            </el-table>
-            </el-col>
-          </el-row>
-          <div>
-            <el-form ref="docuRuleForm" :rules="docuRuleForm"
-              @keyup.enter.native="switchFoucsByEnter"
-              :model="decLicense" label-width="100px"  size="mini">
-              <el-row>
-                <el-col :span="24">
-                  <el-form-item label="随附单证代码"  :class="{ 'require-color': controller.requireColor }"  prop="docuCode">
-                    <el-select placeholder="" v-model="decLicense.docuCode"
-                      @focus="tipsFillMessage('docuCode', 'saasLicensedocu','SAAS_LICENSEDOCU')"
-                      remote default-first-option
-                      :remote-method="checkParamsList"
-                      @clear="clearSelct('saasLicensedocu')"
-                       ref="docuCode" dataRef ='docuCode'
-                     clearable  filterable :disabled="controller.isDisabled" style="width:100%">
-                      <el-option
-                        v-for="item in saasLicensedocu"
-                        :key="item.codeField"
-                        :label="item.codeField + '-' + item.nameField"
-                        :value="item.codeField">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="随附单证编号"  :class="{ 'require-color': controller.requireColor }"  prop="certCode" ref="certCode">
-                    <el-input v-model="decLicense.certCode" :disabled="controller.isDisabled"
-                      @focus="tipsFillMessage('certCode')"
-                      @keyup.enter.native="saveDecLic"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-          </div>
-        </div>
-        <!-- 随附单证 结束 -->
-        <div class="dec-div">
-          <el-form ref="datas" :model="decHead"  label-width="100px" size="mini">
-            <el-row >
-                <el-col :span="24">
-                  <el-form-item label="关联报关单">
-                    <el-input v-model="decHead.relId" @focus="tipsFillMessage('relId')" :disabled="controller.isDisabled" :maxlength="18"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="关联备案">
-                    <el-input v-model="decHead.relManno" @focus="tipsFillMessage('relManno')" :disabled="controller.isDisabled" :maxlength="12"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="保税/监管场地">
-                    <el-input v-model="decHead.bonNo"  @focus="tipsFillMessage('bonNo')" :disabled="controller.isDisabled" :maxlength="32"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row >
-                <el-col :span="24">
-                  <el-form-item label="场地代码">
-                    <el-input v-model="decHead.cusFie" @focus="tipsFillMessage('cusFie')" :disabled="controller.isDisabled" :maxlength="255"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="价格影响确认" >
+                  <el-select placeholder="" v-model="otherPriceFactor.promiseItem2"
+                    ref="promiseItem2" dataRef ='promiseItem2'
+                    @focus="tipsFillMessage('', 'priceFactor2','PRICE_FACTOR')"
+                    filterable remote default-first-option clearable
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor2')"
+                    style="width:100%" :disabled='promiseItem2Disabed'>
+                    <el-option
+                      v-for="item in priceFactor2"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="与货物有关的特许权使用费支付确认" >
+                  <el-select placeholder="" v-model="otherPriceFactor.promiseItem3"
+                      ref="promiseItem3" dataRef ='promiseItem3'
+                    @focus="tipsFillMessage('', 'priceFactor3','PRICE_FACTOR')"
+                    clearable filterable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('priceFactor3')"
+                    enter="no"
+                    @keyup.enter.native="saveotherPriceFactor"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in priceFactor3"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </div>
-      </el-aside>
-      <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
-    </el-container>
-    <!-- 弹出框 其他包装信息 -->
-    <el-dialog
-      title="编辑其他包装信息"
-      :visible.sync="otherPacksVisible"
-      @open="otherPacksShow"
-      width="700px">
-      <div class="border">
-        <el-table
-          ref="otherPacksTable"
-          :data="otherPackList"
+        <span slot="footer" class="dialog-footer">
+          <el-button  @click="saveotherPriceFactor" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--业务事项 弹出框 开始 -->
+      <el-dialog
+        title="业务事项"
+        :visible.sync="businessVisible"
+        width="500px">
+        <el-checkbox-group v-model="checkList" class="border-margin">
+          <el-checkbox label="税单无纸化"></el-checkbox>
+          <el-checkbox label="自主报税"></el-checkbox>
+          <el-checkbox label="自报自缴"></el-checkbox>
+          <el-checkbox label="担保验放"></el-checkbox>
+          <el-checkbox label="水运中转" v-show="controller.iEFlag == 'E'"></el-checkbox>
+        </el-checkbox-group>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="saveBusiness" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--业务事项 弹出框 结束-->
+      <!--使用人 弹出框 开始-->
+      <el-dialog
+        title="编辑使用人信息"
+        :visible.sync="decUserVisible"
+        width="50%">
+        <div class="border">
+          <el-form label-width="120px" :model="userForm" size="mini" label-position="right">
+            <el-row  >
+              <el-col :span="12">
+                <el-form-item label="使用单位联系人">
+                  <el-input v-model="userForm.useOrgpersonCode" :maxlength="12"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="使用单位联系电话">
+                  <el-input v-model="userForm.useOrgpersonTel" :maxlength="20"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <div>
+          <el-row>
+            <el-button icon="fa fa-plus" @click="AddDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="saveDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
+          </el-row>
+        </div>
+        <el-table  ref="userTable" :data="decHead.decDecUsers"
           highlight-current-row border size='mini'
-          @selection-change="otherPacksChangeFun"
+          @selection-change="decUserchangeFun"
+          @row-click="backDecUserInfo"
           max-height="300" style="width: 100%">
           <el-table-column  type="selection" min-width="50"></el-table-column>
-          <el-table-column  property="gNo" label="序号" min-width="50"></el-table-column>
-          <el-table-column  property="packType" label="包装材料种类代码" min-width="100"></el-table-column>
-          <el-table-column  property="packTypeName" label="包装材料种类名称" min-width="200"></el-table-column>
+          <el-table-column  property="useOrgpersonCode" label="使用单位联系人" min-width="100"></el-table-column>
+          <el-table-column  property="useOrgpersonTel" label="使用单位联系电话" min-width="100"></el-table-column>
         </el-table>
-      </div>
-      <span slot="footer" class="dialog-footer" style="text-align:center">
-        <el-button class='layer-btn' @click="saveOtherPackageInfo" :disabled="controller.isDisabled">保存</el-button>
-      </span>
-    </el-dialog>
-    <!-- -->
-    <!-- -->
-    <el-dialog
-      title="其他事项确认"
-      :visible.sync="otherPriceFactorVisible"
-      width="500px">
-      <div class="border">
-        <el-form label-width="240px" size='mini' label-position="right" :model="otherPriceFactor">
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="特殊关系确认">
-                <el-select placeholder="" v-model="otherPriceFactor.promiseItem1"
-                  @focus="tipsFillMessage('', 'priceFactor1','PRICE_FACTOR')"
-                  filterable remote default-first-option
-                  clearable autofocus
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor1')"
-                  ref="promiseItem1" dataRef ='promiseItem1'
-                   style="width:100%" @change="promiseItem1Change" >
-                  <el-option
-                    v-for="item in priceFactor1"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="价格影响确认" >
-                <el-select placeholder="" v-model="otherPriceFactor.promiseItem2"
-                   ref="promiseItem2" dataRef ='promiseItem2'
-                  @focus="tipsFillMessage('', 'priceFactor2','PRICE_FACTOR')"
-                  filterable remote default-first-option clearable
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor2')"
-                   style="width:100%" :disabled='promiseItem2Disabed'>
-                  <el-option
-                    v-for="item in priceFactor2"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="与货物有关的特许权使用费支付确认" >
-                <el-select placeholder="" v-model="otherPriceFactor.promiseItem3"
-                    ref="promiseItem3" dataRef ='promiseItem3'
-                  @focus="tipsFillMessage('', 'priceFactor3','PRICE_FACTOR')"
-                  clearable filterable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('priceFactor3')"
-                  enter="no"
-                  @keyup.enter.native="saveotherPriceFactor"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in priceFactor3"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="saveotherPriceFactor" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--业务事项 弹出框 开始 -->
-    <el-dialog
-      title="业务事项"
-      :visible.sync="businessVisible"
-      width="500px">
-      <el-checkbox-group v-model="checkList" class="border-margin">
-        <el-checkbox label="税单无纸化"></el-checkbox>
-        <el-checkbox label="自主报税"></el-checkbox>
-        <el-checkbox label="自报自缴"></el-checkbox>
-        <el-checkbox label="担保验放"></el-checkbox>
-        <el-checkbox label="水运中转" v-show="controller.iEFlag == 'E'"></el-checkbox>
-      </el-checkbox-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="saveBusiness" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--业务事项 弹出框 结束-->
-    <!--使用人 弹出框 开始-->
-    <el-dialog
-      title="编辑使用人信息"
-      :visible.sync="decUserVisible"
-      width="50%">
-      <div class="border">
-        <el-form label-width="120px" :model="userForm" size="mini" label-position="right">
-          <el-row  >
-            <el-col :span="12">
-              <el-form-item label="使用单位联系人">
-                <el-input v-model="userForm.useOrgpersonCode" :maxlength="12"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="使用单位联系电话">
-                <el-input v-model="userForm.useOrgpersonTel" :maxlength="20"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="saveDecUser" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="userTable" :data="decHead.decDecUsers"
-        highlight-current-row border size='mini'
-        @selection-change="decUserchangeFun"
-        @row-click="backDecUserInfo"
-        max-height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="useOrgpersonCode" label="使用单位联系人" min-width="100"></el-table-column>
-        <el-table-column  property="useOrgpersonTel" label="使用单位联系电话" min-width="100"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!--使用人 弹出框 结束-->
-    <!-- 企业资质 弹出框 开始-->
-    <el-dialog
-      title="编辑企业资质信息"
-      :visible.sync="entQuaVisible"
-      width="50%">
-      <div class="border">
-        <el-form label-width="120px" :model="copLimitsForm" size="mini" label-position="right">
-          <el-row  >
-            <el-col :span="12">
-              <el-form-item label="企业资质类别">
-                <el-select placeholder="" v-model="copLimitsForm.entQualiftypeCode"
-                  @focus="tipsFillMessage('', 'saasEntQualifType','SAAS_ENT_QUALIF_TYPE')"
-                  remote filterable  clearable default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('saasEntQualifType')"
-                   ref="entQualiftypeCode" dataRef ='entQualiftypeCode'
-                  style="width:100%" @change ="entQuaChanged" >
-                  <el-option
-                    v-for="(item,index) in saasEntQualifType"
-                    :key="index"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="企业资质编号">
-                <el-input v-model="copLimitsForm.entQualifNo" @keyup.enter.native="savedEntQua"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div>
-        <el-row class="border-bottom">
-          <el-button icon="fa fa-plus" @click="AddEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="savedEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="entQuaTable" :data="decHead.decCopLimits"
-        highlight-current-row border size='mini'
-        @selection-change="copLimitschangeFun"
-        @row-click="backCopLimitsInfo"
-        max-height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="entQualiftypeCode" label="企业资质类别代码" min-width="100"></el-table-column>
-        <el-table-column  property="entQualiftypeName" label="企业资质类别名称" min-width="100"></el-table-column>
-        <el-table-column  property="entQualifNo" label="企业资质编号" min-width="100"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!--使用人 弹出框 结束-->
-    <!--业务事项 弹出框 开始 -->
-    <el-dialog
-      title="特殊业务标识"
-      :visible.sync="specialBusiVisible"
-      width="600px">
-      <el-checkbox-group v-model="specialBusiList" class ='border-margin'>
-        <el-row class="border-bottom">
-          <el-col :span="6">
-            <el-checkbox label="国际赛事"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="特殊进出军工物资"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="国际援助物资"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="国际会议"></el-checkbox>
-          </el-col>
-        </el-row>
-        <el-row class="m-t-10 border-bottom">
-          <el-col :span="6">
-            <el-checkbox label="直通放行"></el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-checkbox label="外交礼遇"></el-checkbox>
-          </el-col>
-          <el-col :span="6" v-if="controller.iEFlag == 'I'" >
-            <el-checkbox label="转关"></el-checkbox>
-          </el-col>
-        </el-row>
-      </el-checkbox-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button  @click="sureSpecialBusi" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--业务事项 弹出框 结束-->
-    <!-- 弹出框 检验检疫编码列表 开始 -->
-    <el-dialog
-      title="检验检疫编码列表"
-      :visible.sync="encodeTableVisible"
-      @opened = 'openencodeListAfter'
-      width="640px">
-      <el-table  ref="encodeTable" :data="encodeTableList"
-       highlight-current-row border size='mini'
-         @selection-change="encodeTableChanged"
-         @keyup.native='updownEncodeTableSelect'
-          max-height="300" style="width: 100%">
-        <el-table-column  min-width="50"  >
-          <template slot-scope="scope">
-              <el-radio v-model="encodeListRadio" @keyup.enter.native="saveEncodeTableVaue"  :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column  property="gNameNote" label="名称" min-width="100"></el-table-column>
-        <el-table-column  property="typeName" label="类型" min-width="100"></el-table-column>
-        <el-table-column  property="codeTs" label="HS代码" min-width="100"></el-table-column>
-        <el-table-column  property="hsGName" label="HS名称" min-width="100"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button  class="dialog-primary-btn"  @click="saveEncodeTableVaue" :disabled="controller.isDisabled">确定</el-button>
-        <el-button  class="dialog-btn"  size="mini" @click="closeEncodeTable">关闭</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 检验检疫编码列表 结束 -->
-    <!-- 弹出框 货物属性 开始 -->
-    <el-dialog
-      title="货物属性"
-      :visible.sync="goodsAttrVisible"
-      width="640px">
-      <el-row :gutter="30" style='border: 0px;'>
-        <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
-          <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-t-10">
-            <div style="width:100%;height:100%">
-              <el-checkbox-button :label="item.codeField + '-' + item.nameField" border style="width:100%;height:100%"></el-checkbox-button>
-            </div>
-          </el-col>
-        </el-checkbox-group>
-      </el-row>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="dialog-primary-btn" @click="saveGoodsAttr" :disabled="controller.isDisabled">确定</el-button>
-        <el-button class="dialog-btn"  size="mini" @click="closeGoodsAttr">取消</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 货物属性 结束 -->
-    <!-- 检验检疫货物规格 弹出框 开始-->
-    <el-dialog
-      title="编辑检验检疫货物规格"
-      :visible.sync="goodsSpecVisible"
-      width="540px">
-      <div class="border">
-        <el-form label-width="100px"
-          @keyup.enter.native="switchFoucsByEnter"
-          size="mini" label-position="right" :data="goodsSpecForm">
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="成分/原料/组分">
-                <el-input v-model="goodsSpecForm.stuffNote" autofocus></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="产品有效期">
-                <el-date-picker
-                  v-model="goodsSpecForm.prodValidDt"
-                  type="date"
-                  style="width:100%"
-                  value-format="yyyy-MM-dd"
-                  placeholder="">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="产品保质期(天)">
-                <el-input v-model="goodsSpecForm.prodQgp"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="境外生产企业">
-                <el-input v-model="goodsSpecForm.engManentCnm"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物规格">
-                <el-input v-model="goodsSpecForm.goodsSpec"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物型号">
-                <el-input v-model="goodsSpecForm.goodsModel"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="货物品牌">
-                <el-input v-model="goodsSpecForm.goodsBrand"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="生产日期">
-                <el-date-picker
-                  v-model="goodsSpecForm.produceDate"
-                  @change='produceDateChange'
-                  type="dates"
-                  style="width:100%"
-                  value-format="yyyy-MM-dd"
-                  placeholder="">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <div v-if = "controller.iEFlag == 'I'">
-            <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产批次">
-                  <el-input v-model="goodsSpecForm.prodBatchNo" enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-          <div v-else>
-            <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产批次">
-                  <el-input v-model="goodsSpecForm.prodBatchNo"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-             <el-row >
-              <el-col :span="24">
-                <el-form-item label="生产单位代码">
-                  <el-input v-model="goodsSpecForm.mnufctrRegno" enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" size="mini" @click="saveGoodsSpec" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!--检验检疫货物规格 弹出框 结束-->
-    <!-- 弹出框 商品列表 开始 -->
-    <el-dialog
-      title="商品列表"
-      :visible.sync="productListVisible"
-      ref = 'productListRef'
-      @opened = 'openProductListAfter'
-      width="640px">
-      <el-table
-        ref="productListTable"
-        :data="productList"
-        highlight-current-row border
-        size='mini'
-        @keyup.native='updownSelect'
-        max-height="300" style="width: 100%">
-        <span>从商品归类表中查询到了下列商品，请选择：</span>
-        <el-table-column  min-width="50"  >
-          <template slot-scope="scope">
-              <el-radio v-model="productListRadio"  @keyup.enter.native="saveProductList"  :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
-        <el-table-column  property="gName" label="商品名称" min-width="200"></el-table-column>
-        <el-table-column  property="noteS" label="备注" min-width="100"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="dialog-primary-btn" @click="saveProductList" :disabled="controller.isDisabled">确定</el-button>
-        <el-button class="dialog-btn" @click="saveProductList">关闭</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 商品列表 结束 -->
-    <!-- 弹出框 产品许可证/审批/备案信息  开始 -->
-    <el-dialog
-      title="编辑产品许可证/审批/备案信息"
-      :visible.sync="filingInfoVisible"
-      :before-close="filingInfoClose"
-      width="80%">
-      <div class="border">
-        <el-form label-width="100px" :model="filingInfoForm"
-        @keyup.enter.native="switchFoucsByEnter"
-        size="mini" label-position="right" ref="licRuleForm" :rules="licRuleForm">
-          <el-row >
-            <el-col :span="12">
-              <el-form-item label="许可证类别" :class="{ 'require-color': controller.requireColor }"  prop="licTypeCode"  ref="licTypeCode">
-              <el-select placeholder="" v-model="filingInfoForm.licTypeCode"
-                @focus="tipsFillMessage('', 'saasLicType1','SAAS_LIC_TYPE')"
-                remote  default-first-option
-                :remote-method="checkParamsList"
-                @clear="clearSelct('saasLicType1')"
-                 filterable clearable
-               dataRef='licTypeCode'
-                 style="width:100%" autofocus>
-                  <el-option
-                    v-for="(item,index) in saasLicType1"
-                    :key="index"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="许可证编号" :class="{ 'require-color': controller.requireColor }" prop="licenceNo" ref="licenceNo">
-                <el-input v-model="filingInfoForm.licenceNo" :maxlength="40"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row  >
-            <el-col :span="6">
-              <el-form-item label="核销货物序号" prop="licWrtofDetailno" ref="licWrtofDetailno">
-                <el-input v-model="filingInfoForm.licWrtofDetailno" :maxlength="2"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="核销数量"  prop="licWrtofQty" ref="licWrtofQty">
-                <el-input v-model="filingInfoForm.licWrtofQty" :maxlength="20" enter = 'no' @keyup.enter.native ='savefilingInfo'></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="核销数量单位"  prop="licWrtofQtyUnit" ref="licWrtofQtyUnit">
-                <el-select placeholder="" v-model="filingInfoForm.licWrtofQtyUnit"
-                  @focus="tipsFillMessage('licWrtofQtyUnit', 'saasUnit4','SAAS_UNIT')"
-                  ref="licWrtofQtyUnit" dataRef ='licWrtofQtyUnit'
-                  remote  default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('saasUnit4')"
-                  :maxlength="3"
-                  enter = 'no'
-                  @keyup.enter.native ='savefilingInfo'
-                  clearable filterable :disabled="controller.isDisabled"
-                  style="width:100%">
-                  <el-option
-                    v-for="item in saasUnit4"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div >
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddfilingInfo" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-sign-in" @click="savefilingInfo" class='secondButton'  :disabled="controller.isDisabled">保存</el-button>
-          <el-button  @click="openLicVIN" class='secondButton'>许可证VIN信息</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="filingInfoTable" :data="decList.decGoodsLimits"
-        highlight-current-row border size='mini'
-        @selection-change="filingInfoChangeFun"
-        @row-click="backFilingInfo"
-        height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="licTypeCode" label="许可证类别代码" min-width="100"></el-table-column>
-        <el-table-column  property="licTypeCodeValue" label="许可证类别名称" min-width="100"></el-table-column>
-        <el-table-column  property="licenceNo" label="许可证编号" min-width="100"></el-table-column>
-        <el-table-column  property="licWrtofDetailno" label="核销货物序号" min-width="100"></el-table-column>
-        <el-table-column  property="licWrtofQty" label="核销数量" min-width="100"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
-     <!-- 弹出框 许可证VIN  开始 -->
-    <el-dialog
-      title="编辑许可证VIN"
-      :visible.sync="licVINVisible"
-      :before-close="licVINClose"
-      width="70%">
-       <div class="border">
-          <el-form label-width="120px" :model="licVINForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
-            <el-row>
+      </el-dialog>
+      <!--使用人 弹出框 结束-->
+      <!-- 企业资质 弹出框 开始-->
+      <el-dialog
+        title="编辑企业资质信息"
+        :visible.sync="entQuaVisible"
+        width="50%">
+        <div class="border">
+          <el-form label-width="120px" :model="copLimitsForm" size="mini" label-position="right">
+            <el-row  >
               <el-col :span="12">
-                <el-form-item label="许可证类别" disabled>
-                  <el-select placeholder="" v-model="licVINForm.licTypeCode"  disabled
-                    @focus="tipsFillMessage('', 'saasLicType2','SAAS_LIC_TYPE')"
-                    remote  default-first-option
+                <el-form-item label="企业资质类别">
+                  <el-select placeholder="" v-model="copLimitsForm.entQualiftypeCode"
+                    @focus="tipsFillMessage('', 'saasEntQualifType','SAAS_ENT_QUALIF_TYPE')"
+                    remote filterable  clearable default-first-option
                     :remote-method="checkParamsList"
-                    @clear="clearSelct('saasLicType2')"
-                     ref="licTypeCode" dataRef='licTypeCode'
-                    style="width:100%" >
+                    @clear="clearSelct('saasEntQualifType')"
+                    ref="entQualiftypeCode" dataRef ='entQualiftypeCode'
+                    style="width:100%" @change ="entQuaChanged" >
                     <el-option
-                      v-for="(item,index) in saasLicType2"
+                      v-for="(item,index) in saasEntQualifType"
                       :key="index"
                       :label="item.codeField + '-' + item.nameField"
                       :value="item.codeField">
@@ -2158,204 +1789,575 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="许可证编号">
-                  <el-input v-model="licVINForm.licenceNo" disabled></el-input>
+                <el-form-item label="企业资质编号">
+                  <el-input v-model="copLimitsForm.entQualifNo" @keyup.enter.native="savedEntQua"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row  >
-              <el-col :span="6">
-                <el-form-item label="VIN序号">
-                  <el-input v-model="licVINForm.vinNo" :maxlength="100" autofocus></el-input>
+          </el-form>
+        </div>
+        <div>
+          <el-row class="border-bottom">
+            <el-button icon="fa fa-plus" @click="AddEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="savedEntQua" class="secondButton" size="mini" :disabled="controller.isDisabled">保存</el-button>
+          </el-row>
+        </div>
+        <el-table  ref="entQuaTable" :data="decHead.decCopLimits"
+          highlight-current-row border size='mini'
+          @selection-change="copLimitschangeFun"
+          @row-click="backCopLimitsInfo"
+          max-height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="entQualiftypeCode" label="企业资质类别代码" min-width="100"></el-table-column>
+          <el-table-column  property="entQualiftypeName" label="企业资质类别名称" min-width="100"></el-table-column>
+          <el-table-column  property="entQualifNo" label="企业资质编号" min-width="100"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!--使用人 弹出框 结束-->
+      <!--业务事项 弹出框 开始 -->
+      <el-dialog
+        title="特殊业务标识"
+        :visible.sync="specialBusiVisible"
+        width="600px">
+        <el-checkbox-group v-model="specialBusiList" class ='border-margin'>
+          <el-row class="border-bottom">
+            <el-col :span="6">
+              <el-checkbox label="国际赛事"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="特殊进出军工物资"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="国际援助物资"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="国际会议"></el-checkbox>
+            </el-col>
+          </el-row>
+          <el-row class="m-t-10 border-bottom">
+            <el-col :span="6">
+              <el-checkbox label="直通放行"></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox label="外交礼遇"></el-checkbox>
+            </el-col>
+            <el-col :span="6" v-if="controller.iEFlag == 'I'" >
+              <el-checkbox label="转关"></el-checkbox>
+            </el-col>
+          </el-row>
+        </el-checkbox-group>
+        <span slot="footer" class="dialog-footer">
+          <el-button  @click="sureSpecialBusi" class="layer-btn" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--业务事项 弹出框 结束-->
+      <!-- 弹出框 检验检疫编码列表 开始 -->
+      <el-dialog
+        title="检验检疫编码列表"
+        :visible.sync="encodeTableVisible"
+        @opened = 'openencodeListAfter'
+        width="640px">
+        <el-table  ref="encodeTable" :data="encodeTableList"
+        highlight-current-row border size='mini'
+          @selection-change="encodeTableChanged"
+          @keyup.native='updownEncodeTableSelect'
+            max-height="300" style="width: 100%">
+          <el-table-column  min-width="50"  >
+            <template slot-scope="scope">
+                <el-radio v-model="encodeListRadio" @keyup.enter.native="saveEncodeTableVaue"  :label="scope.$index">&nbsp;</el-radio>
+            </template>
+          </el-table-column>
+          <el-table-column  property="gNameNote" label="名称" min-width="100"></el-table-column>
+          <el-table-column  property="typeName" label="类型" min-width="100"></el-table-column>
+          <el-table-column  property="codeTs" label="HS代码" min-width="100"></el-table-column>
+          <el-table-column  property="hsGName" label="HS名称" min-width="100"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button  class="dialog-primary-btn"  @click="saveEncodeTableVaue" :disabled="controller.isDisabled">确定</el-button>
+          <el-button  class="dialog-btn"  size="mini" @click="closeEncodeTable">关闭</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 检验检疫编码列表 结束 -->
+      <!-- 弹出框 货物属性 开始 -->
+      <el-dialog
+        title="货物属性"
+        :visible.sync="goodsAttrVisible"
+        width="640px">
+        <el-row :gutter="30" style='border: 0px;'>
+          <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
+            <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-t-10">
+              <div style="width:100%;height:100%">
+                <el-checkbox-button :label="item.codeField + '-' + item.nameField" border style="width:100%;height:100%"></el-checkbox-button>
+              </div>
+            </el-col>
+          </el-checkbox-group>
+        </el-row>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="dialog-primary-btn" @click="saveGoodsAttr" :disabled="controller.isDisabled">确定</el-button>
+          <el-button class="dialog-btn"  size="mini" @click="closeGoodsAttr">取消</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 货物属性 结束 -->
+      <!-- 检验检疫货物规格 弹出框 开始-->
+      <el-dialog
+        title="编辑检验检疫货物规格"
+        :visible.sync="goodsSpecVisible"
+        width="540px">
+        <div class="border">
+          <el-form label-width="100px"
+            @keyup.enter.native="switchFoucsByEnter"
+            size="mini" label-position="right" :data="goodsSpecForm">
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="成分/原料/组分">
+                  <el-input v-model="goodsSpecForm.stuffNote" autofocus></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="提/运单日期">
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="产品有效期">
                   <el-date-picker
-                    v-model="licVINForm.billLaddate"
+                    v-model="goodsSpecForm.prodValidDt"
                     type="date"
-                    :editable='false'
                     style="width:100%"
                     value-format="yyyy-MM-dd"
                     placeholder="">
                   </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="质量保质期">
-                  <el-input v-model="licVINForm.qualityQgp" :maxlength="100"></el-input>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="产品保质期(天)">
+                  <el-input v-model="goodsSpecForm.prodQgp"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="车辆识别代码(VIN)" >
-                  <el-input v-model="licVINForm.vinCode" :maxlength="20"></el-input>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="境外生产企业">
+                  <el-input v-model="goodsSpecForm.engManentCnm"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物规格">
+                  <el-input v-model="goodsSpecForm.goodsSpec"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物型号">
+                  <el-input v-model="goodsSpecForm.goodsModel"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="货物品牌">
+                  <el-input v-model="goodsSpecForm.goodsBrand"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="生产日期">
+                  <el-date-picker
+                    v-model="goodsSpecForm.produceDate"
+                    @change='produceDateChange'
+                    type="dates"
+                    style="width:100%"
+                    value-format="yyyy-MM-dd"
+                    placeholder="">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div v-if = "controller.iEFlag == 'I'">
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产批次">
+                    <el-input v-model="goodsSpecForm.prodBatchNo" enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+            <div v-else>
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产批次">
+                    <el-input v-model="goodsSpecForm.prodBatchNo"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row >
+                <el-col :span="24">
+                  <el-form-item label="生产单位代码">
+                    <el-input v-model="goodsSpecForm.mnufctrRegno" enter='no' @keyup.enter.native="saveGoodsSpec"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" size="mini" @click="saveGoodsSpec" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!--检验检疫货物规格 弹出框 结束-->
+      <!-- 弹出框 商品列表 开始 -->
+      <el-dialog
+        title="商品列表"
+        :visible.sync="productListVisible"
+        ref = 'productListRef'
+        @opened = 'openProductListAfter'
+        width="640px">
+        <el-table
+          ref="productListTable"
+          :data="productList"
+          highlight-current-row border
+          size='mini'
+          @keyup.native='updownSelect'
+          max-height="300" style="width: 100%">
+          <span>从商品归类表中查询到了下列商品，请选择：</span>
+          <el-table-column  min-width="50"  >
+            <template slot-scope="scope">
+                <el-radio v-model="productListRadio"  @keyup.enter.native="saveProductList"  :label="scope.$index">&nbsp;</el-radio>
+            </template>
+          </el-table-column>
+          <el-table-column  property="codeTs" label="商品编号" min-width="100"></el-table-column>
+          <el-table-column  property="gName" label="商品名称" min-width="200"></el-table-column>
+          <el-table-column  property="noteS" label="备注" min-width="100"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="dialog-primary-btn" @click="saveProductList" :disabled="controller.isDisabled">确定</el-button>
+          <el-button class="dialog-btn" @click="saveProductList">关闭</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 商品列表 结束 -->
+      <!-- 弹出框 产品许可证/审批/备案信息  开始 -->
+      <el-dialog
+        title="编辑产品许可证/审批/备案信息"
+        :visible.sync="filingInfoVisible"
+        :before-close="filingInfoClose"
+        width="80%">
+        <div class="border">
+          <el-form label-width="100px" :model="filingInfoForm"
+          @keyup.enter.native="switchFoucsByEnter"
+          size="mini" label-position="right" ref="licRuleForm" :rules="licRuleForm">
+            <el-row >
+              <el-col :span="12">
+                <el-form-item label="许可证类别" :class="{ 'require-color': controller.requireColor }"  prop="licTypeCode"  ref="licTypeCode">
+                <el-select placeholder="" v-model="filingInfoForm.licTypeCode"
+                  @focus="tipsFillMessage('', 'saasLicType1','SAAS_LIC_TYPE')"
+                  remote  default-first-option
+                  :remote-method="checkParamsList"
+                  @clear="clearSelct('saasLicType1')"
+                  filterable clearable
+                dataRef='licTypeCode'
+                  style="width:100%" autofocus>
+                    <el-option
+                      v-for="(item,index) in saasLicType1"
+                      :key="index"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="许可证编号" :class="{ 'require-color': controller.requireColor }" prop="licenceNo" ref="licenceNo">
+                  <el-input v-model="filingInfoForm.licenceNo" :maxlength="40"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row  >
-              <el-col :span="12">
-                <el-form-item label="发动机号或电机号" >
-                  <el-input v-model="licVINForm.motorNo" :maxlength="100"></el-input>
+              <el-col :span="6">
+                <el-form-item label="核销货物序号" prop="licWrtofDetailno" ref="licWrtofDetailno">
+                  <el-input v-model="filingInfoForm.licWrtofDetailno" :maxlength="2"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="发票所列数量" >
-                  <el-input v-model="licVINForm.invoiceNum" placeholder="只能输入自然数"  :maxlength="14" @blur="invoiceNumValid"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row  >
-              <el-col :span="12">
-                <el-form-item label="品名(中文名称)" >
-                  <el-input v-model="licVINForm.prodCnnm"  :maxlength="500" ></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="品名(英文名称)" >
-                  <el-input v-model="licVINForm.prodEnnm"  :maxlength="500" ></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row  >
-              <el-col :span="12">
-                <el-form-item label="型号（英文">
-                  <el-input v-model="licVINForm.modelEn"  :maxlength="500" ></el-input>
+                <el-form-item label="核销数量"  prop="licWrtofQty" ref="licWrtofQty">
+                  <el-input v-model="filingInfoForm.licWrtofQty" :maxlength="20" enter = 'no' @keyup.enter.native ='savefilingInfo'></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="底盘(车架)号" >
-                  <el-input v-model="licVINForm.chassisNo"  :maxlength="20" ></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="单价">
-                  <el-input v-model="licVINForm.pricePerunit"  :maxlength="20" enter = 'no' @keyup.enter.native ='savelicVIN'></el-input>
+                <el-form-item label="核销数量单位"  prop="licWrtofQtyUnit" ref="licWrtofQtyUnit">
+                  <el-select placeholder="" v-model="filingInfoForm.licWrtofQtyUnit"
+                    @focus="tipsFillMessage('licWrtofQtyUnit', 'saasUnit4','SAAS_UNIT')"
+                    ref="licWrtofQtyUnit" dataRef ='licWrtofQtyUnit'
+                    remote  default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('saasUnit4')"
+                    :maxlength="3"
+                    enter = 'no'
+                    @keyup.enter.native ='savefilingInfo'
+                    clearable filterable :disabled="controller.isDisabled"
+                    style="width:100%">
+                    <el-option
+                      v-for="item in saasUnit4"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
-       </div>
-      <div>
-        <el-row>
-          <el-button icon="fa fa-plus" @click="AddlicVIN" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
-          <el-button icon="fa fa-save" @click="savelicVIN" class='secondButton' :disabled="controller.isDisabled">保存</el-button>
-        </el-row>
-      </div>
-      <el-table  ref="licVINTable" :data="filingInfoForm.decGoodsLimitvins"
-        highlight-current-row border size='mini'
-        @selection-change="licVINChangeFun"
-        @row-click="backLicVINInfo"
-        height="300" style="width: 100%">
-        <el-table-column  type="selection" min-width="50"></el-table-column>
-        <el-table-column  property="billLaddate" label="提/运单日期" min-width="100"></el-table-column>
-        <el-table-column  property="qualityQgp" label="质量保质期" min-width="80"></el-table-column>
-        <el-table-column  property="motorNo" label="发动机号或电机号" min-width="100"></el-table-column>
-        <el-table-column  property="vinCode" label="车辆识别代码(VIN)" min-width="100"></el-table-column>
-        <el-table-column  property="chassisNo" label="底盘(车架)号" min-width="100"></el-table-column>
-        <el-table-column  property="invoiceNo" label="发票号" min-width="100"></el-table-column>
-        <el-table-column  property="invoiceNum" label="发票所列数量" min-width="80"></el-table-column>
-        <el-table-column  property="prodCnnm" label="品名(中文名称)" min-width="120"></el-table-column>
-        <el-table-column  property="prodEnnm" label="品名(英文名称)" min-width="120"></el-table-column>
-        <el-table-column  property="modelEn" label="型号(英文)" min-width="120"></el-table-column>
-        <el-table-column  property="pricePerunit" label="单价" min-width="50"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
-    <!-- 弹出框 危险货物信息 开始  -->
-    <el-dialog
-      title="编辑危险货物信息"
-      :visible.sync="dangerGoodsVisible"
-      width="540px">
-      <div class="border">
-        <el-form label-width="100px" size="mini" label-position="right" :data="decList" @keyup.enter.native="switchFoucsByEnter">
-          <el-row >
-            <el-col :span="24">
-              <el-form-item label="非危险化学品">
-              <el-select placeholder="" v-model="decList.noDangFlag"
-                 @focus="tipsFillMessage('', 'commomPara3','COMMON_PARA')"
-                  filterable clearable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('commomPara3')"
-                  style="width:100%" autofocus>
-                  <el-option
-                    v-for="item in commomPara3"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </div>
+        <div >
           <el-row>
-            <el-col :span="24">
-              <el-form-item label="UN编码">
-                <el-input v-model="decList.unCode"></el-input>
-              </el-form-item>
-            </el-col>
+            <el-button icon="fa fa-plus" @click="AddfilingInfo" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-sign-in" @click="savefilingInfo" class='secondButton'  :disabled="controller.isDisabled">保存</el-button>
+            <el-button  @click="openLicVIN" class='secondButton'>许可证VIN信息</el-button>
           </el-row>
+        </div>
+        <el-table  ref="filingInfoTable" :data="decList.decGoodsLimits"
+          highlight-current-row border size='mini'
+          @selection-change="filingInfoChangeFun"
+          @row-click="backFilingInfo"
+          height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="licTypeCode" label="许可证类别代码" min-width="100"></el-table-column>
+          <el-table-column  property="licTypeCodeValue" label="许可证类别名称" min-width="100"></el-table-column>
+          <el-table-column  property="licenceNo" label="许可证编号" min-width="100"></el-table-column>
+          <el-table-column  property="licWrtofDetailno" label="核销货物序号" min-width="100"></el-table-column>
+          <el-table-column  property="licWrtofQty" label="核销数量" min-width="100"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
+      <!-- 弹出框 许可证VIN  开始 -->
+      <el-dialog
+        title="编辑许可证VIN"
+        :visible.sync="licVINVisible"
+        :before-close="licVINClose"
+        width="70%">
+        <div class="border">
+            <el-form label-width="120px" :model="licVINForm" size="mini" label-position="right" @keyup.enter.native="switchFoucsByEnter">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="许可证类别" disabled>
+                    <el-select placeholder="" v-model="licVINForm.licTypeCode"  disabled
+                      @focus="tipsFillMessage('', 'saasLicType2','SAAS_LIC_TYPE')"
+                      remote  default-first-option
+                      :remote-method="checkParamsList"
+                      @clear="clearSelct('saasLicType2')"
+                      ref="licTypeCode" dataRef='licTypeCode'
+                      style="width:100%" >
+                      <el-option
+                        v-for="(item,index) in saasLicType2"
+                        :key="index"
+                        :label="item.codeField + '-' + item.nameField"
+                        :value="item.codeField">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="许可证编号">
+                    <el-input v-model="licVINForm.licenceNo" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="6">
+                  <el-form-item label="VIN序号">
+                    <el-input v-model="licVINForm.vinNo" :maxlength="100" autofocus></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="提/运单日期">
+                    <el-date-picker
+                      v-model="licVINForm.billLaddate"
+                      type="date"
+                      :editable='false'
+                      style="width:100%"
+                      value-format="yyyy-MM-dd"
+                      placeholder="">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="质量保质期">
+                    <el-input v-model="licVINForm.qualityQgp" :maxlength="100"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="车辆识别代码(VIN)" >
+                    <el-input v-model="licVINForm.vinCode" :maxlength="20"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="12">
+                  <el-form-item label="发动机号或电机号" >
+                    <el-input v-model="licVINForm.motorNo" :maxlength="100"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="发票所列数量" >
+                    <el-input v-model="licVINForm.invoiceNum" placeholder="只能输入自然数"  :maxlength="14" @blur="invoiceNumValid"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="12">
+                  <el-form-item label="品名(中文名称)" >
+                    <el-input v-model="licVINForm.prodCnnm"  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="品名(英文名称)" >
+                    <el-input v-model="licVINForm.prodEnnm"  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row  >
+                <el-col :span="12">
+                  <el-form-item label="型号（英文">
+                    <el-input v-model="licVINForm.modelEn"  :maxlength="500" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="底盘(车架)号" >
+                    <el-input v-model="licVINForm.chassisNo"  :maxlength="20" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="单价">
+                    <el-input v-model="licVINForm.pricePerunit"  :maxlength="20" enter = 'no' @keyup.enter.native ='savelicVIN'></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+        </div>
+        <div>
           <el-row>
-            <el-col :span="24">
-              <el-form-item label="危险货物名称">
-                <el-input v-model="decList.dangName"></el-input>
-              </el-form-item>
-            </el-col>
+            <el-button icon="fa fa-plus" @click="AddlicVIN" class='secondButton' :disabled="controller.isDisabled">新增</el-button>
+            <el-button icon="fa fa-save" @click="savelicVIN" class='secondButton' :disabled="controller.isDisabled">保存</el-button>
           </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="危包类别">
-                <el-select placeholder="" clearable   v-model="decList.dangPackType" style="width:100%"
-                  @focus="tipsFillMessage('', 'dangerLevel','DANGER_LEVEL')"
-                  filterable remote default-first-option
-                  :remote-method="checkParamsList"
-                  @clear="clearSelct('dangerLevel')"
-                   ref="dangPackType" dataRef='dangPackType'>
-                  <el-option
-                    v-for="item in dangerLevel"
-                    :key="item.codeField"
-                    :label="item.codeField + '-' + item.nameField"
-                    :value="item.codeField">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="危包规格">
-                <el-input v-model="decList.dangPackSpec" enter = 'no'  @keyup.enter.native="sureDangerGoods"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" @click="sureDangerGoods" :disabled="controller.isDisabled">确定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出框 危险货物信息 结束 -->
-    <!--修改单价总价 弹出框 开始 -->
-    <el-dialog
-      title="报关修改单价/总价？"
-      :visible.sync="modifyPriceVisible"
-      width="500px">
-      <div class= 'priceDiv'>
-        <el-button class="layer-btn" @click="modifyPrice('1')">修改单价</el-button>
-        <el-button class="layer-btn" @click="modifyPrice('2')">修改总价</el-button>
-      </div>
-    </el-dialog>
-    <!--修改单价总价 弹出框 结束-->
-    <!-- 弹出框 商品规范申报-商品申报要素 开始 -->
-    <el-dialog
-      title="商品规范申报-商品申报要素"
-      :visible.sync="elementVisible"
-      width="640px">
-      <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>
-    </el-dialog>
-    <!-- 弹出框 商品规范申报-商品申报要素 结束 -->
-    <!-- 弹出框 备注信息 开始 -->
-    <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
-    <!-- 弹出框 备注信息 结束 -->
+        </div>
+        <el-table  ref="licVINTable" :data="filingInfoForm.decGoodsLimitvins"
+          highlight-current-row border size='mini'
+          @selection-change="licVINChangeFun"
+          @row-click="backLicVINInfo"
+          height="300" style="width: 100%">
+          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  property="billLaddate" label="提/运单日期" min-width="100"></el-table-column>
+          <el-table-column  property="qualityQgp" label="质量保质期" min-width="80"></el-table-column>
+          <el-table-column  property="motorNo" label="发动机号或电机号" min-width="100"></el-table-column>
+          <el-table-column  property="vinCode" label="车辆识别代码(VIN)" min-width="100"></el-table-column>
+          <el-table-column  property="chassisNo" label="底盘(车架)号" min-width="100"></el-table-column>
+          <el-table-column  property="invoiceNo" label="发票号" min-width="100"></el-table-column>
+          <el-table-column  property="invoiceNum" label="发票所列数量" min-width="80"></el-table-column>
+          <el-table-column  property="prodCnnm" label="品名(中文名称)" min-width="120"></el-table-column>
+          <el-table-column  property="prodEnnm" label="品名(英文名称)" min-width="120"></el-table-column>
+          <el-table-column  property="modelEn" label="型号(英文)" min-width="120"></el-table-column>
+          <el-table-column  property="pricePerunit" label="单价" min-width="50"></el-table-column>
+        </el-table>
+      </el-dialog>
+      <!-- 弹出框 产品许可证/审批/备案信息 结束 -->
+      <!-- 弹出框 危险货物信息 开始  -->
+      <el-dialog
+        title="编辑危险货物信息"
+        :visible.sync="dangerGoodsVisible"
+        width="540px">
+        <div class="border">
+          <el-form label-width="100px" size="mini" label-position="right" :data="decList" @keyup.enter.native="switchFoucsByEnter">
+            <el-row >
+              <el-col :span="24">
+                <el-form-item label="非危险化学品">
+                <el-select placeholder="" v-model="decList.noDangFlag"
+                  @focus="tipsFillMessage('', 'commomPara3','COMMON_PARA')"
+                    filterable clearable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('commomPara3')"
+                    style="width:100%" autofocus>
+                    <el-option
+                      v-for="item in commomPara3"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="UN编码">
+                  <el-input v-model="decList.unCode"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危险货物名称">
+                  <el-input v-model="decList.dangName"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危包类别">
+                  <el-select placeholder="" clearable   v-model="decList.dangPackType" style="width:100%"
+                    @focus="tipsFillMessage('', 'dangerLevel','DANGER_LEVEL')"
+                    filterable remote default-first-option
+                    :remote-method="checkParamsList"
+                    @clear="clearSelct('dangerLevel')"
+                    ref="dangPackType" dataRef='dangPackType'>
+                    <el-option
+                      v-for="item in dangerLevel"
+                      :key="item.codeField"
+                      :label="item.codeField + '-' + item.nameField"
+                      :value="item.codeField">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="危包规格">
+                  <el-input v-model="decList.dangPackSpec" enter = 'no'  @keyup.enter.native="sureDangerGoods"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="layer-btn" @click="sureDangerGoods" :disabled="controller.isDisabled">确定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 弹出框 危险货物信息 结束 -->
+      <!--修改单价总价 弹出框 开始 -->
+      <el-dialog
+        title="报关修改单价/总价？"
+        :visible.sync="modifyPriceVisible"
+        width="500px">
+        <div class= 'priceDiv'>
+          <el-button class="layer-btn" @click="modifyPrice('1')">修改单价</el-button>
+          <el-button class="layer-btn" @click="modifyPrice('2')">修改总价</el-button>
+        </div>
+      </el-dialog>
+      <!--修改单价总价 弹出框 结束-->
+      <!-- 弹出框 商品规范申报-商品申报要素 开始 -->
+      <el-dialog
+        title="商品规范申报-商品申报要素"
+        :visible.sync="elementVisible"
+        width="640px">
+        <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>
+      </el-dialog>
+      <!-- 弹出框 商品规范申报-商品申报要素 结束 -->
+      <!-- 弹出框 备注信息 开始 -->
+      <dec-note :initParams="initNote" @backDatas="receptionNoteData"  v-if="noteCompnentVisible"></dec-note>
+      <!-- 弹出框 备注信息 结束 -->
+    </div>
   </section>
 </template>
 
@@ -3204,16 +3206,12 @@ export default {
     let width = screen.availWidth
     if (width > 1280) {
       this.zoom = 1
-      this.asideWidth = 20
     } else if (width > 1024) {
       this.zoom = 0.95
-      this.asideWidth = 20
     } else if (width > 800) {
       this.zoom = 0.8
-      this.asideWidth = 20
     } else {
       this.zoom = 0.7
-      this.asideWidth = 20
     }
     let operation = this.$route.meta.operationType
     if (operation === 'look') {
@@ -5813,114 +5811,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-.sys-main{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    margin-left:5px;
-}
-.dec-div{
-  margin-top:5px;
-  border: 1px solid #B7B7B7;
-  border-bottom: 0;
-  background-color: #fff;
-}
-.m-t-10{
-  margin-top: 10px;
-}
-.m-t-20{
-  margin-top: 20px;
-}
-.m-b-15{
-  margin-bottom: 15px
-}
-.tips{
-  font-size: 10px;
-  color: @font-color-btn;
-}
-
-  .el-dialog__header {
-      padding: 5px 10px 9px;
-      background: #0969C8 !important;
-      color:#fff;
-  }
-  .el-dialog__headerbtn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 0;
-      background: 0 0;
-      border: none;
-      outline: 0;
-      cursor: pointer;
-      font-size: 16px;
-  }
-  .el-dialog__body {
-    color: #606266;
-    font-size: 14px;
-    padding-top: 2px;
-  }
-  .layer-btn {
-    height: 32px;
-    line-height: 32px;
-    margin: 0 6px;
-    padding: 0 15px;
-    border: 1px solid #4898d5;
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    background-color: #2e8ded;
-    color: #fff;
-  }
-  .el-dialog__footer {
-    padding: 10px 20px 10px;
-    box-sizing: border-box;
-}
- .w-100 {
-   width: 100%;
- }
- .border{
-    border: 1px solid #B7B7B7;
-    border-bottom: 0;
- }
- .border-bottom {
-   border-bottom: 0;
- }
- .bottomDiv{
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    min-width: 954px;
-    background: #e8ebed;
-    margin: 0 20px;
-    bottom: 0;
-    height: 19px;
-    color: red;
-    font-size: 12px;
- }
- .el-select-dropdown__item.selected {
-        background: #0080ff;
-        color: #ffffff;
-    }
-  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
-      background: #dbed8a;
-      font-weight: bold;
-  }
-  .el-select-dropdown__item {
-      font-size: 12px;
-      padding: 0 15px;
-      height: 22px;
-      line-height: 22px;
-      border: #c0c0c0 solid 1px;
-  }
-  .el-select-dropdown__list {
-        padding: 0;
-    }
-  .priceDiv{
-      text-align: center;
-      padding: 10px 0;
-    }
+@import './decPage/common/decCss';
 </style>

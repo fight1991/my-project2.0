@@ -148,7 +148,7 @@
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table dec-table order-table' :data="resultList" border highlight-current-row size="mini" @selection-change="selectFun" height="370px">
-        <el-table-column  type="selection" width="37" align="center"></el-table-column>
+        <el-table-column  type="selection" width="40" align="center"></el-table-column>
         <el-table-column label="接单编号" min-width="150" v-if="thList[0].value">
           <template slot-scope="scope">
             <div class="sys-td-l">{{scope.row.innerNo}}</div>
@@ -250,7 +250,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-          <page-box @change="queryList()"></page-box>
+          <page-box :pagination.sync='paginationInit' @change="queryList"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -308,7 +308,6 @@
       :visible.sync="ocrVisable"
       :close-on-click-modal='false'
       :modal-append-to-body='false'
-      v-dialogDrag
       v-loading="$store.state.loading"
       class="sys-dec-class"
       width="500px">
@@ -321,7 +320,6 @@
       :visible.sync="ocrRcordVisable"
       :close-on-click-modal='false'
       :modal-append-to-body='false'
-      v-dialogDrag
       class="sys-dec-dialog"
       width="800px">
       <ocr-record @cancLeData="closeOCRcordCompnent"  v-if="ocrRcordVisable"></ocr-record>
@@ -335,7 +333,6 @@
       :close-on-press-escape='false'
       :modal-append-to-body='false'
       class="sys-dec-class"
-      v-dialogDrag
       width="400px">
       <sync-cover :initParams="initCoverParam"  @cancLeData="closeCoverCompnent" @backData="receptionCoverData" v-if="coverVisable"></sync-cover>
     </el-dialog>
@@ -346,7 +343,6 @@
       :visible.sync="syncDecRcordVisable"
       :close-on-click-modal='false'
       :modal-append-to-body='false'
-      v-dialogDrag
       v-loading="$store.state.loading"
       class="sys-dec-dialog"
       width="800px">
@@ -362,6 +358,8 @@ import orderDetail from './component/order.vue'
 import execlImport from './component/execImport.vue'
 import ocrUpload from './component/ocrUpload.vue'
 import ocrRecord from './component/ocrRecord.vue'
+// import base64 from '@/common/base64'
+
 export default {
   components: {
     orderDetail, execlImport, ocrUpload, ocrRecord
@@ -545,7 +543,9 @@ export default {
       initImport: {}, // 导入信息
       importCompnentVisible: false, // 导入弹窗
       ocrRcordVisable: false, // ORC记录查看
-      ocrVisable: false // ORC 上传
+      ocrVisable: false, // ORC 上传
+      coverVisable: false,
+      syncDecRcordVisable: false
     }
   },
   created () {
@@ -627,9 +627,12 @@ export default {
       }
       this.$post({
         url: url,
-        data: this.QueryDecForm,
-        isPageList: true,
+        data: {
+          ...this.QueryDecForm,
+          page: this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.resultList = res.result
         }
       })
@@ -1010,9 +1013,16 @@ export default {
         if (this.selectList[0].type === 'invt') {
           let iEFlag = this.iEFlag === 'import' ? 'I' : 'E'
           let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].EMS + `/dec/datainput/${iEFlag}/taxList?type=${type}&headPid=${val.decPid}`
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            window.parent.postMessage({type: 'EMS', data: {tabId: (type === 'view' ? 'look-' : 'edit-') + val.decPid, url: url, operationType: type === 'view' ? 'look' : 'edit', id: val.decPid, title: type === 'view' ? '核注清单查看' : '核注清单编辑'}}, '*')
-          }
+          let setId = type === 'view' ? 'look' : 'edit'
+          let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
+          this.$router.push({
+            name: 'iExport-ems',
+            query: {
+              url: encodeURIComponent(url),
+              setTitle: title + '-' + val.decPid,
+              setId: 'iExport-ems' + setId + val.decPid
+            }
+          })
         } else {
           let decType = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
           this.gotoDecPage(decType, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid)
@@ -1021,9 +1031,16 @@ export default {
         if (val.importType === 'invt') {
           let iEFlag = this.iEFlag === 'import' ? 'I' : 'E'
           let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].EMS + `/dec/datainput/${iEFlag}/taxList?type=${type}&headPid=${val.decPid}`
-          if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-            window.parent.postMessage({type: 'EMS', data: {tabId: (type === 'view' ? 'look-' : 'edit-') + val.decPid, url: url, operationType: type === 'view' ? 'look' : 'edit', id: val.decPid, title: type === 'view' ? '核注清单查看' : '核注清单编辑'}}, '*')
-          }
+          let setId = type === 'view' ? 'look' : 'edit'
+          let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
+          this.$router.push({
+            name: 'iExport-ems',
+            query: {
+              url: encodeURIComponent(url),
+              setTitle: title + '-' + val.decPid,
+              setId: 'iExport-ems' + setId + val.decPid
+            }
+          })
         } else {
           let decType = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
           this.gotoDecPage(decType, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid)
@@ -1134,9 +1151,15 @@ export default {
         type = 'view'
       }
       let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].EMS + `/dec/datainput/${iEFlag}/taxList?type=${type}&headPid=${val.decPid}`
-      if (window.sessionStorage.getItem('sysId') === 'CCBA') {
-        window.parent.postMessage({type: 'EMS', data: {tabId: type === 'view' ? 'look-' : 'edit-' + val.decPid, url: url, operationType: 'look', id: val.decPid, title: type === 'view' ? '核注清单查看' : '核注清单编辑'}}, '*')
-      }
+      let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
+      this.$router.push({
+        name: 'iExport-ems',
+        query: {
+          url: encodeURIComponent(url),
+          setTitle: title + '-' + val.decPid,
+          setId: 'iExport-ems' + type + val.decPid
+        }
+      })
     },
     handleCommand (command) {
       if (command === 'importExcel') {

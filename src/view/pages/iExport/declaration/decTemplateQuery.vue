@@ -77,7 +77,7 @@
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table  dec-table' :data="templateQueryList" border highlight-current-row size="mini" @selection-change="changeFun" height="400px"  :max-height="$store.state.tableHeight" >
-        <el-table-column  type="selection"  align='center' min-width="37"></el-table-column>
+        <el-table-column  type="selection"  align='center' min-width="40"></el-table-column>
         <el-table-column label="模板名称"  align='left' prop="settingsName" min-width="150"></el-table-column>
         <el-table-column label="境内收发货人"  align='left' prop="tradeCode" min-width="150"></el-table-column>
         <el-table-column label="社会信用代码"  align='center' prop="agentCodeScc" min-width="150"></el-table-column>
@@ -284,11 +284,17 @@ export default {
           routeName = 'eDecTemplateEdit'
         }
       }
+      let setTitle = ''
+      if (operationType === 'add') {
+        setTitle = tabName
+      } else {
+        setTitle = tabName + '-' + pid
+      }
       this.$router.push({
         name: routeName,
         params: {
           'pid': pid,
-          'setTitle': tabName + '-' + pid,
+          'setTitle': setTitle,
           'setId': routeName + operationType + pid
         }
       })

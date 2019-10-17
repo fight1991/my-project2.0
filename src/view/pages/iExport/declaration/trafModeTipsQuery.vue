@@ -76,7 +76,7 @@
       <el-table class='sys-table-table' :data="trafModeTipsList"
          @selection-change="trafModeTipsListChange"
          border highlight-current-row size="mini"  height="400">
-        <el-table-column type="selection" width="30"></el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="进出境关别" prop="iEPortValue" min-width="80"></el-table-column>
         <el-table-column label="入/离境口岸" prop="entyPortCodeValue" min-width="110"></el-table-column>
         <el-table-column label="运输方式" prop="trafModeValue" min-width="100"></el-table-column>

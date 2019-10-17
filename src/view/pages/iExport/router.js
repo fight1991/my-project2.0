@@ -33,6 +33,16 @@ const MENU = [
       title: '异常状态登记'
     }
   },
+  {
+    path: '/iExport/ems',
+    name: 'iExport-ems',
+    permissions: 'SAASOM0504000000',
+    hidden: false,
+    meta: {
+      component: resolve => require(['./newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   DataQuery.MENU
 ]
 export default {MENU}
