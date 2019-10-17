@@ -1725,6 +1725,8 @@ export default {
         this.$confirm('更改接单类型将清空已填写的基本信息，是否继续？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
           type: 'warning'
         }).then(() => {
           this.baseInfo = {

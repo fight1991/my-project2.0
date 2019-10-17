@@ -553,6 +553,8 @@ export default {
           dangerouslyUseHTMLString: true,
           confirmButtonText: '继续暂存',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
           customClass: 'confirm-tips-warning',
           type: 'warning'
         }).then(() => {
@@ -907,6 +909,10 @@ export default {
         tableDecContainerlist[i].decPid = ''
       }
       let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
+      decHeadVo['relId'] = this.datasFormDate.relId
+      decHeadVo['relManno'] = this.datasFormDate.relManno
+      decHeadVo['bonNo'] = this.datasFormDate.bonNo
+      decHeadVo['cusFie'] = this.datasFormDate.cusFie
       // 判断企业资质里面有没有 合格
       if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
         decHeadVo.decCopLimits.push(cropLimit)
