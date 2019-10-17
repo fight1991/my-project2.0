@@ -215,6 +215,9 @@ export default {
     controller: {
       type: Object,
       require: true
+    },
+    moduleName: {
+      type: String
     }
   },
   data () {
@@ -361,7 +364,7 @@ export default {
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     checkParamsList (query, type = 'select') {
       decUtil.selectSearch(this, query, type)

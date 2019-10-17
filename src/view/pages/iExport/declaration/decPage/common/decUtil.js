@@ -1,12 +1,8 @@
 import util from '@/common/util'
 import {tipsMessage} from './tipsMessages'
 // import BigDecimal from 'js-big-decimal'
-let moduleName
 
 export default {
-  setModuleName (sourceModuleName) {
-    moduleName = sourceModuleName
-  },
   // 去重
   unique (arr) {
     let x = new Set(arr)
@@ -213,7 +209,7 @@ export default {
     }
   },
   // 提示需要填写的内容
-  tipsMessageF (_this, value, obj, params) {
+  tipsMessageF (_this, value, obj, params, moduleName) {
     // 1. 提示填写信息
     if (value !== '') {
       let para = tipsMessage[value]

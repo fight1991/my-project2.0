@@ -67,7 +67,6 @@
 </template>
 <script>
 import util from '@/common/util.js'
-import decUtil from '../decPage/common/decUtil'
 import summaryDecStore from './summaryDecStore'
 import decHead from '../summaryDec/components/decHead'
 import decList from '../summaryDec/components/decList'
@@ -98,7 +97,6 @@ export default {
     let pid = this.$route.params.pid
     this.moduleName = funFlag + '-' + operationType + '-' + pid
     this.$store.registerModule(this.moduleName, summaryDecStore)
-    decUtil.setModuleName(this.moduleName)
     this.controller.operationType = operationType
     this.controller.funFlag = funFlag
     this.controller.pid = operationType !== 'add' ? pid : ''

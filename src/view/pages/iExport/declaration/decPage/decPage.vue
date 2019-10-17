@@ -330,7 +330,6 @@ export default {
     let meta = this.$route.meta
     this.moduleName = meta.funFlag + '-' + meta.iEFlag + '-' + meta.operationType + '-' + params.pid
     this.$store.registerModule(this.moduleName, decPageStore)
-    decUtil.setModuleName(this.moduleName)
     let showFied = {
       attaDocuCdstr: '', // 随附单证
       contaCount: '', // 集装箱数
@@ -975,7 +974,7 @@ export default {
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     /**
      * 获取报关单详情
