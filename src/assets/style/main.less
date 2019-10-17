@@ -46,6 +46,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .cursor{
   cursor: pointer;
 }
+.el-table .cell:not(.el-checkbox), .el-table th div{
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .el-input__inner{
   border: 1px solid @line-color-input;
   border-radius: 2px;

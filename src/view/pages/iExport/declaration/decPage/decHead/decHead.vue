@@ -1310,9 +1310,9 @@
       <dec-user :isDisabled='controller.isDisabled' :userListArr='userList' :decUserVisible='decUserVisible'  @close:decUser="saveDecUser"></dec-user>
       <!-- 企业资质 -->
 
-      <enterprise-qualification :selectObj="enterpriseSelectObj" :entQuaVisible='entQuaVisible' :decCopLimits='decCopLimits' :copmpanyPromise='copmpanyPromise' :controller='controller' @close:entQua="receptionEntQuaData" :saasEntQualifType="saasEntQualifType"></enterprise-qualification>
+      <enterprise-qualification :selectObj="enterpriseSelectObj" :entQuaVisible='entQuaVisible' :decCopLimits='decCopLimits' :copmpanyPromise='copmpanyPromise' :controller='controller' @close:entQua="receptionEntQuaData" :saasEntQualifType="saasEntQualifType" :moduleName="moduleName"></enterprise-qualification>
       <!-- 价格因素 -->
-      <other-factor :otherPriceFactorVisible.sync='otherPriceFactorVisible' :promiseItmes='promiseItmes' :checkData='otherPromiseCheckData' @close:otherFactor="backOtherFactor" :showCustomsCode="showCustomsCode"></other-factor>
+      <other-factor :otherPriceFactorVisible.sync='otherPriceFactorVisible' :promiseItmes='promiseItmes' :checkData='otherPromiseCheckData' @close:otherFactor="backOtherFactor" :showCustomsCode="showCustomsCode" :moduleName="moduleName"></other-factor>
       <!-- 其他包装 -->
       <other-packs :otherPacksVisible.sync='otherPacksVisible' :isDisabled='controller.isDisabled' :otherPacks='decHead.otherPacks' @close:otherPacks="backOtherPacks"></other-packs>
       <!-- 特殊业务标识 -->
@@ -3830,7 +3830,7 @@ export default {
       } else {
         this.popoverVisible = false
       }
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     checkParamsList (query, type = 'select') {
       decUtil.selectSearch(this, query, type)

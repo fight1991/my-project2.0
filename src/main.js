@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import './common/netWorkUtil'
 import App from './App'
 import router from './router'
@@ -14,6 +16,8 @@ import Permissions from './directive/permissions'
 import {pagination} from './common/mixin/pagination'
 import {labelWidth} from './common/mixin/labelWidth'
 import BaiduMap from 'vue-baidu-map'
+
+Vue.use(ElementUI)
 
 let originSrc = ''
 if (utils.getQueryString('src')) {

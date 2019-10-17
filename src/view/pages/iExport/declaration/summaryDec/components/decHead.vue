@@ -428,16 +428,6 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   'controller': state => state.summaryData.controller,
-    //   'tipsMessage': state => state.summaryData.tipsMessage,
-    //   'tipsNoteShow': state => state.summaryData.tipsNoteShow,
-    //   'tipsNote': state => state.summaryData.tipsNote,
-    //   'declareType': state => state.summaryData.declareType,
-    //   'switch': state => state.summaryData.switch,
-    //   'swtichCheck': state => state.summaryData.swtichCheck,
-    //   'showCustomsCode': state => state.summaryData.showCustomsCode
-    // }),
     controller () {
       return this.$store.state[this.moduleName].controller
     },
@@ -740,7 +730,7 @@ export default {
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     checkParamsList (query, type = 'select') {
       decUtil.selectSearch(this, query, type)

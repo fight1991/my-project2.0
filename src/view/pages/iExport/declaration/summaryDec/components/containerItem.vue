@@ -92,14 +92,6 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   'tipsMessage': state => state.summaryData.tipsMessage,
-    //   'controller': state => state.summaryData.controller,
-    //   'tipsNoteShow': state => state.summaryData.tipsNoteShow,
-    //   'tipsNote': state => state.summaryData.tipsNote,
-    //   'declareType': state => state.summaryData.declareType,
-    //   'tableList': state => state.summaryData.tableList
-    // }),
     tipsMessage () {
       return this.$store.state[this.moduleName].tipsMessage
     },
@@ -183,7 +175,7 @@ export default {
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     // 打开 商品项号关系 弹出框
     openGoodsGNo () {

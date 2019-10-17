@@ -610,9 +610,9 @@
     <!-- 检验检疫货物规格 -->
     <goods-specifications :goodsSpecVisible.sync='goodsSpecVisible' :iEFlag='controller.iEFlag' :goodsSpecInfo="goodsSpecForm" :isDisabled='controller.isDisabled'  @close:goodsSpecifications="saveGoodsSpec"></goods-specifications>
      <!-- 危险货物信息 -->
-    <danger-goods :dangerGoodsVisible.sync='dangerGoodsVisible' :dangerInfo="dangerForm" :isDisabled='controller.isDisabled'  @close:dangerGoods="backDangerGoods" :showCustomsCode="showCustomsCode"></danger-goods>
+    <danger-goods :dangerGoodsVisible.sync='dangerGoodsVisible' :dangerInfo="dangerForm" :isDisabled='controller.isDisabled'  @close:dangerGoods="backDangerGoods" :showCustomsCode="showCustomsCode" :moduleName="moduleName"></danger-goods>
      <!-- 产品许可证/审批/备案信息 -->
-    <product-license  :filingInfoVisible='filingInfoVisible' :decList="decList" :controller='controller'  @close:productLicense="backProductLicense"></product-license>
+    <product-license  :filingInfoVisible='filingInfoVisible' :decList="decList" :controller='controller'  @close:productLicense="backProductLicense" :moduleName="moduleName"></product-license>
     <!-- 智能归类 -->
     <classify-Goods :classifyGoodsVisible.sync='classifyGoodsVisible' :iEFlag='controller.iEFlag' :gName='decList.gName'  @close:classifyGoods="backClassifyGoods"></classify-Goods>
   </section>
@@ -3551,7 +3551,7 @@ export default {
       } else {
         this.popoverVisible = false
       }
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     checkParamsList (query, type = 'select') {
       decUtil.selectSearch(this, query, type)

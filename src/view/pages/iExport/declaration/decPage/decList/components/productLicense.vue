@@ -121,7 +121,7 @@
       </el-table>
     </el-dialog>
     <!-- 产品许可证/审批/备案信息 -->
-    <license-vin :licVINVisible='licVINVisible' :filingInfoForm="filingInfoForm" :controller='controller'  @close:licenseVin="backLicenseVin"></license-vin>
+    <license-vin :licVINVisible='licVINVisible' :filingInfoForm="filingInfoForm" :controller='controller'  @close:licenseVin="backLicenseVin" :moduleName="moduleName"></license-vin>
   </section>
 </template>
 <script>
@@ -146,6 +146,9 @@ export default {
     controller: {
       type: Object,
       require: true
+    },
+    moduleName: {
+      type: String
     }
   },
   data () {
@@ -352,7 +355,7 @@ export default {
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {
-      decUtil.tipsMessageF(this, value, obj, params)
+      decUtil.tipsMessageF(this, value, obj, params, this.moduleName)
     },
     checkParamsList (query, type = 'select') {
       decUtil.selectSearch(this, query, type)
