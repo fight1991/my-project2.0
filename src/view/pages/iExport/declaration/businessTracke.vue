@@ -107,7 +107,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -280,20 +280,21 @@ export default {
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/ccba/review/decHisQuery',
-        data: this.queryForm,
-        isPageList: true,
+        data: {
+          ...this.queryForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.dataList = res.result
-          this.total = res.page.total
         }
       })
     },
     // 查询列表数据
     queryList () {
-      this.$store.commit('pageInit')
       if (this.dates === '' || this.dates === null) {
         this.queryForm.createTimeStart = ''
         this.queryForm.createTimeEnd = ''
@@ -301,7 +302,7 @@ export default {
         this.queryForm.createTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.queryForm.createTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 查看详情
     lookupDetail (row) {

@@ -73,7 +73,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -355,18 +355,19 @@ export default {
     },
     // 报关单列表查询
     queryPriceTipsList () {
-      this.$store.commit('pageInit')
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/decParam/common/getPriceList',
-        data: this.QueryPriceTipsForm,
-        isPageList: true,
+        data: {
+          ...this.QueryPriceTipsForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.priceTipsList = res.result
-          this.total = res.page.total
         }
       })
     },
@@ -466,7 +467,7 @@ export default {
               this.resetPriceTipsForm()
               this.$refs['priceTipsForm'].resetFields()
               this.priceTipsVisible = false
-              this.pageList()
+              this.queryPriceTipsList()
             }
           })
         }

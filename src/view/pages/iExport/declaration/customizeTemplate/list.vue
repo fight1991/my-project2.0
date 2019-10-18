@@ -68,7 +68,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="queryList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -265,13 +265,18 @@ export default {
         this.queryForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.queryForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
+      this.pageList(this.$store.state.pagination)
+    },
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/customTemplate/getList',
-        data: this.queryForm,
-        isPageList: true,
+        data: {
+          ...this.queryForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.resultList = res.result
-          this.total = res.page.total
         }
       })
     },

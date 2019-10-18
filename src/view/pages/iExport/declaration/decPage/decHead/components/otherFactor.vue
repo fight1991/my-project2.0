@@ -87,7 +87,7 @@
         <error-tips :approvalOpinions="promiseTips[currentShowField + 'Note']" :headClomn ="currentShowField + 'Note'"  @close:errorTips='closeErrorTips'></error-tips>
       </el-popover>
       <span slot="footer" class="dialog-footer">
-        <el-button  @click="saveotherPriceFactor" class="layer-btn" :disabled="isDisabled">确定</el-button>
+        <el-button  @click="saveotherPriceFactor" class="dialog-primary-btn" :disabled="isDisabled">确定</el-button>
       </span>
     </el-dialog>
   </section>

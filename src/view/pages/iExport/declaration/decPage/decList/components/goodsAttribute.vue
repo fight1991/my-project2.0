@@ -10,7 +10,7 @@
       @opened='openGoodsAttr'
       :before-close='closeCompnent'
       width="640px">
-      <el-row :gutter="30" style='border: 0px;'>
+      <el-row :gutter="10" style='border: 0px;'>
         <el-checkbox-group v-model="goodsAttrList" @change='goodsAttrChange'>
           <el-col :span="6" v-for="(item,index) in saasGoodsAttr" :key="index" class="m-t-10">
             <div class='goods-class'>

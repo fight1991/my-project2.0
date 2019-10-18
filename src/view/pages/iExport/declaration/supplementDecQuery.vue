@@ -129,7 +129,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -264,7 +264,6 @@ export default {
     },
     // 补充申报列表查询
     queryDecList () {
-      this.$store.commit('pageInit')
       if (this.dates === '' || this.dates === null) {
         this.QuerySuppDecForm.updateTimeStart = ''
         this.QuerySuppDecForm.updateTimeEnd = ''
@@ -272,7 +271,7 @@ export default {
         this.QuerySuppDecForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.QuerySuppDecForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 设置默认的查询日期
     setDefualtDate () {
@@ -282,14 +281,16 @@ export default {
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/dec/common/querySupplementList',
-        data: this.QuerySuppDecForm,
-        isPageList: true,
+        data: {
+          ...this.QuerySuppDecForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.suppDecList = res.result
-          this.total = res.page.total
         }
       })
     },

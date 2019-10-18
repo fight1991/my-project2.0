@@ -85,7 +85,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -545,18 +545,19 @@ export default {
         this.messageTips('请正确填写备案号')
         return
       }
-      this.$store.commit('pageInit')
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/decParam/common/getBondedGoodsHisList',
-        data: this.queryDecForm,
-        isPageList: true,
+        data: {
+          ...this.queryDecForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.goodsModelList = res.result
-          this.total = res.page.total
         }
       })
     },

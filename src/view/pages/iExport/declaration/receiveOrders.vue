@@ -250,7 +250,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-          <page-box :pagination.sync='paginationInit' @change="queryList"></page-box>
+          <page-box :pagination.sync='paginationInit' @change="pageList"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -607,12 +607,6 @@ export default {
     },
     // 列表查询
     queryList () {
-      let url = 'API@/dec-common/ccba/common/getOrderTakenList'
-      // if (this.iEFlag === 'import') {
-      //   url = 'API@/dec-common/ccba/iOrderTake/getOrderTakenList'
-      // } else {
-      //   url = 'API@/dec-common/ccba/eOrderTake/getOrderTakenList'
-      // }
       if (this.iEFlag === 'import') {
         this.QueryDecForm.iEFlag = 'I'
       } else {
@@ -625,11 +619,14 @@ export default {
         this.QueryDecForm.rcvStartDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.QueryDecForm.rcvEndDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
+      this.pageList(this.$store.state.pagination)
+    },
+    pageList (pagination) {
       this.$post({
-        url: url,
+        url: 'API@/dec-common/ccba/common/getOrderTakenList',
         data: {
           ...this.QueryDecForm,
-          page: this.paginationInit
+          page: pagination || this.paginationInit
         },
         success: (res) => {
           this.paginationInit = res.page
@@ -774,7 +771,7 @@ export default {
             data: {list: this.bossIdList},
             success: (res) => {
               this.messageTips('删除成功', 'success')
-              this.queryList()
+              this.pageList()
             },
             other: (res) => {
               this.messageTips(res.result, 'error')

@@ -170,7 +170,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -427,7 +427,6 @@ export default {
     },
     // 报关单列表查询
     queryDeCheckList () {
-      this.$store.commit('pageInit')
       if (this.dates === '' || this.dates === null) {
         this.queryCondition.startDate = ''
         this.queryCondition.endDate = ''
@@ -435,7 +434,7 @@ export default {
         this.queryCondition.startDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.queryCondition.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 设置默认的查询日期
     setDefualtDate () {
@@ -445,14 +444,16 @@ export default {
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/ccba/review/getReviewList',
-        data: this.queryCondition,
-        isPageList: true,
+        data: {
+          ...this.queryCondition,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.deCheckList = res.result
-          this.total = res.page.total
         }
       })
     },

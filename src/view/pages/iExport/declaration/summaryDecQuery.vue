@@ -173,7 +173,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -412,14 +412,16 @@ export default {
       this.dates = []
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/dec/ts/queryList',
-        data: this.querySumDecForm,
-        isPageList: true,
+        data: {
+          ...this.querySumDecForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.decResultList = res.result
-          this.total = res.page.total
         }
       })
     },
@@ -540,15 +542,7 @@ export default {
         this.querySumDecForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.querySumDecForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
-      this.$post({
-        url: 'API@/dec-common/dec/ts/queryList',
-        data: this.querySumDecForm,
-        isPageList: true,
-        success: (res) => {
-          this.decResultList = res.result
-          this.total = res.page.total
-        }
-      })
+      this.pageList(this.$store.state.pagination)
     },
     // 打开pdf打印组件
     downLoadPdf () {

@@ -78,7 +78,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     <div slot="footer"  class="sys-dialog-footer" style="text-align:center;">
@@ -122,7 +122,7 @@ export default {
     this.QueryHistoryForm.tradeName = this.initParams.tradeName
     if (!util.isEmpty(this.initParams.codeTs)) {
       this.QueryHistoryForm.codeTs = this.initParams.codeTs
-      this.pageList()
+      this.queryHistoryGoodsList()
     }
   },
   methods: {
@@ -138,7 +138,10 @@ export default {
     },
     // 查询商品数据
     queryHistoryGoodsList () {
-      this.pageList()
+      this.QueryHistoryForm.iEFlag = this.initParams.iEFlag
+      this.QueryHistoryForm.tradeName = this.initParams.tradeName
+      this.QueryHistoryForm['usePoint'] = 1 // 用来统计积分的标识
+      this.pageList(this.$store.state.pagination)
     },
     changeFun (val) {
       this.selectedData = val
@@ -159,17 +162,16 @@ export default {
       }
     },
     // 分页列表
-    pageList () {
-      this.QueryHistoryForm.iEFlag = this.initParams.iEFlag
-      this.QueryHistoryForm.tradeName = this.initParams.tradeName
-      this.QueryHistoryForm['usePoint'] = 1 // 用来统计积分的标识
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/dec/common/getHistoryGoods',
-        data: this.QueryHistoryForm,
-        isPageList: true,
+        data: {
+          ...this.QueryHistoryForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.historyGoodsList = res.result
-          this.total = res.page.total
         }
       })
     },

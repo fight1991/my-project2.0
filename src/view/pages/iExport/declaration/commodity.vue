@@ -129,7 +129,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="queryList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -259,13 +259,19 @@ export default {
         this.titleName = '商品资料详情查看'
       }
     },
-    // 列表查询
     queryList () {
+      this.pageList(this.$store.state.pagination)
+    },
+    // 列表查询
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/dec/decListHis/queryList',
-        data: this.QueryDecForm,
-        isPageList: true,
+        data: {
+          ...this.QueryDecForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.resultList = res.result
         }
       })
@@ -320,7 +326,7 @@ export default {
             data: {ids: this.innerNoList},
             success: (res) => {
               this.messageTips('删除成功', 'success')
-              this.queryList()
+              this.pageList()
             }
           })
         }).catch(() => {

@@ -135,18 +135,16 @@ export default {
     },
     // 分页列表
     pageList (pagination) {
-      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/common/getHistoryGoods ',
         data: {
           ...this.QueryHistoryForm,
-          page: pagination
+          page: pagination || this.paginationInit
         },
         router: this.$router,
-        isPageList: true,
         success: (res) => {
-          this.historyGoodsList = res.result
           this.paginationInit = res.page
+          this.historyGoodsList = res.result
         }
       })
     },

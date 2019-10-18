@@ -305,18 +305,16 @@ export default {
     },
     // 分页列表
     pageList (pagination) {
-      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/decParam/common/getDecTrafList',
         data: {
           ...this.shipForm,
-          page: pagination
+          page: pagination || this.paginationInit
         },
         router: this.$router,
-        isPageList: true,
         success: (res) => {
-          this.shipList = res.result
           this.paginationInit = res.page
+          this.shipList = res.result
         }
       })
     },

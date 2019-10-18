@@ -375,7 +375,6 @@ export default {
   },
   watch: {},
   created () {
-    this.paginationInit = this.$store.state.pagination
     this.getCommonParams()
     this.searchQueryForm()
   },
@@ -395,15 +394,13 @@ export default {
     },
     // 列表
     queryList (pagination) {
-      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/decParam/common/getPriceList',
         data: {
           ...this.queryForm,
-          page: pagination
+          page: pagination || this.paginationInit
         },
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.priceList = res.result.list
           this.paginationInit = res.page

@@ -89,7 +89,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -203,7 +203,6 @@ export default {
     },
     // 报关单模板列表查询
     queryDecList () {
-      this.$store.commit('pageInit')
       if (this.dates === '' || this.dates === null) {
         this.QueryDecForm.updateTimeStart = ''
         this.QueryDecForm.updateTimeEnd = ''
@@ -211,7 +210,7 @@ export default {
         this.QueryDecForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
         this.QueryDecForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 设置默认的查询日期
     setDefualtDate () {
@@ -221,14 +220,16 @@ export default {
       this.dates = [util.dateFormat(start, 'yyyy-MM-dd'), util.dateFormat(end, 'yyyy-MM-dd')]
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.$post({
         url: 'API@/dec-common/dec/initSetting/queryInitList',
-        data: this.QueryDecForm,
-        isPageList: true,
+        data: {
+          ...this.QueryDecForm,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.templateQueryList = res.result
-          this.total = res.page.total
         }
       })
     },

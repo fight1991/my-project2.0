@@ -112,7 +112,7 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button class="layer-btn" size="mini" @click="saveGoodsSpec" :disabled="isDisabled">确定</el-button>
+        <el-button class="dialog-primary-btn" size="mini" @click="saveGoodsSpec" :disabled="isDisabled">确定</el-button>
       </span>
     </el-dialog>
   </section>

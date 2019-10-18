@@ -30,7 +30,7 @@
       <!--分页-->
       <el-row class='sys-page-list' style='border:0'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
       <el-row style='border:0'>
@@ -181,18 +181,20 @@ export default {
     },
     // 查询可用的模板
     queryTemplate () {
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       this.isDefult = false
       this.$post({
         url: 'API@/dec-common/dec/initSetting/getInitRangeList',
-        data: {iEFlag: this.initParams},
-        isPageList: true,
+        data: {
+          iEFlag: this.initParams,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.templateList = res.result
-          this.total = res.page.total
         }
       })
     },

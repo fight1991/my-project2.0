@@ -379,7 +379,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -1301,7 +1301,6 @@ export default {
           }
         })
       } else {
-        this.$store.commit('pageInit')
         if (this.dates === '' || this.dates === null) {
           this.QueryDecForm.updateTimeStart = ''
           this.QueryDecForm.updateTimeEnd = ''
@@ -1309,7 +1308,7 @@ export default {
           this.QueryDecForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
           this.QueryDecForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
         }
-        this.pageList()
+        this.pageList(this.$store.state.pagination)
       }
     },
     // 查询是否已经关联接单编号
@@ -1443,7 +1442,7 @@ export default {
       this.billBossIdDisabled = false
     },
     // 分页列表
-    pageList () {
+    pageList (pagination) {
       let queryParam = {}
       if (this.queryType) { // 如果是基本查询传基本参数的参数
         queryParam = {
@@ -1482,11 +1481,13 @@ export default {
       }
       this.$post({
         url: 'API@/dec-common/dec/common/queryList',
-        data: queryParam,
-        isPageList: true,
+        data: {
+          ...queryParam,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.decResultList = res.result
-          this.total = res.page.total
         }
       })
     },
@@ -2366,8 +2367,10 @@ export default {
     downLoadSeqNo () {
       this.$post({
         url: 'API@/dec-common/dec/common/checkSeqNo',
-        data: this.QueryDecForm,
-        isPageList: true,
+        data: {
+          ...this.QueryDecForm,
+          page: this.paginationInit
+        },
         success: (res) => {
           // 判断是否需要 覆盖
           if (res.result.code === '1') { // 1.代表我们数据库有这条数据
@@ -2402,8 +2405,8 @@ export default {
             }).catch(() => {
             })
           } else { // 直接入库 给了数据
+            this.paginationInit = res.page
             this.decResultList = res.result.decList
-            this.total = res.page.total
           }
         }
       })
@@ -2412,8 +2415,10 @@ export default {
     coverLocalDec (param, type = 'down') {
       this.$post({
         url: 'API@/dec-common/dec/common/checkSeqNo',
-        data: param,
-        isPageList: true,
+        data: {
+          ...param,
+          page: this.paginationInit
+        },
         success: (res) => {
           if (res.result.code === '-1') {
             this.messageTips(res.message, 'error')
@@ -2424,8 +2429,8 @@ export default {
                 this.bossIdForm.bossId = ''
                 this.bossIdForm.corpBusiNo = ''
               }
+              this.paginationInit = res.page
               this.decResultList = res.result.decList
-              this.total = res.page.total
             } else if (type === 'update') {
               this.pageList()
             }
@@ -2448,8 +2453,10 @@ export default {
       }
       this.$post({
         url: 'API@/dec-common/dec/common/checkSeqNo',
-        data: param,
-        isPageList: true,
+        data: {
+          ...param,
+          page: this.paginationInit
+        },
         success: (res) => {
           // 判断是否需要 覆盖
           if (res.result.code === '1') { // 1.代表我们数据库有这条数据
@@ -2485,7 +2492,7 @@ export default {
           } else { // res.result.code === '0' 或者 2 都为成功 成功
             this.messageTips(res.message, 'success')
             this.decResultList = res.result.decList
-            this.total = res.page.total
+            this.paginationInit = res.page
             this.contactBossIdVisible = false // 关闭弹出框
             this.bossIdForm.bossId = ''
             this.bossIdForm.corpBusiNo = ''
@@ -2501,7 +2508,7 @@ export default {
         success: (res) => {
           this.messageTips(res.message, 'success')
           this.decResultList = res.result.decList
-          this.total = res.page.total
+          this.paginationInit = res.page
           this.contactBossIdVisible = false // 关闭弹出框
           this.bossIdForm.bossId = ''
           this.bossIdForm.corpBusiNo = ''

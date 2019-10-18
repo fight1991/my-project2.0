@@ -83,7 +83,7 @@
       <!--分页-->
       <el-row class='sys-page-list'>
         <el-col :span="24" align="right">
-            <page-box @change="pageList()"></page-box>
+            <page-box :pagination.sync='paginationInit' @change="pageList()"></page-box>
         </el-col>
       </el-row>
     </div>
@@ -551,12 +551,10 @@ export default {
     },
     // 删改单查询
     queryListByCondition () {
-      this.$store.commit('pageInit')
-      this.pageList()
+      this.pageList(this.$store.state.pagination)
     },
     // 分页列表
-    pageList () {
-      // this.$store.commit('pageInit')
+    pageList (pagination) {
       if (this.dates === '' || this.dates === null) {
         this.queryCondtion.startDate = ''
         this.queryCondtion.endDate = ''
@@ -566,11 +564,13 @@ export default {
       }
       this.$post({
         url: 'API@/dec-common/dec/revise/getDecRevises',
-        data: this.queryCondtion,
-        isPageList: true,
+        data: {
+          ...this.queryCondtion,
+          page: pagination || this.paginationInit
+        },
         success: (res) => {
+          this.paginationInit = res.page
           this.tableList = res.result
-          this.total = res.page.total
         }
       })
     },
@@ -586,7 +586,7 @@ export default {
             success: (res) => {
               this.messageTips(res.message, 'success')
               this.clearDecRegisterForm()
-              this.pageList()
+              this.queryListByCondition()
             }
           })
         }
