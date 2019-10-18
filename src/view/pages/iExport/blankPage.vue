@@ -20,6 +20,8 @@ export default {
       this.url = pathList.eImport['importTaxList'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'exportTaxList') { // 出口核注清单新增
       this.url = pathList.eImport['exportTaxList'] + '?sysId=CCBA&tabId=' + this.$route.name
+    } else if (this.$route.name === 'taxTemplateList') {
+      this.url = pathList.eImport['taxTemplateList'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'taxReviewed') { // 核注清单审核
       this.url = pathList.eImport['taxReviewed'] + '?sysId=CCBA&tabId=' + this.$route.name
     } else if (this.$route.name === 'taxInfo') {

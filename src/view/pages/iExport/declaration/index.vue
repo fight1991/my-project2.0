@@ -1564,86 +1564,32 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoDecPage (funFlag, flag, operationType, pid = 'new', tsPid, bossId) {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            if (!tsPid) {
-              tabName = '进口报关单'
-              routeName = 'importDecLook'
-            } else {
-              tabName = '进口报关单(完整申报)'
-              routeName = 'importDecLook'
-            }
-          } else if (operationType === 'edit') {
-            if (!tsPid) {
-              tabName = '进口报关单'
-              routeName = 'importDecEdit'
-            } else {
-              tabName = '进口报关单(完整申报)'
-              routeName = 'importDecEdit'
-            }
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            if (!tsPid) {
-              tabName = '出口报关单'
-              routeName = 'exportDecLook'
-            } else {
-              tabName = '出口报关单(完整申报)'
-              routeName = 'exportDecLook'
-            }
-          } else if (operationType === 'edit') {
-            if (!tsPid) {
-              tabName = '出口报关单'
-              routeName = 'exportDecEdit'
-            } else {
-              tabName = '出口报关单(完整申报)'
-              routeName = 'exportDecEdit'
-            }
-          }
-        }
+      let routeParam = {
+        'declaration@import@look@dec': {tabName: '进口报关单', routeName: 'importDecLook'},
+        'declaration@import@look@summary': {tabName: '进口报关单(完整申报)', routeName: 'importDecLook'},
+        'declaration@import@edit@dec': {tabName: '进口报关单', routeName: 'importDecEdit'},
+        'declaration@import@edit@summary': {tabName: '进口报关单(完整申报)', routeName: 'importDecEdit'},
+        'declaration@export@edit@dec': {tabName: '出口报关单', routeName: 'exportDecEdit'},
+        'declaration@export@edit@summary': {tabName: '出口报关单(完整申报)', routeName: 'exportDecEdit'},
+        'declaration@export@look@dec': {tabName: '出口报关单', routeName: 'exportDecLook'},
+        'declaration@export@look@summary': {tabName: '出口报关单(完整申报)', routeName: 'exportDecLook'},
+        'recordList@import@look@dec': {tabName: '进境备案清单', routeName: 'importRecordLook'},
+        'recordList@import@look@summary': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordLook'},
+        'recordList@import@edit@dec': {tabName: '进境备案清单', routeName: 'importRecordEdit'},
+        'recordList@import@edit@summary': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordEdit'},
+        'recordList@export@look@dec': {tabName: '出境备案清单', routeName: 'exportRecordLook'},
+        'recordList@export@look@summary': {tabName: '出境备案清单(完整申报)', routeName: 'exportRecordLook'},
+        'recordList@export@edit@dec': {tabName: '出境备案清单', routeName: 'exportRecordEdit'},
+        'recordList@export@edit@summary': {tabName: '出境备案清单(完整申报)', routeName: 'exportRecordEdit'}
       }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            if (!tsPid) {
-              tabName = '进境备案清单'
-              routeName = 'importRecordLook'
-            } else {
-              tabName = '进境备案清单(完整申报)'
-              routeName = 'importRecordLook'
-            }
-          } else if (operationType === 'edit') {
-            if (!tsPid) {
-              tabName = '进境备案清单'
-              routeName = 'importRecordEdit'
-            } else {
-              tabName = '进境备案清单(完整申报)'
-              routeName = 'importRecordEdit'
-            }
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            if (!tsPid) {
-              tabName = '出境备案清单'
-              routeName = 'exportRecordLook'
-            } else {
-              tabName = '出境备案清单(完整申报)'
-              routeName = 'exportRecordLook'
-            }
-          } else if (operationType === 'edit') {
-            if (!tsPid) {
-              tabName = '出境备案清单'
-              routeName = 'exportRecordEdit'
-            } else {
-              tabName = '出境备案清单(完整申报)'
-              routeName = 'exportRecordEdit'
-            }
-          }
-        }
+      let para = `${funFlag}@${flag}@${operationType}`
+      if (tsPid) {
+        para += '@summary'
+      } else {
+        para += '@dec'
       }
+      let routeName = routeParam[para].routeName
+      let tabName = routeParam[para].tabName
       this.$router.push({
         name: routeName,
         params: {
@@ -1664,62 +1610,21 @@ export default {
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
     gotoTransPage (funFlag, flag, operationType, pid = 'new') {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          tabName = '进口转关提前报关'
-          if (operationType === 'add') {
-            routeName = 'importTransitDecAdd'
-          } else if (operationType === 'look') {
-            routeName = 'importTransitDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importTransitDecEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口转关提前报关'
-          if (operationType === 'add') {
-            routeName = 'exportTransitDecAdd'
-          } else if (operationType === 'look') {
-            routeName = 'exportTransitDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportTransitDecEdit'
-          }
-        }
+      let routeParam = {
+        'declaration@import@look': {tabName: '进口转关提前报关', routeName: 'importTransitDecLook'},
+        'declaration@import@edit': {tabName: '进口转关提前报关', routeName: 'importTransitDecEdit'},
+        'declaration@export@look': {tabName: '出口转关提前报关', routeName: 'exportTransitDecLook'},
+        'declaration@export@edit': {tabName: '出口转关提前报关', routeName: 'exportTransitDecEdit'},
+        'recordList@import@look': {tabName: '进境转关提前备案清单', routeName: 'importTransitRecordListLook'},
+        'recordList@import@edit': {tabName: '进境转关提前备案清单', routeName: 'importTransitRecordListEdit'},
+        'recordList@export@look': {tabName: '出境转关提前备案清单', routeName: 'exportTransitRecordListLook'},
+        'recordList@export@edit': {tabName: '出境转关提前备案清单', routeName: 'exportTransitRecordListEdit'},
+        'secondDec@export@look': {tabName: '出口转关提前报关', routeName: 'exportTransitSecondDecLook'},
+        'secondDec@export@edit': {tabName: '出口转关提前报关', routeName: 'exportTransitRecordListEdit'}
       }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          tabName = '进境转关提前备案清单'
-          if (operationType === 'add') {
-            routeName = 'importTransitRecordListAdd'
-          } else if (operationType === 'look') {
-            routeName = 'importTransitRecordListLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importTransitRecordListEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出境转关提前备案清单'
-          if (operationType === 'add') {
-            routeName = 'exportTransitRecordListAdd'
-          } else if (operationType === 'look') {
-            routeName = 'exportTransitRecordListLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportTransitRecordListEdit'
-          }
-        }
-      }
-      if (funFlag === 'secondDec') {
-        if (flag === 'export') {
-          tabName = '出口二次转关'
-          if (operationType === 'add') {
-            routeName = 'exportTransitSecondDecAdd'
-          } else if (operationType === 'look') {
-            routeName = 'exportTransitSecondDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportTransitSecondDecEdit'
-          }
-        }
-      }
+      let para = `${funFlag}@${flag}@${operationType}`
+      let routeName = routeParam[para].routeName
+      let tabName = routeParam[para].tabName
       this.$router.push({
         name: routeName,
         params: {
