@@ -3,7 +3,7 @@
     <!-- 返回按钮 -->
     <el-row>
       <el-col :span='12' :xs='24'>
-        <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+        <span @click="back" class="sys-back-btn"><i class="back-btn" style='margin-bottom: 3px;'></i>返回</span>
       </el-col>
       <el-col :span='12' :xs='24'>
         <div style="text-align: right;"><el-button size="mini" type="primary" v-if="isDeclare" @click="declare">申报</el-button></div>
