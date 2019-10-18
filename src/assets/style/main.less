@@ -884,7 +884,6 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       vertical-align: middle;
     }
   }
-
   .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {  
     color:#808080;
     background-color:#d8d8d8;
@@ -1952,6 +1951,10 @@ body .el-table th.gutter{
           padding: 0 8px 0 0;
           font-size: 14px;
           color: @font-color-main;
+      }
+      .el-button--primary, .el-button--primary:focus, .el-button--primary:hover {
+        background-color: #287fca;
+        border-color: #287fca;
       }
   }
   .query-btn {
@@ -3572,6 +3575,10 @@ table.form-table{
   }
   .table-checkbox .el-checkbox{
       margin-left:0;
+  }
+  .el-button.is-disabled {
+    background-color: #096AC6;
+    color: #fff;
   }
 }
 .sys-dec-dialog {

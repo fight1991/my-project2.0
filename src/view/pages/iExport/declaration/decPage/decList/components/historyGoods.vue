@@ -98,9 +98,7 @@ export default {
       default () {
         return {
           iEFlag: 'I',
-          tradeName: '',
-          effectTime: 30, // 轮询有效时间
-          scanShow: false
+          tradeName: ''
         }
       }
     }
@@ -114,7 +112,9 @@ export default {
       selectObj: {
         obj: '',
         params: ''
-      }
+      },
+      scanShow: false,
+      effectTime: 30 // 轮询有效时间
     }
   },
   mounted () {
