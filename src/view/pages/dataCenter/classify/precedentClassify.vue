@@ -83,7 +83,7 @@ export default {
     return {
       queryForm: {
         'querykey': '',
-        'classType': '2'
+        'classType': '3'
       },
       hsCodeList: [{
         text: '',
