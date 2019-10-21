@@ -6,7 +6,6 @@
       :visible.sync="mftBillVisible"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
-      :modal-append-to-body='false'
       @opened='openAfter'
       :before-close='closeMftBill'
       :show-close='true'
@@ -18,7 +17,6 @@
         :visible.sync="containerVisible"
         :close-on-click-modal='false'
         :close-on-press-escape='false'
-        :modal-append-to-body='false'
         class="sys-dec-class"
         :append-to-body='true'
         width="500px">
@@ -247,6 +245,16 @@ export default {
           this.shippingRadio++
         }
       }
+    },
+    // 舱单详情
+    shipDetail (data) {
+      this.shippingListA = []
+      this.shippingListA.push(data)
+      this.openContainerInfo('detail')
+    },
+    mftBillDetailData (param) {
+      this.$emit('close:shippingBill', param)
+      this.mftBillDetailVisible = false
     }
   }
 }
