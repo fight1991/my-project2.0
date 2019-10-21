@@ -26,7 +26,7 @@
         </el-table-column>
          <el-table-column label="操作" min-width="100">
            <template slot-scope="scope">
-             <el-button size="mini" v-if="scope.row.status === '1'"  @click="backOrcdata(scope.row.taskId)" style='border:unset;background-color:unset;padding:7px 0px' title='数据回填' class="list-btns list-icon-syncH"><i></i></el-button>
+             <el-button size="mini" v-if="scope.row.status === '1'"  @click="backOrcdata(scope.row.taskId,scope.row.docType)" style='border:unset;background-color:unset;padding:7px 0px' title='数据回填' class="list-btns list-icon-syncH"><i></i></el-button>
              <el-button size="mini" v-if="scope.row.status === '1'" @click="showResult(scope.row.taskId,scope.row.docType,scope.row.docUrl)" style='border:unset;background-color:unset;padding:7px 0px' title='识别结果' class="list-btns list-icon-lookH"><i></i></el-button>
            </template>
         </el-table-column>
@@ -124,23 +124,50 @@ export default {
         this.descernResultVisable = true
       }
     },
-    backOrcdata (id) {
+    backOrcdata (id, type) {
       this.$post({
         url: 'API@/dec-common/dec/orc/getOcrBillList',
         data: {page: this.page, taskId: id},
         success: (res) => {
-          if (this.total.decListVO.length > 0) {
-            this.total.decListVO[0].gQty = res.result[0].gQty
-            this.total.decListVO[0].declTotal = res.result[0].declTotal
-            this.total.decListVO[0].tradeCurr = res.result[0].tradeCurr
+          if (type === '报关单') {
+            for (let x in res.result[0].decVO.decListVO) {
+              res.result[0].decVO.decListVO[x].decPid = this.total.decListVO.decPid
+              if (!this.total.decListVO[x]) {
+                this.total.decListVO.push(res.result[0].decVO.decListVO[x])
+              } else {
+                for (let y in res.result[0].decVO.decListVO[x]) {
+                  this.total.decListVO[x][y] = res.result[0].decVO.decListVO[x][y]
+                }
+              }
+            }
+            res.result[0].decVO.decHeadVO.status = this.total.decHeadVO.status
+            res.result[0].decVO.decHeadVO.decPid = this.total.decHeadVO.decPid
+            res.result[0].decVO.decHeadVO.isExamine = this.total.decHeadVO.isExamine
+            res.result[0].decVO.decHeadVO.statusValue = this.total.decHeadVO.statusValue
+            res.result[0].decVO.decHeadVO.isExamineValue = this.total.decHeadVO.isExamineValue
+            res.result[0].decVO.decHeadVO.customMaster = this.total.decHeadVO.customMaster
+            for (let x in res.result[0].decVO.decHeadVO) {
+              this.total.decHeadVO[x] = res.result[0].decVO.decHeadVO[x]
+            }
+          } else {
+            if (this.total.decListVO.length > 0) {
+              this.total.decListVO[0].gQty = res.result[0].gQty
+              this.total.decListVO[0].declTotal = res.result[0].declTotal
+              this.total.decListVO[0].tradeCurr = res.result[0].tradeCurr
+              this.total.decListVO[0].tradeCurrValue = res.result[0].tradeCurrValue
+            }
+            this.total.decHeadVO.trafMode = res.result[0].trafMode || this.total.decHeadVO.trafMode
+            this.total.decHeadVO.billNo = res.result[0].billNo || this.total.decHeadVO.billNo
+            if (this.total.decHeadVO.iEFlag === 'I') {
+              this.total.decHeadVO.overseasConsignorEname = res.result[0].overseasConsignorEname || this.total.decHeadVO.overseasConsigneeEname
+            } else {
+              this.total.decHeadVO.overseasConsigneeEname = res.result[0].overseasConsigneeEname || this.total.decHeadVO.overseasConsigneeEname
+            }
+            this.total.decHeadVO.packNo = res.result[0].packNo || this.total.decHeadVO.grossWt
+            this.total.decHeadVO.grossWt = res.result[0].grossWt || this.total.decHeadVO.grossWt
+            this.total.decHeadVO.netWt = res.result[0].netWt || this.total.decHeadVO.netWt
+            this.orcRecordVisable = false
           }
-          this.total.decHeadVO.trafMode = res.result[0].trafMode
-          this.total.decHeadVO.billNo = res.result[0].billNo
-          this.total.decHeadVO.overseasConsignorEname = res.result[0].overseasConsignorEname
-          this.total.decHeadVO.packNo = res.result[0].packNo
-          this.total.decHeadVO.grossWt = res.result[0].grossWt
-          this.total.decHeadVO.netWt = res.result[0].netWt
-          this.orcRecordVisable = false
           this.getselect()
         },
         other: (res) => {

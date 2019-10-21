@@ -430,7 +430,6 @@ export default {
     this.tabId = this.getQueryString('tabId')
     let type = this.$route.query.type // 取路径的参数
     let operation = this.$route.meta.operationType
-    this.isExamine = this.$refs.decHead.decHead.isExamine
     if (this.controller.iEFlag === 'I') {
       this.controller.iEFlagDisabled = false
     } else {
@@ -576,7 +575,12 @@ export default {
       // 表头表体重量检控
       if (decHead.netWt) {
         let listTotalNet = 0
+        let [unitCheck, gUnitFlag, unit1Flag, unit2Flag] = [true, false, false, false]
         tableList.forEach((v, i) => {
+          gUnitFlag = (v.gUnit && (v.gUnit === '035' || v.gUnit === '036')) === '' ? true : v.gUnit && (v.gUnit === '035' || v.gUnit === '036')
+          unit1Flag = (v.unit1 && (v.unit1 === '035' || v.unit1 === '036')) === '' ? true : v.unit1 && (v.unit1 === '035' || v.unit1 === '036')
+          unit2Flag = (v.unit2 && (v.unit2 === '035' || v.unit2 === '036')) === '' ? true : v.unit2 && (v.unit2 === '035' || v.unit2 === '036')
+          if (!gUnitFlag || !unit1Flag || !unit2Flag) unitCheck = false
           let middle = ''
           if (v.gUnit === '036' && !util.isEmpty(v.gQty)) { // 克
             listTotalNet = decUtil.Add(listTotalNet, v.gQty)
@@ -596,9 +600,19 @@ export default {
           }
         })
         let netWtg = decUtil.Mul(decHead.netWt, 1000)
-        if (netWtg < listTotalNet) {
-          mesLen = messageTips.length + 1
-          messageTips.push(mesLen + '.' + '表体商品重量需要小于或等于表头总净重')
+        if (unitCheck) {
+          if (netWtg < listTotalNet) {
+            mesLen = messageTips.length + 1
+            messageTips.push(mesLen + '.' + '表体商品重量大于表头总净重')
+          } else if (netWtg > listTotalNet) {
+            mesLen = messageTips.length + 1
+            messageTips.push(mesLen + '.' + '表体商品重量小于表头总净重')
+          }
+        } else {
+          if (netWtg < listTotalNet) {
+            mesLen = messageTips.length + 1
+            messageTips.push(mesLen + '.' + '表体商品重量需要小于或等于表头总净重')
+          }
         }
       }
       // 随附单证代码为“Y”时，需要上传随附单据“00000001 合同”以及“00000003 提/运单”，未上传时提示
@@ -1000,6 +1014,7 @@ export default {
         success: (res) => {
           if (res.result) {
             // 表头
+            this.isExamine = res.result.decHeadVO.isExamine
             let decHeadVO = res.result.decHeadVO
             // 表头数据拆出来
             // 关联报关单号

@@ -45,7 +45,7 @@
           <p class='content-font'>{{decHead.trafModeValue}}</p>
         </checkItem>
         <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['nameVo']">
-          <p class='content-font'>{{(decHead.trafName|| "") + '/' + (decHead.voyageNo|| "")}}</p>
+          <p class='content-font'>{{(decHead.trafName && decHead.voyageNo) ? (decHead.trafName + '/' + decHead.voyageNo) : (decHead.trafName || decHead.voyageNo)}}</p>
         </checkItem>
         <checkItem :moduleName="moduleName" :colspan="isImport?1:3" :isImport="isImport" :checkData="headConfig['billNo']" :disabled="disabledSpecialEle">
           <p class='content-font'>{{decHead.billNo}}</p>
@@ -115,13 +115,13 @@
           <p class='content-font'>{{decHead.transModeValue}}</p>
         </checkItem>
         <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['feeMark']">
-          <p class='content-font'>{{(decHead.feeCurr|| "") + '/' + (decHead.feeRate|| "") + '/' +(decHead.feeMark|| "")}}</p>
+          <p class='content-font'>{{format(decHead.feeCurr, decHead.feeRate, decHead.feeMark)}}</p>
         </checkItem>
         <checkItem :moduleName="moduleName" width= "10%" :isImport="isImport" :checkData="headConfig['insurMark']">
-          <p class='content-font'>{{(decHead.insurCurr|| "") + '/' + (decHead.insurRate|| "") + '/' +(decHead.insurMark|| "")}}</p>
+          <p class='content-font'>{{format(decHead.insurCurr, decHead.insurRate, decHead.insurMark)}}</p>
         </checkItem>
         <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['otherMark']">
-          <p class='content-font'>{{(decHead.otherCurr|| "") + '/' + (decHead.otherRate|| "") + '/' +(decHead.otherMark|| "")}}</p>
+          <p class='content-font'>{{format(decHead.otherCurr, decHead.otherRate, decHead.otherMark)}}</p>
         </checkItem>
       </tr>
       <tr>
@@ -178,6 +178,14 @@ export default {
   methods: {
     syncSameSetting (field) {
       this.$emit('syncSetting', {field: field, config: this.headConfig[field]})
+    },
+    format (arg1, arg2, arg3) {
+      let d = [arg1, arg2, arg3]
+      let str = ''
+      d.forEach((e, i) => {
+        if (e) str += i === d.length - 1 ? `${e}` : `${e}/`
+      })
+      return str
     }
   }
 }

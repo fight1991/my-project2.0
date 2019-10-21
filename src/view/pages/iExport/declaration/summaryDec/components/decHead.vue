@@ -555,6 +555,10 @@ export default {
         }
       }
     },
+    // 清除下拉框数据
+    clearSelct (selecType) {
+      decUtil.clearSelct(this, selecType)
+    },
     resetHeadForm () {
       return {
         pid: '', // 主键

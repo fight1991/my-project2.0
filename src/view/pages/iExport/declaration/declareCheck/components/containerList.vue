@@ -4,28 +4,28 @@
     @cell-click='checkContaCellClick' :cell-class-name="deCellClass" border highlight-current-row size="mini">
       <el-table-column label="集装箱号" prop="containerNo" align='center' min-width="80">
         <template slot-scope="scope">
-          <table-list-item :config="containerCheckConfigs[scope.$index].containerNo" name="containerNo">
+          <table-list-item :moduleName="moduleName" :config="containerCheckConfigs[scope.$index].containerNo" name="containerNo">
             <span class='content-font'>{{scope.row.containerNo}}</span>
           </table-list-item>
         </template>
       </el-table-column>
       <el-table-column label="集装箱规格" align='center' prop="containerSize" min-width="100">
         <template slot-scope="scope">
-          <table-list-item :config="containerCheckConfigs[scope.$index].containerSize" name="containerSize">
+           <table-list-item :moduleName="moduleName" :config="containerCheckConfigs[scope.$index].containerSize" name="containerSize">
             <span class='content-font'>{{scope.row.containerSize}}</span>
           </table-list-item>
         </template>
       </el-table-column>
       <el-table-column label="拼箱标识" prop="lclFlag" align='center'  min-width="120">
         <template slot-scope="scope">
-          <table-list-item :config="containerCheckConfigs[scope.$index].lclFlag" name="lclFlag">
+          <table-list-item :moduleName="moduleName" :config="containerCheckConfigs[scope.$index].lclFlag" name="lclFlag">
             <span class='content-font'>{{scope.row.lclFlag === '0' ? '否' : scope.row.lclFlag === '1' ? '是' : ''}}</span>
           </table-list-item>
         </template>
       </el-table-column>
       <el-table-column label="商品项号关系" prop="goodsNo"  min-width="150" align='center'>
         <template slot-scope="scope">
-          <table-list-item :config="containerCheckConfigs[scope.$index].goodsNo" name="goodsNo">
+          <table-list-item :moduleName="moduleName" :config="containerCheckConfigs[scope.$index].goodsNo" name="goodsNo">
              <span class='content-font'>{{scope.row.goodsNo}}</span>
           </table-list-item>
         </template>

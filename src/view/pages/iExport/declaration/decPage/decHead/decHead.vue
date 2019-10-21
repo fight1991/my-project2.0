@@ -3,7 +3,7 @@
 <!-- 报关单表头主键 -->
   <section>
     <div class='dec-div'>
-      <el-form ref="headRuleForm" :model="decHead"  :rules="headRuleForm" label-width="112px" size="mini" @keyup.enter.native="switchFoucsByEnter">
+      <el-form ref="headRuleForm" :model="decHead"  :rules="headRuleForm" label-width="112px" size="mini" @keydown.enter.native="switchFoucsByEnter">
           <el-row>
             <el-col :span="12">
               <el-form-item label="申报地海关" :class="{ 'require-color': controller.requireColor}"  prop="customMaster">
@@ -1186,6 +1186,7 @@
                     type="date"
                     @focus="tipsFillMessage('despDate')"
                     @change='despDateChange'
+                    @blur='despDateBlur'
                     :disabled="controller.isDisabled"
                     value-format="yyyyMMdd"
                     format='yyyyMMdd'
@@ -1196,7 +1197,7 @@
               <el-col :span="6" v-if="controller.iEFlag === 'I'">
                 <el-form-item label="B/L号">
                   <el-input v-model="decHead.blno" :readonly="controller.isDisabled"
-                  :maxlength="50"
+                   :maxlength="50" ref="blno"
                   @focus="tipsFillMessage('blno')"
                   ></el-input>
                 </el-form-item>
@@ -1325,6 +1326,8 @@
       <customs-code :customsCodeVisabled='customsCodeVisabled' :initParams="initCustomsCode"  @close:customsCode="receptionCustomsCode"></customs-code>
       <!-- 舱单信息 -->
       <shipping-bill :mftBillVisible.sync='mftBillVisible' :initParams="initMftBill" :shippingList='shippingList' @close:shippingBill="mftBillData"></shipping-bill>
+      <!-- 舱单数据明细 -->
+      <shipping-detail :mftBillDetailVisible.sync='mftBillDetailVisible' :initParams="initMftBill" :shippingList='shippingList' :mftContainerList='mftContainerList' @close:shippingBillDetail="mftBillDetailData"></shipping-detail>
       <!-- 报价提醒 -->
       <price-remind :prcVisible.sync='prcVisible' :priceList="priceList" :operType="operType" @close:priceRemind="prcRemindData"></price-remind>
     </div>
@@ -1349,6 +1352,7 @@ const shippingBill = () => import(/* webpackChunkName: "dec-page-header" */'./co
 const priceRemind = () => import(/* webpackChunkName: "dec-page-header" */'./components/priceRemind')
 const customsCode = () => import(/* webpackChunkName: "dec-page-header" */'./components/customsCode')
 const errorTips = () => import(/* webpackChunkName: "dec-page-header" */'../components/errorTips')
+const shippingDetail = () => import(/* webpackChunkName: "dec-page-header" */'./components/shippingBillDetail')
 export default {
   name: 'dec-head',
   components: {
@@ -1365,7 +1369,8 @@ export default {
     customsCode,
     shippingBill,
     priceRemind,
-    errorTips
+    errorTips,
+    shippingDetail
   },
   props: {
     moduleName: {
@@ -1410,7 +1415,8 @@ export default {
       priceList: [], // 报价数据
       operType: '',
       initMftBill: {},
-      isManualNoChange: false,
+      mftBillDetailVisible: false, // 舱单数据明细
+      mftContainerList: [], // 舱单集装箱列表
       checkList: [], // 业务事项
       cropLimit: { // 记录特殊的一个企业资质
         pid: '', // 主键
@@ -2804,6 +2810,11 @@ export default {
         this.decHead.despDate = ''
       }
     },
+    despDateBlur () {
+      this.$nextTick(() => {
+        this.$refs['blno'].focus()
+      })
+    },
     // 查询H账册的数据
     queryBookHead () {
       // 当值没有发生变化时
@@ -3702,7 +3713,11 @@ export default {
             iEFlag: this.controller.iEFlag
           }
           this.shippingList = list
-          this.mftBillVisible = true
+          if (this.shippingList.length === 1) {
+            this.openContainerInfo(this.shippingList, this.initMftBill)
+          } else if (this.shippingList.length > 1) {
+            this.mftBillVisible = true
+          }
         },
         other: (res) => {
           this.messageTips(res.message)
@@ -4655,6 +4670,51 @@ export default {
       // if (this.decHead[field] !== this.decHeadOther[field]) {
 
       // }
+    },
+    // 查询舱单调取的集装箱
+    openContainerInfo (shippingList, initParams) {
+      let param
+      if (shippingList.length > 0) {
+        param = {
+          billNo: shippingList[0].billNo,
+          customMaster: initParams.customMaster,
+          iEFlag: initParams.iEFlag
+        }
+      } else {
+        param = {
+          billNo: initParams.billNo,
+          customMaster: initParams.customMaster,
+          iEFlag: initParams.iEFlag
+        }
+      }
+      this.$post({
+        url: 'API@/dec-common/dec/common/queryCusContainer',
+        data: param,
+        loading: true,
+        success: (res) => {
+          if (res.code === '0000') {
+            this.mftContainerList = util.isEmpty(res.result) ? [] : res.result
+            this.mftBillDetailVisible = true
+          } else {
+            this.messageTips(res.message, 'error')
+          }
+        }
+      })
+    },
+    mftBillDetailData (param) {
+      let mftData = util.simpleClone(param)
+      if (mftData.isShip) {
+        this.decHead.packNo = mftData.packNo
+        this.decHead.trafName = mftData.trafName
+        this.decHead.billNo = mftData.billNo
+        this.decHead.grossWt = mftData.wt
+        this.decHead.voyageNo = mftData.voyageNo
+      }
+      if (!util.isEmpty(mftData.containerInfo)) {
+        // 反填集装箱信息
+        decBus.$emit('backContainerList', mftData.containerInfo)
+      }
+      this.mftBillDetailVisible = false
     }
   }
 }

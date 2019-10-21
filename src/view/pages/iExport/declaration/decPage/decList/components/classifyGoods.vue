@@ -108,7 +108,7 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      total: '',
+      total: 0,
       taxForm: {}
     }
   },
@@ -144,7 +144,8 @@ export default {
     },
     pageList (param) {
       this.$post({
-        url: 'API@/saas-document-center/category/queryCategorySecond',
+        //  url: 'API@/saas-document-center/category/queryCategorySecond',
+        url: 'API@/saas-document-center/category/queryCategoryThird',
         data: param,
         success: (res) => {
           this.total = res.page.total

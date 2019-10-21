@@ -50,7 +50,7 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      total: ''
+      total: 0
     }
   },
   created () {

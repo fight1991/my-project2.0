@@ -29,9 +29,12 @@
             </template>
         </el-table-column>
         <el-table-column v-if="orctype == '提单'" label="境外收发货人名称外文" min-width="200">
-            <template slot-scope="scope" >
-                <div>
+            <template slot-scope="scope" v-if="orctype == '提单'">
+                <div v-if="total.decHeadVO.iEFlag === 'I'">
                     <span :style='"color:"+(total.decHeadVO.overseasConsignorEname===scope.row.overseasConsignorEname?"":"red")'>{{scope.row.overseasConsignorEname}}</span>
+                </div>
+                <div else="total.decHeadVO.iEFlag === 'I'">
+                    <span :style='"color:"+(total.decHeadVO.overseasConsigneeEname===scope.row.overseasConsigneeEname?"":"red")'>{{scope.row.overseasConsigneeEname}}</span>
                 </div>
             </template>
         </el-table-column>
@@ -155,16 +158,21 @@ export default {
     // 数据翻填
     backdata () {
       if (this.total.decListVO.length > 0) {
-        this.total.decListVO[0].gQty = this.descernRecords[0].gQty
-        this.total.decListVO[0].declTotal = this.descernRecords[0].declTotal
-        this.total.decListVO[0].tradeCurr = this.descernRecords[0].tradeCurr
+        this.total.decListVO[0].gQty = this.descernRecords[0].gQty ? this.descernRecords[0].gQty : ''
+        this.total.decListVO[0].declTotal = this.descernRecords[0].declTotal ? this.descernRecords[0].declTotal : ''
+        this.total.decListVO[0].tradeCurr = this.descernRecords[0].tradeCurr ? this.descernRecords[0].tradeCurr : ''
+        this.total.decListVO[0].tradeCurrValue = this.descernRecords[0].tradeCurrValue ? this.descernRecords[0].tradeCurrValue : ''
       }
-      this.total.decHeadVO.trafMode = this.descernRecords[0].trafMode
-      this.total.decHeadVO.billNo = this.descernRecords[0].billNo
-      this.total.decHeadVO.overseasConsignorEname = this.descernRecords[0].overseasConsignorEname
-      this.total.decHeadVO.packNo = this.descernRecords[0].packNo
-      this.total.decHeadVO.grossWt = this.descernRecords[0].grossWt
-      this.total.decHeadVO.netWt = this.descernRecords[0].netWt
+      this.total.decHeadVO.trafMode = this.descernRecords[0].trafMode || this.total.decHeadVO.trafMode
+      this.total.decHeadVO.billNo = this.descernRecords[0].billNo || this.total.decHeadVO.billNo
+      if (this.total.decHeadVO.iEFlag === 'I') {
+        this.total.decHeadVO.overseasConsignorEname = this.descernRecords[0].overseasConsignorEname || this.total.decHeadVO.overseasConsignorEname
+      } else {
+        this.total.decHeadVO.overseasConsigneeEname = this.descernRecords[0].overseasConsigneeEname || this.total.decHeadVO.overseasConsigneeEname
+      }
+      this.total.decHeadVO.packNo = this.descernRecords[0].packNo || this.total.decHeadVO.packNo
+      this.total.decHeadVO.grossWt = this.descernRecords[0].grossWt || this.total.decHeadVO.grossWt
+      this.total.decHeadVO.netWt = this.descernRecords[0].netWt || this.total.decHeadVO.netWt
       this.$emit('getTradeSelects')
     },
     closedesRes () {

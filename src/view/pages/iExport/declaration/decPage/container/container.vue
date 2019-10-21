@@ -544,6 +544,12 @@ export default {
         let containerVo = this.resetContainerForm()
         containerVo.containerNo = containerList[i].no
         containerVo.gNo = this.tableDecContainerlist.length + 1
+        // 校验 集装箱号是否重复
+        for (let n in this.tableDecContainerlist) {
+          if (this.tableDecContainerlist[n].containerNo === containerVo.containerNo) {
+            return false
+          }
+        }
         this.tableDecContainerlist.push(containerVo)
       }
     },

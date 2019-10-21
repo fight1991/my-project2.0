@@ -4,30 +4,30 @@
     <!-- 查询条件 -->
     <div class = "query-condition">
       <el-form :label-width="labelFormWidth.four" :model="queryForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
               <el-form-item label="接单编号" >
                 <el-input v-model="queryForm.bossId" clearable></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="系统编号" >
               <el-input v-model="queryForm.decPid" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="统一编号" >
               <el-input v-model="queryForm.seqNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="海关编号" >
               <el-input v-model="queryForm.entryId" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="queryForm.status"  filterable style="width:100%" clearable>
                   <el-option
@@ -39,7 +39,7 @@
                 </el-select>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="操作人" >
               <el-select placeholder="" v-model="queryForm.createUser"  filterable style="width:100%" clearable>
                 <el-option
@@ -51,7 +51,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
             <el-form-item label="创建时间">
               <el-date-picker v-model="dates" style="width:100%"
                 type="daterange" clearable
@@ -64,7 +64,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row>
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetForm" style="padding: 8px 20px;">重置</el-button>

@@ -4,8 +4,8 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.six" :model="querySumDecForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item label="企业类别">
               <el-select placeholder="" v-model="querySumDecForm.etpsCategory" clearable filterable style="width:100%">
                 <el-option
@@ -17,29 +17,29 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="报关单号" >
               <el-input v-model="querySumDecForm.entryId" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="统一编号" >
               <el-input v-model="querySumDecForm.seqNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="境内收发货人">
               <el-input v-model="querySumDecForm.tradeCode" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item label="提运单号" >
               <el-input v-model="querySumDecForm.billNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="申报地海关">
               <el-select placeholder="" v-model="querySumDecForm.customMaster"
                 clearable filterable
@@ -59,12 +59,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="业务编号">
               <el-input v-model="querySumDecForm.bossId" clearable placeholder="系统编号,接单编号"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="创建人">
               <el-select placeholder="" v-model="querySumDecForm.createUser"
                 filterable clearable style="width:100%">
@@ -78,8 +78,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row>
+          <el-col :md="12" :lg="6">
             <el-form-item label="状态" >
               <el-select placeholder="" v-model="querySumDecForm.status"
                 filterable clearable style="width:100%">
@@ -92,7 +92,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
               <el-form-item label="最近操作时间">
                 <el-date-picker v-model="dates" style="width:100%"
                   type="daterange" clearable
@@ -105,7 +105,7 @@
               </el-form-item>
             </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row>
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="querySummaryDecList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetDecForm" style="padding: 8px 20px;">重置</el-button>

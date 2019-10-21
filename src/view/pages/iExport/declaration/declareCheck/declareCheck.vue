@@ -10,17 +10,17 @@
         <!-- 表尾信息 -->
         <table>
           <tr>
-            <checkItem  colspan="3" :checkData="headConfig['promiseItem1']">
+            <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem1']">
                <span class='content-font'>{{decOther.promiseItem1}}</span>
             </checkItem>
-            <checkItem colspan="2" :checkData="headConfig['promiseItem2']">
+            <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['promiseItem2']">
                <span class='content-font'>{{decOther.promiseItem2}}</span>
             </checkItem>
-            <checkItem colspan="3" :checkData="headConfig['promiseItem3']">
+             <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem3']">
                <span class='content-font'>{{decOther.promiseItem3}}</span>
             </checkItem>
-            <checkItem colspan="2" :checkData="headConfig['chkPayment']">
-               <span class='content-font'>{{chkPayment}}</span>
+            <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['chkPayment']">
+              <span class='content-font'>{{chkPayment}}</span>
             </checkItem>
           </tr>
         </table>

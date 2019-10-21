@@ -97,7 +97,7 @@ const getParamVersion = (reslove) => {
     condition: 'PARAMVERSION'
   }
   return postBefore({
-    url: 'API@/plat-manager/config/queryConfigList',
+    url: 'API@/plat-manager/config/getWebClientConfigList',
     data: data,
     isPageList: true,
     isLoad: false,

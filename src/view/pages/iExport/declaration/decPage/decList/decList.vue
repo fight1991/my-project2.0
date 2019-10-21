@@ -2849,7 +2849,7 @@ export default {
                     if (res.result.list.length > 0) {
                       let data = res.result.list[0]
                       let declPrice = decUtil.Mul(parseInt(this.decList.declPrice), 100) // 现值
-                      let lowBand = decUtil.Mul(parseInt(data.declPrice), this.Sub(100, parseInt(data.bandArea))) // 参考值最低值
+                      let lowBand = decUtil.Mul(parseInt(data.declPrice), decUtil.Sub(100, parseInt(data.bandArea))) // 参考值最低值
                       let upperBand = decUtil.Mul(parseInt(data.bandArea) + 100, parseInt(data.declPrice)) // 参考值最高值
                       if (declPrice < lowBand || declPrice > upperBand) {
                         let mesLen = messgeTips.length + 1

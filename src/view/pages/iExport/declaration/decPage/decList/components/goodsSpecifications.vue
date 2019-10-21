@@ -12,7 +12,7 @@
       width="540px">
       <div class="border">
         <el-form label-width="100px"
-          @keyup.enter.native="switchFoucsByEnter"
+          @keydown.enter.native="switchFoucsByEnter"
           size="mini" label-position="right" :data="goodsSpecForm">
           <el-row >
             <el-col :span="24">
@@ -27,6 +27,7 @@
                 <el-date-picker
                   v-model="goodsSpecForm.prodValidDt"
                   @change='prodValidDtChange'
+                  @blur='prodValidDtBlur'
                   type="date"
                   style="width:100%"
                   value-format="yyyy-MM-dd"
@@ -38,7 +39,7 @@
           <el-row >
             <el-col :span="24">
               <el-form-item label="产品保质期(天)">
-                <el-input v-model="goodsSpecForm.prodQgp"  @input='decCheckInt("prodQgp", 20)' ></el-input>
+                <el-input ref="prodQgp" v-model="goodsSpecForm.prodQgp"  @input='decCheckInt("prodQgp", 20)' ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -192,6 +193,11 @@ export default {
       if (util.isEmpty(this.goodsSpecForm.produceDate) || this.goodsSpecForm.length === 0) {
         this.goodsSpecForm.produceDate = ''
       }
+    },
+    prodValidDtBlur () {
+      this.$nextTick(() => {
+        this.$refs['prodQgp'].focus()
+      })
     },
     // 产品有效期的change事件 如果 产品有效期为null 则 赋值为空
     prodValidDtChange () {

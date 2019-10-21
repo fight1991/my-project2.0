@@ -51,6 +51,11 @@
           <el-table-column  property="iFlag" label="进境抵港确报标志" min-width="100"></el-table-column>
           <el-table-column  property="status" label="理货状态" min-width="100"></el-table-column>
           <el-table-column  property="eFlag" label="出口运抵状态" min-width="100"></el-table-column>
+          <el-table-column label="操作" align="center" fixed="right">
+            <template slot-scope="scope">
+              <a href="javascript:void(0)" class="list-icon-lookH border-0" title="查看" @click="shipDetail(scope.row)"><i class='dec-i'></i></a>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <div slot="footer"  class="sys-dialog-footer  text-center">
@@ -59,16 +64,20 @@
         <el-button class='dialog-primary-btn' @click="closeMftBill">关闭</el-button>
       </div>
     </el-dialog>
+    <!-- 舱单数据明细 -->
+    <shipping-detail :mftBillDetailVisible.sync='mftBillDetailVisible' :initParams="initParams" :shippingList='shippingListA' :mftContainerList='mftContainerList' @close:shippingBillDetail="mftBillDetailData"></shipping-detail>
   </section>
 </template>
 
 <script>
-// import util from '@/common/util.js'
+import util from '@/common/util.js'
 import containerInfo from '../components/containerInfo'
+import shippingDetail from '../components/shippingBillDetail'
 export default {
   name: 'shipping-bill',
   components: {
-    containerInfo
+    containerInfo,
+    shippingDetail
   },
   props: {
     shippingList: {
@@ -90,7 +99,10 @@ export default {
     return {
       shippingRadio: 0,
       containerVisible: false,
-      containerPara: {}
+      containerPara: {},
+      mftBillDetailVisible: false,
+      mftContainerList: [],
+      shippingListA: []
     }
   },
   methods: {
@@ -120,7 +132,7 @@ export default {
       })
     },
     // 开发集装箱信息弹出框
-    openContainerInfo () {
+    openContainerInfo (flag) {
       // TODO
       // 请求选的的舱单数据对应的集装箱信息
       let param
@@ -142,16 +154,21 @@ export default {
         data: param,
         loading: true,
         success: (res) => {
-          if (res.code === '0000') {
-            if (res.result !== null && res.result.length === 0) {
-              this.messageTips('无集装箱信息！')
-            } else {
-              this.containerPara['list'] = res.result
-              this.containerPara['customMaster'] = this.initParams.customMaster
-              this.containerVisible = true
-            }
+          if (flag === 'detail') {
+            this.mftContainerList = util.isEmpty(res.result) ? [] : res.result
+            this.mftBillDetailVisible = true
           } else {
-            this.messageTips(res.message, 'error')
+            if (res.code === '0000') {
+              if (res.result !== null && res.result.length === 0) {
+                this.messageTips('无集装箱信息！')
+              } else {
+                this.containerPara['list'] = res.result
+                this.containerPara['customMaster'] = this.initParams.customMaster
+                this.containerVisible = true
+              }
+            } else {
+              this.messageTips(res.message, 'error')
+            }
           }
         }
       })
@@ -256,5 +273,11 @@ export default {
   }
   .text-center {
     text-align: center;
+  }
+  .dec-i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle
   }
 </style>

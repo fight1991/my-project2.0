@@ -5,8 +5,8 @@
       <!-- -->
       <el-form :label-width="labelFormWidth.seven" :model="QueryDecForm" size="mini" label-position="right">
         <div v-if='queryType'>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
                   @change="declTrnrelChange"
@@ -21,7 +21,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="进出口标志">
                 <el-select placeholder="" v-model="QueryDecForm.iEFlag"  style="width:100%" >
                   <el-option
@@ -33,12 +33,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="报关单号">
                 <el-input v-model="QueryDecForm.entryId" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="统一编号">
                 <el-autocomplete
                   :maxlength="18"
@@ -51,18 +51,18 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="境内收发货人">
                 <el-input v-model="QueryDecForm.tradeCode" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="提运单号">
                 <el-input v-model="QueryDecForm.billNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="申报地海关">
                 <el-select placeholder="" v-model="QueryDecForm.customMaster"
                   :disabled="isDisabled" filterable clearable
@@ -77,14 +77,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="业务编号">
                 <el-input v-model="QueryDecForm.bossId" clearable :disabled="isDisabled" placeholder="系统编号,接单编号"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="创建人">
                 <el-select placeholder="" v-model="QueryDecForm.createUser"
                   filterable clearable style="width:100%" :disabled="isDisabled">
@@ -97,7 +97,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="QueryDecForm.status"
                 :disabled="isDisabled" filterable clearable style="width:100%">
@@ -126,8 +126,8 @@
           </el-row>
         </div>
         <div v-else>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
                   @change="declTrnrelChange"
@@ -142,7 +142,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="企业类别">
                 <el-select placeholder="" v-model="QueryDecForm.etpsCategory"  :disabled="isDisabled"  filterable style="width:100%">
                   <el-option
@@ -154,7 +154,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="进出口标志">
                 <el-select placeholder="" v-model="QueryDecForm.iEFlag"  style="width:100%" >
                   <el-option
@@ -166,14 +166,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="报关单号" >
                 <el-input v-model="QueryDecForm.entryId" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="统一编号" >
                 <el-autocomplete
                   :maxlength="18"
@@ -185,12 +185,12 @@
                 </el-autocomplete>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="提运单号">
                 <el-input v-model="QueryDecForm.billNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="申报地海关">
                 <el-select placeholder="" v-model="QueryDecForm.customMaster"
                   :disabled="isDisabled" filterable clearable
@@ -204,19 +204,19 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="客户业务号">
                 <el-input v-model="QueryDecForm.corpBusiNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50">
-            <el-col :span="6">
+          <el-row >
+            <el-col  :md="12" :lg="6">
               <el-form-item label="客户端统一编号">
                 <el-input v-model="QueryDecForm.clientSeqno" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col  :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="QueryDecForm.status" clearable
                 :disabled="isDisabled"  filterable style="width:100%">
@@ -229,7 +229,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :md="24" :lg="12">
               <el-form-item label="最近操作时间">
                 <el-date-picker v-model="dates" style="width:100%"
                   :disabled="isDisabled"
@@ -244,7 +244,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-row :gutter="50">
+        <el-row >
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryDecList" class = 'btn-padding'>查询</el-button>
             <el-button size="mini" @click="resetDecForm" class = 'btn-padding'>重置</el-button>
@@ -333,39 +333,39 @@
             <span class='ocr-img border-0' title='ocr' v-if = "scope.row.ref5 === 'Y'"><i class='dec-i'></i></span>
           </template>
         </el-table-column>
-        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList[0].value"></el-table-column>
-        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList[1].value"></el-table-column>
-        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList[2].value"></el-table-column>
-        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList[3].value"></el-table-column>
-        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList[4].value"></el-table-column>
-        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList[5].value">
+        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList.decPid.value"></el-table-column>
+        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList.bossId.value"></el-table-column>
+        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList.corpBusiNo.value"></el-table-column>
+        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList.cusCiqNo.value"></el-table-column>
+        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList.entryId.value"></el-table-column>
+        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList.statusValue.value">
           <template slot-scope="scope">
             <a href="javascript:void(0)" style='color: #409eff;' @click="lookReturnInfo(scope.row.decPid)">{{scope.row.statusValue}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList[6].value" min-width="70"></el-table-column>
-        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList[7].value"></el-table-column>
-        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList[8].value"></el-table-column>
-        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList[9].value"></el-table-column>
-        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList[10].value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
-        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList[11].value" min-width="100"></el-table-column>
-        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList[12].value" min-width="100"></el-table-column>
-        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList[13].value" min-width="100"></el-table-column>
-        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList[14].value" min-width="110"></el-table-column>
-        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList[15].value" min-width="110"></el-table-column>
-        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList[16].value" min-width="110"></el-table-column>
-        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList[17].value" min-width="80"></el-table-column>
-        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList[18].value" min-width="80"></el-table-column>
-        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList[19].value" min-width="100"></el-table-column>
-        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList[20].value" min-width="80"></el-table-column>
-        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList[21].value" min-width="100"></el-table-column>
-        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList[22].value" min-width="150"></el-table-column>
-        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList[23].value" min-width="90"></el-table-column>
-        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList[24].value" min-width="100"></el-table-column>
-        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList[25].value" min-width="120"></el-table-column>
-        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList[26].value" min-width="100"></el-table-column>
-        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList[27].value" min-width="120"></el-table-column>
-        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList[28].value" min-width="150"></el-table-column>
+        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList.xmlStatusValue.value" min-width="70"></el-table-column>
+        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList.isExamineValue.value"></el-table-column>
+        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList.company.value"></el-table-column>
+        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList.tradeName.value"></el-table-column>
+        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList.tradeCoScc.value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
+        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList.billNo.value" min-width="100"></el-table-column>
+        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList.iEDate.value" min-width="100"></el-table-column>
+        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList.dDate.value" min-width="100"></el-table-column>
+        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList.tradeModeValue.value" min-width="110"></el-table-column>
+        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList.tradeCountryValue.value" min-width="110"></el-table-column>
+        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList.distinatePortValue.value" min-width="110"></el-table-column>
+        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList.packNo.value" min-width="80"></el-table-column>
+        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList.grossWt.value" min-width="80"></el-table-column>
+        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList.contrNo.value" min-width="100"></el-table-column>
+        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList.decListNum.value" min-width="80"></el-table-column>
+        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList.trafName.value" min-width="100"></el-table-column>
+        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList.agentName.value" min-width="150"></el-table-column>
+        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList.iEFlagValue.value" min-width="90"></el-table-column>
+        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList.customMasterValue.value" min-width="100"></el-table-column>
+        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList.entyPortCodeValue.value" min-width="120"></el-table-column>
+        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList.tradeAreaCodeValue.value" min-width="100"></el-table-column>
+        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList.clientSeqno.value" min-width="120"></el-table-column>
+        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList.updateTime.value" min-width="150"></el-table-column>
         <el-table-column label="操作" fixed="right" align='center' min-width="140" >
           <template slot-scope="scope">
             <a href="javascript:void(0)" class="list-icon-editH border-0" title="编辑" @click="editDetail(scope.row)"><i class='dec-i'></i></a>
@@ -471,40 +471,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="24">
-            <el-form-item label="接单编号"  prop='bossId'>
-              <el-autocomplete
-                :maxlength="30"
-                size='mini'
-                v-model="billForm.bossId"
-                :fetch-suggestions="queryBossIdSearch"
-                :disabled='billBossIdDisabled'
-                :trigger-on-focus="false"
-                :select-when-unmatched='true'
-                :highlight-first-item='true'
-                >
-              </el-autocomplete>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row v-if='isConBossId == "Y"'>
-          <el-col :span="24">
-            <el-form-item label="客户业务号">
-              <el-autocomplete ref="corpBusiNo"
-                :maxlength="50"
-                size='mini'
-                @keyup.enter.native="billDownSubmit"
-                v-model="billForm.corpBusiNo"
-                :fetch-suggestions="queryBusiNoSearch"
-                :trigger-on-focus="false"
-                :select-when-unmatched='true'
-                :highlight-first-item='true'
-                >
-              </el-autocomplete>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
         <el-row>
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="billDownSubmit" class = 'btn-padding'>下载</el-button>
@@ -757,94 +723,124 @@ export default {
       order: '', // 排序方式
       createBillVisiable: false,
       createBillParam: [],
-      fieldList: [{
-        value: true,
-        text: '系统编号'
-      }, {
-        value: true,
-        text: '接单编号'
-      }, {
-        value: false,
-        text: '客户业务号'
-      }, {
-        value: true,
-        text: '统一编号'
-      }, {
-        value: true,
-        text: '海关编号'
-      }, {
-        value: true,
-        text: '申报状态'
-      }, {
-        value: true,
-        text: '操作状态'
-      }, {
-        value: true,
-        text: '系统状态'
-      }, {
-        value: false,
-        text: '委托客户'
-      }, {
-        value: true,
-        text: '境内收发货人'
-      }, {
-        value: true,
-        text: '境内收发货人18位社会信用代码'
-      }, {
-        value: true,
-        text: '提运单号'
-      }, {
-        value: true,
-        text: '进出口日期'
-      }, {
-        value: true,
-        text: '申报日期'
-      }, {
-        value: true,
-        text: '监管方式'
-      }, {
-        value: true,
-        text: '启运国/运抵国'
-      }, {
-        value: true,
-        text: '指运港/经停港'
-      }, {
-        value: true,
-        text: '件数'
-      }, {
-        value: true,
-        text: '毛重'
-      }, {
-        value: true,
-        text: '合同协议号'
-      }, {
-        value: true,
-        text: '商品项数'
-      }, {
-        value: true,
-        text: '运输工具名称'
-      }, {
-        value: true,
-        text: '申报单位名称'
-      }, {
-        value: true,
-        text: '进出口标志'
-      }, {
-        value: true,
-        text: '申报地海关'
-      }, {
-        value: true,
-        text: '入境/离境口岸'
-      }, {
-        value: true,
-        text: '贸易国'
-      }, {
-        value: false,
-        text: '客户端统一编号'
-      }, {
-        value: true,
-        text: '更新时间'
-      }],
+      fieldList: {
+        decPid: {
+          value: true,
+          text: '系统编号'
+        },
+        bossId: {
+          value: true,
+          text: '接单编号'
+        },
+        corpBusiNo: {
+          value: false,
+          text: '客户业务号'
+        },
+        cusCiqNo: {
+          value: true,
+          text: '统一编号'
+        },
+        entryId: {
+          value: true,
+          text: '海关编号'
+        },
+        statusValue: {
+          value: true,
+          text: '申报状态'
+        },
+        xmlStatusValue: {
+          value: true,
+          text: '操作状态'
+        },
+        isExamineValue: {
+          value: true,
+          text: '系统状态'
+        },
+        company: {
+          value: false,
+          text: '委托客户'
+        },
+        tradeName: {
+          value: true,
+          text: '境内收发货人'
+        },
+        tradeCoScc: {
+          value: true,
+          text: '境内收发货人18位社会信用代码'
+        },
+        billNo: {
+          value: true,
+          text: '提运单号'
+        },
+        iEDate: {
+          value: true,
+          text: '进出口日期'
+        },
+        dDate: {
+          value: true,
+          text: '申报日期'
+        },
+        tradeModeValue: {
+          value: true,
+          text: '监管方式'
+        },
+        tradeCountryValue: {
+          value: true,
+          text: '启运国/运抵国'
+        },
+        distinatePortValue: {
+          value: true,
+          text: '指运港/经停港'
+        },
+        packNo: {
+          value: true,
+          text: '件数'
+        },
+        grossWt: {
+          value: true,
+          text: '毛重'
+        },
+        contrNo: {
+          value: true,
+          text: '合同协议号'
+        },
+        decListNum: {
+          value: true,
+          text: '商品项数'
+        },
+        trafName: {
+          value: true,
+          text: '运输工具名称'
+        },
+        agentName: {
+          value: true,
+          text: '申报单位名称'
+        },
+        iEFlagValue: {
+          value: true,
+          text: '进出口标志'
+        },
+        customMasterValue: {
+          value: true,
+          text: '申报地海关'
+        },
+        entyPortCodeValue: {
+          value: true,
+          text: '入境/离境口岸'
+        },
+        tradeAreaCodeValue: {
+          value: true,
+          text: '贸易国'
+        },
+        clientSeqno: {
+          value: false,
+          text: '客户端统一编号'
+        },
+        updateTime: {
+          value: true,
+          text: '更新时间'
+        }
+      },
       checkedNum: 0, // 被选中的数量
       printCompnentParam: {}, // 打印组件 的传递参数
       printCompnentVisible: false, // 打印组件 显示 隐藏
@@ -925,6 +921,9 @@ export default {
         }, {
           code: 'D',
           name: '报关录入单位'
+        }, {
+          code: 'E',
+          name: '委托客户'
         }],
       // upLoadVisible: false,
       iEFlag: '',

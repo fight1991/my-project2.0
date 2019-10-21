@@ -112,11 +112,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="5">
-              <el-form-item label="总价" prop="declTotal" ref="declTotal" label-width="50px">
+              <el-form-item label="总价" prop="declTotal" label-width="50px">
                 <el-input  :class="{ 'require-color': controller.requireColor }"
                 :maxlength="18" v-model="decList.declTotal"
                 @focus="tipsFillMessage('declTotal')"
-                ref = 'declTotal2'
+                ref='declTotal'
                 @blur="computPrice"
                 :readonly="controller.isDisabled"></el-input>
               </el-form-item>
@@ -258,11 +258,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="5">
-              <el-form-item label="总价" prop="declTotal" ref="declTotal" label-width="50px">
+               <el-form-item label="总价" prop="declTotal" label-width="50px">
                 <el-input  :class="{ 'require-color': controller.requireColor }"
                 :maxlength="18" v-model="decList.declTotal"
                 @focus="tipsFillMessage('declTotal')"
-                ref = 'declTotal2'
+                ref='declTotal'
                 @blur="computPrice"
                 :readonly="controller.isDisabled"></el-input>
               </el-form-item>

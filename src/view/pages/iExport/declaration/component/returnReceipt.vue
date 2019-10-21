@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      total: '', // 数据总条数
+      total: 0, // 数据总条数
       receiptList: [], // 回执信息
       checkedReceiptList: [] // 被选中的回执信息
     }
