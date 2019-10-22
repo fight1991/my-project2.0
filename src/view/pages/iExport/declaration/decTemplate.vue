@@ -3275,16 +3275,11 @@ export default {
     },
     // 新增的时候 需要初始化申报单位的数据
     initHeadData () {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          this.decHead.agentCode = res.result.agentCode
-          this.decHead.agentCodeScc = res.result.agentCodeScc
-          this.decHead.agentName = res.result.agentName
-          this.decHead.declRegNo = res.result.declRegNo
-        }
-      })
+      let logInfo = this.$store.state.userLoginInfo
+      this.decHead.agentCode = logInfo.tradeCode
+      this.decHead.agentCodeScc = logInfo.sccCode
+      this.decHead.agentName = logInfo.cusCorpName
+      this.decHead.declRegNo = logInfo.ciqCode
     },
     // 提示需要填写的内容
     tipsFillMessage (value, obj, params) {

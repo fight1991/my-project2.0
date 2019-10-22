@@ -1054,7 +1054,8 @@ export default {
   created () {
     // window.localStorage.setItem('BILL_ORIGIN', JSON.stringify([{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}]))
     // 获取企业信息列表  获取登陆用户信息  下载参数表  企业本企业下的人员
-    this.$all([this.seqNoListFun(), this.getUserInfo(), this.getCommonParams(), this.getUserUnderCrop()])
+    this.getUserInfo()
+    this.$all([this.seqNoListFun(), this.getCommonParams(), this.getUserUnderCrop()])
     // 获取 当前用户是否开启了人工审核
     this.getSwitchCheck()
     // 获取接单编号
@@ -2790,32 +2791,26 @@ export default {
     },
     // 获取当前登陆的个人信息
     getUserInfo () {
-      return {
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          this.sccCode = res.result.agentCodeScc
-          this.userId = res.result.userId
-          if (!util.isEmpty(this.userId)) {
-            this.QueryDecForm.createUser = this.userId
-            let fieldList = window.localStorage.getItem('DTH' + this.userId)
-            if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-              let list = JSON.parse(fieldList)
-              if (this.compareFieldList(this.fieldList, list)) {
-                this.fieldList = JSON.parse(fieldList)
-              } else {
-                window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
-              }
-            }
-          }
-          // 初始化查询列表，因为要默认当前操作人 所以放到这里来
-          if (util.isEmpty(this.$route.query.status)) {
-            // 初始化查询日期
-            this.setDefaultDate()
-            // 进页面默认加载数据
-            this.queryDecList()
+      this.sccCode = this.$store.state.userLoginInfo.sccCode
+      this.userId = this.$store.state.userLoginInfo.userId
+      if (!util.isEmpty(this.userId)) {
+        this.QueryDecForm.createUser = this.userId
+        let fieldList = window.localStorage.getItem('DTH' + this.userId)
+        if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
+          let list = JSON.parse(fieldList)
+          if (this.compareFieldList(this.fieldList, list)) {
+            this.fieldList = JSON.parse(fieldList)
+          } else {
+            window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
           }
         }
+      }
+      // 初始化查询列表，因为要默认当前操作人 所以放到这里来
+      if (util.isEmpty(this.$route.query.status)) {
+        // 初始化查询日期
+        this.setDefaultDate()
+        // 进页面默认加载数据
+        this.queryDecList()
       }
     },
     // 对比两个数组里的值是否一样

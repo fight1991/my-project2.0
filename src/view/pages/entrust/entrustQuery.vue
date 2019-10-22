@@ -509,21 +509,13 @@ export default {
     },
     // 获取当前登陆的个人信息
     getUserInfo () {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          if (res.code === '0000') {
-            this.userId = res.result.userId
-            if (!util.isEmpty(this.userId)) {
-              let fieldList = window.localStorage.getItem('ENTRUST' + this.userId)
-              if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-                this.thList = JSON.parse(fieldList)
-              }
-            }
-          }
+      this.userId = this.$store.state.userLoginInfo.userId
+      if (!util.isEmpty(this.userId)) {
+        let fieldList = window.localStorage.getItem('ENTRUST' + this.userId)
+        if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
+          this.thList = JSON.parse(fieldList)
         }
-      })
+      }
     },
     // 调节 查询table表 表头显示字段
     columnFieldChange (value) {

@@ -42,7 +42,10 @@ export default new Vuex.Store({
       userPhoto: '', // 用户头像
       companyName: '',
       sccCode: '',
-      adminFlag: ''
+      adminFlag: '',
+      cusCorpName: '', // 企业海关名
+      ciqCode: '', // 企业检验检疫代码
+      tradeCode: '' // 企业十位海关代码
     },
     childSys: {
       type: '',
@@ -270,6 +273,9 @@ export default new Vuex.Store({
       state.userLoginInfo.adminFlag = data.adminFlag
       state.userLoginInfo.sccCode = data.sccCode
       state.userLoginInfo.userId = data.userId
+      state.userLoginInfo.cusCorpName = data.cusCorpName
+      state.userLoginInfo.ciqCode = data.ciqCode
+      state.userLoginInfo.tradeCode = data.tradeCode
     },
     // 用户切换公司信息变更
     userCompanyInfo: function (state, data) {

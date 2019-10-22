@@ -4626,20 +4626,16 @@ export default {
     },
     // 新增的时候 需要初始化申报单位的数据
     initHeadData (value) {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          if (res.code === '0000' && value === '1') {
-            this.decHead.agentCode = res.result.agentCode
-            this.decHead.agentCodeScc = res.result.agentCodeScc
-            this.decHead.agentName = res.result.agentName
-            this.decHead.declRegNo = res.result.declRegNo
-          }
-          this.controller.userName = res.result.userName
-          this.controller.agentName = res.result.agentName
-        }
-      })
+      let logInfo = this.$store.state.userLoginInfo
+      if (value === '1') {
+        this.decHead.agentCode = logInfo.tradeCode
+        this.decHead.agentCodeScc = logInfo.sccCode
+        this.decHead.agentName = logInfo.cusCorpName
+        this.decHead.declRegNo = logInfo.ciqCode
+      } else {
+        this.controller.userName = logInfo.userName
+        this.controller.agentName = logInfo.cusCorpName
+      }
     },
     // 初始默认模板值
     initDefaultTemplate () {

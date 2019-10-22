@@ -509,28 +509,20 @@ export default {
     },
     // 获取当前登陆的个人信息
     getUserInfo () {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          if (res.code === '0000') {
-            this.userId = res.result.userId
-            if (!util.isEmpty(this.userId)) {
-              this.querySumDecForm.createUser = this.userId
-              let fieldList = window.localStorage.getItem('DTH' + this.userId)
-              if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-                let list = JSON.parse(fieldList)
-                if (this.compareFieldList(this.fieldList, list)) {
-                  this.fieldList = JSON.parse(fieldList)
-                } else {
-                  window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
-                }
-              }
-            }
+      this.userId = this.$store.state.userLoginInfo.userId
+      if (!util.isEmpty(this.userId)) {
+        this.querySumDecForm.createUser = this.userId
+        let fieldList = window.localStorage.getItem('DTH' + this.userId)
+        if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
+          let list = JSON.parse(fieldList)
+          if (this.compareFieldList(this.fieldList, list)) {
+            this.fieldList = JSON.parse(fieldList)
+          } else {
+            window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
           }
-          this.querySummaryDecList()
         }
-      })
+      }
+      this.querySummaryDecList()
     },
     // 概要申报数据列表查询
     querySummaryDecList () {

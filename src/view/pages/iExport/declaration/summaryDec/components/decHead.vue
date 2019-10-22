@@ -690,26 +690,16 @@ export default {
     },
     // 初始化返填申报单位的数据
     initDefautHeadData (value) {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          if (res.result) {
-            if (value === '1') {
-              this.decHead.agentCode = res.result.agentCode
-              this.decHead.agentCodeScc = res.result.agentCodeScc
-              this.decHead.agentName = res.result.agentName
-              this.decHead.declRegNo = res.result.declRegNo
-            }
-            this.controller.userName = res.result.userName
-            this.controller.agentName = res.result.agentName
-            this.controller.userId = res.result.userId
-          }
-        },
-        other: (res) => {
-          this.messageTips(res.message, 'error')
-        }
-      })
+      let logInfo = this.$store.state.userLoginInfo
+      if (value === '1') {
+        this.decHead.agentCode = logInfo.tradeCode
+        this.decHead.agentCodeScc = logInfo.sccCode
+        this.decHead.agentName = logInfo.cusCorpName
+        this.decHead.declRegNo = logInfo.ciqCode
+      }
+      this.controller.userName = logInfo.userName
+      this.controller.agentName = logInfo.cusCorpName
+      this.controller.userId = logInfo.userId
     },
     /**
      * 设置head 的数据 数据格式为：

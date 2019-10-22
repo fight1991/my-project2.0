@@ -85,15 +85,12 @@ export default {
       }, {
         codeField: 'R',
         nameField: '减免税证明'
-      }],
-      userId: '',
-      userName: ''
+      }]
     }
   },
   props: ['paramShow', 'flag', 'loadForm'],
   created () {
     this.getCommonParam()
-    this.getUserInfo()
   },
   mounted () {
     if (this.flag === 'edit') {
@@ -124,19 +121,6 @@ export default {
           'tableNames': par
         },
         success: (res) => {
-        }
-      })
-    },
-    // 获取当前登陆的个人信息
-    getUserInfo () {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getUserInfo',
-        data: {},
-        success: (res) => {
-          if (res.code === '0000') {
-            this.userName = res.result.userName
-            this.userId = res.result.userId
-          }
         }
       })
     },
@@ -293,8 +277,8 @@ export default {
           this.exportForm.fileSize = this.fileList[0].size
           this.exportForm.fullName = this.fileList[0].url
         }
-        this.exportForm.createUser = this.userId
-        this.exportForm.createUserName = this.userName
+        this.exportForm.createUser = this.$store.state.userLoginInfo.userId
+        this.exportForm.createUserName = this.$store.state.userLoginInfo.userName
         this.exportForm.upTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm')
         for (let i in this.docLists) {
           if (this.exportForm.docType === this.docLists[i].codeField) {
