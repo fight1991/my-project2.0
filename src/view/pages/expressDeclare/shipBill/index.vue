@@ -35,7 +35,7 @@
     <!-- 查询条件 end -->
     <!-- 主显示框 -->
     <div class='query-body'>
-      <el-row class="mg-b-15">
+      <el-row class="mg-b-12">
         <el-dropdown trigger="hover">
           <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
           <el-dropdown-menu slot="dropdown">
