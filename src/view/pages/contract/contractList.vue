@@ -12,17 +12,29 @@
         </el-row>
         <!-- 按钮组 end-->
     </el-row>
-    <el-row class='query-condition'>
-      <el-form label-width="0px" :model="QueryForm" size="mini" label-position="right">
+    <el-row class='query-condition data-center'>
+      <el-form :model="QueryForm" size="mini" label-position="right" :label-width="labelFormWidth.five">
         <!-- 查询条件-->
-        <el-row :gutter="50">
-          <el-col :span="4" :xs="12">
-            <el-form-item class="form-item-mg0">
+        <el-row>
+          <el-col :lg="6" :md="12">
+            <el-form-item  label="合同号" >
               <el-input size="mini" clearable v-model="QueryForm.contractNo" placeholder="请输入合同号"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4" :xs="12">
-            <el-form-item class="form-item-mg0">
+          <el-col :lg="6" :md="12">
+            <el-form-item  label="状态" >
+              <el-select size="mini" clearable v-model="QueryForm.statuss" placeholder="状态"  style="width:100%;">
+                <el-option
+                  v-for="item in statusList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :lg="12" :md="12">
+            <el-form-item  label="企业" >
               <el-select size="mini"
               filterable remote clearable
               :remote-method="queryCompanyList"
@@ -37,21 +49,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" :xs="12">
-            <el-form-item class="form-item-mg0">
-              <el-select size="mini" clearable v-model="QueryForm.statuss" placeholder="状态" style="width:100%;">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7" :xs="24">
-            <el-form-item label="合同有效期"  :label-width="labelFormWidth.five" class="form-item-mg0">
-              <el-date-picker size="mini"  v-model="dates"  style="width:100%;"
+          <el-col :lg="12" :md="12">
+            <el-form-item label="合同有效期" >
+              <el-date-picker size="mini"  v-model="dates"
                 type="daterange"
                 :editable='false'
                 range-separator="至"
@@ -60,10 +60,10 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="24">
+        </el-row>
+        <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="resetQueryform">重置</el-button>
-          </el-col>
         </el-row>
         <!-- 查询条件 end-->
       </el-form>
@@ -298,11 +298,13 @@ export default {
 <style scoped lang="less">
 .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
 .query-table {
   background-color: #fff;
-  padding: 20px;
+  padding: 12px 18px;
   margin-top: 20px;
+}
+.el-date-editor{
+  width :100%;
 }
 </style>

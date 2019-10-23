@@ -274,7 +274,6 @@ export default {
           isLoad: false,
           router: this.$router,
           success: (res) => {
-            console.log(file.type, file.size)
             if (info === '1') {
               this.imageUrl1 = res.result.url
               this.urlList.push(this.imageUrl1)

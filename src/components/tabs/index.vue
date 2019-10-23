@@ -29,7 +29,7 @@
     </el-header>
     <el-main class="abtrate">
       <div class='page-tab-content' v-loading="$store.state.loading">
-        <div style='height:100%;box-sizing: border-box;' v-for="(item,index) in openedTabs" :key="'panel-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
+        <div style='height:100%;box-sizing: border-box;position: relative' v-for="(item,index) in openedTabs" :key="'panel-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
           <component :is="item.component"></component>
         </div>
       </div>
@@ -61,7 +61,6 @@ export default {
   mounted () {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
-      console.log(event)
       if (event.data.type === 'editTitle' || event.data.type === 'window-open-sys' || event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS') {
         let symbol = '&'
         // 判断子系统传递的URL是否已包含参数

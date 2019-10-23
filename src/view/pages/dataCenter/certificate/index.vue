@@ -10,7 +10,7 @@
       </el-row>
       <!-- 新建按钮 end-->
     </el-row>
-    <el-row class = "query-condition">
+    <el-row class = "query-condition data-center">
       <el-form :label-width="labelFormWidth.four" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
         <el-row>
@@ -75,7 +75,7 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <el-row style="text-align:center;margin-top:27px;">
+          <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="reset">重置</el-button>
         </el-row>
@@ -86,14 +86,14 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-row style="margin-bottom: 8px;">
+        <el-row style="margin-bottom: 12px;">
         <el-button  size="mini" @click="delect"  class="list-btns list-icon-delete" :disabled="!checkifmy()"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table' height="398px"
           border highlight-current-row size="mini" ref="certTable"
           @selection-change="selectionChange" @row-click='rowClickDecList' @select-all='selectALl'
           :data="resultList">
-          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  type="selection" min-width="50" align="center"></el-table-column>
           <el-table-column label="委托企业" min-width="100" prop="corpName">
             <template slot-scope="scope">
               <div class='sys-td-l'>{{scope.row.corpName}}</div>
@@ -321,7 +321,6 @@ export default {
         return false
       }
       for (let x = 0; x < this.selectRow.length; x++) {
-        console.log(x)
         if (this.selectRow[x].createUser !== this.$store.state.userLoginInfo.userId) {
           return false
         }
@@ -505,11 +504,9 @@ export default {
 <style lang="less" scoped>
   .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
   .query-table {
     background-color: #fff;
-    padding: 20px;
     margin-top: 20px;
   }
   .todelect_btn:hover{
@@ -518,8 +515,7 @@ export default {
   .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
     margin-bottom: 18px;
   }
-  .el-col{
-    padding-left: 25px;
-    padding-right: 25px;
+  .query-table{
+    padding:12px 18px;
   }
 </style>

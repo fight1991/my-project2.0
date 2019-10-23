@@ -338,7 +338,6 @@ export default {
     },
     // 附件删除
     handleDelete (file, fileList) {
-      // console.log(file, this.fileLists)
       // for (let i = 0; i < this.fileLists.length; i++) {
       //   if (file.name === this.fileLists[i].name) {
       //     this.fileLists.splice(i, 1)

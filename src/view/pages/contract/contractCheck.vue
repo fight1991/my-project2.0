@@ -1,12 +1,12 @@
 <template>
   <section class='sys-main'>
     <!-- 头部 -->
-    <el-row class='query-condition'>
+    <el-row class='query-condition data-center'>
       <el-form  :label-width="labelFormWidth.four" :model="QueryForm" size="mini" label-position="right">
         <!-- 查询条件-->
-        <el-row :gutter="50">
-          <el-col :span="6" :xs="12">
-            <el-form-item label="合同企业" class="form-item-mg0">
+        <el-row>
+          <el-col :lg="6" :md="12">
+            <el-form-item label="合同企业">
               <el-select size="mini" filterable remote :remote-method="queryCompanyList" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.entrustCompanyId  " placeholder='企业'  style="width:100%;">
                 <el-option
                   v-for="item in companyList"
@@ -17,21 +17,21 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4" :xs="12">
-            <el-form-item label="合同号" class="form-item-mg0">
+          <el-col :lg="6" :md="12">
+            <el-form-item label="合同号">
               <el-input size="mini" clearable v-model="QueryForm.contractNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4" :xs="24">
-            <el-form-item label="创建时间" class="form-item-mg0">
+          <el-col :lg="6" :md="12">
+            <el-form-item label="创建时间">
               <el-date-picker size="mini"  v-model="date"  style="width:100%;"
                 type="date"
                 :editable='false'>
             </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="4" :xs="12">
-            <el-form-item label="创建人" class="form-item-mg0">
+          <el-col :lg="6" :md="12">
+            <el-form-item label="创建人">
               <el-select size="mini" filterable remote :remote-method="getCreateUsers" :loading=' loading ' reserve-keyword loading-text="加载中" clearable v-model="QueryForm.createUserId  " placeholder=''  style="width:100%;">
                 <el-option
                   v-for="item in userList"
@@ -42,7 +42,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6" :xs="24">
+          <el-col style="text-align:center">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="resetQueryform">重置</el-button>
           </el-col>
@@ -53,7 +53,7 @@
     <!-- 头部 end-->
     <!-- 主显示框 -->
     <div class='query-table'>
-      <el-row class="mg-b-15">
+      <el-row class="mg-b-12">
           <el-button size="mini" class="list-btns list-icon-subimtCheck" @click="creatContract('check')" v-permissions="'CCBA21402010000'"><i></i>合同审核</el-button>
           <el-button size="mini" class="list-btns list-icon-checkP" @click="verifyAll" v-permissions="'CCBA21402010000'"><i></i>批量审核</el-button>
           <el-button size="mini" class="list-btns list-icon-check" @click="rejectAll" v-permissions="'CCBA21402010000'"><i></i>批量驳回</el-button>
@@ -389,11 +389,16 @@ export default {
 <style scoped lang="less">
 .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
 .query-table {
   background-color: #fff;
-  padding: 20px;
+  padding: 12px 18px;
   margin-top: 20px;
+}
+.mg-b-12{
+  margin-bottom: 12px;
+}
+.sys-main .list-btns{
+  margin: 0 10px 0 0;
 }
 </style>

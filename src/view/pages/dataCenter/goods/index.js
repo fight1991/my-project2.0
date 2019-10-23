@@ -15,7 +15,7 @@ const MENU = {
       permissions: 'CCBA20301010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['../../iExport/declaration/commodity.vue'], resolve),
         title: '商品数据库'
       }
     }, {
@@ -24,7 +24,7 @@ const MENU = {
       permissions: 'CCBA20301020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['../../iExport/declaration/goodsModel.vue'], resolve),
         title: '保税商品库'
       }
     }

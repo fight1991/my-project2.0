@@ -3,7 +3,8 @@ import Errors from './view/error'
 import config from './config/config'
 import util from './common/util'
 import base64 from '@/common/base64'
-import EImport from './view/pages/eImport/router'
+// import EImport from './view/pages/eImport/router'
+import IEPort from './view/pages/iExport/router'
 import DataCenter from './view/pages/dataCenter/router'
 import ReportCenter from './view/pages/reportCenter/router'
 import Aircraft from './view/pages/aircraft/router'
@@ -74,21 +75,11 @@ const routes = [
       title: '资讯列表'
     }
   },
-  // {
-  //   path: '/demo',
-  //   name: 'drag-drop',
-  //   hidden: true,
-  //   permissions: 'WF000000',
-  //   component: resolve => require(['./view/demo/sortable.vue'], resolve),
-  //   meta: {
-  //     title: '拖拽功能小样'
-  //   }
-  // },
   Errors.MENU
 ]
 
 // routes[1].children.push(Errors.MENU)
-routes[1].children.push(...EImport.MENU)
+routes[1].children.push(...IEPort.MENU)
 routes[1].children.push(...DataCenter.MENU)
 routes[1].children.push(...ReportCenter.MENU)
 routes[1].children.push(...Aircraft.MENU)
@@ -119,9 +110,9 @@ router.beforeEach((to, from, next) => {
       title: ''
     }
     switch (childSys[1]) {
-      case 'eImport':
+      case 'iExport':
         json = {
-          type: 'eImport',
+          type: 'iExport',
           title: '进出口管理',
           permissions: 'CCBA20200000000'
         }
@@ -290,7 +281,10 @@ router.beforeEach((to, from, next) => {
               companyName: util.isEmpty(res.result.corpName) ? '' : res.result.corpName,
               adminFlag: util.isEmpty(res.result.adminFlag) ? '' : res.result.adminFlag,
               sccCode: util.isEmpty(res.result.sccCode) ? '' : res.result.sccCode,
-              companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId
+              companyCode: util.isEmpty(res.result.corpId) ? '' : res.result.corpId,
+              cusCorpName: util.isEmpty(res.result.cusCorpName) ? '' : res.result.cusCorpName, // 企业海关名
+              ciqCode: util.isEmpty(res.result.ciqCode) ? '' : res.result.ciqCode, // 企业检验检疫代码
+              tradeCode: util.isEmpty(res.result.tradeCode) ? '' : res.result.tradeCode // 企业十位海关代码
             }
             if (!util.isEmpty(res.result.userTitleList)) {
               sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))

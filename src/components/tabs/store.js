@@ -100,26 +100,35 @@ export default {
         }
         return false
       })
-      dispatch('RemoveTab', state.tabsList[closeIndex])
+      dispatch('RemoveTab', closeIndex)
     },
     // 从 tab 列表 移除 tab
-    RemoveTab ({state, commit}, data) {
+    RemoveTab ({state, commit}, closeIndex) {
+      let data = state.tabsList[closeIndex]
       state.tabsList.some(item => {
         if (item.path === data.path && !item.isDel) {
-          item.isDel = true
-          item.component = ''
+          item.isDel = true // isDel 为什么显示这个页面的参数
+          item.component = '' // component 这个页签下的内容
           return true
         }
         return false
       })
-      let firstNotDelIndex = 0
+      let firstNotDelIndex = 0 // 关闭后需要显示相邻的页签
+      let showTab = [] // 存放被删除页签前面的所有已显示的页签位置
       state.tabsList.some((item, index) => {
-        if (index > 0 && !item.isDel) {
-          firstNotDelIndex = index
+        if (index === closeIndex) {
           return true
+        }
+        if (index > 0 && !item.isDel) {
+          // firstNotDelIndex = index
+          showTab.push(index)
+          // return true
         }
         return false
       })
+      if (showTab.length > 0) {
+        firstNotDelIndex = showTab.pop()
+      }
       if (state.currentTab.path === data.path) {
         let index = firstNotDelIndex
         let currentTab = state.tabsList[index]
