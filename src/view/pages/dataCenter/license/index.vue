@@ -10,8 +10,8 @@
       </el-row>
       <!-- 新建按钮 end-->
     </el-row>
-    <el-row class = "query-condition">
-      <el-form :label-width="labelFormWidth.six" :model="queryForm" size="mini" label-position="right">
+    <el-row class = "query-condition data-center">
+      <el-form :label-width="labelFormWidth.five" :model="queryForm" size="mini" label-position="right">
     <!-- 查询条件 -->
         <el-row>
           <el-col :md="12" :lg="6">
@@ -74,7 +74,7 @@
             </el-col>
           </el-row>
        <!-- 查询条件 end-->
-          <el-row style="text-align:center;margin-top:27px;">
+          <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="reset">重置</el-button>
         </el-row>
@@ -85,7 +85,7 @@
 
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-row style="margin-bottom: 8px;">
+        <el-row style="margin-bottom:12px;">
         <el-button  size="mini" @click="delect" :disabled='selection.length===0'  class="list-btns list-icon-delete"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table'  height="398px" ref="licenseTable"
@@ -393,7 +393,6 @@ export default {
 <style lang="less" scoped>
   .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
   .query-table {
     background-color: #fff;
@@ -403,8 +402,7 @@ export default {
   .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
     margin-bottom: 18px;
   }
-  .el-col{
-    padding-left: 25px;
-    padding-right: 25px;
+  .query-table{
+    padding:12px 18px;
   }
 </style>

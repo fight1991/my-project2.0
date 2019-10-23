@@ -1,7 +1,7 @@
 <template>
   <section class='query-main sys-main' style="margin:-20px">
     <!-- 查询条件 -->
-    <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
+    <div class = "query-condition data-center" style="margin:20px;background-color:white;">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row>
@@ -38,11 +38,11 @@
       </el-form>
     </div>
     <!-- 主显示框 -->
-    <div class='query-table' style="margin:20px;background-color:white;padding:20px;">
+    <div class='query-table' style="margin:20px;background-color:white;padding:12px 18px;">
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
         <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:10px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -187,7 +187,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="审核意见：" style="margin-bottom:0px" maxlength="400">
+          <el-form-item label="审核意见：" maxlength="400" class="audit-remark">
                 <el-input type="textarea" v-model="confirmshow.auditRemark" :rows="2" :disabled="confirmshow.auditStatus !== 'WAITING'"></el-input>
             </el-form-item>
         </el-row>
@@ -535,11 +535,19 @@ export default {
     height: 14px;
     vertical-align: middle;
 }
-.el-col{
-  padding-left: 25px;
-  padding-right: 25px;
-}
 .el-select{
   display: block;
+}
+.audit-remark{
+  margin-bottom:0px;
+}
+.audit-remark /deep/ .el-form-item__label{
+  width :132px !important;
+}
+.audit-remark /deep/ .el-form-item__content{
+  margin-left :132px !important;
+}
+.query-table{
+  padding:12px 18px;
 }
 </style>

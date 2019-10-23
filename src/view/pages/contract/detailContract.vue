@@ -219,7 +219,6 @@ export default {
 }
 .query-table {
     background-color: #fff;
-    padding: 20px 50px;
     margin-top: 20px;
   }
 </style>
