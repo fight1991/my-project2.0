@@ -85,7 +85,7 @@
 
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-row style="margin-bottom: 8px;">
+        <el-row style="margin-bottom:12px;">
         <el-button  size="mini" @click="delect" :disabled='selection.length===0'  class="list-btns list-icon-delete"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table'  height="398px" ref="licenseTable"
@@ -406,5 +406,8 @@ export default {
   .el-col{
     padding-left: 25px;
     padding-right: 25px;
+  }
+  .query-table{
+    padding:12px 18px;
   }
 </style>
