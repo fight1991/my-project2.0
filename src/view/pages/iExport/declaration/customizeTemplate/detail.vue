@@ -62,8 +62,8 @@ export default {
   },
   created () {
     this.templateUrl = window.sessionStorage.getItem('customizeTemplateUrl')
-    this.customTemplateDecPid = this.$route.meta.operationType !== 'add' ? this.$route.params.pid : ''
-    this.isEditable = this.$route.meta.operationType !== 'look'
+    this.customTemplateDecPid = this.$route.params.operationType !== 'add' ? this.$route.params.pid : ''
+    this.isEditable = this.$route.params.operationType !== 'look'
     if (this.customTemplateDecPid) {
       this.getDetail()
     } else {

@@ -185,6 +185,7 @@
 
 <script>
 import util from '@/common/util'
+import '@/common/directives'
 import commodityDetail from './component/commodityDetail.vue'
 import syncCondition from './component/syncCondition.vue'
 import syncdecRecord from './component/syncDecRcord.vue'

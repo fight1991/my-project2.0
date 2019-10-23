@@ -249,8 +249,8 @@ export default {
       return {
         templateName: '',
         tradeCusCode: '',
-        updateTimeStart: '', // 最近开始操作时间
-        updateTimeEnd: ''
+        startTime: '', // 最近开始操作时间
+        endTime: ''
       }
     },
     reset () {
@@ -259,11 +259,11 @@ export default {
     },
     queryList () {
       if (this.dates === '' || this.dates === null) {
-        this.queryForm.updateTimeStart = ''
-        this.queryForm.updateTimeEnd = ''
+        this.queryForm.startTime = ''
+        this.queryForm.endTime = ''
       } else {
-        this.queryForm.updateTimeStart = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.queryForm.updateTimeEnd = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+        this.queryForm.startTime = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.queryForm.endTime = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       this.pageList(this.$store.state.pagination)
     },

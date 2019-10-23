@@ -413,14 +413,14 @@ export default {
       id: 2,
       icon: require('../assets/img/icon-bottom/btm_im_receipt.png'),
       text: '进口接单',
-      path: url.CCBA + '/eImport/receipt/import',
+      path: url.CCBA + '/iExport/orderReceiving/iOrderReceiving',
       permissions: 'CCBA20202010000'
     },
     {
       id: 3,
       icon: require('../assets/img/icon-bottom/btm_ex_Receipt.png'),
       text: '出口接单',
-      path: url.CCBA + '/eImport/receipt/export',
+      path: url.CCBA + '/iExport/orderReceiving/eOrderReceiving',
       permissions: 'CCBA20202020000'
     },
     {
@@ -462,14 +462,14 @@ export default {
       id: 9,
       icon: require('../assets/img/icon-bottom/btm_im_annotation list.png'),
       text: '进口核注清单',
-      path: url.CCBA + '/eImport/importDec/importTaxList',
+      path: url.CCBA + '/iExport/importVouching/importTaxList',
       permissions: 'CCBA20209030000'
     },
     {
       id: 10,
       icon: require('../assets/img/icon-bottom/btm_ex_annotation list.png'),
       text: '出口核注清单',
-      path: url.CCBA + '/eImport/exportDec/exportTaxList',
+      path: url.CCBA + '/iExport/exportVouching/exportTaxList',
       permissions: 'CCBA20210030000'
     }
   ],
