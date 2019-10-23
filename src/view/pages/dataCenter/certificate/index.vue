@@ -86,14 +86,14 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-row style="margin-bottom: 8px;">
+        <el-row style="margin-bottom: 12px;">
         <el-button  size="mini" @click="delect"  class="list-btns list-icon-delete" :disabled="!checkifmy()"><i></i>删除</el-button>
         </el-row>
         <el-table class='sys-table-table' height="398px"
           border highlight-current-row size="mini" ref="certTable"
           @selection-change="selectionChange" @row-click='rowClickDecList' @select-all='selectALl'
           :data="resultList">
-          <el-table-column  type="selection" min-width="50"></el-table-column>
+          <el-table-column  type="selection" min-width="50" align="center"></el-table-column>
           <el-table-column label="委托企业" min-width="100" prop="corpName">
             <template slot-scope="scope">
               <div class='sys-td-l'>{{scope.row.corpName}}</div>
@@ -521,5 +521,8 @@ export default {
   .el-col{
     padding-left: 25px;
     padding-right: 25px;
+  }
+  .query-table{
+    padding:12px 18px;
   }
 </style>

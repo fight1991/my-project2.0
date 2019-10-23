@@ -40,11 +40,11 @@
     <!-- 主显示框 -->
     <div class='query-table' style="margin-top:20px">
       <!-- 按钮 -->
-      <el-row style="background-color:white;padding:20px;">
+      <el-row style="background-color:white;padding:12px 18px;">
       <el-row class="op-btn" style="margin-bottom:12px">
         <el-button size="mini" @click="opennewdia()" class="list-icon-add" ><i class="cus-i"></i>新增</el-button>
-        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:6px;" class="list-icon-delete"><i class="cus-i"></i>删除</el-button>
-        <el-dropdown @command='downloadFun' style="margin-left:6px;">
+        <el-button size="mini" @click="delectcus()" :disabled="nowselect.length === 0" style="margin-left:10px;" class="list-icon-delete"><i class="cus-i"></i>删除</el-button>
+        <el-dropdown @command='downloadFun' style="margin-left:10px;">
             <el-button size="mini" class="list-icon-import">
               <i class="cus-i"></i>导入
             </el-button>
@@ -66,7 +66,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        <el-button size="mini"  @click="exportcus()" style="margin-left:6px;" :disabled="nowselect.length===0" class="list-icon-export"><i class="cus-i"></i>导出</el-button>
+        <el-button size="mini"  @click="exportcus()" style="margin-left:10px;" :disabled="nowselect.length===0" class="list-icon-export"><i class="cus-i"></i>导出</el-button>
       </el-row>
 
       <!-- 列表table开始 -->

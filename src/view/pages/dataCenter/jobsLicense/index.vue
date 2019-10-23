@@ -361,7 +361,7 @@ export default {
   }
   .query-table {
     background-color: #fff;
-    padding: 20px;
+    padding:12px 18px;
     margin-top: 20px;
   }
   .m-r-10{
