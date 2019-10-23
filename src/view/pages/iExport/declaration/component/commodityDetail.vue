@@ -1141,36 +1141,55 @@ export default {
     },
     // 获取公共字典list
     getCommonParams () {
-      this.$post({
+      let par = [
+        'SAAS_UNIT', // 单位
+        'SAAS_LEVYMODE', // 征免方式
+        'SAAS_DISTRICT_REL', // 境内目的地
+        'SAAS_COUNTRY', // 国家
+        'SAAS_CIQ_ORIGIN_PLACE', // 地区
+        'SAAS_CIQ_CITY_CN', // 地区
+        'SAAS_LIC_TYPE', // 许可证类别
+        'SAAS_GOODS_ATTR', // 商品属性
+        'SAAS_USER_TO', // 用途
+        'SAAS_CURR' // 币制
+      ]
+      return {
         url: 'API@/saas-dictionary/dictionary/getParam',
+        useStorage: true,
+        storageKey: par,
+        hasStorageCallback: () => {
+          this.initSelectParam()
+        },
         data: {
-          'tableNames': [
-            'SAAS_UNIT', // 单位
-            'SAAS_LEVYMODE', // 征免方式
-            'SAAS_DISTRICT_REL', // 境内目的地
-            'SAAS_COUNTRY', // 国家
-            'SAAS_CIQ_ORIGIN_PLACE', // 地区
-            'SAAS_CIQ_CITY_CN', // 地区
-            'SAAS_LIC_TYPE', // 许可证类别
-            'SAAS_GOODS_ATTR', // 商品属性
-            'SAAS_USER_TO', // 用途
-            'SAAS_CURR' // 币制
-          ]
+          'tableNames': par
         },
         success: (res) => {
-          this.iLicType = []
-          this.eLicType = []
-          this.paramsOptions = res.result
-          this.saasGoodsAttr = res.result.SAAS_GOODS_ATTR
-          for (let i in this.paramsOptions.SAAS_LIC_TYPE) {
-            if (this.paramsOptions.SAAS_LIC_TYPE[i].otherField === 'I') {
-              this.iLicType.push(this.paramsOptions.SAAS_LIC_TYPE[i])
-            } else {
-              this.eLicType.push(this.paramsOptions.SAAS_LIC_TYPE[i])
-            }
-          }
+          this.initSelectParam()
         }
-      })
+      }
+    },
+    initSelectParam () {
+      this.saasGoodsAttr = JSON.parse(window.localStorage.getItem('SAAS_GOODS_ATTR'))
+      this.paramsOptions = {
+        'SAAS_UNIT': JSON.parse(window.localStorage.getItem('SAAS_UNIT')), // 单位
+        'SAAS_LEVYMODE': JSON.parse(window.localStorage.getItem('SAAS_LEVYMODE')), // 征免方式
+        'SAAS_DISTRICT_REL': JSON.parse(window.localStorage.getItem('SAAS_DISTRICT_REL')), // 境内目的地
+        'SAAS_COUNTRY': JSON.parse(window.localStorage.getItem('SAAS_COUNTRY')), // 国家
+        'SAAS_CIQ_ORIGIN_PLACE': JSON.parse(window.localStorage.getItem('SAAS_CIQ_ORIGIN_PLACE')), // 地区
+        'SAAS_CIQ_CITY_CN': JSON.parse(window.localStorage.getItem('SAAS_CIQ_CITY_CN')), // 地区
+        'SAAS_USER_TO': JSON.parse(window.localStorage.getItem('SAAS_USER_TO')), // 用途
+        'SAAS_CURR': JSON.parse(window.localStorage.getItem('SAAS_CURR')) // 币制
+      }
+      this.iLicType = []
+      this.eLicType = []
+      let saasLicType = JSON.parse(window.localStorage.getItem('SAAS_LIC_TYPE'))
+      for (let i in saasLicType) {
+        if (saasLicType[i].otherField === 'I') {
+          this.iLicType.push(saasLicType[i])
+        } else {
+          this.eLicType.push(saasLicType[i])
+        }
+      }
     },
     // 展开/收起
     expand () {

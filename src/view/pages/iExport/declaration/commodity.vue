@@ -137,7 +137,6 @@
      :visible.sync="detailVisible"
      :modal-append-to-body='false'
       width="950px"
-      append-to-body
       class="order-dialog commodityDetail-dialog"
       :close-on-click-modal="false">
        <commodity-detail :typeValue="typeValue" :id="id" @closedecele="cancleElement"  v-if="detailVisible"></commodity-detail>
@@ -174,7 +173,6 @@
       :close-on-click-modal="false"
       :modal-append-to-body='false'
       v-dialogDrag
-      append-to-body
       v-loading="$store.state.loading"
       width="800px">
       <rltdec-record :selectedRow="selectedRow" v-if="rltDecVisible"></rltdec-record>
@@ -237,17 +235,27 @@ export default {
   methods: {
     // 获取公共字典list
     getCommonParams () {
-      this.$post({
+      let par = [
+        'SAAS_TRANSPORT_TYPE' // 运输方式
+      ]
+      return {
         url: 'API@/saas-dictionary/dictionary/getParam',
+        useStorage: true,
+        storageKey: par,
+        hasStorageCallback: () => {
+          this.paramsOptions = {
+            'SAAS_TRANSPORT_TYPE': JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')) // 单位
+          }
+        },
         data: {
-          'tableNames': [
-            'SAAS_TRANSPORT_TYPE' // 运输方式
-          ]
+          'tableNames': par
         },
         success: (res) => {
-          this.paramsOptions = res.result
+          this.paramsOptions = {
+            'SAAS_TRANSPORT_TYPE': JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')) // 单位
+          }
         }
-      })
+      }
     },
     // 新增/详情
     gotoDetail (type, value) {

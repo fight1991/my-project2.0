@@ -1062,7 +1062,7 @@
               </el-row>
             </div>
             <!--- table 结束  -->
-            <div class="dec-div">
+            <div class="dec-div dec-page-bottom">
               <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
                   <el-row  >
                     <el-col :span="6">

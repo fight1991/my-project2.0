@@ -2,7 +2,7 @@
 <!-- 其表体组件 -->
   <section>
     <!--- table 开始  -->
-    <div class = "dec-div" >
+    <div class = "dec-div dec-page-bottom" >
       <el-row>
         <el-button size="mini" icon="fa fa-sign-in" class="secondButton" :disabled="controller.isDisabled || bodyController.importIsDisabled || controller.cDisabled || controller.isWholeDec" @click="openImport">&nbsp;导入</el-button>
         <el-button size="mini" icon="fa fa-plus" class="secondButton" :disabled="controller.isDisabled || bodyController.refreshIsDisabled || controller.cDisabled || controller.isWholeDec"  @click="refreshDecList">&nbsp;新增</el-button>

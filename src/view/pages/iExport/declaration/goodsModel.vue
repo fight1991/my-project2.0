@@ -222,6 +222,7 @@
     <el-dialog
       title="商品规范申报-商品申报要素"
       :visible.sync="elementVisible"
+      :modal-append-to-body='false'
        class="sys-dec-class"
       width="640px">
       <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>

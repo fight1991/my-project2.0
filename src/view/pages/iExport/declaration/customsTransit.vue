@@ -1273,7 +1273,7 @@
                   </el-row>
                 </div>
                 <!--- table 结束  -->
-                <div class="dec-div">
+                <div class="dec-div dec-page-bottom">
                   <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
                       <el-row  >
                         <el-col :span="6">
@@ -11907,26 +11907,6 @@ export default {
  }
  .border-bottom {
    border-bottom: 0;
- }
- .bottomDiv{
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    min-width: 954px;
-    background: #e8ebed;
-    margin: 0 20px;
-    bottom: 0;
-    height: 19px;
-    color: red;
-    font-size: 12px;
- }
-  .topDiv{
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    min-width: 954px;
-    background-color: #fff;
-    top: 0;
  }
  .el-select-dropdown__item.selected {
         background: #0080ff;
