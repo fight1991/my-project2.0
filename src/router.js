@@ -15,7 +15,6 @@ import Circulation from './view/pages/circulation/router'
 import Graininess from './view/pages/graininess/router'
 import Sea from './view/pages/sea/router'
 import PassParams from './view/pages/passParams/router'
-import PassStatus from './view/pages/passStatus/router'
 import ExpressDeclare from './view/pages/expressDeclare/router'
 import ContractManage from './view/pages/contract/router'
 import Finance from './view/pages/finance/router'
@@ -90,7 +89,6 @@ routes[1].children.push(...Circulation.MENU)
 routes[1].children.push(...Graininess.MENU)
 routes[1].children.push(...Sea.MENU)
 routes[1].children.push(...PassParams.MENU)
-routes[1].children.push(...PassStatus.MENU)
 routes[1].children.push(...ExpressDeclare.MENU)
 routes[1].children.push(...ContractManage.MENU)
 routes[1].children.push(...Finance.MENU)
@@ -180,13 +178,6 @@ router.beforeEach((to, from, next) => {
           type: 'passParams',
           title: '通关参数',
           permissions: 'CCBA21200000000'
-        }
-        break
-      case 'passStatus':
-        json = {
-          type: 'passStatus',
-          title: '通关状态',
-          permissions: ''
         }
         break
       case 'expressDeclare':
