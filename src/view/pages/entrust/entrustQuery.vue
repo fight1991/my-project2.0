@@ -93,8 +93,8 @@
         </el-row>
         <el-row class="query-btn" :gutter="50">
           <el-col :span="24" align="center">
-            <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="search">查询</el-button>
-            <el-button size="mini" style="padding: 8px 20px;" @click="reset">重置</el-button>
+            <el-button size="mini" type="primary" style="padding: 7px 20px;" @click="search">查询</el-button>
+            <el-button size="mini" style="padding: 7px 20px;" @click="reset">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -102,8 +102,8 @@
     <!-- 主显示框 -->
     <div class='query-table dec-query-table'>
       <el-row class="op-btn">
-        <el-button size="mini" class="list-btns list-icon-add" @click="goToPage('new', 'add')"><i></i>新增</el-button>
-        <el-button size="mini" class="list-btns list-icon-declare" @click="submitEntrust" :disabled="isSubmit"><i></i>提交</el-button>
+        <el-button size="mini" class="list-btns list-icon-add" style="margin-right: 10px!important;" @click="goToPage('new', 'add')"><i></i>新增</el-button>
+        <el-button size="mini" class="list-btns list-icon-declare" style="margin-right: 10px!important;" @click="submitEntrust" :disabled="isSubmit"><i></i>提交</el-button>
         <el-button size="mini" class="list-btns list-icon-look" @click="openCdDetail"><i></i>查看相关数据</el-button>
         <div class="airvehicle-list-drop" style="float: right;">
           <el-popover popper-class="airvehicle-table-popper">
@@ -544,7 +544,8 @@ export default {
   margin-top: 20px;
 }
 .op-btn {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  font-size: 0;
 }
 .dec-i{
   display: inline-block;

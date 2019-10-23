@@ -4,7 +4,7 @@
     <!-- 查询条件 -->
     <div class = "query-condition">
       <el-form :label-width="labelFormWidth.four" :model="queryDecForm" size="mini" label-position="right">
-        <el-row>
+        <el-row :gutter="20">
           <el-col :md="12" :lg="6">
             <el-form-item label="备案号">
               <el-input
@@ -31,7 +31,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="query">查询</el-button>
             <el-button size="mini" @click="reset">重置</el-button>

@@ -5,18 +5,18 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" :model="queryShippingForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="分单号">
               <el-input v-model="queryShippingForm.hawbNo" maxlength="32" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="主单号">
               <el-input v-model="queryShippingForm.mawbNo" maxlength="32" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
             <el-form-item label="导入日期">
               <el-date-picker title='导入日期' v-model="dates" style="width:100%"
                 type="daterange" clearable
@@ -28,7 +28,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryShippingList" class= 'btn-padding' >查询</el-button>
             <el-button size="mini" @click="resetShippingForm" class= 'btn-padding'>重置</el-button>

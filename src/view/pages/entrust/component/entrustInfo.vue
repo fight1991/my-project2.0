@@ -707,7 +707,7 @@
     </el-dialog>
     <!-- 随附单据弹窗 end -->
     <!-- 更改受托企业弹窗 -->
-    <el-dialog title="修改受托方" :visible.sync="editVisible" width="35%" :close-on-click-modal="false" v-loading="$store.state.loading">
+    <el-dialog title="修改受托方" :visible.sync="editVisible" width="600px" class="entrust-dialog" :close-on-click-modal="false" v-loading="$store.state.loading">
       <el-row>
         <el-col :span="19" :offset="2">
           <el-form :model="corpForm" ref="corpForm" :rules="corpRules" label-width="75px" size="mini">
@@ -726,7 +726,7 @@
               </el-select>
             </el-form-item>
           </el-form>
-          <el-row><el-col :span="24" align="center"><el-button size="mini" type="primary" @click="changeCorp">确定</el-button></el-col></el-row>
+          <el-row><el-col :span="24" align="center"><el-button size="mini" type="primary" class="dialog-btn" @click="changeCorp">确定</el-button></el-col></el-row>
         </el-col>
       </el-row>
     </el-dialog>

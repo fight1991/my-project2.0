@@ -5,7 +5,7 @@
       <!-- -->
       <el-form :label-width="labelFormWidth.seven" :model="QueryDecForm" size="mini" label-position="right">
         <div v-if='queryType'>
-          <el-row >
+          <el-row :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
@@ -51,7 +51,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row >
+          <el-row  :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="境内收发货人">
                 <el-input v-model="QueryDecForm.tradeCode" :disabled="isDisabled" clearable></el-input>
@@ -83,7 +83,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row >
+          <el-row  :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="创建人">
                 <el-select placeholder="" v-model="QueryDecForm.createUser"
@@ -126,7 +126,7 @@
           </el-row>
         </div>
         <div v-else>
-          <el-row >
+          <el-row  :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
@@ -172,7 +172,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row >
+          <el-row  :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="统一编号" >
                 <el-autocomplete
@@ -204,13 +204,13 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col  :md="12" :lg="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="客户业务号">
                 <el-input v-model="QueryDecForm.corpBusiNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row >
+          <el-row  :gutter='20'>
             <el-col  :md="12" :lg="6">
               <el-form-item label="客户端统一编号">
                 <el-input v-model="QueryDecForm.clientSeqno" :disabled="isDisabled" clearable></el-input>
@@ -244,7 +244,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-row >
+        <el-row  :gutter='20'>
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryDecList" class = 'btn-padding'>查询</el-button>
             <el-button size="mini" @click="resetDecForm" class = 'btn-padding'>重置</el-button>
@@ -1175,6 +1175,7 @@ export default {
         data: {},
         success: (res) => {
           if (res.code === '0000') {
+            this.userList = []
             for (let i in res.result) {
               // 过滤数据
               if (util.isEmpty(res.result[i].userId) || util.isEmpty(res.result[i].userName)) {
@@ -2795,6 +2796,10 @@ export default {
       this.userId = this.$store.state.userLoginInfo.userId
       if (!util.isEmpty(this.userId)) {
         this.QueryDecForm.createUser = this.userId
+        this.userList.push({
+          codeField: this.userId,
+          nameField: this.$store.state.userLoginInfo.userName
+        })
         let fieldList = window.localStorage.getItem('DTH' + this.userId)
         if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
           let list = JSON.parse(fieldList)

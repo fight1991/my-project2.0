@@ -4,7 +4,7 @@
     <div class = "query-condition">
       <!-- -->
       <el-form label-width="80px" :model="QuerytrafModeTipsForm" size="mini" label-position="right">
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="8">
               <el-form-item label="进出境关别" prop='iEPort'>
                 <el-select placeholder="" v-model="QuerytrafModeTipsForm.iEPort"
@@ -54,7 +54,7 @@
               </el-form-item>
             </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryTrafModeTipsList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetQueryTrafModeTipsForm" style="padding: 8px 20px;">重置</el-button>

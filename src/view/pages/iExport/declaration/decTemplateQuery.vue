@@ -5,30 +5,30 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.six" :model="QueryDecForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="境内收发货人">
               <el-input v-model="QueryDecForm.tradeCode" clearable placeholder="海关编码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="消费使用/生产销售单位" class='more-txt-lh'>
               <el-input v-model="QueryDecForm.ownerCode" clearable placeholder="海关编码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="申报单位" >
               <el-input v-model="QueryDecForm.agentCode" clearable placeholder="海关编码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="模板名称" >
               <el-input v-model="QueryDecForm.templateName" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="进出口标志">
               <el-select placeholder="" v-model="QueryDecForm.iEFlag" filterable style="width:100%">
                 <el-option
@@ -40,7 +40,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
             <el-form-item label="最近操作时间">
               <el-date-picker title='进出口日期' v-model="dates" style="width:100%"
                 type="daterange"
@@ -52,7 +52,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryDecList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetDecForm" style="padding: 8px 20px;">重置</el-button>

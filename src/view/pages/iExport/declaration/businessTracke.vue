@@ -4,7 +4,7 @@
     <!-- 查询条件 -->
     <div class = "query-condition">
       <el-form :label-width="labelFormWidth.four" :model="queryForm" size="mini" label-position="right">
-        <el-row>
+        <el-row :gutter='20'>
           <el-col :md="12" :lg="6">
               <el-form-item label="接单编号" >
                 <el-input v-model="queryForm.bossId" clearable></el-input>
@@ -26,7 +26,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter='20'>
           <el-col :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="queryForm.status"  filterable style="width:100%" clearable>
@@ -64,7 +64,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter='20'>
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetForm" style="padding: 8px 20px;">重置</el-button>

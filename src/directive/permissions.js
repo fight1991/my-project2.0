@@ -1,6 +1,5 @@
 function checkMenuCode (val) {
   let menuCode = JSON.parse(window.localStorage.getItem('ccbaMenuCodes'))
-  // console.log(menuCode[val], val)
   return menuCode && menuCode[val] === 'true'
 }
 // function isIE () {

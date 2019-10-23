@@ -180,9 +180,7 @@ export default {
     },
     getBoxWidth () {
       this.$nextTick(() => {
-        // console.dir(that.$refs.chartBox)
         // let wid = that.$refs.chartBox.$el.clientWidth
-        // console.log(wid)
       })
     },
     // 设置默认时间范围

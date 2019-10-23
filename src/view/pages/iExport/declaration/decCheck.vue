@@ -4,18 +4,18 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.six" :model="queryCondition" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="接单编号">
               <el-input v-model="queryCondition.bossId" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="提运单号" >
               <el-input v-model="queryCondition.billNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="进出口标志">
               <el-select placeholder="" v-model="queryCondition.iEFlag"  style="width:100%" >
                 <el-option
@@ -27,7 +27,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="审核状态">
               <el-select placeholder="" v-model="queryCondition.isExamine"  filterable clearable style="width:100%">
                 <el-option
@@ -40,8 +40,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="申报地海关">
               <el-select placeholder="" v-model="queryCondition.customMaster"
                 clearable filterable remote
@@ -58,12 +58,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="境内收发货人" >
               <el-input v-model="queryCondition.trader" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
             <el-form-item label="最近操作时间">
               <el-date-picker  v-model="dates" style="width:100%"
                 type="daterange" clearable
@@ -75,8 +75,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="制单人" >
               <el-select placeholder="" v-model="queryCondition.inputerName"
                   filterable clearable style="width:100%">
@@ -89,7 +89,7 @@
                 </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="申报模式">
               <el-select placeholder="" v-model="queryCondition.type"  style="width:100%" >
                 <el-option
@@ -102,7 +102,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryDeCheckList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetDeCheckForm" style="padding: 8px 20px;">重置</el-button>

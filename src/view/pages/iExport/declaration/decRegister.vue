@@ -5,7 +5,7 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.six" :model="queryCondtion" size="mini" label-position="right" >
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="8">
               <el-form-item label="异常类型">
                 <el-select placeholder="" v-model="queryCondtion.reviseType"
@@ -30,7 +30,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="发生日期">
               <el-date-picker v-model="dates" style="width:100%"
@@ -44,7 +44,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryListByCondition" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetqueryCondtion" style="padding: 8px 20px;">重置</el-button>

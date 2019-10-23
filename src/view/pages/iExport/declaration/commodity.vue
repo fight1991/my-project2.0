@@ -5,7 +5,7 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.six" :model="QueryDecForm" size="mini" label-position="right">
-        <el-row>
+        <el-row :gutter="20">
           <el-col  :md="12" :lg="6">
             <el-form-item label="进出口标志" >
               <el-select v-model="QueryDecForm.iEFlag" clearable filterable>
@@ -28,7 +28,7 @@
               </el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col  :md="12" :lg="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="消费使用/生产销售单位" class='more-txt-lh'>
               <el-autocomplete
                 :maxlength="70"
@@ -48,7 +48,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter="20">
           <el-col  :md="12" :lg="6">
             <el-form-item label="商品编号" >
               <el-input v-model="QueryDecForm.codeTs"></el-input>
@@ -60,7 +60,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryList">查询</el-button>
             <el-button size="mini" @click="restFun">重置</el-button>
