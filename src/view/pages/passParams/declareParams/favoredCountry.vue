@@ -2,11 +2,11 @@
   <section class="sys-main">
     <!-- 查询条件 -->
     <div class="query-header">
-      <el-row :gutter="100">
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-input size="mini" v-model="queryForm.name" placeholder="国家代码/英文简称/中文名称" maxlength="50" clearable @keyup.enter.native="search"></el-input>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="18">
           <el-button size="mini" type="primary" @click="search">查询</el-button>
         </el-col>
       </el-row>
