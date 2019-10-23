@@ -1,3 +1,5 @@
+import config from '@/config/config'
+import { JSEncrypt } from 'jsencrypt'
 export default {
   // 是否为空：true为空-false不为空
   isEmpty: function (obj) {
@@ -317,5 +319,262 @@ export default {
       return unescape(r[2])
     }
     return null
+  },
+  /**
+   * @function 加法函数，用来得到精确的加法结果
+   * @description  javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+   * @param arg1 第一个加数
+   * @param arg2 第二个加数
+   * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数）
+     @returns 两数相加的结果
+   */
+  Add (arg1, arg2) {
+    if (this.isEmpty(arg1)) {
+      arg1 = 0
+    }
+    if (this.isEmpty(arg2)) {
+      arg2 = 0
+    }
+    let arg1Arr = arg1.toString().split('.')
+    let arg2Arr = arg2.toString().split('.')
+    let d1 = arg1Arr.length === 2 ? arg1Arr[1] : ''
+    let d2 = arg2Arr.length === 2 ? arg2Arr[1] : ''
+    let maxLen = Math.max(d1.length, d2.length)
+    let m = Math.pow(10, maxLen)
+    let result = Number(((arg1 * m + arg2 * m) / m).toFixed(maxLen))
+    let d = arguments[2] // arguments 为获取所有传入的参数 取第三个参数
+    return typeof d === 'number' ? Number((result).toFixed(d)) : result
+  },
+  removeZero (value) {
+    if (this.isEmpty(value)) {
+      return ''
+    } else {
+      return parseFloat(value) === 0 ? '' : parseFloat(value)
+    }
+  },
+  isDef (v) {
+    return v !== undefined && v !== null
+  },
+  isEmptyObject: function (obj) {
+    let result = this.isEmpty(obj)
+    if (!result) {
+      result = Object.getOwnPropertyNames(obj).length === 0
+    }
+    return result
+  },
+  // 存放Session
+  setSession: function (arr = []) {
+    for (let x in arr) {
+      window.sessionStorage.setItem(arr[x].key, arr[x].value)
+    }
+  },
+  // 跳转:子系统指定回跳地址
+  gotoCallBackUrl () {
+    let token = encodeURIComponent(window.localStorage.getItem('token'))
+    let callback = window.sessionStorage.getItem('callback')
+    // window.sessionStorage.clear()
+    if (this.isEmpty(callback)) {
+      window.open(config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['LOGIN'] + '?token=' + token, '_self')
+    } else {
+      if (callback.indexOf('?') !== -1) {
+        callback = callback.replace(/:::/g, '&')
+        window.open(callback + '&token=' + token, '_self')
+      } else {
+        window.open(callback + '?token=' + token, '_self')
+      }
+    }
+  },
+  // 下载
+  downLoadUrl  ({name, url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['modelUrl']}) {
+    let link = document.createElement('a')
+    link.setAttribute('download', name)
+    link.href = url
+    // link.click()
+    link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}))
+  },
+  // 判断数组中是否有某元素
+  isExistInArray (val, arr) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === val) {
+        return true
+      }
+    }
+    return false
+  },
+  encode: function (input) {
+    let publicKey = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['KEY']
+    let encryptor = new JSEncrypt()
+    encryptor.setPublicKey(publicKey)
+    return encryptor.encrypt(input)
+  },
+  // 通过 回车键 切换焦点
+  switchFoucsByEnter (e) {
+    e.srcElement.blur()
+    // 获取当前焦点所在的 form表单
+    let form = e.srcElement.form
+    // 获取form表单下的所有 input
+    let focusable = form.querySelectorAll('input')
+    let newFocusable = []
+    // 排除 disabled 属性的 input
+    for (let n in focusable) {
+      if (focusable[n].disabled === false) {
+        newFocusable.push(focusable[n])
+      }
+    }
+    focusable = newFocusable
+    // 排除disabled元素
+    let index
+    for (let i in focusable) {
+      if (e.srcElement === focusable[i]) {
+        index = i
+        break
+      }
+    }
+    // 下一个元素
+    let next = focusable[parseInt(index) + 1]
+    // 上一个元素
+    let prev = focusable[parseInt(index) - 1]
+    if (e.shiftKey) { // shift+enter 光标向上个元素移动
+      if (prev) {
+        if (e.srcElement.attributes.shiftEnter && e.srcElement.attributes.shiftEnter.nodeValue === 'no') {
+          return false
+        } else {
+          if (e.srcElement.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
+            let ref = e.srcElement.parentElement.offsetParent.attributes.dataRef.nodeValue
+            arguments[1].$refs[ref].blur()
+          }
+          prev.focus()
+        }
+      }
+    } else if (e.ctrlKey && this.localName === 'textarea') { // Ctrl+enter 在textaera中换行
+      let myValue = '\n'
+      let t = e.srcElement
+      if (document.selection) { // ie<9
+        t.focus()
+        let sel = document.selection.createRange()
+        sel.text = myValue
+        t.focus()
+        sel.moveStart('character', -1)
+      } else if (t.selectionStart || t.selectionStart === '0') { // 现代浏览器
+        let startPos = t.selectionStart
+        let endPos = t.selectionEnd
+        let scrollTop = t.scrollTop
+        t.value = t.value.substring(0, startPos) + myValue + t.value.substring(endPos, t.value.length)
+        t.focus()
+        // 因为myValue回车显示为\n
+        t.selectionStart = startPos + myValue.length
+        t.selectionEnd = startPos + myValue.length
+        t.scrollTop = scrollTop
+      } else {
+        t.value += myValue
+        t.focus()
+      }
+    } else {
+      if (e.srcElement.localName === 'textarea') { // enter 光标向下个元素移动
+        e.preventDefault()
+        e.stopPropagation()
+      }
+      // 下个元素存在
+      if (next) {
+        if (e.srcElement.attributes.enter && e.srcElement.attributes.enter.nodeValue === 'no') {
+          return false
+        } else {
+          if (e.srcElement.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
+            let ref = e.srcElement.parentElement.offsetParent.attributes.dataRef.nodeValue
+            arguments[1].$refs[ref].blur()
+          }
+          next.focus()
+        }
+      }
+      return false
+    }
+  },
+  // 清空对象中的值
+  removeValueInObj: function (obj) {
+    Object.keys(obj).forEach(key => {
+      if (typeof obj[key] === 'string' || typeof obj[key] === 'number' || obj[key] === null) {
+        obj[key] = ''
+      } else if (typeof obj[key] === 'object') {
+        if (Array.isArray(obj[key])) {
+          obj[key] = []
+        } else {
+          obj[key] = {}
+        }
+      }
+    })
+    return obj
+  },
+  /**
+   * @description 计算字符串的字节
+   * @param {String} value 需要计算长度的字符串
+   * @param {Number} defaultFlag 一个中文占几个字节
+   */
+  decGetlen: function (value, defaultFlag) {
+    if (!defaultFlag) {
+      defaultFlag = 2
+    } else {
+      defaultFlag = +defaultFlag
+    }
+    let realLength = 0
+    if (!value) {
+      return 0
+    }
+    let str = value
+    let len = str.length
+    // utf-8字节长度
+    for (let i = 0; i < len; i++) {
+      let charCode = str.charCodeAt(i)
+      if (charCode >= 0 && charCode <= 128) {
+        realLength += 1
+      } else {
+        // 如果是中文则长度加2
+        realLength += defaultFlag
+      }
+    }
+    return realLength
+  },
+  /**
+   * 此方法一个中文站两个字符
+   * @description 控制字符长度输入，如果长度超出则自动清除
+   * @param {String} value 需计算的字符串
+   * @param {int} maxlen 需要保留的长度
+   */
+  getFixlenOfString (value, maxlen) {
+    if (typeof (value) !== 'string') {
+      return ''
+    }
+    let len = value.length
+    // utf-8字节长度
+    let realLength = 0
+    let charCode
+    for (var i = 0; i < len; i++) {
+      charCode = value.charCodeAt(i)
+      if (charCode >= 0 && charCode <= 128 && charCode !== 10) {
+        realLength += 1
+      } else {
+        // 如果是中文则长度加2
+        realLength += 2
+      }
+      if (realLength > maxlen) {
+        return value.substr(0, i)
+      }
+    }
+    return value
+  },
+  /**
+   * @description 判断数组中是否有空 null undefined的元素 有则 返回false  没有返回 true
+   * @param {Array} arr 需要判断的数组
+   */
+  validArray (arr) {
+    if (arr instanceof Array) {
+      for (let i in arr) {
+        if (this.isEmpty(arr[i])) {
+          return false
+        }
+      }
+      return true
+    } else {
+      return false
+    }
   }
 }
