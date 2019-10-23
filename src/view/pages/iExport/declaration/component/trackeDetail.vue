@@ -261,7 +261,8 @@ export default {
       this.$router.push({
         name: routeName,
         query: {
-          'innerNo': row.note
+          'innerNo': row.note,
+          setId: 'look' + routeName + row.note
         }
       })
     },

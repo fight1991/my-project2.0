@@ -600,7 +600,7 @@ export default {
     cancleElement () {
       this.detailVisible = false
       if (this.typeValue === 'view' && !util.isEmpty(this.$route.query.innerNo)) {
-        this.$store.dispatch('CloseTab', this.$route.params.setId)
+        this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
       } else {
         this.queryList()
       }
