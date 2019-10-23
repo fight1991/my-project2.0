@@ -18,6 +18,7 @@
     "axios-mock-adapter": "^1.15.0",
     "element-ui": "^2.4.3",
     "font-awesome": "^4.7.0",
+    "jsencrypt": "^3.0.0-rc.1",
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "qrcodejs2": "0.0.2",
@@ -26,6 +27,7 @@
     "vue-baidu-map": "^0.21.20",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
+    "xlsx": "^0.15.1",
     "yarn": "^1.6.0"
   },
   "devDependencies": {

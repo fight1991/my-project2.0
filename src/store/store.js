@@ -8,16 +8,28 @@ import TabsStore from '../components/tabs/store'
 Vue.use(Vuex)
 axios.defaults.timeout = 60000 // 请求的超时时间
 axios.defaults.withCredentials = true // 允许携带cookie
+const env = process.env.NODE_ENV === 'production' ? 'prod' : 'dev'
 export default new Vuex.Store({
   modules: {
     TabsStore
   },
   state: {
+    // pagination: {
+    //   pageIndex: 1, // 当前页
+    //   pageSize: 10, // 每页数据条数
+    //   total: 0 // 总条数
+    // },
+    // 分页的数据
     pagination: {
       pageIndex: 1, // 当前页
       pageSize: 10, // 每页数据条数
-      total: 0 // 总条数
+      total: 0, // 总条数
+      pageSizes: [10, 20, 50, 100, 200]
     },
+    ifDecOpen: false,
+    appCount: 0, // 联系人未读数量
+    paramVersion: '',
+    sysId: config[env]['SYSID'],
     // 登陆后的用户数据信息
     userLoginInfo: {
       userId: '',
@@ -30,7 +42,10 @@ export default new Vuex.Store({
       userPhoto: '', // 用户头像
       companyName: '',
       sccCode: '',
-      adminFlag: ''
+      adminFlag: '',
+      cusCorpName: '', // 企业海关名
+      ciqCode: '', // 企业检验检疫代码
+      tradeCode: '' // 企业十位海关代码
     },
     childSys: {
       type: '',
@@ -258,6 +273,9 @@ export default new Vuex.Store({
       state.userLoginInfo.adminFlag = data.adminFlag
       state.userLoginInfo.sccCode = data.sccCode
       state.userLoginInfo.userId = data.userId
+      state.userLoginInfo.cusCorpName = data.cusCorpName
+      state.userLoginInfo.ciqCode = data.ciqCode
+      state.userLoginInfo.tradeCode = data.tradeCode
     },
     // 用户切换公司信息变更
     userCompanyInfo: function (state, data) {
