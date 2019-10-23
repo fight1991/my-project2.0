@@ -493,6 +493,7 @@ export default {
         data: {},
         success: (res) => {
           if (res.code === '0000') {
+            this.userList = []
             for (let i in res.result) {
               // 过滤数据
               if (util.isEmpty(res.result[i].userId) || util.isEmpty(res.result[i].userName)) {
@@ -512,6 +513,10 @@ export default {
       this.userId = this.$store.state.userLoginInfo.userId
       if (!util.isEmpty(this.userId)) {
         this.querySumDecForm.createUser = this.userId
+        this.userList.push({
+          codeField: this.userId,
+          nameField: this.$store.state.userLoginInfo.userName
+        })
         let fieldList = window.localStorage.getItem('DTH' + this.userId)
         if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
           let list = JSON.parse(fieldList)
