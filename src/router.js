@@ -295,8 +295,6 @@ router.beforeEach((to, from, next) => {
               ciqCode: util.isEmpty(res.result.ciqCode) ? '' : res.result.ciqCode, // 企业检验检疫代码
               tradeCode: util.isEmpty(res.result.tradeCode) ? '' : res.result.tradeCode // 企业十位海关代码
             }
-            console.log('用户信息')
-            console.log(res.result)
             if (!util.isEmpty(res.result.userTitleList)) {
               sessionStorage.setItem('userTitleList', JSON.stringify(res.result.userTitleList))
             }

@@ -391,8 +391,6 @@ export default {
     },
     foucsByEnter (e, next, secondNext) {
       // 下个元素存在
-      console.log(e)
-      console.log(next)
       if (next) {
         if (e.target.attributes.enter && e.target.attributes.enter.nodeValue === 'no') {
           return false

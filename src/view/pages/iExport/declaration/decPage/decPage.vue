@@ -326,7 +326,6 @@ export default {
     this.$store.unregisterModule(this.moduleName)
   },
   created () {
-    console.log(this.$store.state.TabsStore.currentTab.tabId)
     let params = this.$route.params
     let meta = this.$route.meta
     this.moduleName = meta.funFlag + '-' + meta.iEFlag + '-' + meta.operationType + '-' + params.pid

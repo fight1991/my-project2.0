@@ -4,30 +4,30 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" :model="QueryDecForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="接单编号">
               <el-input v-model="QueryDecForm.innerNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="提运单号">
               <el-input v-model="QueryDecForm.billNo" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="委托客户">
               <el-input v-model="QueryDecForm.company" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="件数" >
               <el-input v-model="QueryDecForm.packNo" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="运输方式" >
                <el-select size="mini" filterable v-model="QueryDecForm.trafMode" clearable>
                   <el-option
@@ -39,7 +39,7 @@
                 </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :md="24" :lg="12">
             <el-form-item label="接单日期">
               <el-date-picker title='进出口日期' v-model="dates" style="width:100%"
                 type="daterange" clearable
@@ -51,7 +51,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="系统状态" >
                <el-select size="mini" filterable v-model="QueryDecForm.status" clearable>
                   <el-option
@@ -64,8 +64,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="创建人" >
                <el-select size="mini" filterable v-model="QueryDecForm.createUser" clearable>
                   <el-option
@@ -77,7 +77,7 @@
                 </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="接单类型" >
               <el-select size="mini" filterable v-model="QueryDecForm.type" clearable>
                 <el-option
@@ -90,7 +90,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" style="padding: 8px 20px;" @click="queryList">查询</el-button>
             <el-button size="mini" style="padding: 8px 20px;" @click="restFun">重置</el-button>

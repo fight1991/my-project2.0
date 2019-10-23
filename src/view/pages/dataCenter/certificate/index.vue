@@ -321,7 +321,6 @@ export default {
         return false
       }
       for (let x = 0; x < this.selectRow.length; x++) {
-        console.log(x)
         if (this.selectRow[x].createUser !== this.$store.state.userLoginInfo.userId) {
           return false
         }

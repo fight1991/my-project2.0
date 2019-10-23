@@ -4,8 +4,8 @@
     <div class = "query-condition">
       <!-- -->
       <el-form :label-width="labelFormWidth.seven" :model="QuerySuppDecForm" size="mini" label-position="right">
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="补充申报单类型">
               <el-select placeholder="" v-model="QuerySuppDecForm.supType"  filterable style="width:100%" >
                 <el-option
@@ -18,34 +18,34 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="报关单编号" >
               <el-input v-model="QuerySuppDecForm.entryId"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="统一编号" >
               <el-input v-model="QuerySuppDecForm.seqNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="补充申报单编号" >
               <el-input v-model="QuerySuppDecForm.supid"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
             <el-form-item label="补充申报单统一编号" class= 'more-txt-lh'>
               <el-input v-model="QuerySuppDecForm.preSupid"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="境内收发货人">
               <el-input v-model="QuerySuppDecForm.tradeCode"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="企业类别">
               <el-select placeholder="" v-model="QuerySuppDecForm.etpsCategory"  filterable style="width:100%">
                 <el-option
@@ -57,7 +57,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="6">
+           <el-col ::md="12" :lg="6">
             <el-form-item label="进出口标志">
               <el-select placeholder="" v-model="QuerySuppDecForm.iEFlag" style="width:100%" >
                 <el-option
@@ -70,8 +70,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
-          <el-col :span="12">
+        <el-row :gutter="20">
+          <el-col :md="24" :lg="12">
             <el-form-item label="操作日期">
               <el-date-picker  v-model="dates" style="width:100%"
                 type="daterange"
@@ -84,7 +84,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryDecList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetDecForm" style="padding: 8px 20px;">重置</el-button>

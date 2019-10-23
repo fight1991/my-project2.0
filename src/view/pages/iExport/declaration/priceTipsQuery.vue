@@ -4,8 +4,8 @@
     <div class = "query-condition">
       <!-- -->
       <el-form label-width="80px" :model="QueryPriceTipsForm" size="mini" label-position="right" >
-        <el-row :gutter="50">
-          <el-col :span="6">
+        <el-row :gutter="20">
+          <el-col :md="12" :lg="6">
               <el-form-item label="业务类型" prop='type'>
                 <el-select placeholder="" v-model="QueryPriceTipsForm.type"
                   filterable clearable style="width:100%">
@@ -18,23 +18,23 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="境内收发货人" >
               <el-input v-model="QueryPriceTipsForm.tradeName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="商品名称">
               <el-input v-model="QueryPriceTipsForm.gName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :md="12" :lg="6">
             <el-form-item label="商品编号">
               <el-input v-model="QueryPriceTipsForm.codeTs"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
             <el-button size="mini" type="primary" @click="queryPriceTipsList" style="padding: 8px 20px;">查询</el-button>
             <el-button size="mini" @click="resetQueryPriceTipsForm" style="padding: 8px 20px;">重置</el-button>
