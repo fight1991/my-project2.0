@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main'>
      <!-- 头部 -->
-      <el-row class = "query-condition">
+      <el-row class = "query-condition data-center">
         <el-form :label-width="labelFormWidth.seven" :model="queryForm" size="mini" label-position="right">
       <!-- 查询条件 -->
           <el-row>
@@ -71,7 +71,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row style="text-align:center;margin-top:27px;" >
+            <el-row style="text-align:center;" >
               <el-button size="mini" type="primary" @click="search()">查询</el-button>
               <el-button size="mini" @click="reset">重置</el-button>
             </el-row>
@@ -419,9 +419,5 @@ export default {
   }
   .sys-main .form-item-mg0.el-form-item--mini.el-form-item {
     margin-bottom: 18px;
-  }
-  .el-col{
-    padding-left: 25px;
-    padding-right: 25px;
   }
 </style>

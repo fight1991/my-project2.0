@@ -12,7 +12,7 @@
         </el-row>
         <!-- 按钮组 end-->
     </el-row>
-    <el-row class='query-condition'>
+    <el-row class='query-condition data-center'>
       <el-form :model="QueryForm" size="mini" label-position="right" :label-width="labelFormWidth.five">
         <!-- 查询条件-->
         <el-row>
@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="text-align:center;margin-top:27px;">
+        <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="resetQueryform">重置</el-button>
         </el-row>

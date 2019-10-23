@@ -1,7 +1,7 @@
 <template>
   <section class='query-main sys-main' style="margin:-20px">
     <!-- 查询条件 -->
-    <div class = "query-condition" style="margin:20px;background-color:white;padding:20px;">
+    <div class = "query-condition data-center" style="margin:20px;background-color:white;padding:20px;">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row>
@@ -534,10 +534,6 @@ export default {
     width: 14px;
     height: 14px;
     vertical-align: middle;
-}
-.el-col{
-  padding-left: 25px;
-  padding-right: 25px;
 }
 .el-select{
   display: block;
