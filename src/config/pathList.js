@@ -427,35 +427,35 @@ export default {
       id: 4,
       icon: require('../assets/img/icon-bottom/btm_im_cdf.png'),
       text: '进口报关单',
-      path: url.CCBA + '/eImport/importDec/import',
+      path: url.CCBA + '/iExport/importVouching/importDec/add/new',
       permissions: 'CCBA20209010000'
     },
     {
       id: 5,
       icon: require('../assets/img/icon-bottom/btm_ex_cdf.png'),
       text: '出口报关单',
-      path: url.CCBA + '/eImport/exportDec/export',
+      path: url.CCBA + '/iExport/exportVouching/exportDec/add/new',
       permissions: 'CCBA20210010000'
     },
     {
       id: 6,
       icon: require('../assets/img/icon-bottom/btm_declar_review.png'),
       text: '报关单审核',
-      path: url.CCBA + '/eImport/reviewed/decReviewed',
+      path: url.CCBA + '/iExport/reviewed/decReviewedList',
       permissions: 'CCBA20204010000'
     },
     {
       id: 7,
       icon: require('../assets/img/icon-bottom/btm_bta.png'),
       text: '业务跟踪台账',
-      path: url.CCBA + '/eImport/dataQuery/tLedger',
+      path: url.CCBA + '/iExport/dataQuery/tLedger',
       permissions: 'CCBA20205030000'
     },
     {
       id: 8,
       icon: require('../assets/img/icon-bottom/btm_cddi.png'),
       text: '报关数据查询',
-      path: url.CCBA + '/eImport/dataQuery/decInfo',
+      path: url.CCBA + '/iExport/dataQuery/decInfo',
       permissions: 'CCBA20205010000'
     },
     {

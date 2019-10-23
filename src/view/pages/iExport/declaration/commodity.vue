@@ -524,7 +524,7 @@ export default {
     vertical-align: middle;
     }
     .icon-btn-import{
-    background: url('../../assets/img/icon-import.png') no-repeat center center;
+    background: url('../../../../assets/img/icon-import.png') no-repeat center center;
     background-size: cover;
   }
   .el-col{
