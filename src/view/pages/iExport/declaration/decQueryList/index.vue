@@ -103,9 +103,9 @@
                 :disabled="isDisabled" filterable clearable style="width:100%">
                   <el-option
                     v-for="item in stautsList"
-                    :key="item.value"
-                    :label="item.value + ' ' + item.label"
-                    :value="item.value">
+                    :key="item.codeField"
+                    :label="item.codeField + ' ' + item.nameField"
+                    :value="item.codeField">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -222,9 +222,9 @@
                 :disabled="isDisabled"  filterable style="width:100%">
                   <el-option
                     v-for="item in stautsList"
-                    :key="item.value"
-                    :label="item.value + ' ' + item.label"
-                    :value="item.value">
+                    :key="item.codeField"
+                    :label="item.codeField + ' ' + item.nameField"
+                    :value="item.codeField">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -306,14 +306,14 @@
           </el-dropdown-menu>
         </el-dropdown>
         <div class="airvehicle-list-drop">
-          <!-- <el-popover popper-class="airvehicle-table-popper">
+          <el-popover popper-class="airvehicle-table-popper">
             <ul>
               <li v-for="(item,index) in fieldList" :key="index">
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
             <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
-          </el-popover> -->
+          </el-popover>
         </div>
         <span class="span-right">已选择<span>{{checkedNum}}</span>项</span>
       </el-row>
@@ -333,39 +333,39 @@
             <span class='ocr-img border-0' title='ocr' v-if = "scope.row.ref5 === 'Y'"><i class='dec-i'></i></span>
           </template>
         </el-table-column>
-        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList.decPid.value"></el-table-column>
-        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList.bossId.value"></el-table-column>
-        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList.corpBusiNo.value"></el-table-column>
-        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList.cusCiqNo.value"></el-table-column>
-        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList.entryId.value"></el-table-column>
-        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList.statusValue.value">
+        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList[0].value"></el-table-column>
+        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList[1].value"></el-table-column>
+        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList[2].value"></el-table-column>
+        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList[3].value"></el-table-column>
+        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList[4].value"></el-table-column>
+        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList[5].value">
           <template slot-scope="scope">
             <a href="javascript:void(0)" style='color: #409eff;' @click="lookReturnInfo(scope.row.decPid)">{{scope.row.statusValue}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList.xmlStatusValue.value" min-width="70"></el-table-column>
-        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList.isExamineValue.value"></el-table-column>
-        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList.company.value"></el-table-column>
-        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList.tradeName.value"></el-table-column>
-        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList.tradeCoScc.value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
-        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList.billNo.value" min-width="100"></el-table-column>
-        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList.iEDate.value" min-width="100"></el-table-column>
-        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList.dDate.value" min-width="100"></el-table-column>
-        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList.tradeModeValue.value" min-width="110"></el-table-column>
-        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList.tradeCountryValue.value" min-width="110"></el-table-column>
-        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList.distinatePortValue.value" min-width="110"></el-table-column>
-        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList.packNo.value" min-width="80"></el-table-column>
-        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList.grossWt.value" min-width="80"></el-table-column>
-        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList.contrNo.value" min-width="100"></el-table-column>
-        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList.decListNum.value" min-width="80"></el-table-column>
-        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList.trafName.value" min-width="100"></el-table-column>
-        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList.agentName.value" min-width="150"></el-table-column>
-        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList.iEFlagValue.value" min-width="90"></el-table-column>
-        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList.customMasterValue.value" min-width="100"></el-table-column>
-        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList.entyPortCodeValue.value" min-width="120"></el-table-column>
-        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList.tradeAreaCodeValue.value" min-width="100"></el-table-column>
-        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList.clientSeqno.value" min-width="120"></el-table-column>
-        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList.updateTime.value" min-width="150"></el-table-column>
+        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList[6].value" min-width="70"></el-table-column>
+        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList[7].value"></el-table-column>
+        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList[8].value"></el-table-column>
+        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList[9].value"></el-table-column>
+        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList[10].value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
+        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList[11].value" min-width="100"></el-table-column>
+        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList[12].value" min-width="100"></el-table-column>
+        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList[13].value" min-width="100"></el-table-column>
+        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList[14].value" min-width="110"></el-table-column>
+        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList[15].value" min-width="110"></el-table-column>
+        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList[16].value" min-width="110"></el-table-column>
+        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList[17].value" min-width="80"></el-table-column>
+        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList[18].value" min-width="80"></el-table-column>
+        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList[19].value" min-width="100"></el-table-column>
+        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList[20].value" min-width="80"></el-table-column>
+        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList[21].value" min-width="100"></el-table-column>
+        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList[22].value" min-width="150"></el-table-column>
+        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList[23].value" min-width="90"></el-table-column>
+        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList[24].value" min-width="100"></el-table-column>
+        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList[25].value" min-width="120"></el-table-column>
+        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList[26].value" min-width="100"></el-table-column>
+        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList[27].value" min-width="120"></el-table-column>
+        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList[28].value" min-width="150"></el-table-column>
         <el-table-column label="操作" fixed="right" align='center' min-width="140" >
           <template slot-scope="scope">
             <a href="javascript:void(0)" class="list-icon-editH border-0" title="编辑" @click="editDetail(scope.row)"><i class='dec-i'></i></a>
@@ -609,9 +609,6 @@
 import util from '@/common/util'
 import '@/common/directives'
 import '@/common/other/client'
-import {decStatus} from './utils/decStatus'
-import {decTableHeadFieldList} from './utils/decTableHeadFields'
-import {declTrnrelList, declTrnrelDownloadList} from './utils/declTrnrel'
 import rightsUtil from '@/common/rightsUtil'
 import config from '@/config/config'
 import decprintView from '../decPage/components/decPrint'
@@ -682,7 +679,94 @@ export default {
       order: '', // 排序方式
       createBillVisiable: false,
       createBillParam: [],
-      fieldList: decTableHeadFieldList,
+      fieldList: [{
+        value: true,
+        text: '系统编号'
+      }, {
+        value: true,
+        text: '接单编号'
+      }, {
+        value: false,
+        text: '客户业务号'
+      }, {
+        value: true,
+        text: '统一编号'
+      }, {
+        value: true,
+        text: '海关编号'
+      }, {
+        value: true,
+        text: '申报状态'
+      }, {
+        value: true,
+        text: '操作状态'
+      }, {
+        value: true,
+        text: '系统状态'
+      }, {
+        value: false,
+        text: '委托客户'
+      }, {
+        value: true,
+        text: '境内收发货人'
+      }, {
+        value: true,
+        text: '境内收发货人18位社会信用代码'
+      }, {
+        value: true,
+        text: '提运单号'
+      }, {
+        value: true,
+        text: '进出口日期'
+      }, {
+        value: true,
+        text: '申报日期'
+      }, {
+        value: true,
+        text: '监管方式'
+      }, {
+        value: true,
+        text: '启运国/运抵国'
+      }, {
+        value: true,
+        text: '指运港/经停港'
+      }, {
+        value: true,
+        text: '件数'
+      }, {
+        value: true,
+        text: '毛重'
+      }, {
+        value: true,
+        text: '合同协议号'
+      }, {
+        value: true,
+        text: '商品项数'
+      }, {
+        value: true,
+        text: '运输工具名称'
+      }, {
+        value: true,
+        text: '申报单位名称'
+      }, {
+        value: true,
+        text: '进出口标志'
+      }, {
+        value: true,
+        text: '申报地海关'
+      }, {
+        value: true,
+        text: '入境/离境口岸'
+      }, {
+        value: true,
+        text: '贸易国'
+      }, {
+        value: false,
+        text: '客户端统一编号'
+      }, {
+        value: true,
+        text: '更新时间'
+      }],
       checkedNum: 0, // 被选中的数量
       printCompnentParam: {}, // 打印组件 的传递参数
       printCompnentVisible: false, // 打印组件 显示 隐藏
@@ -706,8 +790,49 @@ export default {
           code: 'I',
           name: '进口'
         }],
-      declTrnrelList: declTrnrelList,
-      declTrnrelDownloadList: declTrnrelDownloadList,
+      declTrnrelList: [
+        {
+          code: '0,2',
+          name: '报关单/备案清单',
+          disabled: false
+        }, {
+          code: '1',
+          name: '转关提前报关单',
+          disabled: false
+        }, {
+          code: '3',
+          name: '转关提前备案清单',
+          disabled: false
+        }, {
+          code: '4',
+          name: '出口二次转关',
+          disabled: false
+        }, {
+          code: '9',
+          name: '其他',
+          disabled: false
+        }],
+      declTrnrelDownloadList: [{
+        code: '0',
+        name: '一般报关单',
+        disabled: false
+      }, {
+        code: '1',
+        name: '转关提前报关单',
+        disabled: false
+      }, {
+        code: '2',
+        name: '备案清单',
+        disabled: false
+      }, {
+        code: '3',
+        name: '转关提前备案清单',
+        disabled: false
+      }, {
+        code: '4',
+        name: '出口二次转关',
+        disabled: false
+      }],
       etpsCategoryList: [
         {
           code: 'A',
@@ -725,7 +850,37 @@ export default {
       // upLoadVisible: false,
       iEFlag: '',
       decParmasList: [],
-      stautsList: decStatus,
+      stautsList: [{
+        codeField: '0',
+        nameField: '接单生成'
+      }, {
+        codeField: '2',
+        nameField: '报关单预录入'
+      }, {
+        codeField: '3',
+        nameField: '待审核'
+      }, {
+        codeField: '4',
+        nameField: '审核驳回'
+      }, {
+        codeField: '6',
+        nameField: '审核通过'
+      }, {
+        codeField: 'R',
+        nameField: '待复核'
+      }, {
+        codeField: '1',
+        nameField: '单一窗口暂存'
+      }, {
+        codeField: '21',
+        nameField: '单一窗口申报中'
+      }, {
+        codeField: '9',
+        nameField: '放行'
+      }, {
+        codeField: '10',
+        nameField: '结关'
+      }],
       originList: [{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}], // 清单来源数据
       billDownLoadVisible: false, // 清单下载
       billBossIdDisabled: false,
@@ -763,11 +918,6 @@ export default {
       initCoverParam: '', //
       gotoBind: false,
       downLoadType: '',
-      rules: {
-        listNo: [
-          {required: true, message: '请输入业务编号', trigger: 'blur'}
-        ]
-      },
       selectObj: {
         obj: '',
         parmas: ''
@@ -840,7 +990,6 @@ export default {
     //   // 进页面默认加载数据
     //   this.queryDecList()
     // }
-    console.log(decTableHeadFieldList)
   },
   methods: {
     validateBossId (rule, value, callback) {
@@ -1197,16 +1346,6 @@ export default {
           }
         }
       })
-    },
-    // 接单来源变化
-    originChange (val) {
-      this.billForm.listNo = ''
-      this.billForm.emsListNo = ''
-      this.billForm.bossId = ''
-      this.billForm.corpBusiNo = ''
-      this.billForm.declTrnrel = ''
-      this.isBillTypeDisable = false
-      this.billBossIdDisabled = false
     },
     // 分页列表
     pageList (pagination) {
@@ -2004,7 +2143,6 @@ export default {
               if (!util.isEmpty(this.userId)) {
                 window.localStorage.setItem(this.userId, password)
               }
-              this.$refs.billDownload.initBillDownload()
               // this.selectObj = {
               //   obj: 'originList',
               //   params: 'BILL_ORIGIN'
@@ -2013,11 +2151,12 @@ export default {
               this.isBillTypeDisable = false
               this.billDownLoadVisible = true
               this.billBossIdDisabled = false
+              // this.$refs.billDownload.initBillDownload()
             } else {
               // this.passwordVisible = true
-              this.$refs.billDownload.initBillDownload()
               this.billDownLoadVisible = true
               this.billBossIdDisabled = false
+              // this.$refs.billDownload.initBillDownload()
             }
           })
         } catch (e) {
@@ -2025,9 +2164,9 @@ export default {
         }
       } else {
         // this.passwordVisible = true
-        this.$refs.billDownload.initBillDownload()
         this.billDownLoadVisible = true
         this.billBossIdDisabled = false
+        // this.$refs.billDownload.initBillDownload()
       }
     },
     // 清单号 失去焦点的操作
@@ -2549,15 +2688,15 @@ export default {
           this.userId = res.result.userId
           if (!util.isEmpty(this.userId)) {
             this.QueryDecForm.createUser = this.userId
-            // let fieldList = window.localStorage.getItem('DTH' + this.userId)
-            // if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-            //   let list = JSON.parse(fieldList)
-            //   if (this.compareFieldList(this.fieldList, list)) {
-            //     this.fieldList = JSON.parse(fieldList)
-            //   } else {
-            //     window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
-            //   }
-            // }
+            let fieldList = window.localStorage.getItem('DTH' + this.userId)
+            if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
+              let list = JSON.parse(fieldList)
+              if (this.compareFieldList(this.fieldList, list)) {
+                this.fieldList = JSON.parse(fieldList)
+              } else {
+                window.localStorage.setItem('DTH' + this.userId, JSON.stringify(this.fieldList))
+              }
+            }
           }
           // 初始化查询列表，因为要默认当前操作人 所以放到这里来
           if (util.isEmpty(this.$route.query.status)) {
@@ -2683,6 +2822,79 @@ export default {
           return false
         } else {
           return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+        }
+      }
+    },
+    // 调用切换焦点的方法
+    switchFoucsByEnter (e) {
+      e.target.blur()
+      // 获取当前焦点所在的 form表单
+      let form = e.target.form
+      // 获取form表单下的所有 input  并把为数组转化为真数组
+      let focusable = Array.from(form.querySelectorAll('input'))
+      let newFocusable = []
+      // 过滤掉 被disable 修饰的 和 被readonly修饰但不含有placeholder的input
+      newFocusable = focusable.filter(v => {
+        return (!v.readOnly || v.placeholder) && !v.disabled
+      })
+      // 计算现在焦点在什么位置
+      let index = newFocusable.findIndex((v, i) => {
+        return e.target === v
+      })
+      // 下一个元素
+      let next = newFocusable[parseInt(index) + 1]
+      // 下下一个元素
+      // let secondNext = newFocusable[parseInt(index) + 2]
+      // 上一个元素
+      let prev = newFocusable[parseInt(index) - 1]
+      if (e.shiftKey) { // shift+enter 光标向上个元素移动
+        if (prev) {
+          if (e.target.attributes.shiftEnter && e.target.attributes.shiftEnter.nodeValue === 'no') {
+            return false
+          } else {
+            if (e.target.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
+              let ref = e.target.parentElement.offsetParent.attributes.dataRef.nodeValue
+              this.$refs[ref].blur()
+            }
+            prev.focus()
+          }
+        }
+      } else if (e.ctrlKey && e.target.localName === 'textarea') { // Ctrl+enter 在textaera中换行
+        let myValue = '\n'
+        let t = e.target
+        if (document.selection) { // ie<9
+          t.focus()
+          let sel = document.selection.createRange()
+          sel.text = myValue
+          t.focus()
+          sel.moveStart('character', -1)
+        } else if (t.selectionStart || t.selectionStart === '0') { // 现代浏览器
+          let startPos = t.selectionStart
+          let endPos = t.selectionEnd
+          let scrollTop = t.scrollTop
+          t.value = t.value.substring(0, startPos) + myValue + t.value.substring(endPos, t.value.length)
+          t.focus()
+          // 因为myValue回车显示为\n
+          t.selectionStart = startPos + myValue.length
+          t.selectionEnd = startPos + myValue.length
+          t.scrollTop = scrollTop
+        } else {
+          t.value += myValue
+          t.focus()
+        }
+      } else {
+        if (e.target.localName === 'textarea') { // enter 光标向下个元素移动
+          e.preventDefault()
+          e.stopPropagation()
+        }
+        // 下个元素存在
+        if (next) {
+          if (e.target.attributes.enter && e.target.attributes.enter.nodeValue === 'no') {
+            return false
+          } else {
+            next.focus()
+            next.select()
+          }
         }
       }
     }

@@ -90,7 +90,33 @@ export default {
   data () {
     return {
       billForm: this.initBillForm,
-      originList: [{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}] // 清单来源数据
+      rules: {
+        listNo: [
+          {required: true, message: '请输入业务编号', trigger: 'blur'}
+        ]
+      },
+      originList: [{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}], // 清单来源数据
+      declTrnrelDownloadList: [{
+        code: '0',
+        name: '一般报关单',
+        disabled: false
+      }, {
+        code: '1',
+        name: '转关提前报关单',
+        disabled: false
+      }, {
+        code: '2',
+        name: '备案清单',
+        disabled: false
+      }, {
+        code: '3',
+        name: '转关提前备案清单',
+        disabled: false
+      }, {
+        code: '4',
+        name: '出口二次转关',
+        disabled: false
+      }]
     }
   },
   props: {
@@ -116,6 +142,16 @@ export default {
     },
     initBillDownload () {
       this.billForm = this.initBillForm()
+    },
+    // 接单来源变化
+    originChange (val) {
+      this.billForm.listNo = ''
+      this.billForm.emsListNo = ''
+      this.billForm.bossId = ''
+      this.billForm.corpBusiNo = ''
+      this.billForm.declTrnrel = ''
+      this.isBillTypeDisable = false
+      this.billBossIdDisabled = false
     },
     // 调用切换焦点的方法
     switchFoucsByEnter (e) {
