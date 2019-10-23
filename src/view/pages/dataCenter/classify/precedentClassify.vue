@@ -1,7 +1,7 @@
 <template>
   <section class='query-main sys-main' style="margin:0px">
     <!-- 查询条件 -->
-    <div class = "query-condition data-center" style="background-color:white;padding:20px;">
+    <div class = "query-condition data-center" style="background-color:white;">
       <!-- -->
       <el-form :label-width="labelFormWidth.four" size="mini">
         <el-row>

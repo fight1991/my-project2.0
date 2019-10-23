@@ -504,11 +504,9 @@ export default {
 <style lang="less" scoped>
   .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
   .query-table {
     background-color: #fff;
-    padding: 20px;
     margin-top: 20px;
   }
   .todelect_btn:hover{
