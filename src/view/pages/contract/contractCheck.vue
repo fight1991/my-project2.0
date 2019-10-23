@@ -389,7 +389,6 @@ export default {
 <style scoped lang="less">
 .query-condition {
     background-color: #fff;
-    padding: 20px;
   }
 .query-table {
   background-color: #fff;
