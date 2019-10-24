@@ -42,7 +42,7 @@
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
         <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:10px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -538,16 +538,16 @@ export default {
 .el-select{
   display: block;
 }
-.audit-remark{
-  margin-bottom:0px;
-}
-.audit-remark /deep/ .el-form-item__label{
-  width :132px !important;
-}
-.audit-remark /deep/ .el-form-item__content{
-  margin-left :132px !important;
-}
 .query-table{
   padding:12px 18px;
+}
+.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i,.sys-table-table .list-icon-subimtCheck i{
+  background: url('../../../../assets/img/icon/icon-subimtCheckH.png') no-repeat;
+}
+.dec-div .el-col{
+  float: none;
+}
+.query-main /deep/ .el-form-item__label{
+  text-align: right;
 }
 </style>
