@@ -42,7 +42,7 @@
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
         <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:10px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >
@@ -113,74 +113,74 @@
       <div class="dec-div query-mini">
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="confirmshow" @closed='confirmreason = ""'>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="客户代码：">
               {{confirmshow.customCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="客户名称：">
               {{confirmshow.customName}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="社会信用代码：">
               {{confirmshow.sccCode}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="海关编码：">
               {{confirmshow.tradeCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="检验检疫编码：">
               {{confirmshow.ciqCode}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="联系人：">
               {{confirmshow.contactUser}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="联系方式：">
               {{confirmshow.contactWay}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="公司地址：">
               {{confirmshow.address}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="所属国：">
               {{confirmshow.customCountryValue}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="邮政编码：">
               {{confirmshow.postCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="E-MAIL：">
               {{confirmshow.email}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="24" style="padding-bottom:0px">
+          <el-col style="padding-bottom:0px">
             <el-form-item label="备注：">
               {{confirmshow.remark}}
             </el-form-item>
@@ -538,16 +538,16 @@ export default {
 .el-select{
   display: block;
 }
-.audit-remark{
-  margin-bottom:0px;
-}
-.audit-remark /deep/ .el-form-item__label{
-  width :132px !important;
-}
-.audit-remark /deep/ .el-form-item__content{
-  margin-left :132px !important;
-}
 .query-table{
   padding:12px 18px;
+}
+.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i,.sys-table-table .list-icon-subimtCheck i{
+  background: url('../../../../assets/img/icon/icon-subimtCheckH.png') no-repeat;
+}
+.dec-div .el-col{
+  float: none;
+}
+.query-main /deep/ .el-form-item__label{
+  text-align: right;
 }
 </style>

@@ -184,9 +184,8 @@ export default {
     }
   },
   created () {
-    this.resetQueryform()
     this.paginationInit = this.$store.state.pagination
-    this.search()
+    this.resetQueryform()
   },
   mounted () {
   },

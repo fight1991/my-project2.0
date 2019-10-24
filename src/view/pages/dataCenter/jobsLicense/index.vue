@@ -148,7 +148,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="140">
+          <el-table-column label="操作" width="170">
             <template slot-scope="scope">
               <div class='sys-td-c'>
                 <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,scope.row.tradeCoScc)" title="查看"><i></i></el-button>
