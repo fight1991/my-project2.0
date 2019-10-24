@@ -113,74 +113,74 @@
       <div class="dec-div query-mini">
       <el-form size="mini" :label-width="labelFormWidth.seven" :model="confirmshow" @closed='confirmreason = ""'>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="客户代码：">
               {{confirmshow.customCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="客户名称：">
               {{confirmshow.customName}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="社会信用代码：">
               {{confirmshow.sccCode}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="海关编码：">
               {{confirmshow.tradeCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="检验检疫编码：">
               {{confirmshow.ciqCode}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="联系人：">
               {{confirmshow.contactUser}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="联系方式：">
               {{confirmshow.contactWay}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="公司地址：">
               {{confirmshow.address}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="所属国：">
               {{confirmshow.customCountryValue}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="邮政编码：">
               {{confirmshow.postCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col>
             <el-form-item label="E-MAIL：">
               {{confirmshow.email}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="24" style="padding-bottom:0px">
+          <el-col style="padding-bottom:0px">
             <el-form-item label="备注：">
               {{confirmshow.remark}}
             </el-form-item>
