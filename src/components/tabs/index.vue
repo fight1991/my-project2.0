@@ -28,7 +28,7 @@
       </div>
     </el-header>
     <el-main class="abtrate">
-      <div class='page-tab-content' v-loading="$store.state.loading">
+      <div class='page-tab-content' v-loading="$store.state.loading" :tab="getCurrentTab.tabId">
         <div style='height:100%;box-sizing: border-box;position: relative' v-for="(item,index) in openedTabs" :key="'panel-' + index" v-show="item.path === getCurrentTab.path && item.isDel ===false">
           <component :is="item.component"></component>
         </div>
@@ -266,6 +266,7 @@ export default {
   }
 }
 .page-tab-content{
+  transform: translate(0,0);
   position: relative;
   height: 100%;
   padding: 0 5px;
