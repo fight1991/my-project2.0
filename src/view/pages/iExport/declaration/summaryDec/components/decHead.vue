@@ -60,7 +60,6 @@
               <el-select placeholder=" " v-model="decHead.iEPort"
               default-first-option remote
               filterable ref="iEPort" dataRef ='iEPort'
-              @change="iEPortChange"
               :remote-method="checkParamsList"
               @clear="clearSelct('saasCustomsRel2')"
               @focus="tipsFillMessage('iEPort', 'saasCustomsRel2','SAAS_CUSTOMS_REL')"
@@ -263,16 +262,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="提运单号" prop="billNo" ref="billNo">
-              <el-col :span="23">
                 <el-input v-model="decHead.billNo" :maxlength="32"
-                  @focus="tipsFillMessage('billNo')"
-                  :readonly="controller.isDisabled"></el-input>
-              </el-col>
-              <el-col :span="1">
-                <el-tooltip  effect="dark" content="调用舱单数据" >
-                  <el-button type="primary" icon="fa fa-file" @click="queryMftData"></el-button>
-                </el-tooltip>
-              </el-col>
+                @focus="tipsFillMessage('billNo')"
+                :readonly="controller.isDisabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -283,7 +275,6 @@
                 remote default-first-option
                 :remote-method="checkParamsList"
                 @clear="clearSelct('saasTrade')"
-                @change='tradeModeChange'
                 clearable filterable
                 :disabled="controller.isDisabled || controller.cDisabled" style="width:100%">
                 <el-option

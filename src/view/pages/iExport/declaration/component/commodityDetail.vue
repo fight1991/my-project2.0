@@ -348,8 +348,7 @@
     </el-dialog>
     <!--检验检疫货物规格 弹出框 结束-->
     <!-- 弹出框 商品列表 开始 -->
-    <el-dialog
-    :modal-append-to-body='false' title="商品列表"
+    <el-dialog title="商品列表"
     :visible.sync="productListVisible"  width="640px"
     :modal='false' class='sys-jiner-class'
     :close-on-click-modal="false">
@@ -374,7 +373,6 @@
     <el-dialog title="商品规范申报-商品申报要素"
       :visible.sync="elementVisible"
       width="640px" :modal='false'
-      :modal-append-to-body='false'
       class='sys-dec-class'
       v-loading="$store.state.loading"
       :close-on-click-modal="false">

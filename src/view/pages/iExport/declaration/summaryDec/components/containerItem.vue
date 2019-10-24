@@ -43,11 +43,11 @@ export default {
   },
   props: {
     tableDecContainerlist: {
-      type: Object,
+      type: Array,
       default: () => ([])
     },
     checkedList: {
-      type: Object,
+      type: Array,
       default: () => ([])
     },
     moduleName: {

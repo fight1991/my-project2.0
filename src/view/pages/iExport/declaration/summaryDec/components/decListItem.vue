@@ -117,7 +117,6 @@
                 :maxlength="18" v-model="decList.declTotal"
                 @focus="tipsFillMessage('declTotal')"
                 ref='declTotal'
-                @blur="computPrice"
                 :readonly="controller.isDisabled"></el-input>
               </el-form-item>
             </el-col>
@@ -263,7 +262,6 @@
                 :maxlength="18" v-model="decList.declTotal"
                 @focus="tipsFillMessage('declTotal')"
                 ref='declTotal'
-                @blur="computPrice"
                 :readonly="controller.isDisabled"></el-input>
               </el-form-item>
             </el-col>

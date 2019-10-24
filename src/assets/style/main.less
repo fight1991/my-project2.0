@@ -672,9 +672,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     background-color:@sys-color-main;
   }
   .topDiv {
-    height: 24px !important;
+    // height: 24px !important;
     padding-left: 15px;
-    background-color: transparent;
+    background-color: #fff;
   }
   .el-main{
     padding: 0;
@@ -2164,7 +2164,7 @@ body .el-table th.gutter{
           padding: 16px 20px 20px;
           .el-form-item__label{
               padding-right: 8px;
-              font-size: 14px;
+              font-size: 12px;
           }
           .el-col-24{
               padding-bottom: 0px;
@@ -2177,8 +2177,7 @@ body .el-table th.gutter{
           }
           .el-button--default:not(.secondButton){
               width: 70px;
-              height: 30px;  
-              color:#4c4c4c;
+              height: 30px;
               border-color:#d8d8d8;
               margin-left:11px;
           }
@@ -4192,7 +4191,16 @@ table.form-table{
 .page-tab-content {
   .el-dialog__wrapper {
     position: absolute;
-  }
+  }   
+  // .el-dialog__body {
+  //   .el-dialog__wrapper {
+  //     position: fixed;
+  //     top: 0;
+  //     bottom: 0;
+  //     left: 0;
+  //     right: 0;
+  //   }
+  // }
   .v-modal {
     position: absolute;
   }
@@ -4564,7 +4572,6 @@ table.form-table{
   .el-button--default {
     font-size: 12px;
     border-radius: 2px;
-    padding: 0px;
   }
   .select-Color input[readonly] {
     background-color: #ffffff;

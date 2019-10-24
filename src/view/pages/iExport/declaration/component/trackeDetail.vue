@@ -101,7 +101,6 @@
 
 <script>
 import util from '@/common/util'
-import '@/common/directives'
 export default {
   name: 'tracke-detail',
   props: {

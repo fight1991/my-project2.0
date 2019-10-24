@@ -1,6 +1,6 @@
 <template>
   <!-- 两步申报 新增 详情 修改 合用界面-->
-  <section class='sys-main sys-dec-class sys-summary-class' :style="{ zoom: zoom }">
+  <section class='sys-main sys-dec-class sys-summary-class'>
     <el-header style="height: 65px;" class='topDiv'>
     <!-- 操作按钮-->
       <el-row style='margin-right:20px' class="mg-b-15">
@@ -28,28 +28,30 @@
         <el-col :span="8" align="right"><div class="summary-tip"><i class="el-icon-warning"></i><span>注：运输工具申报进境日期起14日内需完成完整申报。</span></div></el-col>
       </el-row>
     </el-header>
-    <el-container>
+    <div class='dec-container-div'>
       <el-container>
-        <el-main style="padding:66px 5px 20px 20px;">
-          <div class="summary-title">概要申报基本信息</div>
-          <!---表头开始  -->
-          <dec-head ref='decHead' :moduleName="moduleName"></dec-head>
-          <!---表头结束  -->
-          <div class="summary-title">概要申报商品信息</div>
-          <!---表体开始  -->
-          <dec-list ref='decList' :moduleName="moduleName"></dec-list>
-        </el-main>
+        <el-container>
+          <el-main style="padding:66px 5px 20px 20px;">
+            <div class="summary-title">概要申报基本信息</div>
+            <!---表头开始  -->
+            <dec-head ref='decHead' :moduleName="moduleName"></dec-head>
+            <!---表头结束  -->
+            <div class="summary-title">概要申报商品信息</div>
+            <!---表体开始  -->
+            <dec-list ref='decList' :moduleName="moduleName"></dec-list>
+          </el-main>
+        </el-container>
+        <el-aside style="width: 20%; padding-top: 66px;">
+          <!-- 集装箱信息 开始-->
+          <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
+          <!-- 集装箱信息 结束-->
+          <!-- 随附单证 开始 -->
+          <dec-documents ref='decDocuments' :moduleName="moduleName"  v-show="(declareTypes.indexOf(1) !== -1)"></dec-documents>
+          <!-- 随附单证 结束 -->
+        </el-aside>
+        <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
       </el-container>
-      <el-aside style="width: 20%; padding-top: 66px;">
-        <!-- 集装箱信息 开始-->
-        <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
-        <!-- 集装箱信息 结束-->
-        <!-- 随附单证 开始 -->
-        <dec-documents ref='decDocuments' @compareDecAndEms='compareDecAndEms' :moduleName="moduleName"  v-show="(declareTypes.indexOf(1) !== -1)"></dec-documents>
-        <!-- 随附单证 结束 -->
-      </el-aside>
-      <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
-    </el-container>
+    </div>
     <!-- 弹出框 打印报关单 开始 -->
     <el-dialog
       title="打印报关单"
@@ -58,7 +60,6 @@
       :close-on-press-escape='false'
       :modal-append-to-body='false'
       :show-close='false'
-      v-dialogDrag
       width="640px">
        <decprint-view :initParams="printCompnentParam" :moduleName="moduleName" @cancLeData="closePrintCompnent"  v-if="printCompnentVisible"></decprint-view>
     </el-dialog>

@@ -259,7 +259,6 @@
 
 <script>
 import util from '@/common/util'
-import '@/common/directives'
 import execlImport from './component/execImport.vue'
 import syncCondition from './component/syncCondition.vue'
 import decelementView from './component/decelement.vue'

@@ -129,7 +129,6 @@
 
 <script>
 import util from '@/common/util'
-import '@/common/directives'
 import trackeDetail from './component/trackeDetail.vue'
 
 export default {

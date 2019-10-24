@@ -179,7 +179,6 @@
 
 <script>
 import util from '@/common/util'
-import '@/common/directives'
 import decprintView from '../declaration/decPage/components/decPrint'
 
 export default {

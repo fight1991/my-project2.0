@@ -2,7 +2,7 @@
 <!-- 其表体组件 -->
   <section>
     <!--- table 开始  -->
-    <div class = "dec-div dec-page-bottom" >
+    <div class = "dec-div" >
       <el-row>
         <el-button size="mini" icon="fa fa-sign-in" class="secondButton" :disabled="controller.isDisabled || bodyController.importIsDisabled || controller.cDisabled || controller.isWholeDec" @click="openImport">&nbsp;导入</el-button>
         <el-button size="mini" icon="fa fa-plus" class="secondButton" :disabled="controller.isDisabled || bodyController.refreshIsDisabled || controller.cDisabled || controller.isWholeDec"  @click="refreshDecList">&nbsp;新增</el-button>
@@ -110,7 +110,7 @@
       </el-row>
     </div>
     <!--- table 结束  -->
-    <div class="dec-div">
+    <div class="dec-div dec-page-bottom">
       <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
           <el-row  >
             <el-col :span="6">
@@ -620,7 +620,6 @@
 <script>
 import util from '@/common/util.js'
 import decUtil from '../common/decUtil'
-import '@/common/directives'
 import decBus from '../common/bus.js'
 const ciqGoods = () => import(/* webpackChunkName: "dec-page-list" */'./components/ciqGoods')
 const goodsAttribute = () => import(/* webpackChunkName: "dec-page-list" */'./components/goodsAttribute')

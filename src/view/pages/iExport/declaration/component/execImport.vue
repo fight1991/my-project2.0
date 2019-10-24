@@ -319,12 +319,11 @@ export default {
             },
             success: (res) => {
               this.fileList = []
-              if (res.code === '0000') {
-                this.messageTips(res.message)
-                this.$emit('cancLeData', {isQuery: true})
-              } else {
-                this.messageTips(res.message)
-              }
+              this.messageTips(res.message)
+              this.$emit('cancLeData', {isQuery: true})
+            },
+            other: (res) => {
+              this.messageTips(res.message)
             }
           })
         }

@@ -3109,7 +3109,6 @@
 
 <script>
 import util from '@/common/util.js'
-import '@/common/directives'
 import decelementView from './component/decelement.vue'
 import extraNote from './component/extraNote.vue'
 import reviseView from './component/revise.vue'
