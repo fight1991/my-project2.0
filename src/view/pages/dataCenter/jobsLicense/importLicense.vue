@@ -26,16 +26,16 @@
       <!-- 主显示框 -->
     <div class='query-table'>
       <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
-          <el-row :gutter="20">
-            <el-col :span="12" :xs='24' v-for="(item,index) in submitData.licenseList" :key="index">
+          <el-row :gutter="10">
+            <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
-                <el-row :gutter="30">
-                  <el-col :span="12" :xs='24'>
+                <el-row>
+                  <el-col :md="12" :lg="12">
                     <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
                       <el-select size="mini" placeholder="请选择单据类型" v-model="item.documentType"
                       filterable clearable
-                      style="width:100%">
+                      style="width:100%;min-width:123px;">
                         <el-option
                           v-for="(item,i) in saasEdocCode"
                           :key="'licenseList'+index+i+item.documentType"
@@ -45,7 +45,7 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" :xs='24'>
+                  <el-col :md="12" :lg="12">
                     <el-form-item label="单据编号" :prop="'licenseList.'+index+'.documentNo'" :rules="rules.documentNo">
                       <el-input clearable size="mini" :maxlength="40" v-model="item.documentNo"></el-input>
                     </el-form-item>
@@ -364,6 +364,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .sys-main{
+    min-width: 970px;
+  }
   .query-condition {
     background-color: #fff;
     padding: 20px;
@@ -375,7 +378,7 @@ export default {
   }
   .query-table {
     background-color: #fff;
-    padding: 20px;
+    padding: 10px;
     margin-top: 20px;
   }
   .query-btn {
