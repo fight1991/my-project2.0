@@ -1151,7 +1151,7 @@ export default {
         'SAAS_USER_TO', // 用途
         'SAAS_CURR' // 币制
       ]
-      return {
+      this.$post({
         url: 'API@/saas-dictionary/dictionary/getParam',
         useStorage: true,
         storageKey: par,
@@ -1164,7 +1164,7 @@ export default {
         success: (res) => {
           this.initSelectParam()
         }
-      }
+      })
     },
     initSelectParam () {
       this.saasGoodsAttr = JSON.parse(window.localStorage.getItem('SAAS_GOODS_ATTR'))

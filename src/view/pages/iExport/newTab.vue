@@ -12,8 +12,6 @@ export default {
   },
   mounted () {
     // this.url = decodeURIComponent(this.$route.query.url)
-    // console.log(this.$route.query.url)
-    console.log(JSON.parse(base64.decode(this.$route.params.sysData)).url)
     this.url = JSON.parse(base64.decode(this.$route.params.sysData)).url
   }
 }

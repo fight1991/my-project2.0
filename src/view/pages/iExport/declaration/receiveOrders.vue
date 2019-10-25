@@ -1012,11 +1012,11 @@ export default {
           let setId = type === 'view' ? 'look' : 'edit'
           let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
           this.$router.push({
-            name: 'iExport-ems',
+            name: 'iExport-new',
             query: {
               url: encodeURIComponent(url),
               setTitle: title + '-' + val.decPid,
-              setId: 'iExport-ems' + setId + val.decPid
+              setId: 'iExport-new' + setId + val.decPid
             }
           })
         } else {
@@ -1030,11 +1030,11 @@ export default {
           let setId = type === 'view' ? 'look' : 'edit'
           let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
           this.$router.push({
-            name: 'iExport-ems',
+            name: 'iExport-new',
             query: {
               url: encodeURIComponent(url),
               setTitle: title + '-' + val.decPid,
-              setId: 'iExport-ems' + setId + val.decPid
+              setId: 'iExport-new' + setId + val.decPid
             }
           })
         } else {
@@ -1141,11 +1141,11 @@ export default {
       let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].EMS + `/dec/datainput/${iEFlag}/taxList?type=${type}&headPid=${val.decPid}`
       let title = type === 'view' ? '核注清单查看' : '核注清单编辑'
       this.$router.push({
-        name: 'iExport-ems',
+        name: 'iExport-new',
         query: {
           url: encodeURIComponent(url),
           setTitle: title + '-' + val.decPid,
-          setId: 'iExport-ems' + type + val.decPid
+          setId: 'iExport-new' + type + val.decPid
         }
       })
     },
