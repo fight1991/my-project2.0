@@ -1611,6 +1611,7 @@
       <el-dialog
         title="编辑其他包装信息"
         :visible.sync="otherPacksVisible"
+        :modal-append-to-body='false'
         @open="otherPacksShow"
         width="700px">
         <div class="border">
@@ -1635,6 +1636,7 @@
       <el-dialog
         title="其他事项确认"
         :visible.sync="otherPriceFactorVisible"
+        :modal-append-to-body='false'
         width="500px">
         <div class="border">
           <el-form label-width="240px" size='mini' label-position="right" :model="otherPriceFactor">
@@ -1711,6 +1713,7 @@
       <el-dialog
         title="业务事项"
         :visible.sync="businessVisible"
+        :modal-append-to-body='false'
         width="500px">
         <el-checkbox-group v-model="checkList" class="border-margin">
           <el-checkbox label="税单无纸化"></el-checkbox>
@@ -1728,6 +1731,7 @@
       <el-dialog
         title="编辑使用人信息"
         :visible.sync="decUserVisible"
+        :modal-append-to-body='false'
         width="50%">
         <div class="border">
           <el-form label-width="120px" :model="userForm" size="mini" label-position="right">
@@ -1766,6 +1770,7 @@
       <el-dialog
         title="编辑企业资质信息"
         :visible.sync="entQuaVisible"
+        :modal-append-to-body='false'
         width="50%">
         <div class="border">
           <el-form label-width="120px" :model="copLimitsForm" size="mini" label-position="right">
@@ -1818,6 +1823,7 @@
       <el-dialog
         title="特殊业务标识"
         :visible.sync="specialBusiVisible"
+        :modal-append-to-body='false'
         width="600px">
         <el-checkbox-group v-model="specialBusiList" class ='border-margin'>
           <el-row class="border-bottom">
@@ -1855,6 +1861,7 @@
       <el-dialog
         title="检验检疫编码列表"
         :visible.sync="encodeTableVisible"
+        :modal-append-to-body='false'
         @opened = 'openencodeListAfter'
         width="640px">
         <el-table  ref="encodeTable" :data="encodeTableList"
@@ -1882,6 +1889,7 @@
       <el-dialog
         title="货物属性"
         :visible.sync="goodsAttrVisible"
+        :modal-append-to-body='false'
         width="640px">
         <el-row :gutter="30" style='border: 0px;'>
           <el-checkbox-group v-model="goodsAttrCollection" @change='goodsAttrChange'>
@@ -1902,6 +1910,7 @@
       <el-dialog
         title="编辑检验检疫货物规格"
         :visible.sync="goodsSpecVisible"
+        :modal-append-to-body='false'
         width="540px">
         <div class="border">
           <el-form label-width="100px"
@@ -2012,6 +2021,7 @@
       <el-dialog
         title="商品列表"
         :visible.sync="productListVisible"
+        :modal-append-to-body='false'
         ref = 'productListRef'
         @opened = 'openProductListAfter'
         width="640px">
@@ -2042,6 +2052,7 @@
       <el-dialog
         title="编辑产品许可证/审批/备案信息"
         :visible.sync="filingInfoVisible"
+        :modal-append-to-body='false'
         :before-close="filingInfoClose"
         width="80%">
         <div class="border">
@@ -2134,6 +2145,7 @@
       <!-- 弹出框 许可证VIN  开始 -->
       <el-dialog
         title="编辑许可证VIN"
+        :modal-append-to-body='false'
         :visible.sync="licVINVisible"
         :before-close="licVINClose"
         width="70%">
@@ -2266,6 +2278,7 @@
       <el-dialog
         title="编辑危险货物信息"
         :visible.sync="dangerGoodsVisible"
+        :modal-append-to-body='false'
         width="540px">
         <div class="border">
           <el-form label-width="100px" size="mini" label-position="right" :data="decList" @keyup.enter.native="switchFoucsByEnter">
@@ -2339,6 +2352,7 @@
       <el-dialog
         title="报关修改单价/总价？"
         :visible.sync="modifyPriceVisible"
+        :modal-append-to-body='false'
         width="500px">
         <div class= 'priceDiv'>
           <el-button class="layer-btn" @click="modifyPrice('1')">修改单价</el-button>
@@ -2350,6 +2364,7 @@
       <el-dialog
         title="商品规范申报-商品申报要素"
         :visible.sync="elementVisible"
+        :modal-append-to-body='false'
         width="640px">
         <decelement-view :datas="decElementPara" @submitdatas="backDecListSpace" @closedecele="cancleElement" v-if="elementVisible"></decelement-view>
       </el-dialog>

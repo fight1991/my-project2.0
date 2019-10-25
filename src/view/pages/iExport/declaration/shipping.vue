@@ -513,7 +513,6 @@ export default {
         success: (res) => {
           this.messageTips(res.message, 'success')
           this.pageList()
-          this.messageTips(res.message, 'error')
         },
         other: (res) => {
           this.messageTips(res.message, 'error')
