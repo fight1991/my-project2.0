@@ -599,7 +599,6 @@
 
 <script>
 import util from '@/common/util'
-import '@/common/directives'
 import '@/common/other/client'
 import rightsUtil from '@/common/rightsUtil'
 import config from '@/config/config'
