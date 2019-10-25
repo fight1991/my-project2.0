@@ -10,12 +10,12 @@
         <p>2. 在当前页面，您也无法编辑他人上传的文件</p>
       </el-row>
         <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
-          <el-row :gutter="20">
-            <el-col :span="12" v-for="(item,index) in submitData.licenseList" :key="index">
+          <el-row :gutter="5">
+            <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <i class="license-close-icon" @click="delLicense(index)"></i>
                 <el-row>
-                  <el-col :span="4">
+                  <el-col :span="8">
                     <el-upload
                     action="http://127.0.0.1"
                     :before-upload="(e)=>{beforeUpload(e,item,index)}"
@@ -32,7 +32,7 @@
                       </el-row>
                     </el-upload>
                   </el-col>
-                  <el-col :span="20" style="padding-top:16px;">
+                  <el-col :span="16" style="padding-top:16px;">
                     <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType" class="mb18">
                       <el-select placeholder="请选择单据类型" size="mini" v-model="item.documentType"
                       filterable clearable

@@ -16,7 +16,7 @@ const MENU = {
       permissions: 'CCBA20205010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/index.vue'], resolve),
+        component: resolve => require(['./declaration/decQueryList/index.vue'], resolve),
         title: '报关数据查询'
       }
     },
