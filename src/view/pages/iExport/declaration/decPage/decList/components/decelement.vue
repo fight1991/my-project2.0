@@ -359,7 +359,7 @@ export default {
       }
     }
     // 初始化 gMode 和 申报要素
-    if (this.datas.gModel.length !== 0) {
+    if (this.datas.gModel && this.datas.gModel.length !== 0) {
       if (this.datas.gModel.indexOf('|') === -1) { // 如果规格型号不符号天之要求 则不反填
         this.specModle = this.datas.gModel
         return

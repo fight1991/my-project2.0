@@ -923,8 +923,8 @@ export default {
       if (column.property && this.supportEditProperty.indexOf(column.property) > -1) {
         this.currentOpProperty = column.property
         this.$nextTick(() => {
-          this.$refs[this.currentOpProperty + '_0'].focus()
-          this.$refs[this.currentOpProperty + '_0'].select()
+          this.$refs[this.currentOpProperty + '_0'] && this.$refs[this.currentOpProperty + '_0'].focus()
+          this.$refs[this.currentOpProperty + '_0'] && this.$refs[this.currentOpProperty + '_0'].select()
         })
       }
     },
