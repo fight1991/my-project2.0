@@ -6,7 +6,7 @@
       <el-form :label-width="labelFormWidth.seven" :model="QueryDecForm" size="mini" label-position="right">
         <div v-if='queryType'>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
                   @change="declTrnrelChange"
@@ -21,7 +21,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="进出口标志">
                 <el-select placeholder="" v-model="QueryDecForm.iEFlag"  style="width:100%" >
                   <el-option
@@ -33,12 +33,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="报关单号">
                 <el-input v-model="QueryDecForm.entryId" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="统一编号">
                 <el-autocomplete
                   :maxlength="18"
@@ -52,17 +52,17 @@
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="境内收发货人">
                 <el-input v-model="QueryDecForm.tradeCode" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="提运单号">
                 <el-input v-model="QueryDecForm.billNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="申报地海关">
                 <el-select placeholder="" v-model="QueryDecForm.customMaster"
                   :disabled="isDisabled" filterable clearable
@@ -77,14 +77,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="业务编号">
                 <el-input v-model="QueryDecForm.bossId" clearable :disabled="isDisabled" placeholder="系统编号,接单编号"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="创建人">
                 <el-select placeholder="" v-model="QueryDecForm.createUser"
                   filterable clearable style="width:100%" :disabled="isDisabled">
@@ -97,7 +97,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="QueryDecForm.status"
                 :disabled="isDisabled" filterable clearable style="width:100%">
@@ -110,7 +110,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :md="12" :lg="12">
               <el-form-item label="最近操作时间">
                 <el-date-picker v-model="dates" style="width:100%"
                   :disabled="isDisabled"
@@ -127,7 +127,7 @@
         </div>
         <div v-else>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="报关单类型">
                 <el-select placeholder="" v-model="QueryDecForm.declTrnrel"
                   @change="declTrnrelChange"
@@ -142,7 +142,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="企业类别">
                 <el-select placeholder="" v-model="QueryDecForm.etpsCategory"  :disabled="isDisabled"  filterable style="width:100%">
                   <el-option
@@ -154,7 +154,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="进出口标志">
                 <el-select placeholder="" v-model="QueryDecForm.iEFlag"  style="width:100%" >
                   <el-option
@@ -166,14 +166,14 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="报关单号" >
                 <el-input v-model="QueryDecForm.entryId" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="统一编号" >
                 <el-autocomplete
                   :maxlength="18"
@@ -185,12 +185,12 @@
                 </el-autocomplete>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="提运单号">
                 <el-input v-model="QueryDecForm.billNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="申报地海关">
                 <el-select placeholder="" v-model="QueryDecForm.customMaster"
                   :disabled="isDisabled" filterable clearable
@@ -204,19 +204,19 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="客户业务号">
                 <el-input v-model="QueryDecForm.corpBusiNo" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="客户端统一编号">
                 <el-input v-model="QueryDecForm.clientSeqno" :disabled="isDisabled" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :md="12" :lg="6">
               <el-form-item label="状态" >
                 <el-select placeholder="" v-model="QueryDecForm.status" clearable
                 :disabled="isDisabled"  filterable style="width:100%">
@@ -229,7 +229,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :md="12" :lg="12">
               <el-form-item label="最近操作时间">
                 <el-date-picker v-model="dates" style="width:100%"
                   :disabled="isDisabled"
@@ -333,39 +333,39 @@
             <span class='ocr-img border-0' title='ocr' v-if = "scope.row.ref5 === 'Y'"><i class='dec-i'></i></span>
           </template>
         </el-table-column>
-        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList[0].value"></el-table-column>
-        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList[1].value"></el-table-column>
-        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList[2].value"></el-table-column>
-        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList[3].value"></el-table-column>
-        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList[4].value"></el-table-column>
-        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList[5].value">
+        <el-table-column label="系统编号" align='left' sortable="custom" prop="decPid" min-width="120"  v-if="fieldList.decPid.value"></el-table-column>
+        <el-table-column label="接单编号" align='left' sortable="custom" prop="bossId" min-width="120"  v-if="fieldList.bossId.value"></el-table-column>
+        <el-table-column label="客户业务号" align='center' prop="corpBusiNo" min-width="120"  v-if="fieldList.corpBusiNo.value"></el-table-column>
+        <el-table-column label="统一编号" align='center' sortable="custom" prop="cusCiqNo" min-width="150"  v-if="fieldList.cusCiqNo.value"></el-table-column>
+        <el-table-column label="海关编号" align='center' sortable="custom" prop="entryId" min-width="150"  v-if="fieldList.entryId.value"></el-table-column>
+        <el-table-column label="申报状态" align='left' sortable="custom" prop="statusValue" min-width="100" key='statusValue'  v-if="fieldList.statusValue.value">
           <template slot-scope="scope">
             <a href="javascript:void(0)" style='color: #409eff;' @click="lookReturnInfo(scope.row.decPid)">{{scope.row.statusValue}}</a>
           </template>
         </el-table-column>
-        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList[6].value" min-width="70"></el-table-column>
-        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList[7].value"></el-table-column>
-        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList[8].value"></el-table-column>
-        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList[9].value"></el-table-column>
-        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList[10].value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
-        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList[11].value" min-width="100"></el-table-column>
-        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList[12].value" min-width="100"></el-table-column>
-        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList[13].value" min-width="100"></el-table-column>
-        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList[14].value" min-width="110"></el-table-column>
-        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList[15].value" min-width="110"></el-table-column>
-        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList[16].value" min-width="110"></el-table-column>
-        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList[17].value" min-width="80"></el-table-column>
-        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList[18].value" min-width="80"></el-table-column>
-        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList[19].value" min-width="100"></el-table-column>
-        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList[20].value" min-width="80"></el-table-column>
-        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList[21].value" min-width="100"></el-table-column>
-        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList[22].value" min-width="150"></el-table-column>
-        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList[23].value" min-width="90"></el-table-column>
-        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList[24].value" min-width="100"></el-table-column>
-        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList[25].value" min-width="120"></el-table-column>
-        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList[26].value" min-width="100"></el-table-column>
-        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList[27].value" min-width="120"></el-table-column>
-        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList[28].value" min-width="150"></el-table-column>
+        <el-table-column label="操作状态" align='left' prop="xmlStatusValue" v-if="fieldList.xmlStatusValue.value" min-width="70"></el-table-column>
+        <el-table-column label="系统状态" align='left' sortable="custom" prop="isExamineValue" min-width="120" v-if="fieldList.isExamineValue.value"></el-table-column>
+        <el-table-column label="委托客户" align='left' prop="company" min-width="120" v-if="fieldList.company.value"></el-table-column>
+        <el-table-column label="境内收发货人" align='left' sortable="custom" prop="tradeName" min-width="200" v-if="fieldList.tradeName.value"></el-table-column>
+        <el-table-column label="境内收发货人18位社会信用代码" align='center' v-if="fieldList.tradeCoScc.value" title='境内收发货人18位社会信用代码' prop="tradeCoScc" min-width="150"></el-table-column>
+        <el-table-column label="提运单号" align='left' sortable="custom" prop="billNo" v-if="fieldList.billNo.value" min-width="100"></el-table-column>
+        <el-table-column label="进出口日期" align='center' sortable="custom" prop="iEDate" v-if="fieldList.iEDate.value" min-width="100"></el-table-column>
+        <el-table-column label="申报日期" align='center' prop="dDate" v-if="fieldList.dDate.value" min-width="100"></el-table-column>
+        <el-table-column label="监管方式" align='left' sortable="custom" prop="tradeModeValue" v-if="fieldList.tradeModeValue.value" min-width="110"></el-table-column>
+        <el-table-column label="启运国/运抵国" align='left' prop="tradeCountryValue" v-if="fieldList.tradeCountryValue.value" min-width="110"></el-table-column>
+        <el-table-column label="指运港/经停港" align='left' prop="distinatePortValue" v-if="fieldList.distinatePortValue.value" min-width="110"></el-table-column>
+        <el-table-column label="件数" align='right' prop="packNo" v-if="fieldList.packNo.value" min-width="80"></el-table-column>
+        <el-table-column label="毛重" align='right' prop="grossWt" v-if="fieldList.grossWt.value" min-width="80"></el-table-column>
+        <el-table-column label="合同协议号" align='left' prop="contrNo" v-if="fieldList.contrNo.value" min-width="100"></el-table-column>
+        <el-table-column label="商品项数" align='right' prop="decListNum" v-if="fieldList.decListNum.value" min-width="80"></el-table-column>
+        <el-table-column label="运输工具名称" align='left' sortable="custom" prop="trafName" v-if="fieldList.trafName.value" min-width="100"></el-table-column>
+        <el-table-column label="申报单位名称" align='left' prop="agentName" v-if="fieldList.agentName.value" min-width="150"></el-table-column>
+        <el-table-column label="进出口标志" align='center' prop="iEFlagValue" v-if="fieldList.iEFlagValue.value" min-width="90"></el-table-column>
+        <el-table-column label="申报地海关" align='left' sortable="custom" prop="customMasterValue" v-if="fieldList.customMasterValue.value" min-width="100"></el-table-column>
+        <el-table-column label="入境/离境口岸" align='left' sortable="custom" prop="entyPortCodeValue" v-if="fieldList.entyPortCodeValue.value" min-width="120"></el-table-column>
+        <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList.tradeAreaCodeValue.value" min-width="100"></el-table-column>
+        <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList.clientSeqno.value" min-width="120"></el-table-column>
+        <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList.updateTime.value" min-width="150"></el-table-column>
         <el-table-column label="操作" fixed="right" align='center' min-width="140" >
           <template slot-scope="scope">
             <a href="javascript:void(0)" class="list-icon-editH border-0" title="编辑" @click="editDetail(scope.row)"><i class='dec-i'></i></a>
@@ -423,15 +423,7 @@
         <input type="button"  class ='button-primary' @click="verifyPassed" value='登录'>
       </span>
     </el-dialog>
-    <el-dialog
-      title="清单下载"
-      :visible.sync="billDownLoadVisible"
-      :close-on-click-modal='false'
-      :modal-append-to-body='false'
-      v-loading="$store.state.loading"
-      width="400px">
-      <bill-download v-if="billDownLoadVisible" ref="billDownload" :isBillTypeDisable="isBillTypeDisable" :billBossIdDisabled="billBossIdDisabled"></bill-download>
-    </el-dialog>
+    <bill-download ref="billDownload" :billDownLoadVisible.sync="billDownLoadVisible" :sccCode="sccCode" :isConBossId="isConBossId" :queryType.sync="queryType" @backQueryForm="backQueryForm"></bill-download>
     <el-dialog
       title="关联接单"
       :visible.sync="contactBossIdVisible"
@@ -611,6 +603,8 @@ import '@/common/directives'
 import '@/common/other/client'
 import rightsUtil from '@/common/rightsUtil'
 import config from '@/config/config'
+import {decStatus, declTrnrelList, etpsCategoryList, iEFlagList} from './utils/decJson'
+import {decTableHeadFieldList} from './utils/decTableHeadFields'
 import decprintView from '../decPage/components/decPrint'
 import execlImport from '../component/execImport.vue'
 import returnReceipt from '../component/returnReceipt.vue'
@@ -642,29 +636,14 @@ export default {
   name: 'decQueryTable',
   data () {
     return {
-      isBillTypeDisable: false,
-      QueryDecForm: {
-        declTrnrel: '0,2', // 报关单类型
-        etpsCategory: 'D', // 企业类别
-        entryId: '', // 报关单号
-        seqNo: '', // 统一编号
-        bossId: '', // 接单编号
-        tradeCode: '', // 境内收发货人
-        billNo: '', // 提运单号
-        customMaster: '', // 申报地海关
-        status: '', // 是否结关
-        clientSeqno: '', // 客户业务号
-        corpBusiNo: '', //  客户端统一编号
-        createUser: '', // 创建人
-        updateTimeStart: '', // 最近开始操作时间
-        updateTimeEnd: '', // 最近终止操作时间
-        iEFlag: '' // 进出口标志
-      },
+      QueryDecForm: this.initQueryForm(),
       singlerule: {
         account: [{required: true, message: '请输入单一窗口账号', trigger: 'blur'}],
         password: [{required: true, message: '请输入单一窗口账号密码', trigger: 'blur'}]
       },
       bindform: {
+        account: '',
+        password: ''
       }, // 单一窗口账号绑定
       queryType: true, // true 基本查询 false 高级查询
       dates: '', // 日期
@@ -679,94 +658,7 @@ export default {
       order: '', // 排序方式
       createBillVisiable: false,
       createBillParam: [],
-      fieldList: [{
-        value: true,
-        text: '系统编号'
-      }, {
-        value: true,
-        text: '接单编号'
-      }, {
-        value: false,
-        text: '客户业务号'
-      }, {
-        value: true,
-        text: '统一编号'
-      }, {
-        value: true,
-        text: '海关编号'
-      }, {
-        value: true,
-        text: '申报状态'
-      }, {
-        value: true,
-        text: '操作状态'
-      }, {
-        value: true,
-        text: '系统状态'
-      }, {
-        value: false,
-        text: '委托客户'
-      }, {
-        value: true,
-        text: '境内收发货人'
-      }, {
-        value: true,
-        text: '境内收发货人18位社会信用代码'
-      }, {
-        value: true,
-        text: '提运单号'
-      }, {
-        value: true,
-        text: '进出口日期'
-      }, {
-        value: true,
-        text: '申报日期'
-      }, {
-        value: true,
-        text: '监管方式'
-      }, {
-        value: true,
-        text: '启运国/运抵国'
-      }, {
-        value: true,
-        text: '指运港/经停港'
-      }, {
-        value: true,
-        text: '件数'
-      }, {
-        value: true,
-        text: '毛重'
-      }, {
-        value: true,
-        text: '合同协议号'
-      }, {
-        value: true,
-        text: '商品项数'
-      }, {
-        value: true,
-        text: '运输工具名称'
-      }, {
-        value: true,
-        text: '申报单位名称'
-      }, {
-        value: true,
-        text: '进出口标志'
-      }, {
-        value: true,
-        text: '申报地海关'
-      }, {
-        value: true,
-        text: '入境/离境口岸'
-      }, {
-        value: true,
-        text: '贸易国'
-      }, {
-        value: false,
-        text: '客户端统一编号'
-      }, {
-        value: true,
-        text: '更新时间'
-      }],
+      fieldList: decTableHeadFieldList,
       checkedNum: 0, // 被选中的数量
       printCompnentParam: {}, // 打印组件 的传递参数
       printCompnentVisible: false, // 打印组件 显示 隐藏
@@ -779,120 +671,15 @@ export default {
       batchsyncVisiable: false, // 批量同步
       syncDecRcordVisable: false, // 同步记录
       listNo: '', // 清单号
-      iEList: [
-        {
-          code: '',
-          name: '全部'
-        }, {
-          code: 'E',
-          name: '出口'
-        }, {
-          code: 'I',
-          name: '进口'
-        }],
-      declTrnrelList: [
-        {
-          code: '0,2',
-          name: '报关单/备案清单',
-          disabled: false
-        }, {
-          code: '1',
-          name: '转关提前报关单',
-          disabled: false
-        }, {
-          code: '3',
-          name: '转关提前备案清单',
-          disabled: false
-        }, {
-          code: '4',
-          name: '出口二次转关',
-          disabled: false
-        }, {
-          code: '9',
-          name: '其他',
-          disabled: false
-        }],
-      declTrnrelDownloadList: [{
-        code: '0',
-        name: '一般报关单',
-        disabled: false
-      }, {
-        code: '1',
-        name: '转关提前报关单',
-        disabled: false
-      }, {
-        code: '2',
-        name: '备案清单',
-        disabled: false
-      }, {
-        code: '3',
-        name: '转关提前备案清单',
-        disabled: false
-      }, {
-        code: '4',
-        name: '出口二次转关',
-        disabled: false
-      }],
-      etpsCategoryList: [
-        {
-          code: 'A',
-          name: '报关申报单位'
-        }, {
-          code: 'B',
-          name: '消费使用/生产销售单位'
-        }, {
-          code: 'C',
-          name: '报关收发货人'
-        }, {
-          code: 'D',
-          name: '报关录入单位'
-        }],
+      iEList: iEFlagList,
+      declTrnrelList: declTrnrelList,
+      etpsCategoryList: etpsCategoryList,
       // upLoadVisible: false,
       iEFlag: '',
       decParmasList: [],
-      stautsList: [{
-        codeField: '0',
-        nameField: '接单生成'
-      }, {
-        codeField: '2',
-        nameField: '报关单预录入'
-      }, {
-        codeField: '3',
-        nameField: '待审核'
-      }, {
-        codeField: '4',
-        nameField: '审核驳回'
-      }, {
-        codeField: '6',
-        nameField: '审核通过'
-      }, {
-        codeField: 'R',
-        nameField: '待复核'
-      }, {
-        codeField: '1',
-        nameField: '单一窗口暂存'
-      }, {
-        codeField: '21',
-        nameField: '单一窗口申报中'
-      }, {
-        codeField: '9',
-        nameField: '放行'
-      }, {
-        codeField: '10',
-        nameField: '结关'
-      }],
-      originList: [{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}], // 清单来源数据
+      stautsList: decStatus,
       billDownLoadVisible: false, // 清单下载
-      billBossIdDisabled: false,
       passwordVisible: false, // 密码输入
-      billForm: {
-        listOrigin: '', // 清单来源
-        listNo: '', // 清单号
-        emsListNo: '', // 企业内部编号清单编号
-        bossId: '', // 接单编号
-        corpBusiNo: '', // 客户业务号
-        declTrnrel: '' // 清单类型
-      },
       passwordForm: {
         password: '' // 密码
       },
@@ -918,10 +705,6 @@ export default {
       initCoverParam: '', //
       gotoBind: false,
       downLoadType: '',
-      selectObj: {
-        obj: '',
-        parmas: ''
-      },
       pickerOptions2: {
         shortcuts: [{
           text: '当天',
@@ -992,15 +775,8 @@ export default {
     // }
   },
   methods: {
-    validateBossId (rule, value, callback) {
-      if (!/^[0-9]{14}$|^$/.test(value)) {
-        callback(new Error('请输入14位数字的接单编号'))
-      } else {
-        callback()
-      }
-    },
-    resetDecForm  () {
-      this.QueryDecForm = {
+    initQueryForm () {
+      return {
         declTrnrel: '0,2', // 报关单类型
         etpsCategory: 'D', // 企业类别
         entryId: '', // 报关单号
@@ -1009,14 +785,17 @@ export default {
         tradeCode: '', // 境内收发货人
         billNo: '', // 提运单号
         customMaster: '', // 申报地海关
-        status: '', // 状态包括报关单状态和审核状态
+        status: '', // 是否结关
         clientSeqno: '', // 客户业务号
-        createUser: '', // 创建人
         corpBusiNo: '', //  客户端统一编号
+        createUser: '', // 创建人
         updateTimeStart: '', // 最近开始操作时间
         updateTimeEnd: '', // 最近终止操作时间
         iEFlag: '' // 进出口标志
       }
+    },
+    resetDecForm  () {
+      this.QueryDecForm = this.initQueryForm()
       this.isDisabled = false
       this.dates = []
       this.queryDecList()
@@ -1051,38 +830,6 @@ export default {
           this.decStatusList = res.result
         }
       })
-    },
-    // 提示需要填写的内容
-    tipsFillMessage (obj, params) {
-      // 如果时下拉框 则设置当前下拉框的默认参数
-      this.selectObj = {
-        obj: obj,
-        params: params
-      }
-    },
-    // 远程搜索
-    checkParamsList (query, type = 'select') {
-      this[this.selectObj.obj] = []
-      let keyValue = query.toString().trim()
-      let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
-      if (util.isEmpty(keyValue)) {
-        this.$nextTick(() => {
-          this[this.selectObj.obj] = list.slice(0, 10)
-        })
-      } else {
-        let filterList = []
-        filterList = list.filter(item => {
-          let str = item.codeField + '-' + item.nameField
-          return str.toLowerCase().startsWith(keyValue.toLowerCase())
-        })
-        if (type === 'init') {
-          this[this.selectObj.obj] = filterList.slice(0, 10)
-        } else if (type === 'select') {
-          this.$nextTick(() => {
-            this[this.selectObj.obj] = filterList.slice(0, 10)
-          })
-        }
-      }
     },
     // 企业本企业下的人员
     getUserUnderCrop () {
@@ -1227,72 +974,6 @@ export default {
         this.pageList(this.$store.state.pagination)
       }
     },
-    // 查询是否已经关联接单编号
-    /**
-     * @param {String} type 1.为报关单下载  2.为清单下载
-     * @param {String} id 当type为1时 id 为报关单统一编号, 当type 为2 时 id 为小清单号
-     */
-    isRelevanceBossId (id, type, flag) {
-      let param = {}
-      if (type === '1') {
-        param['seqNo'] = id
-      } else {
-        param['listNo'] = id
-      }
-      this.$post({
-        url: 'API@/dec-common/dec/common/isRelToBoss',
-        data: param,
-        success: (res) => {
-          if (res && res.result && res.result.declTrnrel) {
-            this.billForm.declTrnrel = res.result.declTrnrel
-            this.isBillTypeDisable = true
-            if (flag) {
-              this.billDownLoad()
-            }
-          } else {
-            if (flag) {
-              this.billDownLoad()
-            } else {
-              this.isBillTypeDisable = false
-              this.billForm.declTrnrel = ''
-            }
-          }
-        }
-      })
-      // this.$post({
-      //   url: 'API@/dec-common//dec/common/isRelToBoss',
-      //   data: param,
-      //   success: (res) => {
-      //     if (res.code === '0000') {
-      //       if (util.isEmpty(res.result.bossId)) { // 没有关联接单编号
-      //         if (type === '1') {
-      //           // 弹出关联接单编号数据框
-      //           this.contactBossIdVisible = true // 开卡关联接单编号弹出框
-      //         } else {
-      //           this.billBossIdDisabled = false
-      //           if (flag) {
-      //             this.billDownLoad()
-      //           }
-      //         }
-      //       } else {
-      //         if (type === '1') { // 如果存在接单编号
-      //           this.downLoadSeqNo()
-      //         }
-      //         if (type === '2') {
-      //           // 反填客户业务号 和接单编号
-      //           this.billForm.bossId = res.result.bossId
-      //           this.billBossIdDisabled = true
-      //           this.$refs.corpBusiNo.focus()
-      //           this.billForm.corpBusiNo = res.result.corpBusiNo
-      //           if (flag) {
-      //             this.billDownLoad()
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      // })
-    },
     // 获取接单编号
     getBossIdList () {
       this.$post({
@@ -1306,26 +987,6 @@ export default {
                 value: res.result[i].innerNo
               })
             }
-          }
-        }
-      })
-    },
-    // 企业内部编号查询清单编号
-    getListNo (val, flag) {
-      let data = {
-        emsListNo: val,
-        orgCode: this.userInfo[8],
-        scc_code: this.sccCode
-      }
-      this.$post({
-        url: 'API@/dec-common/dec/rest/getListNo',
-        data: data,
-        success: (res) => {
-          if (res.result.length > 0) {
-            this.billForm.emsListNo = res.result[0]
-            this.isRelevanceBossId(this.billForm.emsListNo, '2', flag)
-          } else {
-            this.messageTips('查询无数据!', 'error')
           }
         }
       })
@@ -2043,23 +1704,10 @@ export default {
     declTrnrelChange () {
       if (this.QueryDecForm.declTrnrel === '9') {
         this.isDisabled = true
-        this.QueryDecForm = {
-          declTrnrel: '9', // 报关单类型
-          etpsCategory: '', // 企业类别
-          entryId: '', // 报关单号
-          seqNo: this.QueryDecForm.seqNo, // 统一编号
-          bossId: '', // 接单编号
-          tradeCode: '', // 境内收发货人
-          billNo: '', // 提运单号
-          customMaster: '', // 申报地海关
-          status: '', // 状态包括报关单状态和审核状态
-          clientSeqno: '', // 客户业务号
-          corpBusiNo: '', //  客户端统一编号
-          createUser: '', // 创建人
-          updateTimeStart: '', // 最近开始操作时间
-          updateTimeEnd: '', // 最近终止操作时间
-          iEFlag: this.QueryDecForm.iEFlag // 进出口标志
-        }
+        this.QueryDecForm = this.initQueryForm()
+        this.QueryDecForm.declTrnrel = '9'
+        this.QueryDecForm.seqNo = this.QueryDecForm.seqNo
+        this.QueryDecForm.iEFlag = this.QueryDecForm.iEFlag
         this.dates = []
         // 切换到有统一编号的高级查询
         this.queryType = false
@@ -2143,52 +1791,18 @@ export default {
               if (!util.isEmpty(this.userId)) {
                 window.localStorage.setItem(this.userId, password)
               }
-              // this.selectObj = {
-              //   obj: 'originList',
-              //   params: 'BILL_ORIGIN'
-              // }
-              // this.checkParamsList('1', 'init')
-              this.isBillTypeDisable = false
               this.billDownLoadVisible = true
-              this.billBossIdDisabled = false
-              // this.$refs.billDownload.initBillDownload()
             } else {
-              // this.passwordVisible = true
-              this.billDownLoadVisible = true
-              this.billBossIdDisabled = false
-              // this.$refs.billDownload.initBillDownload()
+              this.passwordVisible = true
+              // this.billDownLoadVisible = true
             }
           })
         } catch (e) {
           this.messageTips('读卡失败,请检查卡介质', 'error')
         }
       } else {
-        // this.passwordVisible = true
-        this.billDownLoadVisible = true
-        this.billBossIdDisabled = false
-        // this.$refs.billDownload.initBillDownload()
-      }
-    },
-    // 清单号 失去焦点的操作
-    changListNo () {
-      if (this.billForm.listNo.length > 0) {
-        if (this.billForm.listOrigin === '2') {
-          this.getListNo(this.billForm.listNo, false)
-        } else {
-          if (this.billForm.listNo.length !== 18) {
-            // 自动补齐到18位
-            let listNo = this.billForm.listNo
-            let flag = true
-            while (flag) {
-              listNo = '0' + listNo
-              if (listNo.length === 18) {
-                flag = false
-              }
-            }
-            this.billForm.listNo = listNo
-          }
-          this.isRelevanceBossId(this.billForm.listNo, '2', false)
-        }
+        this.passwordVisible = true
+        // this.billDownLoadVisible = true
       }
     },
     // 可视化预览
@@ -2226,24 +1840,7 @@ export default {
             }
             // 关闭密码框
             this.passwordVisible = false
-            // 打开清单下载框
-            this.billForm = {
-              listOrigin: '', // 清单来源
-              listNo: '', // 清单号
-              emsListNo: '', // 企业内部编号清单编号
-              bossId: '', // 接单编号
-              corpBusiNo: '', // 客户业务号
-              declTrnrel: ''// 清单类型
-            }
-            this.billForm.listOrigin = '1'
-            // this.selectObj = {
-            //   obj: 'originList',
-            //   params: 'BILL_ORIGIN'
-            // }
-            // this.checkParamsList('1', 'init')
-            this.isBillTypeDisable = false
             this.billDownLoadVisible = true
-            this.billBossIdDisabled = false
           } else {
             this.messageTips(msg.Error[0], 'error')
           }
@@ -2401,248 +1998,6 @@ export default {
           this.contactBossIdVisible = false // 关闭弹出框
           this.bossIdForm.bossId = ''
           this.bossIdForm.corpBusiNo = ''
-        }
-      })
-    },
-    // 清单查询或下载
-    billDownSubmit () {
-      this.$refs['billForm'].validate((valid) => {
-        if (!valid) {
-          return false
-        }
-        if (this.billForm.listOrigin === '2') {
-          this.getListNo(this.billForm.listNo, true)
-        } else {
-          this.isRelevanceBossId(this.billForm.listNo, '2', true)
-        }
-      })
-    },
-    billDownLoad () {
-      if (this.isConBossId === 'Y' && util.isEmpty(this.billForm.bossId) && util.isEmpty(this.billForm.corpBusiNo)) {
-        this.messageTips('接单编号和客户业务号必填其一')
-        return
-      }
-      if (this.billForm.listOrigin === '1') {
-        if (this.billForm.listNo.length !== 18) {
-          // 自动补齐到18位
-          let listNo = this.billForm.listNo
-          let flag = true
-          while (flag) {
-            listNo = '0' + listNo
-            if (listNo.length === 18) {
-              flag = false
-            }
-          }
-          this.billForm.listNo = listNo
-        }
-      }
-      // 取当
-      let postData = {
-        'sccCode': this.sccCode
-      }
-      postData['listNo'] = this.billForm.listOrigin === '2' ? this.billForm.emsListNo : this.billForm.listNo // 清单号
-      postData['bossId'] = this.billForm.bossId // 接单编号
-      postData['corpBusiNo'] = this.billForm.corpBusiNo // 客户业务号
-      postData['orgCode'] = this.userInfo[8]
-      postData['needUpdate'] = false
-      postData['declTrnrel'] = this.billForm.declTrnrel
-      this.$post({
-        url: 'API@/dec-common/dec/common/getDecData',
-        data: postData,
-        success: (res) => {
-          if (res.result.code === 'EXIST') { // 如果库里面有这条信息的参数
-            this.$confirm('此数据在本系统存在，是否覆盖？', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              distinguishCancelAndClose: true,
-              closeOnClickModal: false,
-              closeOnPressEscape: false,
-              type: 'warning'
-            }).then(() => {
-              postData['needUpdate'] = true
-              this.$post({
-                url: 'API@/dec-common/dec/common/getDecData',
-                data: postData,
-                success: (res) => {
-                  this.commonFunction(res)
-                }
-              })
-            }).catch(() => {
-              this.billForm.listNo = ''
-              this.billForm.emsListNo = ''
-              this.billForm.bossId = ''
-              this.billForm.corpBusiNo = ''
-              this.billForm.declTrnrel = ''
-              this.isBillTypeDisable = false
-              this.billBossIdDisabled = false
-              this.billDownLoadVisible = false
-            })
-          } else if (res.result.code === 'UPDATE') { //
-            this.$confirm(res.result.message, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              distinguishCancelAndClose: true,
-              closeOnClickModal: false,
-              closeOnPressEscape: false,
-              type: 'warning'
-            }).then(() => {
-              this.coverLocalBill(res.result.decVO)
-            }).catch(() => {
-              this.billForm.listNo = ''
-              this.billForm.emsListNo = ''
-              this.billForm.bossId = ''
-              this.billForm.corpBusiNo = ''
-              this.billForm.declTrnrel = ''
-              this.billBossIdDisabled = false
-              this.billDownLoadVisible = false
-              this.isBillTypeDisable = false
-            })
-          } else {
-            this.commonFunction(res)
-          }
-        },
-        other: (res) => {
-          this.messageTips(res.message, 'error')
-        }
-      })
-    },
-    commonFunction (res) {
-      if (res.result.code === '0000') {
-        this.messageTips(res.message, 'success')
-        this.billBossIdDisabled = false
-        this.billDownLoadVisible = false
-        // 查询刚下载的清单
-        this.QueryDecForm = {
-          declTrnrel: '0,2', // 报关单类型
-          etpsCategory: 'D', // 企业类别
-          entryId: '', // 报关单号
-          seqNo: res.result.cusCiqNo ? res.result.cusCiqNo : res.result.seqNo, // 统一编号
-          // bossNo: res.result.bossNo ? res.result.bossNo : this.billForm.bossId,
-          corpBusiNo: res.result.corpBusiNo ? res.result.corpBusiNo : this.billForm.corpBusiNo,
-          bossId: res.result.bossNo ? res.result.bossNo : this.billForm.bossId, // 接单编号
-          tradeCode: '', // 境内收发货人
-          billNo: '', // 提运单号
-          customMaster: '', // 申报地海关
-          status: '', // 状态包括报关单状态和审核状态
-          clientSeqno: '', // 客户业务号
-          createUser: '', // 创建人
-          updateTimeStart: '', // 最近开始操作时间
-          updateTimeEnd: '', // 最近终止操作时间
-          iEFlag: res.result.iEFlag // 进出口标志
-        }
-        this.isDisabled = false
-        this.pageList()
-        this.billForm.bossId = ''
-        this.billForm.listNo = ''
-        this.billForm.emsListNo = ''
-        this.billForm.corpBusiNo = ''
-        this.billForm.declTrnrel = ''
-        this.isBillTypeDisable = false
-      }
-      if (res.result.code === '1004') {
-        let portData = res.result
-        let downParams = {}
-        downParams['seqNo'] = portData.seqNo // 统一编号
-        downParams['bossId'] = portData.bossId ? portData.bossId : this.billForm.bossId // 接单编号
-        downParams['corpBusiNo'] = portData.corpBusiNo ? portData.corpBusiNo : this.billForm.corpBusiNo // 客户业务号
-        downParams['cusCiqNo'] = portData.cusCiqNo // 关检查关联号
-        downParams['iEFlag'] = portData.iEFlag // 进出口标识
-        downParams['signData'] = portData.signData // 标注数据
-        downParams['extField'] = portData.extField // 额外标识
-        downParams['status'] = portData.status // 状态
-        downParams['sccCode'] = this.sccCode // 社会信用代码
-        downParams['certNo'] = this.userInfo[0] // 证书号
-        downParams['icCode'] = this.userInfo[5] // 卡号
-        downParams['password'] = window.localStorage.getItem(this.userId) // 卡密码
-        this.downLoad(downParams)
-      }
-    },
-    // 清单下载时遇到不同的字段是否需要覆盖
-    coverLocalBill (decVo) {
-      this.$post({
-        url: 'API@/dec-common/dec/common/getAndSaveDec',
-        data: decVo,
-        success: (res) => {
-          this.messageTips(res.message, 'success')
-          this.billBossIdDisabled = false
-          this.billDownLoadVisible = false
-          // 查询刚下载的清单
-          this.queryType = false
-          this.QueryDecForm = {
-            declTrnrel: '0,2', // 报关单类型
-            etpsCategory: 'D', // 企业类别
-            entryId: '', // 报关单号
-            seqNo: res.result.cusCiqNo ? res.result.cusCiqNo : res.result.seqNo, // 统一编号
-            // bossNo: res.result.bossNo ? res.result.bossNo : this.billForm.bossId,
-            corpBusiNo: res.result.corpBusiNo ? res.result.corpBusiNo : this.billForm.corpBusiNo,
-            bossId: res.result.bossNo ? res.result.bossNo : this.billForm.bossId, // 接单编号
-            tradeCode: '', // 境内收发货人
-            billNo: '', // 提运单号
-            customMaster: '', // 申报地海关
-            status: '', // 状态包括报关单状态和审核状态
-            clientSeqno: '', // 客户业务号
-            createUser: '', // 创建人
-            updateTimeStart: '', // 最近开始操作时间
-            updateTimeEnd: '', // 最近终止操作时间
-            iEFlag: res.result.iEFlag // 进出口标志
-          }
-          this.isDisabled = false
-          this.pageList()
-          this.billForm.bossId = ''
-          this.billForm.listNo = ''
-          this.billForm.emsListNo = ''
-          this.billForm.corpBusiNo = ''
-          this.billForm.declTrnrel = ''
-        }
-      })
-    },
-    // 下载
-    downLoad (param) {
-      window.EportClient.signData(param.password, param.seqNo + '||', (msg) => {
-        if (msg.Result) {
-          param['signData'] = msg.Data[0]
-          window.EportClient.spcClearEnv(function (msg) {})
-          delete param.password
-          this.$post({
-            url: 'API@/dec-common/dec/common/decDown',
-            data: param,
-            success: (res) => {
-              this.messageTips(res.message, 'success')
-              this.billForm.bossId = ''
-              this.billForm.listNo = ''
-              this.billForm.emsListNo = ''
-              this.billForm.corpBusiNo = ''
-              this.billBossIdDisabled = false
-              this.billDownLoadVisible = false
-              // 查询刚下载的清单
-              this.QueryDecForm = {
-                declTrnrel: '0,2', // 报关单类型
-                etpsCategory: 'D', // 企业类别
-                entryId: '', // 报关单号
-                seqNo: res.result.data.cusCiqNo ? res.result.data.cusCiqNo : res.result.data.seqNo, // 统一编号
-                bossId: '', // 接单编号
-                tradeCode: '', // 境内收发货人
-                billNo: '', // 提运单号
-                customMaster: '', // 申报地海关
-                status: '', // 是否结关
-                clientSeqno: '', // 客户业务号
-                createUser: '', // 创建人
-                corpBusiNo: '', //  客户端统一编号
-                updateTimeStart: '', // 最近开始操作时间
-                updateTimeEnd: '', // 最近终止操作时间
-                iEFlag: res.result.data.iEFlag // 进出口标志
-              }
-              this.isDisabled = false
-              this.pageList()
-
-              this.messageTips(msg.Error[0], 'success')
-            },
-            other: () => {
-              this.messageTips(msg.Error[0], 'error')
-            }
-          })
-        } else {
-          this.messageTips(msg.error.join(','), 'error')
         }
       })
     },
@@ -2825,78 +2180,10 @@ export default {
         }
       }
     },
-    // 调用切换焦点的方法
-    switchFoucsByEnter (e) {
-      e.target.blur()
-      // 获取当前焦点所在的 form表单
-      let form = e.target.form
-      // 获取form表单下的所有 input  并把为数组转化为真数组
-      let focusable = Array.from(form.querySelectorAll('input'))
-      let newFocusable = []
-      // 过滤掉 被disable 修饰的 和 被readonly修饰但不含有placeholder的input
-      newFocusable = focusable.filter(v => {
-        return (!v.readOnly || v.placeholder) && !v.disabled
-      })
-      // 计算现在焦点在什么位置
-      let index = newFocusable.findIndex((v, i) => {
-        return e.target === v
-      })
-      // 下一个元素
-      let next = newFocusable[parseInt(index) + 1]
-      // 下下一个元素
-      // let secondNext = newFocusable[parseInt(index) + 2]
-      // 上一个元素
-      let prev = newFocusable[parseInt(index) - 1]
-      if (e.shiftKey) { // shift+enter 光标向上个元素移动
-        if (prev) {
-          if (e.target.attributes.shiftEnter && e.target.attributes.shiftEnter.nodeValue === 'no') {
-            return false
-          } else {
-            if (e.target.parentElement.offsetParent.attributes.class.nodeValue === 'el-select el-select--mini') {
-              let ref = e.target.parentElement.offsetParent.attributes.dataRef.nodeValue
-              this.$refs[ref].blur()
-            }
-            prev.focus()
-          }
-        }
-      } else if (e.ctrlKey && e.target.localName === 'textarea') { // Ctrl+enter 在textaera中换行
-        let myValue = '\n'
-        let t = e.target
-        if (document.selection) { // ie<9
-          t.focus()
-          let sel = document.selection.createRange()
-          sel.text = myValue
-          t.focus()
-          sel.moveStart('character', -1)
-        } else if (t.selectionStart || t.selectionStart === '0') { // 现代浏览器
-          let startPos = t.selectionStart
-          let endPos = t.selectionEnd
-          let scrollTop = t.scrollTop
-          t.value = t.value.substring(0, startPos) + myValue + t.value.substring(endPos, t.value.length)
-          t.focus()
-          // 因为myValue回车显示为\n
-          t.selectionStart = startPos + myValue.length
-          t.selectionEnd = startPos + myValue.length
-          t.scrollTop = scrollTop
-        } else {
-          t.value += myValue
-          t.focus()
-        }
-      } else {
-        if (e.target.localName === 'textarea') { // enter 光标向下个元素移动
-          e.preventDefault()
-          e.stopPropagation()
-        }
-        // 下个元素存在
-        if (next) {
-          if (e.target.attributes.enter && e.target.attributes.enter.nodeValue === 'no') {
-            return false
-          } else {
-            next.focus()
-            next.select()
-          }
-        }
-      }
+    // 接收清单下载回参
+    backQueryForm (param) {
+      this.QueryDecForm = param.QueryDecForm
+      this.isDisabled = param.isDisabled
     }
   }
 }

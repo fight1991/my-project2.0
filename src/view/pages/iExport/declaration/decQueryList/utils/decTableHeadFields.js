@@ -1,4 +1,4 @@
-export const decTableHeadFieldList = [{
+export const decTableHeadFieldList = {
   decPid: {
     value: true,
     text: '系统编号'
@@ -115,4 +115,4 @@ export const decTableHeadFieldList = [{
     value: true,
     text: '更新时间'
   }
-}]
+}
