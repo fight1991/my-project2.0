@@ -160,7 +160,10 @@ export default {
               }
               sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
               router.push({
-                name: `${store.state.childSys.type}-new`,
+                name: `${store.state.childSys.type}-ems`,
+                query: {
+                  setId: sysData.tabId
+                },
                 params: {
                   sysData: base64.encode(JSON.stringify(sysData))
                 }

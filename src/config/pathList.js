@@ -1,7 +1,7 @@
 import url from './commonPath'
 export default {
   // 进出口管理
-  eImport: {
+  iExport: {
     // 保税核注清单(进口)
     tax_I_Template: url.JINER + '/templates/datainput/I/taxList',
     // 保税核注清单(出口)
