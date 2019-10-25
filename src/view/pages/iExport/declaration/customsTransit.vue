@@ -6279,7 +6279,7 @@ export default {
               routeName = 'exportTransitSecondDecEdit'
             }
             // 先关闭当前页签
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
             // 再跳转到编辑页面
             this.$router.push({
               name: routeName,

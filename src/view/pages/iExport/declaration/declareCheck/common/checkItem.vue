@@ -119,10 +119,14 @@ export default {
   height: 10px;
 }
 .title-name{
-  font-weight: bold
+  font-weight: bold;
+  margin-left: 5px;
 }
 .el-popover__reference{
   min-height: 17px;
   position: relative;
+}
+.sys-main {
+  padding: 0;
 }
 </style>

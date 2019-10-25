@@ -973,7 +973,7 @@ export default {
               routeName = 'exportRecordEdit'
             }
             // 先关闭当前页签
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
             // 再跳转到编辑页面
             this.$router.push({
               name: routeName,
@@ -1131,11 +1131,20 @@ export default {
       this.$store.commit(this.moduleName + '/changeDecPage', {key: 'charterDis', value: true})
       // 聚焦点
       this.$refs.decHead.focusCustomMaster()
-      // if (this.$route.meta.operationType === 'add') {
-      //   return
-      // }
-      // this.modifyTabName()
       this.initDefaultTemplate()
+      // 删除现在的tab
+      // this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+      // // 打开新增的tab
+      // // 先关闭当前页签
+      // this.$router.push({
+      //   name: routeName,
+      //   params: {
+      //     'pid': this.controller.pid,
+      //     'operationType': 'edit',
+      //     'setTitle': tabName + '-' + this.controller.pid,
+      //     'setId': routeName + 'edit' + this.controller.pid
+      //   }
+      // })
     },
     // 修改页签的名字
     modifyTabName () {

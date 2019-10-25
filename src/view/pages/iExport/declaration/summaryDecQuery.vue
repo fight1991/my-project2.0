@@ -79,6 +79,18 @@
           </el-col>
         </el-row>
         <el-row  :gutter='20'>
+          <el-col :md="24" :lg="12">
+            <el-form-item label="最近操作时间">
+              <el-date-picker v-model="dates" style="width:100%"
+                type="daterange" clearable
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions2"
+                >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
           <el-col :md="12" :lg="6">
             <el-form-item label="状态" >
               <el-select placeholder="" v-model="querySumDecForm.status"
@@ -92,18 +104,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :md="24" :lg="12">
-              <el-form-item label="最近操作时间">
-                <el-date-picker v-model="dates" style="width:100%"
-                  type="daterange" clearable
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions2"
-                  >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
         </el-row>
         <el-row  :gutter='20'>
           <el-col :span="24" class='query-btn'>
@@ -739,20 +739,20 @@ export default {
       let tabName
       if (funFlag === 'declaration') {
         if (operationType === 'look') {
-          tabName = '进口报关单(完整申报)'
-          routeName = 'importDecLook'
+          tabName = '进口报关单(概要申报)'
+          routeName = 'importSummaryDeclook'
         } else if (operationType === 'edit') {
-          tabName = '进口报关单(完整申报)'
-          routeName = 'importDecEdit'
+          tabName = '进口报关单(概要申报)'
+          routeName = 'importSummaryDecEdit'
         }
       }
       if (funFlag === 'recordList') {
         if (operationType === 'look') {
-          tabName = '进境备案清单(完整申报)'
-          routeName = 'importRecordLook'
+          tabName = '进境备案清单(概要申报)'
+          routeName = 'importSummaryRecordLook'
         } else if (operationType === 'edit') {
-          tabName = '进境备案清单(完整申报)'
-          routeName = 'importRecordEdit'
+          tabName = '进境备案清单(概要申报)'
+          routeName = 'importSummaryRecordEdit'
         }
       }
       this.$router.push({

@@ -212,6 +212,7 @@ export default {
     width: 100%;
     margin-block-start: 0;
     margin-block-end: 0;
+    margin-left: 5px;
   }
   .span-block {
     width:150px;

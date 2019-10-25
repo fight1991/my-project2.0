@@ -31,7 +31,7 @@
     <div class='dec-container-div'>
       <el-container>
         <el-container>
-          <el-main style="padding:66px 5px 20px 20px;">
+          <el-main style="padding:47px 5px 20px 0;">
             <div class="summary-title">概要申报基本信息</div>
             <!---表头开始  -->
             <dec-head ref='decHead' :moduleName="moduleName"></dec-head>
@@ -41,7 +41,7 @@
             <dec-list ref='decList' :moduleName="moduleName"></dec-list>
           </el-main>
         </el-container>
-        <el-aside style="width: 20%; padding-top: 66px;">
+        <el-aside style="width: 21%; padding-top: 66px;">
           <!-- 集装箱信息 开始-->
           <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
           <!-- 集装箱信息 结束-->
@@ -433,7 +433,7 @@ export default {
               routeName = 'recordList'
             }
             // 关闭新增tab
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
             // 打开编辑tab
             this.$router.push({
               name: routeName,
@@ -781,13 +781,6 @@ export default {
 </script>
 <style scoped lang="less">
 @import '../decPage/common/decCss';
-.sys-main{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  margin-left:5px;
-}
 .borderBN{
   border-bottom: none !important;
 }
@@ -811,5 +804,8 @@ export default {
 }
 .completeBtn{
   background-color: #23C6C8;
+}
+.sys-summary-class {
+  min-width: 1000px;
 }
 </style>

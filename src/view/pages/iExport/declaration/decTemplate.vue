@@ -3671,7 +3671,7 @@ export default {
                   tabName = '出口报关单模板'
                 }
                 // 关闭新增界面
-                this.$store.dispatch('CloseTab', this.$route.params.setId)
+                this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
                 // 打开编辑界面
                 this.$router.push({
                   name: routeName,

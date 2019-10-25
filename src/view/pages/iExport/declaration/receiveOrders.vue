@@ -39,18 +39,6 @@
                 </el-select>
             </el-form-item>
           </el-col>
-          <el-col :md="24" :lg="12">
-            <el-form-item label="接单日期">
-              <el-date-picker title='进出口日期' v-model="dates" style="width:100%"
-                type="daterange" clearable
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="pickerOptions2"
-                >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
           <el-col :md="12" :lg="6">
             <el-form-item label="系统状态" >
                <el-select size="mini" filterable v-model="QueryDecForm.status" clearable>
@@ -61,6 +49,17 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :md="24" :lg="12">
+            <el-form-item label="接单日期">
+              <el-date-picker title='进出口日期' v-model="dates" style="width:100%"
+                type="daterange" clearable
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions2">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>

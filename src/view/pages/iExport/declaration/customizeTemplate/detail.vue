@@ -188,7 +188,7 @@ export default {
           // 如果是新增页面的保存操作
           if (url === 'API@/dec-common/customTemplate/save') {
             // 先关闭新增
-            this.$store.dispatch('CloseTab', this.$route.params.setId)
+            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
             // 在打开编辑页面
             this.$router.push({
               name: 'customizeTemplate',
