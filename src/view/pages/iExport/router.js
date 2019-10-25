@@ -33,13 +33,23 @@ const MENU = [
       title: '异常状态登记'
     }
   },
-  {
+  { // 这是用于postMessage传递的方式过来的打开
     path: '/iExport/ems',
     name: 'iExport-ems',
     permissions: 'SAASOM0504000000',
     hidden: false,
     meta: {
       component: resolve => require(['./newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
+  { // 这是用于push 方法过来 这两都是临时的方法。金二迁移过来后就没有用了
+    path: '/iExport/new',
+    name: 'iExport-new',
+    permissions: 'SAASOM0504000000',
+    hidden: false,
+    meta: {
+      component: resolve => require(['./otherNewTab.vue'], resolve),
       title: '编辑详情'
     }
   },

@@ -237,7 +237,7 @@ export default {
       let par = [
         'SAAS_TRANSPORT_TYPE' // 运输方式
       ]
-      return {
+      this.$post({
         url: 'API@/saas-dictionary/dictionary/getParam',
         useStorage: true,
         storageKey: par,
@@ -254,7 +254,7 @@ export default {
             'SAAS_TRANSPORT_TYPE': JSON.parse(window.localStorage.getItem('SAAS_TRANSPORT_TYPE')) // 单位
           }
         }
-      }
+      })
     },
     // 新增/详情
     gotoDetail (type, value) {
