@@ -2,7 +2,7 @@
     <iframe-view :url='url'></iframe-view>
 </template>
 <script>
-// import base64 from '@/common/base64'
+import base64 from '@/common/base64'
 export default {
   name: 'index',
   data () {
@@ -11,8 +11,10 @@ export default {
     }
   },
   mounted () {
-    this.url = decodeURIComponent(this.$route.query.url)
-    // this.url = JSON.parse(base64.decode(this.$route.params.sysData)).url
+    // this.url = decodeURIComponent(this.$route.query.url)
+    // console.log(this.$route.query.url)
+    console.log(JSON.parse(base64.decode(this.$route.params.sysData)).url)
+    this.url = JSON.parse(base64.decode(this.$route.params.sysData)).url
   }
 }
 </script>
