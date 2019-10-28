@@ -34,7 +34,7 @@ const MENU = [
     }
   },
   { // 这是用于postMessage传递的方式过来的打开
-    path: '/iExport/ems',
+    path: '/iExport/ems/:sysData',
     name: 'iExport-ems',
     permissions: 'SAASOM0504000000',
     hidden: false,
