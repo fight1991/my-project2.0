@@ -50,40 +50,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="24">
-            <el-form-item label="接单编号"  prop='bossId'>
-              <el-autocomplete
-                :maxlength="30"
-                size='mini'
-                v-model="billForm.bossId"
-                :fetch-suggestions="queryBossIdSearch"
-                :disabled='billBossIdDisabled'
-                :trigger-on-focus="false"
-                :select-when-unmatched='true'
-                :highlight-first-item='true'
-                >
-              </el-autocomplete>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row v-if='isConBossId == "Y"'>
-          <el-col :span="24">
-            <el-form-item label="客户业务号">
-              <el-autocomplete ref="corpBusiNo"
-                :maxlength="50"
-                size='mini'
-                @keyup.enter.native="billDownSubmit"
-                v-model="billForm.corpBusiNo"
-                :fetch-suggestions="queryBusiNoSearch"
-                :trigger-on-focus="false"
-                :select-when-unmatched='true'
-                :highlight-first-item='true'
-                >
-              </el-autocomplete>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
         <el-row>
           <el-col :span="24" class='query-btn' align="center">
             <el-button size="mini" type="primary" @click="billDownSubmit" class='dialog-btn'>下载</el-button>
@@ -292,39 +258,6 @@ export default {
           }
         }
       })
-      // this.$post({
-      //   url: 'API@/dec-common//dec/common/isRelToBoss',
-      //   data: param,
-      //   success: (res) => {
-      //     if (res.code === '0000') {
-      //       if (util.isEmpty(res.result.bossId)) { // 没有关联接单编号
-      //         if (type === '1') {
-      //           // 弹出关联接单编号数据框
-      //           this.contactBossIdVisible = true // 开卡关联接单编号弹出框
-      //         } else {
-      //           this.billBossIdDisabled = false
-      //           if (flag) {
-      //             this.billDownLoad()
-      //           }
-      //         }
-      //       } else {
-      //         if (type === '1') { // 如果存在接单编号
-      //           this.downLoadSeqNo()
-      //         }
-      //         if (type === '2') {
-      //           // 反填客户业务号 和接单编号
-      //           this.billForm.bossId = res.result.bossId
-      //           this.billBossIdDisabled = true
-      //           this.$refs.corpBusiNo.focus()
-      //           this.billForm.corpBusiNo = res.result.corpBusiNo
-      //           if (flag) {
-      //             this.billDownLoad()
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      // })
     },
     // 清单下载时遇到不同的字段是否需要覆盖
     coverLocalBill (decVo) {

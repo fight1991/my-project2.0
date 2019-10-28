@@ -751,7 +751,6 @@ export default {
     }
   },
   created () {
-    // window.localStorage.setItem('BILL_ORIGIN', JSON.stringify([{codeField: '1', nameField: '清单编号'}, {codeField: '2', nameField: '企业内部编号'}]))
     // 获取企业信息列表  获取登陆用户信息  下载参数表  企业本企业下的人员
     this.getUserInfo()
     this.$all([this.seqNoListFun(), this.getCommonParams(), this.getUserUnderCrop()])
@@ -767,12 +766,6 @@ export default {
       // 从工作台过来
       this.queryByConditon()
     }
-    //  else {
-    //   // 初始化查询日期
-    //   this.setDefaultDate()
-    //   // 进页面默认加载数据
-    //   this.queryDecList()
-    // }
   },
   methods: {
     initQueryForm () {
