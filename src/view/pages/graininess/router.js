@@ -24,6 +24,16 @@ const MENU = [
       title: '编辑详情'
     }
   },
+  {
+    path: '/graininess/new/:sysData',
+    name: 'graininess-ems',
+    permissions: 'SAASOM0504000000',
+    hidden: true,
+    meta: {
+      component: resolve => require(['../component/newTab.vue'], resolve),
+      title: '编辑详情'
+    }
+  },
   beianJobs.MENU,
   lareJobs.MENU,
   baoheJobs.MENU,
