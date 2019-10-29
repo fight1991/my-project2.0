@@ -159,6 +159,7 @@ export default {
                 sysData.tabId = new Date().getTime() + ''
               }
               sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
+              console.log(store.state.childSys.type)
               router.push({
                 name: `${store.state.childSys.type}-ems`,
                 query: {
