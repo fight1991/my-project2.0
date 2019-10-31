@@ -4,7 +4,7 @@
       <el-row class = "query-condition">
       <!-- 查询条件 -->
         <el-form :label-width="labelFormWidth.six" label-position="right" :model="queryForm" ref="queryForm">
-          <el-row :gutter="56">
+          <el-row :gutter="30">
           <el-col :span="6" :xs="12">
             <el-form-item label="进出口标志" prop='type'>
               <el-select placeholder="" size="mini" v-model="queryForm.type"
@@ -34,7 +34,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="50" class="query-btn">
+        <el-row :gutter="30" class="query-btn">
           <el-col :span="24">
             <el-button size="mini" type="primary" @click="searchQueryForm">查询</el-button>
             <el-button size="mini" @click="resetQueryForm">重置</el-button>
@@ -69,7 +69,7 @@
           border highlight-current-row size="mini"
           :data="priceList"
           @selection-change="selectVal">
-          <el-table-column type="selection" width="36" align="center"></el-table-column>
+          <el-table-column type="selection" width="50" align="center"></el-table-column>
           <el-table-column label="进出口标志" min-width="100" prop="type" v-if="thList[0].value">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.type=="I"?"进口":(scope.row.type=="E"?'出口':'')}}</div>
@@ -98,22 +98,12 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="单价" min-width="80" prop="declPrice" v-if="thList[5].value">
-            <template slot-scope="scope">
-              <div class='sys-td-r'>{{scope.row.declPrice+''}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[6].value">
+          <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[5].value">
             <template slot-scope="scope">
               <div class='sys-td-c'>{{scope.row.tradeCurrValue}}</div>
             </template>
           </el-table-column>
-          <el-table-column label="浮动区间" min-width="80" prop="bandArea" v-if="thList[7].value">
-          <template slot-scope="scope">
-            <div class='sys-td-r'>{{scope.row.bandArea+''}}%</div>
-          </template>
-          </el-table-column>
-            <el-table-column label="原产国" min-width="100" prop="originCountryValue" v-if="thList[8].value">
+            <el-table-column label="原产国" min-width="100" prop="originCountryValue" v-if="thList[6].value">
               <template slot-scope="scope">
                 <div class="sys-td-c text-over-hid" :title="scope.row.originCountryValue">
                 {{scope.row.originCountryValue}}
@@ -136,8 +126,13 @@
             </el-col>
         </el-row>
       </div>
-      <el-dialog title="价格提示" :visible.sync="priceDialogVisible" :close-on-click-modal="false" width="950px">
-        <el-form label-width="126px" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
+      <el-dialog
+      title="价格提示"
+      :visible.sync="priceDialogVisible"
+      :close-on-click-modal="false"
+      :modal-append-to-body='false'
+      width="950px">
+        <el-form :label-width="labelFormWidth.seven" :model="priceDialogForm" ref="priceDialogForm" size="mini" label-position="right" class="order-label" :rules="rules" @keyup.enter.native="switchFoucsByEnter">
           <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="进出口标志" prop='type'>
@@ -202,11 +197,6 @@
           </el-row>
           <el-row :gutter="30">
             <el-col :span="8">
-            <el-form-item label="单价" prop='declPrice'>
-              <el-input v-model="priceDialogForm.declPrice" ref="declPrice" dataRef ='declPrice' :disabled="isDetail" :maxlength="19"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="8">
               <el-form-item label="币制" prop='tradeCurr'>
                 <el-select placeholder="" v-model="priceDialogForm.tradeCurr"
                   filterable clearable remote default-first-option
@@ -224,12 +214,30 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="价格浮动区间(%)" prop ='bandArea'>
-                <el-input  v-model="priceDialogForm.bandArea"
-                ref="bandArea" dataRef ='bandArea'
-                enter = 'no' @keyup.enter.native="saveDialogForm"
-                :disabled="isDetail" :maxlength="10"></el-input>
+            <el-col :span="16">
+              <el-form-item label="价格区间">
+                <el-col :span="10" class='spical-price-col'>
+                  <el-form-item prop="minPrice" >
+                    <el-input :disabled="isDetail"
+                      v-model="priceDialogForm.minPrice"
+                      enter = 'no' @keyup.enter.native="saveDialogForm"
+                      ref="minPrice" dataRef ='minPrice' :maxlength="10">
+                      </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1" class='spical-price-col' style='text-align: center;'>
+                  <span>-</span>
+                </el-col>
+                <el-col :span="9" class='spical-price-col'>
+                  <el-form-item prop="maxPrice" >
+                    <el-input :disabled="isDetail"
+                      v-model="priceDialogForm.maxPrice"
+                      ref="maxPrice" dataRef ='maxPrice' :maxlength="10"></el-input>
+                  </el-form-item>
+                </el-col>
+                 <el-col :span="4" class='spical-price-col'>
+                    <button type='button' class='price-query-btn' @click="queryPrice">历史</button>
+                  </el-col>
               </el-form-item>
             </el-col>
           </el-row>
@@ -244,18 +252,21 @@
       :visible.sync="historyGoodsVisible"
       class="sys-dec-class"
       :close-on-click-modal="false"
+      :modal-append-to-body='false'
       :show-close='true'
       width="640px">
        <history-goods :initParams="initHistory"  @backDatas="historyGoodsData"  @cancLeData="historyGoodsCompnent"  v-if="historyGoodsVisible"></history-goods>
     </el-dialog>
-    </section>
+    <temporal-interval :temporalIntervalVisable.sync='temporalIntervalVisable' :priceDialogForm = 'priceDialogForm'  @close:temporalInterval="backLimitData"></temporal-interval>
+  </section>
 </template>
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
 export default {
   components: {
-    'history-goods': resolve => require(['./component/historyGoods.vue'], resolve)
+    'history-goods': resolve => require(['./component/historyGoods.vue'], resolve),
+    'temporal-interval': resolve => require(['./component/temporalInterval.vue'], resolve)
   },
   name: 'priceRange',
   data () {
@@ -278,13 +289,14 @@ export default {
         gName: '',
         codeTs: '',
         gModel: '',
-        declPrice: '',
         tradeCurr: '',
-        bandArea: ''
+        minPrice: '',
+        maxPrice: ''
       },
       isDetail: false, // 查看详情置灰
       historyGoodsVisible: false, // 历史商品数据弹出框
       initHistory: {},
+      temporalIntervalVisable: false,
       pages: {},
       rules: {
         type: [
@@ -305,19 +317,19 @@ export default {
         tradeCurr: [
           { required: true, message: '请选择币制', trigger: 'change' }
         ],
-        declPrice: [
-          { required: true, message: '请输入单价,整数最多14位小数最多4位', validator: this.checkValid, trigger: 'blur' }
-        ],
-        bandArea: [
-          { required: true, message: '请输入价格浮动区间,整数最多5位小数最多4位', validator: this.checkValid, trigger: 'blur' }
-        ],
         originCountry: [
           { required: true, message: '请选择原产国', trigger: 'change' }
+        ],
+        maxPrice: [
+          {validator: this.checkValid, trigger: 'blur'}
+        ],
+        minPrice: [
+          {validator: this.checkValid, trigger: 'blur'}
         ]
       },
       ruleRegx: {
-        'declPrice': '^\\d{1,14}(\\.\\d{1,4})?$|^$',
-        'bandArea': '^\\d{1,5}(\\.\\d{1,4})?$|^$'
+        'maxPrice': '^\\d{1,5}(\\.\\d{1,4})?$|^$',
+        'minPrice': '^\\d{1,5}(\\.\\d{1,4})?$|^$'
       },
       iEList: [
         {
@@ -348,13 +360,7 @@ export default {
         text: '规格型号'
       }, {
         value: true,
-        text: '单价'
-      }, {
-        value: true,
         text: '币制'
-      }, {
-        value: true,
-        text: '单价浮动区间'
       }, {
         value: true,
         text: '原产国'
@@ -369,11 +375,39 @@ export default {
   },
   watch: {},
   created () {
-    this.paginationInit = this.$store.state.pagination
     this.getCommonParams()
     this.searchQueryForm()
   },
   methods: {
+    checkValid (rule, value, callback) {
+      let name = rule.field
+      let reg = new RegExp(this.ruleRegx[name])
+      if (!value) {
+        if (name === 'minPrice') {
+          callback(new Error('价格下限不能为空'))
+        } else {
+          callback(new Error('价格上限不能为空'))
+        }
+      } else if (!reg.test(value)) {
+        callback(new Error('整数最多14位小数最多4位'))
+      } else {
+        if (this.priceDialogForm.minPrice && this.priceDialogForm.maxPrice) {
+          let little = parseFloat(this.priceDialogForm.minPrice)
+          let more = parseFloat(this.priceDialogForm.maxPrice)
+          if (little > more) {
+            if (name === 'minPrice') {
+              callback(new Error('下限不能大于上限值'))
+            } else {
+              callback(new Error('上限不能小于下限值'))
+            }
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+    },
     // 查询
     searchQueryForm () {
       this.queryList(this.$store.state.pagination)
@@ -389,15 +423,13 @@ export default {
     },
     // 列表
     queryList (pagination) {
-      this.paginationInit = pagination
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/decParam/common/getPriceList',
         data: {
           ...this.queryForm,
-          page: pagination
+          page: pagination || this.paginationInit
         },
         router: this.$router,
-        isPageList: true,
         success: (res) => {
           this.priceList = res.result.list
           this.paginationInit = res.page
@@ -409,13 +441,13 @@ export default {
       this.resetDialogForm()
       if (type === 'view') {
         this.priceDialogForm = row
-        this.priceDialogForm.declPrice = row.declPrice + ''
-        this.priceDialogForm.bandArea = row.bandArea + ''
+        this.priceDialogForm.maxPrice = row.maxPrice + ''
+        this.priceDialogForm.minPrice = row.minPrice + ''
         this.isDetail = true
       } else if (type === 'edit') {
         this.priceDialogForm = row
-        this.priceDialogForm.declPrice = row.declPrice + ''
-        this.priceDialogForm.bandArea = row.bandArea + ''
+        this.priceDialogForm.maxPrice = row.maxPrice + ''
+        this.priceDialogForm.minPrice = row.minPrice + ''
         this.isDetail = false
       } else {
         this.isDetail = false
@@ -426,8 +458,8 @@ export default {
     deleteFun () {
       if (this.checkedData.length === 0) {
         this.$message({
-          message: '选择一条数据',
-          type: 'error'
+          message: '请选择一条数据',
+          type: 'warning'
         })
         return false
       }
@@ -442,18 +474,11 @@ export default {
         },
         router: this.$router,
         success: (res) => {
-          if (res.code === '0000') {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.queryList(this.$store.state.pagination)
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'error'
-            })
-          }
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.queryList(this.$store.state.pagination)
         }
       })
     },
@@ -461,24 +486,24 @@ export default {
     saveDialogForm () {
       this.$refs['priceDialogForm'].validate((valid) => {
         if (valid) {
+          let addFlag = '1' // 是否为新增接口1 为新增接口 0为更新接口
+          if (this.priceDialogForm.pid) {
+            addFlag = '0'
+          }
           this.$store.dispatch('ajax', {
             url: 'API@/dec-common/decParam/common/saveDecPriceInfo',
-            data: this.priceDialogForm,
+            data: {
+              ...this.priceDialogForm,
+              addFlag: addFlag
+            },
             router: this.$router,
             success: (res) => {
-              if (res.code === '0000') {
-                this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                })
-                this.priceDialogVisible = false
-                this.queryList(this.$store.state.pagination)
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: 'error'
-                })
-              }
+              this.$message({
+                message: '保存成功',
+                type: 'success'
+              })
+              this.priceDialogVisible = false
+              this.queryList(this.$store.state.pagination)
             }
           })
         }
@@ -503,9 +528,9 @@ export default {
         gName: '',
         codeTs: '',
         gModel: '',
-        declPrice: '',
         tradeCurr: '',
-        bandArea: ''
+        minPrice: '',
+        maxPrice: ''
       }
       this.$nextTick(() => {
         this.$refs['priceDialogForm'].clearValidate()
@@ -533,7 +558,6 @@ export default {
       this.priceDialogForm.gName = decList.gName
       this.priceDialogForm.gModel = decList.gModel
       this.priceDialogForm.tradeCurr = decList.tradeCurr
-      this.priceDialogForm.declPrice = decList.declPrice
       this.priceDialogForm.originCountry = decList.originCountry
       this.selectObj = {
         obj: 'curryParams',
@@ -581,7 +605,7 @@ export default {
       }
     },
     checkParamsList (query) {
-      let keyValue = query.toString().trim()
+      let keyValue = query ? query.toString().trim() : ''
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
       let filterList = []
       if (util.isEmpty(keyValue)) {
@@ -594,24 +618,13 @@ export default {
         this[this.selectObj.obj] = filterList.slice(0, 10)
       }
     },
-    // 校验
-    checkValid (rule, value, callback) {
-      let name = rule.field
-      if (!value && !rule.required) {
-        callback()
-      }
-      if ((!this.ruleRegx[name] && !value) || (rule.required && !value)) { // 校验规则不存在且输入为空值
-        this.$refs['priceDialogForm'].clearValidate([name])
-        callback(new Error(rule.message))
-        return
-      }
-      let reg = new RegExp(this.ruleRegx[name])
-      if (!reg.test(value)) {
-        this.$refs['priceDialogForm'].clearValidate([name])
-        callback(new Error(rule.message))
-      } else {
-        callback()
-      }
+    backLimitData (data) {
+      this.priceDialogForm.maxPrice = data.maxPrice
+      this.priceDialogForm.minPrice = data.minPrice
+      this.temporalIntervalVisable = false
+    },
+    queryPrice () {
+      this.temporalIntervalVisable = true
     },
     // 调用切换焦点的方法
     switchFoucsByEnter (e) {
@@ -766,5 +779,22 @@ export default {
     cursor: pointer;
     text-decoration: none;
     color: #333333;
+  }
+  .spical-price-col {
+    padding-left: 0 !important;
+     padding-right: 0 !important;
+  }
+  .price-query-btn {
+    height: 28px;
+    line-height: 28px;
+    margin: 0 6px;
+    padding: 0 15px;
+    border: 1px solid #4898d5;
+    border-radius: 2px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #287fca;
+    color: #fff;
   }
 </style>
