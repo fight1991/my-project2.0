@@ -26,7 +26,7 @@
       <!-- 主显示框 -->
     <div class='query-table'>
       <el-form :label-width="labelFormWidth.five" :model="submitData" ref="submitData" :rules="rules">
-          <el-row :gutter="10">
+          <el-row :gutter="20">
             <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
                 <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
