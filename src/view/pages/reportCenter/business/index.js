@@ -15,7 +15,7 @@ const MENU = {
       permissions: 'CCBA20601010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./amountSt.vue'], resolve),
         title: '金额统计'
       }
     }, {
@@ -24,7 +24,7 @@ const MENU = {
       permissions: 'CCBA20601020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./certSt.vue'], resolve),
         title: '单量统计'
       }
     }, {
@@ -33,7 +33,7 @@ const MENU = {
       permissions: 'CCBA20601030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./trendSt.vue'], resolve),
         title: '趋势统计'
       }
     }, {
@@ -42,7 +42,7 @@ const MENU = {
       permissions: 'CCBA20601040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./importSt.vue'], resolve),
         title: '进口报表'
       }
     }, {
@@ -51,7 +51,7 @@ const MENU = {
       permissions: 'CCBA20601050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: resolve => require(['./exportSt.vue'], resolve),
         title: '出口报表'
       }
     }
