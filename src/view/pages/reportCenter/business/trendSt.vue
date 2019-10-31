@@ -393,7 +393,7 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/decReport/exportDecTrendCount',
-        data: this.QueryForm,
+        data: {...this.QueryForm, page: this.pages},
         router: this.$router,
         success: (res) => {
           if (util.isEmpty(res.result)) {

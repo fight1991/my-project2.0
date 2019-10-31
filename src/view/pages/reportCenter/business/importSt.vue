@@ -514,7 +514,7 @@ export default {
       // }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/exportDecIntegratedCount',
-        data: {decIntegratedCountConditionVO: this.QueryForm, exportFieldVOs: thList},
+        data: {decIntegratedCountConditionVO: {...this.QueryForm, page: this.pages}, exportFieldVOs: thList},
         isPageList: false,
         router: this.$router,
         success: (res) => {
