@@ -123,7 +123,10 @@ export default {
             sysData.url += `${symbol}sysId=CCBA&tabId=${operationType}-${sysData.id}`
             if (data.length !== 0) {
               router.push({
-                name: `${store.state.childSys.type}-new`,
+                name: `${store.state.childSys.type}-ems`,
+                query: {
+                  setId: sysData.tabId
+                },
                 params: {
                   sysData: base64.encode(JSON.stringify(sysData))
                 }
@@ -159,7 +162,6 @@ export default {
                 sysData.tabId = new Date().getTime() + ''
               }
               sysData.url += `${symbol}sysId=CCBA&tabId=${sysData.tabId}`
-              console.log(store.state.childSys.type)
               router.push({
                 name: `${store.state.childSys.type}-ems`,
                 query: {
