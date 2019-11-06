@@ -1135,6 +1135,12 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
   }
 }
+// dropdown内容过长滚动
+.dropdown-auto-class{
+  max-height: 250px;
+  overflow-y: auto;
+}
+
 // 财务表格样式
 .query-table-financeCommon {
   background-color: #fff;
@@ -1795,7 +1801,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-useOffer .other{
   background: url(../img/offer.png) no-repeat;
 }
-.list-icon-useOffer:hover .other,.list-icon-add:focus .other{
+.list-icon-useOffer:hover .other,.list-icon-useOffer:focus .other{
   background: url(../img/offer_xz.png) no-repeat;
 }
 .list-icon-sync i{
@@ -2510,7 +2516,7 @@ body .el-table th.gutter{
 .list-icon-subimtCheck i{
   background: url(../img/icon-subimtCheck.png) no-repeat;
 }
-.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i{
+.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i,.sys-table-table .list-icon-subimtCheck i{
   background: url(../img/icon-subimtCheckH.png) no-repeat;
 }
 .list-icon-detailEport i{
@@ -3045,7 +3051,7 @@ table.form-table{
       width: 100%;
       .el-radio{
           width: 100%;
-          margin-left: 0;
+          margin-left: 0 !important;
           margin-bottom: 10px;
           .el-radio__label{
               white-space: normal;
