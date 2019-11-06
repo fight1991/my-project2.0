@@ -246,6 +246,14 @@ export default {
     window.localStorage.removeItem('ccbaMenuCodes')
   },
   errorReport (err, vm, info, store, syncError) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (syncError) {
+        console.error(syncError.stack)
+      } else {
+        console.error(err.stack)
+      }
+      return
+    }
     if (syncError) { // 捕获异步错误
       let { message, stack } = syncError
       let params = {
