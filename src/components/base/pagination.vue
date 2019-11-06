@@ -7,7 +7,7 @@
       @current-change="currentChange"
       @size-change="sizeChange"
       :current-page.sync="pagination.pageIndex"
-      :page-sizes="[10, 20, 50, 100, 200]"
+      :page-sizes="pageSizes"
       :page-size="pagination.pageSize"
       :total="pagination.total"
       layout="total, sizes, prev, pager, next, jumper">
@@ -34,6 +34,12 @@ export default {
       type: Object,
       default: function () {
         return this.$store.state.pagination
+      }
+    },
+    pageSizes: {
+      type: Array,
+      default: function () {
+        return [10, 20, 50, 100, 200]
       }
     }
     // type: {
