@@ -1821,10 +1821,10 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-upload:hover i,.list-icon-upload:focus i, .sys-table-table .list-icon-upload i{
   background: url(../img/icon-uploadH.png) no-repeat;
 }
-.list-icon-download i{
+.list-icon-download i, .table-disabled-download i{
   background: url(../img/icon-download.png) no-repeat;
 }
-.list-icon-download:hover i,.list-icon-download:focus i{
+.list-icon-download:hover i,.list-icon-download:focus i,.table-disabled-downloadH i{
   background: url(../img/icon-downloadH.png) no-repeat;
 }
 .list-icon-AI i{
@@ -4603,4 +4603,17 @@ table.form-table{
     margin-left: 2px;
     min-width: 20px;
   }
+}
+
+.table-icon{
+    margin: 0;
+    padding: 0;
+    i{
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      margin-top: -2px;
+    }
 }
