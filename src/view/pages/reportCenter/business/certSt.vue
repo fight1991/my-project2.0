@@ -57,7 +57,7 @@
             <el-table class='sys-table-table' :data="tableData" border highlight-current-row>
               <el-table-column label="序号" width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-l'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
+                  <div class='sys-td-l'>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
                 </template>
               </el-table-column>
               <el-table-column label="境内收发货人" min-width="150">
@@ -89,7 +89,7 @@
             <!--分页-->
             <el-row class='sys-page-list'>
               <el-col :span="24" align="right">
-                  <page-box @change="getChartData()"></page-box>
+                  <page-box @change="getChartData()" :pagination.sync='paginationInit'></page-box>
               </el-col>
             </el-row>
           </div>
@@ -139,8 +139,7 @@ export default {
       chartType: '1',
       resultChartData: {},
       resetChartData: '',
-      resultList: [], // 存放列表数据
-      pages: {} // 存放后台返回的页码
+      resultList: [] // 存放列表数据
     }
   },
   created () {
@@ -155,24 +154,12 @@ export default {
     this.doInit()
   },
   methods: {
-    // 加载缓存数据
-    loadData () {
-      this.$store.commit('pageCacheInit', this.pagination)
-    },
-    // 缓存数据
-    cacheData () {
-      this.pagination = {
-        currentPage: this.$store.state.pagination.currentPage, // 当前页
-        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
-        total: this.$store.state.pagination.total // 总条数
-      }
-    },
     doInit () {
       this.$store.commit('pageInit') // 初始化当前页
-      this.getChartData()
+      this.getChartData(this.$store.state.pagination)
     },
     // 获取图表数据
-    getChartData () {
+    getChartData (pagination) {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''
         this.QueryForm.endDate = ''
@@ -182,14 +169,14 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decCount',
-        data: {...this.QueryForm, page: this.pages},
+        data: {...this.QueryForm, page: pagination || this.paginationInit},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           let pieList = []
           let legendData = []
           if (!util.isEmpty(res.result.decCountPieVO) && res.result.decCountPieVO.length > 0) {
-            this.pages = res.page
+            this.paginationInit = res.page
             let leftcount = res.result.decCountPieVO[0].totalCount
             for (let item in res.result.decCountPieVO) {
               leftcount = leftcount - res.result.decCountPieVO[item].count
@@ -271,7 +258,7 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/decReport/exportDecCount',
-        data: {...this.QueryForm, page: this.pages},
+        data: {...this.QueryForm, page: this.paginationInit},
         router: this.$router,
         success: (res) => {
           if (util.isEmpty(res.result)) {

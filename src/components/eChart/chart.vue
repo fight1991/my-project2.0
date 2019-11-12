@@ -56,7 +56,7 @@ export default {
       // 获取DOM节点并初始化
       let chart = echarts.init(this.$refs.echart)
       // 设置图表的参数
-      chart.setOption(this.datas)
+      chart.setOption(this.datas, {notMerge: true})
       chart.resize()
     }
   }

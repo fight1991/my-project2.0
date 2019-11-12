@@ -87,7 +87,7 @@
             <el-table class='sys-table-table' :data="tableData" border highlight-current-row>
               <el-table-column label="序号" width="100">
                 <template slot-scope="scope">
-                  <div class='sys-td-l'>{{(pages.pageIndex-1)*pages.pageSize+(scope.$index+1)}}</div>
+                  <div class='sys-td-l'>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
                 </template>
               </el-table-column>
               <el-table-column label="创建日期" prop="date" min-width="100"></el-table-column>
@@ -110,7 +110,7 @@
             <!--分页-->
             <el-row class='sys-page-list'>
               <el-col :span="24" align="right">
-                  <page-box @change="getChartData()"></page-box>
+                  <page-box @change="getChartData()" :pagination.sync='paginationInit'></page-box>
               </el-col>
             </el-row>
           </div>
@@ -165,7 +165,6 @@ export default {
       resultChartData: {},
       resetChartData: '',
       resultList: [], // 存放列表数据
-      pages: {}, // 存放后台返回的页码
       cond: ''
     }
   },
@@ -186,18 +185,6 @@ export default {
     this.doInit()
   },
   methods: {
-    // 加载缓存数据
-    loadData () {
-      this.$store.commit('pageCacheInit', this.pagination)
-    },
-    // 缓存数据
-    cacheData () {
-      this.pagination = {
-        currentPage: this.$store.state.pagination.currentPage, // 当前页
-        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
-        total: this.$store.state.pagination.total // 总条数
-      }
-    },
     // 获取公司
     getCorp () {
       this.$store.dispatch('ajax', {
@@ -232,7 +219,7 @@ export default {
         this.initflag = false
         this.getCorp()
       } else {
-        this.getChartData()
+        this.getChartData(this.$store.state.pagination)
       }
     },
     changecompany () {
@@ -243,8 +230,7 @@ export default {
       }
     },
     // 获取图表数据
-    getChartData () {
-      this.$store.commit('pageInit') // 初始化当前页
+    getChartData (pagination) {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''
         this.QueryForm.endDate = ''
@@ -254,14 +240,14 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decTrendCount',
-        data: {...this.QueryForm, page: this.pages},
+        data: {...this.QueryForm, page: pagination || this.paginationInit},
         router: this.$router,
         isPageList: true,
         success: (res) => {
           let dateList = []
           let corpList = []
           this.tableData = res.result.decTrendCountDateVO
-          this.pages = res.page
+          this.paginationInit = res.page
           this.resultChartData = {
             tooltip: {
               trigger: 'axis'
@@ -322,32 +308,6 @@ export default {
         }
       })
     },
-    // 获取活跃度明细
-    getTableData () {
-      if (this.dates === '' || this.dates === null) {
-        this.QueryForm.startDate = ''
-        this.QueryForm.endDate = ''
-      } else {
-        this.QueryForm.startDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
-        this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
-      }
-      if (this.QueryForm.addUpType !== '1') {
-        this.QueryForm.addUpType = '1'
-      }
-      this.$store.dispatch('ajax', {
-        url: 'API@/plat-manager/decReport/decMoneyCount',
-        data: this.QueryForm,
-        isPageList: true,
-        router: this.$router,
-        success: (res) => {
-          this.resultList = util.isEmpty(res.result) ? [] : res.result
-          this.pages = {
-            pageIndex: res.page.pageIndex,
-            pageSize: res.page.pageSize
-          }
-        }
-      })
-    },
     // 日期切换
     datesChange (value) {
       let days = -(parseInt(value) - 1)
@@ -393,7 +353,7 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/decReport/exportDecTrendCount',
-        data: {...this.QueryForm, page: this.pages},
+        data: {...this.QueryForm, page: this.paginationInit},
         router: this.$router,
         success: (res) => {
           if (util.isEmpty(res.result)) {

@@ -85,7 +85,7 @@ export default {
     },
     // 下载
     downLoad (url) {
-      rightsUtil.checkRights(this.$router, () => {
+      rightsUtil.checkRights(() => {
         window.open(url, '_blank')
       })
     },

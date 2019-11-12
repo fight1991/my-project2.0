@@ -790,6 +790,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       height: 100%;
     }
   }
+  .finance-upload {
+    .el-upload--picture-card {
+      display: none;
+    }
+  }
   .ccba-btn {
     margin-bottom: 0!important;
   }
@@ -849,6 +854,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       color: @font-color-main;
       font-weight: normal;
       font-size: 12px;
+      min-height: 23px;
       .sys-td-c{
         text-align: center;
       }
@@ -1756,6 +1762,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-export i{
   background: url(../img/icon-export.png) no-repeat;
 }
+.list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled i{
+  background: url(../img/icon-exportG.png) no-repeat;
+}
 .list-icon-export:hover i,.list-icon-export:focus i,.sys-table-table .list-icon-export i{
   background: url(../img/icon-exportH.png) no-repeat;
 }
@@ -1766,9 +1775,6 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   background: url(../img/icon-exportH.png) no-repeat;
 }
 .list-icon-exportO.is-disabled:hover .other,.list-icon-exportO.is-disabled .other{
-  background: url(../img/icon-exportG.png) no-repeat;
-}
-.list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled i{
   background: url(../img/icon-exportG.png) no-repeat;
 }
 .list-icon-autodeclare i{
@@ -1813,13 +1819,13 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-upload i{
   background: url(../img/icon-upload.png) no-repeat;
 }
-.list-icon-upload:hover i,.list-icon-upload:focus i{
+.list-icon-upload:hover i,.list-icon-upload:focus i, .sys-table-table .list-icon-upload i{
   background: url(../img/icon-uploadH.png) no-repeat;
 }
-.list-icon-download i{
+.list-icon-download i, .table-disabled-download i{
   background: url(../img/icon-download.png) no-repeat;
 }
-.list-icon-download:hover i,.list-icon-download:focus i{
+.list-icon-download:hover i,.list-icon-download:focus i,.table-disabled-downloadH i{
   background: url(../img/icon-downloadH.png) no-repeat;
 }
 .list-icon-AI i{
@@ -3751,6 +3757,27 @@ table.form-table{
     color: white;
   }
 }
+.batch-sync-dialog {
+  .el-dialog__header{
+    padding: 18px 20px 10px;
+  }
+  .el-dialog__body{
+    padding: 16px 20px 20px;
+    .el-form-item__label{
+      font-size: 14px;
+      padding: 0 8px 0 0;
+    }
+  }
+  .el-button--mini{
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 7px 20px !important;
+    &.el-button--primary{
+      background-color: #287fca;
+      border-color: #287fca;
+    }
+  }
+}
 // 保税商品库
 .sys-bonded{
   .el-input-group__append, .el-input-group__prepend {
@@ -4598,4 +4625,17 @@ table.form-table{
     margin-left: 2px;
     min-width: 20px;
   }
+}
+
+.table-icon{
+    margin: 0;
+    padding: 0;
+    i{
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      margin-top: -2px;
+    }
 }
