@@ -790,6 +790,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       height: 100%;
     }
   }
+  .finance-upload {
+    .el-upload--picture-card {
+      display: none;
+    }
+  }
   .ccba-btn {
     margin-bottom: 0!important;
   }
@@ -1757,6 +1762,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-export i{
   background: url(../img/icon-export.png) no-repeat;
 }
+.list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled i{
+  background: url(../img/icon-exportG.png) no-repeat;
+}
 .list-icon-export:hover i,.list-icon-export:focus i,.sys-table-table .list-icon-export i{
   background: url(../img/icon-exportH.png) no-repeat;
 }
@@ -1767,9 +1775,6 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   background: url(../img/icon-exportH.png) no-repeat;
 }
 .list-icon-exportO.is-disabled:hover .other,.list-icon-exportO.is-disabled .other{
-  background: url(../img/icon-exportG.png) no-repeat;
-}
-.list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled i{
   background: url(../img/icon-exportG.png) no-repeat;
 }
 .list-icon-autodeclare i{
@@ -1814,7 +1819,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-upload i{
   background: url(../img/icon-upload.png) no-repeat;
 }
-.list-icon-upload:hover i,.list-icon-upload:focus i{
+.list-icon-upload:hover i,.list-icon-upload:focus i, .sys-table-table .list-icon-upload i{
   background: url(../img/icon-uploadH.png) no-repeat;
 }
 .list-icon-download i, .table-disabled-download i{
