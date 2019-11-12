@@ -225,7 +225,7 @@
             <!--分页-->
             <el-row class='sys-page-list'>
               <el-col :span="24" align="right">
-                <page-box @change="getTableData()" key="exportSt"></page-box>
+                <page-box @change="getTableData()" :pagination.sync='paginationInit' key="exportSt"></page-box>
               </el-col>
             </el-row>
           </div>
@@ -288,7 +288,6 @@ export default {
       resultChartData: {},
       resetChartData: '',
       resultList: [], // 存放列表数据
-      pages: {}, // 存放后台返回的页码
       tableNameList: {
         tableNames: [
           'SAAS_CUSTOMS_REL' // 海关关区
@@ -459,10 +458,6 @@ export default {
     this.doInit()
   },
   methods: {
-    // 加载缓存数据
-    loadData () {
-      this.$store.commit('pageCacheInit', this.pagination)
-    },
     getDataFromStorage () {
       this.cusCustomsCodeList = JSON.parse(window.localStorage.getItem('SAAS_CUSTOMS_REL'))
     },
@@ -485,7 +480,6 @@ export default {
         storageKey: par,
         hasStorageCallback: () => {
           this.getDataFromStorage()
-          this.$store.commit('pageInit')
         },
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: {
@@ -494,7 +488,6 @@ export default {
         router: this.$router,
         success: (res) => {
           this.getDataFromStorage()
-          this.$store.commit('pageInit')
         }
       })
     },
@@ -524,7 +517,7 @@ export default {
       // }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/exportDecIntegratedCount',
-        data: {decIntegratedCountConditionVO: {...this.QueryForm, page: this.pages}, exportFieldVOs: thList},
+        data: {decIntegratedCountConditionVO: {...this.QueryForm, page: this.paginationInit}, exportFieldVOs: thList},
         isPageList: false,
         router: this.$router,
         success: (res) => {
@@ -545,14 +538,6 @@ export default {
           // }
         }
       })
-    },
-    // 缓存数据
-    cacheData () {
-      this.pagination = {
-        currentPage: this.$store.state.pagination.currentPage, // 当前页
-        pageSize: this.$store.state.pagination.pageSize, // 每页数据条数
-        total: this.$store.state.pagination.total // 总条数
-      }
     },
     // 获取公共字典list
     getTrade () {
@@ -607,16 +592,14 @@ export default {
       })
     },
     doInit () {
-      this.$store.commit('pageInit') // 初始化当前页
       this.getCorp()
       this.getTrade()
     },
     search () {
-      this.$store.commit('pageInit')
-      this.getTableData()
+      this.getTableData(this.$store.state.pagination)
     },
     // 获取表格数据
-    getTableData () {
+    getTableData (pagination) {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''
         this.QueryForm.endDate = ''
@@ -633,18 +616,15 @@ export default {
       // }
       this.$store.dispatch('ajax', {
         url: 'API@/saas-report/decReport/decIntegratedCount',
-        data: {...this.QueryForm, page: this.pages},
+        data: {...this.QueryForm, page: pagination || this.paginationInit},
         isPageList: true,
         router: this.$router,
         success: (res) => {
+          this.paginationInit = res.page
           if (!util.isEmpty(res.result)) {
             this.exportExcel = true
           }
           this.resultList = util.isEmpty(res.result) ? [] : res.result
-          this.pages = {
-            pageIndex: res.page.pageIndex,
-            pageSize: res.page.pageSize
-          }
         }
       })
     },
