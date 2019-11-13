@@ -149,7 +149,7 @@ const handleUploadHeaderInfo = (url) => {
   }
 }
 
-async function postBefore ({type = '', url, data, success, other, error, isPageList = false, isLoad = true, useStorage = false}) {
+async function postBefore ({type = '', url, data, success, other, error, isPageList = false, isLoad = true, useStorage = false, progressCallback}) {
   let urlArr = url.split('@')
   if (type === 'upload') {
     handleUploadHeaderInfo(url)
@@ -164,7 +164,8 @@ async function postBefore ({type = '', url, data, success, other, error, isPageL
       type: type, // 请求类型 upload为上传类型，不传或其他为普通post
       url: urlArr[1], // 请求的接口地址
       data: data, // 入参
-      isPageList: isPageList // 是否是分页list
+      isPageList: isPageList, // 是否是分页list
+      progressCallback: progressCallback
     })
     if (isLoad) {
       store.state.loading = false
@@ -175,7 +176,7 @@ async function postBefore ({type = '', url, data, success, other, error, isPageL
   }
 }
 
-function postHandle ({type, url, data, isPageList}) {
+function postHandle ({type, url, data, isPageList, progressCallback}) {
   // 修改 动态设置 appWebFlag
   let webFlag = '1'
   if (!util.isEmpty(window.sessionStorage.getItem('appWebFlag'))) {
@@ -201,7 +202,18 @@ function postHandle ({type, url, data, isPageList}) {
       pageIndex: data.selfPage.pageIndex
     }
   }
-  return axios.post(url, params)
+  if (type === 'upload') {
+    return axios.post(url, params, {
+      onUploadProgress: function (progressEvent) {
+        console.log('progressEvent', util.Div(progressEvent.loaded, progressEvent.total, 2))
+        if (progressEvent.lengthComputable && progressCallback) {
+          progressCallback(util.Div(progressEvent.loaded, progressEvent.total, 2))
+        }
+      }})
+  } else {
+    return axios.post(url, params)
+  }
+  // return axios.post(url, params)
 }
 
 async function post ({url, data, success, other, error, isPageList = false, isLoad = true, useStorage = false, storageKey, replaceDataKey = 'tableNames', hasStorageCallback}) {
@@ -217,8 +229,8 @@ async function post ({url, data, success, other, error, isPageList = false, isLo
   }
 }
 
-async function upload ({url, data, success, other, error, isLoad = true}) {
-  postBefore({type: 'upload', url, data, success, other, error, isLoad})
+async function upload ({url, data, success, other, error, isLoad = true, progressCallback}) {
+  postBefore({type: 'upload', url, data, success, other, error, isLoad, progressCallback})
 }
 
 function getPromisePost ({url, data, successCallback, businessErrorCallback, errorCallback, isPageList = false, isLoad = true, useStorage = false}) {

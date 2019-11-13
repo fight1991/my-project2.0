@@ -584,5 +584,23 @@ export default {
     } else {
       return false
     }
+  },
+  /**
+   * @function 精确的除法运算
+   * @description  函数返回较为精确的除法结果
+   * @param arg1 除数
+   * @param arg2 被除数
+   * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数)
+     @returns arg1除于arg2的结果
+    */
+  Div (arg1, arg2) {
+    let r1 = arg1.toString()
+    let r2 = arg2.toString()
+    let m
+    let resultVal
+    let d = arguments[2]
+    m = (r2.split('.')[1] ? r2.split('.')[1].length : 0) - (r1.split('.')[1] ? r1.split('.')[1].length : 0)
+    resultVal = Number(r1.replace('.', '')) / Number(r2.replace('.', '')) * Math.pow(10, m)
+    return typeof d !== 'number' ? Number(resultVal) : Number(resultVal.toFixed(parseInt(d)))
   }
 }
