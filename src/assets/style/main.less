@@ -849,6 +849,7 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
       color: @font-color-main;
       font-weight: normal;
       font-size: 12px;
+      min-height: 23px;
       .sys-td-c{
         text-align: center;
       }
@@ -3749,6 +3750,27 @@ table.form-table{
     background: unset;
     box-shadow: 0 0px 0px rgba(0,0,0,.3);
     color: white;
+  }
+}
+.batch-sync-dialog {
+  .el-dialog__header{
+    padding: 18px 20px 10px;
+  }
+  .el-dialog__body{
+    padding: 16px 20px 20px;
+    .el-form-item__label{
+      font-size: 14px;
+      padding: 0 8px 0 0;
+    }
+  }
+  .el-button--mini{
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 7px 20px !important;
+    &.el-button--primary{
+      background-color: #287fca;
+      border-color: #287fca;
+    }
   }
 }
 // 保税商品库
