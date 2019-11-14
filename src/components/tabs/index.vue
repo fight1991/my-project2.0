@@ -61,7 +61,7 @@ export default {
   mounted () {
     // 通讯消息监听
     window.addEventListener('message', function (event) {
-      if (event.data.type === 'editTitle' || event.data.type === 'window-open-sys' || event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS') {
+      if (event.data.type === 'editTitle' || event.data.type === 'window-open-sys' || event.data.type === 'window-open' || event.data.type === 'sys-tab' || event.data.type === 'close' || event.data.type === 'refresh' || event.data.type === 'login' || event.data.type === 'declaration' || event.data.type === 'EMS' || event.data.type === 'inner-sys') {
         let symbol = '&'
         // 判断子系统传递的URL是否已包含参数
         if (event.data.data && !util.isEmpty(event.data.data.url) && event.data.data.url.indexOf('?') === -1) {
@@ -172,6 +172,16 @@ export default {
                 }
               })
             }
+            break
+          case 'inner-sys':
+            router.push({
+              name: eventData.routeName,
+              params: {
+                'pid': eventData.id,
+                'setTitle': eventData.title + '-' + eventData.id,
+                'setId': eventData.routeName + eventData.operationType + eventData.id
+              }
+            })
             break
         }
       }
