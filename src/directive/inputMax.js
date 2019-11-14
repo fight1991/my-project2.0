@@ -10,7 +10,7 @@ export default {
         let params = +binding.value
         // 注册focus事件
         $input.onfocus = function () {
-          let sValue =  params && params > 1 ? params : 1.5
+          let sValue = params && params > 1 ? params : 1.5
           this.style.setProperty('border', 'none', 'important')
           el.style.transform = `scale(${sValue})`
           el.style.transformOrigin = 'top left'
