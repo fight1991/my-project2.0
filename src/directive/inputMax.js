@@ -3,7 +3,7 @@ export default {
   install (Vue) {
     Vue.directive('inputMax', {
       inserted: (el, binding) => {
-        let $input = el.querySelector('input')
+        let $input = el.querySelector('input') || el.querySelector('textarea')
         if (!$input) return
         // 除远程搜索之外的下拉框
         if ((el.classList[0] === 'el-select' && !el.__vue__.remote) || $input.disabled) return
