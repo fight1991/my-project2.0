@@ -17,6 +17,7 @@ import {pagination} from './common/mixin/pagination'
 import {labelWidth} from './common/mixin/labelWidth'
 import BaiduMap from 'vue-baidu-map'
 import dialogDrag from './directive/dialogDrag'
+import inputMax from './directive/inputMax'
 
 Vue.use(ElementUI)
 
@@ -39,6 +40,8 @@ Vue.filter('strNum', filters.strNum) // 自定义过滤器
 Vue.use(MyComponents) // 自定义组件
 Vue.use(Permissions) // 权限指令控制
 Vue.use(dialogDrag) // 权限指令控制
+Vue.use(inputMax) // focus放大
+
 Vue.prototype.messageTips = (message, type = 'warning') => {
   if (type === 'warning') {
     Vue.prototype.$message({

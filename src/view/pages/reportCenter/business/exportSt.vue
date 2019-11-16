@@ -162,7 +162,7 @@
               <el-table-column label="申报日期" min-width="100" prop="dDate" v-if="thList[6].value"></el-table-column>
               <el-table-column label="出境关别" min-width="160" prop="iEPortValue" v-if="thList[7].value"></el-table-column>
               <el-table-column label="备案号" min-width="130" prop="manualNo" v-if="thList[8].value"></el-table-column>
-              <el-table-column label="商品项数" min-width="90" v-if="thList[35].value">
+              <el-table-column label="商品项数" min-width="90" v-if="thList[36].value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.goodsNum}}</div>
                 </template>
@@ -198,25 +198,30 @@
                   <div class='sys-td-r'>{{scope.row.netWt}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="备案序号" min-width="130" prop="contrItem" v-if="thList[28].value"></el-table-column>
-              <el-table-column label="商品名称" min-width="150" prop="gName" v-if="thList[29].value"></el-table-column>
-              <el-table-column label="成交数量" min-width="100" v-if="thList[30].value">
+              <el-table-column label="单价" align="right" min-width="100" v-if="thList[28].value">
+                <template slot-scope="scope">
+                  <div class='sys-td-r'>{{scope.row.declPrice && scope.row.declPrice.toLocaleString()}}</div>
+                </template>
+              </el-table-column>
+              <el-table-column label="备案序号" min-width="130" prop="contrItem" v-if="thList[29].value"></el-table-column>
+              <el-table-column label="商品名称" min-width="150" prop="gName" v-if="thList[30].value"></el-table-column>
+              <el-table-column label="成交数量" min-width="100" v-if="thList[31].value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.gQty}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="成交计量单位" min-width="100" v-if="thList[31].value">
+              <el-table-column label="成交计量单位" min-width="100" v-if="thList[32].value">
                 <template slot-scope="scope">
                   <div class='sys-td-c'>{{scope.row.gUnitValue}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="价值" min-width="100" v-if="thList[32].value">
+              <el-table-column label="价值" min-width="100" v-if="thList[33].value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.declTotal}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[33].value"></el-table-column>
-              <el-table-column label="美元价值" min-width="100" v-if="thList[34].value">
+              <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[34].value"></el-table-column>
+              <el-table-column label="美元价值" min-width="100" v-if="thList[35].value">
                  <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.usDeclTotal}}</div>
                 </template>
@@ -406,6 +411,10 @@ export default {
         value: true,
         fieldName: '净重(KG)',
         fieldCode: 'netWt'
+      }, {
+        value: true,
+        fieldName: '单价',
+        fieldCode: 'declPrice'
       }, {
         value: true,
         fieldName: '备案序号',
