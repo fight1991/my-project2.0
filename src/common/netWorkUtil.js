@@ -205,7 +205,7 @@ function postHandle ({type, url, data, isPageList, progressCallback}) {
   if (type === 'upload') {
     return axios.post(url, params, {
       onUploadProgress: function (progressEvent) {
-        console.log('progressEvent', util.Div(progressEvent.loaded, progressEvent.total, 2))
+        // console.log('progressEvent', util.Div(progressEvent.loaded, progressEvent.total, 2))
         if (progressEvent.lengthComputable && progressCallback) {
           progressCallback(util.Div(progressEvent.loaded, progressEvent.total, 2))
         }
