@@ -1775,8 +1775,11 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .list-icon-autodeclare i{
   background: url(../img/icon-autodeclare.png) no-repeat;
 }
-.list-icon-autodeclare:hover i,.list-icon-autodeclare:focus i{
+.list-icon-autodeclare:hover i,.list-icon-autodeclare:focus i,.sys-table-table .list-icon-autodeclare i{
   background: url(../img/icon-autodeclareH.png) no-repeat;
+}
+.list-icon-autodeclare.is-disabled:hover i,.list-icon-autodeclare.is-disabled i{
+  background: url(../img/icon-autodeclareD.png) no-repeat;
 }
 .list-icon-canceldeclare i{
   background: url(../img/icon-canceldeclare.png) no-repeat;
@@ -2307,6 +2310,9 @@ body .el-table th.gutter{
   }
   .el-table th>.cell {
       white-space: inherit;
+  }
+  .el-table__header th .cell{
+    text-align: center;
   }
 }
 .sys-main-table{
@@ -3765,6 +3771,7 @@ table.form-table{
 .batch-sync-dialog {
   .el-dialog__header{
     padding: 18px 20px 10px;
+    background: #fff !important;
   }
   .el-dialog__body{
     padding: 16px 20px 20px;
@@ -4639,6 +4646,14 @@ table.form-table{
     .el-icon-upload{
       margin: 18px 0 10px;
     }
+  }
+}
+.upload-progress{
+  .el-progress-bar__outer{
+    border-radius: 0;
+  }
+  .el-progress-bar__inner{
+    border-radius: 0;
   }
 }
 
