@@ -2,13 +2,13 @@
   <section class='sys-main'>
      <!-- 主显示框 -->
     <div class='content'>
-      <div class='regist-panel' :model="QueryForm">
-        <el-form >
-        <el-row class='sys-search mg-b-30' :gutter="5">
+      <div class='regist-panel'>
+        <el-form :label-width="labelFormWidth.three" :model="QueryForm" label-position="left">
+        <el-row class='sys-search mg-b-30' :gutter="20">
           <!-- 查询条件 -->
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item size="mini" label="操作员">
-              <el-select v-model="QueryForm.operateUser" filterable >
+              <el-select v-model="QueryForm.operateUser" filterable style="width:100%">
                 <el-option
                   v-for="item in operaters"
                   :key="item.userId"
@@ -18,9 +18,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="10">
             <el-form-item size="mini" label="时间">
-              <el-date-picker  v-model="dates" style="width:90%"
+              <el-date-picker  v-model="dates" style="width:100%"
               @change="doInit()"
               type="daterange"
               :clearable = 'false'
@@ -36,16 +36,16 @@
             <el-button size="mini" @click="resetquery()">重置</el-button>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="7" :offset="17">
-        <el-radio-group v-model="QueryForm.type" size="mini" @change="getTableData($store.state.pagination)" style="display:block;margin-right:0;">
-          <el-radio-button label="1">单证接单数</el-radio-button>
-          <el-radio-button label="2">单证录入数</el-radio-button>
-          <el-radio-button label="3">单证审核数</el-radio-button>
-          <el-radio-button label="4">单证申报数</el-radio-button>
-          <el-radio-button label="5">录入差错数</el-radio-button>
-          <!--<el-radio-button label="6">审核差错率</el-radio-button> -->
-        </el-radio-group>
+        <el-row class="mg-b-20">
+          <el-col :span="24" align="right">
+            <el-radio-group v-model="QueryForm.type" size="mini" @change="getTableData($store.state.pagination)" style="display:block;margin-right:0;">
+              <el-radio-button label="1">单证接单数</el-radio-button>
+              <el-radio-button label="2">单证录入数</el-radio-button>
+              <el-radio-button label="3">单证审核数</el-radio-button>
+              <el-radio-button label="4">单证申报数</el-radio-button>
+              <el-radio-button label="5">录入差错数</el-radio-button>
+              <!--<el-radio-button label="6">审核差错率</el-radio-button> -->
+            </el-radio-group>
           </el-col>
         </el-row>
         </el-form>

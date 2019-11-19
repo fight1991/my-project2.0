@@ -702,12 +702,12 @@
       </el-col>
     </el-row>
     <!-- 随附单据弹窗 -->
-    <el-dialog :title="docFileFlag=='add'?'随附单据-上传':'设置文件类型'" :visible.sync="docUploadVisible" width="35%" :close-on-click-modal="false" v-loading="$store.state.loading">
+    <el-dialog :modal-append-to-body='false' :title="docFileFlag=='add'?'随附单据-上传':'设置文件类型'" :visible.sync="docUploadVisible" width="35%" :close-on-click-modal="false" v-loading="$store.state.loading">
       <doc-upload v-if="docUploadVisible" :paramShow="paramShow" :flag="docFileFlag" :loadForm="docForm" @getData="getDocData" @close="closeDocDialog"></doc-upload>
     </el-dialog>
     <!-- 随附单据弹窗 end -->
     <!-- 更改受托企业弹窗 -->
-    <el-dialog title="修改受托方" :visible.sync="editVisible" width="600px" class="entrust-dialog" :close-on-click-modal="false" v-loading="$store.state.loading">
+    <el-dialog :modal-append-to-body='false' title="修改受托方" :visible.sync="editVisible" width="600px" class="entrust-dialog" :close-on-click-modal="false" v-loading="$store.state.loading">
       <el-row>
         <el-col :span="19" :offset="2">
           <el-form :model="corpForm" ref="corpForm" :rules="corpRules" label-width="75px" size="mini">
@@ -732,7 +732,7 @@
     </el-dialog>
     <!-- 更改受托企业弹窗 end -->
     <!-- 查看相关数据弹窗 -->
-    <el-dialog title="查看相关数据" :visible.sync="detailVisible" width="45%" class="entrust-dialog" :close-on-click-modal="false" v-loading="$store.state.loading">
+    <el-dialog :modal-append-to-body='false' title="查看相关数据" :visible.sync="detailVisible" width="45%" class="entrust-dialog" :close-on-click-modal="false" v-loading="$store.state.loading">
       <entrust-detail :data="entrustForm" v-if="detailVisible"></entrust-detail>
     </el-dialog>
     <!-- 查看相关数据弹窗 end -->
@@ -1734,6 +1734,8 @@ export default {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
           type: 'warning'
         }).then(() => {
           if (!util.isEmpty(data.seqNo)) {
@@ -1759,6 +1761,8 @@ export default {
           })
         } else {
           this.$confirm('确定删除选中数据？', '提示', {
+            modalAppendToBody: true,
+            domMount: this.$el.parentNode,
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

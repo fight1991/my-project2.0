@@ -38,7 +38,8 @@ const MENU = [
     name: 'importEntrustInfo',
     meta: {
       component: resolve => require(['./component/entrustInfo.vue'], resolve),
-      title: '进口委托信息'
+      title: '进口委托信息',
+      iEFlag: 'import'
     }
   },
   {
@@ -46,7 +47,8 @@ const MENU = [
     name: 'exportEntrustInfo',
     meta: {
       component: resolve => require(['./component/entrustInfo.vue'], resolve),
-      title: '出口委托信息'
+      title: '出口委托信息',
+      iEFlag: 'export'
     }
   },
   {

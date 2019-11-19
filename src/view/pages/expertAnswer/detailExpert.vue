@@ -66,7 +66,7 @@
           </el-col>
         </el-row>
      </el-row>
-     <el-dialog :title="dialogTitle" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
+     <el-dialog :modal-append-to-body='false' :title="dialogTitle" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
         <el-form label-width="65px" :model="dialogForm" ref="dialogForm" size="mini" label-position="right" class="order-label">
           <el-form-item label="答案描述">
             <el-input size="mini" type="textarea" :autosize="{minRows:5}" :maxlength="500" v-model="dialogForm.answerText"></el-input>
