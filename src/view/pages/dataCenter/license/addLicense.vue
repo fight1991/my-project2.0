@@ -112,7 +112,7 @@
           </el-row>
         </el-form>
     </el-row>
-    <el-dialog
+    <el-dialog :modal-append-to-body='false'
     title="涉证商品"
     :close-on-click-modal="false"
     :visible.sync="goodsDialogVisible"

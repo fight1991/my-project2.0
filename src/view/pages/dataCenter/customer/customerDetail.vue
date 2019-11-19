@@ -318,7 +318,7 @@
             </el-tab-pane>
         </el-tabs>
     </div>
-    <el-dialog title="新增企业"
+    <el-dialog :modal-append-to-body='false' title="新增企业"
       :visible.sync="newCorpView" @closed='newcorpclosed'>
         <el-form :label-width="labelFormWidth.seven" size="mini" :model="newCorp" ref='newcorpform' :rules='corpRule'>
         <el-row :gutter="30">
@@ -363,7 +363,7 @@
         </div>
       </el-form>
     </el-dialog>
-    <el-dialog title="联系人详情" :visible.sync="linkmanVisible" :close-on-click-modal="false" :append-to-body="true" width="60%">
+    <el-dialog :modal-append-to-body='false' title="联系人详情" :visible.sync="linkmanVisible" :close-on-click-modal="false" :append-to-body="true" width="60%">
         <el-form :model="detailForm">
             <el-row class="info-content link-dialog-content">
                 <el-col :span="4" class="link-person-name">

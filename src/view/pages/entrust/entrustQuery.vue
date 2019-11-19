@@ -181,7 +181,7 @@
       </el-row>
     </div>
     <!-- 查看相关数据弹窗 -->
-    <el-dialog title="查看相关数据" :visible.sync="detailVisible" class="entrust-dialog" width="45%" :close-on-click-modal="false" v-loading="$store.state.loading">
+    <el-dialog :modal-append-to-body='false' title="查看相关数据" :visible.sync="detailVisible" class="entrust-dialog" width="45%" :close-on-click-modal="false" v-loading="$store.state.loading">
       <entrust-detail :data="formData" v-if="detailVisible"></entrust-detail>
     </el-dialog>
     <!-- 查看相关数据弹窗 end -->

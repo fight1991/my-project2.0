@@ -68,7 +68,7 @@
             </el-col>
         </el-row>
       </div>
-      <el-dialog :title="isEdit? '修改' : '我要提问'" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
+      <el-dialog :modal-append-to-body='false' :title="isEdit? '修改' : '我要提问'" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="800px">
         <el-form label-width="65px" :model="dialogForm" ref="dialogForm" size="mini" label-position="right" class="order-label">
           <el-row>
             <el-col :span="24">
