@@ -1734,6 +1734,8 @@ export default {
         this.$confirm('确定删除选中数据？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
           type: 'warning'
         }).then(() => {
           if (!util.isEmpty(data.seqNo)) {
@@ -1759,6 +1761,8 @@ export default {
           })
         } else {
           this.$confirm('确定删除选中数据？', '提示', {
+            modalAppendToBody: true,
+            domMount: this.$el.parentNode,
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
