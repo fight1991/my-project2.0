@@ -3201,15 +3201,15 @@ table.form-table{
   .sys-d-title.el-form-item--mini .el-form-item__label {
       line-height: 19px;
   }
-  .el-button--mini, .el-button--small {
+    .el-button--mini, .el-button--small {
       font-size: 12px;
       border-radius: 2px;
       padding: 5px 5px;
-  }
+    }
   .el-button+.el-button {
       margin-left: 0px; 
   }
-  .el-button--primary {
+    .el-button--primary {
       line-height: normal;
       padding: 0px 2px;
       font-size: 12px;
@@ -3218,7 +3218,8 @@ table.form-table{
       background-color: #096AC6;
       border: 0px;
       color: #fff;
-  }
+    }
+  
   .dec-h-24 {
       height: 24px;
   }
@@ -3674,6 +3675,25 @@ table.form-table{
   .el-button.is-disabled {
     background-color: #096AC6;
     color: #fff;
+  }
+  .el-message-box {
+    .el-button--small, .el-button--small.is-round {
+      padding: 9px 15px;
+  }
+  .el-button--mini, .el-button--small {
+      font-size: 12px;
+      border-radius: 4px;
+  }
+  .el-message-box__btns button:nth-child(2) {
+    margin-left: 10px;
+}
+.el-message-box__btns .el-button--primary, .el-message-box__btns .el-button--primary:focus, .el-message-box__btns .el-button--primary:hover {
+    background-color: #287fca;
+    border-color: #287fca;
+    height: 30px;
+    color: #ffffff;
+    line-height: 1;
+}
   }
 }
 .sys-dec-dialog {
@@ -4290,24 +4310,30 @@ table.form-table{
   .sys-d-title.el-form-item--mini .el-form-item__label {
       line-height: 13px;
   }
-  .el-button--mini, .el-button--small {
-      font-size: 12px;
-      border-radius: 2px;
-      padding: 5px 5px;
+  &:not(.el-message-box) {
+    .el-button--mini, .el-button--small {
+        font-size: 12px;
+        border-radius: 2px;
+        padding: 5px 5px;
+    }
   }
+  
   .el-button+.el-button {
       margin-left: 2px; 
   }
-  .el-button--primary {
-      line-height: normal;
-      padding: 0px 2px;
-      font-size: 12px;
-      height: 16px;
-      border-radius: 4px;
-      background-color: @sys-color-btn;
-      border: 0px;
-      color: #fff;
+  &:not(.el-message-box) {
+    .el-button--primary {
+        line-height: normal;
+        padding: 0px 2px;
+        font-size: 12px;
+        height: 16px;
+        border-radius: 4px;
+        background-color: @sys-color-btn;
+        border: 0px;
+        color: #fff;
+    }
   }
+  
   .dec-h-24 {
       height: 24px;
   }

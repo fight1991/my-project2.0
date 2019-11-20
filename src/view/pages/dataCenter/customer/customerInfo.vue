@@ -130,11 +130,10 @@
       </el-row>
       </el-row>
     </div>
-    <el-dialog
+    <el-dialog :modal-append-to-body='false'
       :title="ifedit?'修改客户信息':'新增客户信息'"
       :visible.sync="newdiaview"
       :close-on-click-modal='false'
-      :modal-append-to-body="false"
       :append-to-body='true'
       @closed='newcustomerClosed'
       width="50%"
@@ -243,7 +242,7 @@
       </el-form>
       </div>
     </el-dialog>
-    <el-dialog
+    <el-dialog :modal-append-to-body='false'
       title="导入记录"
       :visible.sync="recordview"
       :close-on-click-modal='false'

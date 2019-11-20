@@ -146,7 +146,7 @@
             </el-col>
         </el-row>
       </div>
-      <el-dialog title="预警设置" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="950px">
+      <el-dialog :modal-append-to-body='false' title="预警设置" :visible.sync="setDialogVisible" :close-on-click-modal="false" width="950px">
         <el-form label-width="150px" :model="setDialogForm" ref="setDialogForm" :rules="rule" size="mini" label-position="right" class="order-label">
           <el-row>
             <el-col :span="18" :offset="4">

@@ -104,7 +104,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog
+    <el-dialog :modal-append-to-body='false'
       title="审核详情"
       :visible.sync="confirmview"
       :close-on-click-modal='false'
@@ -200,7 +200,7 @@
       </el-form>
       </div>
     </el-dialog>
-    <el-dialog
+    <el-dialog :modal-append-to-body='false'
       title="操作记录"
       :visible.sync="recordview"
       :close-on-click-modal='false'

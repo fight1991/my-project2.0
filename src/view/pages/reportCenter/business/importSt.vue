@@ -196,7 +196,7 @@
     </div>
     <!-- 主显示框 end-->
     <!-- 下载弹窗 -->
-    <el-dialog title="下载报表" :close-on-click-modal="false" :append-to-body="true" class="set-dialog" :visible.sync="downloadVisable" width="40%" :before-close="handleClose">
+    <el-dialog :modal-append-to-body='false' title="下载报表" :close-on-click-modal="false" :append-to-body="true" class="set-dialog" :visible.sync="downloadVisable" width="40%" :before-close="handleClose">
       <download-detail iEFlag="I" v-if="downloadVisable"></download-detail>
     </el-dialog>
     <!-- 下载弹窗 end -->
