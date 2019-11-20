@@ -111,17 +111,6 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="5">
-              <div class='sys-fr'>
-                <el-form-item size="mini">
-                <el-radio-group size='small'  v-model="dateConfig"  @change="datesChange">
-                  <el-radio-button label="7">最近7天</el-radio-button>
-                  <el-radio-button label="30">最近30天</el-radio-button>
-                  <el-radio-button label="180">最近180天</el-radio-button>
-                </el-radio-group>
-                </el-form-item>
-              </div>
-            </el-col> -->
           </el-row>
           <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">统计</el-button>
@@ -141,8 +130,8 @@
           </el-dropdown>
           <div class="airvehicle-list-drop" style="float:right;">
             <el-popover popper-class="airvehicle-table-popper">
-              <ul style="width: 250px;">
-                <li v-for="(item,index) in thList" :key="index" style="width: 50%;float:left;">
+              <ul style="max-height: 400px;overflow: auto;width:150px;">
+                <li v-for="(item,index) in thList" :key="index">
                   <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.fieldName}}</el-checkbox>
                 </li>
               </ul>
@@ -153,79 +142,47 @@
         <el-row class='mg-b-18'>
           <div class='mg-lr-30 dec-query-table'>
             <el-table class='sys-table-table dec-table' :data="resultList" border highlight-current-row size="mini" height="450px">
-              <el-table-column label="接单编号" min-width="130" prop="bossId" v-if="thList[0].value"></el-table-column>
-              <el-table-column label="委托客户" min-width="210" prop="company" v-if="thList[1].value"></el-table-column>
-              <el-table-column label="客户业务号" min-width="120" prop="ref1" v-if="thList[2].value"></el-table-column>
-              <el-table-column label="海关编号" min-width="160" prop="entryId" v-if="thList[3].value"></el-table-column>
-              <el-table-column label="境内收发货人" min-width="210" prop="tradeName" v-if="thList[4].value"></el-table-column>
-              <el-table-column label="申报地海关" min-width="100" prop="customMasterValue" v-if="thList[5].value"></el-table-column>
-              <el-table-column label="申报日期" min-width="100" prop="dDate" v-if="thList[6].value"></el-table-column>
-              <el-table-column label="出境关别" min-width="160" prop="iEPortValue" v-if="thList[7].value"></el-table-column>
-              <el-table-column label="备案号" min-width="130" prop="manualNo" v-if="thList[8].value"></el-table-column>
-              <el-table-column label="商品项数" min-width="90" v-if="thList[36].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.goodsNum}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="总提运单号" min-width="205" prop="billNo" v-if="thList[9].value"></el-table-column>
-              <el-table-column label="分提运单号" min-width="120" prop="spliBillNo" v-if="thList[10].value"></el-table-column>
-              <el-table-column label="运输方式" min-width="120" prop="trafModeValue" v-if="thList[11].value"></el-table-column>
-              <el-table-column label="运输工具名称" min-width="120" prop="trafName" v-if="thList[12].value"></el-table-column>
-              <el-table-column label="航次号" min-width="120" prop="voyageNo" v-if="thList[13].value"></el-table-column>
-              <el-table-column label="监管方式" min-width="100" prop='tradeModeValue' v-if="thList[14].value"></el-table-column>
-              <el-table-column label="运费标志" min-width="100" prop='feeMarkValue' v-if="thList[15].value"></el-table-column>
-              <el-table-column label="运费" min-width="100" prop='feeRate' v-if="thList[16].value"></el-table-column>
-              <el-table-column label="运费币制" min-width="100" prop='feeCurrValue' v-if="thList[17].value"></el-table-column>
-              <el-table-column label="保费标志" min-width="100" prop='insurMarkValue' v-if="thList[18].value"></el-table-column>
-              <el-table-column label="保费" min-width="100" prop='insurRate' v-if="thList[19].value"></el-table-column>
-              <el-table-column label="保费币制" min-width="100" prop='insurCurrValue' v-if="thList[20].value"></el-table-column>
-              <el-table-column label="杂费标志" min-width="100" prop='otherMarkValue' v-if="thList[21].value"></el-table-column>
-              <el-table-column label="杂费" min-width="100" prop='otherRate' v-if="thList[22].value"></el-table-column>
-              <el-table-column label="杂费币制" min-width="100" prop='otherCurrValue' v-if="thList[23].value"></el-table-column>
-              <el-table-column label="成交方式" min-width="100" prop="transModeValue" v-if="thList[24].value"></el-table-column>
-              <el-table-column label="件数" min-width="90" v-if="thList[25].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.packNo}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="毛重(KG)" min-width="100" v-if="thList[26].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.grossWt}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="净重(KG)" min-width="100" v-if="thList[27].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.netWt}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="单价" align="right" min-width="100" v-if="thList[28].value">
+              <el-table-column label="接单编号" min-width="130" prop="bossId" align="center" v-if="thList.bossId.value"></el-table-column>
+              <el-table-column label="委托客户" min-width="210" prop="company" align="left" v-if="thList.company.value"></el-table-column>
+              <el-table-column label="客户业务号" min-width="120" prop="ref1" align="left" v-if="thList.ref1.value"></el-table-column>
+              <el-table-column label="海关编号" min-width="160" prop="entryId" align="center" v-if="thList.entryId.value"></el-table-column>
+              <el-table-column label="境内收发货人" min-width="210" prop="tradeName" align="left" v-if="thList.tradeName.value"></el-table-column>
+              <el-table-column label="申报地海关" min-width="100" prop="customMasterValue" align="center" v-if="thList.customMasterValue.value"></el-table-column>
+              <el-table-column label="申报日期" min-width="100" prop="dDate" align="center" v-if="thList.dDate.value"></el-table-column>
+              <el-table-column label="出境关别" min-width="160" prop="iEPortValue" align="center" v-if="thList.iEPortValue.value"></el-table-column>
+              <el-table-column label="备案号" min-width="130" prop="manualNo" align="left" v-if="thList.manualNo.value"></el-table-column>
+              <el-table-column label="商品项数" min-width="90" prop="goodsNum" align="right" v-if="thList.goodsNum.value"></el-table-column>
+              <el-table-column label="总提运单号" min-width="205" prop="billNo" align="center" v-if="thList.billNo.value"></el-table-column>
+              <el-table-column label="分提运单号" min-width="120" prop="spliBillNo" align="center" v-if="thList.spliBillNo.value"></el-table-column>
+              <el-table-column label="运输方式" min-width="120" prop="trafModeValue" align="center" v-if="thList.trafModeValue.value"></el-table-column>
+              <el-table-column label="运输工具名称" min-width="120" prop="trafName" align="left" v-if="thList.trafName.value"></el-table-column>
+              <el-table-column label="航次号" min-width="120" prop="voyageNo" align="center" v-if="thList.voyageNo.value"></el-table-column>
+              <el-table-column label="监管方式" min-width="100" prop='tradeModeValue' align="center" v-if="thList.tradeModeValue.value"></el-table-column>
+              <el-table-column label="运费标志" min-width="100" prop='feeMarkValue' align="center" v-if="thList.feeMarkValue.value"></el-table-column>
+              <el-table-column label="运费" min-width="100" prop='feeRate' align="right" v-if="thList.feeRate.value"></el-table-column>
+              <el-table-column label="运费币制" min-width="100" prop='feeCurrValue' align="center" v-if="thList.feeCurrValue.value"></el-table-column>
+              <el-table-column label="保费标志" min-width="100" prop='insurMarkValue' align="center" v-if="thList.insurMarkValue.value"></el-table-column>
+              <el-table-column label="保费" min-width="100" prop='insurRate' align="right" v-if="thList.insurRate.value"></el-table-column>
+              <el-table-column label="保费币制" min-width="100" prop='insurCurrValue' align="center" v-if="thList.insurCurrValue.value"></el-table-column>
+              <el-table-column label="杂费标志" min-width="100" prop='otherMarkValue' align="center" v-if="thList.otherMarkValue.value"></el-table-column>
+              <el-table-column label="杂费" min-width="100" prop='otherRate' align="right" v-if="thList.otherRate.value"></el-table-column>
+              <el-table-column label="杂费币制" min-width="100" prop='otherCurrValue' align="center" v-if="thList.otherCurrValue.value"></el-table-column>
+              <el-table-column label="成交方式" min-width="100" prop="transModeValue" align="center" v-if="thList.transModeValue.value"></el-table-column>
+              <el-table-column label="件数" min-width="90" prop="packNo" v-if="thList.packNo.value" align="right"></el-table-column>
+              <el-table-column label="毛重(KG)" min-width="100" prop="grossWt" v-if="thList.grossWt.value" align="right"></el-table-column>
+              <el-table-column label="净重(KG)" min-width="100" prop="netWt" align="right" v-if="thList.netWt.value"></el-table-column>
+              <el-table-column label="单价" min-width="100" v-if="thList.declPrice.value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.declPrice && scope.row.declPrice.toLocaleString()}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="备案序号" min-width="130" prop="contrItem" v-if="thList[29].value"></el-table-column>
-              <el-table-column label="商品名称" min-width="150" prop="gName" v-if="thList[30].value"></el-table-column>
-              <el-table-column label="成交数量" min-width="100" v-if="thList[31].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.gQty}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="成交计量单位" min-width="100" v-if="thList[32].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-c'>{{scope.row.gUnitValue}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="价值" min-width="100" v-if="thList[33].value">
-                <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.declTotal}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="币制" min-width="100" prop="tradeCurrValue" v-if="thList[34].value"></el-table-column>
-              <el-table-column label="美元价值" min-width="100" v-if="thList[35].value">
-                 <template slot-scope="scope">
-                  <div class='sys-td-r'>{{scope.row.usDeclTotal}}</div>
-                </template>
-              </el-table-column>
+              <el-table-column label="备案序号" min-width="130" align="left" prop="contrItem" v-if="thList.contrItem.value"></el-table-column>
+              <el-table-column label="商品名称" min-width="150" prop="gName" align="left" v-if="thList.gName.value"></el-table-column>
+              <el-table-column label="成交数量" min-width="100" prop="gQty" align="right" v-if="thList.gQty.value"></el-table-column>
+              <el-table-column label="成交计量单位" min-width="100" prop="gUnitValue" align="center" v-if="thList.gUnitValue.value"></el-table-column>
+              <el-table-column label="价值" min-width="100" prop="declTotal" align="right" v-if="thList.declTotal.value"></el-table-column>
+              <el-table-column label="币制" min-width="100" prop="tradeCurrValue" align="center" v-if="thList.tradeCurrValue.value"></el-table-column>
+              <el-table-column label="美元价值" min-width="100" prop="usDeclTotal" align="right" v-if="thList.usDeclTotal.value"></el-table-column>
             </el-table>
             <!--分页-->
             <el-row class='sys-page-list'>
@@ -248,6 +205,7 @@
 <script>
 import util from '../../../../common/util'
 import downloadDetail from './downloadDetail.vue'
+import {tableHeadFieldList} from './utils/tableHeadFields'
 export default {
   components: {
     downloadDetail
@@ -299,155 +257,7 @@ export default {
         ]
       }, // 字典标明
       cusCustomsCodeList: [],
-      thList: [{
-        value: true,
-        fieldName: '接单编号',
-        fieldCode: 'bossId'
-      }, {
-        value: true,
-        fieldName: '委托客户',
-        fieldCode: 'company'
-      }, {
-        value: true,
-        fieldName: '客户业务号',
-        fieldCode: 'ref1'
-      }, {
-        value: true,
-        fieldName: '海关编号',
-        fieldCode: 'entryId'
-      }, {
-        value: true,
-        fieldName: '境内收发货人',
-        fieldCode: 'tradeName'
-      }, {
-        value: true,
-        fieldName: '申报地海关',
-        fieldCode: 'customMasterValue'
-      }, {
-        value: true,
-        fieldName: '申报日期',
-        fieldCode: 'dDate'
-      }, {
-        value: true,
-        fieldName: '出境关别',
-        fieldCode: 'iEPortValue'
-      }, {
-        value: true,
-        fieldName: '备案号',
-        fieldCode: 'manualNo'
-      }, {
-        value: true,
-        fieldName: '总提运单号',
-        fieldCode: 'billNo'
-      }, {
-        value: true,
-        fieldName: '分提运单号',
-        fieldCode: 'spliBillNo'
-      }, {
-        value: true,
-        fieldName: '运输方式',
-        fieldCode: 'trafModeValue'
-      }, {
-        value: true,
-        fieldName: '运输工具名称',
-        fieldCode: 'trafName'
-      }, {
-        value: true,
-        fieldName: '航次号',
-        fieldCode: 'voyageNo'
-      }, {
-        value: true,
-        fieldName: '监管方式',
-        fieldCode: 'tradeModeValue'
-      }, {
-        value: true,
-        fieldName: '运费标志',
-        fieldCode: 'feeMarkValue'
-      }, {
-        value: true,
-        fieldName: '运费',
-        fieldCode: 'feeRate'
-      }, {
-        value: true,
-        fieldName: '运费币制',
-        fieldCode: 'feeCurrValue'
-      }, {
-        value: true,
-        fieldName: '保费标志',
-        fieldCode: 'insurMarkValue'
-      }, {
-        value: true,
-        fieldName: '保费',
-        fieldCode: 'insurRate'
-      }, {
-        value: true,
-        fieldName: '保费币制',
-        fieldCode: 'insurCurrValue'
-      }, {
-        value: true,
-        fieldName: '杂费标志',
-        fieldCode: 'otherMarkValue'
-      }, {
-        value: true,
-        fieldName: '杂费',
-        fieldCode: 'otherRate'
-      }, {
-        value: true,
-        fieldName: '杂费币制',
-        fieldCode: 'otherCurrValue'
-      }, {
-        value: true,
-        fieldName: '成交方式',
-        fieldCode: 'transModeValue'
-      }, {
-        value: true,
-        fieldName: '件数',
-        fieldCode: 'packNo'
-      }, {
-        value: true,
-        fieldName: '毛重(KG)',
-        fieldCode: 'grossWt'
-      }, {
-        value: true,
-        fieldName: '净重(KG)',
-        fieldCode: 'netWt'
-      }, {
-        value: true,
-        fieldName: '单价',
-        fieldCode: 'declPrice'
-      }, {
-        value: true,
-        fieldName: '备案序号',
-        fieldCode: 'contrItem'
-      }, {
-        value: true,
-        fieldName: '商品名称',
-        fieldCode: 'gName'
-      }, {
-        value: true,
-        fieldName: '成交数量',
-        fieldCode: 'gQty'
-      }, {
-        value: true,
-        fieldName: '成交计量单位',
-        fieldCode: 'gUnitValue'
-      }, {
-        value: true,
-        fieldName: '价值',
-        fieldCode: 'declTotal'
-      }, {
-        value: true,
-        fieldName: '币制',
-        fieldCode: 'tradeCurrValue'
-      }, {
-        value: true,
-        fieldName: '美元价值',
-        fieldCode: 'usDeclTotal'
-      }, {
-        value: true,
-        fieldName: '商品项数',
-        fieldCode: 'goodsNum'
-      }], // 表头字段
+      thList: tableHeadFieldList, // 表头字段
       userId: '', // 用户id
       downloadVisable: false // 下载进度弹窗
     }
@@ -510,10 +320,13 @@ export default {
         this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       let thList = []
-      let theadList = util.simpleClone(this.thList)
+      let theadList = Object.values(this.thList)
       theadList.forEach(e => {
         if (e.value) {
           delete e.value
+          if (e.value === 'iEPortValue') {
+            e.fieldName = '出境关别'
+          }
           thList.push(e)
         }
       })
@@ -653,11 +466,29 @@ export default {
           if (!util.isEmpty(this.userId)) {
             let fieldList = window.localStorage.getItem('EXPORT_ST' + this.userId)
             if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-              this.thList = JSON.parse(fieldList)
+              let list = JSON.parse(fieldList)
+              if (this.compareFieldList(this.thList, list)) {
+                this.thList = JSON.parse(fieldList)
+              } else {
+                window.localStorage.setItem('EXPORT_ST' + this.userId, JSON.stringify(this.thList))
+              }
             }
           }
         }
       })
+    },
+    // 对比两个数组里的值是否一样
+    compareFieldList (orig, compare) {
+      if (orig.length === compare.length) {
+        for (let i in orig) {
+          if (orig[i].text !== compare[i].text) {
+            return false
+          }
+        }
+        return true
+      } else {
+        return false
+      }
     },
     // 调节 查询table表 表头显示字段
     columnFieldChange (value) {
