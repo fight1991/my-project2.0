@@ -404,6 +404,8 @@ export default {
       this.$confirm('确认删除吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {
         this.subData.goods.splice(index, 1)

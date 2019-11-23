@@ -282,6 +282,8 @@ export default {
           this.$confirm('是否确认审核通过所选全部合同', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
+            modalAppendToBody: true,
+            domMount: this.$el.parentNode,
             type: 'warning'
           }).then(() => {
             let data = {
@@ -322,6 +324,8 @@ export default {
           this.$confirm('是否确认审核驳回所选全部合同？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
+            modalAppendToBody: true,
+            domMount: this.$el.parentNode,
             type: 'warning'
           }).then(() => {
             let data = {

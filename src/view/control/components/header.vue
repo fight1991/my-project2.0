@@ -151,6 +151,8 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         closeOnClickModal: false,
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {
         util.clearLoginStorage()

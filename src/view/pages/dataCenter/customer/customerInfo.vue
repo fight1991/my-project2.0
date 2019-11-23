@@ -416,6 +416,8 @@ export default {
       this.$confirm('是否确认删除该数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('ajax', {

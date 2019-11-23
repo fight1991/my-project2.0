@@ -581,6 +581,8 @@ export default {
         this.$confirm('您确定删除所选数据吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
           confirmButtonClass: 'confirm-btn-ok',
           type: 'warning'
         }).then(() => {
@@ -605,6 +607,8 @@ export default {
       this.$confirm('您确定删除所选数据吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {
         this.delReq(list)

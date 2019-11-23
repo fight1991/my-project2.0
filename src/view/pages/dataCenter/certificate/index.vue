@@ -245,6 +245,8 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         confirmButtonClass: 'todelect_btn',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('ajax', {

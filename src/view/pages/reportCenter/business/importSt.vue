@@ -350,6 +350,8 @@ export default {
           this.$confirm('报表文件生成中，请点击下载报表按钮查看进度。', '提示', {
             confirmButtonText: '确定',
             showCancelButton: false,
+            modalAppendToBody: true,
+            domMount: this.$el.parentNode,
             type: 'warning'
           }).then(() => {
           }).catch(() => {
