@@ -217,6 +217,9 @@ export default {
       case 'pdf':
         computFileType = 'application/pdf'
         break
+      case 'zip':
+        computFileType = 'application/x-zip-compressed'
+        break
       default :
         computFileType = ''
     }
