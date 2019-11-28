@@ -729,3 +729,19 @@
       white-space: nowrap;
   }
 }
+.container-table {
+    .el-table-column--selection .cell {
+        padding-left: 0;
+    }
+    .cell:not(.el-checkbox), .el-table th div {
+        padding-right: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .cell, th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+        padding-left: 0;
+    }
+    .el-checkbox {
+        margin-left: 3px;
+    }
+}
