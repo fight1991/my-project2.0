@@ -82,7 +82,7 @@
       <!-- 主显示框 -->
       <div class='query-table'>
         <!-- 列表 list -->
-        <el-table class='sys-table-table' height="398px"
+        <el-table class='sys-table-table' height="400px"
           border highlight-current-row size="mini"
           :data="resultList">
           <el-table-column label="委托企业" min-width="150">
@@ -153,8 +153,8 @@
               <div class='sys-td-c'>
                 <el-button type="text" class="table-icon list-icon-look" @click="toDetail(scope.row.decPid,scope.row.tradeCoScc)" title="查看"><i></i></el-button>
                 <el-button type="text" class="table-icon list-icon-edit" @click="toEdit(scope.row.decPid,scope.row.tradeCoScc)" title="编辑"><i></i></el-button>
-                <el-button type="text" class="table-icon list-icon-import" @click="upload(scope.row.decPid,scope.row.tradeCoScc)" title="导入"><i></i></el-button>
-                <el-button type="text" class="table-icon list-icon-export" v-if="scope.row.edocCount >0" @click="exportdec(scope.row.decPid)" title="导出"><i></i></el-button></div>
+                <el-button type="text" class="table-icon list-icon-upload" @click="upload(scope.row.decPid,scope.row.tradeCoScc)" title="上传文件"><i></i></el-button>
+                <el-button type="text" class="table-icon list-icon-download" v-if="scope.row.edocCount >0" @click="exportdec(scope.row.decPid)" title="下载文件"><i></i></el-button></div>
             </template>
           </el-table-column>
         </el-table>

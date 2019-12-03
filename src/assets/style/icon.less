@@ -416,10 +416,10 @@
 .list-icon-upload:hover i,.list-icon-upload:focus i, .sys-table-table .list-icon-upload i{
   background: url(../img/icon-uploadH.png) no-repeat;
 }
-.list-icon-download i, .table-disabled-download i{
+ .table-disabled-download i{
   background: url(../img/icon-download.png) no-repeat;
 }
-.list-icon-download:hover i,.list-icon-download:focus i,.table-disabled-downloadH i{
+.table-disabled-downloadH i{
   background: url(../img/icon-downloadH.png) no-repeat;
 }
 .list-icon-AI i{
@@ -548,36 +548,14 @@
 .list-icon-rollback.is-disabled i,.list-icon-rollback.is-disabled:hover i{
   background: url(../img/icon-rollbackD.png) no-repeat;
 }
-.list-icon-edit i{
-  background: url(../img/icon-edit.png) no-repeat;
-}
-.list-icon-editH i{
-  background: url(../img/icon-editH.png) no-repeat;
-}
-.list-icon-edit:hover i,.list-icon-edit:focus i,.sys-table-table .list-icon-edit i{
-  background: url(../img/icon-editH.png) no-repeat;
-}
-.list-icon-edit.is-disabled i,.list-icon-edit.is-disabled:hover i{
-  background: url(../img/icon-editD.png) no-repeat;
-}
+
 .list-icon-sign i{
   background: url(../img/icon-sign.png) no-repeat;
 }
 .list-icon-sign:hover i,.list-icon-sign:focus i{
   background: url(../img/icon-signH.png) no-repeat;
 }
-.list-icon-look i{
-  background: url(../img/icon-look.png) no-repeat;
-}
-.list-icon-lookH i{
-  background: url(../img/icon-lookH.png) no-repeat;
-}
-.list-icon-look:hover i,.list-icon-look:focus i,.sys-table-table .list-icon-look i{
-  background: url(../img/icon-lookH.png) no-repeat;
-}
-.list-icon-look.is-disabled i,.list-icon-look.is-disabled:hover i{
-  background: url(../img/icon-lookD.png) no-repeat;
-}
+
 .list-icon-look2 i{
   background: url(../img/icon-look2.png) no-repeat;
 }
@@ -623,15 +601,7 @@
 .list-icon-emailSend:hover i,.list-icon-emailSend:focus i{
   background: url(../img/icon-emailSendH.png) no-repeat;
 }
-.list-icon-print i{
-  background: url(../img/icon-print.png) no-repeat;
-}
-.list-icon-print:hover i,.list-icon-print:focus i{
-  background: url(../img/icon-printH.png) no-repeat;
-}
-.list-icon-print.is-disabled i,.list-icon-print.is-disabled:hover i{
-  background: url(../img/icon-printD.png) no-repeat;
-}
+
 .list-icon-billDown i{
   background: url(../img/icon-billDown.png) no-repeat;
 }
@@ -659,24 +629,7 @@
 .list-icon-syncH i{
   background: url(../img/icon-syncH.png) no-repeat;
 }
-.list-icon-upload i{
-  background: url(../img/icon-upload.png) no-repeat;
-}
-.list-icon-upload:hover i,.list-icon-upload:focus i{
-  background: url(../img/icon-uploadH.png) no-repeat;
-}
-.list-icon-upload.is-disabled i,.list-icon-upload.is-disabled:hover i{
-  background: url(../img/icon-uploadD.png) no-repeat;
-}
-.list-icon-download i{
-  background: url(../img/icon-download.png) no-repeat;
-}
-.list-icon-download:hover i,.list-icon-download:focus i{
-  background: url(../img/icon-downloadH.png) no-repeat;
-}
-.list-icon-download.is-disabled i,.list-icon-download.is-disabled:hover i{
-  background: url(../img/icon-downloadD.png) no-repeat;
-}
+
 .list-icon-AI i{
   background: url(../img/icon-ai.png) no-repeat;
 }
@@ -863,7 +816,7 @@
 .list-icon-approval:hover i,.list-icon-approval:focus i,.sys-table-table .list-icon-approval i{
   background: url('../../assets/img/icon/icon-approvalH.png') no-repeat;
 }
-.list-btn-drop{
+.el-button.list-btn-drop{
   .list-icon-dropdown{
     width: 40px;
     height: 11px;
@@ -924,4 +877,74 @@
 }
 .ocr-img i{
   background: url('../img/ocr.png') no-repeat;
+}
+
+/****************************以后使用新图标***************************************/
+.table-icon{
+  margin: 0;
+  padding: 0;
+  i{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+}
+// 查看 按钮图标  通用
+.list-icon-look i{
+  background: url(../img/standard/icon-look.png) no-repeat;
+}
+.list-icon-lookH i{
+  background: url(../img/standard/icon-lookH.png) no-repeat;
+}
+.list-icon-look:hover i,.list-icon-look:focus i,.sys-table-table .list-icon-look i{
+  background: url(../img/standard/icon-lookH.png) no-repeat;
+}
+.list-icon-look.is-disabled i,.list-icon-look.is-disabled:hover i{
+  background: url(../img/standard/icon-lookD.png) no-repeat;
+}
+// 编辑 按钮图标 通用
+.list-icon-edit i{
+  background: url(../img/standard/icon-edit.png) no-repeat;
+}
+.list-icon-editH i{
+  background: url(../img/standard/icon-editH.png) no-repeat;
+}
+.list-icon-edit:hover i,.list-icon-edit:focus i,.sys-table-table .list-icon-edit i{
+  background: url(../img/standard/icon-editH.png) no-repeat;
+}
+.list-icon-edit.is-disabled i,.list-icon-edit.is-disabled:hover i{
+  background: url(../img/standard/icon-editD.png) no-repeat;
+}
+// 上传 图标 通用
+.list-icon-upload i{
+  background: url(../img/standard/icon-upload.png) no-repeat;
+}
+.list-icon-upload:hover i,.list-icon-upload:focus i,.sys-table-table .list-icon-upload i{
+  background: url(../img/standard/icon-uploadH.png) no-repeat;
+}
+.list-icon-upload.is-disabled i,.list-icon-upload.is-disabled:hover i{
+  background: url(../img/standard/icon-uploadD.png) no-repeat;
+}
+// 下载 图标 通用
+.list-icon-download i{
+  background: url(../img/standard/icon-download.png) no-repeat;
+}
+.list-icon-download:hover i,.list-icon-download:focus i,.sys-table-table .list-icon-download i{
+  background: url(../img/standard/icon-downloadH.png) no-repeat;
+}
+.list-icon-download.is-disabled i,.list-icon-download.is-disabled:hover i{
+  background: url(../img/standard/icon-downloadD.png) no-repeat;
+}
+// 打印 图标 通过
+.list-icon-print i{
+  background: url(../img/icon-print.png) no-repeat;
+}
+.list-icon-print:hover i,.list-icon-print:focus i{
+  background: url(../img/icon-printH.png) no-repeat;
+}
+.list-icon-print.is-disabled i,.list-icon-print.is-disabled:hover i{
+  background: url(../img/icon-printD.png) no-repeat;
 }
