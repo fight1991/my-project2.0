@@ -111,6 +111,18 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
+            <el-col :md="12" :lg="6">
+              <el-form-item label="商品编号" >
+                <el-autocomplete
+                  :maxlength="10"
+                  size='mini' clearable
+                  v-model="QueryForm.codeTs"
+                  :fetch-suggestions="querySearch"
+                  :trigger-on-focus="false"
+                  @select="handleSelect">
+                </el-autocomplete>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row style="text-align:center;">
             <el-button size="mini" type="primary"  @click="search()">统计</el-button>
@@ -177,6 +189,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="备案序号" min-width="130" align="left" prop="contrItem" v-if="thList.contrItem.value"></el-table-column>
+              <el-table-column label="商品编号" min-width="100" align="center" prop="codeTs" v-if="thList.codeTs.value"></el-table-column>
               <el-table-column label="商品名称" min-width="150" prop="gName" align="left" v-if="thList.gName.value"></el-table-column>
               <el-table-column label="成交数量" min-width="100" prop="gQty" align="right" v-if="thList.gQty.value"></el-table-column>
               <el-table-column label="成交计量单位" min-width="100" prop="gUnitValue" align="center" v-if="thList.gUnitValue.value"></el-table-column>
@@ -231,7 +244,8 @@ export default {
         trafMode: '', // 运输方式
         tradeMode: '', // 监管方式
         customMaster: '', // 申报地海关
-        status: '1'
+        status: '1',
+        codeTs: '' // 商品编号
       },
       graininess: [
         {
@@ -418,6 +432,38 @@ export default {
     },
     search () {
       this.getTableData(this.$store.state.pagination)
+    },
+    querySearch (queryString, cb) {
+      // 大于4位数才开始查询
+      if (queryString.length < 4) {
+        let back = []
+        cb(back)
+        return
+      }
+      let param = {
+        'codeTs': queryString
+      }
+      this.$post({
+        url: 'API@/login/corp/getCorpByCondAssignProp',
+        data: param,
+        success: (res) => {
+          let back = []
+          if (res.result && res.result.length > 0) {
+            let json = JSON.stringify(res.result).replace(/corpName/g, 'value')
+            cb(JSON.parse(json).slice(0, 10))
+          } else {
+            cb(back)
+          }
+        }
+      })
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+      }
+    },
+    handleSelect (item) {
+      this.QueryForm.codeTs = item.value
     },
     // 获取表格数据
     getTableData (pagination) {
