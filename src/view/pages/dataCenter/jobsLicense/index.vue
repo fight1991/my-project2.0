@@ -165,13 +165,18 @@
             </el-col>
         </el-row>
       </div>
+      <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled'></batch-upload>
   </section>
 </template>
 
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import batchUpload from '../../component/batchUpload'
 export default {
+  components: {
+    batchUpload
+  },
   data () {
     return {
       queryForm: {
@@ -182,7 +187,10 @@ export default {
       sysstatus: [{nameField: '报关单预录入', codeField: '2'}, {nameField: '待审核', codeField: '3'}, {nameField: '待复核', codeField: 'R'}, {nameField: '审核通过', codeField: '6'}, {nameField: '审核驳回', codeField: '4'}],
       corpListOptions: [], // 委托企业
       dates: ['', ''],
-      resultList: []
+      resultList: [],
+      batchUploadVisabled: false,
+      decPid: '',
+      openPath: 'dataCenter'
     }
   },
   created () {
@@ -227,13 +235,15 @@ export default {
     },
     // 导入
     upload (decPid, ownerCodeScc) {
-      this.$router.push({
-        path: '/dataCenter/jobsLicense/importLicense',
-        query: {
-          ownerCodeScc: ownerCodeScc,
-          decPid: decPid
-        }
-      })
+      this.decPid = decPid
+      this.batchUploadVisabled = true
+      // this.$router.push({
+      //   path: '/dataCenter/jobsLicense/importLicense',
+      //   query: {
+      //     ownerCodeScc: ownerCodeScc,
+      //     decPid: decPid
+      //   }
+      // })
     },
     // 列表
     queryList (pagination) {

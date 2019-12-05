@@ -185,9 +185,15 @@ export default {
             let leftcount = res.result.decCountPieVO[0].totalCount
             for (let item in res.result.decCountPieVO) {
               leftcount = leftcount - res.result.decCountPieVO[item].count
-              pieList.push({name: util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName,
-                value: res.result.decCountPieVO[item].count})
-              legendData.push(util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName)
+              if (this.QueryForm.flag === '1') {
+                pieList.push({name: util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName,
+                  value: res.result.decCountPieVO[item].count})
+                legendData.push(util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName)
+              } else {
+                pieList.push({name: util.isEmpty(res.result.decCountPieVO[item].company) ? '' : res.result.decCountPieVO[item].company,
+                  value: res.result.decCountPieVO[item].count})
+                legendData.push(util.isEmpty(res.result.decCountPieVO[item].company) ? '' : res.result.decCountPieVO[item].company)
+              }
             }
             if (res.result.decCountPieVO.length >= 9) {
               pieList.push({name: '其他企业',
