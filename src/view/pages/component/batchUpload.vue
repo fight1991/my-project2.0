@@ -57,7 +57,7 @@
         <button class='upload-btn' @click="configBtn">确定导入</button>
       </span>
     </el-dialog>
-    <mix-upload :decPid='decPid' :openPath='openPath' :fileList='tableList'  :mixUploadVisible.sync='mixUploadVisible' v-if='mixUploadVisible'></mix-upload>
+    <mix-upload :decPid='decPid' :openPath='openPath' :fileList='tableList' @close:mixUpload="backMixUpload"  :mixUploadVisible.sync='mixUploadVisible' v-if='mixUploadVisible'></mix-upload>
   </section>
 </template>
 <script>
@@ -117,6 +117,7 @@ export default {
         url = 'API@/dec-common/dec/common/uploadFileDanyi'
       } else if (this.uploadType === '2') { // 保存系统
         url = 'API@/dec-common/dec/common/uploadFileSaveSystem'
+        // url = 'API@/saas-document-center/business/uploadFileSaveSystem'
       } else if (this.uploadType === '3') { // 混合上传
         url = 'API@/dec-common/dec/common/uploadFileMixture'
       //   this.tableList = [{
@@ -143,12 +144,27 @@ export default {
       //   this.mixUploadVisible = true
       }
       this.sumbitVo.decPid = this.decPid
+      let param = [this.sumbitVo]
+      if (this.uploadType === '3') {
+        param = this.sumbitVo
+      }
       this.$post({
         url: url,
-        data: [this.sumbitVo],
+        data: param,
         success: (res) => {
           if (this.uploadType === '3') {
-            this.tableList = res.result
+            this.tableList = []
+            for (let i in res.result) {
+              this.tableList.push({
+                decPid: res.result[i].decPid,
+                edocCode: res.result[i].fileName,
+                url: res.result[i].url,
+                code: res.result[i].edocCode,
+                note: res.result[i].note,
+                flag: '2',
+                edocSize: res.result[i].edocSize
+              })
+            }
             this.mixUploadVisible = true
           } else {
             this.closeCompnent()
@@ -160,6 +176,14 @@ export default {
       })
     },
     closeCompnent () {
+      this.fileList = []
+      this.uploadType = '1'
+      this.fileName = ''
+      this.sumbitVo = {
+        url: '', // 文件路径
+        edocCode: '', // 原文件名
+        decPid: '' // 报关单号
+      }
       this.$emit('update:batchUploadVisabled', false)
     },
     // 上传图片前的格式及大小判断
@@ -213,6 +237,10 @@ export default {
         })
       }
       return false
+    },
+    backMixUpload (param) {
+      this.mixUploadVisible = false
+      this.closeCompnent()
     }
   }
 }

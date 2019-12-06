@@ -5,8 +5,7 @@
       :visible.sync="mixUploadVisible"
       :close-on-click-modal='false'
       :modal-append-to-body='false'
-      v-loading="$store.state.loading"
-      @close="$emit('update:mixUploadVisible', false)"
+      @close="closeMixUpload"
       class='remove-row-bottom'
       width="1050px">
       <div style='color: red;font-size: 12px;'>
@@ -20,13 +19,14 @@
           class='sys-table-table dec-table'
           :data="tableList"
           border highlight-current-row size="mini"
+          @selection-change="selectionChange"
           :max-height='300'>
           <el-table-column type="selection" align='center' min-width="50"></el-table-column>
           <el-table-column label="序号" type='index' align='left' width="50"></el-table-column>
-          <el-table-column label="文件名称" align='left' prop="fileName" min-width="130"></el-table-column>
+          <el-table-column label="文件名称" align='left' prop="edocCode" min-width="130"></el-table-column>
           <el-table-column label="文件类型" align='left' min-width="150">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.edocCode" style="width:100%" size="mini"
+              <el-select v-model="scope.row.code" style="width:100%" size="mini"
                 filterable remote clearable
                 @change = 'decCodeChange'
                 default-first-option>
@@ -47,7 +47,7 @@
       <el-row class="mg-t-20">
         <el-col :span="24" align="center">
           <button class='upload-btn' @click="confirmForm">确定</button>
-          <button class='dialog-btn' @click="$emit('update:mixUploadVisible', false)">取消</button>
+          <button class='dialog-btn' @click="closeMixUpload">取消</button>
         </el-col>
       </el-row>
     </el-dialog>
@@ -81,7 +81,8 @@ export default {
   data () {
     return {
       tableList: [], // 批量上传文件
-      docType: []
+      docType: [],
+      selecTable: []
     }
   },
   created () {
@@ -111,8 +112,48 @@ export default {
     decCodeChange (value) {
       console.log(value)
     },
+    selectionChange (val) {
+      this.selecTable = val
+    },
     confirmForm () {
-
+      // 1.判断勾选的数据 有没有选择文件类型和文件类型有没有重复
+      let setMap = []
+      // 先统一置成
+      for (let n in this.tableList) {
+        this.tableList[n].flag = '2'
+      }
+      if (this.selecTable.length > 0) {
+        for (let i in this.selecTable) {
+          if (!this.selecTable[i].code) {
+            this.messageTips('选中的数据必需选择文件类型！', 'error')
+            return
+          } else {
+            setMap[this.selecTable[i].code] = true
+          }
+        }
+        if (Object.keys(setMap).length !== this.selecTable.length) {
+          this.messageTips('选中的数据文件类型不能重复！', 'error')
+          return
+        }
+      }
+      this.$post({
+        url: 'API@/dec-common/dec/common/uploadFileMixtureConfirm',
+        data: this.tableList,
+        success: (res) => {
+          this.messageTips(res.message, 'success')
+          this.tableList = []
+          this.selecTable = []
+          this.$emit('close:mixUpload', false)
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
+        }
+      })
+    },
+    closeMixUpload () {
+      this.tableList = []
+      this.selecTable = []
+      this.$emit('update:mixUploadVisible', false)
     }
   }
 }
