@@ -131,7 +131,7 @@ export default {
           startDate: this.dates[0],
           endDate: this.dates[1],
           refreshFlag: flag === 'refresh' ? 'Y' : 'N',
-          flag: '1'
+          signBoard: '1'
         },
         isLoad: false,
         showErrorMessage: false,
