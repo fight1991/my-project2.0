@@ -33,21 +33,21 @@
           </el-row>
         </el-form>
         <!-- 查询条件 end-->
-        <el-form size="mini" label-width="110px" class="mg-t-10">
+        <el-form size="mini" label-width="110px" class="mg-t-10" :model="statisticForm">
           <el-row>
             <el-col :span="8">
               <el-form-item label="进口总申报票数:">
-                <div class="blue-txt fontWB fontS-16">2000</div>
+                <div class="blue-txt fontWB fontS-16">{{statisticForm.importTotal}}</div>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="提前申报票数:">
-                <div class="blue-txt fontWB fontS-16">1000</div>
+                <div class="blue-txt fontWB fontS-16">{{statisticForm.declareAdvanceCount}}</div>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="提前申报率:">
-                <div class="org-txt fontWB fontS-16">50%</div>
+                <div class="org-txt fontWB fontS-16">{{statisticForm.advanceRate * 100}}%</div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -57,7 +57,7 @@
             <el-tab-pane label="申报列表" name="list">
               <el-row class='mg-b-30'>
                 <div class='mg-lr-30 sys-main-table'>
-                  <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="450">
+                  <el-table class='sys-table-table' :data="statisticForm.declareBodyVOList" border highlight-current-row height="450">
                     <el-table-column label="序号" width="100" align="left">
                       <template slot-scope="scope">
                         <div>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
@@ -65,32 +65,32 @@
                     </el-table-column>
                     <el-table-column label="报关单号" prop="date" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money1 || '-'}}</div>
+                        <div>{{scope.row.entryId || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="收发货人" prop="date" min-width="150" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money1 || '-'}}</div>
+                        <div>{{scope.row.tradeName || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="提单号" prop="date" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money1 || '-'}}</div>
+                        <div>{{scope.row.billNo || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="进出境关别" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money1 || '-'}}</div>
+                        <div>{{scope.row.iEPort || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="进境日期" min-width="120" align="center">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money2 || '-'}}</div>
+                        <div>{{scope.row.iEDate || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="申报日期" min-width="120" align="center">
                       <template slot-scope="scope">
-                        <div>{{scope.row.money2 || '-'}}</div>
+                        <div>{{scope.row.dDate || '-'}}</div>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -115,22 +115,22 @@
                     <el-table class='sys-table-table nocolor-table' :data="chartList" border height="300">
                       <el-table-column label="企业" prop="date" min-width="150" align="left">
                         <template slot-scope="scope">
-                          <div>{{scope.row.money1 || '-'}}</div>
+                          <div>{{scope.row.company || '-'}}</div>
                         </template>
                       </el-table-column>
                       <el-table-column label="进口总申报票数" prop="date" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.money1 || '-'}}</div>
+                          <div>{{scope.row.importTotal || '-'}}</div>
                         </template>
                       </el-table-column>
                       <el-table-column label="提前申报票数" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.money1 || '-'}}</div>
+                          <div>{{scope.row.declareAdvanceCount || '-'}}</div>
                         </template>
                       </el-table-column>
                       <el-table-column label="提前申报率" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.money2 || '-'}}</div>
+                          <div>{{scope.row.advanceRate || '-'}}</div>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -159,7 +159,9 @@ export default {
       resultChartData: {},
       resetChartData: '',
       activeName: 'list',
-      resultList: [], // 存放列表数据
+      statisticForm: {
+        declareBodyVOList: []
+      },
       chartList: []
     }
   },
@@ -177,18 +179,84 @@ export default {
   methods: {
     // 初始化 或查询
     doInit () {
-
+      this.getTableData(this.$store.state.pagination)
+      this.getChartData(this.$store.state.pagination)
     },
     handleClick () {
 
     },
     // 获取表格数据
-    getTableData () {
-
+    getTableData (pagination) {
+      if (this.dates === '' || this.dates === null) {
+        this.QueryForm.startDate = ''
+        this.QueryForm.endDate = ''
+      } else {
+        this.QueryForm.startDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/dec/decReport/decDeclareLst',
+        data: {...this.QueryForm, page: pagination || this.paginationInit},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.paginationInit = res.page
+          this.statisticForm = util.isEmpty(res.result) ? {} : res.result
+        }
+      })
     },
     // 获取图表数据
-    getChartData () {
-
+    getChartData (pagination) {
+      if (this.dates === '' || this.dates === null) {
+        this.QueryForm.startDate = ''
+        this.QueryForm.endDate = ''
+      } else {
+        this.QueryForm.startDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/dec/decReport/decDeclareStatistics',
+        data: {...this.QueryForm, page: pagination || this.paginationInit},
+        isPageList: true,
+        router: this.$router,
+        success: (res) => {
+          this.paginationInit = res.page
+          this.chartList = util.isEmpty(res.result) ? [] : res.result
+          let legendData = []
+          let pieList = []
+          this.chartList.forEach(e => {
+            legendData.push(e.company)
+            pieList.push({name: e.company, value: e.advanceRate})
+          })
+          console.log(legendData)
+          this.resultChartData = {
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b} : {c}({d})%'
+            },
+            legend: {
+              type: 'scroll',
+              orient: 'vertical',
+              x: '64%',
+              y: 'center',
+              align: 'left', // 调整文字和样式的位置
+              data: legendData
+            },
+            series: [
+              {
+                name: '',
+                type: 'pie',
+                radius: '80%',
+                label: {
+                  show: false
+                },
+                center: ['35%', '50%'],
+                data: pieList
+              }
+            ]
+          }
+        }
+      })
     },
     // 日期切换
     datesChange (value) {
