@@ -98,6 +98,7 @@ export default {
         value: '混合上传',
         code: '3'
       }],
+      fileName: '',
       sumbitVo: {
         url: '', // 文件路径
         edocCode: '', // 原文件名
@@ -113,48 +114,50 @@ export default {
       let url = ''
       console.log(url)
       if (this.uploadType === '1') { // 单一窗口
-        url = ''
+        url = 'API@/dec-common/dec/common/uploadFileDanyi'
       } else if (this.uploadType === '2') { // 保存系统
-        url = ''
+        url = 'API@/dec-common/dec/common/uploadFileSaveSystem'
       } else if (this.uploadType === '3') { // 混合上传
-        url = ''
-        this.tableList = [{
-          edocCode: '00000009',
-          fileName: '发票',
-          edocSize: '1232',
-          note: '无'
-        }, {
-          edocCode: '',
-          fileName: '装箱单',
-          edocSize: '1232',
-          note: '无'
-        }, {
-          edocCode: '',
-          fileName: '提运单',
-          edocSize: '1232',
-          note: '无'
-        }, {
-          edocCode: '',
-          fileName: '发票',
-          edocSize: '1232',
-          note: '无'
-        }]
-        this.mixUploadVisible = true
+        url = 'API@/dec-common/dec/common/uploadFileMixture'
+      //   this.tableList = [{
+      //     edocCode: '00000009',
+      //     fileName: '发票',
+      //     edocSize: '1232',
+      //     note: '无'
+      //   }, {
+      //     edocCode: '',
+      //     fileName: '装箱单',
+      //     edocSize: '1232',
+      //     note: '无'
+      //   }, {
+      //     edocCode: '',
+      //     fileName: '提运单',
+      //     edocSize: '1232',
+      //     note: '无'
+      //   }, {
+      //     edocCode: '',
+      //     fileName: '发票',
+      //     edocSize: '1232',
+      //     note: '无'
+      //   }]
+      //   this.mixUploadVisible = true
       }
       this.sumbitVo.decPid = this.decPid
-      // this.$post({
-      //   url: url,
-      //   data: this.sumbitVo,
-      //   success: (res) => {
-      //     if (this.uploadType === '3') {
-      //       this.tableList = res.result
-      //       this.mixUploadVisible = true
-      //     }
-      //   },
-      //   other: (res) => {
-      //     this.messageTips(res.message, 'error')
-      //   }
-      // })
+      this.$post({
+        url: url,
+        data: [this.sumbitVo],
+        success: (res) => {
+          if (this.uploadType === '3') {
+            this.tableList = res.result
+            this.mixUploadVisible = true
+          } else {
+            this.closeCompnent()
+          }
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
+        }
+      })
     },
     closeCompnent () {
       this.$emit('update:batchUploadVisabled', false)
@@ -202,6 +205,7 @@ export default {
               this.fileList = []
               this.fileList.push(res.result)
               let currentFile = this.fileList[0]
+              this.fileName = currentFile.name
               this.sumbitVo.edocCode = currentFile.name
               this.sumbitVo.url = currentFile.url
             }

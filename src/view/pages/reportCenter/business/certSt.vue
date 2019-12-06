@@ -38,7 +38,7 @@
                 <el-radio-button label="30">最近30天</el-radio-button>
                 <el-radio-button label="180">最近180天</el-radio-button>
               </el-radio-group>
-              <el-radio-group size='mini' v-model="QueryForm.flag"  @change="companyChange">
+              <el-radio-group size='mini' v-model="QueryForm.signBoard"  @change="companyChange">
                 <el-radio-button label="1">进内收发货人</el-radio-button>
                 <el-radio-button label="2">委托客户</el-radio-button>
               </el-radio-group>
@@ -64,9 +64,9 @@
                   <div class='sys-td-l'>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
                 </template>
               </el-table-column>
-              <el-table-column :label="QueryForm.flag == '1'? '境内收发货人' : '委托客户' " min-width="150">
+              <el-table-column :label="QueryForm.signBoard == '1'? '境内收发货人' : '委托客户' " min-width="150">
                 <template slot-scope="scope">
-                    <div class='sys-td-l'>{{QueryForm.flag == '1'? scope.row.tradeCoName:scope.row.company}}</div>
+                    <div class='sys-td-l'>{{QueryForm.signBoard == '1'? scope.row.tradeCoName:scope.row.company}}</div>
                 </template>
               </el-table-column>
               <el-table-column label="进口单量" min-width="100">
@@ -114,7 +114,7 @@ export default {
         iEFlag: 'ALL',
         startDate: '',
         endDate: '',
-        flag: '1'
+        signBoard: '1'
       },
       tableData: [],
       graininess: [
@@ -185,7 +185,7 @@ export default {
             let leftcount = res.result.decCountPieVO[0].totalCount
             for (let item in res.result.decCountPieVO) {
               leftcount = leftcount - res.result.decCountPieVO[item].count
-              if (this.QueryForm.flag === '1') {
+              if (this.QueryForm.signBoard === '1') {
                 pieList.push({name: util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName,
                   value: res.result.decCountPieVO[item].count})
                 legendData.push(util.isEmpty(res.result.decCountPieVO[item].tradeCoName) ? '' : res.result.decCountPieVO[item].tradeCoName)

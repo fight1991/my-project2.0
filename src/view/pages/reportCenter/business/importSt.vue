@@ -116,7 +116,7 @@
                 <el-autocomplete
                   :maxlength="10"
                   size='mini' clearable
-                  v-model="QueryForm.codeTs"
+                  v-model="QueryForm.hsCode"
                   :fetch-suggestions="querySearch"
                   :trigger-on-focus="false"
                   @select="handleSelect">
@@ -245,7 +245,7 @@ export default {
         tradeMode: '', // 监管方式
         customMaster: '', // 申报地海关
         status: '1',
-        codeTs: '' // 商品编号
+        hsCode: '' // 商品编号
       },
       graininess: [
         {
@@ -441,16 +441,21 @@ export default {
         return
       }
       let param = {
-        'codeTs': queryString
+        'hsCode': queryString
       }
       this.$post({
-        url: 'API@/login/corp/getCorpByCondAssignProp',
+        url: 'API@/saas-dictionary/decParam/getHsCode',
         data: param,
         success: (res) => {
           let back = []
+          let codeList = []
           if (res.result && res.result.length > 0) {
-            let json = JSON.stringify(res.result).replace(/corpName/g, 'value')
-            cb(JSON.parse(json).slice(0, 10))
+            for (let i in res.result) {
+              codeList.push({
+                value: res.result[i]
+              })
+            }
+            cb(codeList.slice(0, 20))
           } else {
             cb(back)
           }
@@ -463,7 +468,7 @@ export default {
       }
     },
     handleSelect (item) {
-      this.QueryForm.codeTs = item.value
+      this.QueryForm.hsCode = item.value
     },
     // 获取表格数据
     getTableData (pagination) {
