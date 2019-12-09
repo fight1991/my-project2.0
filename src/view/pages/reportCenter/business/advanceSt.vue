@@ -59,37 +59,37 @@
                   <el-table class='sys-table-table' :data="statisticForm.declareBodyVOList" border highlight-current-row height="450">
                     <el-table-column label="序号" width="100" align="left">
                       <template slot-scope="scope">
-                        <div>{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
+                        <div class="sys-td-l">{{(paginationInit.pageIndex-1)*paginationInit.pageSize+(scope.$index+1)}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="报关单号" prop="date" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.entryId || '-'}}</div>
+                        <div class="sys-td-l">{{scope.row.entryId || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="收发货人" prop="date" min-width="150" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.tradeName || '-'}}</div>
+                        <div class="sys-td-l">{{scope.row.tradeName || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="提单号" prop="date" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.billNo || '-'}}</div>
+                        <div class="sys-td-l">{{scope.row.billNo || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="进出境关别" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div>{{scope.row.iEPort || '-'}}</div>
+                        <div class="sys-td-l">{{scope.row.iEPort || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="进境日期" min-width="120" align="center">
                       <template slot-scope="scope">
-                        <div>{{scope.row.iEDate || '-'}}</div>
+                        <div class="sys-td-c">{{scope.row.iEDate || '-'}}</div>
                       </template>
                     </el-table-column>
                     <el-table-column label="申报日期" min-width="120" align="center">
                       <template slot-scope="scope">
-                        <div>{{scope.row.dDate || '-'}}</div>
+                        <div class="sys-td-c">{{scope.row.dDate || '-'}}</div>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -179,6 +179,7 @@ export default {
     // 初始化 或查询
     doInit () {
       this.getTableData(this.$store.state.pagination)
+      if (this.activeName === 'chart') this.getChartData()
     },
     handleClick (tab, event) {
       if (tab.name === 'chart') {
@@ -226,12 +227,12 @@ export default {
           let pieList = []
           this.chartList.forEach(e => {
             legendData.push(e.company)
-            pieList.push({name: e.company, value: e.advanceRate})
+            pieList.push({name: e.company, value: e.declareAdvanceCount})
           })
           this.resultChartData = {
             tooltip: {
               trigger: 'item',
-              formatter: '{a} <br/>{b} : {c}({d})%'
+              formatter: '{a}{b} :  <br/>提前申报数 : {c}  <br/>占比 : {d}%'
             },
             legend: {
               type: 'scroll',
