@@ -9,7 +9,6 @@
             <el-col :span="8" :xs="24">
               <el-form-item>
                 <el-date-picker  v-model="dates" style="width:100%;vertical-align:middle;"
-                  @change="getChartData()"
                   type="daterange"
                   :clearable = 'false'
                   :editable='false'
@@ -37,12 +36,12 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="进口总申报票数:">
-                <div class="blue-txt fontWB fontS-16">{{statisticForm.importTotal}}</div>
+                <div class="blue-txt fontWB fontS-16">{{statisticForm.importTotal | money(0)}}</div>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="提前申报票数:">
-                <div class="blue-txt fontWB fontS-16">{{statisticForm.declareAdvanceCount}}</div>
+                <div class="blue-txt fontWB fontS-16">{{statisticForm.declareAdvanceCount | money(0)}}</div>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -111,8 +110,8 @@
                   </div>
                 </el-col>
                 <el-col :span="12">
-                  <div class="pd-l-20">
-                    <el-table class='sys-table-table nocolor-table' :data="chartList" border height="300">
+                  <div class="pd-l-20 right-panel">
+                    <el-table class='sys-table-table nocolor-table' :data="chartList" border max-height="450">
                       <el-table-column label="企业" prop="date" min-width="150" align="left">
                         <template slot-scope="scope">
                           <div>{{scope.row.company || '-'}}</div>
@@ -120,17 +119,17 @@
                       </el-table-column>
                       <el-table-column label="进口总申报票数" prop="date" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.importTotal || '-'}}</div>
+                          <div>{{scope.row.importTotal | money(0)}}</div>
                         </template>
                       </el-table-column>
                       <el-table-column label="提前申报票数" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.declareAdvanceCount || '-'}}</div>
+                          <div>{{scope.row.declareAdvanceCount | money(0)}}</div>
                         </template>
                       </el-table-column>
                       <el-table-column label="提前申报率" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.advanceRate || '-'}}</div>
+                          <div>{{scope.row.advanceRate * 100}}%</div>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -174,16 +173,19 @@ export default {
         this.resetChartData = Math.random()
       })()
     }
-    // this.doInit()
+    this.getTableData(this.$store.state.pagination)
   },
   methods: {
     // 初始化 或查询
     doInit () {
       this.getTableData(this.$store.state.pagination)
-      this.getChartData(this.$store.state.pagination)
     },
-    handleClick () {
-
+    handleClick (tab, event) {
+      if (tab.name === 'chart') {
+        this.$nextTick(() => {
+          this.getChartData()
+        })
+      }
     },
     // 获取表格数据
     getTableData (pagination) {
@@ -206,7 +208,7 @@ export default {
       })
     },
     // 获取图表数据
-    getChartData (pagination) {
+    getChartData () {
       if (this.dates === '' || this.dates === null) {
         this.QueryForm.startDate = ''
         this.QueryForm.endDate = ''
@@ -216,11 +218,9 @@ export default {
       }
       this.$store.dispatch('ajax', {
         url: 'API@/dec-common/dec/decReport/decDeclareStatistics',
-        data: {...this.QueryForm, page: pagination || this.paginationInit},
-        isPageList: true,
+        data: this.QueryForm,
         router: this.$router,
         success: (res) => {
-          this.paginationInit = res.page
           this.chartList = util.isEmpty(res.result) ? [] : res.result
           let legendData = []
           let pieList = []
@@ -228,7 +228,6 @@ export default {
             legendData.push(e.company)
             pieList.push({name: e.company, value: e.advanceRate})
           })
-          console.log(legendData)
           this.resultChartData = {
             tooltip: {
               trigger: 'item',
@@ -265,7 +264,29 @@ export default {
     },
     // 导出
     exportFun () {
-
+      if (this.dates === '' || this.dates === null) {
+        this.QueryForm.startDate = ''
+        this.QueryForm.endDate = ''
+      } else {
+        this.QueryForm.startDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
+        this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
+      }
+      let url = this.activeName === 'list' ? 'decDeclareLstExport' : 'decDeclareStatisticsExport'
+      this.$store.dispatch('ajax', {
+        url: 'API@/dec-common/dec/decReport/' + url,
+        data: {...this.QueryForm, page: this.paginationInit},
+        router: this.$router,
+        success: (res) => {
+          if (util.isEmpty(res.result)) {
+            this.$message({
+              message: '该查询条件下没有可导出的数据',
+              type: 'warning'
+            })
+          } else {
+            window.open(res.result, '_blank')
+          }
+        }
+      })
     }
   }
 }
@@ -298,7 +319,7 @@ export default {
 .pd-l-20{
   padding-left: 20px;
 }
-.left-panel{
-  border-right: 1px solid #d8d8d8;
+.right-panel{
+  border-left: 1px solid #d8d8d8;
 }
 </style>
