@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="提前申报率:">
-                <div class="org-txt fontWB fontS-16">{{statisticForm.advanceRate * 100}}%</div>
+                <div class="org-txt fontWB fontS-16">{{(statisticForm.advanceRate * 100) | money()}}%</div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -129,7 +129,7 @@
                       </el-table-column>
                       <el-table-column label="提前申报率" min-width="120" align="right">
                         <template slot-scope="scope">
-                          <div>{{scope.row.advanceRate * 100}}%</div>
+                          <div>{{(scope.row.advanceRate * 100 ) | money()}}%</div>
                         </template>
                       </el-table-column>
                     </el-table>
