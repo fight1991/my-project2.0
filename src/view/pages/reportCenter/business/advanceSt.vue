@@ -79,15 +79,15 @@
                     </el-table-column>
                     <el-table-column label="进出境关别" min-width="120" align="left">
                       <template slot-scope="scope">
-                        <div class="sys-td-l">{{scope.row.iEPort || '-'}}</div>
+                        <div class="sys-td-l">{{scope.row.iEPortValue || '-'}}</div>
                       </template>
                     </el-table-column>
-                    <el-table-column label="进境日期" min-width="120" align="center">
+                    <el-table-column label="进境日期" min-width="100" align="center">
                       <template slot-scope="scope">
                         <div class="sys-td-c">{{scope.row.iEDate || '-'}}</div>
                       </template>
                     </el-table-column>
-                    <el-table-column label="申报日期" min-width="120" align="center">
+                    <el-table-column label="申报日期" min-width="100" align="center">
                       <template slot-scope="scope">
                         <div class="sys-td-c">{{scope.row.dDate || '-'}}</div>
                       </template>
