@@ -144,6 +144,7 @@ export default {
           this.tableList = []
           this.selecTable = []
           this.$emit('close:mixUpload', false)
+          this.$parent.refreshList()
         },
         other: (res) => {
           this.messageTips(res.message, 'error')

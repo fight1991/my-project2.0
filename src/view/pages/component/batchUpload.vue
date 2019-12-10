@@ -54,7 +54,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <button class='dialog-btn' @click="closeCompnent">取消</button>
-        <button class='upload-btn' @click="configBtn">确定导入</button>
+        <button class='upload-btn mg-l-10' @click="configBtn">确定导入</button>
       </span>
     </el-dialog>
     <mix-upload :decPid='decPid' :openPath='openPath' :fileList='tableList' @close:mixUpload="backMixUpload"  :mixUploadVisible.sync='mixUploadVisible' v-if='mixUploadVisible'></mix-upload>
@@ -108,11 +108,10 @@ export default {
   },
   methods: {
     uploadTypeChange (value) {
-      console.log(111)
+
     },
     configBtn () {
       let url = ''
-      console.log(url)
       if (this.uploadType === '1') { // 单一窗口
         url = 'API@/dec-common/dec/common/uploadFileDanyi'
       } else if (this.uploadType === '2') { // 保存系统
@@ -168,6 +167,7 @@ export default {
             this.mixUploadVisible = true
           } else {
             this.closeCompnent()
+            this.refreshList()
           }
         },
         other: (res) => {
@@ -185,6 +185,9 @@ export default {
         decPid: '' // 报关单号
       }
       this.$emit('update:batchUploadVisabled', false)
+    },
+    refreshList () {
+      this.$parent.search()
     },
     // 上传图片前的格式及大小判断
     beforeAvatarUpload (file) {
@@ -298,5 +301,8 @@ export default {
     background: #FFF;
     border: 1px solid #DCDFE6;
     color: #606266;
+  }
+  .mg-l-10{
+    margin-left: 10px;
   }
 </style>

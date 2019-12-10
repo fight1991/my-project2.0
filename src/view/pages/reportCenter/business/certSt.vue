@@ -33,17 +33,23 @@
           </el-col>
           <el-col :span="13">
             <div class='sys-fr'>
-              <el-radio-group size='mini' v-model="dateConfig"  @change="datesChange">
-                <el-radio-button label="7">最近7天</el-radio-button>
-                <el-radio-button label="30">最近30天</el-radio-button>
-                <el-radio-button label="180">最近180天</el-radio-button>
-              </el-radio-group>
-              <el-radio-group size='mini' v-model="QueryForm.signBoard"  @change="companyChange">
-                <el-radio-button label="1">进内收发货人</el-radio-button>
+              <el-radio-group size='mini' v-model="QueryForm.signBoard" @change="companyChange">
+                <el-radio-button label="1">境内收发货人</el-radio-button>
                 <el-radio-button label="2">委托客户</el-radio-button>
               </el-radio-group>
               <el-button size="mini" type="primary" style="vertical-align:middle;margin-left: 20px;" @click="doInit">统计</el-button>
             </div>
+          </el-col>
+        </el-row>
+        <el-row class='sys-search'>
+          <el-col :span="24" align="right">
+            <el-form-item size="mini">
+              <el-radio-group size='mini' v-model="dateConfig" @change="datesChange">
+                <el-radio-button label="7">最近7天</el-radio-button>
+                <el-radio-button label="30">最近30天</el-radio-button>
+                <el-radio-button label="180">最近180天</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
         </el-row>
         </el-form>
