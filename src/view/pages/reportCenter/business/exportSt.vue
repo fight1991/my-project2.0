@@ -189,6 +189,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="备案序号" min-width="130" align="left" prop="contrItem" v-if="thList.contrItem.value"></el-table-column>
+              <el-table-column label="商品编号" min-width="100" align="center" prop="codeTs" v-if="thList.codeTs.value"></el-table-column>
               <el-table-column label="商品名称" min-width="150" prop="gName" align="left" v-if="thList.gName.value"></el-table-column>
               <el-table-column label="成交数量" min-width="100" prop="gQty" align="right" v-if="thList.gQty.value"></el-table-column>
               <el-table-column label="成交计量单位" min-width="100" prop="gUnitValue" align="center" v-if="thList.gUnitValue.value"></el-table-column>
