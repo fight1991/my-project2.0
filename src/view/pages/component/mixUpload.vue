@@ -47,7 +47,7 @@
       <el-row class="mg-t-20">
         <el-col :span="24" align="center">
           <button class='upload-btn' @click="confirmForm">确定</button>
-          <button class='dialog-btn' @click="closeMixUpload">取消</button>
+          <button class='dialog-btn mg-l-10' @click="closeMixUpload">取消</button>
         </el-col>
       </el-row>
     </el-dialog>
@@ -214,5 +214,8 @@ export default {
     background: #FFF;
     border: 1px solid #DCDFE6;
     color: #606266;
+  }
+  .mg-l-10{
+    margin-left: 10px;
   }
 </style>
