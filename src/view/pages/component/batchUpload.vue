@@ -121,30 +121,17 @@ export default {
         // url = 'API@/saas-document-center/business/uploadFileSaveSystem'
       } else if (this.uploadType === '3') { // 混合上传
         url = 'API@/dec-common/dec/common/uploadFileMixture'
-      //   this.tableList = [{
-      //     edocCode: '00000009',
-      //     fileName: '发票',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '装箱单',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '提运单',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '发票',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }]
-      //   this.mixUploadVisible = true
       }
       this.sumbitVo.decPid = this.decPid
+      if (this.pageType === 'documents') {
+        if (util.isEmpty(this.sumbitVo.decPid)) {
+          this.$message({
+            type: 'error',
+            message: '请先暂存报关单'
+          })
+          return false
+        }
+      }
       if (util.isEmpty(this.sumbitVo.url)) {
         this.$message({
           type: 'error',
@@ -159,7 +146,7 @@ export default {
         if (!['zip'].includes(type)) {
           this.$message({
             type: 'error',
-            message: '混合上传只能上传zip压缩包！'
+            message: '混合上传只能上传zip压缩包'
           })
           return false
         }
