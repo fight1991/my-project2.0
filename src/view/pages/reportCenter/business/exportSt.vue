@@ -446,7 +446,7 @@ export default {
         'hsCode': queryString
       }
       this.$post({
-        url: 'API@/saas-dictionary/decParam/getHsCode',
+        url: 'API@/dec-common/dec/common/getHsCode',
         data: param,
         success: (res) => {
           let back = []
@@ -533,7 +533,7 @@ export default {
     compareFieldList (orig, compare) {
       if (orig.length === compare.length) {
         for (let i in orig) {
-          if (orig[i].text !== compare[i].text) {
+          if (orig[i].fieldName !== compare[i].fieldName) {
             return false
           }
         }

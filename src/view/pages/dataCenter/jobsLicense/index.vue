@@ -165,7 +165,7 @@
             </el-col>
         </el-row>
       </div>
-      <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled'></batch-upload>
+      <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled' :pageType="'license'"></batch-upload>
   </section>
 </template>
 

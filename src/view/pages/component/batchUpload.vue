@@ -57,7 +57,7 @@
         <button class='upload-btn mg-l-10' @click="configBtn">确定导入</button>
       </span>
     </el-dialog>
-    <mix-upload :decPid='decPid' :openPath='openPath' :fileList='tableList' @close:mixUpload="backMixUpload"  :mixUploadVisible.sync='mixUploadVisible' v-if='mixUploadVisible'></mix-upload>
+    <mix-upload :decPid='decPid' :openPath='openPath' :fileList='tableList' @close:mixUpload="backMixUpload"  :mixUploadVisible.sync='mixUploadVisible' :pageType="pageType" v-if='mixUploadVisible'></mix-upload>
   </section>
 </template>
 <script>
@@ -78,6 +78,10 @@ export default {
       default: ''
     },
     openPath: {
+      type: String,
+      default: ''
+    },
+    pageType: {
       type: String,
       default: ''
     }
@@ -107,9 +111,7 @@ export default {
     }
   },
   methods: {
-    uploadTypeChange (value) {
-
-    },
+    uploadTypeChange (value) {},
     configBtn () {
       let url = ''
       if (this.uploadType === '1') { // 单一窗口
@@ -143,9 +145,24 @@ export default {
       //   this.mixUploadVisible = true
       }
       this.sumbitVo.decPid = this.decPid
+      if (util.isEmpty(this.sumbitVo.url)) {
+        this.$message({
+          type: 'error',
+          message: '请上传文件'
+        })
+        return false
+      }
       let param = [this.sumbitVo]
       if (this.uploadType === '3') {
         param = this.sumbitVo
+        let type = param.edocCode.substring(param.edocCode.lastIndexOf('.') + 1).toLowerCase()
+        if (!['zip'].includes(type)) {
+          this.$message({
+            type: 'error',
+            message: '混合上传只能上传zip压缩包！'
+          })
+          return false
+        }
       }
       this.$post({
         url: url,
@@ -167,7 +184,9 @@ export default {
             this.mixUploadVisible = true
           } else {
             this.closeCompnent()
-            this.refreshList()
+            if (this.pageType === 'license') {
+              this.refreshList()
+            }
           }
         },
         other: (res) => {

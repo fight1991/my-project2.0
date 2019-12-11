@@ -76,7 +76,11 @@ export default {
       type: String,
       default: ''
     },
-    fileNum: 0
+    fileNum: 0,
+    pageType: {
+      type: String,
+      default: ''
+    }
   },
   data () {
     return {
@@ -144,7 +148,9 @@ export default {
           this.tableList = []
           this.selecTable = []
           this.$emit('close:mixUpload', false)
-          this.$parent.refreshList()
+          if (this.pageType === 'license') {
+            this.$parent.refreshList()
+          }
         },
         other: (res) => {
           this.messageTips(res.message, 'error')
