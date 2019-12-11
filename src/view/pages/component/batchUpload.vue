@@ -173,6 +173,11 @@ export default {
             this.closeCompnent()
             if (this.pageType === 'license') {
               this.refreshList()
+            } else {
+              this.$message({
+                type: 'success',
+                message: '上传已完成，上传成功。请刷新报关单界面后，前往随附单据中查看详情。'
+              })
             }
           }
         },
