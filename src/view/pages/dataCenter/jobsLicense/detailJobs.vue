@@ -35,8 +35,8 @@
                     </el-row>
                     <el-row :gutter="30">
                       <el-col>
-                        <el-form-item label="上传时间：" class="type-height">
-                          {{ item.updateTime  || '-' }}
+                        <el-form-item label="导入类型：" class="type-height">
+                          {{ item.exportType  || '-' }}
                         </el-form-item>
                       </el-col>
                     </el-row>
