@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <el-row class = "query-condition">
       <el-row>
-        <el-button type="primary" size="mini" style="margin: 10px 0px;width:70px;" @click="upload(decPid, ownerCodeScc)">导入</el-button>
+        <el-button type="primary" size="mini" style="margin: 10px 0px;" @click="upload(decPid, ownerCodeScc)">批量导入</el-button>
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
