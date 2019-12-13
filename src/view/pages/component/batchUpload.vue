@@ -172,12 +172,14 @@ export default {
           } else {
             this.closeCompnent()
             if (this.pageType === 'license') {
-              this.refreshList()
-            } else {
+              this.$emit('close:batchlist')
+            } else if (this.pageType === 'documents') {
               this.$message({
                 type: 'success',
                 message: '上传已完成，上传成功。请刷新报关单界面后，前往随附单据中查看详情。'
               })
+            } else if (this.pageType === 'licenseEdit') {
+              this.$emit('close:batchEdit')
             }
           }
         },
@@ -198,7 +200,11 @@ export default {
       this.$emit('update:batchUploadVisabled', false)
     },
     refreshList () {
-      this.$parent.search()
+      if (this.pageType === 'license') {
+        this.$emit('close:batchlist')
+      } else if (this.pageType === 'licenseEdit') {
+        this.$emit('close:batchEdit')
+      }
     },
     // 上传图片前的格式及大小判断
     beforeAvatarUpload (file) {

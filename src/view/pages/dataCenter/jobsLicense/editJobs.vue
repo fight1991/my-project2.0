@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <el-row class = "query-condition">
       <el-row>
-        <el-button type="primary" size="mini" style="margin: 10px 0px;width:70px;" @click="upload(decPid, ownerCodeScc)">导入</el-button>
+        <el-button type="primary" size="mini" style="margin: 10px 0px;" @click="upload(decPid, ownerCodeScc)">批量导入</el-button>
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
@@ -59,13 +59,18 @@
           <el-button size="mini" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
+    <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled' :pageType="'licenseEdit'" @close:batchEdit="backData"></batch-upload>
   </section>
 </template>
 
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import batchUpload from '../../component/batchUpload'
 export default {
+  components: {
+    batchUpload
+  },
   data () {
     return {
       rules: {
@@ -89,7 +94,9 @@ export default {
           isExcel: false
         }]
       },
-      saasEdocCode: []
+      saasEdocCode: [],
+      batchUploadVisabled: false,
+      openPath: 'dataCenter'
     }
   },
   created () {
@@ -336,13 +343,14 @@ export default {
     },
     // 导入
     upload (decPid, ownerCodeScc) {
-      this.$router.push({
-        path: '/dataCenter/jobsLicense/importLicense',
-        query: {
-          decPid: decPid,
-          ownerCodeScc: ownerCodeScc
-        }
-      })
+      // this.$router.push({
+      //   path: '/dataCenter/jobsLicense/importLicense',
+      //   query: {
+      //     decPid: decPid,
+      //     ownerCodeScc: ownerCodeScc
+      //   }
+      // })
+      this.batchUploadVisabled = true
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
@@ -353,6 +361,9 @@ export default {
           ownerCodeScc: ownerCodeScc
         }
       })
+    },
+    backData () {
+      this.querylist()
     }
   }
 }

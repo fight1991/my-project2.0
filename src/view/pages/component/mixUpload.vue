@@ -144,11 +144,12 @@ export default {
         url: 'API@/dec-common/dec/common/uploadFileMixtureConfirm',
         data: this.tableList,
         success: (res) => {
-          this.messageTips(res.message, 'success')
+          let message = this.pageType === 'documents' ? '上传已完成，上传成功。请刷新报关单界面后，前往随附单据中查看详情。' : res.message
+          this.messageTips(message, 'success')
           this.tableList = []
           this.selecTable = []
           this.$emit('close:mixUpload', false)
-          if (this.pageType === 'license') {
+          if (this.pageType === 'license' || this.pageType === 'licenseEdit') {
             this.$parent.refreshList()
           }
         },
