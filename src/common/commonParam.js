@@ -1,10 +1,6 @@
 import util from './util'
 import config from '../config/config'
-// import storageHandle from './storageHandle'
-
-// const storageHandles = {
-//   'SAAS_EDOC_CODE': (result) => storageHandle.edocCodeHandle(result)
-// }
+// import {storageParamsHandle} from './storageParams'
 
 export default {
   /**
@@ -44,8 +40,8 @@ export default {
     let versions = util.isEmpty(window.localStorage.getItem('PARAMVERSION')) ? [] : JSON.parse(window.localStorage.getItem('PARAMVERSION'))
     let nowVersion = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['PARAMVERSION']
     for (let key in result) {
-      // if (storageHandles[key]) {
-      //   result[key] = storageHandles[key](result[key])
+      // if (storageParamsHandle[key]) {
+      //   result[key] = storageParamsHandle[key](result[key])
       // }
       window.localStorage.setItem(key, JSON.stringify(result[key]))
       if (versions.length === 0) {

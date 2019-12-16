@@ -128,6 +128,7 @@ export default {
       }
       if (this.selecTable.length > 0) {
         for (let i in this.selecTable) {
+          this.selecTable[i].flag = '1'
           if (!this.selecTable[i].code) {
             this.messageTips('选中的数据必需选择文件类型！', 'error')
             return
