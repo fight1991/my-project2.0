@@ -41,7 +41,7 @@
             </template>
           </el-table-column>
           <el-table-column label="文件大小" align='left' prop="edocSize" min-width="130"></el-table-column>
-          <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column>
+          <!-- <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column> -->
         </el-table>
       </el-row>
       <el-row class="mg-t-20">
