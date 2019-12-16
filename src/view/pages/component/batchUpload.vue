@@ -140,17 +140,17 @@ export default {
         return false
       }
       let param = [this.sumbitVo]
-      // if (this.uploadType === '3') {
-      //   param = this.sumbitVo
-      //   let type = param.edocCode.substring(param.edocCode.lastIndexOf('.') + 1).toLowerCase()
-      //   if (!['zip'].includes(type)) {
-      //     this.$message({
-      //       type: 'error',
-      //       message: '混合上传只能上传zip压缩包'
-      //     })
-      //     return false
-      //   }
-      // }
+      if (this.uploadType === '3') {
+        param = this.sumbitVo
+        // let type = param.edocCode.substring(param.edocCode.lastIndexOf('.') + 1).toLowerCase()
+        // if (!['zip'].includes(type)) {
+        //   this.$message({
+        //     type: 'error',
+        //     message: '混合上传只能上传zip压缩包'
+        //   })
+        //   return false
+        // }
+      }
       this.$post({
         url: url,
         data: param,
