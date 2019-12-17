@@ -153,7 +153,7 @@
         </el-row>
         <el-row class='mg-b-30'>
           <div class='mg-lr-30 dec-query-table'>
-            <el-table class='sys-table-table dec-table' :data="resultList" border highlight-current-row size="mini" height="450px">
+            <el-table class='sys-table-table dec-table' :data="resultList" border highlight-current-row size="mini" height="413px">
               <el-table-column label="接单编号" min-width="130" prop="bossId" align="center" v-if="thList.bossId.value"></el-table-column>
               <el-table-column label="委托客户" min-width="210" prop="company" align="left" v-if="thList.company.value"></el-table-column>
               <el-table-column label="客户业务号" min-width="120" prop="ref1" align="left" v-if="thList.ref1.value"></el-table-column>
@@ -183,6 +183,13 @@
               <el-table-column label="件数" min-width="90" prop="packNo" v-if="thList.packNo.value" align="right"></el-table-column>
               <el-table-column label="毛重(KG)" min-width="100" prop="grossWt" v-if="thList.grossWt.value" align="right"></el-table-column>
               <el-table-column label="净重(KG)" min-width="100" prop="netWt" align="right" v-if="thList.netWt.value"></el-table-column>
+              <el-table-column label="备注" min-width="200" prop="noteS" align="right" v-if="thList.noteS.value">
+                <template slot-scope="scope">
+                  <div class="text-over-hid" :title="scope.row.noteS">
+                    {{scope.row.noteS}}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column label="单价" min-width="100" v-if="thList.declPrice.value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.declPrice && scope.row.declPrice.toLocaleString()}}</div>
