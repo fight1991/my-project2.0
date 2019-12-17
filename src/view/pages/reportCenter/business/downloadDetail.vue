@@ -22,7 +22,7 @@
       <el-col :span="24" align="right">
         <!-- <page-box @change="getTableDataA()" key="download"></page-box> -->
         <el-pagination
-          v-if='pagination.total != 0'
+          v-if='pagination.total != 0' key="download"
           background
           @current-change="currentChange"
           @size-change="sizeChange"
