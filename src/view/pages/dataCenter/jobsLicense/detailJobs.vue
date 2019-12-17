@@ -43,7 +43,7 @@
                     <el-row :gutter="30">
                       <el-col>
                         <el-form-item label="上传人：" class="type-height">
-                          {{ item.createUserName ? item.createUserName : item.updateUserName }}
+                          {{ item.updateUserName }}
                         </el-form-item>
                       </el-col>
                     </el-row>
