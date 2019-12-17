@@ -41,7 +41,7 @@
             </template>
           </el-table-column>
           <el-table-column label="文件大小" align='left' prop="edocSize" min-width="130"></el-table-column>
-          <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column>
+          <!-- <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column> -->
         </el-table>
       </el-row>
       <el-row class="mg-t-20">
@@ -128,6 +128,7 @@ export default {
       }
       if (this.selecTable.length > 0) {
         for (let i in this.selecTable) {
+          this.selecTable[i].flag = '1'
           if (!this.selecTable[i].code) {
             this.messageTips('选中的数据必需选择文件类型！', 'error')
             return

@@ -144,6 +144,11 @@ export const tableHeadFieldList = {
     fieldName: '净重(KG)',
     fieldCode: 'netWt'
   },
+  noteS: {
+    value: false,
+    fieldName: '备注',
+    fieldCode: 'noteS'
+  },
   declPrice: {
     value: true,
     fieldName: '单价',
