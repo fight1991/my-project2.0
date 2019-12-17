@@ -341,7 +341,8 @@ export default {
         this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       let thList = []
-      let theadList = Object.values(this.thList)
+      let list = util.simpleClone(this.thList)
+      let theadList = Object.values(list)
       theadList.forEach(e => {
         if (e.value) {
           delete e.value
@@ -351,6 +352,7 @@ export default {
           thList.push(e)
         }
       })
+      console.log(this.thList)
       // if (this.QueryForm.hsCodes.length === 0) {
       //   this.$message({
       //     message: '请至少选择一个物料',

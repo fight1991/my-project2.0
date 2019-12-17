@@ -11,8 +11,8 @@
       <div style='color: red;font-size: 12px;'>
         <span style='font-size: 14px;'>tips:</span>
         <span style='margin-left: 5px;'>系统编号为：<b>{{decPid}}</b>的报关单,此次共导入<b>{{fileNum}}</b>个文件</span>
-        <p style='margin-left: 35px;'>1.勾选的的文件,将上传到报关单,未勾选将上传到资料中心</p>
-        <p style='margin-left: 35px;'>2.勾选的的文件,<b>必需选择文件类型且不能重复,包括此报关单已有的随附单据</b></p>
+        <p style='margin-left: 35px;'>1.勾选的文件,将上传到报关单,未勾选将上传到资料中心</p>
+        <p style='margin-left: 35px;'>2.勾选的文件,<b>必需选择文件类型且不能重复,包括此报关单已有的随附单据</b></p>
       </div>
       <el-row class="mg-t-10 dec-query-table">
         <el-table

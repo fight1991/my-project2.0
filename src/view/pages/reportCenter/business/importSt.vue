@@ -342,7 +342,8 @@ export default {
         this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       let thList = []
-      let theadList = Object.values(this.thList)
+      let list = util.simpleClone(this.thList)
+      let theadList = Object.values(list)
       theadList.forEach(e => {
         if (e.value) {
           delete e.value
