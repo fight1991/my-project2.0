@@ -1,11 +1,12 @@
 // 商品资料库
+import abstractComponent from '@/view/common/abstract.vue'
 
 const MENU = {
   path: '/dataCenter/goods',
   name: 'goods',
   icon: 'icons-menu-productInfo',
   permissions: 'CCBA20301000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '商品资料库'
   },

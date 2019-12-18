@@ -1,5 +1,6 @@
 // 海关监管-场站作业查询
 import abstractComponent from '@/view/common/abstract.vue'
+import seaCzhanJobsQueryIndexComponent from './index.vue'
 
 const MENU = {
   path: '/sea/czhanJobsQuery',
@@ -17,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20905010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '业务申报表查询'
       }
     },
@@ -27,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20905020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '申报表货物进出查询'
       }
     },
@@ -37,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20905030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '出入库单查询'
       }
     },
@@ -47,7 +48,7 @@ const MENU = {
       permissions: 'CCBA20905040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '核放单查询'
       }
     },
@@ -57,7 +58,7 @@ const MENU = {
       permissions: 'CCBA20905050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '出入库单生成核放单查询'
       }
     },
@@ -67,7 +68,7 @@ const MENU = {
       permissions: 'CCBA20905060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '核注清单生成核放单查询'
       }
     },
@@ -77,7 +78,7 @@ const MENU = {
       permissions: 'CCBA20905070000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsQueryIndexComponent,
         title: '车辆信息查询'
       }
     }

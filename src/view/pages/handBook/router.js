@@ -3,7 +3,7 @@ import beianJobs from './beianJobs/index' // 电子底账
 import czhanJobs from './czhanJobs/index' // 外发加工
 import lareJobs from './lareJobs/index' // 通关作业
 import indexComponent from '@/view/pages/index.vue'
-
+import newTabComponent from '../component/newTab.vue'
 const MENU = [
   {
     path: '/handBook/index',
@@ -21,7 +21,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },
@@ -31,7 +31,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },
