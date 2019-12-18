@@ -23,7 +23,7 @@
           </el-form-item>
         </el-form>
         <el-row>
-          <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
+          <div class="default" v-if="tableData.length === 0"><img src="@/assets/img/icon/board.png" alt=""></div>
           <div class="ccba-table" v-else>
             <el-table
               :data="tableData"
@@ -66,7 +66,7 @@ import eventBus from './eventBus'
 export default {
   data () {
     return {
-      currentImg: require('../../../assets/img/oper_refresh.png'),
+      currentImg: require('@/assets/img/oper_refresh.png'),
       timerId: 0,
       dates: '',
       activeName: 'first',

@@ -63,13 +63,6 @@ export default {
     // 自定义模版
     customizeTemplate: url.DEC + '/customizeTemplate/list'
   },
-  // 资料中心
-  dataCenter: {
-    // 非保税商品库
-    noBonded: url.DEC + '/declaration/commodity',
-    // 保税商品库
-    bonded: url.DEC + '/declaration/goodsModel/list'
-  },
   // 报表中心
   reportCenter: {
     // 金额统计

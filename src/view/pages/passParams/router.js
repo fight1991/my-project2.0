@@ -1,13 +1,15 @@
 import CarlareParams from './carlareParams/index' // 汽车申报参数
 import PassCode from './passCode/index' // 通关代码
 import DeclareParams from './declareParams/index' // 商品申报参数
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/passParams/index',
     name: 'passParams-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

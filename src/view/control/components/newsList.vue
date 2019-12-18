@@ -22,7 +22,7 @@
       </el-aside>
       <el-main class="content-list">
         <div class="list-detail">
-          <div class="default" v-if="newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+          <div class="default" v-if="newsList.length === 0"><img src="@/assets/img/icon/news.png" alt=""></div>
           <div class="per-row"  v-for="item1 in newsList" :key="item1.pid" v-else>
             <div class="content" @click="getDetail(item1.pid)">
               <span :class="{'new-title':true, 'text-cut':true, flag:item1.isNew}">{{item1.title}}</span>
@@ -183,7 +183,7 @@ export default {
     height: 14px;
     right: 0;
     top: 1px;
-    background: url("../../../assets/img/icon/new.png") no-repeat
+    background: url("~@/assets/img/icon/new.png") no-repeat
   }
   .date {
     text-align: right;

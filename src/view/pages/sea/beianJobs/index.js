@@ -1,10 +1,12 @@
 // 加工贸易账册-电子底账
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/sea/beianJobs',
   name: 'sea-beianJobs',
   icon: 'icons-menu-beianJobs',
   permissions: 'CCBA20901000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '电子底账'
   },

@@ -1,10 +1,12 @@
 // 加工贸易账册-通关作业
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/account/lareJobs',
   name: 'account-lareJobs',
   icon: 'icons-menu-lareJobs',
   permissions: 'CCBA20702000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '通关作业'
   },

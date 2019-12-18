@@ -152,7 +152,7 @@ export default {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: url('../../../assets/img/answer-jing.png') no-repeat;
+  background: url('~@/assets/img/answer-jing.png') no-repeat;
   vertical-align: middle;
   margin-right: 5px;
 }

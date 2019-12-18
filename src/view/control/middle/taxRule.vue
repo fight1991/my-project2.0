@@ -103,7 +103,7 @@ export default {
         margin-right: 6px;
         vertical-align: middle;
         margin-top: -2px;
-        background: url('../../../assets/img/icon/icon-lookH.png') no-repeat;
+        background: url('~@/assets/img/icon/icon-lookH.png') no-repeat;
       }
     }
     .table-more{
@@ -116,7 +116,7 @@ export default {
           display: inline-block;
           width: 18px;
           height: 18px;
-          background: url('../../../assets/img/icon/oper_more_1.png')no-repeat;
+          background: url('~@/assets/img/icon/oper_more_1.png')no-repeat;
           vertical-align: middle;
           margin: -3px 5px 0 0;
         }

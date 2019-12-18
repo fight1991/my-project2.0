@@ -3,7 +3,7 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner-default fl default" v-if="bannerList.length===0">
-        <img class="default-left" src="../../../assets/img/icon/noPhoto.png" alt="">
+        <img class="default-left" src="@/assets/img/icon/noPhoto.png" alt="">
         <p>暂无描述</p>
       </div>
       <div class="banner fl" v-else>
@@ -20,7 +20,7 @@
       <div class="link-icon fr">
         <!-- <div class="default" v-if="iconList.length===0 && $store.state.userLoginInfo.adminFlag === 'true'">
           <a :href="getURL()" target="_blank">
-          <img class="default-right" src="../../../assets/img/icon/com_default.png" alt="">
+          <img class="default-right" src="@/assets/img/icon/com_default.png" alt="">
           <p>自定义</p>
           </a>
         </div> -->
@@ -42,7 +42,7 @@
 <script>
 import eventBus from './eventBus.js'
 import config from '@/config/config'
-import comDefaultIcon from '../../../assets/img/icon/com_default.png'
+import comDefaultIcon from '@/assets/img/icon/com_default.png'
 
 export default {
   data () {

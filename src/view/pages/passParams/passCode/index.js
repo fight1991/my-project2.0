@@ -1,10 +1,12 @@
 // 通关参数-通关代码
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/passParams/passCode',
   name: 'passParams-passCode',
   icon: 'icons-menu-passCode',
   permissions: 'CCBA21201000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '通关代码'
   },

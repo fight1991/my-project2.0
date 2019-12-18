@@ -3,13 +3,15 @@ import czhanJobs from './czhanJobs/index' // 场站业务
 import lareJobs from './lareJobs/index' // 通关作业
 import baoheJobs from './baoheJobs/index' // 核算核销
 import czhanJobsQuery from './czhanJobsQuery/index' // 场站业务查询
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/graininess/index',
     name: 'graininess-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

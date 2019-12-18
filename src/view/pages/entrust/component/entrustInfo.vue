@@ -1990,7 +1990,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import(less) '@/assets/style/common';
+@import '~@/assets/style/common';
 .entrust-main {
   padding: 20px;
   font-size:12px;
@@ -2021,7 +2021,7 @@ export default {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background: url('../../../../assets/img/icon/close.png') no-repeat;
+  background: url('~@/assets/img/icon/close.png') no-repeat;
   cursor: pointer;
   position: absolute;
   right: 0;
@@ -2036,10 +2036,10 @@ export default {
   top: -10px;
 }
 .status-icon-pend{
-  background: url('../../../../assets/img/pendOrder.png') no-repeat;
+  background: url('~@/assets/img/pendOrder.png') no-repeat;
 }
 .status-icon-already{
-  background: url('../../../../assets/img/alreadyOrder.png') no-repeat;
+  background: url('~@/assets/img/alreadyOrder.png') no-repeat;
 }
 .splitLine{
   height: 1px;

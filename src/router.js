@@ -115,6 +115,11 @@ router.beforeEach((to, from, next) => {
           title: '进出口管理',
           permissions: 'CCBA20200000000'
         }
+        import(
+          /* webpackPrefetch: true */
+          /* webpackChunkName: "dec-page" */
+          './view/pages/iExport/declaration/decPage/decPage'
+        )
         break
       case 'dataCenter':
         json = {

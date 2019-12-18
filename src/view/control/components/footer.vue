@@ -19,15 +19,15 @@
             <img :src="arrowSrc.arrowDown" alt="" v-if="bigIsShow">
             <img :src="arrowSrc.arrowUp" alt="" v-else>
           </div>
-          <!-- <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div> -->
+          <!-- <div class="manage"><img src="@/assets/img/icon/btm_set.png" alt=""><span>管理</span></div> -->
         </div>
         <div class="erweima-little" v-if="!bigIsShow">
-          <div class="little-ewm"><img src="../../../assets/img/icon/btm_QR.png" alt=""></div>
+          <div class="little-ewm"><img src="@/assets/img/icon/btm_QR.png" alt=""></div>
           <div class="zhihui">智慧通关</div>
         </div>
         <div class="erweima-big" v-if="bigIsShow">
           <div class="big-text">智慧通关小程序实时通关查询</div>
-          <div class="big-ewm"><img src="../../../assets/img/icon/btm_QRcode.png" alt=""></div>
+          <div class="big-ewm"><img src="@/assets/img/icon/btm_QRcode.png" alt=""></div>
         </div>
       </div>
     </div>
@@ -42,8 +42,8 @@ export default {
     return {
       bigIsShow: false,
       arrowSrc: {
-        arrowUp: require('../../../assets/img/icon/btm_fold_1.png'),
-        arrowDown: require('../../../assets/img/icon/btm_fold_2.png')
+        arrowUp: require('@/assets/img/icon/btm_fold_1.png'),
+        arrowDown: require('@/assets/img/icon/btm_fold_2.png')
       },
       quickItems: pathList.keyBoardPath
     }

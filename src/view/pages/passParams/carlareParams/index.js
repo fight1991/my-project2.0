@@ -1,10 +1,10 @@
-
+import abstractComponent from '@/view/common/abstract.vue'
 const MENU = {
   path: '/passParams/carParams',
   name: 'passParams-carParams',
   icon: 'icons-menu-carParams',
   permissions: 'CCBA21203000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '汽车申报参数'
   },

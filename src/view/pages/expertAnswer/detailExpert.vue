@@ -4,14 +4,14 @@
          <el-row class="content-title">
           <span>
             <img v-if="titleData.userPhoto!=null" class='user-img' :src="titleData.userPhoto">
-            <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+            <img v-else class='user-img' src="@/assets/img/answer-head.png">
             <div class="user-name">
               {{titleData.userName}}
             </div>
           </span>
           <span class="left-cls">
             <div class="answer-title">
-              <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === 'true'">
+              <img src="@/assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === 'true'">
               <span class="word-break">{{titleData.questionTitle}}</span>
             </div>
             <div>
@@ -30,7 +30,7 @@
           <el-row class="content-list">
             <span>
               <img v-if="item.userPhoto!=null" class='user-img' :src="item.userPhoto">
-              <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+              <img v-else class='user-img' src="@/assets/img/answer-head.png">
               <div class="user-name">
                 {{item.userName}}
               </div>
@@ -47,14 +47,14 @@
                 <div class="slo-right">
                   <span class="create-time">
                     <span class="small-title">
-                      <img src="../../../assets/img/answer-bq.png" class='small-img'>
+                      <img src="@/assets/img/answer-bq.png" class='small-img'>
                       {{item.categoryName}}
                     </span>
                     <span class="mg-l-10">
                       {{item.createTime}}
                     </span>
                   </span>
-                  <img v-if="item.acceptFlag === 'true'" src="../../../assets/img/answer-sol.png" class="sol-img">
+                  <img v-if="item.acceptFlag === 'true'" src="@/assets/img/answer-sol.png" class="sol-img">
                 </div>
               </div>
             </span>
@@ -527,7 +527,7 @@ export default {
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url('../../../assets/img/icon/close.png') no-repeat;
+  background: url('~@/assets/img/icon/close.png') no-repeat;
   position: absolute;
   right: 20px;
   top: 0;

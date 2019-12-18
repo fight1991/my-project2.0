@@ -1,10 +1,12 @@
 // 业务报表
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/reportCenter/business',
   name: 'business',
   icon: 'icons-menu-jobsList',
   permissions: 'CCBA20601000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '业务报表'
   },

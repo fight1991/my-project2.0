@@ -1,10 +1,12 @@
 // 海关监管-通关作业
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/sea/lareJobs',
   name: 'sea-lareJobs',
   icon: 'icons-menu-lareJobs',
   permissions: 'CCBA20902000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '通关作业'
   },

@@ -6,7 +6,7 @@
     </div>
     <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
-        <div class="default" v-if="item.newsList.length === 0"><img src="../../../assets/img/icon/news.png" alt=""></div>
+        <div class="default" v-if="item.newsList.length === 0"><img src="@/assets/img/icon/news.png" alt=""></div>
         <div class="per-row"  v-for="item1 in item.newsList" :key="item1.pid" v-else>
           <div class="content" @click="getDetail(item1.pid)">
             <span :class="{'new-title':true, 'text-cut':true, flag:item1.isNew}">{{item1.title}}</span>
@@ -23,7 +23,7 @@ import eventBus from './eventBus'
 export default {
   data () {
     return {
-      moreIcon: require('../../../assets/img/oper_more.png'),
+      moreIcon: require('@/assets/img/oper_more.png'),
       dates: '',
       activeName: 'Announcement',
       newsInfo: [
@@ -168,7 +168,7 @@ export default {
     height: 14px;
     right: 0;
     top: 1px;
-    background: url("../../../assets/img/icon/new.png") no-repeat
+    background: url("~@/assets/img/icon/new.png") no-repeat
   }
   .date {
     text-align: right;

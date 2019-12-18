@@ -24,9 +24,9 @@
                     :on-preview="showfileUrl"
                     :on-remove="(e)=>{handleDelete(e,item)}">
                       <img v-if="item.isImg && !item.fileType" :src="item.documentUrl" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isPdf && !item.fileType" src="@/assets/img/icon/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isWord && !item.fileType" src="@/assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isExcel && !item.fileType" src="@/assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
                         <el-button size="mini" type="primary">重新上传</el-button>
                       </el-row>
@@ -386,7 +386,7 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
+      background: url('~@/assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;

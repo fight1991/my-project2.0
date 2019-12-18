@@ -90,7 +90,7 @@ export default {
     display: inline-block;
     width: 380px;
     height: 64px;
-    background: url('../../../assets/img/icon/CCBA_logo.png') no-repeat 0 0;
+    background: url('~@/assets/img/icon/CCBA_logo.png') no-repeat 0 0;
     background-size: 280px 64px;
     background-size: cover;
     vertical-align: middle;

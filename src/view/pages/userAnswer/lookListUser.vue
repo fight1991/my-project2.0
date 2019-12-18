@@ -347,7 +347,7 @@ export default {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: url('../../../assets/img/answer-jing.png') no-repeat;
+  background: url('~@/assets/img/answer-jing.png') no-repeat;
   vertical-align: middle;
   margin-right: 5px;
 }
@@ -377,7 +377,7 @@ export default {
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url('../../../assets/img/icon/close.png') no-repeat;
+  background: url('~@/assets/img/icon/close.png') no-repeat;
   position: absolute;
   right: 10px;
   top: 0;

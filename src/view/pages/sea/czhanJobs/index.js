@@ -1,10 +1,12 @@
 // 海关监管-场站业务
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/sea/czhanJobs',
   name: 'sea-czhanJobs',
   icon: 'icons-menu-czjb',
   permissions: 'CCBA20904000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '场站作业'
   },

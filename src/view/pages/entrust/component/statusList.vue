@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import(less) '@/assets/style/common';
+@import '~@/assets/style/common';
 .entrust-main {
   padding: 20px;
   font-size:12px;

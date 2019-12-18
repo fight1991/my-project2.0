@@ -94,13 +94,13 @@ export default {
   padding: 10px;
   box-sizing: border-box;
   cursor: pointer;
-  background:url("../../../assets/img/icon/btn-left.png") no-repeat;
+  background:url("~@/assets/img/icon/btn-left.png") no-repeat;
   z-index: 22;
   background-origin:content-box;
   background-color: #fff;
 }
 .btn-rotate {
-  background:url("../../../assets/img/icon/btn-right.png") no-repeat;
+  background:url("~@/assets/img/icon/btn-right.png") no-repeat;
   background-origin:content-box;
   background-color: #fff;
 }

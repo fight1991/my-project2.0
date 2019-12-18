@@ -12,21 +12,21 @@
           <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;{{$store.state.userLoginInfo.companyName? '-':''}}&nbsp;</span>
           <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="../../assets/img/icon/admin.png">
+          <img v-else class='user-img' src="@/assets/img/icon/admin.png">
         </span>
         <el-dropdown-menu slot="dropdown" class="ccba-control">
           <div class="personBgc"></div>
           <el-dropdown-item  class='hidden-xs-only dropDown-top'>
             <div class="userInfo">
               <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
-              <div class="headImg" v-else><img src="../../assets/img/icon/admin.png" alt=""></div>
+              <div class="headImg" v-else><img src="@/assets/img/icon/admin.png" alt=""></div>
               <div class="introduce">
                 <p class="name">{{$store.state.userLoginInfo.userName}}</p>
                 <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
                 <div class="switchCorp" @click="switchCorp">切换公司</div>
                 <div class="glory">
                   <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
-                    <img src="../../assets/img/icon/admin_vip.png" alt="">
+                    <img src="@/assets/img/icon/admin_vip.png" alt="">
                     <p>{{item.titleName}}</p>
                   </div>
                 </div>
@@ -65,8 +65,8 @@
 import config from '../../config/config'
 import commonPath from '../../config/commonPath'
 import util from '@/common/util'
-import defaultImg from '../../assets/img/icon/CCBA_logo.png'
-import hegsImg from '../../assets/img/icon/HEGS_logo.png'
+import defaultImg from '@/assets/img/icon/CCBA_logo.png'
+import hegsImg from '@/assets/img/icon/HEGS_logo.png'
 
 export default {
   data () {
@@ -251,14 +251,14 @@ export default {
   top: 0;
   width: 100%;
   height: 50%;
-  background:url("../../assets/img/icon/personBGC.png") no-repeat center top;
+  background:url("~@/assets/img/icon/personBGC.png") no-repeat center top;
 }
 .switchCorp {
   cursor: pointer;
   width: 50px;
   margin: 0 auto;
   padding-left: 20px;
-  background:url("../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
+  background:url("~@/assets/img/icon/admin_switch.png") no-repeat 0 13px;
   color: #287fca;
   font-size: 12px;
   margin-bottom: 5px;
@@ -274,7 +274,7 @@ export default {
     margin:0 auto;
     font-size: 14px;
     line-height: 50px;
-    background:url("../../assets/img/icon/admin_quit.png") no-repeat 0 17px;
+    background:url("~@/assets/img/icon/admin_quit.png") no-repeat 0 17px;
   }
 }
 .el-dropdown-link {

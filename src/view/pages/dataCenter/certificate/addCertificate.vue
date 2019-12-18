@@ -50,9 +50,9 @@
               :on-preview="showfileUrl"
               :on-remove="handleDelete">
               <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
-              <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="@/assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="@/assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="@/assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-row>
                <el-button size="mini" class="longButton" type="primary">上传附件</el-button>
               </el-row>
@@ -437,7 +437,7 @@ export default {
         width: 18px;
         height: 18px;
         margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
+        background: url('~@/assets/img/icon/back.png') no-repeat center center;
         background-size: 100%;
         vertical-align: middle;
     }

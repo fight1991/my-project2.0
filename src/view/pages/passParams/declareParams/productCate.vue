@@ -125,10 +125,10 @@ export default {
     margin-right: 6px;
     vertical-align: middle;
     margin-top: -2px;
-    background: url('../../../../assets/img/icon/icon-look.png') no-repeat;
+    background: url('~@/assets/img/icon/icon-look.png') no-repeat;
   }
   &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
+    background: url('~@/assets/img/icon/icon-lookH.png') no-repeat;
   }
 }
 .pro-inf{

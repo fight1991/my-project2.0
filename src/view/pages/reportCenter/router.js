@@ -1,5 +1,7 @@
 import Business from './business/index' // 业务报表
 import KpiData from './kpiData/index' // KPI报表
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/reportCenter/index',
@@ -7,7 +9,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

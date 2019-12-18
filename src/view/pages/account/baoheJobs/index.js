@@ -1,10 +1,12 @@
 // 加工贸易账册-核销核算
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/account/baoheJobs',
   name: 'account-baoheJobs',
   icon: 'icons-menu-baoheJobs',
   permissions: 'CCBA20703000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '核销核算'
   },

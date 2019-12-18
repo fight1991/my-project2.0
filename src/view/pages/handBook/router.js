@@ -2,13 +2,15 @@ import baoheJobs from './baoheJobs/index' // 核销核算
 import beianJobs from './beianJobs/index' // 电子底账
 import czhanJobs from './czhanJobs/index' // 外发加工
 import lareJobs from './lareJobs/index' // 通关作业
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/handBook/index',
     name: 'hand-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

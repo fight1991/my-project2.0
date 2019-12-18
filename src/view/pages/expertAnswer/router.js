@@ -1,3 +1,4 @@
+import indexComponent from '@/view/pages/index.vue'
 
 const MENU = [
   {
@@ -6,7 +7,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

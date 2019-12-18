@@ -1,10 +1,12 @@
 // 通关参数-商品申报参数
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/passParams/productParams',
   name: 'passParams-productParams',
   icon: 'icons-menu-productParams',
   permissions: 'CCBA21202000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '商品申报参数'
   },

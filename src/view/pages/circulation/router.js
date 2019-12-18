@@ -2,13 +2,15 @@ import decForom from './decForm/index' // 申报表
 import goodsBill from './goodsBill/index' // 收发货单
 import multipleQuery from './multipleQuery/index' // 综合查询
 import synDecForm from './synDecForm/index' // 同步申报表
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/circulation/index',
     name: 'circulation-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

@@ -1,10 +1,12 @@
 // 加工贸易账册-外发加工
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/account/czhanJobs',
   name: 'account-czhanJobs',
   icon: 'icons-menu-czhanJobs',
   permissions: 'CCBA20704000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '外发加工'
   },
