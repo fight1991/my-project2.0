@@ -18,7 +18,7 @@ const MENU = [
     permissions: 'ccba2010',
     icon: 'icons-menu-index',
     meta: {
-      component: resolve => require(['./expertList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "expert-answerer-list" */ './expertList.vue'),
       title: '首页(专家)'
     }
   },
@@ -28,7 +28,7 @@ const MENU = [
     permissions: 'ccba2010',
     icon: 'icons-menu-solute',
     meta: {
-      component: resolve => require(['./lookListExpert.vue'], resolve),
+      component: () => import(/* webpackChunkName: "look-list-expert" */ './lookListExpert.vue'),
       title: '我的解答'
     }
   },
@@ -36,7 +36,7 @@ const MENU = [
     path: '/expertAnswer/detailExpert/:questionId/:userId',
     name: 'expertAnswer-detail',
     meta: {
-      component: resolve => require(['./detailExpert.vue'], resolve),
+      component: () => import(/* webpackChunkName: "expert-answerer-detail" */ './detailExpert.vue'),
       title: '查看详情'
     }
   }

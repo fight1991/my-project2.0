@@ -1,6 +1,7 @@
 import Business from './business/index' // 业务报表
 import KpiData from './kpiData/index' // KPI报表
 import indexComponent from '@/view/pages/index.vue'
+import newTabComponent from '../component/newTab.vue'
 
 const MENU = [
   {
@@ -20,7 +21,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },

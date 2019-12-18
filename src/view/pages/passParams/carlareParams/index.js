@@ -15,7 +15,7 @@ const MENU = {
       permissions: 'CCBA21203010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./ceCompare.vue'], resolve),
+        component: () => import(/* webpackChunkName: "ce-compare" */ './ceCompare.vue'),
         title: '中英文对照'
       }
     },
@@ -25,7 +25,7 @@ const MENU = {
       permissions: 'CCBA21203020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./carParter.vue'], resolve),
+        component: () => import(/* webpackChunkName: "car-parter" */ './carParter.vue'),
         title: '汽车零部件清单'
       }
     }

@@ -1,5 +1,6 @@
 // 加工贸易账册-外发加工
 import abstractComponent from '@/view/common/abstract.vue'
+import accountCzhanJobsIndexComponent from './index.vue'
 
 const MENU = {
   path: '/account/czhanJobs',
@@ -17,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20704010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountCzhanJobsIndexComponent,
         title: '外发加工申报表'
       }
     },
@@ -27,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20704020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountCzhanJobsIndexComponent,
         title: '外发加工发货单'
       }
     },
@@ -37,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20704030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountCzhanJobsIndexComponent,
         title: '外发加工收货单'
       }
     },
@@ -47,7 +48,7 @@ const MENU = {
       permissions: 'CCBA20704040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountCzhanJobsIndexComponent,
         title: '外发加工申报表查询'
       }
     },
@@ -57,7 +58,7 @@ const MENU = {
       permissions: 'CCBA20704050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountCzhanJobsIndexComponent,
         title: '外发加工收发货单查询'
       }
     }
