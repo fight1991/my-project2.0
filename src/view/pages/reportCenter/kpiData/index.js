@@ -17,7 +17,7 @@ const MENU = {
       permissions: 'CCBA20602010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./workLoad.vue'], resolve),
+        component: () => import(/* webpackChunkName: "work-load" */ './workLoad.vue'),
         title: '工作量统计'
       }
     }

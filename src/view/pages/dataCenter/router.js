@@ -5,6 +5,7 @@ import JobsLicense from './jobsLicense/index' // 业务单据管理
 import Customer from './customer/index' // 客户管理
 import Classify from './classify/index' // 归类管理
 import indexComponent from '@/view/pages/index.vue'
+import newTabComponent from '../component/newTab.vue'
 
 const MENU = [
   {
@@ -24,7 +25,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },

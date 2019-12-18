@@ -66,6 +66,7 @@
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import storageHandle from '@/common/storageHandle'
 import batchUpload from '../../component/batchUpload'
 export default {
   components: {
@@ -334,11 +335,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+            this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
           }
         })
       } else {
-        this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+        this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
       }
     },
     // 导入

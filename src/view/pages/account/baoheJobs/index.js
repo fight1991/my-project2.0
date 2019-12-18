@@ -1,5 +1,6 @@
 // 加工贸易账册-核销核算
 import abstractComponent from '@/view/common/abstract.vue'
+import accountBaoheJobsIndexComponent from './index.vue'
 
 const MENU = {
   path: '/account/baoheJobs',
@@ -17,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20703010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountBaoheJobsIndexComponent,
         title: '加工贸易账册报核'
       }
     },
@@ -27,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20703020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: accountBaoheJobsIndexComponent,
         title: '加工贸易账册报核查询'
       }
     }

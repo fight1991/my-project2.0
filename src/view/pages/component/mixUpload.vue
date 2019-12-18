@@ -55,6 +55,7 @@
 </template>
 <script>
 import util from '@/common/util'
+import storageHandle from '@/common/storageHandle'
 export default {
   name: 'mix-upload',
   props: {
@@ -102,14 +103,14 @@ export default {
         useStorage: true,
         storageKey: par,
         hasStorageCallback: () => {
-          this.docType = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+          this.docType = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
         },
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: {
           'tableNames': par
         },
         success: (res) => {
-          this.docType = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+          this.docType = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
         }
       })
     },

@@ -29,7 +29,7 @@ const routes = [
   }, {
     path: '/main',
     name: 'main',
-    component: resolve => require(['./view/pages/main.vue'], resolve),
+    component: () => import(/* webpackChunkName: "main" */ './view/pages/main.vue'),
     meta: {
       title: '主页'
     },
@@ -40,7 +40,7 @@ const routes = [
     hidden: true,
     icon: 'el-icon-menu',
     permissions: 'WF000000',
-    component: resolve => require(['./view/www/index.vue'], resolve),
+    component: () => import(/* webpackChunkName: "www-index" */ './view/www/index.vue'),
     meta: {
       title: 'CCBA官网'
     },
@@ -51,7 +51,7 @@ const routes = [
     hidden: true,
     icon: 'el-icon-menu',
     permissions: 'WF000000',
-    component: resolve => require(['./view/control/index.vue'], resolve),
+    component: () => import(/* webpackChunkName: "control" */'./view/control/index.vue'),
     meta: {
       title: '工作台'
     }
@@ -60,7 +60,7 @@ const routes = [
     name: 'detail',
     hidden: true,
     permissions: 'WF000000',
-    component: resolve => require(['./view/control/components/detail.vue'], resolve),
+    component: () => import(/* webpackChunkName: "news-detail" */'./view/control/components/detail.vue'),
     meta: {
       title: '详情'
     }
@@ -69,7 +69,7 @@ const routes = [
     name: 'newsList',
     hidden: true,
     permissions: 'WF000000',
-    component: resolve => require(['./view/control/components/newsList.vue'], resolve),
+    component: () => import(/* webpackChunkName: "news-list" */'./view/control/components/newsList.vue'),
     meta: {
       title: '资讯列表'
     }

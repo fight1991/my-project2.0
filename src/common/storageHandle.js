@@ -1,6 +1,6 @@
 const edocCodeSpecial = {
-  // '00000001': 'order',
-  // '00000002': 'license'
+  '70000001': 'order',
+  '70000002': 'license'
 }
 let edocCodes
 export default {

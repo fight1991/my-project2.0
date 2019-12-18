@@ -2,6 +2,7 @@ import CarlareParams from './carlareParams/index' // 汽车申报参数
 import PassCode from './passCode/index' // 通关代码
 import DeclareParams from './declareParams/index' // 商品申报参数
 import indexComponent from '@/view/pages/index.vue'
+import newTabComponent from '../component/newTab.vue'
 
 const MENU = [
   {
@@ -20,7 +21,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },

@@ -1,5 +1,6 @@
 // 海关监管-通关作业
 import abstractComponent from '@/view/common/abstract.vue'
+import seaLareJobsIndexComponent from './index.vue'
 
 const MENU = {
   path: '/sea/lareJobs',
@@ -17,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20902010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '保税核注清单（进口）'
       }
     },
@@ -27,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20902020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '保税核注清单（出口）'
       }
     },
@@ -37,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20902030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '集中报关'
       }
     },
@@ -47,7 +48,7 @@ const MENU = {
       permissions: 'CCBA20902040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '清单结关'
       }
     },
@@ -57,7 +58,7 @@ const MENU = {
       permissions: 'CCBA20902050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '保税核注清单查询'
       }
     },
@@ -67,7 +68,7 @@ const MENU = {
       permissions: 'CCBA20902060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaLareJobsIndexComponent,
         title: '清单结关查询'
       }
     }
