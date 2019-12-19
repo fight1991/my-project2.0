@@ -403,7 +403,7 @@ export default {
   top: 0;
   width: 100%;
   height: 50%;
-  background:url("~@/assets/img/icon/personBGC.png") no-repeat center top;
+  background:url("https://www.5itrade.cn/files/CCBA/personBGC.png") no-repeat center top;
 }
 .switchCorp {
   cursor: pointer;

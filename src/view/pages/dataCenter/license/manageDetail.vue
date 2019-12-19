@@ -124,9 +124,9 @@
               :file-list="fileLists"
               :show-file-list="fileType">
               <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click.stop="showfile(subData.info.licenseUrl)">
-              <img v-if="isPdf  && !fileType" src="@/assets/img/icon/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <img v-if="isWord  && !fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="@/assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
                <el-button size="mini" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
