@@ -4,7 +4,7 @@
          <el-row class="content-title">
           <span>
             <img v-if="titleData.userPhoto!=null" class='user-img' :src="titleData.userPhoto">
-            <img v-else class='user-img' src="@/assets/img/answer-head.png">
+            <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
             <div class="user-name">
               {{titleData.userName}}
             </div>
@@ -30,7 +30,7 @@
           <el-row class="content-list">
             <span>
               <img v-if="item.userPhoto!=null" class='user-img' :src="item.userPhoto">
-              <img v-else class='user-img' src="@/assets/img/answer-head.png">
+              <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
               <div class="user-name">
                 {{item.userName}}
               </div>
@@ -54,7 +54,7 @@
                       {{item.createTime}}
                     </span>
                   </span>
-                  <img v-if="item.acceptFlag === 'true'" src="@/assets/img/answer-sol.png" class="sol-img">
+                  <img v-if="item.acceptFlag === 'true'" src="https://www.5itrade.cn/files/CCBA/answer-sol.png" class="sol-img">
                 </div>
               </div>
             </span>

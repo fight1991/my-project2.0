@@ -6,7 +6,7 @@
     </div>
     <el-tabs v-model="activeName" @tab-click="getNews">
       <el-tab-pane :label="item.label" :name="item.name" v-for="item in newsInfo" :key="item.name">
-        <div class="default" v-if="item.newsList.length === 0"><img src="@/assets/img/icon/news.png" alt=""></div>
+        <div class="default" v-if="item.newsList.length === 0"><img src="https://www.5itrade.cn/files/CCBA/news.png" alt=""></div>
         <div class="per-row"  v-for="item1 in item.newsList" :key="item1.pid" v-else>
           <div class="content" @click="getDetail(item1.pid)">
             <span :class="{'new-title':true, 'text-cut':true, flag:item1.isNew}">{{item1.title}}</span>

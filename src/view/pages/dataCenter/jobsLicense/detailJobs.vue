@@ -13,9 +13,9 @@
                     :file-list="fileLists"
                     :show-file-list="item.fileType">
                     <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isPdf  && !item.fileType" src="@/assets/img/icon/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isWord  && !item.fileType" src="@/assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isExcel  && !item.fileType" src="@/assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isPdf  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isWord  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isExcel  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                     </el-upload>
                   </el-col>
                   <el-col :span="17">
@@ -59,7 +59,7 @@
         </el-col>
     </el-row>
     <el-row v-else class="null-img">
-       <img src="@/assets/img/error/null.png" alt=""/>
+       <img src="https://www.5itrade.cn/files/CCBA//null.png" alt=""/>
     </el-row>
   </section>
 </template>
