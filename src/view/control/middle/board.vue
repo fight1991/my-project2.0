@@ -23,7 +23,7 @@
           </el-form-item>
         </el-form>
         <el-row>
-          <div class="default" v-if="tableData.length === 0"><img src="@/assets/img/icon/board.png" alt=""></div>
+          <div class="default" v-if="tableData.length === 0"><img src="https://www.5itrade.cn/files/CCBA/board.png" alt=""></div>
           <div class="ccba-table" v-else>
             <el-table
               :data="tableData"

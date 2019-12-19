@@ -12,14 +12,14 @@
           <span class='hidden-xs-only companyName'>{{$store.state.userLoginInfo.companyName}}&nbsp;{{$store.state.userLoginInfo.companyName? '-':''}}&nbsp;</span>
           <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
           <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-          <img v-else class='user-img' src="@/assets/img/icon/admin.png">
+          <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/admin.png">
         </span>
         <el-dropdown-menu slot="dropdown" class="ccba-control">
           <div class="personBgc"></div>
           <el-dropdown-item  class='hidden-xs-only dropDown-top'>
             <div class="userInfo">
               <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
-              <div class="headImg" v-else><img src="@/assets/img/icon/admin.png" alt=""></div>
+              <div class="headImg" v-else><img src="https://www.5itrade.cn/files/CCBA/admin.png" alt=""></div>
               <div class="introduce">
                 <p class="name">{{$store.state.userLoginInfo.userName}}</p>
                 <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
@@ -65,8 +65,6 @@
 import config from '../../config/config'
 import commonPath from '../../config/commonPath'
 import util from '@/common/util'
-import defaultImg from '@/assets/img/icon/CCBA_logo.png'
-import hegsImg from '@/assets/img/icon/HEGS_logo.png'
 
 export default {
   data () {
@@ -78,8 +76,8 @@ export default {
       totalNum: 0,
       logoClick: false,
       logoConfig: {
-        'default': defaultImg,
-        'hegs': hegsImg
+        'default': 'https://www.5itrade.cn/files/CCBA/CCBA_logo.png',
+        'hegs': 'https://www.5itrade.cn/files/CCBA/HEGS_logo.png'
       },
       logImgUrl: ''
     }

@@ -2036,10 +2036,10 @@ export default {
   top: -10px;
 }
 .status-icon-pend{
-  background: url('~@/assets/img/pendOrder.png') no-repeat;
+  background: url('https://www.5itrade.cn/files/CCBA/pendOrder.png') no-repeat;
 }
 .status-icon-already{
-  background: url('~@/assets/img/alreadyOrder.png') no-repeat;
+  background: url('https://www.5itrade.cn/files/CCBA/alreadyOrder.png') no-repeat;
 }
 .splitLine{
   height: 1px;
