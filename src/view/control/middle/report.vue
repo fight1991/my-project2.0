@@ -26,7 +26,7 @@
         </el-form>
       </el-row>
     </div>
-    <div class="default" v-if="echartData.series[0].data.length===0"><img src="@/assets/img/icon/list.png" alt=""></div>
+    <div class="default" v-if="echartData.series[0].data.length===0"><img src="https://www.5itrade.cn/files/CCBA/list.png" alt=""></div>
     <div class="detail" ref="chartBox" v-else>
       <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>

@@ -27,7 +27,7 @@
         </div>
         <div class="erweima-big" v-if="bigIsShow">
           <div class="big-text">智慧通关小程序实时通关查询</div>
-          <div class="big-ewm"><img src="@/assets/img/icon/btm_QRcode.png" alt=""></div>
+          <div class="big-ewm"><img src="https://www.5itrade.cn/files/CCBA/btm_QRcode.png" alt=""></div>
         </div>
       </div>
     </div>

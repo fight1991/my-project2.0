@@ -28,14 +28,14 @@
           <span class="el-dropdown-link">
             <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
             <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-            <img v-else class='user-img' src="@/assets/img/icon/admin.png">
+            <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/admin.png">
           </span>
           <el-dropdown-menu slot="dropdown" class="ccba-control">
             <div class="personBgc"></div>
             <el-dropdown-item  class='hidden-xs-only dropDown-top'>
               <div class="userInfo">
                 <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
-                <div class="headImg" v-else><img src="@/assets/img/icon/admin.png" alt=""></div>
+                <div class="headImg" v-else><img src="https://www.5itrade.cn/files/CCBA/admin.png" alt=""></div>
                 <div class="introduce">
                   <p class="name">{{$store.state.userLoginInfo.userName}}</p>
                   <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
@@ -94,8 +94,6 @@
 import config from '../../../config/config'
 import commonPath from '../../../config/commonPath'
 import util from '@/common/util'
-import defaultImg from '@/assets/img/icon/CCBA_logo.png'
-import hegsImg from '@/assets/img/icon/HEGS_logo.png'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -111,8 +109,8 @@ export default {
       setModules: [],
       checkedSet: [],
       logoConfig: {
-        'default': defaultImg,
-        'hegs': hegsImg
+        'default': 'https://www.5itrade.cn/files/CCBA/CCBA_logo.png',
+        'hegs': 'https://www.5itrade.cn/files/CCBA/HEGS_logo.png'
       },
       logImgUrl: ''
     }
@@ -405,7 +403,7 @@ export default {
   top: 0;
   width: 100%;
   height: 50%;
-  background:url("~@/assets/img/icon/personBGC.png") no-repeat center top;
+  background:url("https://www.5itrade.cn/files/CCBA/personBGC.png") no-repeat center top;
 }
 .switchCorp {
   cursor: pointer;
