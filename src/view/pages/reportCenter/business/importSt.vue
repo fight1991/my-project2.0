@@ -159,6 +159,9 @@
               <el-table-column label="客户业务号" min-width="120" prop="ref1" align="left" v-if="thList.ref1.value"></el-table-column>
               <el-table-column label="海关编号" min-width="160" prop="entryId" align="center" v-if="thList.entryId.value"></el-table-column>
               <el-table-column label="境内收发货人" min-width="210" prop="tradeName" align="left" v-if="thList.tradeName.value"></el-table-column>
+              <el-table-column label="境外收发货人" min-width="210" prop="overseasConsignorEname" align="left" v-if="thList.overseasConsignorEname.value"></el-table-column>
+              <el-table-column label="消费使用单位" min-width="210" prop="ownerName" align="left" v-if="thList.ownerName.value"></el-table-column>
+              <el-table-column label="申报单位" min-width="210" prop="agentName" align="left" v-if="thList.agentName.value"></el-table-column>
               <el-table-column label="申报地海关" min-width="100" prop="customMasterValue" align="center" v-if="thList.customMasterValue.value"></el-table-column>
               <el-table-column label="申报日期" min-width="100" prop="dDate" align="center" v-if="thList.dDate.value"></el-table-column>
               <el-table-column label="进境关别" min-width="160" prop="iEPortValue" align="center" v-if="thList.iEPortValue.value"></el-table-column>
@@ -278,12 +281,13 @@ export default {
         ]
       }, // 字典标明
       cusCustomsCodeList: [],
-      thList: tableHeadFieldList, // 表头字段
+      thList: {}, // 表头字段
       userId: '', // 用户id
       downloadVisable: false // 下载进度弹窗
     }
   },
   created () {
+    this.handleTableHeadFields()
     this.dates = [util.getNdayDate(new Date(), -29), new Date()]
     this.getCommonParam()
     this.queryUserInfo()
@@ -298,6 +302,13 @@ export default {
     this.doInit()
   },
   methods: {
+    handleTableHeadFields () {
+      let list = util.simpleClone(tableHeadFieldList)
+      list['iEPortValue'].fieldName = '进境关别'
+      list['ownerName'].fieldName = '消费使用单位'
+      delete list['overseasConsigneeEname']
+      this.thList = list
+    },
     // 获取委托客户
     getEntrus () {
       this.$store.dispatch('ajax', {
