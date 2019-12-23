@@ -3,7 +3,7 @@ import abstractComponent from '@/view/common/abstract.vue'
 const MENU = {
   path: '/expressDeclare/declareBill',
   name: 'expressDeclare-declareBill',
-  icon: 'icons-menu-declareBill',
+  icon: 'icons-menu-expressDec',
   permissions: 'CCBA21203000000',
   component: abstractComponent,
   meta: {

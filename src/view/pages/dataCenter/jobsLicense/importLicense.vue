@@ -29,7 +29,7 @@
           <el-row :gutter="20">
             <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
-                <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
+                <span class="list-icon-delete_all"><i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i></span>
                 <el-row>
                   <el-col :md="12" :lg="12">
                     <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
@@ -72,7 +72,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-button size="mini" @click="addLicense"><img class="pointer" src="@/assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多业务单据</el-button>
+            <el-button class="list-icon-btn-add" size="mini" @click="addLicense"><i></i>&nbsp;&nbsp;上传更多业务单据</el-button>
           </el-row>
           <el-row class="query-btn">
             <el-button type="primary" size="mini" @click="submit">确认</el-button>
@@ -389,7 +389,6 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('~@/assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;

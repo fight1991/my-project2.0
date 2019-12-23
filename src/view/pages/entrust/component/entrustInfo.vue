@@ -14,7 +14,7 @@
       <div class="entrust-panel">
         <el-row class="entrust-title">委托信息</el-row>
         <el-row class="entrust-info-panel" v-for="(item,index) in entrustForm.beEntrustInfoVOs" :key="index">
-          <i class="panel-close" v-show="index!==0 && !isDetail" @click="delCorp(index, item)"></i>
+          <span class="list-icon-delete_all"><i class="panel-close" v-show="index!==0 && !isDetail" @click="delCorp(index, item)"></i></span>
           <i class="status-icon" v-if="isDetail" :class="{'status-icon-already':item.beEntrustStatus == '3','status-icon-pend':item.beEntrustStatus == '2'}"></i>
           <el-row :gutter="30">
             <el-col :md="12" :lg="6">
@@ -2021,7 +2021,6 @@ export default {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background: url('~@/assets/img/icon/close.png') no-repeat;
   cursor: pointer;
   position: absolute;
   right: 0;

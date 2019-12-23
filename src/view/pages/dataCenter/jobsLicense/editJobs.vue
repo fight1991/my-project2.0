@@ -13,7 +13,7 @@
           <el-row :gutter="5">
             <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
-                <i class="license-close-icon" @click="delLicense(index)"></i>
+                <span class="list-icon-delete_all"><i class="license-close-icon" @click="delLicense(index)"></i></span>
                 <el-row>
                   <el-col :span="8">
                     <el-upload
@@ -387,7 +387,6 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('~@/assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;

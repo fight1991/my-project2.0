@@ -541,9 +541,6 @@ export default {
 .query-table{
   padding:12px 18px;
 }
-.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i,.sys-table-table .list-icon-subimtCheck i{
-  background: url('~@/assets/img/icon/icon-subimtCheckH.png') no-repeat;
-}
 .dec-div .el-col{
   float: none;
 }

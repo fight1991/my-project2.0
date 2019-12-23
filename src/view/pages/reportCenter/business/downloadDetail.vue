@@ -12,7 +12,9 @@
         <el-table-column label="内容数量" min-width="120" align="right" prop="dataCount"></el-table-column>
         <el-table-column label="操作" width="90" align="center" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="mini" class="table-icon table-disabled-download" :class="{'table-disabled-downloadH': scope.row.docUrl}" :disabled="!scope.row.docUrl" :title="scope.row.docUrl ? '下载' : '文件生成中，请稍候...'" @click="downLoad(scope.row.docUrl)"><i></i></el-button>
+            <el-button type="text" size="mini" class="table-icon list-icon-download"  :disabled="!scope.row.docUrl" :title="scope.row.docUrl ? '下载' : '文件生成中，请稍候...'" @click="downLoad(scope.row.docUrl)">
+              <i v-if="scope.row.docUrl"></i>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

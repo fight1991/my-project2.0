@@ -23,10 +23,10 @@
               <div class="introduce">
                 <p class="name">{{$store.state.userLoginInfo.userName}}</p>
                 <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
-                <div class="switchCorp" @click="switchCorp">切换公司</div>
+                <div class="switchCorp list-icon-admin_switch" @click="switchCorp"><i></i>切换公司</div>
                 <div class="glory">
-                  <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
-                    <img src="@/assets/img/icon/admin_vip.png" alt="">
+                  <div class="glory-items list-icon-admin_vip" v-for="item in userTitleList" :key="item.titleName">
+                    <i></i>
                     <p>{{item.titleName}}</p>
                   </div>
                 </div>
@@ -39,7 +39,7 @@
             <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
           </el-dropdown-item>
           <el-dropdown-item command="loginOut" class="dropDown-bottom">
-            <div class="loginOut"><span>退出登录</span></div>
+            <div class="list-icon-admin_quit loginOut"><span><i></i>退出登录</span></div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -253,26 +253,30 @@ export default {
 }
 .switchCorp {
   cursor: pointer;
-  width: 50px;
+  width: 70px;
   margin: 0 auto;
-  padding-left: 20px;
-  background:url("~@/assets/img/icon/admin_switch.png") no-repeat 0 13px;
   color: #287fca;
   font-size: 12px;
   margin-bottom: 5px;
+  i {
+    margin-right: 7px;
+    vertical-align: middle;
+  }
 }
 
 .loginOut {
   span {
+    i {
+      margin-right: 7px;
+      vertical-align: middle;
+    }
     cursor: pointer;
     height: 50px;
     display: block;
     width: 80px;
-    padding-left: 15px;
     margin:0 auto;
     font-size: 14px;
     line-height: 50px;
-    background:url("~@/assets/img/icon/admin_quit.png") no-repeat 0 17px;
   }
 }
 .el-dropdown-link {

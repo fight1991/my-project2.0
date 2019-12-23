@@ -235,69 +235,69 @@ export default {
   keyBoardPath: [
     // {
     //   id: 1,
-    //   icon: require('../assets/img/icon-bottom/btm_cust.png'),
+    //   iconClass: 'list-icon-btm_cust'),
     //   text: '客户管理',
     //   path: url.CCBA + '/BaseData/CopCustomer/Index'
     // },
     {
       id: 2,
-      icon: require('../assets/img/icon-bottom/btm_im_receipt.png'),
+      iconClass: 'list-icon-btm_im_receipt',
       text: '进口接单',
       path: url.CCBA + '/iExport/orderReceiving/iOrderReceiving',
       permissions: 'CCBA20202010000'
     },
     {
       id: 3,
-      icon: require('../assets/img/icon-bottom/btm_ex_Receipt.png'),
+      iconClass: 'list-icon-btm_ex_Receipt',
       text: '出口接单',
       path: url.CCBA + '/iExport/orderReceiving/eOrderReceiving',
       permissions: 'CCBA20202020000'
     },
     {
       id: 4,
-      icon: require('../assets/img/icon-bottom/btm_im_cdf.png'),
+      iconClass: 'list-icon-btm_im_cdf',
       text: '进口报关单',
       path: url.CCBA + '/iExport/importVouching/importDec/add/new',
       permissions: 'CCBA20209010000'
     },
     {
       id: 5,
-      icon: require('../assets/img/icon-bottom/btm_ex_cdf.png'),
+      iconClass: 'list-icon-btm_ex_cdf',
       text: '出口报关单',
       path: url.CCBA + '/iExport/exportVouching/exportDec/add/new',
       permissions: 'CCBA20210010000'
     },
     {
       id: 6,
-      icon: require('../assets/img/icon-bottom/btm_declar_review.png'),
+      iconClass: 'list-icon-btm_declar_review',
       text: '报关单审核',
       path: url.CCBA + '/iExport/reviewed/decReviewedList',
       permissions: 'CCBA20204010000'
     },
     {
       id: 7,
-      icon: require('../assets/img/icon-bottom/btm_bta.png'),
+      iconClass: 'list-icon-btm_bta',
       text: '业务跟踪台账',
       path: url.CCBA + '/iExport/dataQuery/tLedger',
       permissions: 'CCBA20205030000'
     },
     {
       id: 8,
-      icon: require('../assets/img/icon-bottom/btm_cddi.png'),
+      iconClass: 'list-icon-btm_cddi',
       text: '报关数据查询',
       path: url.CCBA + '/iExport/dataQuery/decInfo',
       permissions: 'CCBA20205010000'
     },
     {
       id: 9,
-      icon: require('../assets/img/icon-bottom/btm_im_annotation list.png'),
+      iconClass: 'list-icon-btm_im_annotation_list',
       text: '进口核注清单',
       path: url.CCBA + '/iExport/importVouching/importTaxList',
       permissions: 'CCBA20209030000'
     },
     {
       id: 10,
-      icon: require('../assets/img/icon-bottom/btm_ex_annotation list.png'),
+      iconClass: 'list-icon-btm_ex_annotation_list',
       text: '出口核注清单',
       path: url.CCBA + '/iExport/exportVouching/exportTaxList',
       permissions: 'CCBA20210030000'

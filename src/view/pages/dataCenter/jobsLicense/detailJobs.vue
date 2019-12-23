@@ -209,16 +209,6 @@ export default {
   .query-btn {
     text-align: center;
   }
-  .license-close-icon{
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      background: url('~@/assets/img/icon/close.png') no-repeat;
-      position: absolute;
-      right: 0;
-      top: 0;
-      cursor: pointer;
-    }
   .license-card{
     position: relative;
     margin-bottom: 20px;

@@ -1,0 +1,258 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+.icon-address {
+  background-image: url(./www.png);
+  background-position: -143px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-Education {
+  background-image: url(./www.png);
+  background-position: -93px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-ef01 {
+  background-image: url(./www.png);
+  background-position: -273px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-ef02 {
+  background-image: url(./www.png);
+  background-position: -668px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-ef03 {
+  background-image: url(./www.png);
+  background-position: -352px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-ef04 {
+  background-image: url(./www.png);
+  background-position: -431px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-ef05 {
+  background-image: url(./www.png);
+  background-position: -510px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-ef06 {
+  background-image: url(./www.png);
+  background-position: -589px -135px;
+  width: 74px;
+  height: 74px;
+}
+.icon-Gender {
+  background-image: url(./www.png);
+  background-position: -68px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-jiping {
+  background-image: url(./www.png);
+  background-position: 0px -264px;
+  width: 38px;
+  height: 38px;
+}
+.icon-logo1 {
+  background-image: url(./www.png);
+  background-position: -747px -135px;
+  width: 108px;
+  height: 37px;
+}
+.icon-logo2 {
+  background-image: url(./www.png);
+  background-position: -747px -177px;
+  width: 108px;
+  height: 23px;
+}
+.icon-Number {
+  background-image: url(./www.png);
+  background-position: -168px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-position {
+  background-image: url(./www.png);
+  background-position: -43px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-pro01 {
+  background-image: url(./www.png);
+  background-position: -91px -135px;
+  width: 86px;
+  height: 86px;
+}
+.icon-pro02 {
+  background-image: url(./www.png);
+  background-position: -182px -135px;
+  width: 86px;
+  height: 86px;
+}
+.icon-pro03 {
+  background-image: url(./www.png);
+  background-position: 0px -135px;
+  width: 86px;
+  height: 86px;
+}
+.icon-salary {
+  background-image: url(./www.png);
+  background-position: -193px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-shine {
+  background-image: url(./www.png);
+  background-position: 0px -226px;
+  width: 113px;
+  height: 33px;
+}
+.icon-talent-head {
+  background-image: url(./www.png);
+  background-position: 0px 0px;
+  width: 960px;
+  height: 130px;
+}
+.icon-tel {
+  background-image: url(./www.png);
+  background-position: -748px -226px;
+  width: 16px;
+  height: 16px;
+}
+.icon-Years {
+  background-image: url(./www.png);
+  background-position: -118px -264px;
+  width: 20px;
+  height: 20px;
+}
+.icon-anhui {
+  background-image: url(./www.png);
+  background-position: -905px -135px;
+  width: 40px;
+  height: 18px;
+}
+.icon-beijing {
+  background-image: url(./www.png);
+  background-position: -860px -135px;
+  width: 40px;
+  height: 18px;
+}
+.icon-dalian {
+  background-image: url(./www.png);
+  background-position: -905px -177px;
+  width: 40px;
+  height: 18px;
+}
+.icon-danyichuangkou {
+  background-image: url(./www.png);
+  background-position: -118px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-guangdongguangzhou {
+  background-image: url(./www.png);
+  background-position: -163px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-guangdonghuangpu {
+  background-image: url(./www.png);
+  background-position: -208px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-guangdongshenzhen {
+  background-image: url(./www.png);
+  background-position: -253px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-guangxi {
+  background-image: url(./www.png);
+  background-position: -298px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-hubei {
+  background-image: url(./www.png);
+  background-position: -343px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-hunan {
+  background-image: url(./www.png);
+  background-position: -388px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-jiangsu {
+  background-image: url(./www.png);
+  background-position: -433px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-ningbo {
+  background-image: url(./www.png);
+  background-position: -478px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-ruikumaoyi {
+  background-image: url(./www.png);
+  background-position: -523px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-shandong {
+  background-image: url(./www.png);
+  background-position: -568px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-shanghai {
+  background-image: url(./www.png);
+  background-position: -613px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-tianjing {
+  background-image: url(./www.png);
+  background-position: -658px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-yatai {
+  background-image: url(./www.png);
+  background-position: -703px -226px;
+  width: 40px;
+  height: 18px;
+}
+.icon-zhejiang {
+  background-image: url(./www.png);
+  background-position: -860px -177px;
+  width: 40px;
+  height: 18px;
+}

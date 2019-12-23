@@ -8,6 +8,7 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 const WebpackSpritesmithPlugin = require('webpack-spritesmith')
+const myTemplates = require('./customTemplate');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -82,7 +83,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 1,
+          limit: 3000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
@@ -118,23 +119,44 @@ module.exports = {
       verbose: true,
     }),
     new VueLoaderPlugin(),
-    // new WebpackSpritesmithPlugin({
-    //   src: {
-    //     cwd: path.join(__dirname, '../src/assets/img/icon'),
-    //     glob: '*.png'
-    //   },
-    //   target: {
-    //     image: path.join(__dirname, '../src/assets/sprites/sprite.png'),
-    //     css: path.join(__dirname, '../src/assets/sprites/sprites.css')
-    //   },
-    //   apiOptions: {
-    //     cssImageRef: './sprite.png'
-    //   },
-    //   spritesmithOptions: {
-    //     algorithm: 'top-down',
-    //     padding: 5
-    //   }
-    // })
+    new WebpackSpritesmithPlugin({
+      src: {
+        cwd: path.join(__dirname, '../src/assets/img'),
+        glob: '**/*.png'
+      },
+      target: {
+        image: path.join(__dirname, '../src/assets/sprites/ccba.png'),
+        css: [[path.join(__dirname, '../src/assets/sprites/ccba.css'),{
+          format:'custom_format' }]]
+      },
+      apiOptions: {
+        cssImageRef: './ccba.png'
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree',
+        padding: 5
+      },
+      customTemplates: {
+        'custom_format': myTemplates.customFormat,
+      }
+    }),
+    new WebpackSpritesmithPlugin({
+      src: {
+        cwd: path.join(__dirname, '../src/assets/www-img'),
+        glob: '**/*.png'
+      },
+      target: {
+        image: path.join(__dirname, '../src/assets/sprites/www.png'),
+        css: path.join(__dirname, '../src/assets/sprites/www.css')
+      },
+      apiOptions: {
+        cssImageRef: './www.png'
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree',
+        padding: 5
+      }
+    })
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
