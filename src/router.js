@@ -100,7 +100,6 @@ const router = new Router({
   base: 'ccba2',
   routes: routes
 })
-
 router.beforeEach((to, from, next) => {
   let childSys = to.path.split('/')
   if (childSys.length >= 2) {
@@ -313,12 +312,12 @@ router.beforeEach((to, from, next) => {
                     url: 'API@/saas-activity/expertQA/getUserIdentity',
                     data: {},
                     router: router,
-                    success: res => {
-                      this.expert = res.result.expert
-                      if (this.expert && currentModule === 'userAnswer') {
+                    success: (res) => {
+                      let expert = res.result.expert
+                      if (expert && currentModule === 'userAnswer') {
                         next('/expertAnswer/expertList')
-                      } else if (!this.expert && currentModule === 'expertAnswer') {
-                        next('/userAnswer/usertList')
+                      } else if (!expert && currentModule === 'expertAnswer') {
+                        next('/userAnswer/userList')
                       } else {
                         next()
                       }
