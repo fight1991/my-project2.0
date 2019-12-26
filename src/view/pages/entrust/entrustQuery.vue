@@ -112,7 +112,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.label}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"><i></i></el-button>
           </el-popover>
         </div>
       </el-row>
