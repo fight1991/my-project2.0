@@ -41,7 +41,7 @@
     background-position: -209px -335px;
 }
 
-.list-icon-billDown:hover i,.list-icon-billDown:focus i, .list-icon-billDown.is-disabled:hover i,.list-icon-billDown.is-disabled:focus i {
+.list-icon-billDown:hover i,.list-icon-billDown:focus i {
     width: 14px;
     height: 14px;
     background-position: -228px -335px;
@@ -53,7 +53,7 @@
     background-position: -247px -335px;
 }
 
-.list-icon-copy:hover i,.list-icon-copy:focus i, .list-icon-copy.is-disabled:hover i,.list-icon-copy.is-disabled:focus i {
+.list-icon-copy:hover i,.list-icon-copy:focus i {
     width: 14px;
     height: 14px;
     background-position: -80px -295px;
@@ -71,7 +71,7 @@
     background-position: -99px -295px;
 }
 
-.list-icon-detailEport:hover i,.list-icon-detailEport:focus i, .list-icon-detailEport.is-disabled:hover i,.list-icon-detailEport.is-disabled:focus i {
+.list-icon-detailEport:hover i,.list-icon-detailEport:focus i {
     width: 14px;
     height: 14px;
     background-position: -118px -295px;
@@ -83,7 +83,7 @@
     background-position: -175px -295px;
 }
 
-.list-icon-emailSend:hover i,.list-icon-emailSend:focus i, .list-icon-emailSend.is-disabled:hover i,.list-icon-emailSend.is-disabled:focus i {
+.list-icon-emailSend:hover i,.list-icon-emailSend:focus i {
     width: 14px;
     height: 14px;
     background-position: -194px -295px;
@@ -101,7 +101,7 @@
     background-position: -213px -295px;
 }
 
-.list-icon-mergeOrder:hover i,.list-icon-mergeOrder:focus i, .list-icon-mergeOrder.is-disabled:hover i,.list-icon-mergeOrder.is-disabled:focus i {
+.list-icon-mergeOrder:hover i,.list-icon-mergeOrder:focus i {
     width: 14px;
     height: 14px;
     background-position: -232px -295px;
@@ -167,7 +167,7 @@
     background-position: -312px -219px;
 }
 
-.list-icon-ai_print:hover i,.list-icon-ai_print:focus i, .list-icon-ai_print.is-disabled:hover i,.list-icon-ai_print.is-disabled:focus i {
+.list-icon-ai_print:hover i,.list-icon-ai_print:focus i {
     width: 20px;
     height: 20px;
     background-position: -312px -194px;
@@ -179,7 +179,7 @@
     background-position: -312px -169px;
 }
 
-.list-icon-amplifier:hover i,.list-icon-amplifier:focus i, .list-icon-amplifier.is-disabled:hover i,.list-icon-amplifier.is-disabled:focus i {
+.list-icon-amplifier:hover i,.list-icon-amplifier:focus i {
     width: 20px;
     height: 20px;
     background-position: -312px -144px;
@@ -191,7 +191,7 @@
     background-position: -312px -119px;
 }
 
-.list-icon-anticlockwise:hover i,.list-icon-anticlockwise:focus i, .list-icon-anticlockwise.is-disabled:hover i,.list-icon-anticlockwise.is-disabled:focus i {
+.list-icon-anticlockwise:hover i,.list-icon-anticlockwise:focus i {
     width: 20px;
     height: 20px;
     background-position: -312px -94px;
@@ -203,7 +203,7 @@
     background-position: -312px -69px;
 }
 
-.list-icon-clockwise:hover i,.list-icon-clockwise:focus i, .list-icon-clockwise.is-disabled:hover i,.list-icon-clockwise.is-disabled:focus i {
+.list-icon-clockwise:hover i,.list-icon-clockwise:focus i {
     width: 20px;
     height: 20px;
     background-position: -312px -44px;
@@ -215,7 +215,7 @@
     background-position: -312px -244px;
 }
 
-.list-icon-shrink:hover i,.list-icon-shrink:focus i, .list-icon-shrink.is-disabled:hover i,.list-icon-shrink.is-disabled:focus i {
+.list-icon-shrink:hover i,.list-icon-shrink:focus i {
     width: 20px;
     height: 20px;
     background-position: -285px -54px;
@@ -749,7 +749,7 @@
     background-position: -137px -295px;
 }
 
-.list-icon-look:hover i,.list-icon-look:focus i, .list-icon-look.is-disabled:hover i,.list-icon-look.is-disabled:focus i {
+.list-icon-look:hover i,.list-icon-look:focus i {
     width: 14px;
     height: 14px;
     background-position: -156px -295px;
@@ -803,7 +803,7 @@
     background-position: -289px -295px;
 }
 
-.list-icon-approval:hover i,.list-icon-approval:focus i, .list-icon-approval.is-disabled:hover i,.list-icon-approval.is-disabled:focus i {
+.list-icon-approval:hover i,.list-icon-approval:focus i {
     width: 14px;
     height: 14px;
     background-position: -327px -295px;
@@ -821,7 +821,7 @@
     background-position: -42px -295px;
 }
 
-.list-icon-abnormal:hover i,.list-icon-abnormal:focus i, .list-icon-abnormal.is-disabled:hover i,.list-icon-abnormal.is-disabled:focus i {
+.list-icon-abnormal:hover i,.list-icon-abnormal:focus i {
     width: 14px;
     height: 14px;
     background-position: -38px -316px;
@@ -839,7 +839,7 @@
     background-position: -57px -316px;
 }
 
-.list-icon-accountPass:hover i,.list-icon-accountPass:focus i, .list-icon-accountPass.is-disabled:hover i,.list-icon-accountPass.is-disabled:focus i {
+.list-icon-accountPass:hover i,.list-icon-accountPass:focus i {
     width: 14px;
     height: 14px;
     background-position: -95px -316px;
@@ -857,7 +857,7 @@
     background-position: -114px -316px;
 }
 
-.list-icon-add:hover i,.list-icon-add:focus i, .list-icon-add.is-disabled:hover i,.list-icon-add.is-disabled:focus i {
+.list-icon-add:hover i,.list-icon-add:focus i {
     width: 14px;
     height: 14px;
     background-position: -152px -316px;
@@ -875,7 +875,7 @@
     background-position: -171px -316px;
 }
 
-.list-icon-ai:hover i,.list-icon-ai:focus i, .list-icon-ai.is-disabled:hover i,.list-icon-ai.is-disabled:focus i {
+.list-icon-ai:hover i,.list-icon-ai:focus i {
     width: 14px;
     height: 14px;
     background-position: -209px -316px;
@@ -893,7 +893,7 @@
     background-position: -228px -316px;
 }
 
-.list-icon-autodeclare:hover i,.list-icon-autodeclare:focus i, .list-icon-autodeclare.is-disabled:hover i,.list-icon-autodeclare.is-disabled:focus i {
+.list-icon-autodeclare:hover i,.list-icon-autodeclare:focus i {
     width: 14px;
     height: 14px;
     background-position: -266px -316px;
@@ -911,7 +911,7 @@
     background-position: -285px -316px;
 }
 
-.list-icon-binding:hover i,.list-icon-binding:focus i, .list-icon-binding.is-disabled:hover i,.list-icon-binding.is-disabled:focus i {
+.list-icon-binding:hover i,.list-icon-binding:focus i {
     width: 14px;
     height: 14px;
     background-position: -323px -316px;
@@ -929,7 +929,7 @@
     background-position: -347px 0px;
 }
 
-.list-icon-canceldeclare:hover i,.list-icon-canceldeclare:focus i, .list-icon-canceldeclare.is-disabled:hover i,.list-icon-canceldeclare.is-disabled:focus i {
+.list-icon-canceldeclare:hover i,.list-icon-canceldeclare:focus i {
     width: 14px;
     height: 14px;
     background-position: -347px -38px;
@@ -947,7 +947,7 @@
     background-position: -347px -57px;
 }
 
-.list-icon-case:hover i,.list-icon-case:focus i, .list-icon-case.is-disabled:hover i,.list-icon-case.is-disabled:focus i {
+.list-icon-case:hover i,.list-icon-case:focus i {
     width: 14px;
     height: 14px;
     background-position: -347px -95px;
@@ -965,7 +965,7 @@
     background-position: -347px -114px;
 }
 
-.list-icon-check:hover i,.list-icon-check:focus i, .list-icon-check.is-disabled:hover i,.list-icon-check.is-disabled:focus i {
+.list-icon-check:hover i,.list-icon-check:focus i {
     width: 14px;
     height: 14px;
     background-position: -347px -152px;
@@ -983,7 +983,7 @@
     background-position: -347px -171px;
 }
 
-.list-icon-close:hover i,.list-icon-close:focus i, .list-icon-close.is-disabled:hover i,.list-icon-close.is-disabled:focus i {
+.list-icon-close:hover i,.list-icon-close:focus i {
     width: 14px;
     height: 14px;
     background-position: -347px -209px;
@@ -1001,7 +1001,7 @@
     background-position: -347px -247px;
 }
 
-.list-icon-create:hover i,.list-icon-create:focus i, .list-icon-create.is-disabled:hover i,.list-icon-create.is-disabled:focus i {
+.list-icon-create:hover i,.list-icon-create:focus i {
     width: 14px;
     height: 14px;
     background-position: -347px -285px;
@@ -1019,7 +1019,7 @@
     background-position: -347px -304px;
 }
 
-.list-icon-createOrder:hover i,.list-icon-createOrder:focus i, .list-icon-createOrder.is-disabled:hover i,.list-icon-createOrder.is-disabled:focus i {
+.list-icon-createOrder:hover i,.list-icon-createOrder:focus i {
     width: 14px;
     height: 14px;
     background-position: -19px -335px;
@@ -1037,7 +1037,7 @@
     background-position: -38px -335px;
 }
 
-.list-icon-declare:hover i,.list-icon-declare:focus i, .list-icon-declare.is-disabled:hover i,.list-icon-declare.is-disabled:focus i {
+.list-icon-declare:hover i,.list-icon-declare:focus i {
     width: 14px;
     height: 14px;
     background-position: -76px -335px;
@@ -1055,7 +1055,7 @@
     background-position: -95px -335px;
 }
 
-.list-icon-delete:hover i,.list-icon-delete:focus i, .list-icon-delete.is-disabled:hover i,.list-icon-delete.is-disabled:focus i {
+.list-icon-delete:hover i,.list-icon-delete:focus i {
     width: 14px;
     height: 14px;
     background-position: -133px -335px;
@@ -1073,7 +1073,7 @@
     background-position: -152px -335px;
 }
 
-.list-icon-download:hover i,.list-icon-download:focus i, .list-icon-download.is-disabled:hover i,.list-icon-download.is-disabled:focus i {
+.list-icon-download:hover i,.list-icon-download:focus i {
     width: 14px;
     height: 14px;
     background-position: -190px -335px;
@@ -1091,7 +1091,7 @@
     background-position: -45px -279px;
 }
 
-.list-icon-dropdown:hover i,.list-icon-dropdown:focus i, .list-icon-dropdown.is-disabled:hover i,.list-icon-dropdown.is-disabled:focus i {
+.list-icon-dropdown:hover i,.list-icon-dropdown:focus i {
     width: 40px;
     height: 11px;
     background-position: -90px -279px;
@@ -1109,7 +1109,7 @@
     background-position: -266px -335px;
 }
 
-.list-icon-edit:hover i,.list-icon-edit:focus i, .list-icon-edit.is-disabled:hover i,.list-icon-edit.is-disabled:focus i {
+.list-icon-edit:hover i,.list-icon-edit:focus i {
     width: 14px;
     height: 14px;
     background-position: -304px -335px;
@@ -1127,7 +1127,7 @@
     background-position: -342px -335px;
 }
 
-.list-icon-enabled:hover i,.list-icon-enabled:focus i, .list-icon-enabled.is-disabled:hover i,.list-icon-enabled.is-disabled:focus i {
+.list-icon-enabled:hover i,.list-icon-enabled:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -19px;
@@ -1145,7 +1145,7 @@
     background-position: -366px -38px;
 }
 
-.list-icon-export:hover i,.list-icon-export:focus i, .list-icon-export.is-disabled:hover i,.list-icon-export.is-disabled:focus i {
+.list-icon-export:hover i,.list-icon-export:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -76px;
@@ -1163,7 +1163,7 @@
     background-position: -366px -95px;
 }
 
-.list-icon-forbidden:hover i,.list-icon-forbidden:focus i, .list-icon-forbidden.is-disabled:hover i,.list-icon-forbidden.is-disabled:focus i {
+.list-icon-forbidden:hover i,.list-icon-forbidden:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -133px;
@@ -1181,7 +1181,7 @@
     background-position: -366px -152px;
 }
 
-.list-icon-import:hover i,.list-icon-import:focus i, .list-icon-import.is-disabled:hover i,.list-icon-import.is-disabled:focus i {
+.list-icon-import:hover i,.list-icon-import:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -190px;
@@ -1199,7 +1199,7 @@
     background-position: -366px -209px;
 }
 
-.list-icon-invoice:hover i,.list-icon-invoice:focus i, .list-icon-invoice.is-disabled:hover i,.list-icon-invoice.is-disabled:focus i {
+.list-icon-invoice:hover i,.list-icon-invoice:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -247px;
@@ -1217,7 +1217,7 @@
     background-position: -366px -266px;
 }
 
-.list-icon-ledger:hover i,.list-icon-ledger:focus i, .list-icon-ledger.is-disabled:hover i,.list-icon-ledger.is-disabled:focus i {
+.list-icon-ledger:hover i,.list-icon-ledger:focus i {
     width: 14px;
     height: 14px;
     background-position: -366px -304px;
@@ -1235,7 +1235,7 @@
     background-position: -366px -323px;
 }
 
-.list-icon-listExport:hover i,.list-icon-listExport:focus i, .list-icon-listExport.is-disabled:hover i,.list-icon-listExport.is-disabled:focus i {
+.list-icon-listExport:hover i,.list-icon-listExport:focus i {
     width: 14px;
     height: 14px;
     background-position: -19px -354px;
@@ -1253,7 +1253,7 @@
     background-position: -57px -354px;
 }
 
-.list-icon-pa:hover i,.list-icon-pa:focus i, .list-icon-pa.is-disabled:hover i,.list-icon-pa.is-disabled:focus i {
+.list-icon-pa:hover i,.list-icon-pa:focus i {
     width: 14px;
     height: 14px;
     background-position: -95px -354px;
@@ -1271,7 +1271,7 @@
     background-position: -114px -354px;
 }
 
-.list-icon-paR:hover i,.list-icon-paR:focus i, .list-icon-paR.is-disabled:hover i,.list-icon-paR.is-disabled:focus i {
+.list-icon-paR:hover i,.list-icon-paR:focus i {
     width: 14px;
     height: 14px;
     background-position: -152px -354px;
@@ -1289,7 +1289,7 @@
     background-position: -171px -354px;
 }
 
-.list-icon-print:hover i,.list-icon-print:focus i, .list-icon-print.is-disabled:hover i,.list-icon-print.is-disabled:focus i {
+.list-icon-print:hover i,.list-icon-print:focus i {
     width: 14px;
     height: 14px;
     background-position: -209px -354px;
@@ -1307,7 +1307,7 @@
     background-position: -228px -354px;
 }
 
-.list-icon-refresh:hover i,.list-icon-refresh:focus i, .list-icon-refresh.is-disabled:hover i,.list-icon-refresh.is-disabled:focus i {
+.list-icon-refresh:hover i,.list-icon-refresh:focus i {
     width: 14px;
     height: 14px;
     background-position: -266px -354px;
@@ -1325,7 +1325,7 @@
     background-position: -285px -354px;
 }
 
-.list-icon-reject:hover i,.list-icon-reject:focus i, .list-icon-reject.is-disabled:hover i,.list-icon-reject.is-disabled:focus i {
+.list-icon-reject:hover i,.list-icon-reject:focus i {
     width: 14px;
     height: 14px;
     background-position: -323px -354px;
@@ -1343,7 +1343,7 @@
     background-position: -342px -354px;
 }
 
-.list-icon-rollback:hover i,.list-icon-rollback:focus i, .list-icon-rollback.is-disabled:hover i,.list-icon-rollback.is-disabled:focus i {
+.list-icon-rollback:hover i,.list-icon-rollback:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px 0px;
@@ -1361,7 +1361,7 @@
     background-position: -385px -19px;
 }
 
-.list-icon-save:hover i,.list-icon-save:focus i, .list-icon-save.is-disabled:hover i,.list-icon-save.is-disabled:focus i {
+.list-icon-save:hover i,.list-icon-save:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -57px;
@@ -1379,7 +1379,7 @@
     background-position: -385px -76px;
 }
 
-.list-icon-scan:hover i,.list-icon-scan:focus i, .list-icon-scan.is-disabled:hover i,.list-icon-scan.is-disabled:focus i {
+.list-icon-scan:hover i,.list-icon-scan:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -114px;
@@ -1397,7 +1397,7 @@
     background-position: -385px -133px;
 }
 
-.list-icon-sign:hover i,.list-icon-sign:focus i, .list-icon-sign.is-disabled:hover i,.list-icon-sign.is-disabled:focus i {
+.list-icon-sign:hover i,.list-icon-sign:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -171px;
@@ -1415,7 +1415,7 @@
     background-position: -385px -190px;
 }
 
-.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i, .list-icon-subimtCheck.is-disabled:hover i,.list-icon-subimtCheck.is-disabled:focus i {
+.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -228px;
@@ -1433,7 +1433,7 @@
     background-position: -385px -247px;
 }
 
-.list-icon-sync:hover i,.list-icon-sync:focus i, .list-icon-sync.is-disabled:hover i,.list-icon-sync.is-disabled:focus i {
+.list-icon-sync:hover i,.list-icon-sync:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -285px;
@@ -1451,7 +1451,7 @@
     background-position: -385px -304px;
 }
 
-.list-icon-tailAfter:hover i,.list-icon-tailAfter:focus i, .list-icon-tailAfter.is-disabled:hover i,.list-icon-tailAfter.is-disabled:focus i {
+.list-icon-tailAfter:hover i,.list-icon-tailAfter:focus i {
     width: 14px;
     height: 14px;
     background-position: -385px -342px;
@@ -1469,7 +1469,7 @@
     background-position: 0px -373px;
 }
 
-.list-icon-unbind:hover i,.list-icon-unbind:focus i, .list-icon-unbind.is-disabled:hover i,.list-icon-unbind.is-disabled:focus i {
+.list-icon-unbind:hover i,.list-icon-unbind:focus i {
     width: 14px;
     height: 14px;
     background-position: -38px -373px;
@@ -1487,7 +1487,7 @@
     background-position: -57px -373px;
 }
 
-.list-icon-upload:hover i,.list-icon-upload:focus i, .list-icon-upload.is-disabled:hover i,.list-icon-upload.is-disabled:focus i {
+.list-icon-upload:hover i,.list-icon-upload:focus i {
     width: 14px;
     height: 14px;
     background-position: -95px -373px;
@@ -1505,7 +1505,7 @@
     background-position: -114px -373px;
 }
 
-.list-icon-use:hover i,.list-icon-use:focus i, .list-icon-use.is-disabled:hover i,.list-icon-use.is-disabled:focus i {
+.list-icon-use:hover i,.list-icon-use:focus i {
     width: 14px;
     height: 14px;
     background-position: -152px -373px;
@@ -1523,7 +1523,7 @@
     background-position: -171px -373px;
 }
 
-.list-icon-viewEdit:hover i,.list-icon-viewEdit:focus i, .list-icon-viewEdit.is-disabled:hover i,.list-icon-viewEdit.is-disabled:focus i {
+.list-icon-viewEdit:hover i,.list-icon-viewEdit:focus i {
     width: 14px;
     height: 14px;
     background-position: -209px -373px;
@@ -1541,7 +1541,7 @@
     background-position: -228px -373px;
 }
 
-.list-icon-warning:hover i,.list-icon-warning:focus i, .list-icon-warning.is-disabled:hover i,.list-icon-warning.is-disabled:focus i {
+.list-icon-warning:hover i,.list-icon-warning:focus i {
     width: 14px;
     height: 14px;
     background-position: -266px -373px;
@@ -1559,7 +1559,7 @@
     background-position: -285px -373px;
 }
 
-.list-icon-joinAccount:hover i,.list-icon-joinAccount:focus i, .list-icon-joinAccount.is-disabled:hover i,.list-icon-joinAccount.is-disabled:focus i {
+.list-icon-joinAccount:hover i,.list-icon-joinAccount:focus i {
     width: 14px;
     height: 14px;
     background-position: -61px -295px;
@@ -1577,7 +1577,7 @@
     background-position: -251px -295px;
 }
 
-.list-icon-useOffer:hover i,.list-icon-useOffer:focus i, .list-icon-useOffer.is-disabled:hover i,.list-icon-useOffer.is-disabled:focus i {
+.list-icon-useOffer:hover i,.list-icon-useOffer:focus i {
     width: 14px;
     height: 14px;
     background-position: 0px -316px;
