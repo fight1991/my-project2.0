@@ -208,7 +208,7 @@ export default {
         payName: [{required: true, message: '请输入姓名', trigger: 'blur'}],
         payCard: [
           {required: true, message: '请输入身份证号', trigger: 'blur'},
-          {pattern: /^[A-Za-z0-9]{15, 18}$/, message: '请输入15-18位身份证号', trigger: 'blur'}
+          {pattern: /^[A-Za-z0-9]{15,18}$/, message: '请输入15-18位身份证号', trigger: 'blur'}
         ],
         plcCuscd: [{required: true, message: '请选择海关关区', trigger: 'change'}]
       },
