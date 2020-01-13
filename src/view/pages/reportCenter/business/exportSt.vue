@@ -170,7 +170,7 @@
               <el-table-column label="有无登账" min-width="100" prop="outBill" align="center" v-if="thList.outBill.value">
                 <template slot-scope="scope">
                   <el-link type="primary" v-if="scope.row.outBill===1" @click="goToExpense(scope.row)">已登账</el-link>
-                  <el-link type="info" v-else>未登账</el-link>
+                  <span class="unRegister" v-else>未登账</span>
                 </template>
               </el-table-column>
               <el-table-column label="境内收发货人" min-width="210" prop="tradeName" align="left" v-if="thList.tradeName.value"></el-table-column>
@@ -634,5 +634,8 @@ export default {
   .sys-fr{
     float: none;
   }
+}
+.unRegister {
+  color: #999;
 }
 </style>
