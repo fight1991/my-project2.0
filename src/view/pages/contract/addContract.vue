@@ -262,7 +262,9 @@ export default {
   },
   mounted () {
     if (this.typeFlag) {
-      this.getDetail(this.$route.params.pkSeqNo)
+      this.getCommonParam(() => {
+        this.getDetail(this.$route.params.pkSeqNo)
+      })
     }
   },
   watch: {
@@ -356,6 +358,13 @@ export default {
         isLoad: false,
         success: (res) => {
           if (this.$route.params.flag === 'conedit' || this.$route.params.flag === 'check') {
+            if (res.result.plcCuscd) {
+              this.selectObj = {
+                params: 'SAAS_CUSTOMS_REL',
+                obj: 'plcCuscdList'
+              }
+              this.checkParams(res.result.plcCuscd)
+            }
             util.copyObj(this.dateForm, res.result)
             this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
             this.fileList.push({
@@ -570,21 +579,24 @@ export default {
       })
     },
     // 判断缓存中是否有数据
-    getCommonParam () {
+    getCommonParam (callback) {
       let map = {tableNames: []}
       map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
       if (map.tableNames.length > 0) {
-        this.getCommonParams(map)
+        this.getCommonParams(map, callback)
+      } else {
+        callback && callback()
       }
     },
     // 获取公共字典list
-    getCommonParams (datas) {
+    getCommonParams (datas, callback) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: datas,
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
+          callback && callback()
         }
       })
     },
