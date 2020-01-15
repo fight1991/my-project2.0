@@ -271,7 +271,9 @@ export default {
         name: 'contract-add',
         params: {
           flag: type,
-          pkSeqNo: value
+          pkSeqNo: value,
+          setTitle: '编辑合同-' + value,
+          setId: this.$route.name + type + value
         }
       })
     },

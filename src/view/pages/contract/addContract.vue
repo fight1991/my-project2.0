@@ -13,7 +13,7 @@
         <!-- 合同类型选项 -->
           <el-col>
             <el-form-item label="合同类型:">
-              <el-radio-group v-model="dateForm.type" @change="clearValid">
+              <el-radio-group v-model="dateForm.type" :disabled="isCheck" @change="clearValid">
                 <el-radio :label="0">企业合同</el-radio>
                 <el-radio :label="1">个人合同</el-radio>
                 <el-radio :label="2">海关合同</el-radio>
@@ -299,6 +299,19 @@ export default {
     enclosureFun () {
       util.fileView(this.fileList[0].url)
     },
+    copyFormInfo () {
+      return {
+        type: 0,
+        status: '',
+        entrustCompanyId: '',
+        contractNo: '',
+        settlementType: '0',
+        settlementDay: 1,
+        dates: ['', ''],
+        settlementPeriod: '0',
+        paymentPeriod: ''
+      }
+    },
     // 获取是否开启审核
     contractTenantConf () {
       this.$store.dispatch('ajax', {
@@ -365,8 +378,12 @@ export default {
               }
               this.checkParams(res.result.plcCuscd)
             }
-            util.copyObj(this.dateForm, res.result)
-            this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+            if (res.result) {
+              this.dateForm = res.result
+              this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+            } else {
+              this.dateForm = this.copyFormInfo()
+            }
             this.fileList.push({
               name: res.result.enclosureName,
               url: res.result.enclosureUrl
