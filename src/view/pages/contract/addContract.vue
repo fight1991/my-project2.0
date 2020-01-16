@@ -393,11 +393,11 @@ export default {
           }
           if (this.$store.state.userLoginInfo.companyCode === res.result.entrustCompanyId) {
             this.dateForm.entrustCompanyId = res.result.companyId
-            this.mycorp = false
+            this.mycorp = false // 乙方
             this.getCorpListFun('', res.result.companyId)
           } else {
             this.dateForm.entrustCompanyId = res.result.entrustCompanyId
-            this.mycorp = true
+            this.mycorp = true // 甲方
             this.getCorpListFun('', res.result.entrustCompanyId)
           }
           this.dateForm.settlementType = res.result.settlementType + ''
@@ -530,11 +530,17 @@ export default {
       this.$refs['dateForm'].validate((valId) => {
         if (valId) {
           let urlend = 'create'
-          if (this.mycorp === true) {
+          if (this.mycorp === true) { // 甲方
             this.dateForm.companyId = this.$store.state.userLoginInfo.companyCode
+            if (this.dateForm.type !== 0) { // 个人合同或海关合同
+              this.dateForm.entrustCompanyId = ''
+            }
           } else {
             this.dateForm.companyId = this.dateForm.entrustCompanyId
             this.dateForm.entrustCompanyId = this.$store.state.userLoginInfo.companyCode
+            if (this.dateForm.type !== 0) {
+              this.dateForm.companyId = ''
+            }
           }
           this.dateForm.contractBeginDate = util.dateFormat(this.dateForm.dates[0], 'yyyy-MM-dd')
           this.dateForm.contractEndDate = util.dateFormat(this.dateForm.dates[1], 'yyyy-MM-dd')
@@ -553,7 +559,8 @@ export default {
                 message: '保存成功',
                 type: 'success'
               })
-              this.$store.dispatch('CloseTab', this.$route.name)
+              let {flag, pkSeqNo} = this.$route.params
+              this.$store.dispatch('CloseTab', this.$route.name + flag + pkSeqNo)
               this.$router.push({
                 name: 'contract-list'
               })
