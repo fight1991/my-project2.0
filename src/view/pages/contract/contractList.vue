@@ -88,15 +88,33 @@
         </el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.companyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.companyName">
               {{scope.row.companyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 1)">
+              {{propInfo(scope.row, scope.row.companyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 2)">
+              {{propInfo(scope.row, scope.row.companyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="合同乙方" min-width="180">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.entrustCompanyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.entrustCompanyName">
               {{scope.row.entrustCompanyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 1)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 2)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -212,6 +230,19 @@ export default {
     // 查询
     search () {
       this.queryTablelist(this.$store.state.pagination)
+    },
+    // 处理个人或海关字段显示
+    propInfo (row, hasValue, type) {
+      if (!hasValue) return ''
+      if (type === 1) { // 个人
+        if (!row.payName || !row.payCard) return ''
+        let beforeTxt = row.payCard.substr(0, 6)
+        let endTxt = row.payCard.substr(-4, 4)
+        return beforeTxt + '********' + endTxt
+      }
+      if (type === 2) { // 海关
+        return row.plcCuscd + '-' + row.plcCuscdValue
+      }
     },
     // 查询列表
     queryTablelist (pagination) {

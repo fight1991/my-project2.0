@@ -42,6 +42,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :lg="6" :md="12">
+            <el-form-item  label="合同类型">
+              <el-select size="mini" clearable v-model="QueryForm.type" style="width:100%;">
+                <el-option label="企业合同" :value="0" key="0"></el-option>
+                <el-option label="个人合同" :value="1" key="1"></el-option>
+                <el-option label="海关合同" :value="2" key="2"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col style="text-align:center">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="resetQueryform">重置</el-button>
@@ -62,6 +71,8 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px" @selection-change="selectVal">
         <el-table-column type="selection" width="36" align="center"></el-table-column>
+        <el-table-column label="合同类型" width="100" prop="typeValue" align="center">
+        </el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">
             <div class="text-over-hid" :title="scope.row.companyName">
