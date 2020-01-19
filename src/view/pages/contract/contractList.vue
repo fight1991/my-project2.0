@@ -233,12 +233,12 @@ export default {
     },
     // 处理个人或海关字段显示
     propInfo (row, hasValue, type) {
-      if (!hasValue) return ''
+      if (hasValue) return hasValue
       if (type === 1) { // 个人
         if (!row.payName || !row.payCard) return ''
         let beforeTxt = row.payCard.substr(0, 6)
         let endTxt = row.payCard.substr(-4, 4)
-        return beforeTxt + '********' + endTxt
+        return row.payName + beforeTxt + '********' + endTxt
       }
       if (type === 2) { // 海关
         return row.plcCuscd + '-' + row.plcCuscdValue
