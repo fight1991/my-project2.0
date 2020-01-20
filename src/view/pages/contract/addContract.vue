@@ -90,7 +90,7 @@
         <el-row>
           <el-col>
             <el-form-item label="合同有效期:" prop="dates">
-              <el-date-picker size="mini"  v-model="dateForm.dates" @change="$forceUpdate()"
+              <el-date-picker size="mini"  v-model="dateForm.dates"
               type="daterange"  style="width:100%;" :disabled="isCheck"
               range-separator="至"
               start-placeholder="开始日期"
@@ -380,7 +380,8 @@ export default {
             }
             if (res.result) {
               this.dateForm = res.result
-              this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+              // this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+              this.$set(this.dateForm, 'dates', [res.result.contractBeginDate, res.result.contractEndDate])
             } else {
               this.dateForm = this.copyFormInfo()
             }
