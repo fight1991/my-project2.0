@@ -534,28 +534,29 @@ export default {
       this.$refs['dateForm'].validate((valId) => {
         if (valId) {
           let urlend = 'create'
+          let params = {...this.dateForm}
           if (this.mycorp === true) { // 甲方
-            this.dateForm.companyId = this.$store.state.userLoginInfo.companyCode
-            if (this.dateForm.type !== 0) { // 个人合同或海关合同
-              this.dateForm.entrustCompanyId = ''
+            params.companyId = this.$store.state.userLoginInfo.companyCode
+            if (params.type !== 0) { // 个人合同或海关合同
+              params.entrustCompanyId = ''
             }
           } else {
-            this.dateForm.companyId = this.dateForm.entrustCompanyId
-            this.dateForm.entrustCompanyId = this.$store.state.userLoginInfo.companyCode
-            if (this.dateForm.type !== 0) {
-              this.dateForm.companyId = ''
+            params.companyId = params.entrustCompanyId
+            params.entrustCompanyId = this.$store.state.userLoginInfo.companyCode
+            if (params.type !== 0) {
+              params.companyId = ''
             }
           }
-          this.dateForm.contractBeginDate = util.dateFormat(this.dateForm.dates[0], 'yyyy-MM-dd')
-          this.dateForm.contractEndDate = util.dateFormat(this.dateForm.dates[1], 'yyyy-MM-dd')
-          this.dateForm.enclosureName = this.fileList[0].name
-          this.dateForm.enclosureUrl = this.fileList[0].url
+          params.contractBeginDate = util.dateFormat(params.dates[0], 'yyyy-MM-dd')
+          params.contractEndDate = util.dateFormat(params.dates[1], 'yyyy-MM-dd')
+          params.enclosureName = this.fileList[0].name
+          params.enclosureUrl = this.fileList[0].url
           if (this.$route.params.flag === 'conedit') {
             urlend = 'edit'
           }
           this.$store.dispatch('ajax', {
             url: 'API@/saas-finance-expense/contract/' + urlend,
-            data: this.dateForm,
+            data: {...params},
             router: this.$router,
             isLoad: false,
             success: (res) => {
