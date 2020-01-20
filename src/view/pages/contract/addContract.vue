@@ -205,7 +205,10 @@ export default {
         'settlement': [{required: true, validator: this.settlementCheck, message: '请正确输入结算日', trigger: 'blur'}],
         'paymentPeriod': [{required: true, validator: this.paymentPeriodCheck, message: '请输入付款周期', trigger: 'blur'}, {validator: validator.Zz0, message: '请输入正整数', trigger: 'blur'}],
         'enclosureUrl': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}],
-        payName: [{required: true, message: '请输入姓名', trigger: 'blur'}],
+        payName: [
+          {required: true, message: '请输入姓名', trigger: 'blur'},
+          {pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/, message: '姓名为中英文', trigger: 'blur'}
+        ],
         payCard: [
           {required: true, message: '请输入身份证号', trigger: 'blur'},
           {pattern: /^[A-Za-z0-9]{15}$|^[A-Za-z0-9]{18}$/, message: '请输入15或18位身份证号', trigger: 'blur'}
