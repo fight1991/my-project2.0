@@ -304,7 +304,7 @@ export default {
           flag: type,
           pkSeqNo: value,
           setTitle: title + '合同-' + value,
-          setId: this.$route.name + type + value
+          setId: 'contract-add' + type + value
         }
       })
     },
