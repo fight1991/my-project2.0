@@ -566,6 +566,9 @@ export default {
     compareFieldList (orig, compare) {
       if (orig.length === compare.length) {
         for (let i in orig) {
+          if (!compare[i]) {
+            return false
+          }
           if (orig[i].fieldName !== compare[i].fieldName) {
             return false
           }
